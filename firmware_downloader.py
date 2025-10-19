@@ -5021,7 +5021,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         """Open 360p Rockbox Themes in browser"""
         try:
             import webbrowser
-            webbrowser.open("https://www.github.com/rockbox-y1/themes")
+            webbrowser.open("https://www.github.com/rockbox-y1/themes/releases/latest")
             self.status_label.setText("Opened 360p Rockbox Themes in browser")
         except Exception as e:
             QMessageBox.error(self, "Error", f"Failed to open 360p Rockbox Themes: {e}")
