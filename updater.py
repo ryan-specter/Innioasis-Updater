@@ -110,8 +110,8 @@ class CrossPlatformHelper:
             # ARM64 Windows: Only allow firmware downloads, no installation methods
             can_install_firmware = False
         elif not has_mtk_driver:
-            # No MTK driver: No installation methods available
-            can_install_firmware = False
+            # No MTK driver: Allow firmware installation with fallback methods
+            can_install_firmware = True
         
         return {
             'has_mtk_driver': has_mtk_driver,
