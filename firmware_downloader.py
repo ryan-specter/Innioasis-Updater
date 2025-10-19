@@ -2405,7 +2405,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         """Handle version check file and show macOS app update message for new users"""
         try:
             version_file = Path(".version")
-            current_version = "1.7.3"
+            current_version = "1.7.4"
             
             # Read the last used version
             last_version = None
@@ -3483,18 +3483,16 @@ class FirmwareDownloaderGUI(QMainWindow):
                 remove_installation_marker()
                 return
                 
-            elif not driver_info['can_install_firmware']:
-                # No drivers: No installation methods available
+            elif not driver_info['can_install_firmware'] and not driver_info.get('has_mtk_driver') and not driver_info.get('has_usbdk_driver'):
+                # No drivers detected: Show informational message but don't block functionality completely
                 msg_box = QMessageBox(self)
-                msg_box.setWindowTitle("Drivers Required")
-                msg_box.setText("No installation methods available. Please install drivers to enable firmware installation.")
-                msg_box.setInformativeText("Click OK to open the driver installation guide.")
-                msg_box.setIcon(QMessageBox.Warning)
+                msg_box.setWindowTitle("Using Fallback Methods")
+                msg_box.setText("No specific drivers detected. You can still attempt installation using fallback methods.")
+                msg_box.setInformativeText("For better compatibility, consider installing drivers.")
+                msg_box.setIcon(QMessageBox.Information)
                 msg_box.setStandardButtons(QMessageBox.Ok)
                 msg_box.exec()
-                remove_installation_marker()
-                self.open_driver_setup_link()
-                return
+                # Don't return here - let the user continue with troubleshooting options
             
         # Show failed installation dialog with troubleshooting options
         msg_box = QMessageBox(self)
@@ -3629,7 +3627,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Add seasonal emoji to window title
         seasonal_emoji = get_seasonal_emoji()
         title_emoji = f" {seasonal_emoji}" if seasonal_emoji else ""
-        self.setWindowTitle(f"Innioasis Updater v1.7.3{title_emoji}")
+        self.setWindowTitle(f"Innioasis Updater v1.7.4{title_emoji}")
         self.setGeometry(100, 100, 1220, 574)
         
         # Set fixed window size to maintain layout
@@ -4075,11 +4073,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         if driver_info['is_arm64']:
             # ARM64 Windows: Show ARM64-specific message
             status_bar.showMessage("Only 'Tools' is available on ARM64 Windows, please use WSLg, Linux or another computer for Software Installs")
-        elif not driver_info['has_mtk_driver']:
-            # No MTK driver: Show driver requirement message
-            status_bar.showMessage("MTK USB Driver not installed. Click 'Install Windows Drivers' to use Innioasis Updater.")
         else:
-            # MTK driver available (with or without UsbDk): No status message needed
+            # All other cases: No status message needed since fallback methods are available
             status_bar.showMessage("")
 
     def stop_mtk_processes(self):
@@ -4154,15 +4149,21 @@ class FirmwareDownloaderGUI(QMainWindow):
                     )
                     return
                     
-                elif not driver_info['can_install_firmware']:
-                    QMessageBox.warning(
+                elif not driver_info['can_install_firmware'] and not driver_info.get('has_mtk_driver') and not driver_info.get('has_usbdk_driver'):
+                    # Show warning but don't block - allow fallback methods
+                    result = QMessageBox.information(
                         self,
-                        "Drivers Required",
-                        "No installation methods available. Please install drivers to enable firmware installation.\n\n"
-                        "Click OK to open the driver installation guide."
+                        "No Specific Drivers Detected",
+                        "No specific drivers detected. The application will attempt installation using fallback methods.\n\n"
+                        "If installation fails, consider installing drivers for better compatibility.\n\n"
+                        "Click OK to continue with fallback methods or Cancel to install drivers.",
+                        QMessageBox.Ok | QMessageBox.Cancel,
+                        QMessageBox.Ok
                     )
-                    self.open_driver_setup_link()
-                    return
+                    if result == QMessageBox.Cancel:
+                        self.open_driver_setup_link()
+                        return
+                    # Continue with fallback methods if OK is clicked
             
             # Create installation marker
             create_installation_marker()
@@ -5089,31 +5090,14 @@ class FirmwareDownloaderGUI(QMainWindow):
                 dialog.exec()
                 return
                 
-            elif not driver_info['can_install_firmware']:
-                status_label = QLabel("⚠️ Drivers Required")
+            elif not driver_info['can_install_firmware'] and not driver_info.get('has_mtk_driver') and not driver_info.get('has_usbdk_driver'):
+                status_label = QLabel("⚠️ No Specific Drivers Detected")
                 status_label.setStyleSheet("color: #FF6B35; font-weight: bold; margin: 2px;")
                 install_layout.addWidget(status_label)
                 
-                status_desc = QLabel("No installation methods available. Please install drivers to enable firmware installation.\n\nMore methods will become available if you install the USB Development Kit driver.")
+                status_desc = QLabel("No specific drivers detected. Fallback methods are available below.\n\nMore methods will become available if you install the appropriate drivers.")
                 status_desc.setStyleSheet("color: #666; margin: 2px;")
                 install_layout.addWidget(status_desc)
-                
-                # Disable method selection when no drivers
-                method_combo = QComboBox()
-                method_combo.addItem("No installation methods available without drivers", "")
-                method_combo.setEnabled(False)
-                install_layout.addWidget(method_combo)
-                
-                # Skip the rest of the dialog when no drivers
-                button_layout = QHBoxLayout()
-                button_layout.addStretch()
-                ok_btn = QPushButton("OK")
-                ok_btn.clicked.connect(dialog.accept)
-                button_layout.addWidget(ok_btn)
-                install_layout.addLayout(button_layout)
-                tab_widget.addTab(install_tab, "Installation")
-                dialog.exec()
-                return
                 
         
         # Description
@@ -5156,13 +5140,32 @@ class FirmwareDownloaderGUI(QMainWindow):
                 self.method_combo.addItem(method2_text, "spflash4")
                 self.method_combo.addItem(method3_text, "spflash_console")
             elif not driver_info['has_mtk_driver'] and driver_info['has_usbdk_driver']:
-                # Only UsbDk driver: Only Method 5 (MTKclient)
-                seasonal_emoji = get_seasonal_emoji_random()
-                method5_text = f"Method 5 - MTKclient (advanced) (Only available method){seasonal_emoji}" if seasonal_emoji else "Method 5 - MTKclient (advanced) (Only available method)"
-                self.method_combo.addItem(method5_text, "mtkclient")
+                # Only UsbDk driver: Show guided as default, then mtkclient advanced
+                available_methods = driver_info.get('available_methods', ['guided', 'mtkclient'])
+                if available_methods:
+                    seasonal_emoji = get_seasonal_emoji_random()
+                    for method in available_methods:
+                        if method == 'guided':
+                            method_text = f"Method 1 - Guided (Default){seasonal_emoji}" if seasonal_emoji else "Method 1 - Guided (Default)"
+                            self.method_combo.addItem(method_text, "guided")
+                        elif method == 'mtkclient':
+                            method_text = f"Method 2 - MTKclient (Advanced){seasonal_emoji}" if seasonal_emoji else "Method 2 - MTKclient (Advanced)"
+                            self.method_combo.addItem(method_text, "mtkclient")
             else:
-                # No drivers: No methods
-                self.method_combo.addItem("No installation methods available", "")
+                # No drivers: Show default fallback methods instead of blocking
+                available_methods = driver_info.get('available_methods', ['guided', 'mtkclient'])
+                if available_methods:
+                    seasonal_emoji = get_seasonal_emoji_random()
+                    for method in available_methods:
+                        if method == 'guided':
+                            method_text = f"Method 1 - Guided (Default){seasonal_emoji}" if seasonal_emoji else "Method 1 - Guided (Default)"
+                            self.method_combo.addItem(method_text, "guided")
+                        elif method == 'mtkclient':
+                            method_text = f"Method 2 - MTKclient (Advanced){seasonal_emoji}" if seasonal_emoji else "Method 2 - MTKclient (Advanced)"
+                            self.method_combo.addItem(method_text, "mtkclient")
+                else:
+                    # Fallback if somehow no methods are available
+                    self.method_combo.addItem("Method 1 - Guided (Fallback)", "guided")
         else:
             # Non-Windows: Standard methods
             seasonal_emoji = get_seasonal_emoji_random()
@@ -5174,6 +5177,12 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         # Set current method
         current_method = getattr(self, 'installation_method', 'guided')
+        
+        # If no MTK driver is available, default to guided method instead of advanced mtkclient
+        if platform.system() == "Windows" and driver_info and not driver_info.get('has_mtk_driver'):
+            current_method = 'guided'
+            silent_print("No MTK driver detected, defaulting to guided method")
+        
         index = self.method_combo.findData(current_method)
         if index >= 0:
             self.method_combo.setCurrentIndex(index)
@@ -7371,15 +7380,21 @@ class FirmwareDownloaderGUI(QMainWindow):
                     )
                     return
                     
-                elif not driver_info['can_install_firmware']:
-                    QMessageBox.warning(
+                elif not driver_info['can_install_firmware'] and not driver_info.get('has_mtk_driver') and not driver_info.get('has_usbdk_driver'):
+                    # Show warning but don't block - allow fallback methods
+                    result = QMessageBox.information(
                         self,
-                        "Drivers Required",
-                        "No installation methods available. Please install drivers to enable firmware installation.\n\n"
-                        "Click OK to open the driver installation guide."
+                        "No Specific Drivers Detected",
+                        "No specific drivers detected. The application will attempt installation using fallback methods.\n\n"
+                        "If installation fails, consider installing drivers for better compatibility.\n\n"
+                        "Click OK to continue with fallback methods or Cancel to install drivers.",
+                        QMessageBox.Ok | QMessageBox.Cancel,
+                        QMessageBox.Ok
                     )
-                    self.open_driver_setup_link()
-                    return
+                    if result == QMessageBox.Cancel:
+                        self.open_driver_setup_link()
+                        return
+                    # Continue with fallback methods if OK is clicked
             
             # Check if required files exist
             required_files = ["lk.bin", "boot.img", "recovery.img", "system.img", "userdata.img"]
@@ -8327,7 +8342,7 @@ class FirmwareDownloaderGUI(QMainWindow):
     def setup_credits_line_display(self, credits_label, credits_label_container):
         """Set up line-by-line display with fade transitions"""
         # Start with version line (from firmware_downloader.py, not remote)
-        clean_lines = ["Version 1.7.3"]
+        clean_lines = ["Version 1.7.4"]
         
         # Load credits content from remote or local file
         credits_text = self.load_about_content()
@@ -8638,15 +8653,21 @@ class FirmwareDownloaderGUI(QMainWindow):
                 )
                 return
                 
-            elif not driver_info['can_install_firmware']:
-                QMessageBox.warning(
+            elif not driver_info['can_install_firmware'] and not driver_info.get('has_mtk_driver') and not driver_info.get('has_usbdk_driver'):
+                # Show warning but don't block - allow fallback methods
+                result = QMessageBox.information(
                     self,
-                    "Drivers Required",
-                    "No installation methods available. Please install drivers to enable firmware installation.\n\n"
-                    "Click OK to open the driver installation guide."
+                    "No Specific Drivers Detected",
+                    "No specific drivers detected. The application will attempt installation using fallback methods.\n\n"
+                    "If installation fails, consider installing drivers for better compatibility.\n\n"
+                    "Click OK to continue with fallback methods or Cancel to install drivers.",
+                    QMessageBox.Ok | QMessageBox.Cancel,
+                    QMessageBox.Ok
                 )
-                self.open_driver_setup_link()
-                return
+                if result == QMessageBox.Cancel:
+                    self.open_driver_setup_link()
+                    return
+                # Continue with fallback methods if OK is clicked
         
         # Open file dialog to select zip file
         file_path, _ = QFileDialog.getOpenFileName(
@@ -9060,17 +9081,17 @@ class FirmwareDownloaderGUI(QMainWindow):
                 )
                 return
                 
-            elif not driver_info['can_install_firmware']:
-                # No drivers: No installation methods available
-                silent_print("=== NO DRIVERS - NO INSTALLATION METHODS AVAILABLE ===")
-                QMessageBox.warning(
+            elif not driver_info['can_install_firmware'] and not driver_info.get('has_mtk_driver') and not driver_info.get('has_usbdk_driver'):
+                # No drivers detected: Show warning but allow fallback methods instead of blocking
+                silent_print("=== NO SPECIFIC DRIVERS DETECTED - USING FALLBACK METHODS ===")
+                QMessageBox.information(
                     self,
-                    "Drivers Required",
-                    "No installation methods available. Please install drivers to enable firmware installation.\n\n"
-                    "Click OK to open the driver installation guide."
+                    "Using Fallback Methods",
+                    "No specific drivers detected. The application will attempt installation using default methods.\n\n"
+                    "If installation fails, consider installing drivers for better compatibility.\n\n"
+                    "Click OK to continue with fallback methods or Cancel to install drivers."
                 )
-                self.open_driver_setup_link()
-                return
+                # Continue with fallback methods instead of returning
                 
             else:
                 # Use selected method (driver validation will happen later)
@@ -9086,15 +9107,16 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         if platform.system() == "Windows":
             # Check if the selected method is available based on drivers
-            available_methods = driver_info.get('available_methods', [])
+            available_methods = driver_info.get('available_methods', ['guided', 'mtkclient'])
             if method not in available_methods:
                 # Method not available, fall back to first available method
                 if available_methods:
                     method = available_methods[0]
                     silent_print(f"Selected method not available, falling back to: {method}")
                 else:
-                    silent_print("No installation methods available")
-                    return
+                    # Ultimate fallback: use guided method to avoid blocking functionality
+                    method = 'guided'
+                    silent_print(f"No specific methods available, using fallback method: {method}")
             
             # Windows method order: SP Flash Tool methods first, then Guided/MTKclient
             if method == "spflash":
@@ -9944,19 +9966,21 @@ read -n 1
             available_methods = ['spflash', 'spflash4']
             can_install_firmware = True
         elif not has_mtk_driver and has_usbdk_driver:
-            # Only UsbDk driver: Only MTKclient method available
-            available_methods = ['mtkclient']
+            # Only UsbDk driver: Provide guided as default, then mtkclient advanced
+            available_methods = ['guided', 'mtkclient']
             can_install_firmware = True
         else:
-            # No drivers: No installation methods available
-            available_methods = []
-            can_install_firmware = False
+            # No drivers: Provide default fallback methods instead of blocking functionality
+            # Choose defaults based on what might work without specific drivers
+            available_methods = ['guided', 'mtkclient']
+            can_install_firmware = True
+            silent_print("No specific drivers detected, using default fallback methods: guided, mtkclient")
         
         # Summary of driver combinations:
         # - Both drivers: All 5 methods available (SP Flash Tool first, then Guided/MTKclient)
         # - MTK only: Method 1, 2, and 3 (Guided, SP Flash GUI, and SP Flash Console) only
-        # - UsbDk only: Method 5 (MTKclient advanced) only  
-        # - No drivers: No methods available
+        # - UsbDk only: Method 1 (Guided default) and Method 2 (MTKclient advanced) available  
+        # - No drivers: Method 1 (Guided default) and Method 2 (MTKclient advanced) available
         # - ARM64: No methods available (firmware download only)
         
         result = {
@@ -9991,7 +10015,7 @@ read -n 1
             # Get latest release from GitHub
             latest_version = self.get_latest_github_version()
             if latest_version:
-                current_version = "1.7.3"
+                current_version = "1.7.4"
                 
                 # Compare versions
                 if self.compare_versions(latest_version, current_version) > 0:
