@@ -3275,7 +3275,7 @@
                 </div>
                 <div class="header-text">
                     <h1>Innioasis Updater</h1>
-                    <p id="dynamic-subtitle">We've helped to update <span id="download-count">3,750+</span> Innioasis Y1s on Windows and Mac</p>
+                    <p id="dynamic-subtitle">We've helped to update <span id="download-count">4,190+</span> Innioasis Y1s on Windows and Mac</p>
                 </div>
             </div>
             <div class="header-download">
@@ -3518,10 +3518,10 @@
                                 <div class="checklist">
                                     <div class="checklist-item">
                                         <div class="checklist-content">
-                                             <h5>📥 MediaTek Driver (Required)</h5>
+                                             <h5>📥 USB Development Kit Driver (Required)</h5>
                                              <p>This is required for your computer to recognize your Y1 device on Windows</p>
                                             <div class="checklist-actions">
-                                                <button class="btn btn-primary" onclick="downloadDriver('mtk')">Download MediaTek Driver</button>
+                                                <button class="btn btn-primary" onclick="downloadDriver('mtk')">Download USB Development Kit Driver</button>
                                                 <button class="info-btn" onclick="showDriverInfo()" title="Important installation info">Help</button>
                                                 <a href="#" onclick="markDriverComplete(); return false;" class="skip-link">Already done this</a>
                                             </div>
@@ -3564,7 +3564,7 @@
                                 <p>Almost there! Here's what to do next:</p>
                                 
                                 <ol>
-                                    <li>Install the MediaTek driver you downloaded</li>
+                                    <li>Install the USB Development Kit driver you downloaded</li>
                                     <li>Install Innioasis Updater</li>
                                     <li><strong>Restart your computer</strong> (this is important after installing drivers!)</li>
                                     <li>Launch Innioasis Updater from the Start Menu</li>
@@ -3755,18 +3755,13 @@
             <div class="info-modal" id="driverInfoModal">
                 <div class="info-modal-content">
                     <button class="info-modal-close" onclick="closeDriverInfo()">×</button>
-                    <h3>📥 MediaTek Driver Installation Info</h3>
-                    <p>When installing the MediaTek driver, you may see a dialog asking about removing the "origin driver". Here's what to do:</p>
-                    
-                    <div class="highlight">
-                        <strong>Important:</strong> If the installer asks "Remove origin driver?", click <strong>Yes</strong>. This is totally normal and helps make sure the driver works nicely with your Y1 device.
-                    </div>
-                    
-                    <p>This step is necessary because:</p>
+                    <h3>📥 USB Development Kit Installation Info</h3>
+                    <p>When installing the USB Development Kit, you may see nothing appear. This usually means:</p>
+                
                     <ul>
-                        <li>It removes any conflicting drivers that might interfere</li>
-                        <li>It ensures the MediaTek driver has full control over USB communication</li>
-                        <li>It prevents driver conflicts that could cause connection issues</li>
+                        <li>The driver was already installed</li>
+                        <li>You'll need to reboot your PC</li>
+                        <li></li>
                     </ul>
                     
                     <p>After installation, restart your computer as prompted to complete the setup.</p>
@@ -4213,8 +4208,8 @@ your-rom-repo/
         <div class="footer">
             <p>Created with ❤️ by <a href="https://ko-fi.com/teamslide" target="_blank">Ryan Specter and Team Slide</a> | 
                <a href="https://reddit.com/r/innioasis" target="_blank">r/Innioasis</a> | 
-               <a href="https://discord.gg/Timmkoo" target="_blank">Discord</a> | 
-               <a href="https://innioasis.app" target="_blank">Add your Apps and Firmwares to Innioasis Updater</a></p>
+               <a href="https://github.com/y1-community/innioasis-updater" target="_blank">Website and App Hosted on GitHub Pages</a> | 
+               <a href="https://github.com/y1-community/Innioasis-Updater?tab=readme-ov-file#developer-heres-how-to-submit-firmwares-to-innioasis-updater" target="_blank">Add your Firmware to Innioasis Updater</a></p>
         </div>
     </div>
 
@@ -6602,14 +6597,14 @@ your-rom-repo/
         // Download functions
         function downloadDriver(driverType) {
             if (driverType === 'mtk') {
-                const url = './DriverInstall.exe';
-                const filename = 'DriverInstall.exe';
+                const url = 'https://github.com/daynix/UsbDk/releases/download/v1.00-22/UsbDk_1.0.22_x64.msi';
+                const filename = 'UsbDk_1.0.22_x64.msi';
                 
                 // For Safari, open in new tab, for other browsers use download attribute
                 if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
                     window.open(url, '_blank');
                     setTimeout(() => {
-                        alert(`🎉 Opening MediaTek driver download page in new tab! Click the download button on the GitHub page.`);
+                        alert(`🎉 Opening USB Development Kit download page in new tab! Click the download button on the GitHub page.`);
                     }, 1000);
                 } else {
                     const link = document.createElement('a');
@@ -6619,7 +6614,7 @@ your-rom-repo/
                     link.click();
                     document.body.removeChild(link);
                     setTimeout(() => {
-                        alert(`🎉 MediaTek driver download started! Check your Downloads folder.`);
+                        alert(`🎉 USB Development Kit driver download started! Check your Downloads folder.`);
                     }, 1000);
                 }
             } else if (driverType === 'usb') {
