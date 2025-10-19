@@ -4999,6 +4999,33 @@ class FirmwareDownloaderGUI(QMainWindow):
         except Exception as e:
             QMessageBox.error(self, "Error", f"Failed to launch 360p Theme Downloader: {e}")
     
+    def open_original_y1_menu_themes(self):
+        """Open Original Y1 Menu Themes in browser"""
+        try:
+            import webbrowser
+            webbrowser.open("https://themes.innioasis.app")
+            self.status_label.setText("Opened Original Y1 Menu Themes in browser")
+        except Exception as e:
+            QMessageBox.error(self, "Error", f"Failed to open Original Y1 Menu Themes: {e}")
+    
+    def open_240p_rockbox_themes(self):
+        """Open 240p Rockbox Themes in browser"""
+        try:
+            import webbrowser
+            webbrowser.open("https://themes.rockbox.org/index.php?target=ipodvideo")
+            self.status_label.setText("Opened 240p Rockbox Themes in browser")
+        except Exception as e:
+            QMessageBox.error(self, "Error", f"Failed to open 240p Rockbox Themes: {e}")
+    
+    def open_360p_rockbox_themes(self):
+        """Open 360p Rockbox Themes in browser"""
+        try:
+            import webbrowser
+            webbrowser.open("https://www.github.com/rockbox-y1/themes")
+            self.status_label.setText("Opened 360p Rockbox Themes in browser")
+        except Exception as e:
+            QMessageBox.error(self, "Error", f"Failed to open 360p Rockbox Themes: {e}")
+    
     def launch_storage_management_tool(self):
         """Launch the storage management tool"""
         try:
@@ -5512,21 +5539,25 @@ class FirmwareDownloaderGUI(QMainWindow):
             y1_remote_btn.clicked.connect(self.open_y1_remote_control)
             y1_tools_layout.addWidget(y1_remote_btn)
             
-            # 240p Theme Downloader button (only if file exists) - using native styling
-            if Path("rockbox_240p_theme_downloader.py").exists():
-                theme_240p_btn = QPushButton("240p Theme Downloader")
-                theme_240p_btn.setToolTip("Download and install 240p themes for Y1")
-                # Use default cursor for native OS feel
-                theme_240p_btn.clicked.connect(self.launch_240p_theme_downloader)
-                y1_tools_layout.addWidget(theme_240p_btn)
-            
-        # Y1 and 360p Rockbox Theme Downloader button (only if file exists) - using native styling
-        if Path("rockbox_360p_theme_downloader.py").exists():
-            theme_360p_btn = QPushButton("Y1 and 360p Rockbox Theme Downloader")
-            theme_360p_btn.setToolTip("Download and install Y1 themes and 360p Rockbox themes")
-            # Use default cursor for native OS feel
-            theme_360p_btn.clicked.connect(self.launch_360p_theme_downloader)
-            y1_tools_layout.addWidget(theme_360p_btn)
+            # Theme installation options (only for non-Windows users)
+            if platform.system() != "Windows":
+                # Original Y1 Menu Themes button
+                y1_menu_themes_btn = QPushButton("Original Y1 Menu Themes")
+                y1_menu_themes_btn.setToolTip("Open Original Y1 Menu Themes in browser")
+                y1_menu_themes_btn.clicked.connect(self.open_original_y1_menu_themes)
+                y1_tools_layout.addWidget(y1_menu_themes_btn)
+                
+                # 240p Rockbox Themes button
+                rockbox_240p_themes_btn = QPushButton("240p Rockbox Themes")
+                rockbox_240p_themes_btn.setToolTip("Open 240p Rockbox Themes in browser")
+                rockbox_240p_themes_btn.clicked.connect(self.open_240p_rockbox_themes)
+                y1_tools_layout.addWidget(rockbox_240p_themes_btn)
+                
+                # 360p Rockbox Themes button
+                rockbox_360p_themes_btn = QPushButton("360p Rockbox Themes")
+                rockbox_360p_themes_btn.setToolTip("Open 360p Rockbox Themes in browser")
+                rockbox_360p_themes_btn.clicked.connect(self.open_360p_rockbox_themes)
+                y1_tools_layout.addWidget(rockbox_360p_themes_btn)
             
             tools_layout.addWidget(y1_tools_group)
         
