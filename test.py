@@ -4073,11 +4073,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         if driver_info['is_arm64']:
             # ARM64 Windows: Show ARM64-specific message
             status_bar.showMessage("Only 'Tools' is available on ARM64 Windows, please use WSLg, Linux or another computer for Software Installs")
-        elif not driver_info['has_mtk_driver']:
-            # No MTK driver: Show driver requirement message
-            status_bar.showMessage("MTK USB Driver not installed. Click 'Install Windows Drivers' to use Innioasis Updater.")
         else:
-            # MTK driver available (with or without UsbDk): No status message needed
+            # All other cases: No status message needed since fallback methods are available
             status_bar.showMessage("")
 
     def stop_mtk_processes(self):
@@ -5143,10 +5140,17 @@ class FirmwareDownloaderGUI(QMainWindow):
                 self.method_combo.addItem(method2_text, "spflash4")
                 self.method_combo.addItem(method3_text, "spflash_console")
             elif not driver_info['has_mtk_driver'] and driver_info['has_usbdk_driver']:
-                # Only UsbDk driver: Only Method 5 (MTKclient)
-                seasonal_emoji = get_seasonal_emoji_random()
-                method5_text = f"Method 5 - MTKclient (advanced) (Only available method){seasonal_emoji}" if seasonal_emoji else "Method 5 - MTKclient (advanced) (Only available method)"
-                self.method_combo.addItem(method5_text, "mtkclient")
+                # Only UsbDk driver: Show guided as default, then mtkclient advanced
+                available_methods = driver_info.get('available_methods', ['guided', 'mtkclient'])
+                if available_methods:
+                    seasonal_emoji = get_seasonal_emoji_random()
+                    for method in available_methods:
+                        if method == 'guided':
+                            method_text = f"Method 1 - Guided (Default){seasonal_emoji}" if seasonal_emoji else "Method 1 - Guided (Default)"
+                            self.method_combo.addItem(method_text, "guided")
+                        elif method == 'mtkclient':
+                            method_text = f"Method 2 - MTKclient (Advanced){seasonal_emoji}" if seasonal_emoji else "Method 2 - MTKclient (Advanced)"
+                            self.method_combo.addItem(method_text, "mtkclient")
             else:
                 # No drivers: Show default fallback methods instead of blocking
                 available_methods = driver_info.get('available_methods', ['guided', 'mtkclient'])
@@ -5154,10 +5158,10 @@ class FirmwareDownloaderGUI(QMainWindow):
                     seasonal_emoji = get_seasonal_emoji_random()
                     for method in available_methods:
                         if method == 'guided':
-                            method_text = f"Method 1 - Guided (Default fallback){seasonal_emoji}" if seasonal_emoji else "Method 1 - Guided (Default fallback)"
+                            method_text = f"Method 1 - Guided (Default){seasonal_emoji}" if seasonal_emoji else "Method 1 - Guided (Default)"
                             self.method_combo.addItem(method_text, "guided")
                         elif method == 'mtkclient':
-                            method_text = f"Method 2 - MTKclient (Default fallback){seasonal_emoji}" if seasonal_emoji else "Method 2 - MTKclient (Default fallback)"
+                            method_text = f"Method 2 - MTKclient (Advanced){seasonal_emoji}" if seasonal_emoji else "Method 2 - MTKclient (Advanced)"
                             self.method_combo.addItem(method_text, "mtkclient")
                 else:
                     # Fallback if somehow no methods are available
@@ -5173,6 +5177,12 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         # Set current method
         current_method = getattr(self, 'installation_method', 'guided')
+        
+        # If no MTK driver is available, default to guided method instead of advanced mtkclient
+        if platform.system() == "Windows" and driver_info and not driver_info.get('has_mtk_driver'):
+            current_method = 'guided'
+            silent_print("No MTK driver detected, defaulting to guided method")
+        
         index = self.method_combo.findData(current_method)
         if index >= 0:
             self.method_combo.setCurrentIndex(index)
@@ -9956,8 +9966,8 @@ read -n 1
             available_methods = ['spflash', 'spflash4']
             can_install_firmware = True
         elif not has_mtk_driver and has_usbdk_driver:
-            # Only UsbDk driver: Only MTKclient method available
-            available_methods = ['mtkclient']
+            # Only UsbDk driver: Provide guided as default, then mtkclient advanced
+            available_methods = ['guided', 'mtkclient']
             can_install_firmware = True
         else:
             # No drivers: Provide default fallback methods instead of blocking functionality
@@ -9969,8 +9979,8 @@ read -n 1
         # Summary of driver combinations:
         # - Both drivers: All 5 methods available (SP Flash Tool first, then Guided/MTKclient)
         # - MTK only: Method 1, 2, and 3 (Guided, SP Flash GUI, and SP Flash Console) only
-        # - UsbDk only: Method 5 (MTKclient advanced) only  
-        # - No drivers: Default fallback methods (guided, mtkclient) - let user try
+        # - UsbDk only: Method 1 (Guided default) and Method 2 (MTKclient advanced) available  
+        # - No drivers: Method 1 (Guided default) and Method 2 (MTKclient advanced) available
         # - ARM64: No methods available (firmware download only)
         
         result = {
