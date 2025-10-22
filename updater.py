@@ -122,13 +122,17 @@ class CrossPlatformHelper:
 class TroubleshootWorker(QThread):
     """Dedicated worker for downloading troubleshooters."""
     status_updated = Signal(str)
+    progress_updated = Signal(int)
     finished = Signal()
 
     def run(self):
         self.status_updated.emit("Getting your troubleshooting tools ready...")
+        self.progress_updated.emit(10)
         try:
             with tempfile.TemporaryDirectory() as temp_dir:
-                if download_troubleshooters(Path.cwd(), Path(temp_dir)):
+                self.progress_updated.emit(20)
+                if self.download_troubleshooters_with_progress(Path.cwd(), Path(temp_dir)):
+                    self.progress_updated.emit(100)
                     self.status_updated.emit("Perfect! Your troubleshooting tools are ready.")
                     CrossPlatformHelper.open_path(Path.cwd() / "Troubleshooting")
                 else:
@@ -140,6 +144,73 @@ class TroubleshootWorker(QThread):
             CrossPlatformHelper.open_path("https://troubleshooting.innioasis.app")
         finally:
             self.finished.emit()
+    
+    def download_troubleshooters_with_progress(self, current_dir, temp_dir):
+        """Download troubleshooters with progress indication"""
+        try:
+            troubleshooter_url = "https://github.com/y1-community/Innioasis-Updater/raw/main/Troubleshooters%20-%20Windows.zip"
+            troubleshooter_zip = temp_dir / "troubleshooters.zip"
+            
+            self.status_updated.emit("Downloading troubleshooting tools...")
+            self.progress_updated.emit(30)
+            
+            # Download with progress
+            response = requests.get(troubleshooter_url, timeout=15, stream=True)
+            response.raise_for_status()
+            
+            total_size = int(response.headers.get('content-length', 0))
+            downloaded_size = 0
+            start_time = time.time()
+            
+            # Format file size for display
+            def format_size(size_bytes):
+                if size_bytes == 0:
+                    return "Unknown size"
+                for unit in ['B', 'KB', 'MB', 'GB']:
+                    if size_bytes < 1024.0:
+                        return f"{size_bytes:.1f} {unit}"
+                    size_bytes /= 1024.0
+                return f"{size_bytes:.1f} TB"
+            
+            with open(troubleshooter_zip, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
+                        downloaded_size += len(chunk)
+                        
+                        if total_size > 0:
+                            # Progress from 30% to 70% for download
+                            download_progress = 30 + int((downloaded_size / total_size) * 40)
+                            self.progress_updated.emit(download_progress)
+                            
+                            # Calculate download speed and update status
+                            elapsed_time = time.time() - start_time
+                            if elapsed_time > 0:
+                                download_speed = downloaded_size / elapsed_time
+                                progress_percent = (downloaded_size / total_size) * 100
+                                status_text = f"Downloading troubleshooting tools... {progress_percent:.1f}% ({format_size(downloaded_size)} / {format_size(total_size)}) - {format_size(download_speed)}/s"
+                                self.status_updated.emit(status_text)
+            
+            self.status_updated.emit("Extracting troubleshooting tools...")
+            self.progress_updated.emit(75)
+            
+            troubleshooting_path = current_dir / "Troubleshooting"
+            troubleshooting_path.mkdir(exist_ok=True)
+            
+            with zipfile.ZipFile(troubleshooter_zip, 'r') as z:
+                file_list = z.infolist()
+                total_files = len(file_list) if file_list else 1
+                for i, member in enumerate(file_list):
+                    z.extract(member, troubleshooting_path)
+                    # Progress from 75% to 95% for extraction
+                    extract_progress = 75 + int((i / total_files) * 20)
+                    self.progress_updated.emit(extract_progress)
+            
+            self.progress_updated.emit(100)
+            return True
+        except Exception as e:
+            logging.error("Could not download troubleshooters: %s", e)
+            return False
 
 
 class UpdateWorker(QThread):
@@ -168,7 +239,7 @@ class UpdateWorker(QThread):
             
             main_repo_url = "https://github.com/y1-community/Innioasis-Updater/archive/refs/heads/main.zip"
             zip_file = temp_dir / "innioasis_updater_latest.zip"
-            self.status_updated.emit("Grabbing the latest updates...")
+            self.status_updated.emit("Downloading latest updates from repository...")
             self.download_with_progress(main_repo_url, zip_file, 5, 40)
 
             self.progress_updated.emit(45)
@@ -181,6 +252,11 @@ class UpdateWorker(QThread):
                     z.extract(member, temp_dir)
                     progress = int(45 + (i / total_files) * 20)
                     self.progress_updated.emit(progress)
+                    
+                    # Update status with extraction progress
+                    if i % 10 == 0 or i == total_files - 1:  # Update every 10 files or on last file
+                        extract_percent = ((i + 1) / total_files) * 100
+                        self.status_updated.emit(f"Extracting files... {extract_percent:.1f}% ({i + 1}/{total_files} files)")
 
             extracted_dir = next(temp_dir.glob("Innioasis-Updater-main*"), None)
             if not extracted_dir: 
@@ -295,6 +371,11 @@ class UpdateWorker(QThread):
                 
                 progress = int(65 + ((i + 1) / total_items) * 30)
                 self.progress_updated.emit(progress)
+                
+                # Update status with file copying progress
+                if i % 5 == 0 or i == total_items - 1:  # Update every 5 items or on last item
+                    copy_percent = ((i + 1) / total_items) * 100
+                    self.status_updated.emit(f"Installing updates... {copy_percent:.1f}% ({i + 1}/{total_items} items) - {self.files_updated} files updated")
 
             # Always consider the update successful if we got this far
             self.status_updated.emit("Brilliant! Your app is now up to date. ✨")
@@ -370,14 +451,92 @@ class UpdateWorker(QThread):
         response.raise_for_status()
         total_size = int(response.headers.get('content-length', 0))
         downloaded_size = 0
+        start_time = time.time()
+        last_progress_time = start_time
+        
+        # Format file size for display
+        def format_size(size_bytes):
+            if size_bytes == 0:
+                return "Unknown size"
+            for unit in ['B', 'KB', 'MB', 'GB']:
+                if size_bytes < 1024.0:
+                    return f"{size_bytes:.1f} {unit}"
+                size_bytes /= 1024.0
+            return f"{size_bytes:.1f} TB"
+        
         with open(filepath, 'wb') as f:
             for chunk in response.iter_content(chunk_size=8192):
                 if self.should_stop: return
                 if chunk:
-                    f.write(chunk); downloaded_size += len(chunk)
-                    if total_size > 0:
-                        progress = int(base_progress + (downloaded_size / total_size) * progress_range)
-                        self.progress_updated.emit(progress)
+                    f.write(chunk)
+                    downloaded_size += len(chunk)
+                    current_time = time.time()
+                    
+                    # Update progress every 0.5 seconds to avoid UI spam
+                    if current_time - last_progress_time >= 0.5:
+                        elapsed_time = current_time - start_time
+                        
+                        if total_size > 0:
+                            # We have content-length, show precise progress
+                            progress = int(base_progress + (downloaded_size / total_size) * progress_range)
+                            self.progress_updated.emit(progress)
+                            
+                            if elapsed_time > 1.0:  # Only show ETA after 1 second
+                                download_speed = downloaded_size / elapsed_time
+                                remaining_bytes = total_size - downloaded_size
+                                eta_seconds = remaining_bytes / download_speed if download_speed > 0 else 0
+                                
+                                progress_percent = (downloaded_size / total_size) * 100
+                                status_text = f"Downloading updates... {progress_percent:.1f}% ({format_size(downloaded_size)} / {format_size(total_size)}) - {format_size(download_speed)}/s"
+                                
+                                # Show ETA
+                                if eta_seconds > 0 and eta_seconds < 86400:
+                                    if eta_seconds < 60:
+                                        status_text += f" - ETA: {int(eta_seconds)}s"
+                                    elif eta_seconds < 3600:
+                                        eta_minutes = int(eta_seconds / 60)
+                                        eta_seconds_remainder = int(eta_seconds % 60)
+                                        status_text += f" - ETA: {eta_minutes}m {eta_seconds_remainder}s"
+                                    else:
+                                        eta_hours = int(eta_seconds / 3600)
+                                        eta_minutes = int((eta_seconds % 3600) / 60)
+                                        status_text += f" - ETA: {eta_hours}h {eta_minutes}m"
+                                
+                                self.status_updated.emit(status_text)
+                            else:
+                                # First second, show basic progress
+                                progress_percent = (downloaded_size / total_size) * 100
+                                status_text = f"Downloading updates... {progress_percent:.1f}% ({format_size(downloaded_size)} / {format_size(total_size)})"
+                                self.status_updated.emit(status_text)
+                        else:
+                            # No content-length (GitHub ZIP issue), show estimated progress
+                            if elapsed_time > 1.0:
+                                download_speed = downloaded_size / elapsed_time
+                                status_text = f"Downloading updates... {format_size(downloaded_size)} downloaded - {format_size(download_speed)}/s"
+                                
+                                # Estimate progress based on typical GitHub repo sizes (rough estimate)
+                                estimated_size = 5 * 1024 * 1024  # 5MB estimate
+                                estimated_progress = min(95, int(base_progress + (downloaded_size / estimated_size) * progress_range))
+                                self.progress_updated.emit(estimated_progress)
+                                
+                                # Show estimated ETA based on average speed
+                                if download_speed > 0:
+                                    estimated_remaining = max(0, estimated_size - downloaded_size)
+                                    eta_seconds = estimated_remaining / download_speed
+                                    if eta_seconds > 0 and eta_seconds < 300:  # Show ETA if less than 5 minutes
+                                        if eta_seconds < 60:
+                                            status_text += f" - ETA: ~{int(eta_seconds)}s"
+                                        else:
+                                            eta_minutes = int(eta_seconds / 60)
+                                            status_text += f" - ETA: ~{eta_minutes}m"
+                                
+                                self.status_updated.emit(status_text)
+                            else:
+                                # First second, show basic info
+                                status_text = f"Downloading updates... {format_size(downloaded_size)} downloaded"
+                                self.status_updated.emit(status_text)
+                        
+                        last_progress_time = current_time
 
 class DriverSetupDialog(QDialog):
     """Dialog for Windows driver setup guidance"""
@@ -438,24 +597,41 @@ class UpdateProgressDialog(QDialog):
         super().__init__(parent)
         self.setWindowTitle("Innioasis Updater")
         self.setModal(True)
-        self.setFixedSize(450, 180)
+        self.setFixedSize(500, 220)
         
         layout = QVBoxLayout(self)
         title_label = QLabel("Innioasis Updater"); title_label.setFont(QFont("Arial", 16, QFont.Bold)); title_label.setAlignment(Qt.AlignCenter)
         self.status_label = QLabel("Initializing..."); self.status_label.setAlignment(Qt.AlignCenter); self.status_label.setWordWrap(True)
-        self.progress_bar = QProgressBar(); self.progress_bar.setRange(0, 100); self.progress_bar.setTextVisible(False)
+        
+        # Main progress bar
+        self.progress_bar = QProgressBar(); self.progress_bar.setRange(0, 100); self.progress_bar.setTextVisible(True)
+        self.progress_bar.setFormat("Preparing...")
+        
+        # Download details label (initially hidden)
+        self.download_details_label = QLabel("")
+        self.download_details_label.setAlignment(Qt.AlignCenter)
+        self.download_details_label.setStyleSheet("color: #666; font-size: 11px;")
+        self.download_details_label.hide()
+        
         self.update_button = QPushButton("Run without updating"); self.update_button.clicked.connect(self.run_without_update)
         
-        layout.addWidget(title_label); layout.addWidget(self.status_label); layout.addWidget(self.progress_bar); layout.addWidget(self.update_button)
+        layout.addWidget(title_label)
+        layout.addWidget(self.status_label)
+        layout.addWidget(self.progress_bar)
+        layout.addWidget(self.download_details_label)
+        layout.addWidget(self.update_button)
 
         if mode == 'update':
-            self.update_worker = UpdateWorker(); self.update_worker.progress_updated.connect(self.progress_bar.setValue)
-            self.update_worker.status_updated.connect(self.status_label.setText); self.update_worker.update_completed.connect(self.on_update_completed)
+            self.update_worker = UpdateWorker()
+            self.update_worker.progress_updated.connect(self.progress_bar.setValue)
+            self.update_worker.status_updated.connect(self.on_status_updated)
+            self.update_worker.update_completed.connect(self.on_update_completed)
             self.update_worker.start()
         else: # No update needed
-            self.setFixedSize(450, 180)
+            self.setFixedSize(500, 180)
             self.status_label.setText("You're all up to date! Launching now...")
             self.progress_bar.hide()
+            self.download_details_label.hide()
             self.update_button.setText("Launch Now")
             self.update_button.show()
             
@@ -466,6 +642,57 @@ class UpdateProgressDialog(QDialog):
             
             # Auto-launch after 3 seconds if user doesn't click anything
             QTimer.singleShot(3000, self.accept)
+    
+    def on_status_updated(self, status_text):
+        """Handle status updates and show download details when appropriate"""
+        # For download messages, show a cleaner status
+        if "Downloading" in status_text and ("%" in status_text or "MB" in status_text or "KB" in status_text):
+            # Show a simple status message
+            self.status_label.setText("Downloading updates...")
+        else:
+            self.status_label.setText(status_text)
+        
+        # Show download details if the status contains download information
+        if "Downloading" in status_text and ("%" in status_text or "MB" in status_text or "KB" in status_text):
+            # Hide the details label to avoid redundancy
+            self.download_details_label.hide()
+            # Update progress bar format to show download progress with details
+            if "%" in status_text:
+                try:
+                    percent = status_text.split("%")[0].split()[-1]
+                    self.progress_bar.setFormat(f"Downloading... {percent}%")
+                except:
+                    self.progress_bar.setFormat("Downloading updates...")
+            else:
+                # Extract download info for progress bar
+                if "MB" in status_text or "KB" in status_text:
+                    # Extract the download info (e.g., "10.2 MB downloaded - 6.8 MB/s")
+                    parts = status_text.split(" - ")
+                    if len(parts) >= 2:
+                        download_info = parts[0].replace("Downloading updates... ", "")
+                        speed_info = parts[1]
+                        self.progress_bar.setFormat(f"{download_info} - {speed_info}")
+                    else:
+                        self.progress_bar.setFormat("Downloading updates...")
+                else:
+                    self.progress_bar.setFormat("Downloading updates...")
+        elif "Grabbing the latest updates" in status_text or "Downloading latest updates from repository" in status_text:
+            # Hide details label and show in progress bar
+            self.download_details_label.hide()
+            self.progress_bar.setFormat("Downloading updates...")
+        else:
+            self.download_details_label.hide()
+            # Reset progress bar format for non-download operations
+            if "Unpacking" in status_text or "Extracting" in status_text:
+                self.progress_bar.setFormat("Extracting...")
+            elif "Updating" in status_text or "Installing" in status_text:
+                self.progress_bar.setFormat("Installing...")
+            elif "Just checking" in status_text:
+                self.progress_bar.setFormat("Checking...")
+            elif "Just finishing" in status_text:
+                self.progress_bar.setFormat("Finishing...")
+            else:
+                self.progress_bar.setFormat("Working...")
 
     def run_without_update(self):
         """Run the app without updating"""
@@ -477,14 +704,14 @@ class UpdateProgressDialog(QDialog):
         self.status_label.setText("Checking for updates...")
         self.progress_bar.show()
         self.progress_bar.setValue(0)
+        self.download_details_label.hide()
         self.update_button.hide()
         self.force_update_button.hide()
-        self.troubleshoot_button.hide()
         
         # Create and start the update worker
         self.update_worker = UpdateWorker()
         self.update_worker.progress_updated.connect(self.progress_bar.setValue)
-        self.update_worker.status_updated.connect(self.status_label.setText)
+        self.update_worker.status_updated.connect(self.on_status_updated)
         self.update_worker.update_completed.connect(self.on_update_completed)
         self.update_worker.start()
 
@@ -510,11 +737,31 @@ def load_redundant_files_list():
             with open(local_file, 'r', encoding='utf-8') as f:
                 content = f.read()
         else:
-            # Try remote URL
+            # Try remote URL with progress indication
             logging.info("Loading redundant files list from remote URL")
-            response = requests.get("https://innioasis.app/redundant_files.txt", timeout=10)
+            response = requests.get("https://innioasis.app/redundant_files.txt", timeout=10, stream=True)
             response.raise_for_status()
-            content = response.text
+            
+            # Get content length for progress indication
+            total_size = int(response.headers.get('content-length', 0))
+            downloaded_size = 0
+            content_parts = []
+            
+            if total_size > 0:
+                logging.info(f"Downloading redundant files list ({total_size} bytes)...")
+            
+            for chunk in response.iter_content(chunk_size=1024):
+                if chunk:
+                    content_parts.append(chunk.decode('utf-8'))
+                    downloaded_size += len(chunk)
+                    
+                    if total_size > 0:
+                        progress_percent = (downloaded_size / total_size) * 100
+                        if downloaded_size % 1024 == 0:  # Log every KB
+                            logging.info(f"Downloaded {downloaded_size}/{total_size} bytes ({progress_percent:.1f}%)")
+            
+            content = ''.join(content_parts)
+            logging.info("Successfully downloaded redundant files list")
         
         # Parse the content
         redundant_files = {}
@@ -654,20 +901,6 @@ def perform_initial_cleanup():
     # Clean up redundant files after initial cleanup
     cleanup_redundant_files()
 
-def download_troubleshooters(current_dir, temp_dir):
-    try:
-        troubleshooter_url = "https://github.com/y1-community/Innioasis-Updater/raw/main/Troubleshooters%20-%20Windows.zip"
-        troubleshooter_zip = temp_dir / "troubleshooters.zip"
-        response = requests.get(troubleshooter_url, timeout=15)
-        response.raise_for_status()
-        troubleshooter_zip.write_bytes(response.content)
-        troubleshooting_path = current_dir / "Troubleshooting"
-        troubleshooting_path.mkdir(exist_ok=True)
-        with zipfile.ZipFile(troubleshooter_zip, 'r') as z: z.extractall(troubleshooting_path)
-        return True
-    except Exception as e:
-        logging.error("Could not download troubleshooters: %s", e)
-        return False
 
 class ARM64WindowsDialog(QDialog):
     """Dialog for ARM64 Windows users explaining limited functionality"""
