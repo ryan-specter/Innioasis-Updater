@@ -1490,6 +1490,13 @@
                     </select>
                 </div>
                 
+                <div class="filter-group" id="prerelease-filter" style="display: none;">
+                    <label>
+                        <input type="checkbox" id="showPrereleases" onchange="togglePrereleaseFilter()">
+                        Show pre-releases (Nightly, Beta, Alpha, Preview, Test, RC)
+                    </label>
+                </div>
+                
                 <button class="refresh-btn" onclick="refreshData()">
                     🔄 Refresh
                 </button>
@@ -1691,8 +1698,22 @@
         let currentFilters = {
             deviceType: '',
             deviceModel: '',
-            software: ''
+            software: '',
+            showPrereleases: false
         };
+        
+        // Check if a release is a pre-release
+        function isPrerelease(tagName) {
+            const prereleaseKeywords = ['nightly', 'beta', 'alpha', 'preview', 'test', 'rc'];
+            const tagLower = tagName.toLowerCase();
+            return prereleaseKeywords.some(keyword => tagLower.includes(keyword));
+        }
+        
+        // Toggle pre-release filter
+        function togglePrereleaseFilter() {
+            currentFilters.showPrereleases = document.getElementById('showPrereleases').checked;
+            filterFirmware();
+        }
 
         // Function to parse version names and extract designations with flexible adjective handling
         function parseVersionDesignations(versionName) {
@@ -2423,6 +2444,11 @@
                                 return; // Skip this release if it doesn't match type filter
                             }
                             
+                            // Filter by pre-release checkbox if not enabled
+                            if (!currentFilters.showPrereleases && isPrerelease(release.tag_name)) {
+                                return; // Skip pre-releases if checkbox is not checked
+                            }
+                            
                             // Add metadata for all packages that use this repo
                             repoGroups[repo].forEach(pkg => {
                                 // Determine device type from tag name
@@ -2449,6 +2475,15 @@
                 
                 // Sort releases by date (newest first)
                 allReleases.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+                
+                // Check if there are pre-releases and show/hide checkbox accordingly
+                const hasPrereleases = allReleases.some(release => isPrerelease(release.tag_name));
+                const prereleaseFilter = document.getElementById('prerelease-filter');
+                if (hasPrereleases) {
+                    prereleaseFilter.style.display = 'block';
+                } else {
+                    prereleaseFilter.style.display = 'none';
+                }
                 
                 // Display releases
                 displayFirmwareList(allReleases);
