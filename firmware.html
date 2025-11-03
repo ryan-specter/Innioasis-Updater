@@ -1490,10 +1490,10 @@
                     </select>
                 </div>
                 
-                <div class="filter-group" id="prerelease-filter" style="display: none;">
-                    <label>
-                        <input type="checkbox" id="showPrereleases" onchange="togglePrereleaseFilter()">
-                        Show pre-releases (Nightly, Beta, Alpha, Preview, Test, RC)
+                <div class="filter-group">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="showPrereleases" checked style="width: 18px; height: 18px; cursor: pointer;">
+                        <span>Include prereleases</span>
                     </label>
                 </div>
                 
@@ -1699,21 +1699,8 @@
             deviceType: '',
             deviceModel: '',
             software: '',
-            showPrereleases: false
+            showPrereleases: true
         };
-        
-        // Check if a release is a pre-release
-        function isPrerelease(tagName) {
-            const prereleaseKeywords = ['nightly', 'beta', 'alpha', 'preview', 'test', 'rc'];
-            const tagLower = tagName.toLowerCase();
-            return prereleaseKeywords.some(keyword => tagLower.includes(keyword));
-        }
-        
-        // Toggle pre-release filter
-        function togglePrereleaseFilter() {
-            currentFilters.showPrereleases = document.getElementById('showPrereleases').checked;
-            filterFirmware();
-        }
 
         // Function to parse version names and extract designations with flexible adjective handling
         function parseVersionDesignations(versionName) {
@@ -2399,6 +2386,7 @@
             currentFilters.deviceType = document.getElementById('deviceType').value;
             currentFilters.deviceModel = document.getElementById('deviceModel').value;
             currentFilters.software = document.getElementById('software').value;
+            currentFilters.showPrereleases = document.getElementById('showPrereleases').checked;
             
             loadFirmwareList();
         }
@@ -2444,9 +2432,9 @@
                                 return; // Skip this release if it doesn't match type filter
                             }
                             
-                            // Filter by pre-release checkbox if not enabled
-                            if (!currentFilters.showPrereleases && isPrerelease(release.tag_name)) {
-                                return; // Skip pre-releases if checkbox is not checked
+                            // Filter out prereleases if checkbox is unchecked
+                            if (!currentFilters.showPrereleases && (release.prerelease || release.draft)) {
+                                return; // Skip this prerelease/draft if not showing prereleases
                             }
                             
                             // Add metadata for all packages that use this repo
@@ -2475,15 +2463,6 @@
                 
                 // Sort releases by date (newest first)
                 allReleases.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
-                
-                // Check if there are pre-releases and show/hide checkbox accordingly
-                const hasPrereleases = allReleases.some(release => isPrerelease(release.tag_name));
-                const prereleaseFilter = document.getElementById('prerelease-filter');
-                if (hasPrereleases) {
-                    prereleaseFilter.style.display = 'block';
-                } else {
-                    prereleaseFilter.style.display = 'none';
-                }
                 
                 // Display releases
                 displayFirmwareList(allReleases);
@@ -2539,6 +2518,8 @@
                             published_at: release.published_at,
                             html_url: release.html_url,
                             assets: release.assets || [],
+                            prerelease: release.prerelease || false,
+                            draft: release.draft || false,
                             download_count: romZipAsset ? romZipAsset.download_count : 0,
                             total_downloads: release.assets.reduce((sum, asset) => sum + (asset.download_count || 0), 0)
                         };
@@ -2581,6 +2562,10 @@
                         ).join('')}
                     </div>` : '';
                 
+                // Add prerelease/draft indicator if applicable
+                const prereleaseHTML = (release.prerelease || release.draft) ? 
+                    `<span class="version-pill warning" style="background-color: #ff9500; color: white;">${release.draft ? 'Draft' : 'Prerelease'}</span>` : '';
+                
                 // Add software name detail
                 const softwareHTML = `<div class="detail-item">
                     <div class="detail-label">Software</div>
@@ -2599,6 +2584,7 @@
                         <div class="firmware-name">${displayVersion}</div>
                         <div class="firmware-details">
                             ${softwareHTML}
+                            ${prereleaseHTML ? `<div class="version-pills">${prereleaseHTML}</div>` : ''}
                             ${pillsHTML}
                             ${releasedDateHTML}
                             <div class="detail-item">
