@@ -2632,9 +2632,9 @@
                             <button class="automatic-install-btn" onclick="goToInnioasisApp(event)">
                                 ⚡ Get Innioasis Updater
                             </button>
-                            ${release.has_update_zip && window.showDirectoryPicker ? `
-                                <button class="update-browser-btn" onclick="updateViaBrowser('${release.update_zip_url}', event)">
-                                    🔄 Update via Browser
+                            ${release.has_update_zip ? `
+                                <button class="update-browser-btn" onclick="downloadUpdateZip('${release.update_zip_url}', event)">
+                                    🆕 Place update.zip in .rockbox folder
                                 </button>
                             ` : ''}
                             <button class="github-release-btn" onclick="goToGitHubRelease('${release.html_url}', event)">
@@ -2732,80 +2732,36 @@
             window.open(releaseUrl, '_blank');
         }
 
-        async function updateViaBrowser(updateZipUrl, event) {
+        function downloadUpdateZip(updateZipUrl, event) {
             event.stopPropagation();
             
-            // Check if File System Access API is available
-            if (!('showDirectoryPicker' in window)) {
-                alert('❌ File System Access API is not available in your browser.\n\nPlease use:\n• Chrome 86+\n• Edge 86+\n• Opera 72+\n\nThis feature is not supported in Firefox or Safari.');
-                return;
-            }
+            // Create download link
+            const link = document.createElement('a');
+            link.href = updateZipUrl;
+            link.download = 'update.zip';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
             
-            try {
-                // Ask user to select the .rockbox folder or Y1 drive root
-                const dirHandle = await window.showDirectoryPicker({
-                    id: 'y1-rockbox-update',
-                    mode: 'readwrite',
-                    startIn: 'documents'
-                });
-                
-                // Get or create .rockbox directory
-                let rockboxDir;
-                const selectedDirName = dirHandle.name.toLowerCase();
-                
-                if (selectedDirName === '.rockbox') {
-                    // User selected the .rockbox folder directly
-                    rockboxDir = dirHandle;
-                } else {
-                    // User selected parent directory - get or create .rockbox
-                    try {
-                        rockboxDir = await dirHandle.getDirectoryHandle('.rockbox');
-                        console.log('.rockbox folder found');
-                    } catch {
-                        // .rockbox doesn't exist - create it
-                        console.log('Creating .rockbox folder...');
-                        rockboxDir = await dirHandle.getDirectoryHandle('.rockbox', { create: true });
-                        console.log('.rockbox folder created successfully');
-                    }
-                }
-                
-                // Download update.zip
-                setStatus('Downloading update.zip...', 'info');
-                const response = await fetch(updateZipUrl);
-                if (!response.ok) {
-                    throw new Error(`Failed to download: ${response.statusText}`);
-                }
-                
-                const blob = await response.blob();
-                
-                // Write update.zip to the .rockbox directory (not root!)
-                const fileHandle = await rockboxDir.getFileHandle('update.zip', { create: true });
-                const writable = await fileHandle.createWritable();
-                await writable.write(blob);
-                await writable.close();
-                
-                // Success message
-                alert('✅ Update Downloaded Successfully!\n\n' +
-                      'The update.zip file has been saved to your Y1 device.\n\n' +
-                      '📱 Next Steps:\n' +
-                      '1. Safely eject your Y1 from your computer\n' +
-                      '2. On your Y1, go to:\n' +
+            // Show instructions after download starts
+            setTimeout(() => {
+                alert('📥 Downloading update.zip to your Downloads folder!\n\n' +
+                      '📱 Installation Instructions:\n\n' +
+                      '1. Connect your Y1 to your computer\n' +
+                      '2. Locate the downloaded update.zip file in your Downloads\n' +
+                      '3. Copy update.zip to the .rockbox folder on your Y1\n' +
+                      '   (If .rockbox folder doesn\'t exist, create it in the root of your Y1 drive)\n\n' +
+                      '4. Safely eject your Y1 from your computer\n\n' +
+                      '5. On your Y1, navigate to:\n' +
                       '   System → Rockbox Info → Update Firmware\n' +
-                      '3. Select the update.zip file\n' +
-                      '4. Wait for update to complete\n\n' +
-                      'Your Y1 will restart automatically when done!');
+                      '   (Available in both Rockbox Menu and Stock Menu)\n\n' +
+                      '6. Select update.zip and confirm\n\n' +
+                      '7. Wait for update to complete\n' +
+                      '   Your Y1 will restart automatically!\n\n' +
+                      '✨ This updates both Rockbox and the Stock Menu');
                 
-                setStatus('Update downloaded successfully! Follow the on-screen instructions.', 'success');
-                
-            } catch (error) {
-                if (error.name === 'AbortError') {
-                    setStatus('Update cancelled by user', '');
-                } else {
-                    console.error('Update via browser error:', error);
-                    alert('❌ Failed to update via browser:\n\n' + error.message);
-                    setStatus('Update failed: ' + error.message, 'error');
-                }
-            }
+                setStatus('update.zip download started! Check your Downloads folder.', 'success');
+            }, 500);
         }
 
         function formatDate(dateString) {
