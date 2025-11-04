@@ -235,7 +235,7 @@ CACHE_DIR = Path(".cache")
 CACHE_DIR.mkdir(exist_ok=True)
 CONFIG_CACHE_FILE = CACHE_DIR / "config_cache.json"
 MANIFEST_CACHE_FILE = CACHE_DIR / "manifest_cache.json"
-CACHE_DURATION = 300  # 5 minutes cache duration
+CACHE_DURATION = 3600  # 1 hour cache duration (was 5 minutes - too aggressive!)
 
 # Performance optimization
 MAX_CONCURRENT_REQUESTS = 3
@@ -1297,7 +1297,8 @@ class GitHubAPI:
                                 'published_at': release.get('published_at', ''),
                                 'download_url': zip_asset['browser_download_url'],
                                 'asset_name': zip_asset['name'],
-                                'asset_size': zip_asset.get('size', 0)
+                                'asset_size': zip_asset.get('size', 0),
+                                'assets': release.get('assets', [])  # Include full assets array for update.zip detection
                             })
                             silent_print(f"Added release {release.get('tag_name', 'Unknown')} with zip asset")
                         else:
@@ -1341,7 +1342,8 @@ class GitHubAPI:
                                 'published_at': release.get('published_at', ''),
                                 'download_url': zip_asset['browser_download_url'],
                                 'asset_name': zip_asset['name'],
-                                'asset_size': zip_asset.get('size', 0)
+                                'asset_size': zip_asset.get('size', 0),
+                                'assets': release.get('assets', [])  # Include full assets array for update.zip detection
                             })
                     
                     if releases:
@@ -1381,7 +1383,8 @@ class GitHubAPI:
                             'published_at': release.get('published_at', ''),
                             'download_url': zip_asset['browser_download_url'],
                             'asset_name': zip_asset['name'],
-                            'asset_size': zip_asset.get('size', 0)
+                            'asset_size': zip_asset.get('size', 0),
+                            'assets': release.get('assets', [])  # Include full assets array for update.zip detection
                         })
 
                 silent_print(f"Unauthenticated: Returning {len(releases)} releases with zip assets")
@@ -2101,6 +2104,99 @@ class MTKWorker(QThread):
             self.mtk_completed.emit(False, "Install process interrupted - please try again")
 
 
+class UpdateZipSenderWorker(QThread):
+    """Worker thread for downloading and sending update.zip to Y1"""
+    
+    progress_updated = Signal(int)
+    status_updated = Signal(str)
+    send_completed = Signal(bool, str)
+    
+    def __init__(self, update_zip_url, target_directory):
+        super().__init__()
+        self.update_zip_url = update_zip_url
+        self.target_directory = Path(target_directory)
+    
+    def run(self):
+        try:
+            silent_print(f"Starting update.zip download from {self.update_zip_url}")
+            silent_print(f"Target directory: {self.target_directory}")
+            
+            self.status_updated.emit("Downloading update.zip...")
+            
+            # Download update.zip
+            silent_print("Making request to download update.zip...")
+            response = requests.get(self.update_zip_url, stream=True, timeout=30)
+            response.raise_for_status()
+            
+            total_size = int(response.headers.get('content-length', 0))
+            downloaded = 0
+            
+            silent_print(f"Download started, total size: {total_size} bytes")
+            
+            # Create temporary file
+            temp_update_path = Path("update.zip.tmp")
+            
+            with open(temp_update_path, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
+                        downloaded += len(chunk)
+                        if total_size > 0:
+                            progress = int((downloaded / total_size) * 100)
+                            self.progress_updated.emit(progress)
+                            if progress % 20 == 0:  # Log every 20%
+                                silent_print(f"Download progress: {progress}%")
+            
+            silent_print(f"Download complete: {downloaded} bytes")
+            self.status_updated.emit("Finding .rockbox folder...")
+            
+            # Find or create .rockbox folder
+            rockbox_dir = None
+            
+            # Check if selected directory is .rockbox itself
+            if self.target_directory.name.lower() == '.rockbox':
+                silent_print("Selected directory is .rockbox folder")
+                rockbox_dir = self.target_directory
+            else:
+                # Check if .rockbox exists in selected directory
+                potential_rockbox = self.target_directory / '.rockbox'
+                if potential_rockbox.exists() and potential_rockbox.is_dir():
+                    silent_print(f"Found existing .rockbox folder: {potential_rockbox}")
+                    rockbox_dir = potential_rockbox
+                else:
+                    # Create .rockbox folder
+                    self.status_updated.emit("Creating .rockbox folder...")
+                    silent_print(f"Creating .rockbox folder at: {potential_rockbox}")
+                    potential_rockbox.mkdir(parents=True, exist_ok=True)
+                    rockbox_dir = potential_rockbox
+                    silent_print(".rockbox folder created successfully")
+            
+            # Move update.zip to .rockbox folder
+            self.status_updated.emit("Copying update.zip to .rockbox...")
+            target_update_path = rockbox_dir / "update.zip"
+            silent_print(f"Moving update.zip to: {target_update_path}")
+            
+            import shutil
+            shutil.move(str(temp_update_path), str(target_update_path))
+            
+            silent_print("update.zip successfully moved to .rockbox folder")
+            self.send_completed.emit(True, f"update.zip successfully placed in {rockbox_dir}")
+            
+        except Exception as e:
+            silent_print(f"Error in UpdateZipSenderWorker: {e}")
+            import traceback
+            traceback.print_exc()
+            
+            # Clean up temp file
+            try:
+                if Path("update.zip.tmp").exists():
+                    Path("update.zip.tmp").unlink()
+                    silent_print("Cleaned up temporary file")
+            except:
+                pass
+            
+            self.send_completed.emit(False, f"Error: {str(e)}")
+
 class DownloadWorker(QThread):
     """Worker thread for downloading and processing firmware"""
 
@@ -2310,6 +2406,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.packages = []
         self.download_worker = None
         self.mtk_worker = None
+        self.update_worker = None
+        self.current_update_zip_url = None  # Track update.zip URL for Send to Y1 feature
         self.images_loaded = False  # Track if images are loaded
         # Set default installation method based on platform
         if platform.system() == "Windows":
@@ -3747,9 +3845,9 @@ class FirmwareDownloaderGUI(QMainWindow):
 
         left_layout.addWidget(package_group)
 
-        # Download button - using native styling with system accent colors
+        # Install/Restore button - using native styling with system accent colors
         seasonal_emoji = get_seasonal_emoji_random()
-        download_text = f"Download{seasonal_emoji}" if seasonal_emoji else "Download"
+        download_text = f"Install / Restore{seasonal_emoji}" if seasonal_emoji else "Install / Restore"
         self.download_btn = QPushButton(download_text)
         self.download_btn.clicked.connect(self.start_download)
         self.download_btn.setEnabled(False)
@@ -3757,6 +3855,14 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.download_btn.setDefault(True)
         self.download_btn.setAutoDefault(True)
         left_layout.addWidget(self.download_btn)
+        
+        # Fast Update button - only shown for releases with update.zip
+        self.send_update_btn = QPushButton("⚡ Fast Update")
+        self.send_update_btn.clicked.connect(self.send_update_to_y1)
+        self.send_update_btn.setEnabled(False)
+        self.send_update_btn.setVisible(False)  # Hidden by default
+        self.send_update_btn.setToolTip("Quick update: Downloads update.zip and places it in .rockbox folder on your Y1")
+        left_layout.addWidget(self.send_update_btn)
         
         # Initially enable settings button (it will be disabled during operations if needed)
         self.settings_btn.setEnabled(True)
@@ -3825,21 +3931,13 @@ class FirmwareDownloaderGUI(QMainWindow):
 
         right_layout.addLayout(coffee_layout)
 
-        # App Update button (below social media buttons)
-        update_layout = QHBoxLayout()
-        update_layout.addStretch()  # Push button to the right
-
-        self.update_btn_right = QPushButton("Check for Utility Updates")
-        self.update_btn_right.setEnabled(True)  # Enable immediately
-        self.update_btn_right.clicked.connect(self.launch_updater_script)
-        self.update_btn_right.setToolTip("Downloads and installs the latest version of the Innioasis Updater")
-        # Use native styling - no custom stylesheet for automatic theme adaptation
-        # Use default cursor for native OS feel
-        update_layout.addWidget(self.update_btn_right)
+        # App Update button container (button only shown when update is available)
+        self.update_layout = QHBoxLayout()
+        self.update_layout.addStretch()  # Push button to the right
         
         # Check for updates and show button only if newer version is available
         QTimer.singleShot(2000, self.check_for_updates_and_show_button)
-        right_layout.addLayout(update_layout)
+        right_layout.addLayout(self.update_layout)
 
         # Status group
         status_group = QGroupBox("Status")
@@ -4203,6 +4301,10 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print(f"Error starting MTK command: {e}")
             self.status_label.setText(f"Error starting MTK command: {e}")
 
+    def update_progress(self, value):
+        """Update the progress bar value"""
+        self.progress_bar.setValue(value)
+    
     def update_status(self, message):
         """Update the status label with a message"""
         if not message or message.strip() == "":
@@ -4712,7 +4814,8 @@ class FirmwareDownloaderGUI(QMainWindow):
             self.populate_device_type_combo()
             self.populate_device_model_combo()
             self.populate_firmware_combo()
-            self.filter_firmware_options()
+            # Skip filter_firmware_options - it causes blocking network calls during startup
+            # self.filter_firmware_options()  # DISABLED for instant startup
             QTimer.singleShot(10, self.apply_initial_release_display)
             self.status_label.setText("Ready")
             silent_print("Data loading complete - instant startup achieved")
@@ -4723,9 +4826,9 @@ class FirmwareDownloaderGUI(QMainWindow):
     def load_tokens_and_validate_background(self):
         """Load and validate tokens in background without blocking UI"""
         try:
-            # Clear cache at startup to ensure fresh tokens are fetched
-            clear_cache()
-            silent_print("Cleared cache at startup to fetch fresh tokens")
+            # DON'T clear cache at startup - causes massive slowdowns
+            # clear_cache()  # DISABLED for performance
+            silent_print("Using cached data for fast startup")
 
             # Download tokens
             tokens = self.config_downloader.download_config()
@@ -6853,6 +6956,10 @@ class FirmwareDownloaderGUI(QMainWindow):
 
     def populate_firmware_combo(self):
         """Populate the software dropdown with package names from manifest"""
+        # Block signals during population to prevent network calls on setCurrentIndex
+        was_blocked = self.firmware_combo.signalsBlocked()
+        self.firmware_combo.blockSignals(True)
+        
         self.firmware_combo.clear()
 
         # Get current filter selections
@@ -6883,6 +6990,9 @@ class FirmwareDownloaderGUI(QMainWindow):
                 break
 
         self.firmware_combo.setCurrentIndex(default_index)
+        
+        # Unblock signals after population
+        self.firmware_combo.blockSignals(was_blocked)
 
 
     def _release_matches_type_filter(self, tag_name, selected_type):
@@ -7374,23 +7484,52 @@ class FirmwareDownloaderGUI(QMainWindow):
                 self.on_release_selected(first_item)
 
     def update_download_button_text(self, item):
-        """Update download button text based on selected item"""
-        if item and item.data(Qt.UserRole):
-            release_info = item.data(Qt.UserRole)
-
-            # Check if software name contains "Original"
-            software_name = release_info.get('software_name', '')
-            if 'original' in software_name.lower():
-                self.download_btn.setText("Download (Update / Restore)")
-            else:
-                self.download_btn.setText("Download")
-        else:
-            self.download_btn.setText("Download")
+        """Update install button text based on selected item"""
+        # Button text is always "Install / Restore" - no need to change it
+        pass
 
     def on_release_selected(self, item):
         """Handle release selection from the list"""
         self.download_btn.setEnabled(True)
         self.update_download_button_text(item)
+        
+        # Check if release has update.zip and show/hide Send Update button
+        if item and item.data(Qt.UserRole):
+            release_info = item.data(Qt.UserRole)
+            assets = release_info.get('assets', [])
+            
+            silent_print(f"Release has {len(assets)} assets")
+            
+            # Check if update.zip exists in assets
+            has_update_zip = any(
+                asset.get('name', '').lower() == 'update.zip'
+                for asset in assets
+            )
+            
+            if has_update_zip:
+                silent_print("Found update.zip in release - showing Send to Y1 button")
+                if hasattr(self, 'send_update_btn'):
+                    self.send_update_btn.setVisible(True)
+                    self.send_update_btn.setEnabled(True)
+                # Store update.zip URL for later use
+                update_asset = next(
+                    (asset for asset in assets if asset.get('name', '').lower() == 'update.zip'),
+                    None
+                )
+                if update_asset:
+                    self.current_update_zip_url = update_asset.get('browser_download_url')
+                    silent_print(f"Update.zip URL: {self.current_update_zip_url}")
+            else:
+                silent_print("No update.zip found in release - hiding Send to Y1 button")
+                if hasattr(self, 'send_update_btn'):
+                    self.send_update_btn.setVisible(False)
+                    self.send_update_btn.setEnabled(False)
+                self.current_update_zip_url = None
+        else:
+            if hasattr(self, 'send_update_btn'):
+                self.send_update_btn.setVisible(False)
+                self.send_update_btn.setEnabled(False)
+            self.current_update_zip_url = None
 
     def run_mtk_command_guided(self):
         """Run the MTK flash command with image display for guided installation"""
@@ -8778,6 +8917,374 @@ class FirmwareDownloaderGUI(QMainWindow):
         finally:
             # Hide progress bar after processing
             QTimer.singleShot(2000, lambda: self.progress_bar.setVisible(False))
+    
+    def send_update_to_y1(self):
+        """Download and send update.zip to Y1 device using ADB or USB"""
+        silent_print("Fast Update button clicked")
+        
+        if not hasattr(self, 'current_update_zip_url') or not self.current_update_zip_url:
+            silent_print("ERROR: No update.zip URL available")
+            QMessageBox.warning(self, "Error", "No update.zip URL available for this release")
+            return
+        
+        silent_print(f"Update.zip URL: {self.current_update_zip_url}")
+        
+        # Try ADB method first
+        if self.try_adb_fast_update():
+            return
+        
+        # Fall back to USB storage mode
+        silent_print("ADB not available, falling back to USB storage mode")
+        
+        # Show instructions dialog for USB mode
+        reply = QMessageBox.question(
+            self,
+            "Fast Update - USB Mode",
+            "📱 Please prepare your Y1:\n\n"
+            "1. Power on your Y1\n"
+            "2. Connect it to your computer via USB\n"
+            "3. Make sure your Y1 is in USB Storage mode\n"
+            "   (Your computer should see it as a USB drive)\n\n"
+            "Click OK when your Y1 is connected and ready.",
+            QMessageBox.Ok | QMessageBox.Cancel,
+            QMessageBox.Ok
+        )
+        
+        if reply == QMessageBox.Cancel:
+            silent_print("User cancelled at preparation dialog")
+            return
+        
+        # Ask user to select Y1 drive or .rockbox folder
+        folder_path = QFileDialog.getExistingDirectory(
+            self,
+            "Select Y1 USB Drive or .rockbox Folder",
+            "",
+            QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks
+        )
+        
+        if not folder_path:
+            silent_print("User cancelled folder selection")
+            return
+        
+        silent_print(f"User selected folder: {folder_path}")
+        
+        # Start worker to download and place update.zip
+        self.update_worker = UpdateZipSenderWorker(self.current_update_zip_url, folder_path)
+        self.update_worker.status_updated.connect(self.update_status)
+        self.update_worker.progress_updated.connect(self.update_progress)
+        self.update_worker.send_completed.connect(self.on_update_send_completed)
+        
+        # Show progress
+        self.status_label.setText("Downloading update.zip...")
+        self.progress_bar.setVisible(True)
+        self.progress_bar.setRange(0, 100)
+        self.progress_bar.setValue(0)
+        
+        # Disable buttons during operation
+        self.download_btn.setEnabled(False)
+        if hasattr(self, 'send_update_btn'):
+            self.send_update_btn.setEnabled(False)
+        
+        silent_print("Starting UpdateZipSenderWorker thread...")
+        self.update_worker.start()
+    
+    def try_adb_fast_update(self):
+        """Try to perform fast update using ADB - silently falls back if unavailable"""
+        try:
+            # Find ADB executable
+            adb_path = self.find_adb_executable()
+            if not adb_path:
+                silent_print("ADB not found - falling back to USB mode")
+                return False
+            
+            silent_print(f"Found ADB at: {adb_path}")
+            
+            # Check if device is connected via ADB
+            result = subprocess.run(
+                [str(adb_path), 'devices'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            # Parse device list
+            devices = []
+            for line in result.stdout.split('\n'):
+                if '\tdevice' in line:
+                    devices.append(line.split('\t')[0])
+            
+            if not devices:
+                silent_print("No ADB devices connected - falling back to USB mode")
+                return False
+            
+            silent_print(f"Found {len(devices)} ADB device(s): {devices}")
+            
+            # Check if /data/data/update.sh exists on device
+            silent_print("Checking for /data/data/update.sh on device...")
+            check_result = subprocess.run(
+                [str(adb_path), 'shell', 'test -f /data/data/update.sh && echo exists'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            silent_print(f"ADB check result stdout: '{check_result.stdout}'")
+            silent_print(f"ADB check result stderr: '{check_result.stderr}'")
+            
+            if 'exists' not in check_result.stdout:
+                silent_print("/data/data/update.sh not found on device - falling back to USB mode")
+                return False
+            
+            silent_print("Found /data/data/update.sh on device - proceeding with ADB update")
+            
+            # Show ADB mode dialog
+            reply = QMessageBox.question(
+                self,
+                "Fast Update - ADB Mode",
+                "⚡ Automatic Update Available!\n\n"
+                "Your Y1 supports automatic updates via ADB.\n\n"
+                "The update will:\n"
+                "1. Download update.zip\n"
+                "2. Push it to /sdcard/.rockbox/update.zip\n"
+                "3. Run the update script automatically\n"
+                "4. Your Y1 will restart when done\n\n"
+                "Make sure your Y1 is connected and click OK to proceed.",
+                QMessageBox.Ok | QMessageBox.Cancel,
+                QMessageBox.Ok
+            )
+            
+            if reply == QMessageBox.Cancel:
+                silent_print("User cancelled ADB update - falling back to USB mode")
+                return False
+            
+            # Start ADB update process
+            self.execute_adb_update(adb_path)
+            return True
+            
+        except subprocess.TimeoutExpired:
+            silent_print("ADB command timed out - falling back to USB mode")
+            return False
+        except Exception as e:
+            silent_print(f"ADB not available or failed ({e}) - falling back to USB mode")
+            return False
+    
+    def find_adb_executable(self):
+        """Find ADB executable in assets or system PATH"""
+        # Check assets folder first
+        assets_adb = Path("assets/adb.exe" if platform.system() == "Windows" else "assets/adb")
+        silent_print(f"Checking for ADB at: {assets_adb}")
+        if assets_adb.exists():
+            silent_print(f"Found ADB in assets: {assets_adb}")
+            return assets_adb
+        
+        # Check system PATH
+        import shutil
+        system_adb = shutil.which("adb")
+        if system_adb:
+            silent_print(f"Found ADB in system PATH: {system_adb}")
+            return Path(system_adb)
+        
+        silent_print("ADB not found in assets or system PATH")
+        return None
+    
+    def execute_adb_update(self, adb_path):
+        """Execute the ADB-based update with live output to status"""
+        try:
+            self.status_label.setText("ADB: Downloading update.zip...")
+            self.progress_bar.setVisible(True)
+            self.progress_bar.setRange(0, 100)
+            self.progress_bar.setValue(0)
+            QApplication.processEvents()
+            
+            # Disable buttons
+            self.download_btn.setEnabled(False)
+            if hasattr(self, 'send_update_btn'):
+                self.send_update_btn.setEnabled(False)
+            
+            # Download update.zip
+            silent_print("Downloading update.zip...")
+            response = requests.get(self.current_update_zip_url, stream=True, timeout=30)
+            response.raise_for_status()
+            
+            total_size = int(response.headers.get('content-length', 0))
+            downloaded = 0
+            
+            temp_update_path = Path("update.zip.tmp")
+            with open(temp_update_path, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
+                        downloaded += len(chunk)
+                        if total_size > 0:
+                            progress = int((downloaded / total_size) * 40)  # 0-40% for download
+                            self.progress_bar.setValue(progress)
+                            QApplication.processEvents()
+            
+            silent_print("Download complete, pushing to device...")
+            self.status_label.setText("ADB: Creating .rockbox directory...")
+            self.progress_bar.setValue(40)
+            QApplication.processEvents()
+            
+            # Create .rockbox directory on device
+            mkdir_result = subprocess.run(
+                [str(adb_path), 'shell', 'mkdir', '-p', '/sdcard/.rockbox'],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            if mkdir_result.stdout.strip():
+                self.status_label.setText(f"ADB: {mkdir_result.stdout.strip()}")
+                QApplication.processEvents()
+            
+            self.status_label.setText("ADB: Pushing update.zip to device...")
+            self.progress_bar.setValue(50)
+            QApplication.processEvents()
+            
+            # Push update.zip
+            push_result = subprocess.run(
+                [str(adb_path), 'push', str(temp_update_path), '/sdcard/.rockbox/update.zip'],
+                capture_output=True,
+                text=True,
+                timeout=30,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            if push_result.returncode != 0:
+                raise Exception(f"Failed to push: {push_result.stderr}")
+            
+            # Show push output
+            if push_result.stdout.strip():
+                last_line = push_result.stdout.strip().split('\n')[-1]
+                self.status_label.setText(f"ADB: {last_line}")
+                QApplication.processEvents()
+            
+            silent_print("update.zip pushed successfully")
+            self.progress_bar.setValue(70)
+            
+            # Clean up temp file
+            temp_update_path.unlink()
+            
+            # Run update script as root
+            self.status_label.setText("ADB: Running update script as root...")
+            self.progress_bar.setValue(80)
+            QApplication.processEvents()
+            
+            silent_print("Executing /data/data/update.sh as root...")
+            
+            # Run the script
+            script_result = subprocess.run(
+                [str(adb_path), 'shell', 'su', '-c', '/data/data/update.sh'],
+                capture_output=True,
+                text=True,
+                timeout=60,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            # Show script output
+            if script_result.stdout.strip():
+                output_lines = script_result.stdout.strip().split('\n')
+                for line in output_lines[-3:]:  # Show last 3 lines
+                    silent_print(f"Update script: {line}")
+                last_line = output_lines[-1] if output_lines else "Script executed"
+                self.status_label.setText(f"ADB: {last_line}")
+                QApplication.processEvents()
+            
+            self.progress_bar.setValue(100)
+            QApplication.processEvents()
+            
+            # Small delay before hiding progress
+            QTimer.singleShot(500, lambda: self.progress_bar.setVisible(False))
+            
+            # Re-enable buttons
+            self.download_btn.setEnabled(True)
+            if hasattr(self, 'send_update_btn'):
+                self.send_update_btn.setEnabled(True)
+            
+            self.status_label.setText("ADB: Update completed!")
+            
+            # Show completion message
+            QMessageBox.information(
+                self,
+                "Update Complete! ✅",
+                "⚡ Fast Update completed successfully via ADB!\n\n"
+                "The update script has been executed on your Y1.\n"
+                "Your device will restart automatically to apply the update.\n\n"
+                "Please wait for your Y1 to reboot."
+            )
+            
+        except Exception as e:
+            silent_print(f"Error during ADB update: {e}")
+            import traceback
+            traceback.print_exc()
+            
+            # Clean up temp file
+            try:
+                if Path("update.zip.tmp").exists():
+                    Path("update.zip.tmp").unlink()
+            except:
+                pass
+            
+            self.progress_bar.setVisible(False)
+            
+            # Re-enable buttons
+            self.download_btn.setEnabled(True)
+            if hasattr(self, 'send_update_btn'):
+                self.send_update_btn.setEnabled(True)
+            
+            self.status_label.setText("ADB update failed")
+            
+            QMessageBox.critical(
+                self,
+                "ADB Update Failed",
+                f"Failed to perform automatic update via ADB:\n\n{str(e)}\n\n"
+                "Please try using USB Storage mode instead."
+            )
+    
+    def on_update_send_completed(self, success, message):
+        """Handle completion of update.zip send operation"""
+        silent_print(f"Update send completed: success={success}, message={message}")
+        
+        self.progress_bar.setVisible(False)
+        
+        # Re-enable buttons
+        self.download_btn.setEnabled(True)
+        if hasattr(self, 'send_update_btn'):
+            self.send_update_btn.setEnabled(True)
+        
+        if success:
+            silent_print("Update sent successfully! Showing completion dialog...")
+            self.status_label.setText("Update sent successfully!")
+            
+            # Get software name for the note
+            selected_item = self.package_list.currentItem()
+            software_name = "this firmware"
+            if selected_item and selected_item.data(Qt.UserRole):
+                release_info = selected_item.data(Qt.UserRole)
+                software_name = release_info.get('software_name', 'this firmware')
+            
+            # Show completion dialog with instructions
+            QMessageBox.information(
+                self,
+                "Update Sent Successfully! ✅",
+                f"⚠️ IMPORTANT - PLEASE READ:\n\n"
+                f"If this is the FIRST TIME you install {software_name} on your Y1, if you don't see the Firmware Update option in Main Menu > System, you'll need to use a tool like Innioasis Updater (+ SP Flash Tool or MTKclient) to do this update the first time.\n\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+                f"📱 Installation Instructions:\n\n"
+                f"1. Safely disconnect your Y1\n\n"
+                f"2. Go to Main Menu > System and click Firmware Update\n\n"
+                f"3. The update process will now run in the background and automatically restart the device once it is done"
+            )
+        else:
+            self.status_label.setText("Failed to send update")
+            QMessageBox.critical(
+                self,
+                "Error",
+                f"Failed to send update to Y1:\n\n{message}"
+            )
 
     def run_driver_setup(self):
         """Runs the driver setup script (main.py)"""
@@ -10050,24 +10557,25 @@ read -n 1
                 
                 # Compare versions
                 if self.compare_versions(latest_version, current_version) > 0:
-                    # Newer version available - show button
+                    # Newer version available - create and show button
+                    if not hasattr(self, 'update_btn_right'):
+                        self.update_btn_right = QPushButton("Updates Available")
+                        self.update_btn_right.clicked.connect(self.launch_updater_script)
+                        self.update_layout.addWidget(self.update_btn_right)
+                    
                     self.update_btn_right.setText("Updates Available")
                     self.update_btn_right.setToolTip(f"New version {latest_version} available (current: {current_version})")
                     self.update_btn_right.setVisible(True)
                     silent_print(f"Newer version available: {latest_version} (current: {current_version})")
                 else:
-                    # Same or older version - hide button
-                    self.update_btn_right.setVisible(False)
+                    # Same or older version - don't show button
                     silent_print(f"No updates needed (latest: {latest_version}, current: {current_version})")
             else:
-                # Failed to get version - hide button to be safe
-                self.update_btn_right.setVisible(False)
-                silent_print("Failed to check for updates - hiding update button")
+                # Failed to get version - don't show button
+                silent_print("Failed to check for updates")
                 
         except Exception as e:
             silent_print(f"Error checking for updates: {e}")
-            # On error, hide the button to be safe
-            self.update_btn_right.setVisible(False)
 
     def get_latest_github_version(self):
         """Get the latest version from GitHub releases"""
