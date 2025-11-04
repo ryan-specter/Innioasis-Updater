@@ -677,6 +677,25 @@
             align-items: center;
         }
 
+        .button-with-subtitle {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 100%;
+        }
+
+        .button-subtitle {
+            font-size: 0.7rem;
+            color: #6c757d;
+            text-align: center;
+            font-style: italic;
+            line-height: 1.2;
+        }
+
+        body[data-theme="dark"] .button-subtitle {
+            color: #8e8e93;
+        }
+
         .whats-new-btn {
             background: linear-gradient(135deg, #007aff 0%, #0051d5 100%);
             color: white;
@@ -720,11 +739,10 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        /* Unified download button styles - all same size, horizontal layout */
+        /* Unified download button styles */
         .rom-download-btn,
         .update-download-btn,
         .notes-btn {
-            background: #007aff;
             color: white;
             border: none;
             padding: 10px 16px;
@@ -732,10 +750,8 @@
             cursor: pointer;
             font-weight: 600;
             transition: all 0.2s ease;
-            font-size: 0.85rem;
-            white-space: nowrap;
-            flex: 1;
-            min-width: 200px;
+            font-size: 0.9rem;
+            width: 100%;
         }
 
         .rom-download-btn {
@@ -760,8 +776,7 @@
 
         .notes-btn {
             background: #6c757d;
-            flex: 0 1 auto;
-            min-width: 150px;
+            align-self: stretch;
         }
 
         .notes-btn:hover {
@@ -2618,18 +2633,26 @@
                                 <div class="detail-value">${release.device_model || 'N/A'}</div>
                             </div>` : ''}
                         </div>
-                        <div class="download-section">
-                            <button class="rom-download-btn" onclick="downloadRomZip('${release.assets.find(a => a.name.toLowerCase() === 'rom.zip')?.browser_download_url}', event)">
-                                💾 rom.zip for Innioasis Updater (and SP Flash Tool + MTK Client)
-                            </button>
-                            ${release.has_update_zip ? `
-                                <button class="update-download-btn" onclick="downloadUpdateZip('${release.update_zip_url}', event)">
-                                    🆕 update.zip - Place in .rockbox folder
+                        <div class="download-section" style="flex-direction: column; gap: 12px;">
+                            <div class="button-with-subtitle">
+                                <button class="rom-download-btn" onclick="downloadRomZip('${release.assets.find(a => a.name.toLowerCase() === 'rom.zip')?.browser_download_url}', event)">
+                                    💾 Download rom.zip
                                 </button>
-                            ` : ''}
-                            <button class="notes-btn" onclick="goToGitHubRelease('${release.html_url}', event)">
-                                📦 Release Notes
-                            </button>
+                                <div class="button-subtitle">For Innioasis Updater, SP Flash Tool, and MTK Client</div>
+                            </div>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                ${release.has_update_zip ? `
+                                    <div class="button-with-subtitle" style="flex: 1; min-width: 200px;">
+                                        <button class="update-download-btn" onclick="downloadUpdateZip('${release.update_zip_url}', event)">
+                                            🆕 Download update.zip
+                                        </button>
+                                        <div class="button-subtitle">Place in .rockbox folder on your Y1</div>
+                                    </div>
+                                ` : ''}
+                                <button class="notes-btn" onclick="goToGitHubRelease('${release.html_url}', event)" style="${release.has_update_zip ? '' : 'flex: 1;'}">
+                                    📦 Release Notes
+                                </button>
+                            </div>
                         </div>
                     </div>
                 `;
