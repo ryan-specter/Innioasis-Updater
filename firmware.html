@@ -834,11 +834,12 @@
         }
 
         .get-updater-link .updater-with-icon {
-            background: none;
-            -webkit-background-clip: unset;
-            -webkit-text-fill-color: inherit;
-            background-clip: unset;
-            color: inherit;
+            background: none !important;
+            -webkit-background-clip: unset !important;
+            -webkit-text-fill-color: inherit !important;
+            background-clip: unset !important;
+            color: inherit !important;
+            font-weight: inherit;
         }
 
         .get-updater-link:hover {
@@ -849,6 +850,10 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
+        .get-updater-link:hover .updater-with-icon {
+            color: white !important;
+        }
+
         body[data-theme="dark"] .get-updater-link {
             color: #adb5bd;
             background: rgba(173, 181, 189, 0.15);
@@ -857,6 +862,10 @@
         body[data-theme="dark"] .get-updater-link:hover {
             color: white;
             background: #6c757d;
+        }
+
+        body[data-theme="dark"] .get-updater-link:hover .updater-with-icon {
+            color: white !important;
         }
 
         .installation-methods {
@@ -3070,7 +3079,7 @@
                             </div>
                             <div style="text-align: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border-secondary);">
                                 <a href="https://innioasis.app/installguide.html" target="_blank" class="get-updater-link" onclick="event.stopPropagation()">
-                                    💡 First time? Get started with <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a>
+                                    💡 First time? Get started with <span class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</span>
                                 </a>
                                 <div class="installation-methods">
                                     <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="method-link" onclick="event.stopPropagation()">📱 SP Flash Tool</a>
