@@ -2749,18 +2749,23 @@
                     startIn: 'documents'
                 });
                 
-                // Verify this is a valid Rockbox directory
-                try {
-                    await dirHandle.getDirectoryHandle('.rockbox');
-                    // Good! This is the parent of .rockbox folder
-                } catch {
-                    // Check if this IS the .rockbox folder
-                    const parentName = dirHandle.name;
-                    if (parentName.toLowerCase() !== '.rockbox') {
-                        const proceed = confirm('⚠️ This doesn\'t appear to be a Rockbox directory or Y1 drive.\n\nExpected: A folder containing ".rockbox" subfolder, or the .rockbox folder itself.\n\nContinue anyway?');
-                        if (!proceed) {
-                            return;
-                        }
+                // Get or create .rockbox directory
+                let rockboxDir;
+                const selectedDirName = dirHandle.name.toLowerCase();
+                
+                if (selectedDirName === '.rockbox') {
+                    // User selected the .rockbox folder directly
+                    rockboxDir = dirHandle;
+                } else {
+                    // User selected parent directory - get or create .rockbox
+                    try {
+                        rockboxDir = await dirHandle.getDirectoryHandle('.rockbox');
+                        console.log('.rockbox folder found');
+                    } catch {
+                        // .rockbox doesn't exist - create it
+                        console.log('Creating .rockbox folder...');
+                        rockboxDir = await dirHandle.getDirectoryHandle('.rockbox', { create: true });
+                        console.log('.rockbox folder created successfully');
                     }
                 }
                 
@@ -2773,8 +2778,8 @@
                 
                 const blob = await response.blob();
                 
-                // Write update.zip to the selected directory
-                const fileHandle = await dirHandle.getFileHandle('update.zip', { create: true });
+                // Write update.zip to the .rockbox directory (not root!)
+                const fileHandle = await rockboxDir.getFileHandle('update.zip', { create: true });
                 const writable = await fileHandle.createWritable();
                 await writable.write(blob);
                 await writable.close();
