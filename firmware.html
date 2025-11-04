@@ -57,27 +57,6 @@
             --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         }
 
-        [data-theme="dark"] {
-            /* Dark mode colors */
-            --bg-primary: #000000;
-            --bg-secondary: #1c1c1e;
-            --bg-tertiary: #2c2c2e;
-            --text-primary: #ffffff;
-            --text-secondary: #98989d;
-            --text-tertiary: #8e8e93;
-            --accent-primary: #0a84ff;
-            --accent-secondary: #5e5ce6;
-            --accent-success: #30d158;
-            --accent-warning: #ff9f0a;
-            --accent-error: #ff453a;
-            --border-primary: #38383a;
-            --border-secondary: #48484a;
-            --shadow-primary: rgba(0, 0, 0, 0.3);
-            --shadow-secondary: rgba(0, 0, 0, 0.2);
-            --gradient-primary: linear-gradient(135deg, #1c1c1e 0%, #2c2c2e 100%);
-            --gradient-secondary: linear-gradient(135deg, #2c2c2e 0%, #3a3a3c 100%);
-        }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             background: var(--bg-primary);
@@ -86,129 +65,6 @@
             line-height: 1.6;
             transition: all 0.3s ease;
         }
-
-        /* Dark mode styles */
-        body[data-theme="dark"] {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: #f8f9fa;
-        }
-
-        body[data-theme="dark"] .main-content {
-            background: #2c2c2e;
-            color: #ffffff;
-        }
-
-        body[data-theme="dark"] .filters {
-            background: #3a3a3c;
-            color: #ffffff;
-            border-color: #48484a;
-        }
-
-        body[data-theme="dark"] .filter-group label {
-            color: #ffffff;
-        }
-
-        body[data-theme="dark"] .filter-group select {
-            background: #2c2c2e;
-            color: #ffffff;
-            border-color: #48484a;
-        }
-
-        body[data-theme="dark"] .firmware-list {
-            color: #ffffff;
-        }
-
-        body[data-theme="dark"] .firmware-item {
-            background: #3a3a3c;
-            color: #ffffff;
-            border-color: #48484a;
-        }
-
-        body[data-theme="dark"] .firmware-name {
-            color: #ffffff;
-        }
-
-        body[data-theme="dark"] .detail-label {
-            color: #8e8e93;
-        }
-
-        body[data-theme="dark"] .detail-value {
-            color: #c7c7cc;
-        }
-
-        body[data-theme="dark"] .platform-dialog {
-            background: #2c2c2e;
-            color: #ffffff;
-            border-color: #48484a;
-        }
-
-        body[data-theme="dark"] .platform-dialog h3 {
-            color: #ffffff;
-        }
-
-        body[data-theme="dark"] .platform-dialog p {
-            color: #c7c7cc;
-        }
-
-        body[data-theme="dark"] .step-content {
-            background: #3a3a3c;
-            color: #ffffff;
-            border-color: #48484a;
-        }
-
-        body[data-theme="dark"] .step-content h4 {
-            color: #8e8e93;
-        }
-
-        body[data-theme="dark"] .step-content p {
-            color: #c7c7cc;
-        }
-
-        body[data-theme="dark"] .step-content li {
-            color: #c7c7cc;
-        }
-
-        body[data-theme="dark"] .driver-item {
-            background: #3a3a3c;
-            color: #ffffff;
-            border-color: #48484a;
-        }
-
-        body[data-theme="dark"] .driver-item p {
-            color: #c7c7cc;
-        }
-
-        body[data-theme="dark"] .command-display {
-            background: #3a3a3c;
-            border-color: #48484a;
-        }
-
-        body[data-theme="dark"] .command-display code {
-            color: #c7c7cc;
-        }
-
-        body[data-theme="dark"] .alternative-link {
-            color: #8e8e93;
-        }
-
-        body[data-theme="dark"] .alternative-link:hover {
-            color: #c7c7cc;
-        }
-
-        body[data-theme="dark"] .footer {
-            color: white;
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        body[data-theme="dark"] .footer a {
-            color: white;
-        }
-
-        body[data-theme="dark"] .platform-dialog p {
-            color: #ffffff;
-        }
-
 
         .container {
             max-width: 1400px;
@@ -229,7 +85,7 @@
         }
 
         .get-started-btn {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            background: #495057;
             border: none;
             color: white;
             padding: 14px 24px;
@@ -238,14 +94,46 @@
             font-size: 1rem;
             transition: all 0.3s ease;
             font-weight: 700;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
-            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .get-started-btn:hover {
-            background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+            background: #343a40;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.5);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .get-started-btn img {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+        }
+
+        .btn-text-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+        }
+
+        .btn-subtitle {
+            font-size: 0.7rem;
+            font-weight: 400;
+            opacity: 0.85;
+            line-height: 1;
+        }
+
+        .btn-subtitle a {
+            color: inherit;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+        }
+
+        .btn-subtitle a:hover {
+            text-decoration-style: solid;
         }
 
         .theme-toggle {
@@ -280,7 +168,6 @@
             width: 80px;
             height: 80px;
             border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             transition: transform 0.3s ease;
         }
 
@@ -294,14 +181,274 @@
         }
 
         .header h1 {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             margin-bottom: 8px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
         }
 
         .header p {
             font-size: 1rem;
             opacity: 0.9;
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .header-logos {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-separator {
+            width: 2px;
+            height: 40px;
+            background: #000000;
+        }
+
+        .innioasis-logo {
+            height: 40px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .innioasis-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .innioasis-logo-link {
+            text-decoration: none;
+            display: inline-block;
+            line-height: 0;
+        }
+
+        .collaboration-text {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6c757d;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .updater-with-icon {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+            text-decoration: none;
+            color: inherit;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            transition: opacity 0.2s ease;
+        }
+
+        .updater-with-icon:hover {
+            opacity: 0.8;
+        }
+
+        .updater-with-icon img {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            vertical-align: middle;
+        }
+
+        .info-boxes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        .info-box {
+            padding: 20px;
+            background: var(--bg-secondary);
+            border-radius: 15px;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .info-box h2 {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .info-box h2:not(:first-of-type) {
+            margin-top: 20px;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted #667eea;
+            cursor: pointer;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .tooltip:hover {
+            border-bottom-style: solid;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 320px;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            border-radius: 8px;
+            padding: 12px 14px;
+            position: absolute;
+            z-index: 1000;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -160px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+
+        .tooltip .tooltiptext a {
+            color: #86a1ff !important;
+            text-decoration: underline;
+        }
+
+        .tooltip .tooltiptext a:hover {
+            color: #a5baff !important;
+        }
+
+        .tooltip:hover .tooltiptext,
+        .tooltip.active .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .tooltip .tooltiptext {
+                width: 220px;
+                margin-left: -110px;
+                font-size: 0.75rem;
+            }
+        }
+
+        .tool-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.2s ease;
+        }
+
+        .tool-link:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        .theme-button-container {
+            margin: 8px 0;
+        }
+
+        .theme-button {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border-primary);
+            border-radius: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            border: none;
+        }
+
+        .theme-button:hover {
+            background: var(--bg-tertiary);
+            border: 2px solid #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .theme-button-title {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .theme-button-description {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .theme-install-instructions {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+            padding: 0 16px;
+            background: var(--bg-tertiary);
+            border-radius: 0 0 10px 10px;
+            margin-top: 0;
+        }
+
+        .theme-install-instructions.expanded {
+            max-height: 200px;
+            padding: 12px 16px;
+            margin-top: 4px;
+            border: 2px solid var(--border-primary);
+            border-radius: 10px;
+        }
+
+        .theme-install-instructions p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.6;
         }
 
         .main-content {
@@ -524,87 +671,6 @@
             color: white;
         }
 
-        /* Dark mode support for pills */
-        body[data-theme="dark"] .version-pill.ipod-theme {
-            background: #0a84ff;
-            color: white;
-        }
-        
-        body[data-theme="dark"] .version-pill.ipod-theme::before {
-            content: "✅ ";
-            margin-right: 4px;
-        }
-
-        body[data-theme="dark"] .version-pill.resolution-360p {
-            background: #ff9f0a;
-            color: #000000;
-        }
-
-        body[data-theme="dark"] .version-pill.nightly {
-            background: #ff9f0a;
-            color: white;
-        }
-
-        body[data-theme="dark"] .version-pill.wifi {
-            background: #30d158;
-            color: #000000;
-        }
-
-        body[data-theme="dark"] .version-pill.bluetooth {
-            background: #0a84ff;
-            color: white;
-        }
-
-        body[data-theme="dark"] .version-pill.usb {
-            background: #8e8e93;
-            color: white;
-        }
-
-        body[data-theme="dark"] .version-pill.ethernet {
-            background: #5e5ce6;
-            color: white;
-        }
-
-        body[data-theme="dark"] .version-pill.hdmi {
-            background: #ff453a;
-            color: white;
-        }
-
-        body[data-theme="dark"] .version-pill.audio {
-            background: #bf5af2;
-            color: white;
-        }
-
-        body[data-theme="dark"] .version-pill.video {
-            background: #ff375f;
-            color: white;
-        }
-
-        body[data-theme="dark"] .version-pill.camera {
-            background: #ff9f0a;
-            color: #000000;
-        }
-
-        body[data-theme="dark"] .version-pill.gps {
-            background: #32d74b;
-            color: #000000;
-        }
-
-        body[data-theme="dark"] .version-pill.nfc {
-            background: #64d2ff;
-            color: #000000;
-        }
-
-        body[data-theme="dark"] .version-pill.lte {
-            background: #ffd60a;
-            color: #000000;
-        }
-
-        body[data-theme="dark"] .version-pill.generic {
-            background: #8e8e93;
-            color: white;
-        }
-
         /* Scrolling text animation for long version names */
         .detail-value.scroll-text {
             white-space: nowrap;
@@ -730,6 +796,16 @@
             color: rgba(255, 255, 255, 0.85);
             font-weight: 400;
             line-height: 1.2;
+        }
+
+        .btn-subtitle a {
+            color: inherit;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+        }
+
+        .btn-subtitle a:hover {
+            text-decoration-style: solid;
         }
 
         .get-updater-link {
@@ -1086,15 +1162,32 @@
             .container {
                 padding: 10px;
             }
+
+            .info-boxes-container {
+                grid-template-columns: 1fr;
+                padding: 0 10px;
+            }
             
             .header {
                 flex-direction: column;
                 gap: 15px;
             }
+
+            .header-logos {
+                gap: 12px;
+            }
             
             .header-icon {
                 width: 60px;
                 height: 60px;
+            }
+
+            .innioasis-logo {
+                height: 32px;
+            }
+            
+            .logo-separator {
+                height: 32px;
             }
             
             .header h1 {
@@ -1557,17 +1650,30 @@
 
     <div class="container">
         <div class="header">
-            <img src="mtkclient/gui/images/icon.png" alt="Innioasis Icon" class="header-icon">
+            <div class="header-logos">
+                <img src="mtkclient/gui/images/icon.png" alt="Y1 Helper App Icon" class="header-icon">
+                <div class="logo-separator"></div>
+                <div class="logo-wrapper">
+                    <span class="collaboration-text">In Collaboration With</span>
+                    <a href="https://www.innioasis.com" target="_blank" rel="noopener noreferrer" class="innioasis-logo-link">
+                        <img src="https://www.innioasis.com/cdn/shop/files/innioasis_540x.jpg?v=1666165346" alt="Innioasis" class="innioasis-logo">
+                    </a>
+                </div>
+            </div>
             <div class="header-text">
-                <h1>Innioasis Y1 Firmware Updates</h1>
+                <h1>Y1 Firmware Updates</h1>
                 <p>Download manufacturer and Rockbox firmware for Innioasis Y1</p>
                 <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 4px;">
-                    Compatible with Innioasis Updater, SP Flash Tool, and MTKclient on Windows, Mac, and Linux
+                    Compatible with <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a>, <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="tool-link">SP Flash Tool</a>, and <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" class="tool-link">MTKclient</a> on Windows, Mac, and Linux
                 </p>
             </div>
             <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-end;">
                 <button class="get-started-btn" onclick="window.open('https://innioasis.app/installguide.html', '_blank')">
-                    🚀 Get Innioasis Updater
+                    <img src="mtkclient/gui/images/icon.png" alt="Innioasis">
+                    <div class="btn-text-wrapper">
+                        <span>Get Updater</span>
+                        <span class="btn-subtitle">(incl <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="tool-link">SP Flash Tool</a> & <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" class="tool-link">MTKClient</a>)</span>
+                    </div>
                 </button>
                 <!-- Theme toggle hidden but still functional in background -->
                 <button class="theme-toggle" onclick="toggleTheme()" style="display: none;">
@@ -1620,25 +1726,75 @@
         </div>
 
         <!-- SEO Content Section -->
-        <div style="max-width: 800px; margin: 30px auto; padding: 20px; background: var(--bg-secondary); border-radius: 15px; font-size: 0.9rem; line-height: 1.8; color: var(--text-secondary);">
-            <h2 style="color: var(--text-primary); font-size: 1.2rem; margin-bottom: 15px;">Good to know:</h2>
-            <p style="margin-bottom: 12px;">
-                This is where you'll find all the firmware updates for your Y1 music player — whether you want the original manufacturer software or custom Rockbox builds. Everything's free to download and comes straight from GitHub.
-            </p>
-            <p style="margin-bottom: 12px;">
-                <strong>New to this?</strong> If you're using <strong>Windows</strong> or <strong>Mac</strong>, just grab <strong>Innioasis Updater</strong> and you're good to go. 
-                It's a simple app that walks you through everything, and it comes with all the tools you need already built in — no hunting around for extra downloads.
-            </p>
-            <p style="margin-bottom: 12px;">
-                <strong>What you'll download:</strong>
-            </p>
-            <ul style="margin-left: 20px; margin-bottom: 12px;">
-                <li><strong>rom.zip</strong> — The full package for fresh installs or if you need to start over</li>
-                <li><strong>update.zip</strong> — Quick updates if you're already running Rockbox (just copy it to your .rockbox folder)</li>
-            </ul>
-            <p>
-                Whether you're fixing something, trying new features, or just keeping your Y1 up to date — we've got you covered.
-            </p>
+        <div class="info-boxes-container">
+            <div class="info-box">
+                <h2>Good to know:</h2>
+                <p style="margin-bottom: 12px;">
+                    This is where you'll find all the firmware updates for your Y1 music player — whether you want the original manufacturer software or custom Rockbox builds. Everything's free to download and comes straight from GitHub.
+                </p>
+                <p style="margin-bottom: 12px;">
+                    <strong>New to this?</strong> If you're using <strong>Windows</strong> or <strong>Mac</strong>, just grab <strong><a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a></strong> and you're good to go. 
+                    It's a simple app that walks you through everything, and it comes with all the tools you need already built in — no hunting around for extra downloads.
+                </p>
+                <h2>Methods and troubleshooting:</h2>
+                <p style="margin-bottom: 12px;">
+                    <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a> automatically lists the latest updates to the Y1 and Rockbox and guides you through its installation, but <strong>alternatively</strong> you can use <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="tool-link">SP Flash Tool</a> or <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" class="tool-link">MTKClient</a> (both are installed automatically by <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a> in <span class="tooltip">Toolkit<span class="tooltiptext">Access <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="tool-link" style="color: #667eea;">SP Flash Tool</a> and <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" class="tool-link" style="color: #667eea;">MTKClient</a> by clicking Toolkit in the Updater app (Windows/Mac) or from the Windows Start Menu. There's also a Troubleshooting folder which provides a helpful folder to place the contents of a rom.zip in and click a shortcut to run SP Flash Tool or MTKClient to install or troubleshoot automatically.</span></span>).
+                </p>
+                <p style="margin-bottom: 12px;">
+                    <strong>What you'll download:</strong>
+                </p>
+                <ul style="margin-left: 20px; margin-bottom: 12px;">
+                    <li><strong>rom.zip</strong> — The full package for fresh installs or if you need to start over</li>
+                    <li><strong>update.zip</strong> — Quick updates if you're already running Rockbox (just copy it to your .rockbox folder)</li>
+                </ul>
+                <p>
+                    Whether you're fixing something, trying new features, or just keeping your Y1 up to date — we've got you covered.
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h2>Customise your Player:</h2>
+                <p style="margin-bottom: 16px;">
+                    Make your Y1 truly yours with custom themes! Choose from a variety of options depending on your firmware and resolution.
+                </p>
+
+                <div class="theme-button-container">
+                    <button class="theme-button" onclick="toggleThemeInstructions('y1-theme')">
+                        <span class="theme-button-title">🎨 Y1 Themes Directory</span>
+                        <span class="theme-button-description">Works on all ROMs apart from 1.76 Type B Firmwares</span>
+                    </button>
+                    <div class="theme-install-instructions" id="y1-theme-instructions">
+                        <p style="margin-bottom: 8px;"><strong>📂 How to install:</strong> Copy the folder inside the .zip into the Themes folder on your Y1.</p>
+                        <a href="https://themes.innioasis.app" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 16px; background: #667eea; color: white; text-decoration: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease;">Get Themes Here →</a>
+                    </div>
+                </div>
+
+                <div class="theme-button-container">
+                    <button class="theme-button" onclick="toggleThemeInstructions('rockbox-240p')">
+                        <span class="theme-button-title">🎵 Rockbox 240p Themes</span>
+                        <span class="theme-button-description">iPod Classic/Video themes — compatible with Y1</span>
+                    </button>
+                    <div class="theme-install-instructions" id="rockbox-240p-instructions">
+                        <p style="margin-bottom: 8px;"><strong>📂 How to install:</strong> Copy the contents of the .rockbox folder from the zip into your Y1's .rockbox folder via USB, overwriting files if asked.</p>
+                        <a href="https://themes.rockbox.org/index.php?target=ipodvideo" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 16px; background: #667eea; color: white; text-decoration: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease;">Get Themes Here →</a>
+                    </div>
+                </div>
+
+                <div class="theme-button-container">
+                    <button class="theme-button" onclick="toggleThemeInstructions('rockbox-360p')">
+                        <span class="theme-button-title">✨ 360p Rockbox Themes</span>
+                        <span class="theme-button-description">High-resolution themes made for the Y1's 360p display</span>
+                    </button>
+                    <div class="theme-install-instructions" id="rockbox-360p-instructions">
+                        <p style="margin-bottom: 8px;"><strong>📂 How to install:</strong> Copy the contents of the .rockbox folder from the zip into your Y1's .rockbox folder via USB, overwriting files if asked.</p>
+                        <a href="https://github.com/rockbox-y1/themes/releases/latest" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 16px; background: #667eea; color: white; text-decoration: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease;">Get Themes Here →</a>
+                    </div>
+                </div>
+
+                <p style="margin-top: 16px; font-size: 0.85rem; opacity: 0.85;">
+                    💡 <strong>Tip:</strong> All these theme directories can also be found in the Toolkit included with <strong><a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a></strong>.
+                </p>
+            </div>
         </div>
 
         <div class="footer">
@@ -1706,9 +1862,9 @@
                 <p>Here's what to do next:</p>
                 <ol>
                     <li>Install the MediaTek driver you downloaded</li>
-                    <li>Install the Innioasis Updater</li>
+                    <li>Install <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a></li>
                     <li><strong>Restart your computer</strong></li>
-                    <li>Launch Innioasis Updater from the Start Menu</li>
+                    <li>Launch <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a> from the Start Menu</li>
                 </ol>
                 
                 <p><strong>Important:</strong> Don't skip the restart - it makes sure everything works properly!</p>
@@ -1729,7 +1885,7 @@
         <div class="mac-step" id="macStep1">
             <div class="step-content">
                 <h4>Prerequisites</h4>
-                <p>Before installing Innioasis Updater, you'll need <a href="https://github.com/Homebrew/brew/releases/latest" target="_blank" class="homebrew-link">Homebrew</a> package manager on your Mac.</p>
+                <p>Before installing <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a>, you'll need <a href="https://github.com/Homebrew/brew/releases/latest" target="_blank" class="homebrew-link">Homebrew</a> package manager on your Mac.</p>
                 <p>Homebrew helps manage dependencies and ensures everything works smoothly.</p>
                 
                 <div class="step-actions">
@@ -1742,7 +1898,7 @@
         <!-- Step 2: Download -->
         <div class="mac-step" id="macStep2" style="display: none;">
             <div class="step-content">
-                <h4>Download Innioasis Updater</h4>
+                <h4>Download <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a></h4>
                 <p>Click the button below to download the macOS app package (.dmg file):</p>
                 <button class="btn btn-primary" onclick="downloadMacDMG()">📥 Download for Mac</button>
                 
@@ -1760,7 +1916,7 @@
                 <p>After downloading:</p>
                 <ol>
                     <li>Double-click the .dmg file</li>
-                    <li>Drag the Innioasis Updater app to your Applications folder</li>
+                    <li>Drag <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a> to your Applications folder</li>
                     <li>Launch the app from Applications</li>
                 </ol>
                 
@@ -1792,7 +1948,7 @@
     <!-- ChromeOS/FydeOS Dialog -->
     <div class="platform-dialog" id="chromeosDialog">
         <h3>🖥️ ChromeOS/FydeOS</h3>
-        <p>You MAY be able to run Innioasis Updater in Linux mode, but we have not tested this configuration. Follow the Linux instructions in the new tab and try running it in your Linux environment.</p>
+        <p>You MAY be able to run <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a> in Linux mode, but we have not tested this configuration. Follow the Linux instructions in the new tab and try running it in your Linux environment.</p>
         <p><em>Note: This is experimental and may not work as expected.</em></p>
         <button class="btn" onclick="openLinuxInstructions()">View Linux Instructions</button>
         <button class="btn btn-secondary" onclick="closeDialog()">Close</button>
@@ -1827,6 +1983,55 @@
             software: '',
             showPrereleases: true
         };
+
+        // Function to toggle theme installation instructions (accordion style)
+        function toggleThemeInstructions(themeId) {
+            const clickedInstructions = document.getElementById(themeId + '-instructions');
+            const allInstructions = document.querySelectorAll('.theme-install-instructions');
+            
+            // Close all other instructions
+            allInstructions.forEach(instructions => {
+                if (instructions.id !== themeId + '-instructions') {
+                    instructions.classList.remove('expanded');
+                }
+            });
+            
+            // Toggle the clicked one
+            if (clickedInstructions) {
+                clickedInstructions.classList.toggle('expanded');
+            }
+        }
+
+        // Function to toggle tooltip visibility on click/touch
+        document.addEventListener('DOMContentLoaded', function() {
+            const tooltips = document.querySelectorAll('.tooltip');
+            
+            tooltips.forEach(tooltip => {
+                tooltip.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Close all other tooltips
+                    tooltips.forEach(t => {
+                        if (t !== tooltip) {
+                            t.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle this tooltip
+                    tooltip.classList.toggle('active');
+                });
+            });
+            
+            // Close tooltip when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.tooltip')) {
+                    tooltips.forEach(tooltip => {
+                        tooltip.classList.remove('active');
+                    });
+                }
+            });
+        });
 
         // Function to parse version names and extract designations with flexible adjective handling
         function parseVersionDesignations(versionName) {
@@ -2767,7 +2972,7 @@
                             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
                                 <button class="rom-download-btn" onclick="downloadRomZip('${release.assets.find(a => a.name.toLowerCase() === 'rom.zip')?.browser_download_url}', event)" style="flex: 1;">
                                     <div class="btn-title">💾 Download rom.zip</div>
-                                    <div class="btn-subtitle">For Innioasis Updater, SP Flash Tool, and MTK Client</div>
+                                    <div class="btn-subtitle">For <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a>, <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="tool-link">SP Flash Tool</a>, and <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" class="tool-link">MTKClient</a></div>
                                 </button>
                                 ${release.has_update_zip ? `
                                     <button class="update-download-btn" onclick="downloadUpdateZip('${release.update_zip_url}', event)" style="flex: 1;">
@@ -2781,7 +2986,7 @@
                             </div>
                             <div style="text-align: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border-secondary);">
                                 <a href="https://innioasis.app/installguide.html" target="_blank" class="get-updater-link" onclick="event.stopPropagation()">
-                                    💡 First time? Get started with Innioasis Updater
+                                    💡 First time? Get started with <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a>
                                 </a>
                             </div>
                         </div>
@@ -2992,7 +3197,7 @@
             
             // Show brief success message
             setTimeout(() => {
-                setStatus('rom.zip download started! Use with Innioasis Updater, SP Flash Tool, or MTK Client.', 'success');
+                setStatus('rom.zip download started! Use with Updater, SP Flash Tool, or MTKClient.', 'success');
             }, 500);
         }
 
@@ -3014,7 +3219,7 @@
             // Show instructions after download starts
             setTimeout(() => {
                 alert('⚠️ IMPORTANT - PLEASE READ:\n\n' +
-                      'If this is the FIRST TIME you install ' + softwareName + ' on your Y1, if you don\'t see the Firmware Update option in Main Menu > System, you\'ll need to use a tool like Innioasis Updater (+ SP Flash Tool or MTKclient) to do this update the first time.\n\n' +
+                      'If this is the FIRST TIME you install ' + softwareName + ' on your Y1, if you don\'t see the Firmware Update option in Main Menu > System, you\'ll need to use a tool like Updater (+ SP Flash Tool or MTKClient) to do this update the first time.\n\n' +
                       '━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
                       '📥 Installation Instructions:\n\n' +
                       '1. Connect your Y1 in USB Mode and copy update.zip to .rockbox/update.zip\n\n' +
