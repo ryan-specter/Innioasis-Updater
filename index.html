@@ -873,6 +873,33 @@
             color: white !important;
         }
 
+        .methods-separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 16px 0 12px 0;
+            color: #6c757d;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .methods-separator::before,
+        .methods-separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-secondary);
+        }
+
+        .methods-separator:not(:empty)::before {
+            margin-right: 12px;
+        }
+
+        .methods-separator:not(:empty)::after {
+            margin-left: 12px;
+        }
+
         .installation-methods {
             display: flex;
             flex-wrap: wrap;
@@ -904,12 +931,21 @@
 
         .method-link .tooltiptext {
             bottom: 110%;
-            width: 320px;
-            margin-left: -160px;
+            width: 380px;
+            margin-left: -190px;
             left: 50%;
             font-weight: 400;
-            font-size: 0.85rem;
-            line-height: 1.7;
+            font-size: 0.82rem;
+            line-height: 1.6;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .method-link .tooltiptext code {
+            display: block;
+            margin: 4px 0;
+            word-break: break-all;
+            white-space: pre-wrap;
         }
 
         .method-link .tooltiptext a,
@@ -929,8 +965,17 @@
 
         @media (max-width: 768px) {
             .method-link .tooltiptext {
-                width: 260px;
-                margin-left: -130px;
+                width: 300px;
+                margin-left: -150px;
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .method-link .tooltiptext {
+                width: 280px;
+                margin-left: -140px;
+                font-size: 0.72rem;
             }
         }
 
@@ -3174,10 +3219,12 @@
                                 <a href="https://innioasis.app/installguide.html" target="_blank" class="get-updater-link" onclick="event.stopPropagation()">
                                     💡 First time? Get started with <span class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</span>
                                 </a>
+                                <div class="methods-separator">
+                                    <span>Other Methods</span>
+                                </div>
                                 <div class="installation-methods">
-                                    <span class="method-link tooltip">📱 SP Flash Tool<span class="tooltiptext"><a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" style="font-weight: 600;">SP Flash Tool</a> comes bundled with <strong>Innioasis Updater</strong> (recommended). Launch it from Updater's <strong>Toolkit</strong> or <strong>Settings</strong> menu for guided automation. Advanced users can also <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank">install and run it manually</a>.</span></span>
-                                    <span class="method-link tooltip">🔧 MTKClient<span class="tooltiptext"><a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" style="font-weight: 600;">MTKClient</a> comes bundled with <strong>Innioasis Updater</strong> (recommended). Launch it from Updater's <strong>Toolkit</strong> or <strong>Settings</strong> menu for guided automation. Advanced users can also <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank">install and run it manually</a>.</span></span>
-                                    <span class="toolkit-info tooltip">⚙️ Launch from Toolkit or Settings<span class="tooltiptext">Access SP Flash Tool and MTKClient from <strong>Innioasis Updater</strong> by clicking <strong>Toolkit</strong> in the app (Windows/Mac) or from the Windows Start Menu. Select your preferred method in Updater's <strong>Settings</strong> for automation.</span></span>
+                                    <span class="method-link tooltip">📱 SP Flash Tool<span class="tooltiptext"><strong>Recommended:</strong> Use <strong>Innioasis Updater</strong> — it includes SP Flash Tool and automates everything. Launch from Updater's <strong>Toolkit</strong> or <strong>Settings</strong> menu.<br><br><strong>Manual Install:</strong><br>1. Download rom.zip above<br>2. Unpack the archive<br>3. Install <a href="https://spflashtool.com/download/" target="_blank">SP Flash Tool v5.1904</a><br>4. Get <a href="https://innioasis.app/DriverInstall.exe" target="_blank">driver</a> (if needed)<br>5. Reboot (if needed)<br>6. Start SP Flash Tool<br>7. Follow <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank">official instructions</a></span></span>
+                                    <span class="method-link tooltip">🔧 MTKClient<span class="tooltiptext"><strong>Recommended:</strong> Use <strong>Innioasis Updater</strong> — it includes MTKClient and automates everything. Launch from Updater's <strong>Toolkit</strong> or <strong>Settings</strong> menu.<br><br><strong>Manual Install:</strong><br>1. Install <a href="https://github.com/bkerler/mtkclient" target="_blank">MTKClient</a><br>2. Download rom.zip above<br>3. Unpack: <code style="background: rgba(255,255,255,0.1); padding: 2px 4px; border-radius: 3px;">mkdir rom && cd rom && unzip ../rom.zip</code><br>4. Turn off device, disconnect from PC<br>5. Start flashing: <code style="background: rgba(255,255,255,0.1); padding: 2px 4px; border-radius: 3px;">python ../mtk.py w uboot,bootimg,recovery,android,usrdata lk.bin,boot.img,recovery.img,system.img,userdata.img</code><br>6. Connect device via USB<br>7. Unplug when finished<br>8. Power on device</span></span>
                                     ${release.has_update_zip ? `
                                     <span class="method-link" onclick="showBrowserInstallInstructions(event);" style="cursor: pointer;">🌐 Install from Browser</span>
                                     ` : ''}
