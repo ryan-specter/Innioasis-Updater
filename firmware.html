@@ -718,6 +718,27 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
+        .update-browser-btn {
+            background: #34c759;
+            color: white;
+            border: 1px solid #30d158;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .update-browser-btn:hover {
+            background: #30d158;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3);
+        }
+
+        .update-browser-btn:active {
+            transform: translateY(0);
+        }
+
         .automatic-install-btn {
             background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
             color: white;
@@ -2512,6 +2533,11 @@
                             asset.name && asset.name.toLowerCase() === 'rom.zip'
                         );
                         
+                        // Find the update.zip asset if it exists
+                        const updateZipAsset = release.assets.find(asset =>
+                            asset.name && asset.name.toLowerCase() === 'update.zip'
+                        );
+                        
                         return {
                             tag_name: release.tag_name,
                             name: release.name || release.tag_name,
@@ -2521,7 +2547,9 @@
                             prerelease: release.prerelease || false,
                             draft: release.draft || false,
                             download_count: romZipAsset ? romZipAsset.download_count : 0,
-                            total_downloads: release.assets.reduce((sum, asset) => sum + (asset.download_count || 0), 0)
+                            total_downloads: release.assets.reduce((sum, asset) => sum + (asset.download_count || 0), 0),
+                            has_update_zip: !!updateZipAsset,
+                            update_zip_url: updateZipAsset ? updateZipAsset.browser_download_url : null
                         };
                     });
             } catch (error) {
@@ -2604,6 +2632,11 @@
                             <button class="automatic-install-btn" onclick="goToInnioasisApp(event)">
                                 ⚡ Get Innioasis Updater
                             </button>
+                            ${release.has_update_zip && window.showDirectoryPicker ? `
+                                <button class="update-browser-btn" onclick="updateViaBrowser('${release.update_zip_url}', event)">
+                                    🔄 Update via Browser
+                                </button>
+                            ` : ''}
                             <button class="github-release-btn" onclick="goToGitHubRelease('${release.html_url}', event)">
                                 📦 View Release Notes
                             </button>
@@ -2697,6 +2730,77 @@
             
             // Open the specific release page on GitHub in a new tab
             window.open(releaseUrl, '_blank');
+        }
+
+        async function updateViaBrowser(updateZipUrl, event) {
+            event.stopPropagation();
+            
+            // Check if File System Access API is available
+            if (!('showDirectoryPicker' in window)) {
+                alert('❌ File System Access API is not available in your browser.\n\nPlease use:\n• Chrome 86+\n• Edge 86+\n• Opera 72+\n\nThis feature is not supported in Firefox or Safari.');
+                return;
+            }
+            
+            try {
+                // Ask user to select the .rockbox folder or Y1 drive root
+                const dirHandle = await window.showDirectoryPicker({
+                    id: 'y1-rockbox-update',
+                    mode: 'readwrite',
+                    startIn: 'documents'
+                });
+                
+                // Verify this is a valid Rockbox directory
+                try {
+                    await dirHandle.getDirectoryHandle('.rockbox');
+                    // Good! This is the parent of .rockbox folder
+                } catch {
+                    // Check if this IS the .rockbox folder
+                    const parentName = dirHandle.name;
+                    if (parentName.toLowerCase() !== '.rockbox') {
+                        const proceed = confirm('⚠️ This doesn\'t appear to be a Rockbox directory or Y1 drive.\n\nExpected: A folder containing ".rockbox" subfolder, or the .rockbox folder itself.\n\nContinue anyway?');
+                        if (!proceed) {
+                            return;
+                        }
+                    }
+                }
+                
+                // Download update.zip
+                setStatus('Downloading update.zip...', 'info');
+                const response = await fetch(updateZipUrl);
+                if (!response.ok) {
+                    throw new Error(`Failed to download: ${response.statusText}`);
+                }
+                
+                const blob = await response.blob();
+                
+                // Write update.zip to the selected directory
+                const fileHandle = await dirHandle.getFileHandle('update.zip', { create: true });
+                const writable = await fileHandle.createWritable();
+                await writable.write(blob);
+                await writable.close();
+                
+                // Success message
+                alert('✅ Update Downloaded Successfully!\n\n' +
+                      'The update.zip file has been saved to your Y1 device.\n\n' +
+                      '📱 Next Steps:\n' +
+                      '1. Safely eject your Y1 from your computer\n' +
+                      '2. On your Y1, go to:\n' +
+                      '   System → Rockbox Info → Update Firmware\n' +
+                      '3. Select the update.zip file\n' +
+                      '4. Wait for update to complete\n\n' +
+                      'Your Y1 will restart automatically when done!');
+                
+                setStatus('Update downloaded successfully! Follow the on-screen instructions.', 'success');
+                
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    setStatus('Update cancelled by user', '');
+                } else {
+                    console.error('Update via browser error:', error);
+                    alert('❌ Failed to update via browser:\n\n' + error.message);
+                    setStatus('Update failed: ' + error.message, 'error');
+                }
+            }
         }
 
         function formatDate(dateString) {
