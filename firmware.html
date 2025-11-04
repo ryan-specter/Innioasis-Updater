@@ -2742,6 +2742,10 @@
         function downloadUpdateZip(updateZipUrl, event) {
             event.stopPropagation();
             
+            // Get the currently selected software name from the dropdown
+            const softwareSelect = document.getElementById('software');
+            const softwareName = softwareSelect.options[softwareSelect.selectedIndex]?.text || 'this firmware';
+            
             // Create download link
             const link = document.createElement('a');
             link.href = updateZipUrl;
@@ -2752,20 +2756,13 @@
             
             // Show instructions after download starts
             setTimeout(() => {
-                alert('📥 Downloading update.zip to your Downloads folder!\n\n' +
-                      '📱 Installation Instructions:\n\n' +
-                      '1. Connect your Y1 to your computer\n' +
-                      '2. Locate the downloaded update.zip file in your Downloads\n' +
-                      '3. Copy update.zip to the .rockbox folder on your Y1\n' +
-                      '   (If .rockbox folder doesn\'t exist, create it in the root of your Y1 drive)\n\n' +
-                      '4. Safely eject your Y1 from your computer\n\n' +
-                      '5. On your Y1, navigate to:\n' +
-                      '   System → Rockbox Info → Update Firmware\n' +
-                      '   (Available in both Rockbox Menu and Stock Menu)\n\n' +
-                      '6. Select update.zip and confirm\n\n' +
-                      '7. Wait for update to complete\n' +
-                      '   Your Y1 will restart automatically!\n\n' +
-                      '✨ This updates both Rockbox and the Stock Menu');
+                alert('📥 Installation Instructions:\n\n' +
+                      '1. Connect your Y1 in USB Mode and copy update.zip to .rockbox/update.zip\n\n' +
+                      '2. Safely disconnect your Y1\n\n' +
+                      '3. Go to Main Menu > System and click Firmware Update\n\n' +
+                      '4. The update process will now run in the background and automatically restart the device once it is done\n\n' +
+                      '━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+                      '⚠️ Note: If this is the first time you install ' + softwareName + ' on your Y1, if you don\'t see the Firmware Update option in Main Menu > System, you\'ll need to use a tool like Innioasis Updater (+ SP Flash Tool or MTKclient) to do this update the first time.');
                 
                 setStatus('update.zip download started! Check your Downloads folder.', 'success');
             }, 500);
