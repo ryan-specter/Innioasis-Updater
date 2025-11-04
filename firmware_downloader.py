@@ -239,7 +239,7 @@ CACHE_DURATION = 300  # 5 minutes cache duration
 
 # Performance optimization
 MAX_CONCURRENT_REQUESTS = 3
-REQUEST_TIMEOUT = 8
+REQUEST_TIMEOUT = 1
 TOKEN_VALIDATION_TIMEOUT = 10
 
 def silent_print(*args, **kwargs):
@@ -574,7 +574,7 @@ def load_redundant_files_list():
         else:
             # Try remote URL
             silent_print("Loading redundant files list from remote URL")
-            response = requests.get("https://innioasis.app/redundant_files.txt", timeout=10)
+            response = requests.get("https://innioasis.app/redundant_files.txt", timeout=1)
             response.raise_for_status()
             content = response.text
         
