@@ -1598,13 +1598,6 @@
                     <select id="software">
                     </select>
                 </div>
-                
-                <div class="filter-group">
-                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                        <input type="checkbox" id="showPrereleases" style="width: 18px; height: 18px; cursor: pointer;">
-                        <span>Include nightly/beta builds</span>
-                    </label>
-                </div>
             </div>
             
 
@@ -1613,7 +1606,13 @@
             </div>
 
             <div class="firmware-list">
-                <h3 id="availableSoftwareTitle">Available System Software</h3>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+                    <h3 id="availableSoftwareTitle" style="margin: 0;">Available System Software</h3>
+                    <label id="prereleasesFilterContainer" style="display: none; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; font-weight: normal;">
+                        <input type="checkbox" id="showPrereleases" style="width: 18px; height: 18px; cursor: pointer;">
+                        <span>Include nightly/beta builds</span>
+                    </label>
+                </div>
                 <div id="firmwareContainer">
                     <p style="text-align: center; color: #6c757d;">Loading firmware...</p>
                 </div>
@@ -2553,6 +2552,8 @@
                 
                 // Load releases for each unique repo (batch requests)
                 const allReleases = [];
+                const allReleasesBeforeFilter = [];  // Track all releases before filtering for prerelease detection
+                
                 const repoPromises = Object.keys(repoGroups).map(async (repo) => {
                     try {
                         const releases = await getReleases(repo);
@@ -2560,16 +2561,6 @@
                             // Filter by type based on release tag name
                             if (!releaseMatchesTypeFilter(release.tag_name, currentFilters.deviceType)) {
                                 return; // Skip this release if it doesn't match type filter
-                            }
-                            
-                            // Filter out prereleases/nightly/beta builds if checkbox is unchecked
-                            const tagLower = release.tag_name.toLowerCase();
-                            const isPrerelease = release.prerelease || release.draft || 
-                                               tagLower.includes('nightly') || 
-                                               tagLower.includes('beta');
-                            
-                            if (!currentFilters.showPrereleases && isPrerelease) {
-                                return; // Skip this prerelease/nightly/beta build if not showing prereleases
                             }
                             
                             // Add metadata for all packages that use this repo
@@ -2585,7 +2576,20 @@
                                     device_type: deviceType,
                                     device_model: pkg.device
                                 };
-                                allReleases.push(releaseWithMetadata);
+                                
+                                // Add to all releases (for prerelease detection)
+                                allReleasesBeforeFilter.push(releaseWithMetadata);
+                                
+                                // Check if this is a prerelease/nightly/beta
+                                const tagLower = release.tag_name.toLowerCase();
+                                const isPrerelease = release.prerelease || release.draft || 
+                                                   tagLower.includes('nightly') || 
+                                                   tagLower.includes('beta');
+                                
+                                // Only add to display list if checkbox allows it
+                                if (currentFilters.showPrereleases || !isPrerelease) {
+                                    allReleases.push(releaseWithMetadata);
+                                }
                             });
                         });
                     } catch (error) {
@@ -2598,9 +2602,10 @@
                 
                 // Sort releases by date (newest first)
                 allReleases.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+                allReleasesBeforeFilter.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
                 
-                // Display releases
-                displayFirmwareList(allReleases);
+                // Display releases (also checks for prereleases to show/hide checkbox)
+                displayFirmwareList(allReleases, allReleasesBeforeFilter);
                 setStatus(`Loaded ${allReleases.length} firmware releases`);
                 
             } catch (error) {
@@ -2673,11 +2678,26 @@
             }
         }
 
-        function displayFirmwareList(releases) {
+        function displayFirmwareList(releases, allReleasesBeforeFilter = null) {
             const container = document.getElementById('firmwareContainer');
             
             if (releases.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: #6c757d;">No releases found</p>';
+                // Still check for prereleases even if filtered list is empty
+                if (allReleasesBeforeFilter && allReleasesBeforeFilter.length > 0) {
+                    const hasPreleases = allReleasesBeforeFilter.some(release => {
+                        const tagLower = release.tag_name.toLowerCase();
+                        return release.prerelease || release.draft || 
+                               tagLower.includes('nightly') || 
+                               tagLower.includes('beta');
+                    });
+                    const prereleasesContainer = document.getElementById('prereleasesFilterContainer');
+                    if (hasPreleases) {
+                        prereleasesContainer.style.display = 'flex';
+                    } else {
+                        prereleasesContainer.style.display = 'none';
+                    }
+                }
                 return;
             }
             
@@ -2768,6 +2788,23 @@
                     </div>
                 `;
             }).join('');
+            
+            // Check if any releases are prereleases/nightly/beta and show checkbox if needed
+            // Use unfiltered list if provided, otherwise use displayed list
+            const releasesToCheck = allReleasesBeforeFilter || releases;
+            const hasPreleases = releasesToCheck.some(release => {
+                const tagLower = release.tag_name.toLowerCase();
+                return release.prerelease || release.draft || 
+                       tagLower.includes('nightly') || 
+                       tagLower.includes('beta');
+            });
+            
+            const prereleasesContainer = document.getElementById('prereleasesFilterContainer');
+            if (hasPreleases) {
+                prereleasesContainer.style.display = 'flex';
+            } else {
+                prereleasesContainer.style.display = 'none';
+            }
             
             // Add touch handling for scrolling text and check if scrolling is actually needed
             setTimeout(() => {
