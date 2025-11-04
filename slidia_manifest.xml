@@ -5,7 +5,7 @@
   <!-- Custom Firmware: Project Gallagher -->
 <package name="Original Software" repo="y1-community/y1-stock-rom" device="Y1" url="https://github.com/y1-community/y1-stock-rom/releases/latest" type="img" handler="Custom Firmware" />
 <package name="Please Update App To Continue" device_type="0" repo="Please-Click/Updates-Available" device="Y1" url="https://github.com/Please-Click/Updates-Available/releases/latest" type="img" handler="Custom Firmware" />
-<!-- <package name="Rockbox ROM" repo="rockbox-y1/rockbox" device="Y1" url="https://github.com/rockbox-y1/rockbox/releases/latest" type="img" handler="Custom Firmware" /> -->
+<package name="Rockbox ROM" repo="rockbox-y1/rockbox" device="Y1" url="https://github.com/rockbox-y1/rockbox/releases/latest" type="img" handler="Custom Firmware" />
 <!-- <package name="Multiwirth's Android 4.2 ROM" device_type="A" repo="multiwirth/Innioasis_Y1_system_dumps" device="Y1" url="https://github.com/multiwirth/Innioasis_Y1_system_dumps/releases/latest" type="img" handler="Custom Firmware" /> -->
 <!-- <package name="Multiwirth Android 4.2 ROM (For Type B Y1s)" device_type="B" repo="multiwirth/Innioasis_Y1_system_dumps_type_b" device="Y1" url="https://github.com/multiwirth/Innioasis_Y1_system_dumps_type_b/releases/latest" type="img" handler="Custom Firmware" /> -->
 <!--  <package name="Original Software" device_type="A" repo="y1-community/q3-english-stock" device="Q3" url="https://github.com/y1-community/q3-english-stock/releases/latest" type="img" handler="Custom Firmware" /> -->
