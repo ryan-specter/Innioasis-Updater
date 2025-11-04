@@ -735,22 +735,33 @@
         .get-updater-link {
             color: var(--accent-primary);
             text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 0.95rem;
+            font-weight: 700;
             transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
             gap: 6px;
+            padding: 8px 16px;
+            background: rgba(0, 122, 255, 0.08);
+            border-radius: 6px;
         }
 
         .get-updater-link:hover {
-            color: var(--accent-secondary);
-            text-decoration: underline;
-            transform: scale(1.02);
+            color: white;
+            background: var(--accent-primary);
+            text-decoration: none;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
         }
 
         body[data-theme="dark"] .get-updater-link {
             color: var(--accent-primary);
+            background: rgba(10, 132, 255, 0.15);
+        }
+
+        body[data-theme="dark"] .get-updater-link:hover {
+            color: white;
+            background: var(--accent-primary);
         }
 
         .whats-new-btn {
@@ -1558,7 +1569,8 @@
                 <button class="get-started-btn" onclick="window.open('https://innioasis.app/installguide.html', '_blank')">
                     🚀 Get Innioasis Updater
                 </button>
-                <button class="theme-toggle" onclick="toggleTheme()">
+                <!-- Theme toggle hidden but still functional in background -->
+                <button class="theme-toggle" onclick="toggleTheme()" style="display: none;">
                     <span class="icon">🌓</span>
                     <span>Auto</span>
                 </button>
@@ -1589,14 +1601,10 @@
                 
                 <div class="filter-group">
                     <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-                        <input type="checkbox" id="showPrereleases" checked style="width: 18px; height: 18px; cursor: pointer;">
-                        <span>Include prereleases</span>
+                        <input type="checkbox" id="showPrereleases" style="width: 18px; height: 18px; cursor: pointer;">
+                        <span>Include nightly/beta builds</span>
                     </label>
                 </div>
-                
-                <button class="refresh-btn" onclick="refreshData()">
-                    🔄 Refresh
-                </button>
             </div>
             
 
@@ -1607,46 +1615,35 @@
             <div class="firmware-list">
                 <h3 id="availableSoftwareTitle">Available System Software</h3>
                 <div id="firmwareContainer">
-                    <p style="text-align: center; color: #6c757d;">Select filters and click refresh to load system software</p>
+                    <p style="text-align: center; color: #6c757d;">Loading firmware...</p>
                 </div>
             </div>
         </div>
 
         <!-- SEO Content Section -->
         <div style="max-width: 800px; margin: 30px auto; padding: 20px; background: var(--bg-secondary); border-radius: 15px; font-size: 0.9rem; line-height: 1.8; color: var(--text-secondary);">
-            <h2 style="color: var(--text-primary); font-size: 1.2rem; margin-bottom: 15px;">About Innioasis Y1 Firmware Updates</h2>
+            <h2 style="color: var(--text-primary); font-size: 1.2rem; margin-bottom: 15px;">Good to know:</h2>
             <p style="margin-bottom: 12px;">
-                <strong>Innioasis Y1 Firmware Updates</strong> provides easy access to manufacturer and Rockbox firmware downloads for the Innioasis Y1 music player. 
-                All firmware files are hosted on GitHub and available for free download.
+                This is where you'll find all the firmware updates for your Y1 music player — whether you want the original manufacturer software or custom Rockbox builds. Everything's free to download and comes straight from GitHub.
             </p>
             <p style="margin-bottom: 12px;">
-                <strong>Getting Started:</strong> If you're new to firmware installation with a <strong>Windows</strong> or <strong>Mac</strong> computer, 
-                <strong>Innioasis Updater</strong> is your recommended starting point. This user-friendly application provides a simple graphical interface 
-                <em>and automatically includes</em> both <strong>SP Flash Tool</strong> (advanced Windows flashing utility for MediaTek devices) and 
-                <strong>MTKclient</strong> (powerful command-line tool for all platforms) — giving you everything you need in one convenient package.
+                <strong>New to this?</strong> If you're using <strong>Windows</strong> or <strong>Mac</strong>, just grab <strong>Innioasis Updater</strong> and you're good to go. 
+                It's a simple app that walks you through everything, and it comes with all the tools you need already built in — no hunting around for extra downloads.
             </p>
             <p style="margin-bottom: 12px;">
-                Advanced users who prefer standalone tools can also use SP Flash Tool or MTKclient independently. Linux users have full MTKclient support built into Innioasis Updater.
-            </p>
-            <p style="margin-bottom: 12px;">
-                <strong>File Types Available:</strong>
+                <strong>What you'll download:</strong>
             </p>
             <ul style="margin-left: 20px; margin-bottom: 12px;">
-                <li><strong>rom.zip</strong> - Full firmware installation files for fresh installs and system recovery</li>
-                <li><strong>update.zip</strong> - Quick update files for existing Rockbox installations (place in .rockbox folder)</li>
+                <li><strong>rom.zip</strong> — The full package for fresh installs or if you need to start over</li>
+                <li><strong>update.zip</strong> — Quick updates if you're already running Rockbox (just copy it to your .rockbox folder)</li>
             </ul>
-            <p style="margin-bottom: 12px;">
-                Whether you're looking to restore your Y1 to factory settings, install custom Rockbox firmware, or update your existing installation, 
-                this directory provides all the necessary firmware files with detailed release information and download statistics.
-            </p>
             <p>
-                <strong>Platform Support:</strong> Firmware installation is supported on Windows (x64), macOS, and Linux operating systems. 
-                ARM64 Windows users can use WSLg for installation.
+                Whether you're fixing something, trying new features, or just keeping your Y1 up to date — we've got you covered.
             </p>
         </div>
 
         <div class="footer">
-            <p>Made with 🩵 by Y1 users, <u><i>for</i></u> Y1 users | 
+            <p><a href="https://ko-fi.com/teamslide" target="_blank" style="color: inherit; text-decoration: none;">Made with 🩵 by Y1 users, <u><i>for</i></u> Y1 users</a> | 
                <a href="https://innioasis.app" target="_blank">Innioasis App</a> | 
                <a href="https://innioasis.app" target="_blank">Slidia</a> | 
                <a href="https://reddit.com/r/innioasis" target="_blank">r/Innioasis</a></p>
@@ -2307,6 +2304,9 @@
                 updateAvailableSoftwareTitle();
                 filterFirmware();
             });
+            document.getElementById('showPrereleases').addEventListener('change', function() {
+                filterFirmware();
+            });
         }
 
         // Load config.ini tokens for API fallback
@@ -2562,9 +2562,14 @@
                                 return; // Skip this release if it doesn't match type filter
                             }
                             
-                            // Filter out prereleases if checkbox is unchecked
-                            if (!currentFilters.showPrereleases && (release.prerelease || release.draft)) {
-                                return; // Skip this prerelease/draft if not showing prereleases
+                            // Filter out prereleases/nightly/beta builds if checkbox is unchecked
+                            const tagLower = release.tag_name.toLowerCase();
+                            const isPrerelease = release.prerelease || release.draft || 
+                                               tagLower.includes('nightly') || 
+                                               tagLower.includes('beta');
+                            
+                            if (!currentFilters.showPrereleases && isPrerelease) {
+                                return; // Skip this prerelease/nightly/beta build if not showing prereleases
                             }
                             
                             // Add metadata for all packages that use this repo
