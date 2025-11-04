@@ -346,6 +346,7 @@
             font-size: 0.8rem;
             line-height: 1.6;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            pointer-events: auto;
         }
 
         .tooltip .tooltiptext::after {
@@ -836,10 +837,14 @@
         .get-updater-link .updater-with-icon {
             background: none !important;
             -webkit-background-clip: unset !important;
-            -webkit-text-fill-color: inherit !important;
+            -webkit-text-fill-color: currentColor !important;
             background-clip: unset !important;
-            color: inherit !important;
-            font-weight: inherit;
+            color: currentColor !important;
+            font-weight: inherit !important;
+        }
+
+        .get-updater-link .updater-with-icon img {
+            filter: none !important;
         }
 
         .get-updater-link:hover {
@@ -885,11 +890,86 @@
             border-radius: 4px;
             transition: all 0.2s ease;
             font-weight: 600;
+            position: relative;
+            cursor: pointer;
         }
 
         .method-link:hover {
             background: rgba(108, 117, 125, 0.15);
+        }
+
+        .method-link.tooltip {
+            border-bottom: none;
+        }
+
+        .method-link .tooltiptext {
+            bottom: 110%;
+            width: 320px;
+            margin-left: -160px;
+            left: 50%;
+            font-weight: 400;
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+
+        .method-link .tooltiptext a,
+        .toolkit-info .tooltiptext a,
+        .fast-update-pill .tooltiptext a {
+            color: #86a1ff !important;
             text-decoration: underline;
+            cursor: pointer;
+            pointer-events: auto;
+        }
+
+        .method-link .tooltiptext a:hover,
+        .toolkit-info .tooltiptext a:hover,
+        .fast-update-pill .tooltiptext a:hover {
+            color: #a5baff !important;
+        }
+
+        @media (max-width: 768px) {
+            .method-link .tooltiptext {
+                width: 260px;
+                margin-left: -130px;
+            }
+        }
+
+        .toolkit-info {
+            color: #6c757d;
+            font-size: 0.85rem;
+            font-weight: 500;
+            font-style: italic;
+            cursor: help;
+            position: relative;
+            padding: 0;
+            background: none;
+        }
+
+        .toolkit-info:hover {
+            color: #495057;
+            background: none;
+        }
+
+        .toolkit-info.tooltip {
+            border-bottom: none;
+        }
+
+        .toolkit-info .tooltiptext {
+            bottom: 110%;
+            width: 300px;
+            margin-left: -150px;
+            left: 50%;
+            font-weight: 400;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            font-style: normal;
+        }
+
+        @media (max-width: 768px) {
+            .toolkit-info .tooltiptext {
+                width: 260px;
+                margin-left: -130px;
+            }
         }
 
         .fast-update-pill {
@@ -2091,31 +2171,44 @@
             }
         }
 
-        // Function to toggle tooltip visibility on click/touch
+        // Function to toggle tooltip visibility on click/touch (using event delegation for dynamic content)
         document.addEventListener('DOMContentLoaded', function() {
-            const tooltips = document.querySelectorAll('.tooltip');
-            
-            tooltips.forEach(tooltip => {
-                tooltip.addEventListener('click', function(e) {
+            // Use event delegation for dynamically added tooltips
+            document.body.addEventListener('click', function(e) {
+                // Check if we clicked on a link inside a tooltip
+                const linkInTooltip = e.target.closest('.tooltiptext a');
+                if (linkInTooltip) {
+                    // Allow the link to work normally, don't prevent default
+                    e.stopPropagation(); // Prevent tooltip from closing
+                    return;
+                }
+                
+                // Check if we clicked inside a tooltip text area (but not on a link)
+                const insideTooltipText = e.target.closest('.tooltiptext');
+                if (insideTooltipText) {
+                    // Don't close the tooltip or toggle anything
+                    e.stopPropagation();
+                    return;
+                }
+                
+                const tooltipElement = e.target.closest('.tooltip');
+                
+                if (tooltipElement) {
                     e.preventDefault();
                     e.stopPropagation();
                     
                     // Close all other tooltips
-                    tooltips.forEach(t => {
-                        if (t !== tooltip) {
+                    document.querySelectorAll('.tooltip.active').forEach(t => {
+                        if (t !== tooltipElement) {
                             t.classList.remove('active');
                         }
                     });
                     
                     // Toggle this tooltip
-                    tooltip.classList.toggle('active');
-                });
-            });
-            
-            // Close tooltip when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.tooltip')) {
-                    tooltips.forEach(tooltip => {
+                    tooltipElement.classList.toggle('active');
+                } else {
+                    // Close all tooltips when clicking outside
+                    document.querySelectorAll('.tooltip.active').forEach(tooltip => {
                         tooltip.classList.remove('active');
                     });
                 }
@@ -3082,11 +3175,11 @@
                                     💡 First time? Get started with <span class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</span>
                                 </a>
                                 <div class="installation-methods">
-                                    <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="method-link" onclick="event.stopPropagation()">📱 SP Flash Tool</a>
-                                    <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" class="method-link" onclick="event.stopPropagation()">🔧 MTKClient</a>
-                                    <span class="method-link" style="cursor: help; background: rgba(108, 117, 125, 0.05);" title="Launch tools from Toolkit in Updater (Windows/Mac) or select your preferred method in Updater's Settings">⚙️ Launch from Toolkit or Settings</span>
+                                    <span class="method-link tooltip">📱 SP Flash Tool<span class="tooltiptext"><a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" style="font-weight: 600;">SP Flash Tool</a> comes bundled with <strong>Innioasis Updater</strong> (recommended). Launch it from Updater's <strong>Toolkit</strong> or <strong>Settings</strong> menu for guided automation. Advanced users can also <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank">install and run it manually</a>.</span></span>
+                                    <span class="method-link tooltip">🔧 MTKClient<span class="tooltiptext"><a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" style="font-weight: 600;">MTKClient</a> comes bundled with <strong>Innioasis Updater</strong> (recommended). Launch it from Updater's <strong>Toolkit</strong> or <strong>Settings</strong> menu for guided automation. Advanced users can also <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank">install and run it manually</a>.</span></span>
+                                    <span class="toolkit-info tooltip">⚙️ Launch from Toolkit or Settings<span class="tooltiptext">Access SP Flash Tool and MTKClient from <strong>Innioasis Updater</strong> by clicking <strong>Toolkit</strong> in the app (Windows/Mac) or from the Windows Start Menu. Select your preferred method in Updater's <strong>Settings</strong> for automation.</span></span>
                                     ${release.has_update_zip ? `
-                                    <a href="#" class="method-link" onclick="showBrowserInstallInstructions(event); return false;">🌐 Install from Browser</a>
+                                    <span class="method-link" onclick="showBrowserInstallInstructions(event);" style="cursor: pointer;">🌐 Install from Browser</span>
                                     ` : ''}
                                 </div>
                             </div>
