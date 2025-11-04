@@ -671,8 +671,10 @@
 
         .download-section {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
         }
 
         .whats-new-btn {
@@ -718,66 +720,54 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .update-browser-btn {
-            background: #34c759;
+        /* Unified download button styles - all same size, horizontal layout */
+        .rom-download-btn,
+        .update-download-btn,
+        .notes-btn {
+            background: #007aff;
             color: white;
-            border: 1px solid #30d158;
-            padding: 6px 12px;
-            border-radius: 4px;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
             transition: all 0.2s ease;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            flex: 1;
+            min-width: 200px;
         }
 
-        .update-browser-btn:hover {
+        .rom-download-btn {
+            background: #007aff;
+        }
+
+        .rom-download-btn:hover {
+            background: #0051d5;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+        }
+
+        .update-download-btn {
+            background: #34c759;
+        }
+
+        .update-download-btn:hover {
             background: #30d158;
             transform: translateY(-1px);
             box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3);
         }
 
-        .update-browser-btn:active {
-            transform: translateY(0);
-        }
-
-        .automatic-install-btn {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-            border: none;
-            padding: 14px 24px;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            font-size: 1.1rem;
-            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .automatic-install-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
-            background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
-        }
-
-        .github-release-btn {
+        .notes-btn {
             background: #6c757d;
-            color: white;
-            border: 1px solid #5a6268;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            font-size: 0.9rem;
-            font-weight: 600;
+            flex: 0 1 auto;
+            min-width: 150px;
         }
 
-        .github-release-btn:hover {
+        .notes-btn:hover {
             background: #5a6268;
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
         .status {
@@ -2629,16 +2619,16 @@
                             </div>` : ''}
                         </div>
                         <div class="download-section">
-                            <button class="automatic-install-btn" onclick="goToInnioasisApp(event)">
-                                ⚡ Get Innioasis Updater
+                            <button class="rom-download-btn" onclick="downloadRomZip('${release.assets.find(a => a.name.toLowerCase() === 'rom.zip')?.browser_download_url}', event)">
+                                💾 rom.zip for Innioasis Updater (and SP Flash Tool + MTK Client)
                             </button>
                             ${release.has_update_zip ? `
-                                <button class="update-browser-btn" onclick="downloadUpdateZip('${release.update_zip_url}', event)">
-                                    🆕 Place update.zip in .rockbox folder
+                                <button class="update-download-btn" onclick="downloadUpdateZip('${release.update_zip_url}', event)">
+                                    🆕 update.zip - Place in .rockbox folder
                                 </button>
                             ` : ''}
-                            <button class="github-release-btn" onclick="goToGitHubRelease('${release.html_url}', event)">
-                                📦 View Release Notes
+                            <button class="notes-btn" onclick="goToGitHubRelease('${release.html_url}', event)">
+                                📦 Release Notes
                             </button>
                         </div>
                     </div>
@@ -2730,6 +2720,23 @@
             
             // Open the specific release page on GitHub in a new tab
             window.open(releaseUrl, '_blank');
+        }
+
+        function downloadRomZip(romZipUrl, event) {
+            event.stopPropagation();
+            
+            // Create download link
+            const link = document.createElement('a');
+            link.href = romZipUrl;
+            link.download = 'rom.zip';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Show brief success message
+            setTimeout(() => {
+                setStatus('rom.zip download started! Use with Innioasis Updater, SP Flash Tool, or MTK Client.', 'success');
+            }, 500);
         }
 
         function downloadUpdateZip(updateZipUrl, event) {
