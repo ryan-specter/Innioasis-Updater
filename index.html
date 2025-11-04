@@ -269,6 +269,17 @@
             opacity: 0.8;
         }
 
+        /* Override gradient on colored backgrounds */
+        .btn-subtitle .updater-with-icon,
+        .rom-download-btn .updater-with-icon,
+        .update-download-btn .updater-with-icon {
+            background: none;
+            -webkit-background-clip: unset;
+            -webkit-text-fill-color: inherit;
+            background-clip: unset;
+            color: inherit;
+        }
+
         .updater-with-icon img {
             width: 16px;
             height: 16px;
@@ -307,9 +318,9 @@
         .tooltip {
             position: relative;
             display: inline-block;
-            border-bottom: 1px dotted #667eea;
+            border-bottom: 1px dotted #6c757d;
             cursor: pointer;
-            color: #667eea;
+            color: #495057;
             font-weight: 600;
         }
 
@@ -372,14 +383,14 @@
         }
 
         .tool-link {
-            color: #667eea;
+            color: #495057;
             text-decoration: none;
             font-weight: 600;
             transition: opacity 0.2s ease;
         }
 
         .tool-link:hover {
-            opacity: 0.8;
+            opacity: 0.7;
             text-decoration: underline;
         }
 
@@ -809,7 +820,7 @@
         }
 
         .get-updater-link {
-            color: var(--accent-primary);
+            color: #495057;
             text-decoration: none;
             font-size: 0.95rem;
             font-weight: 700;
@@ -818,30 +829,99 @@
             align-items: center;
             gap: 6px;
             padding: 8px 16px;
-            background: rgba(0, 122, 255, 0.08);
+            background: rgba(108, 117, 125, 0.1);
             border-radius: 6px;
+        }
+
+        .get-updater-link .updater-with-icon {
+            background: none;
+            -webkit-background-clip: unset;
+            -webkit-text-fill-color: inherit;
+            background-clip: unset;
+            color: inherit;
         }
 
         .get-updater-link:hover {
             color: white;
-            background: var(--accent-primary);
+            background: #6c757d;
             text-decoration: none;
             transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         body[data-theme="dark"] .get-updater-link {
-            color: var(--accent-primary);
-            background: rgba(10, 132, 255, 0.15);
+            color: #adb5bd;
+            background: rgba(173, 181, 189, 0.15);
         }
 
         body[data-theme="dark"] .get-updater-link:hover {
             color: white;
-            background: var(--accent-primary);
+            background: #6c757d;
+        }
+
+        .installation-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 8px;
+            font-size: 0.85rem;
+        }
+
+        .method-link {
+            color: #495057;
+            text-decoration: none;
+            padding: 6px 12px;
+            background: rgba(108, 117, 125, 0.08);
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            font-weight: 600;
+        }
+
+        .method-link:hover {
+            background: rgba(108, 117, 125, 0.15);
+            text-decoration: underline;
+        }
+
+        .fast-update-pill {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #1d1d1f;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            position: relative;
+        }
+
+        .fast-update-pill:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+        }
+
+        .fast-update-pill.tooltip {
+            border-bottom: none;
+        }
+
+        .fast-update-pill .tooltiptext {
+            bottom: 130%;
+            width: 280px;
+            margin-left: -140px;
+            font-weight: 400;
+        }
+
+        @media (max-width: 768px) {
+            .fast-update-pill .tooltiptext {
+                width: 240px;
+                margin-left: -120px;
+            }
         }
 
         .whats-new-btn {
-            background: linear-gradient(135deg, #007aff 0%, #0051d5 100%);
+            background: #6c757d;
             color: white;
             border: none;
             padding: 12px 20px;
@@ -851,7 +931,7 @@
             width: 100%;
             font-size: 0.9rem;
             font-weight: 600;
-            box-shadow: 0 3px 10px rgba(0, 122, 255, 0.3);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 8px;
@@ -859,8 +939,8 @@
 
         .whats-new-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 122, 255, 0.4);
-            background: linear-gradient(135deg, #0051d5 0%, #003d99 100%);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+            background: #5a6268;
         }
 
         .download-rom-btn {
@@ -902,24 +982,24 @@
         }
 
         .rom-download-btn {
-            background: #007aff;
+            background: #5a6268;
             padding: 14px 16px;
         }
 
         .rom-download-btn:hover {
-            background: #0051d5;
+            background: #495057;
             transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .update-download-btn {
-            background: #34c759;
+            background: #6c757d;
         }
 
         .update-download-btn:hover {
-            background: #30d158;
+            background: #5a6268;
             transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         .notes-btn {
@@ -971,7 +1051,7 @@
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(90deg, #6c757d 0%, #495057 100%);
             width: 0%;
             transition: width 0.3s ease;
         }
@@ -1738,7 +1818,7 @@
                 </p>
                 <h2>Methods and troubleshooting:</h2>
                 <p style="margin-bottom: 12px;">
-                    <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a> automatically lists the latest updates to the Y1 and Rockbox and guides you through its installation, but <strong>alternatively</strong> you can use <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="tool-link">SP Flash Tool</a> or <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" class="tool-link">MTKClient</a> (both are installed automatically by <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a> in <span class="tooltip">Toolkit<span class="tooltiptext">Access <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="tool-link" style="color: #667eea;">SP Flash Tool</a> and <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" class="tool-link" style="color: #667eea;">MTKClient</a> by clicking Toolkit in the Updater app (Windows/Mac) or from the Windows Start Menu. There's also a Troubleshooting folder which provides a helpful folder to place the contents of a rom.zip in and click a shortcut to run SP Flash Tool or MTKClient to install or troubleshoot automatically.</span></span>).
+                    <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a> automatically lists the latest updates to the Y1 and Rockbox and guides you through its installation, but <strong>alternatively</strong> you can use <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="tool-link">SP Flash Tool</a> or <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" class="tool-link">MTKClient</a> (both are installed automatically by <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a> in <span class="tooltip">Toolkit<span class="tooltiptext">Access <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="tool-link" style="color: #adb5bd;">SP Flash Tool</a> and <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" class="tool-link" style="color: #adb5bd;">MTKClient</a> by clicking Toolkit in the Updater app (Windows/Mac) or from the Windows Start Menu. There's also a Troubleshooting folder which provides a helpful folder to place the contents of a rom.zip in and click a shortcut to run SP Flash Tool or MTKClient to install or troubleshoot automatically.</span></span>).
                 </p>
                 <p style="margin-bottom: 12px;">
                     <strong>What you'll download:</strong>
@@ -1765,7 +1845,7 @@
                     </button>
                     <div class="theme-install-instructions" id="y1-theme-instructions">
                         <p style="margin-bottom: 8px;"><strong>📂 How to install:</strong> Copy the folder inside the .zip into the Themes folder on your Y1.</p>
-                        <a href="https://themes.innioasis.app" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 16px; background: #667eea; color: white; text-decoration: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease;">Get Themes Here →</a>
+                        <a href="https://themes.innioasis.app" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 16px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease;">Get Themes Here →</a>
                     </div>
                 </div>
 
@@ -1776,7 +1856,7 @@
                     </button>
                     <div class="theme-install-instructions" id="rockbox-240p-instructions">
                         <p style="margin-bottom: 8px;"><strong>📂 How to install:</strong> Copy the contents of the .rockbox folder from the zip into your Y1's .rockbox folder via USB, overwriting files if asked.</p>
-                        <a href="https://themes.rockbox.org/index.php?target=ipodvideo" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 16px; background: #667eea; color: white; text-decoration: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease;">Get Themes Here →</a>
+                        <a href="https://themes.rockbox.org/index.php?target=ipodvideo" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 16px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease;">Get Themes Here →</a>
                     </div>
                 </div>
 
@@ -1787,7 +1867,7 @@
                     </button>
                     <div class="theme-install-instructions" id="rockbox-360p-instructions">
                         <p style="margin-bottom: 8px;"><strong>📂 How to install:</strong> Copy the contents of the .rockbox folder from the zip into your Y1's .rockbox folder via USB, overwriting files if asked.</p>
-                        <a href="https://github.com/rockbox-y1/themes/releases/latest" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 16px; background: #667eea; color: white; text-decoration: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease;">Get Themes Here →</a>
+                        <a href="https://github.com/rockbox-y1/themes/releases/latest" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 16px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease;">Get Themes Here →</a>
                     </div>
                 </div>
 
@@ -2923,8 +3003,12 @@
                 };
                 
                 // Generate pills HTML
-                const pillsHTML = versionInfo.designations.length > 0 ? 
+                const fastUpdatePill = release.has_update_zip ? 
+                    `<span class="fast-update-pill tooltip">⚡️ Fast Update<span class="tooltiptext" style="color: #fff;">Fast Updates can be installed without resetting your device's Bluetooth and Android settings. Install from <strong style="color: #ffd700;">Innioasis Updater</strong> (recommended for ease of use), this Firmware Directory website, or the GitHub release page.</span></span>` : '';
+                
+                const pillsHTML = versionInfo.designations.length > 0 || fastUpdatePill ? 
                     `<div class="version-pills">
+                        ${fastUpdatePill}
                         ${versionInfo.designations.map(designation => 
                             `<span class="version-pill ${designation.type}">${designation.text}</span>`
                         ).join('')}
@@ -2988,6 +3072,14 @@
                                 <a href="https://innioasis.app/installguide.html" target="_blank" class="get-updater-link" onclick="event.stopPropagation()">
                                     💡 First time? Get started with <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a>
                                 </a>
+                                <div class="installation-methods">
+                                    <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="method-link" onclick="event.stopPropagation()">📱 SP Flash Tool</a>
+                                    <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" class="method-link" onclick="event.stopPropagation()">🔧 MTKClient</a>
+                                    <span class="method-link" style="cursor: help; background: rgba(108, 117, 125, 0.05);" title="Launch tools from Toolkit in Updater (Windows/Mac) or select your preferred method in Updater's Settings">⚙️ Launch from Toolkit or Settings</span>
+                                    ${release.has_update_zip ? `
+                                    <a href="#" class="method-link" onclick="showBrowserInstallInstructions(event); return false;">🌐 Install from Browser</a>
+                                    ` : ''}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -3096,6 +3188,49 @@
             
             // Open the specific release page on GitHub in a new tab
             window.open(releaseUrl, '_blank');
+        }
+
+        function showBrowserInstallInstructions(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const instructions = `
+                <div style="text-align: left; line-height: 1.8; position: relative;">
+                    <button onclick="this.closest('.modal-overlay').remove()" style="position: absolute; top: -8px; right: -8px; background: #6c757d; color: white; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;">×</button>
+                    <h3 style="margin-top: 0; color: #1d1d1f;">📥 Install from Browser</h3>
+                    <p style="margin-bottom: 16px; color: #6c757d;">Follow these steps to install the update directly from your browser:</p>
+                    
+                    <ol style="padding-left: 20px; margin-bottom: 16px; color: #1d1d1f;">
+                        <li style="margin-bottom: 12px;">Download <strong>update.zip</strong> using the button above</li>
+                        <li style="margin-bottom: 12px;">Connect your Y1 to your computer via USB</li>
+                        <li style="margin-bottom: 12px;">Navigate to your Y1's storage and place <strong>update.zip</strong> in the <code style="background: rgba(108, 117, 125, 0.1); padding: 2px 6px; border-radius: 3px;">.rockbox</code> folder</li>
+                        <li style="margin-bottom: 12px;">Safely disconnect your Y1</li>
+                        <li style="margin-bottom: 12px;">On your Y1, go to <strong>Main Menu > System > Firmware Update</strong></li>
+                    </ol>
+                    
+                    <div style="background: rgba(255, 215, 0, 0.1); border-left: 3px solid #ffd700; padding: 12px; border-radius: 4px; margin-top: 16px;">
+                        <strong style="color: #1d1d1f;">⚡️ Note:</strong> <span style="color: #3c3c3e;">This method only works if you already have a Fast Update compatible release installed on your Y1.</span>
+                    </div>
+                    
+                    <div style="background: rgba(108, 117, 125, 0.05); border-left: 3px solid #6c757d; padding: 12px; border-radius: 4px; margin-top: 12px;">
+                        <strong style="color: #1d1d1f;">💡 Tip:</strong> <span style="color: #3c3c3e;">For the easiest experience, we recommend using <a href="https://innioasis.app/installguide.html" target="_blank" style="color: #495057; font-weight: 600; text-decoration: underline;">Innioasis Updater</a> which automates this entire process.</span>
+                    </div>
+                </div>
+            `;
+            
+            // Create a modal-like display
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 10000; padding: 20px;';
+            modal.onclick = () => modal.remove();
+            
+            const content = document.createElement('div');
+            content.style.cssText = 'background: white; border-radius: 12px; padding: 24px; max-width: 600px; max-height: 80vh; overflow-y: auto; box-shadow: 0 8px 32px rgba(0,0,0,0.3); position: relative;';
+            content.onclick = (e) => e.stopPropagation();
+            content.innerHTML = instructions;
+            
+            modal.appendChild(content);
+            document.body.appendChild(modal);
         }
 
         function showReleaseNotes(tagName, htmlUrl, event) {
