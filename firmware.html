@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Innioasis Y1 Rockbox and Firmware Downloads</title>
+    <title>Innioasis Y1 Firmware Directory - Download Manufacturer & Rockbox Firmware</title>
     
     <!-- SEO Meta Tags -->
     <meta name="description" content="Download manufacturer and Rockbox firmware for the Innioasis Y1 music player. Compatible with Innioasis Updater, SP Flash Tool, and MTKclient on Windows, Mac, and Linux. Easy firmware installation and updates.">
@@ -2606,6 +2606,7 @@
                         return {
                             tag_name: release.tag_name,
                             name: release.name || release.tag_name,
+                            body: release.body || '',
                             published_at: release.published_at,
                             html_url: release.html_url,
                             assets: release.assets || [],
@@ -2673,7 +2674,7 @@
                     </div>` : '';
                 
                 return `
-                    <div class="firmware-item" onclick="selectFirmware(this, '${release.software_name}')">
+                    <div class="firmware-item" onclick="selectFirmware(this, '${release.software_name}')" data-release-body="${encodeURIComponent(release.body)}" data-release-name="${release.name || release.tag_name}">
                         <div class="firmware-name">${displayVersion}</div>
                         <div class="firmware-details">
                             ${softwareHTML}
@@ -2694,19 +2695,19 @@
                             </div>` : ''}
                         </div>
                         <div class="download-section" style="flex-direction: column; gap: 8px;">
-                            <button class="rom-download-btn" onclick="downloadRomZip('${release.assets.find(a => a.name.toLowerCase() === 'rom.zip')?.browser_download_url}', event)">
-                                <div class="btn-title">💾 Download rom.zip</div>
-                                <div class="btn-subtitle">For Innioasis Updater, SP Flash Tool, and MTK Client</div>
-                            </button>
                             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                <button class="rom-download-btn" onclick="downloadRomZip('${release.assets.find(a => a.name.toLowerCase() === 'rom.zip')?.browser_download_url}', event)" style="flex: 1;">
+                                    <div class="btn-title">💾 Download rom.zip</div>
+                                    <div class="btn-subtitle">For Innioasis Updater, SP Flash Tool, and MTK Client</div>
+                                </button>
                                 ${release.has_update_zip ? `
                                     <button class="update-download-btn" onclick="downloadUpdateZip('${release.update_zip_url}', event)" style="flex: 1;">
                                         <div class="btn-title">🆕 Download update.zip</div>
                                         <div class="btn-subtitle">Place in .rockbox folder on your Y1</div>
                                     </button>
                                 ` : ''}
-                                <button class="notes-btn" onclick="goToGitHubRelease('${release.html_url}', event)" style="flex: 1;">
-                                    📦 Release Notes
+                                <button class="notes-btn" onclick="showReleaseNotes('${release.tag_name}', '${release.html_url.replace(/'/g, "\\'")}', event)" style="flex: 1;">
+                                    📖 What's New
                                 </button>
                             </div>
                         </div>
@@ -2801,6 +2802,92 @@
             window.open(releaseUrl, '_blank');
         }
 
+        function showReleaseNotes(tagName, htmlUrl, event) {
+            event.stopPropagation();
+            
+            // Find the firmware item that was clicked
+            const firmwareItem = event.target.closest('.firmware-item');
+            if (!firmwareItem) {
+                console.error('Could not find firmware item');
+                return;
+            }
+            
+            // Get release body from data attribute
+            const releaseBody = decodeURIComponent(firmwareItem.dataset.releaseBody || '');
+            const releaseName = firmwareItem.dataset.releaseName || tagName;
+            
+            // Check if notes are already shown for this item
+            let notesContainer = firmwareItem.querySelector('.release-notes-container');
+            
+            if (notesContainer) {
+                // Toggle visibility
+                if (notesContainer.style.display === 'none') {
+                    notesContainer.style.display = 'block';
+                } else {
+                    notesContainer.style.display = 'none';
+                }
+            } else {
+                // Create and show notes container
+                notesContainer = document.createElement('div');
+                notesContainer.className = 'release-notes-container';
+                notesContainer.style.marginTop = '15px';
+                notesContainer.style.padding = '15px';
+                notesContainer.style.background = 'var(--bg-tertiary)';
+                notesContainer.style.borderRadius = '8px';
+                notesContainer.style.border = '1px solid var(--border-primary)';
+                notesContainer.style.maxHeight = '400px';
+                notesContainer.style.overflowY = 'auto';
+                
+                // Parse markdown to basic HTML
+                const notesHTML = releaseBody ? parseMarkdownToHTML(releaseBody) : '<p style="color: #6c757d; font-style: italic;">No release notes available</p>';
+                
+                notesContainer.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border-primary); padding-bottom: 10px;">
+                        <h4 style="margin: 0; color: var(--text-primary);">What's New in ${releaseName}</h4>
+                        <div>
+                            <button onclick="window.open('${htmlUrl}', '_blank')" style="background: var(--accent-primary); color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin-right: 8px; font-size: 0.8rem;">View on GitHub</button>
+                            <button onclick="this.closest('.release-notes-container').style.display='none'" style="background: #6c757d; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">Close</button>
+                        </div>
+                    </div>
+                    <div class="release-notes-content" style="color: var(--text-primary); line-height: 1.6;">
+                        ${notesHTML}
+                    </div>
+                `;
+                
+                firmwareItem.appendChild(notesContainer);
+            }
+        }
+
+        function parseMarkdownToHTML(markdown) {
+            // Simple markdown parser for basic formatting
+            let html = markdown;
+            
+            // Convert headers
+            html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+            html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+            html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+            
+            // Convert bold
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            // Convert italic
+            html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            
+            // Convert code blocks
+            html = html.replace(/```(.*?)```/gs, '<pre style="background: var(--bg-tertiary); padding: 10px; border-radius: 4px; overflow-x: auto;"><code>$1</code></pre>');
+            
+            // Convert inline code
+            html = html.replace(/`(.*?)`/g, '<code style="background: var(--bg-tertiary); padding: 2px 6px; border-radius: 3px;">$1</code>');
+            
+            // Convert links
+            html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" style="color: var(--accent-primary); text-decoration: none;">$1</a>');
+            
+            // Convert line breaks to paragraphs
+            html = html.split('\n\n').map(para => para.trim() ? `<p style="margin-bottom: 12px;">${para.replace(/\n/g, '<br>')}</p>` : '').join('');
+            
+            return html;
+        }
+
         function downloadRomZip(romZipUrl, event) {
             event.stopPropagation();
             
@@ -2835,13 +2922,14 @@
             
             // Show instructions after download starts
             setTimeout(() => {
-                alert('📥 Installation Instructions:\n\n' +
+                alert('⚠️ IMPORTANT - PLEASE READ:\n\n' +
+                      'If this is the FIRST TIME you install ' + softwareName + ' on your Y1, if you don\'t see the Firmware Update option in Main Menu > System, you\'ll need to use a tool like Innioasis Updater (+ SP Flash Tool or MTKclient) to do this update the first time.\n\n' +
+                      '━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+                      '📥 Installation Instructions:\n\n' +
                       '1. Connect your Y1 in USB Mode and copy update.zip to .rockbox/update.zip\n\n' +
                       '2. Safely disconnect your Y1\n\n' +
                       '3. Go to Main Menu > System and click Firmware Update\n\n' +
-                      '4. The update process will now run in the background and automatically restart the device once it is done\n\n' +
-                      '━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-                      '⚠️ Note: If this is the first time you install ' + softwareName + ' on your Y1, if you don\'t see the Firmware Update option in Main Menu > System, you\'ll need to use a tool like Innioasis Updater (+ SP Flash Tool or MTKclient) to do this update the first time.');
+                      '4. The update process will now run in the background and automatically restart the device once it is done');
                 
                 setStatus('update.zip download started! Check your Downloads folder.', 'success');
             }, 500);
