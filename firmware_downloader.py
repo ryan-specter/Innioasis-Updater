@@ -3635,7 +3635,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         return paths
 
     def ensure_innioasis_updater_shortcuts(self):
-        """Ensure Innioasis Updater shortcuts are properly set up using appropriate source"""
+        """Ensure Innioasis Updater shortcuts are properly set up using appropriate source - respects user preferences"""
         try:
             # Use the new method to get appropriate shortcut source
             source_shortcut = self.get_appropriate_shortcut_source()
@@ -3644,49 +3644,75 @@ class FirmwareDownloaderGUI(QMainWindow):
                 silent_print("Appropriate Innioasis Updater shortcut source not found")
                 return
             
-            # Check desktop
-            desktop_path = Path.home() / "Desktop"
-            desktop_shortcut = desktop_path / "Innioasis Updater.lnk"
-            
-            # Always force replacement with Skip Update shortcut (manual updates by default)
-            if desktop_shortcut.exists():
-                try:
-                    desktop_shortcut.unlink()  # Remove existing shortcut
-                    silent_print(f"Removed existing desktop shortcut: Innioasis Updater.lnk")
-                except Exception as e:
-                    silent_print(f"Warning: Could not remove existing desktop shortcut: {e}")
-            
-            try:
-                shutil.copy2(source_shortcut, desktop_shortcut)
-                silent_print(f"Added Innioasis Updater shortcut to desktop (skip-update type)")
-            except Exception as e:
-                silent_print(f"Error adding desktop shortcut: {e}")
-            
-            # Get comprehensive list of start menu paths
-            start_menu_paths = self.get_all_start_menu_paths()
-            
-            for start_menu_path in start_menu_paths:
-                if start_menu_path.exists():
-                    start_menu_shortcut = start_menu_path / "Innioasis Updater.lnk"
-                    # Always force replacement with Skip Update shortcut (manual updates by default)
-                    if start_menu_shortcut.exists():
-                        try:
-                            start_menu_shortcut.unlink()  # Remove existing shortcut
-                            silent_print(f"Removed existing start menu shortcut: Innioasis Updater.lnk")
-                        except Exception as e:
-                            silent_print(f"Warning: Could not remove existing start menu shortcut: {e}")
-                    
+            # Check desktop preference
+            desktop_updater_enabled = getattr(self, 'desktop_updater_enabled', True)
+            if desktop_updater_enabled:
+                desktop_path = Path.home() / "Desktop"
+                desktop_shortcut = desktop_path / "Innioasis Updater.lnk"
+                
+                # Force replacement with Skip Update shortcut (manual updates by default)
+                if desktop_shortcut.exists():
                     try:
-                        shutil.copy2(source_shortcut, start_menu_shortcut)
-                        silent_print(f"Added Innioasis Updater shortcut to start menu: {start_menu_path} (skip-update type)")
+                        desktop_shortcut.unlink()  # Remove existing shortcut
+                        silent_print(f"Removed existing desktop shortcut: Innioasis Updater.lnk")
                     except Exception as e:
-                        silent_print(f"Error adding start menu shortcut: {e}")
+                        silent_print(f"Warning: Could not remove existing desktop shortcut: {e}")
+                
+                try:
+                    shutil.copy2(source_shortcut, desktop_shortcut)
+                    silent_print(f"Added Innioasis Updater shortcut to desktop (skip-update type)")
+                except Exception as e:
+                    silent_print(f"Error adding desktop shortcut: {e}")
+            else:
+                # Remove desktop shortcut if preference is disabled
+                desktop_path = Path.home() / "Desktop"
+                desktop_shortcut = desktop_path / "Innioasis Updater.lnk"
+                if desktop_shortcut.exists():
+                    try:
+                        desktop_shortcut.unlink()
+                        silent_print(f"Removed desktop Updater shortcut (preference disabled)")
+                    except Exception as e:
+                        silent_print(f"Warning: Could not remove desktop Updater shortcut: {e}")
+            
+            # Check start menu preference
+            startmenu_updater_enabled = getattr(self, 'startmenu_updater_enabled', True)
+            if startmenu_updater_enabled:
+                start_menu_paths = self.get_all_start_menu_paths()
+                
+                for start_menu_path in start_menu_paths:
+                    if start_menu_path.exists():
+                        start_menu_shortcut = start_menu_path / "Innioasis Updater.lnk"
+                        # Force replacement with Skip Update shortcut (manual updates by default)
+                        if start_menu_shortcut.exists():
+                            try:
+                                start_menu_shortcut.unlink()  # Remove existing shortcut
+                                silent_print(f"Removed existing start menu shortcut: Innioasis Updater.lnk")
+                            except Exception as e:
+                                silent_print(f"Warning: Could not remove existing start menu shortcut: {e}")
+                        
+                        try:
+                            shutil.copy2(source_shortcut, start_menu_shortcut)
+                            silent_print(f"Added Innioasis Updater shortcut to start menu: {start_menu_path} (skip-update type)")
+                        except Exception as e:
+                            silent_print(f"Error adding start menu shortcut: {e}")
+            else:
+                # Remove start menu shortcuts if preference is disabled
+                start_menu_paths = self.get_all_start_menu_paths()
+                for start_menu_path in start_menu_paths:
+                    if start_menu_path.exists():
+                        start_menu_shortcut = start_menu_path / "Innioasis Updater.lnk"
+                        if start_menu_shortcut.exists():
+                            try:
+                                start_menu_shortcut.unlink()
+                                silent_print(f"Removed start menu Updater shortcut (preference disabled): {start_menu_path}")
+                            except Exception as e:
+                                silent_print(f"Warning: Could not remove start menu Updater shortcut: {e}")
                             
         except Exception as e:
             silent_print(f"Error ensuring Innioasis Updater shortcuts: {e}")
 
     def ensure_innioasis_toolkit_shortcuts(self):
-        """Ensure Innioasis Toolkit shortcuts are properly set up"""
+        """Ensure Innioasis Toolkit shortcuts are properly set up - respects user preferences"""
         try:
             current_dir = Path.cwd()
             innioasis_toolkit_shortcut = current_dir / "Innioasis Toolkit.lnk"
@@ -3695,29 +3721,59 @@ class FirmwareDownloaderGUI(QMainWindow):
                 silent_print("Innioasis Toolkit.lnk not found in current directory")
                 return
             
-            # Check desktop
-            desktop_path = Path.home() / "Desktop"
-            desktop_shortcut = desktop_path / "Innioasis Toolkit.lnk"
+            # Check desktop preference
+            desktop_toolkit_enabled = getattr(self, 'desktop_toolkit_enabled', False)
+            if desktop_toolkit_enabled:
+                desktop_path = Path.home() / "Desktop"
+                desktop_shortcut = desktop_path / "Innioasis Toolkit.lnk"
+                
+                if not desktop_shortcut.exists():
+                    try:
+                        shutil.copy2(innioasis_toolkit_shortcut, desktop_shortcut)
+                        silent_print(f"Added Innioasis Toolkit shortcut to desktop")
+                    except Exception as e:
+                        silent_print(f"Error adding desktop shortcut: {e}")
+                else:
+                    silent_print("Desktop Toolkit shortcut already exists (preference enabled)")
+            else:
+                # Remove desktop shortcut if preference is disabled
+                desktop_path = Path.home() / "Desktop"
+                desktop_shortcut = desktop_path / "Innioasis Toolkit.lnk"
+                if desktop_shortcut.exists():
+                    try:
+                        desktop_shortcut.unlink()
+                        silent_print(f"Removed desktop Toolkit shortcut (preference disabled)")
+                    except Exception as e:
+                        silent_print(f"Warning: Could not remove desktop Toolkit shortcut: {e}")
             
-            if not desktop_shortcut.exists():
-                try:
-                    shutil.copy2(innioasis_toolkit_shortcut, desktop_shortcut)
-                    silent_print(f"Added Innioasis Toolkit shortcut to desktop")
-                except Exception as e:
-                    silent_print(f"Error adding desktop shortcut: {e}")
-            
-            # Get comprehensive list of start menu paths
-            start_menu_paths = self.get_all_start_menu_paths()
-            
-            for start_menu_path in start_menu_paths:
-                if start_menu_path.exists():
-                    start_menu_shortcut = start_menu_path / "Innioasis Toolkit.lnk"
-                    if not start_menu_shortcut.exists():
-                        try:
-                            shutil.copy2(innioasis_toolkit_shortcut, start_menu_shortcut)
-                            silent_print(f"Added Innioasis Toolkit shortcut to start menu: {start_menu_path}")
-                        except Exception as e:
-                            silent_print(f"Error adding start menu shortcut: {e}")
+            # Check start menu preference
+            startmenu_toolkit_enabled = getattr(self, 'startmenu_toolkit_enabled', True)
+            if startmenu_toolkit_enabled:
+                start_menu_paths = self.get_all_start_menu_paths()
+                
+                for start_menu_path in start_menu_paths:
+                    if start_menu_path.exists():
+                        start_menu_shortcut = start_menu_path / "Innioasis Toolkit.lnk"
+                        if not start_menu_shortcut.exists():
+                            try:
+                                shutil.copy2(innioasis_toolkit_shortcut, start_menu_shortcut)
+                                silent_print(f"Added Innioasis Toolkit shortcut to start menu: {start_menu_path}")
+                            except Exception as e:
+                                silent_print(f"Error adding start menu shortcut: {e}")
+                        else:
+                            silent_print(f"Start menu Toolkit shortcut already exists: {start_menu_path}")
+            else:
+                # Remove start menu shortcuts if preference is disabled
+                start_menu_paths = self.get_all_start_menu_paths()
+                for start_menu_path in start_menu_paths:
+                    if start_menu_path.exists():
+                        start_menu_shortcut = start_menu_path / "Innioasis Toolkit.lnk"
+                        if start_menu_shortcut.exists():
+                            try:
+                                start_menu_shortcut.unlink()
+                                silent_print(f"Removed start menu Toolkit shortcut (preference disabled): {start_menu_path}")
+                            except Exception as e:
+                                silent_print(f"Warning: Could not remove start menu Toolkit shortcut: {e}")
             
             # Always ensure Innioasis Updater shortcut exists in Toolkit directory (manual updates by default)
             toolkit_dir = current_dir / "Toolkit"
@@ -7211,7 +7267,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print(f"Full error traceback: {traceback.format_exc()}")
 
     def ensure_desktop_shortcuts(self):
-        """Ensure desktop shortcuts exist - uses appropriate shortcut based on auto-updates setting"""
+        """Ensure desktop shortcuts exist - uses appropriate shortcut based on auto-updates setting and respects preferences"""
         if platform.system() != "Windows":
             return
             
@@ -7220,25 +7276,67 @@ class FirmwareDownloaderGUI(QMainWindow):
             if not desktop_path.exists():
                 return
             
-            # Get the appropriate shortcut source
-            source_shortcut = self.get_appropriate_shortcut_source()
-            if source_shortcut:
+            # Check desktop Updater preference
+            desktop_updater_enabled = getattr(self, 'desktop_updater_enabled', True)
+            if desktop_updater_enabled:
+                # Get the appropriate shortcut source
+                source_shortcut = self.get_appropriate_shortcut_source()
+                if source_shortcut:
+                    dest_shortcut = desktop_path / "Innioasis Updater.lnk"
+                    # Force replacement of existing shortcut
+                    if dest_shortcut.exists():
+                        try:
+                            dest_shortcut.unlink()  # Remove existing shortcut
+                            silent_print(f"Removed existing desktop shortcut: Innioasis Updater.lnk")
+                        except Exception as e:
+                            silent_print(f"Warning: Could not remove existing shortcut: {e}")
+                    
+                    # Copy the new shortcut
+                    shutil.copy2(source_shortcut, dest_shortcut)
+                    auto_updates_enabled = False  # Manual updates by default
+                    shortcut_type = "regular" if auto_updates_enabled else "skip-update"
+                    silent_print(f"Created/updated desktop shortcut: Innioasis Updater.lnk ({shortcut_type})")
+                else:
+                    silent_print(f"Warning: Appropriate shortcut source not found")
+            else:
+                # Remove desktop Updater shortcut if preference is disabled
                 dest_shortcut = desktop_path / "Innioasis Updater.lnk"
-                # Force replacement of existing shortcut
                 if dest_shortcut.exists():
                     try:
-                        dest_shortcut.unlink()  # Remove existing shortcut
-                        silent_print(f"Removed existing desktop shortcut: Innioasis Updater.lnk")
+                        dest_shortcut.unlink()
+                        silent_print(f"Removed desktop Updater shortcut (preference disabled)")
                     except Exception as e:
-                        silent_print(f"Warning: Could not remove existing shortcut: {e}")
-                
-                # Copy the new shortcut
-                shutil.copy2(source_shortcut, dest_shortcut)
-                auto_updates_enabled = False  # Manual updates by default
-                shortcut_type = "regular" if auto_updates_enabled else "skip-update"
-                silent_print(f"Created/updated desktop shortcut: Innioasis Updater.lnk ({shortcut_type})")
+                        silent_print(f"Warning: Could not remove desktop Updater shortcut: {e}")
+            
+            # Check desktop Toolkit preference
+            desktop_toolkit_enabled = getattr(self, 'desktop_toolkit_enabled', False)
+            if desktop_toolkit_enabled:
+                current_dir = Path.cwd()
+                source_toolkit = current_dir / "Innioasis Toolkit.lnk"
+                if source_toolkit.exists():
+                    dest_toolkit = desktop_path / "Innioasis Toolkit.lnk"
+                    # Force replacement of existing shortcut
+                    if dest_toolkit.exists():
+                        try:
+                            dest_toolkit.unlink()
+                            silent_print(f"Removed existing desktop shortcut: Innioasis Toolkit.lnk")
+                        except Exception as e:
+                            silent_print(f"Warning: Could not remove existing shortcut: {e}")
+                    
+                    # Copy the new shortcut
+                    shutil.copy2(source_toolkit, dest_toolkit)
+                    silent_print(f"Created/updated desktop shortcut: Innioasis Toolkit.lnk")
+                else:
+                    silent_print(f"Warning: Innioasis Toolkit.lnk not found in current directory")
             else:
-                silent_print(f"Warning: Appropriate shortcut source not found")
+                # Remove desktop Toolkit shortcut if preference is disabled
+                dest_toolkit = desktop_path / "Innioasis Toolkit.lnk"
+                if dest_toolkit.exists():
+                    try:
+                        dest_toolkit.unlink()
+                        silent_print(f"Removed desktop Toolkit shortcut (preference disabled)")
+                    except Exception as e:
+                        silent_print(f"Warning: Could not remove desktop Toolkit shortcut: {e}")
                     
         except Exception as e:
             silent_print(f"Error ensuring desktop shortcuts: {e}")
@@ -7268,7 +7366,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print(f"Error removing desktop shortcuts: {e}")
     
     def ensure_startmenu_shortcuts(self):
-        """Ensure start menu shortcuts exist - uses appropriate shortcut based on auto-updates setting"""
+        """Ensure start menu shortcuts exist - uses appropriate shortcut based on auto-updates setting and respects preferences"""
         if platform.system() != "Windows":
             return
             
@@ -7276,37 +7374,70 @@ class FirmwareDownloaderGUI(QMainWindow):
             start_menu_paths = self.get_all_start_menu_paths()
             current_dir = Path.cwd()
             
+            # Check start menu Updater preference
+            startmenu_updater_enabled = getattr(self, 'startmenu_updater_enabled', True)
+            # Check start menu Toolkit preference
+            startmenu_toolkit_enabled = getattr(self, 'startmenu_toolkit_enabled', True)
+            
             for start_menu_path in start_menu_paths:
                 if start_menu_path.exists():
                     # Create Innioasis Updater shortcut using appropriate source
-                    source_shortcut = self.get_appropriate_shortcut_source()
-                    if source_shortcut:
+                    if startmenu_updater_enabled:
+                        source_shortcut = self.get_appropriate_shortcut_source()
+                        if source_shortcut:
+                            dest_shortcut = start_menu_path / "Innioasis Updater.lnk"
+                            # Force replacement of existing shortcut
+                            if dest_shortcut.exists():
+                                try:
+                                    dest_shortcut.unlink()  # Remove existing shortcut
+                                    silent_print(f"Removed existing start menu shortcut: Innioasis Updater.lnk")
+                                except Exception as e:
+                                    silent_print(f"Warning: Could not remove existing shortcut: {e}")
+                            
+                            # Copy the new shortcut
+                            shutil.copy2(source_shortcut, dest_shortcut)
+                            auto_updates_enabled = False  # Manual updates by default
+                            shortcut_type = "regular" if auto_updates_enabled else "skip-update"
+                            silent_print(f"Created/updated start menu shortcut: Innioasis Updater.lnk ({shortcut_type})")
+                        else:
+                            silent_print(f"Warning: Appropriate shortcut source not found")
+                    else:
+                        # Remove start menu Updater shortcut if preference is disabled
                         dest_shortcut = start_menu_path / "Innioasis Updater.lnk"
-                        # Force replacement of existing shortcut
                         if dest_shortcut.exists():
                             try:
-                                dest_shortcut.unlink()  # Remove existing shortcut
-                                silent_print(f"Removed existing start menu shortcut: Innioasis Updater.lnk")
+                                dest_shortcut.unlink()
+                                silent_print(f"Removed start menu Updater shortcut (preference disabled): {start_menu_path}")
                             except Exception as e:
-                                silent_print(f"Warning: Could not remove existing shortcut: {e}")
-                        
-                        # Copy the new shortcut
-                        shutil.copy2(source_shortcut, dest_shortcut)
-                        auto_updates_enabled = False  # Manual updates by default
-                        shortcut_type = "regular" if auto_updates_enabled else "skip-update"
-                        silent_print(f"Created/updated start menu shortcut: Innioasis Updater.lnk ({shortcut_type})")
-                    else:
-                        silent_print(f"Warning: Appropriate shortcut source not found")
+                                silent_print(f"Warning: Could not remove start menu Updater shortcut: {e}")
                     
-                    # Create Innioasis Toolkit shortcut (always uses regular source)
-                    source_toolkit = current_dir / "Innioasis Toolkit.lnk"
-                    if source_toolkit.exists():
-                        dest_toolkit = start_menu_path / "Innioasis Toolkit.lnk"
-                        # Always copy to ensure it's up to date
-                        shutil.copy2(source_toolkit, dest_toolkit)
-                        silent_print(f"Created/updated start menu shortcut: Innioasis Toolkit.lnk")
+                    # Create Innioasis Toolkit shortcut (respects preference)
+                    if startmenu_toolkit_enabled:
+                        source_toolkit = current_dir / "Innioasis Toolkit.lnk"
+                        if source_toolkit.exists():
+                            dest_toolkit = start_menu_path / "Innioasis Toolkit.lnk"
+                            # Force replacement of existing shortcut
+                            if dest_toolkit.exists():
+                                try:
+                                    dest_toolkit.unlink()
+                                    silent_print(f"Removed existing start menu shortcut: Innioasis Toolkit.lnk")
+                                except Exception as e:
+                                    silent_print(f"Warning: Could not remove existing shortcut: {e}")
+                            
+                            # Copy the new shortcut
+                            shutil.copy2(source_toolkit, dest_toolkit)
+                            silent_print(f"Created/updated start menu shortcut: Innioasis Toolkit.lnk")
+                        else:
+                            silent_print(f"Warning: Innioasis Toolkit.lnk not found in current directory")
                     else:
-                        silent_print(f"Warning: Innioasis Toolkit.lnk not found in current directory")
+                        # Remove start menu Toolkit shortcut if preference is disabled
+                        dest_toolkit = start_menu_path / "Innioasis Toolkit.lnk"
+                        if dest_toolkit.exists():
+                            try:
+                                dest_toolkit.unlink()
+                                silent_print(f"Removed start menu Toolkit shortcut (preference disabled): {start_menu_path}")
+                            except Exception as e:
+                                silent_print(f"Warning: Could not remove start menu Toolkit shortcut: {e}")
                             
         except Exception as e:
             silent_print(f"Error ensuring start menu shortcuts: {e}")
@@ -9185,6 +9316,19 @@ class FirmwareDownloaderGUI(QMainWindow):
                             # Only Change line found - start after it
                             lines = lines[change_index + 1:]
                         # If neither found, keep all lines (lines = lines)
+                        
+                        # Replace "See README.md for more information" with detailed text if both conditions are met
+                        release_body_lower = release_body.lower() if release_body else ''
+                        if 'update functionality' in release_body_lower:
+                            # Check if any line contains "See README.md for more information"
+                            for i, line in enumerate(lines):
+                                line_stripped = line.strip()
+                                # Check for "See README.md" pattern (case-insensitive)
+                                if 'see readme.md' in line_stripped.lower() or 'see readme' in line_stripped.lower():
+                                    if 'for more information' in line_stripped.lower() or 'more information' in line_stripped.lower():
+                                        # Replace this line with the new text
+                                        lines[i] = "Users can download update.zip files and place them on their device to update their player without needing to keep it plugged into a computer. These ⚡️ Fast Updates can be sent to your device from Innioasis Updater or downloaded directly from the web. In order to use ⚡️ Fast Update for the first time, you'll need to have first installed a ⚡️ Fast Update enabled update, using your computer."
+                                        break
                         
                         converted_lines = []
                         in_list = False
@@ -11087,15 +11231,20 @@ class FirmwareDownloaderGUI(QMainWindow):
             return False
     
     def find_adb_executable(self):
-        """Find ADB executable in assets or system PATH"""
-        # Check assets folder first
-        assets_adb = Path("assets/adb.exe" if platform.system() == "Windows" else "assets/adb")
+        """Find ADB executable in assets or system PATH - prioritizes ./assets/adb.exe on Windows"""
+        # Check assets folder first (use absolute path based on script location)
+        current_dir = Path.cwd()
+        if platform.system() == "Windows":
+            assets_adb = current_dir / "assets" / "adb.exe"
+        else:
+            assets_adb = current_dir / "assets" / "adb"
+        
         silent_print(f"Checking for ADB at: {assets_adb}")
-        if assets_adb.exists():
+        if assets_adb.exists() and assets_adb.is_file():
             silent_print(f"Found ADB in assets: {assets_adb}")
             return assets_adb
         
-        # Check system PATH
+        # Check system PATH only if not found in assets
         import shutil
         system_adb = shutil.which("adb")
         if system_adb:
