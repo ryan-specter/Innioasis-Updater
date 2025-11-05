@@ -562,6 +562,118 @@ def cleanup_firmware_files():
     except Exception as e:
         silent_print(f"Error cleaning up firmware files: {e}")
 
+def find_last_extracted_scatter_file():
+    """Find the last scatter.txt file based on file system data (most recently modified)"""
+    try:
+        current_dir = Path.cwd()
+        # Find all files matching *scatter.txt pattern in the current directory
+        scatter_files = list(current_dir.glob("*scatter.txt"))
+        
+        if not scatter_files:
+            silent_print("No scatter.txt files found in current directory - using default fallback")
+            # Default fallback: MT6572_Android_scatter.txt (most commonly used)
+            return "MT6572_Android_scatter.txt"
+        
+        # Sort by modification time, get the most recently modified
+        scatter_files.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+        last_scatter_file = scatter_files[0]
+        
+        # Return just the filename without path
+        scatter_file_name = last_scatter_file.name
+        silent_print(f"Found most recently modified scatter file: {scatter_file_name}")
+        return scatter_file_name
+    except Exception as e:
+        silent_print(f"Error finding last extracted scatter.txt file: {e} - using default fallback")
+        # Default fallback: MT6572_Android_scatter.txt (most commonly used)
+        return "MT6572_Android_scatter.txt"
+
+def update_history_ini():
+    """Update history.ini to reference the last extracted scatter.txt file without path"""
+    try:
+        current_dir = Path.cwd()
+        history_ini_path = current_dir / "history.ini"
+        
+        # Find the last extracted scatter.txt file (uses file system data, falls back to default)
+        last_scatter_file = find_last_extracted_scatter_file()
+        
+        # Function always returns a value (either found file or default fallback)
+        silent_print(f"Using scatter file: {last_scatter_file}")
+        
+        # Create or update history.ini
+        config = configparser.ConfigParser()
+        
+        # Read existing history.ini if it exists
+        if history_ini_path.exists():
+            config.read(history_ini_path)
+        
+        # Update [scatterHistory] section
+        # Ensure scatterHistory section exists
+        if 'scatterHistory' not in config:
+            config.add_section('scatterHistory')
+        
+        # Check for existing option name (might be scatterfile or scatterFile)
+        # Use lowercase to match existing format
+        option_name = 'scatterfile'
+        if config.has_option('scatterHistory', 'scatterFile'):
+            option_name = 'scatterFile'
+        elif config.has_option('scatterHistory', 'scatterfile'):
+            option_name = 'scatterfile'
+        
+        # Update with just the filename (no path)
+        # If there's an existing entry with a path, extract just the filename
+        if config.has_option('scatterHistory', option_name):
+            existing_value = config.get('scatterHistory', option_name)
+            # If it contains a path separator, extract just the filename
+            if os.sep in existing_value or '/' in existing_value or '\\' in existing_value:
+                # Extract just the filename from the path
+                existing_filename = os.path.basename(existing_value)
+                silent_print(f"Removed path from existing entry: {existing_value} -> {existing_filename}")
+        
+        # Update with just the filename (no path) - use lowercase to match existing format
+        config.set('scatterHistory', 'scatterfile', last_scatter_file)
+        
+        # Update [RecentOpenFile] section
+        # Ensure RecentOpenFile section exists
+        if 'RecentOpenFile' not in config:
+            config.add_section('RecentOpenFile')
+        
+        # Set lastDir to empty string
+        config.set('RecentOpenFile', 'lastDir', '')
+        
+        # Check for existing scatterHistory option in RecentOpenFile section
+        # Update with just the filename (no path)
+        if config.has_option('RecentOpenFile', 'scatterHistory'):
+            existing_value = config.get('RecentOpenFile', 'scatterHistory')
+            # If it contains a path separator, extract just the filename
+            if os.sep in existing_value or '/' in existing_value or '\\' in existing_value:
+                # Extract just the filename from the path
+                existing_filename = os.path.basename(existing_value)
+                silent_print(f"Removed path from RecentOpenFile.scatterHistory: {existing_value} -> {existing_filename}")
+        
+        # Update RecentOpenFile.scatterHistory with just the filename (no path)
+        config.set('RecentOpenFile', 'scatterHistory', last_scatter_file)
+        
+        # Set authHistory to empty string (always reset to empty)
+        config.set('RecentOpenFile', 'authHistory', '')
+        
+        # Update [LastDAFilePath] section
+        # Ensure LastDAFilePath section exists
+        if 'LastDAFilePath' not in config:
+            config.add_section('LastDAFilePath')
+        
+        # Always reset lastDir to MTK_AllInOne_DA.bin (covers all device models)
+        config.set('LastDAFilePath', 'lastDir', 'MTK_AllInOne_DA.bin')
+        
+        # Write to file
+        with open(history_ini_path, 'w') as f:
+            config.write(f)
+        
+        silent_print(f"Updated history.ini: scatterfile = {last_scatter_file}, RecentOpenFile.scatterHistory = {last_scatter_file}, RecentOpenFile.lastDir = '', LastDAFilePath.lastDir = MTK_AllInOne_DA.bin")
+    except Exception as e:
+        silent_print(f"Error updating history.ini: {e}")
+        import traceback
+        traceback.print_exc()
+
 def load_redundant_files_list():
     """Load redundant files list from local file or remote URL"""
     try:
@@ -666,29 +778,60 @@ def remove_files_by_pattern(directory, pattern):
     """Remove files or directories matching a pattern in the given directory and subdirectories"""
     removed_count = 0
     try:
+        # Important directories to preserve (cache, config, etc.)
+        preserve_dirs = {'.cache', 'cache', 'Cache', 'CACHE'}
+        
+        # Important cache files to preserve (for fast startup)
+        preserve_cache_files = {
+            'config_cache.json',
+            'manifest_cache.json',
+            'releases_cache.json',
+            'tokens_cache.json'
+        }
+        
         # Check if pattern is a directory (no file extension and exists as directory)
         pattern_path = directory / pattern
         if pattern_path.exists() and pattern_path.is_dir():
-            # Remove entire directory
-            import shutil
-            shutil.rmtree(pattern_path)
-            silent_print(f"Removed redundant directory: {pattern}")
-            removed_count += 1
+            # Don't remove preserved directories
+            if pattern_path.name not in preserve_dirs:
+                # Remove entire directory
+                import shutil
+                shutil.rmtree(pattern_path)
+                silent_print(f"Removed redundant directory: {pattern}")
+                removed_count += 1
         elif '*' in pattern:
             # Handle wildcard patterns - search recursively in subdirectories
             for file_path in directory.rglob(pattern):
+                # Skip files in preserved directories (cache, etc.)
+                if any(preserve_dir in file_path.parts for preserve_dir in preserve_dirs):
+                    continue
+                
+                # Skip important cache files (for fast startup)
+                if file_path.is_file() and file_path.name in preserve_cache_files:
+                    continue
+                
                 if file_path.is_file():
                     file_path.unlink()
                     silent_print(f"Removed redundant file: {file_path.relative_to(directory)}")
                     removed_count += 1
                 elif file_path.is_dir():
-                    import shutil
-                    shutil.rmtree(file_path)
-                    silent_print(f"Removed redundant directory: {file_path.relative_to(directory)}")
-                    removed_count += 1
+                    # Don't remove preserved directories
+                    if file_path.name not in preserve_dirs:
+                        import shutil
+                        shutil.rmtree(file_path)
+                        silent_print(f"Removed redundant directory: {file_path.relative_to(directory)}")
+                        removed_count += 1
         else:
             # Handle specific file names - search recursively in subdirectories
             for file_path in directory.rglob(pattern):
+                # Skip files in preserved directories (cache, etc.)
+                if any(preserve_dir in file_path.parts for preserve_dir in preserve_dirs):
+                    continue
+                
+                # Skip important cache files (for fast startup)
+                if file_path.is_file() and file_path.name in preserve_cache_files:
+                    continue
+                
                 if file_path.is_file():
                     file_path.unlink()
                     silent_print(f"Removed redundant file: {file_path.relative_to(directory)}")
@@ -1224,7 +1367,7 @@ class GitHubAPI:
                 # Return None immediately if offline to avoid blocking
                 if i == 0:  # On first attempt, check if it's a connection error
                     return None
-                continue  # Try next token
+                    continue  # Try next token
             except Exception as e:
                 silent_print(f"Error getting release for {repo} with token {token[:10]}...: {e} (attempt {i+1}/{max_attempts})")
                 continue  # Try next token
@@ -2392,6 +2535,9 @@ class DownloadWorker(QThread):
             # Log extracted files for cleanup
             log_extracted_files(extracted_files)
 
+            # Update history.ini with the last extracted .txt file (scatter file)
+            update_history_ini()
+
             self.status_updated.emit("Extraction completed. Files ready for MTK processing.")
 
             # Check if required files exist
@@ -3087,6 +3233,9 @@ class FirmwareDownloaderGUI(QMainWindow):
         try:
             silent_print("Starting shortcut cleanup check...")
             
+            # Remove any shortcuts pointing to updater.py (outdated middleman script)
+            self.remove_updater_py_shortcuts()
+            
             # Comprehensive cleanup of all Y1 Helper and related shortcuts
             self.comprehensive_shortcut_cleanup()
             
@@ -3098,6 +3247,79 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print(f"Error during shortcut cleanup: {e}")
             import traceback
             silent_print(f"Full error traceback: {traceback.format_exc()}")
+    
+    def remove_updater_py_shortcuts(self):
+        """Remove any shortcuts pointing to updater.py (outdated - should point to firmware_downloader.py)"""
+        if platform.system() != "Windows":
+            return
+        
+        try:
+            import win32com.client
+            
+            removed_count = 0
+            
+            # Check desktop
+            desktop_path = Path.home() / "Desktop"
+            if desktop_path.exists():
+                for shortcut_file in desktop_path.glob("*.lnk"):
+                    try:
+                        shell = win32com.client.Dispatch("WScript.Shell")
+                        shortcut = shell.CreateShortcut(str(shortcut_file))
+                        target = shortcut.TargetPath.lower()
+                        
+                        # Check if shortcut points to updater.py
+                        if 'updater.py' in target or shortcut_file.name.lower() == 'updater.py.lnk':
+                            shortcut_file.unlink()
+                            removed_count += 1
+                            silent_print(f"Removed shortcut pointing to updater.py: {shortcut_file.name}")
+                    except Exception as e:
+                        # Skip shortcuts that can't be read
+                        continue
+            
+            # Check start menu
+            start_menu_paths = self.get_all_start_menu_paths()
+            for start_menu_path in start_menu_paths:
+                if start_menu_path.exists():
+                    for shortcut_file in start_menu_path.rglob("*.lnk"):
+                        try:
+                            shell = win32com.client.Dispatch("WScript.Shell")
+                            shortcut = shell.CreateShortcut(str(shortcut_file))
+                            target = shortcut.TargetPath.lower()
+                            
+                            # Check if shortcut points to updater.py
+                            if 'updater.py' in target or shortcut_file.name.lower() == 'updater.py.lnk':
+                                shortcut_file.unlink()
+                                removed_count += 1
+                                silent_print(f"Removed shortcut pointing to updater.py: {shortcut_file.name}")
+                        except Exception as e:
+                            # Skip shortcuts that can't be read
+                            continue
+            
+            # Also check shortcuts in current directory
+            current_dir = Path.cwd()
+            for shortcut_file in current_dir.glob("*.lnk"):
+                try:
+                    shell = win32com.client.Dispatch("WScript.Shell")
+                    shortcut = shell.CreateShortcut(str(shortcut_file))
+                    target = shortcut.TargetPath.lower()
+                    
+                    # Check if shortcut points to updater.py
+                    if 'updater.py' in target or shortcut_file.name.lower() == 'updater.py.lnk':
+                        shortcut_file.unlink()
+                        removed_count += 1
+                        silent_print(f"Removed shortcut pointing to updater.py: {shortcut_file.name}")
+                except Exception as e:
+                    # Skip shortcuts that can't be read
+                    continue
+            
+            if removed_count > 0:
+                silent_print(f"Removed {removed_count} shortcut(s) pointing to updater.py")
+            
+        except ImportError:
+            # win32com not available (might be on non-Windows or missing pywin32)
+            silent_print("Cannot check shortcut targets: win32com not available")
+        except Exception as e:
+            silent_print(f"Error removing updater.py shortcuts: {e}")
 
     def cleanup_rockbox_utility_zip(self):
         """Clean up RockboxUtility.zip - extract to assets on Windows, delete on other platforms"""
@@ -4493,7 +4715,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Add both widgets to stack
         self.image_notes_stack.addWidget(self.image_label)  # Index 0 - image
         self.image_notes_stack.addWidget(self.release_notes_browser)  # Index 1 - release notes
-        
+
         # Load initial image with proper sizing
         self.load_presteps_image()
         
@@ -5322,7 +5544,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         try:
             self.status_label.setText("Loading configuration...")
             silent_print("Loading configuration and manifest data...")
-            
+
             # Stop any existing data loader worker
             if hasattr(self, 'data_loader_worker') and self.data_loader_worker:
                 try:
@@ -5418,8 +5640,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                 # Show offline message immediately
                 QTimer.singleShot(50, self._show_initial_offline_state)
                 silent_print("App initialized in offline mode - ready for local file installation")
-            
-            # Start background token validation and remote manifest refresh (reduced delay for faster startup)
+        
+        # Start background token validation and remote manifest refresh (reduced delay for faster startup)
             # This is non-blocking and will gracefully fail if offline - runs in worker thread
             QTimer.singleShot(25, self.start_token_loader_worker)
         except Exception as e:
@@ -5523,7 +5745,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                 silent_print(f"Validating {len(tokens)} API tokens in background...")
                 # Start parallel token validation (uses ThreadPoolExecutor, non-blocking)
                 self.validate_tokens_parallel(tokens)
-            
+
             # Retry loading releases now that we have tokens (for instant cached display when online)
             # This allows cached releases to show instantly when tokens are loaded
             QTimer.singleShot(100, self.populate_releases_list)
@@ -6451,7 +6673,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         msg.setText("No shortcut options are selected!")
         msg.setInformativeText(
             "If you proceed without creating shortcuts, you will need to manually run:\n\n"
-            '"%LocalAppData%\\Innioasis Updater\\pythonw.exe" updater.py\n\n'
+            '"%LocalAppData%\\Innioasis Updater\\pythonw.exe" firmware_downloader.py\n\n'
             "to use Innioasis Updater in the future.\n\n"
             "Are you sure you want to continue without shortcuts?"
         )
@@ -6887,8 +7109,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                 
             elif driver_info['has_mtk_driver'] and not driver_info['has_usbdk_driver']:
                 # Only MTK driver: Show "Install from rom.zip" button if not ARM64
-                    if not driver_info['is_arm64']:
-                        install_zip_btn = QPushButton("📦 Install from rom.zip")
+                if not driver_info['is_arm64']:
+                    install_zip_btn = QPushButton("📦 Install from rom.zip")
                     # Use native styling - no custom stylesheet for automatic theme adaptation
                     # Use default cursor for native OS feel
                     install_zip_btn.clicked.connect(self.install_from_zip)
@@ -6896,8 +7118,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                 
             else:
                 # Both drivers available: Show "Install from rom.zip" button (but not on ARM64)
-                    if not driver_info['is_arm64']:
-                        install_zip_btn = QPushButton("📦 Install from rom.zip")
+                if not driver_info['is_arm64']:
+                    install_zip_btn = QPushButton("📦 Install from rom.zip")
                     # Use native styling - no custom stylesheet for automatic theme adaptation
                     # Use default cursor for native OS feel
                     install_zip_btn.clicked.connect(self.install_from_zip)
@@ -7804,36 +8026,42 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Check if we have tokens available (indicates online mode is expected)
         has_tokens = hasattr(self.github_api, 'tokens') and len(self.github_api.tokens) > 0
         
-        # INSTANT: Check cache synchronously (no network, no blocking)
-        # Only show cached releases if we have tokens (online mode)
-        # If offline, show the offline message instead
+        # Check online status (non-blocking, cached check)
+        is_online = self.is_online()
+        
+        # Only show cached releases if we have tokens AND we're actually online
+        # This prevents showing cached releases when offline, which could mislead users
         cached_releases = self.github_api.get_cached_releases(selected_repo)
-        if cached_releases and has_tokens:
+        if cached_releases and has_tokens and is_online:
             # Online mode: show cached releases instantly for fast startup
             silent_print(f"Using {len(cached_releases)} cached releases (INSTANT, ONLINE MODE)")
             # Show cached releases immediately
-            self._display_cached_releases(cached_releases, selected_repo, selected_type, show_prereleases)
+            self._display_cached_releases(cached_releases, selected_repo, selected_type, show_prereleases, is_online=True)
             # Start background refresh in background (non-blocking)
             QTimer.singleShot(100, lambda: self._start_background_refresh(selected_repo, selected_type, show_prereleases))
             return
-        
+
         # Offline mode OR no cache: show offline message
-        if not has_tokens:
-            # No tokens = offline mode - show offline message
+        if not has_tokens or not is_online:
+            # No tokens or offline = offline mode - show offline message
             silent_print("Offline mode detected - showing Install from rom.zip prompt")
             self._show_offline_message(has_tokens)
+            # Disable download button when offline
+            self.download_btn.setEnabled(False)
             # Don't retry - we're intentionally offline
             return
         
-        # Has tokens but no cache - show offline message while fetching
+        # Has tokens and online but no cache - show offline message while fetching
         self._show_offline_message(has_tokens)
+        # Disable download button until releases are loaded
+        self.download_btn.setEnabled(False)
         
         # Start background fetch (non-blocking) - don't show loading item, keep offline message
         # The left panel will show automatically when releases are loaded
         self._start_background_refresh(selected_repo, selected_type, show_prereleases)
         
-    def _display_cached_releases(self, cached_releases, selected_repo, selected_type, show_prereleases):
-        """Display cached releases instantly (offline mode)"""
+    def _display_cached_releases(self, cached_releases, selected_repo, selected_type, show_prereleases, is_online=True):
+        """Display cached releases instantly (online mode only)"""
         try:
             self.releases_loaded_count = 0
             self.all_releases_loaded = []
@@ -7900,7 +8128,15 @@ class FirmwareDownloaderGUI(QMainWindow):
             if self.releases_loaded_count > 0:
                 self._show_left_panel()
             
-            silent_print(f"Displayed {self.releases_loaded_count} cached releases (OFFLINE MODE)")
+            # Enable download button only when online
+            # This prevents users from attempting downloads when offline
+            if is_online:
+                self.download_btn.setEnabled(True)
+            else:
+                self.download_btn.setEnabled(False)
+                silent_print("Download button disabled - offline mode")
+            
+            silent_print(f"Displayed {self.releases_loaded_count} cached releases (ONLINE MODE)")
         except Exception as e:
             silent_print(f"Error in _display_cached_releases: {e}")
             import traceback
@@ -8044,7 +8280,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         try:
             if not hasattr(self, '_pending_releases') or not self._pending_releases:
                 return
-            
+
             # Defensive check - ensure UI elements exist
             if not hasattr(self, 'package_list') or self.package_list is None:
                 self._pending_releases = []
@@ -8210,8 +8446,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                     self.package_list.addItem(item)
                 except (RuntimeError, AttributeError) as e:
                     silent_print(f"Error adding release to list: {e}")
-                    continue
-            
+                continue
+                
             # Show left panel when first release is loaded
             if self.package_list.count() > 0 and not self.left_panel.isVisible():
                 self._show_left_panel()
@@ -8375,10 +8611,23 @@ class FirmwareDownloaderGUI(QMainWindow):
                 # Check if we have tokens (might be online)
                 has_tokens = hasattr(self.github_api, 'tokens') and len(self.github_api.tokens) > 0
                 self._show_offline_message(has_tokens)
+                # Disable download button when offline
+                self.download_btn.setEnabled(False)
                 return
+            
+            # Check online status before enabling download button
+            is_online = self.is_online()
             
             # Show left panel if releases are available
             self._show_left_panel()
+            
+            # Enable download button only when online
+            # This prevents users from attempting downloads when offline
+            if is_online:
+                self.download_btn.setEnabled(True)
+            else:
+                self.download_btn.setEnabled(False)
+                silent_print("Download button disabled - offline mode")
             
             # Select first item if available
             try:
@@ -8412,7 +8661,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             if not selected_repo:
                 silent_print("No repo selected, cannot add release")
                 return
-            
+
             # Find the package info for this release to get software name from manifest
             package_info = None
             for package in self.packages:
@@ -8459,7 +8708,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             item = QListWidgetItem(display_text)
             item.setData(Qt.UserRole, release_with_software)
             self.package_list.addItem(item)
-            
+
             silent_print(f"Added release to UI: {tag_name}")
         except Exception as e:
             silent_print(f"Error in _add_release_to_list: {e}")
@@ -8744,7 +8993,7 @@ class FirmwareDownloaderGUI(QMainWindow):
     def populate_all_releases_list_progressive(self):
         """Populate the releases list progressively for all software using worker thread"""
         self.package_list.clear()
-        
+
         # Stop any existing all releases worker
         if hasattr(self, 'all_releases_worker') and self.all_releases_worker:
             try:
@@ -8785,7 +9034,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         if not self.packages:
             self._show_offline_message(has_tokens)
             return
-        
+
         self.all_releases_worker = AllReleasesWorker(self.github_api, self.packages)
         self.all_releases_worker.setParent(self)  # Parent to main window for proper cleanup
         
@@ -10209,6 +10458,26 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.line_display_timer.setSingleShot(True)
         self.line_display_timer.start(3000)
 
+    def is_online(self):
+        """Check if we have an active internet connection (non-blocking check)"""
+        try:
+            import socket
+            # Try to connect to a reliable DNS server (Google's public DNS)
+            # Use a short timeout to avoid blocking
+            socket.setdefaulttimeout(1)
+            socket.create_connection(("8.8.8.8", 53), timeout=1)
+            return True
+        except (socket.error, OSError):
+            # Also try GitHub (actual service we use)
+            try:
+                socket.create_connection(("github.com", 443), timeout=1)
+                return True
+            except (socket.error, OSError):
+                return False
+        finally:
+            # Reset timeout
+            socket.setdefaulttimeout(None)
+
     def detect_dark_mode(self):
         """Detect if the system is in dark mode"""
         try:
@@ -10567,16 +10836,28 @@ class FirmwareDownloaderGUI(QMainWindow):
                 self.progress_bar.setValue(100)
                 self.status_label.setText("update.zip copied successfully!")
                 
-                QMessageBox.information(
-                    self,
-                    "Update Copied Successfully",
-                    "✅ update.zip has been copied to your Y1.\n\n"
-                    "Next steps:\n"
-                    "1. Safely disconnect your Y1 from your computer\n"
-                    "2. On your Y1, go to Main Menu > System\n"
-                    "3. Select Firmware Update\n"
-                    "4. The update will install automatically"
-                )
+                # Try to run the update script via ADB after USB transfer
+                script_success = self.run_update_script_via_adb()
+                
+                if script_success:
+                    QMessageBox.information(
+                        self,
+                        "Update Complete",
+                        "✅ update.zip has been copied to your Y1.\n\n"
+                        "✅ Update script executed successfully via ADB.\n\n"
+                        "Your Y1 will restart and apply the update automatically."
+                    )
+                else:
+                    QMessageBox.information(
+                        self,
+                        "Update Copied Successfully",
+                        "✅ update.zip has been copied to your Y1.\n\n"
+                        "Next steps:\n"
+                        "1. Safely disconnect your Y1 from your computer\n"
+                        "2. On your Y1, go to Main Menu > System\n"
+                        "3. Select Firmware Update\n"
+                        "4. The update will install automatically"
+                    )
                 
                 self.progress_bar.setVisible(False)
                 return
@@ -10588,7 +10869,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                     f"Failed to copy update.zip:\n{str(e)}"
                 )
                 self.status_label.setText("Error copying update.zip")
-                return
+            return
             
         # Process the zip file with progress bar and status updates like download process
         self.status_label.setText("Processing zip file...")
@@ -10824,6 +11105,70 @@ class FirmwareDownloaderGUI(QMainWindow):
         silent_print("ADB not found in assets or system PATH")
         return None
     
+    def run_update_script_via_adb(self):
+        """Run the update script on the device via ADB after update.zip transfer"""
+        try:
+            # Find ADB executable
+            adb_path = self.find_adb_executable()
+            if not adb_path:
+                silent_print("ADB not found - cannot run update script")
+                return False
+            
+            # Check if device is connected via ADB
+            result = subprocess.run(
+                [str(adb_path), 'devices'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            # Parse device list
+            devices = []
+            for line in result.stdout.split('\n'):
+                if '\tdevice' in line:
+                    devices.append(line.split('\t')[0])
+            
+            if not devices:
+                silent_print("No ADB devices connected - cannot run update script")
+                return False
+            
+            silent_print(f"Found {len(devices)} ADB device(s): {devices}")
+            
+            # Run the update script as root
+            self.status_label.setText("ADB: Running update script as root...")
+            QApplication.processEvents()
+            
+            silent_print("Executing /data/data/update.sh as root...")
+            
+            # Run the script
+            script_result = subprocess.run(
+                [str(adb_path), 'shell', 'su', '-c', '/data/data/update.sh'],
+                capture_output=True,
+                text=True,
+                timeout=60,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            if script_result.returncode == 0:
+                silent_print("Update script executed successfully")
+                self.status_label.setText("Update script executed successfully")
+                return True
+            else:
+                silent_print(f"Update script returned error code: {script_result.returncode}")
+                silent_print(f"stderr: {script_result.stderr}")
+                self.status_label.setText(f"Update script error: {script_result.stderr[:100]}")
+                return False
+                
+        except subprocess.TimeoutExpired:
+            silent_print("ADB script execution timed out")
+            self.status_label.setText("Update script execution timed out")
+            return False
+        except Exception as e:
+            silent_print(f"Error running update script via ADB: {e}")
+            self.status_label.setText(f"Error running update script: {str(e)[:100]}")
+            return False
+    
     def execute_adb_update(self, adb_path):
         """Execute the ADB-based update with live output to status"""
         try:
@@ -10994,6 +11339,9 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print("Update sent successfully! Showing completion dialog...")
             self.status_label.setText("Update sent successfully!")
             
+            # Try to run the update script via ADB after USB transfer
+            script_success = self.run_update_script_via_adb()
+            
             # Get software name for the note
             selected_item = self.package_list.currentItem()
             software_name = "this firmware"
@@ -11002,17 +11350,26 @@ class FirmwareDownloaderGUI(QMainWindow):
                 software_name = release_info.get('software_name', 'this firmware')
             
             # Show completion dialog with instructions
-            QMessageBox.information(
-                self,
-                "Update Sent Successfully! ✅",
-                f"⚠️ IMPORTANT - PLEASE READ:\n\n"
-                f"If this is the FIRST TIME you install {software_name} on your Y1, if you don't see the Firmware Update option in Main Menu > System, you'll need to use a tool like Innioasis Updater (+ SP Flash Tool or MTKclient) to do this update the first time.\n\n"
-                f"━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
-                f"📱 Installation Instructions:\n\n"
-                f"1. Safely disconnect your Y1\n\n"
-                f"2. Go to Main Menu > System and click Firmware Update\n\n"
-                f"3. The update process will now run in the background and automatically restart the device once it is done"
-            )
+            if script_success:
+                QMessageBox.information(
+                    self,
+                    "Update Complete! ✅",
+                    f"✅ update.zip has been sent to your Y1.\n\n"
+                    f"✅ Update script executed successfully via ADB.\n\n"
+                    f"Your Y1 will restart and apply the update automatically."
+                )
+            else:
+                QMessageBox.information(
+                    self,
+                    "Update Sent Successfully! ✅",
+                    f"⚠️ IMPORTANT - PLEASE READ:\n\n"
+                    f"If this is the FIRST TIME you install {software_name} on your Y1, if you don't see the Firmware Update option in Main Menu > System, you'll need to use a tool like Innioasis Updater (+ SP Flash Tool or MTKclient) to do this update the first time.\n\n"
+                    f"━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+                    f"📱 Installation Instructions:\n\n"
+                    f"1. Safely disconnect your Y1\n\n"
+                    f"2. Go to Main Menu > System and click Firmware Update\n\n"
+                    f"3. The update process will now run in the background and automatically restart the device once it is done"
+                )
         else:
             self.status_label.setText("Failed to send update")
             QMessageBox.critical(
@@ -11151,6 +11508,17 @@ class FirmwareDownloaderGUI(QMainWindow):
 
     def start_download(self):
         """Start the download and processing process"""
+        # Check online status before starting download
+        # This prevents users from attempting downloads when offline
+        if not self.is_online():
+            QMessageBox.warning(
+                self,
+                "Offline Mode",
+                "You are currently offline. Please connect to the internet to download firmware.\n\n"
+                "Alternatively, use 'Install from rom.zip' to install firmware from a local file."
+            )
+            return
+        
         # Cancel any existing revert timer to prevent conflicts
         if hasattr(self, '_revert_timer') and self._revert_timer:
             self._revert_timer.stop()
@@ -12577,7 +12945,64 @@ if __name__ == "__main__":
         parser = argparse.ArgumentParser(description="Innioasis Firmware Downloader")
         parser.add_argument("--toolkit", action="store_true", 
                           help="Open only the toolkit window")
+        parser.add_argument("-sp", action="store_true",
+                          help="Skip GUI and launch flash_tool.exe after updating history.ini")
         args = parser.parse_args()
+        
+        # Update history.ini at launch (prepares valid history.ini for SP Flash Tool)
+        update_history_ini()
+        
+        # If -sp argument is provided, skip GUI entirely and launch flash_tool.exe
+        if args.sp:
+            current_dir = Path.cwd()
+            flash_tool_exe = current_dir / "flash_tool.exe"
+            
+            if flash_tool_exe.exists():
+                # Launch flash_tool.exe without waiting (non-blocking)
+                # On Windows, use DETACHED_PROCESS to ensure process is fully detached
+                # This prevents blocking subsequent runs when using pythonw.exe
+                try:
+                    if platform.system() == "Windows":
+                        # Use DETACHED_PROCESS and CREATE_NEW_PROCESS_GROUP for proper detachment
+                        # This ensures the process doesn't block subsequent runs
+                        creation_flags = (
+                            subprocess.DETACHED_PROCESS |
+                            subprocess.CREATE_NEW_PROCESS_GROUP |
+                            subprocess.CREATE_NO_WINDOW
+                        )
+                        subprocess.Popen(
+                            [str(flash_tool_exe)],
+                            cwd=str(current_dir),
+                            creationflags=creation_flags,
+                            stdout=subprocess.DEVNULL,
+                            stderr=subprocess.DEVNULL,
+                            stdin=subprocess.DEVNULL
+                        )
+                    else:
+                        # On non-Windows, launch normally
+                        subprocess.Popen(
+                            [str(flash_tool_exe)],
+                            cwd=str(current_dir),
+                            stdout=subprocess.DEVNULL,
+                            stderr=subprocess.DEVNULL,
+                            stdin=subprocess.DEVNULL
+                        )
+                except Exception as e:
+                    # Silent failure for pythonw.exe (no console)
+                    # Try to write error to a log file if possible
+                    try:
+                        error_log = current_dir / "flash_tool_error.log"
+                        with open(error_log, 'a') as f:
+                            f.write(f"{datetime.now()}: Error launching flash_tool.exe: {e}\n")
+                    except:
+                        pass
+                    sys.exit(1)
+                
+                # Exit Python script immediately (GUI is not created)
+                sys.exit(0)
+            else:
+                # Silent failure for pythonw.exe (no console)
+                sys.exit(1)
         
         # Create the application
         app = QApplication(sys.argv)
