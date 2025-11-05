@@ -25,7 +25,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QHBoxLayo
                                QWidget, QListWidget, QListWidgetItem, QPushButton, QTextEdit,
                                QLabel, QComboBox, QProgressBar, QMessageBox,
                                QGroupBox, QSplitter, QStackedWidget, QCheckBox, QProgressDialog,
-                               QFileDialog, QDialog, QTabWidget, QScrollArea)
+                               QFileDialog, QDialog, QTabWidget, QScrollArea, QTextBrowser)
 from PySide6.QtCore import QThread, Signal, Qt, QSize, QTimer, QPropertyAnimation, QEasingCurve, QObject
 from PySide6.QtGui import QFont, QPixmap, QTextDocument, QPalette
 import platform
@@ -235,12 +235,12 @@ CACHE_DIR = Path(".cache")
 CACHE_DIR.mkdir(exist_ok=True)
 CONFIG_CACHE_FILE = CACHE_DIR / "config_cache.json"
 MANIFEST_CACHE_FILE = CACHE_DIR / "manifest_cache.json"
-CACHE_DURATION = 300  # 5 minutes cache duration
+CACHE_DURATION = 86400  # 24 hour cache duration for offline capability
 
 # Performance optimization
 MAX_CONCURRENT_REQUESTS = 3
-REQUEST_TIMEOUT = 8
-TOKEN_VALIDATION_TIMEOUT = 10
+REQUEST_TIMEOUT = 1  # Short timeout for non-blocking behavior
+TOKEN_VALIDATION_TIMEOUT = 2  # Short timeout for non-blocking token validation
 
 def silent_print(*args, **kwargs):
     """Print function that respects silent mode - completely silent by default"""
@@ -572,11 +572,18 @@ def load_redundant_files_list():
             with open(local_file, 'r', encoding='utf-8') as f:
                 content = f.read()
         else:
-            # Try remote URL
+            # Try remote URL (non-blocking with short timeout)
             silent_print("Loading redundant files list from remote URL")
-            response = requests.get("https://innioasis.app/redundant_files.txt", timeout=10)
-            response.raise_for_status()
-            content = response.text
+            try:
+                response = requests.get("https://innioasis.app/redundant_files.txt", timeout=1)
+                response.raise_for_status()
+                content = response.text
+            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout, requests.exceptions.RequestException) as e:
+                silent_print(f"Network error loading redundant files (offline?): {e}")
+                return {}  # Return empty dict instead of blocking
+            except Exception as e:
+                silent_print(f"Error loading redundant files: {e}")
+                return {}
         
         # Parse the content
         redundant_files = {}
@@ -820,10 +827,13 @@ class ConfigDownloader:
         if cached_tokens:
             return cached_tokens
 
+        # If no cache, try to download but with short timeout to avoid blocking
+        # The app should work without tokens using unauthenticated requests
         try:
             silent_print("Downloading tokens from remote config...")
             silent_print(f"Config URL: {self.config_url}")
-            response = self.session.get(self.config_url, timeout=REQUEST_TIMEOUT)
+            # Use shorter timeout for non-blocking behavior in offline mode
+            response = self.session.get(self.config_url, timeout=2)  # 2 second timeout
             silent_print(f"Response status: {response.status_code}")
 
             if response.status_code != 200:
@@ -886,9 +896,14 @@ class ConfigDownloader:
             else:
                 silent_print("No valid tokens found in config - will use unauthenticated mode")
             return tokens
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout, requests.exceptions.RequestException) as e:
+            # Network error - offline or connection failed
+            silent_print(f"Network error downloading config (offline?): {e}")
+            silent_print("Falling back to unauthenticated requests only - app will work offline")
+            return []
         except Exception as e:
             silent_print(f"Error downloading config: {e}")
-            silent_print("Falling back to unauthenticated requests only")
+            silent_print("Falling back to unauthenticated requests only - app will work offline")
             return []
 
     def download_manifest(self, use_local_first=True):
@@ -906,12 +921,15 @@ class ConfigDownloader:
                 silent_print(f"Loaded {len(local_packages)} packages from local manifest for instant startup")
                 # Cache the local packages immediately
                 save_cache(MANIFEST_CACHE_FILE, local_packages)
-                # Start background refresh of remote manifest
+                # Start background refresh of remote manifest (non-blocking)
                 self.refresh_remote_manifest_async()
                 return local_packages
 
-        # Fallback to remote download if no local manifest
-        return self.download_remote_manifest()
+        # If no local manifest and no cache, return empty list (non-blocking for offline mode)
+        # The app can still work with "Install from rom.zip" feature
+        silent_print("No local manifest or cache found - app will work in offline mode")
+        silent_print("Use 'Install from rom.zip' button to install firmware from local files")
+        return []
 
     def load_local_manifest(self):
         """Load manifest from local slidia_manifest.xml file"""
@@ -934,10 +952,11 @@ class ConfigDownloader:
             return []
 
     def download_remote_manifest(self):
-        """Download manifest from remote URL"""
+        """Download manifest from remote URL with timeout for offline mode"""
         try:
             silent_print("Downloading remote manifest...")
-            response = self.session.get(self.manifest_url, timeout=REQUEST_TIMEOUT)
+            # Use shorter timeout to avoid blocking in offline mode
+            response = self.session.get(self.manifest_url, timeout=2)  # 2 second timeout
             response.raise_for_status()
 
             root = ET.fromstring(response.text)
@@ -946,8 +965,14 @@ class ConfigDownloader:
             # Cache the packages
             save_cache(MANIFEST_CACHE_FILE, packages)
             return packages
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout, requests.exceptions.RequestException) as e:
+            # Network error - offline or connection failed
+            silent_print(f"Network error downloading remote manifest (offline?): {e}")
+            silent_print("App will continue in offline mode - use 'Install from rom.zip' for local files")
+            return []
         except Exception as e:
             silent_print(f"Error downloading remote manifest: {e}")
+            silent_print("App will continue in offline mode - use 'Install from rom.zip' for local files")
             return []
 
     def parse_manifest_xml(self, root):
@@ -1040,9 +1065,11 @@ class GitHubAPI:
         self.unauth_calls = []
         self.unauth_hourly_limit = 60
 
-        # Caching for releases to improve fallback reliability
+        # Persistent caching for releases to enable offline mode
         self.releases_cache = {}
-        self.cache_duration = 3600  # 1 hour cache duration
+        self.cache_duration = 86400  # 24 hour cache duration
+        self.releases_cache_dir = Path(".cache/releases")
+        self.releases_cache_dir.mkdir(parents=True, exist_ok=True)
 
     def get_next_token(self):
         """Get the next available token with load balancing and rate limiting"""
@@ -1124,7 +1151,13 @@ class GitHubAPI:
         silent_print(f"Recorded unauthenticated API call ({len(self.unauth_calls)}/hour)")
 
     def retry_with_delay(self, func, *args, max_retries=3, delay=1):
-        """Retry a function with exponential backoff"""
+        """
+        Retry a function with exponential backoff (thread-safe)
+        NOTE: This should only be called from worker threads (QThread instances)
+        Uses QThread.msleep() for thread-safe delays instead of time.sleep()
+        """
+        from PySide6.QtCore import QThread
+        
         for attempt in range(max_retries):
             try:
                 result = func(*args)
@@ -1134,14 +1167,34 @@ class GitHubAPI:
                 silent_print(f"Attempt {attempt + 1} failed: {e}")
 
             if attempt < max_retries - 1:
-                time.sleep(delay * (2 ** attempt))  # Exponential backoff
+                sleep_time = int(delay * (2 ** attempt) * 1000)  # Convert to milliseconds
+                # Use QThread.msleep() for thread-safe delay (works in any thread)
+                try:
+                    QThread.msleep(sleep_time)
+                except:
+                    # Fallback if msleep not available (shouldn't happen)
+                    import time
+                    time.sleep(sleep_time / 1000)
 
         return None
 
     def make_authenticated_request(self, url, repo):
-        """Make an authenticated request with robust token fallback"""
-        # Try all available tokens in sequence
-        for token in self.tokens:
+        """Make an authenticated request with robust token fallback - OPTIMIZED"""
+        # If no tokens available, return immediately
+        if not self.tokens:
+            return None
+        
+        # Prioritize working tokens first, then try others
+        working_tokens = [t for t in self.tokens if self.is_token_working(t)]
+        other_tokens = [t for t in self.tokens if not self.is_token_working(t)]
+        
+        # Try working tokens first (fast path)
+        tokens_to_try = working_tokens + other_tokens
+        
+        # Limit attempts to first 3 tokens to avoid long waits
+        max_attempts = min(3, len(tokens_to_try))
+        
+        for i, token in enumerate(tokens_to_try[:max_attempts]):
             # Add github_pat_ prefix if not present
             full_token = token if token.startswith('github_pat_') else f'github_pat_{token}'
             
@@ -1157,18 +1210,26 @@ class GitHubAPI:
                     self.working_tokens.add(token)
                     return response
                 elif response.status_code == 401:
-                    silent_print(f"Token authentication failed for {repo} with token {token[:10]}...")
+                    silent_print(f"Token authentication failed for {repo} with token {token[:10]}... (attempt {i+1}/{max_attempts})")
                     continue  # Try next token
                 elif response.status_code == 403:
-                    silent_print(f"Rate limited for {repo} with token {token[:10]}...")
+                    silent_print(f"Rate limited for {repo} with token {token[:10]}... (attempt {i+1}/{max_attempts})")
                     continue  # Try next token
                 else:
-                    silent_print(f"Error getting release for {repo} with token {token[:10]}...: {response.status_code}")
+                    silent_print(f"Error getting release for {repo} with token {token[:10]}...: {response.status_code} (attempt {i+1}/{max_attempts})")
                     continue  # Try next token
+            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout, requests.exceptions.RequestException) as e:
+                # Network error - offline or connection failed (non-blocking)
+                silent_print(f"Network error for {repo} (offline?): {e} (attempt {i+1}/{max_attempts})")
+                # Return None immediately if offline to avoid blocking
+                if i == 0:  # On first attempt, check if it's a connection error
+                    return None
+                continue  # Try next token
             except Exception as e:
-                silent_print(f"Error getting release for {repo} with token {token[:10]}...: {e}")
+                silent_print(f"Error getting release for {repo} with token {token[:10]}...: {e} (attempt {i+1}/{max_attempts})")
                 continue  # Try next token
         
+        silent_print(f"All {max_attempts} token attempts failed for {repo}")
         return None
 
     def get_latest_release(self, repo):
@@ -1251,6 +1312,9 @@ class GitHubAPI:
                     return latest_cached
             else:
                 silent_print(f"Unauthenticated request failed for {repo}: {response.status_code}")
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout, requests.exceptions.RequestException) as e:
+            # Network error - offline or connection failed (non-blocking)
+            silent_print(f"Network error getting release for {repo} unauthenticated (offline?): {e}")
         except Exception as e:
             silent_print(f"Error getting release for {repo} unauthenticated: {e}")
 
@@ -1264,10 +1328,24 @@ class GitHubAPI:
         return None
 
     def get_all_releases(self, repo):
-        """Get all releases for a repository with improved performance"""
-        url = f"https://api.github.com/repos/{repo}/releases"
+        """
+        Get all releases for a repository with improved performance - CACHE FIRST, LIMITED TO 30
+        
+        NOTE: This method performs blocking network operations and should only be called
+        from worker threads (QThread instances) to avoid freezing the UI. Do not call
+        this method from the main thread.
+        """
+        # Try cache first for instant loading
+        cached_releases = self.get_cached_releases(repo)
+        if cached_releases:
+            silent_print(f"Using {len(cached_releases)} cached releases for {repo} (instant load)")
+            return cached_releases[:30]  # Limit cached results to 30 most recent
+        
+        # Fetch more releases (30) to ensure Stable releases are included even if older than Nightly builds
+        # Then we'll filter to top 10 non-pre-release for display
+        url = f"https://api.github.com/repos/{repo}/releases?per_page=30"
 
-        # Try authenticated requests with all available tokens
+        # Try authenticated requests with available tokens
         if self.tokens:
             response = self.make_authenticated_request(url, repo)
             if response:
@@ -1278,8 +1356,10 @@ class GitHubAPI:
                     releases = []
 
                     for release in releases_data:
+                        tag_name = release.get('tag_name', 'Unknown')
+                        is_prerelease = release.get('prerelease', False)
                         assets = release.get('assets', [])
-                        silent_print(f"Release {release.get('tag_name', 'Unknown')} has {len(assets)} assets")
+                        silent_print(f"Processing release: {tag_name} (prerelease={is_prerelease}) with {len(assets)} assets")
 
                         # Find firmware assets
                         zip_asset = None
@@ -1297,11 +1377,13 @@ class GitHubAPI:
                                 'published_at': release.get('published_at', ''),
                                 'download_url': zip_asset['browser_download_url'],
                                 'asset_name': zip_asset['name'],
-                                'asset_size': zip_asset.get('size', 0)
+                                'asset_size': zip_asset.get('size', 0),
+                                'assets': release.get('assets', []),  # Include full assets array for update.zip detection
+                                'prerelease': is_prerelease  # GitHub's official pre-release flag
                             })
-                            silent_print(f"Added release {release.get('tag_name', 'Unknown')} with zip asset")
+                            silent_print(f"Added release {tag_name} (prerelease={is_prerelease}) with zip asset")
                         else:
-                            silent_print(f"No zip assets found for release {release.get('tag_name', 'Unknown')}")
+                            silent_print(f"Skipped release {tag_name} - no rom.zip found")
 
                     silent_print(f"Returning {len(releases)} releases with zip assets")
                     return releases
@@ -1341,12 +1423,17 @@ class GitHubAPI:
                                 'published_at': release.get('published_at', ''),
                                 'download_url': zip_asset['browser_download_url'],
                                 'asset_name': zip_asset['name'],
-                                'asset_size': zip_asset.get('size', 0)
+                                'asset_size': zip_asset.get('size', 0),
+                                'assets': release.get('assets', []),  # Include full assets array for update.zip detection
+                                'prerelease': release.get('prerelease', False)  # GitHub's official pre-release flag
                             })
                     
                     if releases:
                         self.cache_releases(repo, releases)
                         return releases
+            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout, requests.exceptions.RequestException) as e:
+                # Network error - offline or connection failed (non-blocking)
+                silent_print(f"Network error in rate limit bypass (offline?): {e}")
             except Exception as e:
                 silent_print(f"Rate limit bypass failed: {e}")
             
@@ -1381,7 +1468,9 @@ class GitHubAPI:
                             'published_at': release.get('published_at', ''),
                             'download_url': zip_asset['browser_download_url'],
                             'asset_name': zip_asset['name'],
-                            'asset_size': zip_asset.get('size', 0)
+                            'asset_size': zip_asset.get('size', 0),
+                            'assets': release.get('assets', []),  # Include full assets array for update.zip detection
+                            'prerelease': release.get('prerelease', False)  # GitHub's official pre-release flag
                         })
 
                 silent_print(f"Unauthenticated: Returning {len(releases)} releases with zip assets")
@@ -1397,6 +1486,9 @@ class GitHubAPI:
                     return cached_releases
             else:
                 silent_print(f"Unauthenticated request failed for {repo}: {response.status_code}")
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout, requests.exceptions.RequestException) as e:
+            # Network error - offline or connection failed (non-blocking)
+            silent_print(f"Network error getting releases for {repo} unauthenticated (offline?): {e}")
         except Exception as e:
             silent_print(f"Error getting releases for {repo} unauthenticated: {e}")
 
@@ -1410,21 +1502,54 @@ class GitHubAPI:
         return []
 
     def get_cached_releases(self, repo):
-        """Get cached releases for a repository if available and not expired"""
+        """Get cached releases for a repository - PERSISTENT DISK CACHE for offline mode"""
+        # Check in-memory cache first (fastest)
         if repo in self.releases_cache:
             cache_time, releases = self.releases_cache[repo]
             if time.time() - cache_time < self.cache_duration:
-                silent_print(f"Using cached releases for {repo} (age: {time.time() - cache_time:.0f}s)")
+                silent_print(f"Using in-memory cached releases for {repo} (age: {time.time() - cache_time:.0f}s)")
                 return releases
             else:
                 # Remove expired cache entry
                 del self.releases_cache[repo]
+        
+        # Check disk cache (enables offline mode)
+        try:
+            cache_file = self.releases_cache_dir / f"{repo.replace('/', '_')}.json"
+            if cache_file.exists():
+                with open(cache_file, 'r') as f:
+                    cache_data = json.load(f)
+                cache_time = cache_data.get('timestamp', 0)
+                if time.time() - cache_time < self.cache_duration:
+                    releases = cache_data.get('releases', [])
+                    silent_print(f"Using disk cached releases for {repo} (age: {time.time() - cache_time:.0f}s, OFFLINE MODE)")
+                    # Load into memory cache for faster subsequent access
+                    self.releases_cache[repo] = (cache_time, releases)
+                    return releases
+                else:
+                    silent_print(f"Disk cache expired for {repo}")
+        except Exception as e:
+            silent_print(f"Error loading disk cache for {repo}: {e}")
+        
         return None
 
     def cache_releases(self, repo, releases):
-        """Cache releases for a repository"""
+        """Cache releases for a repository - PERSISTENT to disk for offline mode"""
+        # Save to memory cache
         self.releases_cache[repo] = (time.time(), releases)
-        silent_print(f"Cached {len(releases)} releases for {repo}")
+        
+        # Save to disk cache for persistence across app restarts
+        try:
+            cache_file = self.releases_cache_dir / f"{repo.replace('/', '_')}.json"
+            cache_data = {
+                'timestamp': time.time(),
+                'releases': releases
+            }
+            with open(cache_file, 'w') as f:
+                json.dump(cache_data, f)
+            silent_print(f"Cached {len(releases)} releases for {repo} to disk (persistent)")
+        except Exception as e:
+            silent_print(f"Error saving cache to disk for {repo}: {e}")
 
     def clear_expired_cache(self):
         """Clear expired cache entries"""
@@ -2101,6 +2226,99 @@ class MTKWorker(QThread):
             self.mtk_completed.emit(False, "Install process interrupted - please try again")
 
 
+class UpdateZipSenderWorker(QThread):
+    """Worker thread for downloading and sending update.zip to Y1"""
+    
+    progress_updated = Signal(int)
+    status_updated = Signal(str)
+    send_completed = Signal(bool, str)
+    
+    def __init__(self, update_zip_url, target_directory):
+        super().__init__()
+        self.update_zip_url = update_zip_url
+        self.target_directory = Path(target_directory)
+    
+    def run(self):
+        try:
+            silent_print(f"Starting update.zip download from {self.update_zip_url}")
+            silent_print(f"Target directory: {self.target_directory}")
+            
+            self.status_updated.emit("Downloading update.zip...")
+            
+            # Download update.zip
+            silent_print("Making request to download update.zip...")
+            response = requests.get(self.update_zip_url, stream=True, timeout=30)
+            response.raise_for_status()
+            
+            total_size = int(response.headers.get('content-length', 0))
+            downloaded = 0
+            
+            silent_print(f"Download started, total size: {total_size} bytes")
+            
+            # Create temporary file
+            temp_update_path = Path("update.zip.tmp")
+            
+            with open(temp_update_path, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
+                        downloaded += len(chunk)
+                        if total_size > 0:
+                            progress = int((downloaded / total_size) * 100)
+                            self.progress_updated.emit(progress)
+                            if progress % 20 == 0:  # Log every 20%
+                                silent_print(f"Download progress: {progress}%")
+            
+            silent_print(f"Download complete: {downloaded} bytes")
+            self.status_updated.emit("Finding .rockbox folder...")
+            
+            # Find or create .rockbox folder
+            rockbox_dir = None
+            
+            # Check if selected directory is .rockbox itself
+            if self.target_directory.name.lower() == '.rockbox':
+                silent_print("Selected directory is .rockbox folder")
+                rockbox_dir = self.target_directory
+            else:
+                # Check if .rockbox exists in selected directory
+                potential_rockbox = self.target_directory / '.rockbox'
+                if potential_rockbox.exists() and potential_rockbox.is_dir():
+                    silent_print(f"Found existing .rockbox folder: {potential_rockbox}")
+                    rockbox_dir = potential_rockbox
+                else:
+                    # Create .rockbox folder
+                    self.status_updated.emit("Creating .rockbox folder...")
+                    silent_print(f"Creating .rockbox folder at: {potential_rockbox}")
+                    potential_rockbox.mkdir(parents=True, exist_ok=True)
+                    rockbox_dir = potential_rockbox
+                    silent_print(".rockbox folder created successfully")
+            
+            # Move update.zip to .rockbox folder
+            self.status_updated.emit("Copying update.zip to .rockbox...")
+            target_update_path = rockbox_dir / "update.zip"
+            silent_print(f"Moving update.zip to: {target_update_path}")
+            
+            import shutil
+            shutil.move(str(temp_update_path), str(target_update_path))
+            
+            silent_print("update.zip successfully moved to .rockbox folder")
+            self.send_completed.emit(True, f"update.zip successfully placed in {rockbox_dir}")
+            
+        except Exception as e:
+            silent_print(f"Error in UpdateZipSenderWorker: {e}")
+            import traceback
+            traceback.print_exc()
+            
+            # Clean up temp file
+            try:
+                if Path("update.zip.tmp").exists():
+                    Path("update.zip.tmp").unlink()
+                    silent_print("Cleaned up temporary file")
+            except:
+                pass
+            
+            self.send_completed.emit(False, f"Error: {str(e)}")
+
 class DownloadWorker(QThread):
     """Worker thread for downloading and processing firmware"""
 
@@ -2207,6 +2425,367 @@ class DownloadWorker(QThread):
             self.download_completed.emit(False, f"Error: {str(e)}")
 
 
+class ProgressiveReleaseWorker(QThread):
+    """Worker thread for progressively loading releases one by one without blocking UI"""
+    
+    release_loaded = Signal(dict)  # Emitted when a single release is loaded
+    loading_complete = Signal(list)  # Emitted when all releases are loaded
+    loading_failed = Signal(str)  # Emitted on error
+    
+    def __init__(self, github_api, repo, selected_type, show_prereleases):
+        super().__init__()
+        self.github_api = github_api
+        self.repo = repo
+        self.selected_type = selected_type
+        self.show_prereleases = show_prereleases
+        self.stop_requested = False
+        
+    def stop(self):
+        """Request to stop loading"""
+        self.stop_requested = True
+        
+    def run(self):
+        """Progressive loading of releases - ONLY fetches fresh data (cache handled separately)"""
+        try:
+            # Defensive check - ensure attributes exist
+            try:
+                if not hasattr(self, 'stop_requested'):
+                    self.stop_requested = False
+                if not hasattr(self, 'github_api') or not hasattr(self, 'repo'):
+                    return
+            except (AttributeError, RuntimeError) as e:
+                silent_print(f"Error accessing worker attributes: {e}")
+                return
+            
+            # Check stop_requested before starting
+            if self.stop_requested:
+                return
+            
+            # Fetch releases from GitHub API progressively
+            url = f"https://api.github.com/repos/{self.repo}/releases?per_page=30"
+            
+            # Try authenticated request
+            response = None
+            if not self.stop_requested and self.github_api.tokens:
+                response = self.github_api.make_authenticated_request(url, self.repo)
+            
+            # Fallback to unauthenticated
+            if not self.stop_requested and not response:
+                if self.github_api.can_make_unauth_request():
+                    try:
+                        self.github_api.record_unauth_request()
+                        response = self.github_api.session.get(url, timeout=REQUEST_TIMEOUT)
+                    except (requests.exceptions.ConnectionError, requests.exceptions.Timeout, requests.exceptions.RequestException) as e:
+                        # Network error - offline or connection failed (non-blocking)
+                        silent_print(f"Network error in ProgressiveReleaseWorker (offline?): {e}")
+                        if not self.stop_requested:
+                            self.loading_failed.emit(f"Network error: {e}")
+                        return
+                    except Exception as e:
+                        silent_print(f"Error in ProgressiveReleaseWorker: {e}")
+                        if not self.stop_requested:
+                            self.loading_failed.emit(f"Error: {e}")
+                        return
+            
+            if self.stop_requested:
+                return
+            
+            if not response or response.status_code != 200:
+                if not self.stop_requested:
+                    self.loading_failed.emit(f"Failed to fetch releases: {response.status_code if response else 'No response'}")
+                return
+            
+            releases_data = response.json()
+            silent_print(f"Fetched {len(releases_data)} releases from GitHub API")
+            
+            all_releases = []
+            added_count = 0
+            
+            # Process and emit releases one by one
+            for release_data in releases_data:
+                if self.stop_requested:
+                    return
+                
+                # Check if release has rom.zip
+                assets = release_data.get('assets', [])
+                zip_asset = None
+                for asset in assets:
+                    if asset['name'].lower() == 'rom.zip':
+                        zip_asset = asset
+                        break
+                
+                if not zip_asset:
+                    continue  # Skip releases without rom.zip
+                
+                # Build release object
+                release = {
+                    'tag_name': release_data.get('tag_name', ''),
+                    'name': release_data.get('name', ''),
+                    'body': release_data.get('body', ''),
+                    'published_at': release_data.get('published_at', ''),
+                    'download_url': zip_asset['browser_download_url'],
+                    'asset_name': zip_asset['name'],
+                    'asset_size': zip_asset.get('size', 0),
+                    'assets': release_data.get('assets', []),
+                    'prerelease': release_data.get('prerelease', False)
+                }
+                
+                all_releases.append(release)
+                
+                # Filter and emit if should be included
+                if self._should_include_release(release):
+                    if not self.stop_requested:
+                        self.release_loaded.emit(release)
+                        added_count += 1
+                        # No limit - show all releases that match the filter
+                        # No delay needed - UI updates are batched on the main thread
+                
+                if self.stop_requested:
+                    return
+            
+            if self.stop_requested:
+                return
+            
+            # Cache all releases for future use
+            if all_releases and not self.stop_requested:
+                try:
+                    self.github_api.cache_releases(self.repo, all_releases)
+                except Exception as e:
+                    silent_print(f"Error caching releases: {e}")
+            
+            if not self.stop_requested:
+                try:
+                    self.loading_complete.emit(all_releases)
+                except RuntimeError:
+                    # Receiver might be destroyed
+                    pass
+            
+        except Exception as e:
+            if not self.stop_requested:
+                try:
+                    silent_print(f"Error in progressive release loading: {e}")
+                    import traceback
+                    traceback.print_exc()
+                    self.loading_failed.emit(str(e))
+                except RuntimeError:
+                    # Receiver might be destroyed
+                    pass
+    
+    def _should_include_release(self, release):
+        """Check if release should be included based on filters"""
+        tag_name = release.get('tag_name', '')
+        
+        # Skip releases that should be excluded
+        if 'base' in tag_name.lower():
+            return False
+        
+        # Check type filter
+        has_type_b = 'type-b' in tag_name.lower()
+        if self.selected_type == 'B':
+            if not has_type_b:
+                return False
+        else:
+            if has_type_b:
+                return False
+        
+        # Check pre-release filter
+        # When unchecked: Show only stable builds (hide pre-releases and nightly)
+        # When checked: Show only pre-releases (hide stable builds)
+        is_prerelease = release.get('prerelease', False)
+        is_nightly = 'nightly' in tag_name.lower()
+        is_stable = not is_prerelease and not is_nightly
+        
+        if self.show_prereleases:
+            # When checked: Show only pre-releases (hide stable builds)
+            if is_stable:
+                return False
+            # Show pre-releases and nightly builds
+            return True
+        else:
+            # When unchecked: Show only stable builds (hide pre-releases and nightly)
+            if is_prerelease or is_nightly:
+                return False
+            # Show stable builds only
+            return True
+
+
+class AllReleasesWorker(QThread):
+    """Worker thread for loading releases from all packages without blocking UI"""
+    
+    releases_loaded = Signal(list)  # Emitted when releases are loaded for a package
+    loading_complete = Signal(list)  # Emitted when all packages are processed
+    loading_failed = Signal(str)  # Emitted on error
+    
+    def __init__(self, github_api, packages):
+        super().__init__()
+        self.github_api = github_api
+        self.packages = packages
+        self.stop_requested = False
+    
+    def stop(self):
+        """Request to stop loading"""
+        self.stop_requested = True
+    
+    def run(self):
+        """Load releases from all packages in background thread"""
+        try:
+            # Defensive check - ensure attributes exist
+            try:
+                if not hasattr(self, 'stop_requested'):
+                    self.stop_requested = False
+                if not hasattr(self, 'github_api') or not hasattr(self, 'packages'):
+                    return
+            except (AttributeError, RuntimeError) as e:
+                silent_print(f"Error accessing worker attributes: {e}")
+                return
+            
+            if self.stop_requested:
+                return
+            
+            all_releases = []
+            
+            for package in self.packages:
+                if self.stop_requested:
+                    return
+                
+                repo = package.get('repo')
+                if not repo:
+                    continue
+                
+                try:
+                    # Call get_all_releases() in worker thread (non-blocking for main thread)
+                    releases = self.github_api.get_all_releases(repo)
+                    
+                    if self.stop_requested:
+                        return
+                    
+                    if releases:
+                        # Add software name and repo name to each release
+                        for release in releases:
+                            if self.stop_requested:
+                                return
+                            release_with_software = release.copy()
+                            release_with_software['software_name'] = package.get('name', repo)
+                            release_with_software['repo_name'] = repo
+                            all_releases.append(release_with_software)
+                        
+                        # Emit progress signal
+                        if not self.stop_requested:
+                            try:
+                                self.releases_loaded.emit(releases)
+                            except RuntimeError:
+                                # Receiver might be destroyed
+                                pass
+                    
+                    # Small delay between packages to prevent overwhelming the network
+                    if not self.stop_requested:
+                        self.msleep(100)  # 100ms delay between packages
+                        
+                except Exception as e:
+                    if not self.stop_requested:
+                        silent_print(f"Error getting releases for {repo}: {e}")
+                    continue
+            
+            if self.stop_requested:
+                return
+            
+            # Emit completion signal
+            if not self.stop_requested:
+                try:
+                    self.loading_complete.emit(all_releases)
+                except RuntimeError:
+                    # Receiver might be destroyed
+                    pass
+            
+        except Exception as e:
+            if not self.stop_requested:
+                try:
+                    silent_print(f"Error in AllReleasesWorker: {e}")
+                    import traceback
+                    traceback.print_exc()
+                    self.loading_failed.emit(str(e))
+                except RuntimeError:
+                    # Receiver might be destroyed
+                    pass
+
+
+class DataLoaderWorker(QThread):
+    """Worker thread for loading manifest data without blocking UI"""
+    
+    data_loaded = Signal(list)  # Emitted when packages are loaded
+    loading_failed = Signal(str)  # Emitted on error
+    
+    def __init__(self, config_downloader):
+        super().__init__()
+        self.config_downloader = config_downloader
+        self.stop_requested = False
+    
+    def stop(self):
+        """Request to stop loading"""
+        self.stop_requested = True
+    
+    def run(self):
+        """Load manifest data in background thread"""
+        try:
+            if self.stop_requested:
+                return
+            
+            # Download manifest (this will be non-blocking for main thread since we're in a worker thread)
+            packages = self.config_downloader.download_manifest(use_local_first=True)
+            
+            if self.stop_requested:
+                return
+            
+            silent_print(f"Loaded {len(packages)} packages in background thread")
+            self.data_loaded.emit(packages)
+            
+        except Exception as e:
+            if not self.stop_requested:
+                silent_print(f"Error loading data in background: {e}")
+                self.loading_failed.emit(str(e))
+
+
+class TokenLoaderWorker(QThread):
+    """Worker thread for loading tokens without blocking UI"""
+    
+    tokens_loaded = Signal(list)  # Emitted when tokens are loaded
+    loading_failed = Signal(str)  # Emitted on error
+    
+    def __init__(self, config_downloader):
+        super().__init__()
+        self.config_downloader = config_downloader
+        self.stop_requested = False
+    
+    def stop(self):
+        """Request to stop loading"""
+        self.stop_requested = True
+    
+    def run(self):
+        """Load tokens in background thread"""
+        try:
+            if self.stop_requested:
+                return
+            
+            # Download tokens (this will be non-blocking for main thread since we're in a worker thread)
+            tokens = self.config_downloader.download_config()
+            
+            if self.stop_requested:
+                return
+            
+            if not tokens:
+                silent_print("No API tokens available - using unauthenticated mode")
+                self.tokens_loaded.emit([])
+                return
+            
+            silent_print(f"Loaded {len(tokens)} API tokens in background thread")
+            self.tokens_loaded.emit(tokens)
+            
+        except Exception as e:
+            if not self.stop_requested:
+                silent_print(f"Error loading tokens in background: {e}")
+                self.loading_failed.emit(str(e))
+
+
 class ThemeMonitor(QObject):
     """Monitors system theme changes and emits signals for UI updates"""
     theme_changed = Signal()
@@ -2310,7 +2889,12 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.packages = []
         self.download_worker = None
         self.mtk_worker = None
+        self.update_worker = None
+        self.current_update_zip_url = None  # Track update.zip URL for Send to Y1 feature
         self.images_loaded = False  # Track if images are loaded
+        self._displaying_release_notes = False  # Flag to prevent concurrent UI updates while displaying release notes
+        self._pending_releases = []  # Queue for batching UI updates
+        self._release_update_timer = None  # Timer for batched UI updates
         # Set default installation method based on platform
         if platform.system() == "Windows":
             self.installation_method = "spflash"  # Default to Method 1 (Guided) on Windows
@@ -2338,10 +2922,15 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Initialize theme monitor for dynamic theme switching
         self.theme_monitor = ThemeMonitor(self)
         self.theme_monitor.theme_changed.connect(self.refresh_button_styles)
+        self.theme_monitor.theme_changed.connect(self.refresh_release_notes_on_theme_change)
         self.theme_monitor.start_monitoring()
 
         # Initialize UI first for immediate responsiveness
         self.init_ui()
+        
+        # Show offline message immediately (default state before content loads)
+        # Hide left panel by default - will show when releases are available
+        QTimer.singleShot(0, self._show_initial_offline_state)
 
         # Create .no_updates file at launch if it doesn't exist (manual updates by default)
         QTimer.singleShot(25, self.ensure_manual_updates_default)
@@ -2386,7 +2975,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         QTimer.singleShot(700, self.preload_critical_images)
 
         # Load data asynchronously to avoid blocking UI (reduced delay for instant startup)
-        QTimer.singleShot(10, self.load_data)
+        # Use worker thread to avoid blocking file I/O and XML parsing
+        QTimer.singleShot(10, self.start_data_loader_worker)
         
         # Load saved installation preferences
         QTimer.singleShot(200, self.load_installation_preferences)
@@ -2405,7 +2995,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         """Handle version check file and show macOS app update message for new users"""
         try:
             version_file = Path(".version")
-            current_version = "1.7.6"
+            current_version = "1.7.9"
             
             # Read the last used version
             last_version = None
@@ -3627,7 +4217,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Add seasonal emoji to window title
         seasonal_emoji = get_seasonal_emoji()
         title_emoji = f" {seasonal_emoji}" if seasonal_emoji else ""
-        self.setWindowTitle(f"Innioasis Updater v1.7.6{title_emoji}")
+        self.setWindowTitle(f"Innioasis Updater v1.7.8{title_emoji}")
         self.setGeometry(100, 100, 1220, 574)
         
         # Set fixed window size to maintain layout
@@ -3650,8 +4240,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         main_layout.addWidget(splitter)
 
         # Left panel - Package selection
-        left_panel = QWidget()
-        left_layout = QVBoxLayout(left_panel)
+        self.left_panel = QWidget()
+        left_layout = QVBoxLayout(self.left_panel)
 
         # Device filters
         filter_group = QGroupBox()
@@ -3722,17 +4312,20 @@ class FirmwareDownloaderGUI(QMainWindow):
         software_layout.addWidget(self.firmware_combo)
         software_layout.addStretch()
 
+        # Pre-release filter checkbox (hidden by default, shown only when pre-releases exist)
+        prerelease_layout = QHBoxLayout()
+        self.show_prerelease_checkbox = QCheckBox("Show pre-release builds")
+        self.show_prerelease_checkbox.setToolTip("Show alpha, beta, nightly, and RC releases")
+        self.show_prerelease_checkbox.setChecked(False)
+        self.show_prerelease_checkbox.stateChanged.connect(self.on_prerelease_filter_changed)
+        self.show_prerelease_checkbox.setVisible(False)  # Hidden by default
+        prerelease_layout.addWidget(self.show_prerelease_checkbox)
+        prerelease_layout.addStretch()
+
         filter_layout.addLayout(device_type_layout)
         filter_layout.addLayout(device_model_layout)
         filter_layout.addLayout(software_layout)
-        
-        # Pre-release filter checkbox (hidden by default, shown when needed)
-        self.prerelease_checkbox = QCheckBox("Show pre-releases (Nightly, Beta, Alpha, Preview, Test, RC)")
-        self.prerelease_checkbox.setChecked(False)
-        self.prerelease_checkbox.stateChanged.connect(self.on_prerelease_filter_changed)
-        self.prerelease_checkbox.hide()  # Hidden by default
-        self.prerelease_filter_enabled = False  # Track filter state
-        filter_layout.addWidget(self.prerelease_checkbox)
+        filter_layout.addLayout(prerelease_layout)
 
         left_layout.addWidget(filter_group)
 
@@ -3755,9 +4348,9 @@ class FirmwareDownloaderGUI(QMainWindow):
 
         left_layout.addWidget(package_group)
 
-        # Download button - using native styling with system accent colors
+        # Install/Restore button - using native styling with system accent colors
         seasonal_emoji = get_seasonal_emoji_random()
-        download_text = f"Download{seasonal_emoji}" if seasonal_emoji else "Download"
+        download_text = f"Install / Restore{seasonal_emoji}" if seasonal_emoji else "Install / Restore"
         self.download_btn = QPushButton(download_text)
         self.download_btn.clicked.connect(self.start_download)
         self.download_btn.setEnabled(False)
@@ -3765,6 +4358,14 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.download_btn.setDefault(True)
         self.download_btn.setAutoDefault(True)
         left_layout.addWidget(self.download_btn)
+        
+        # Fast Update button - only shown for releases with update.zip
+        self.send_update_btn = QPushButton("⚡ Fast Update")
+        self.send_update_btn.clicked.connect(self.send_update_to_y1)
+        self.send_update_btn.setEnabled(False)
+        self.send_update_btn.setVisible(False)  # Hidden by default
+        self.send_update_btn.setToolTip("Quick update: Downloads update.zip and places it in .rockbox folder on your Y1")
+        left_layout.addWidget(self.send_update_btn)
         
         # Initially enable settings button (it will be disabled during operations if needed)
         self.settings_btn.setEnabled(True)
@@ -3806,8 +4407,8 @@ class FirmwareDownloaderGUI(QMainWindow):
             # Schedule driver check in background (reduced delay for faster UI population)
             QTimer.singleShot(50, self.update_driver_dependent_ui)
         else:
-            # On non-Windows systems, show "Install from .zip" button immediately
-            install_zip_btn = QPushButton("📦 Install from .zip")
+            # On non-Windows systems, show "Install from rom.zip" button immediately
+            install_zip_btn = QPushButton("📦 Install from rom.zip")
             # Use native styling - no custom stylesheet for automatic theme adaptation
             # Use default cursor for native OS feel
             install_zip_btn.clicked.connect(self.install_from_zip)
@@ -3833,21 +4434,13 @@ class FirmwareDownloaderGUI(QMainWindow):
 
         right_layout.addLayout(coffee_layout)
 
-        # App Update button (below social media buttons)
-        update_layout = QHBoxLayout()
-        update_layout.addStretch()  # Push button to the right
-
-        self.update_btn_right = QPushButton("Check for Utility Updates")
-        self.update_btn_right.setEnabled(True)  # Enable immediately
-        self.update_btn_right.clicked.connect(self.launch_updater_script)
-        self.update_btn_right.setToolTip("Downloads and installs the latest version of the Innioasis Updater")
-        # Use native styling - no custom stylesheet for automatic theme adaptation
-        # Use default cursor for native OS feel
-        update_layout.addWidget(self.update_btn_right)
+        # App Update button container (button only shown when update is available)
+        self.update_layout = QHBoxLayout()
+        self.update_layout.addStretch()  # Push button to the right
         
         # Check for updates and show button only if newer version is available
         QTimer.singleShot(2000, self.check_for_updates_and_show_button)
-        right_layout.addLayout(update_layout)
+        right_layout.addLayout(self.update_layout)
 
         # Status group
         status_group = QGroupBox("Status")
@@ -3868,40 +4461,60 @@ class FirmwareDownloaderGUI(QMainWindow):
         right_layout.addWidget(status_group)
 
         # Output group
-        output_group = QGroupBox("Getting Ready:")
-        output_layout = QVBoxLayout(output_group)
+        self.output_group = QGroupBox("Getting Ready:")
+        output_layout = QVBoxLayout(self.output_group)
 
-        # Image display area
+        # Image/Release Notes display area - using stacked widget to switch between image and text
+        self.image_notes_stack = QStackedWidget()
+        self.image_notes_stack.setMinimumSize(400, 300)  # Set minimum size for proper initial display
+        
+        # Image widget (page 0)
         self.image_label = QLabel()
-        self.image_label.setMinimumSize(400, 300)  # Set minimum size for proper initial display
         self.image_label.setAlignment(Qt.AlignCenter)
         self.image_label.setStyleSheet("""
             QLabel {
                 background-color: transparent;
-                border: 1px solid #cccccc;
-                border-radius: 3px;
+                border: none;
                 color: #333;
             }
         """)
-
+        
+        # Release notes widget (page 1)
+        self.release_notes_browser = QTextBrowser()
+        self.release_notes_browser.setReadOnly(True)
+        self.release_notes_browser.setStyleSheet("""
+            QTextBrowser {
+                background-color: transparent;
+                border: none;
+                padding: 10px;
+            }
+        """)
+        
+        # Add both widgets to stack
+        self.image_notes_stack.addWidget(self.image_label)  # Index 0 - image
+        self.image_notes_stack.addWidget(self.release_notes_browser)  # Index 1 - release notes
+        
         # Load initial image with proper sizing
         self.load_presteps_image()
+        
+        # Show image initially (page 0)
+        self.image_notes_stack.setCurrentIndex(0)
 
         # Ensure proper image sizing after window is fully initialized
         QTimer.singleShot(100, self.ensure_proper_image_sizing)
 
-        output_layout.addWidget(self.image_label)
+        output_layout.addWidget(self.image_notes_stack)
 
-        right_layout.addWidget(output_group)
+        right_layout.addWidget(self.output_group)
 
         # Add panels to splitter
-        splitter.addWidget(left_panel)
+        splitter.addWidget(self.left_panel)
         splitter.addWidget(right_panel)
         splitter.setSizes([480, 720])  # Adjusted for 1220px total width
         
         # Store references for panel hiding/showing functionality
         self.splitter = splitter
-        self.left_panel = left_panel
+        # self.left_panel already set above
         self.right_panel = right_panel
         self.original_splitter_sizes = [480, 720]  # Store original sizes for restoration
         self.panel_hidden = False  # Track panel state
@@ -4211,6 +4824,10 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print(f"Error starting MTK command: {e}")
             self.status_label.setText(f"Error starting MTK command: {e}")
 
+    def update_progress(self, value):
+        """Update the progress bar value"""
+        self.progress_bar.setValue(value)
+    
     def update_status(self, message):
         """Update the status label with a message"""
         if not message or message.strip() == "":
@@ -4700,41 +5317,199 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print(f"Error loading SP Flash Tool GUI Method image: {e}")
             return
 
-    def load_data(self):
-        """Load configuration and manifest data with instant startup optimization"""
-        self.status_label.setText("Loading configuration...")
-        silent_print("Loading configuration and manifest data...")
-
-        # Load manifest first for instant startup (no token validation needed)
-        self.packages = self.config_downloader.download_manifest(use_local_first=True)
-        if self.packages:
-            silent_print(f"Loaded {len(self.packages)} software packages from local manifest")
-            self.status_label.setText("Ready: Select system software to Download. Your music will stay safe.")
+    def start_data_loader_worker(self):
+        """Start data loader in worker thread to avoid blocking UI"""
+        try:
+            self.status_label.setText("Loading configuration...")
+            silent_print("Loading configuration and manifest data...")
             
-            # Initialize github_api with empty tokens for immediate UI population
-            # This allows the UI to work while tokens are loaded in background
+            # Stop any existing data loader worker
+            if hasattr(self, 'data_loader_worker') and self.data_loader_worker:
+                try:
+                    old_worker = self.data_loader_worker
+                    if old_worker.isRunning():
+                        old_worker.stop()
+                        # Disconnect signals first
+                        try:
+                            old_worker.data_loaded.disconnect()
+                            old_worker.loading_failed.disconnect()
+                        except:
+                            pass
+                        # Let it clean up asynchronously (non-blocking)
+                        def cleanup_worker():
+                            try:
+                                if not old_worker.isRunning():
+                                    old_worker.deleteLater()
+                            except:
+                                pass
+                        old_worker.finished.connect(cleanup_worker)
+                    else:
+                        old_worker.deleteLater()
+                except:
+                    pass
+                self.data_loader_worker = None
+            
+            # Initialize github_api with empty tokens immediately (works offline too)
             self.github_api = GitHubAPI([])
             silent_print("Initialized GitHub API with empty tokens for instant startup")
             
-            # Populate UI components immediately
+            # Create and start worker thread
+            self.data_loader_worker = DataLoaderWorker(self.config_downloader)
+            self.data_loader_worker.setParent(self)  # Parent to main window for proper cleanup
+            
+            # Connect signals
+            self.data_loader_worker.data_loaded.connect(
+                self.on_data_loaded, 
+                Qt.ConnectionType.QueuedConnection
+            )
+            self.data_loader_worker.loading_failed.connect(
+                self.on_data_loading_failed, 
+                Qt.ConnectionType.QueuedConnection
+            )
+            
+            # Connect finished signal for cleanup
+            worker_ref = self.data_loader_worker
+            def cleanup_worker():
+                if hasattr(self, 'data_loader_worker') and self.data_loader_worker == worker_ref:
+                    try:
+                        if not self.data_loader_worker.isRunning():
+                            self.data_loader_worker.deleteLater()
+                    except:
+                        pass
+            
+            self.data_loader_worker.finished.connect(cleanup_worker)
+            self.data_loader_worker.start()
+            
+            silent_print("Started data loader in background thread")
+        except Exception as e:
+            silent_print(f"Error starting data loader worker: {e}")
+            # Fallback to offline mode if worker fails to start
+            self.on_data_loaded([])
+    
+    def on_data_loaded(self, packages):
+        """Handle data loaded from worker thread"""
+        try:
+            self.packages = packages
+            
+            if self.packages:
+                silent_print(f"Loaded {len(self.packages)} software packages from local manifest")
+                self.status_label.setText("Ready: Select system software to Download. Your music will stay safe.")
+                
+                # Populate UI components immediately
+                self.populate_device_type_combo()
+                self.populate_device_model_combo()
+                self.populate_firmware_combo()
+                # Skip filter_firmware_options - it causes blocking network calls during startup
+                # self.filter_firmware_options()  # DISABLED for instant startup
+                # Delay release loading slightly to ensure offline message is shown first
+                QTimer.singleShot(50, self.apply_initial_release_display)
+                self.status_label.setText("Ready")
+                silent_print("Data loading complete - instant startup achieved")
+            else:
+                # No packages (offline mode) - still initialize UI
+                silent_print("No packages loaded - app is running in offline mode")
+                self.status_label.setText("Ready: Use 'Install from rom.zip' to install firmware from local files")
+                
+                # Initialize empty dropdowns so app doesn't crash
+                self.populate_device_type_combo()
+                self.populate_device_model_combo()
+                self.populate_firmware_combo()
+                
+                # Show offline message immediately
+                QTimer.singleShot(50, self._show_initial_offline_state)
+                silent_print("App initialized in offline mode - ready for local file installation")
+            
+            # Start background token validation and remote manifest refresh (reduced delay for faster startup)
+            # This is non-blocking and will gracefully fail if offline - runs in worker thread
+            QTimer.singleShot(25, self.start_token_loader_worker)
+        except Exception as e:
+            silent_print(f"Error handling loaded data: {e}")
+            # Fallback to offline mode
+            self.on_data_loading_failed(str(e))
+    
+    def on_data_loading_failed(self, error_msg):
+        """Handle data loading failure"""
+        try:
+            silent_print(f"Data loading failed: {error_msg}")
+            # Fallback to offline mode
+            self.packages = []
+            self.github_api = GitHubAPI([])
+            
+            # Initialize empty dropdowns so app doesn't crash
             self.populate_device_type_combo()
             self.populate_device_model_combo()
             self.populate_firmware_combo()
-            self.filter_firmware_options()
-            QTimer.singleShot(10, self.apply_initial_release_display)
-            self.status_label.setText("Ready")
-            silent_print("Data loading complete - instant startup achieved")
-        
-        # Start background token validation and remote manifest refresh (reduced delay for faster startup)
-        QTimer.singleShot(25, self.load_tokens_and_validate_background)
+            
+            # Show offline message immediately
+            QTimer.singleShot(50, self._show_initial_offline_state)
+            self.status_label.setText("Ready: Use 'Install from rom.zip' to install firmware from local files")
+            silent_print("App initialized in offline mode due to loading failure")
+        except Exception as e:
+            silent_print(f"Error handling data loading failure: {e}")
 
-    def load_tokens_and_validate_background(self):
-        """Load and validate tokens in background without blocking UI"""
+    def start_token_loader_worker(self):
+        """Start token loader in worker thread to avoid blocking UI"""
         try:
-            # Don't clear cache at startup - this causes delays, tokens will be fetched from cache if available
-
-            # Download tokens
-            tokens = self.config_downloader.download_config()
+            # Stop any existing token loader worker (non-blocking)
+            if hasattr(self, 'token_loader_worker') and self.token_loader_worker:
+                try:
+                    old_worker = self.token_loader_worker
+                    if old_worker.isRunning():
+                        old_worker.stop()
+                        # Disconnect signals first
+                        try:
+                            old_worker.tokens_loaded.disconnect()
+                            old_worker.loading_failed.disconnect()
+                        except:
+                            pass
+                        # Let it clean up asynchronously (non-blocking)
+                        def cleanup_worker():
+                            try:
+                                if not old_worker.isRunning():
+                                    old_worker.deleteLater()
+                            except:
+                                pass
+                        old_worker.finished.connect(cleanup_worker)
+                    else:
+                        old_worker.deleteLater()
+                except:
+                    pass
+                self.token_loader_worker = None
+            
+            # Create and start worker thread
+            self.token_loader_worker = TokenLoaderWorker(self.config_downloader)
+            self.token_loader_worker.setParent(self)  # Parent to main window for proper cleanup
+            
+            # Connect signals
+            self.token_loader_worker.tokens_loaded.connect(
+                self.on_tokens_loaded, 
+                Qt.ConnectionType.QueuedConnection
+            )
+            self.token_loader_worker.loading_failed.connect(
+                self.on_tokens_loading_failed, 
+                Qt.ConnectionType.QueuedConnection
+            )
+            
+            # Connect finished signal for cleanup
+            worker_ref = self.token_loader_worker
+            def cleanup_worker():
+                if hasattr(self, 'token_loader_worker') and self.token_loader_worker == worker_ref:
+                    try:
+                        if not self.token_loader_worker.isRunning():
+                            self.token_loader_worker.deleteLater()
+                    except:
+                        pass
+            
+            self.token_loader_worker.finished.connect(cleanup_worker)
+            self.token_loader_worker.start()
+            
+            silent_print("Started token loader in background thread")
+        except Exception as e:
+            silent_print(f"Error starting token loader worker: {e}")
+    
+    def on_tokens_loaded(self, tokens):
+        """Handle tokens loaded from worker thread"""
+        try:
             if not tokens:
                 silent_print("No API tokens available - using unauthenticated mode")
                 return
@@ -4743,18 +5518,22 @@ class FirmwareDownloaderGUI(QMainWindow):
             self.github_api = GitHubAPI(tokens)
             silent_print(f"Loaded {len(tokens)} API tokens")
 
-            # Start parallel token validation in background
+            # Start parallel token validation in background (this is already in a thread pool)
             if tokens:
                 silent_print(f"Validating {len(tokens)} API tokens in background...")
-                # Start parallel token validation
+                # Start parallel token validation (uses ThreadPoolExecutor, non-blocking)
                 self.validate_tokens_parallel(tokens)
-            else:
-                silent_print("No tokens loaded - continuing with unauthenticated mode")
-                return
-
+            
+            # Retry loading releases now that we have tokens (for instant cached display when online)
+            # This allows cached releases to show instantly when tokens are loaded
+            QTimer.singleShot(100, self.populate_releases_list)
         except Exception as e:
-            silent_print(f"Background token loading error: {e}")
-            # Continue with unauthenticated mode
+            silent_print(f"Error handling loaded tokens: {e}")
+    
+    def on_tokens_loading_failed(self, error_msg):
+        """Handle token loading failure"""
+        silent_print(f"Token loading failed: {error_msg}")
+        # Continue with unauthenticated mode - app will work fine
 
     def validate_tokens_parallel(self, tokens):
         """Validate tokens in parallel for faster startup"""
@@ -4800,6 +5579,10 @@ class FirmwareDownloaderGUI(QMainWindow):
                     silent_print(f"Token failed - status: {response.status_code}")
                     return None, None
 
+            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout, requests.exceptions.RequestException) as e:
+                # Network error - offline or connection failed (non-blocking)
+                silent_print(f"Token validation network error (offline?): {e}")
+                return None, None
             except Exception as e:
                 silent_print(f"Token validation error: {e}")
                 return None, None
@@ -6103,18 +6886,18 @@ class FirmwareDownloaderGUI(QMainWindow):
                 self.driver_buttons_layout.addWidget(driver_btn)
                 
             elif driver_info['has_mtk_driver'] and not driver_info['has_usbdk_driver']:
-                # Only MTK driver: Show "Install from .zip" button if not ARM64
-                if not driver_info['is_arm64']:
-                    install_zip_btn = QPushButton("📦 Install from .zip")
+                # Only MTK driver: Show "Install from rom.zip" button if not ARM64
+                    if not driver_info['is_arm64']:
+                        install_zip_btn = QPushButton("📦 Install from rom.zip")
                     # Use native styling - no custom stylesheet for automatic theme adaptation
                     # Use default cursor for native OS feel
                     install_zip_btn.clicked.connect(self.install_from_zip)
                     self.driver_buttons_layout.addWidget(install_zip_btn)
                 
             else:
-                # Both drivers available: Show "Install from .zip" button (but not on ARM64)
-                if not driver_info['is_arm64']:
-                    install_zip_btn = QPushButton("📦 Install from .zip")
+                # Both drivers available: Show "Install from rom.zip" button (but not on ARM64)
+                    if not driver_info['is_arm64']:
+                        install_zip_btn = QPushButton("📦 Install from rom.zip")
                     # Use native styling - no custom stylesheet for automatic theme adaptation
                     # Use default cursor for native OS feel
                     install_zip_btn.clicked.connect(self.install_from_zip)
@@ -6859,6 +7642,10 @@ class FirmwareDownloaderGUI(QMainWindow):
 
     def populate_firmware_combo(self):
         """Populate the software dropdown with package names from manifest"""
+        # Block signals during population to prevent network calls on setCurrentIndex
+        was_blocked = self.firmware_combo.signalsBlocked()
+        self.firmware_combo.blockSignals(True)
+        
         self.firmware_combo.clear()
 
         # Get current filter selections
@@ -6889,6 +7676,9 @@ class FirmwareDownloaderGUI(QMainWindow):
                 break
 
         self.firmware_combo.setCurrentIndex(default_index)
+        
+        # Unblock signals after population
+        self.firmware_combo.blockSignals(was_blocked)
 
 
     def _release_matches_type_filter(self, tag_name, selected_type):
@@ -6909,19 +7699,6 @@ class FirmwareDownloaderGUI(QMainWindow):
         """Check if a release should be excluded from listings (e.g., contains 'base')"""
         # Exclude releases that contain 'base' in the tag name
         return 'base' in tag_name.lower()
-    
-    def _is_prerelease(self, tag_name):
-        """Check if a release tag is a pre-release (Nightly, Beta, Alpha, Preview, Test, RC)"""
-        prerelease_keywords = ['nightly', 'beta', 'alpha', 'preview', 'test', 'rc']
-        tag_lower = tag_name.lower()
-        return any(keyword in tag_lower for keyword in prerelease_keywords)
-    
-    def _has_prereleases_in_repo(self, releases):
-        """Check if a repository has any pre-releases"""
-        for release in releases:
-            if self._is_prerelease(release.get('tag_name', '')):
-                return True
-        return False
 
     def update_package_group_title(self, firmware_name):
         """Update the package group title based on selected software"""
@@ -6943,24 +7720,76 @@ class FirmwareDownloaderGUI(QMainWindow):
             help_item = QListWidgetItem("Please select a software type to view releases")
             help_item.setFlags(help_item.flags() & ~Qt.ItemIsSelectable)
             self.package_list.addItem(help_item)
-    
+
     def on_prerelease_filter_changed(self):
-        """Handle pre-release filter checkbox state change"""
-        self.prerelease_filter_enabled = self.prerelease_checkbox.isChecked()
-        # Refresh the releases list with new filter
-        selected_repo = self.firmware_combo.currentData()
-        if selected_repo:
-            self.populate_releases_list()
+        """Handle pre-release filter checkbox change"""
+        # Refresh the releases list with the new filter setting
+        self.populate_releases_list()
+
+    def is_prerelease_build(self, release):
+        """Check if a release is marked as pre-release using GitHub's official flag"""
+        if isinstance(release, dict):
+            # Use GitHub's official prerelease flag
+            # Default to False (show the release) if flag is missing for backward compatibility
+            return release.get('prerelease', False)
+        return False
 
     def populate_releases_list(self):
-        """Populate the releases list for the selected software"""
+        """Populate the releases list - INSTANT with cache, background refresh for offline mode"""
         self.package_list.clear()
 
-        # Add loading placeholder
-        loading_item = QListWidgetItem("Loading releases...")
-        loading_item.setFlags(loading_item.flags() & ~Qt.ItemIsSelectable)
-        self.package_list.addItem(loading_item)
-        # Don't update status label - keep it as "Ready" for firmware installation status only
+        # Stop any existing progressive worker
+        if hasattr(self, 'release_worker') and self.release_worker:
+            try:
+                old_worker = self.release_worker
+                if old_worker.isRunning():
+                    # Stop the worker first (non-blocking)
+                    old_worker.stop()
+                    
+                    # Disconnect signals first to prevent issues
+                    try:
+                        old_worker.release_loaded.disconnect()
+                        old_worker.loading_complete.disconnect()
+                        old_worker.loading_failed.disconnect()
+                    except:
+                        pass
+                    
+                    # Use finished signal to clean up later (non-blocking)
+                    if not hasattr(self, '_old_workers'):
+                        self._old_workers = []
+                    
+                    def cleanup_worker():
+                        try:
+                            if hasattr(self, '_old_workers') and old_worker in self._old_workers:
+                                self._old_workers.remove(old_worker)
+                            if not old_worker.isRunning():
+                                old_worker.deleteLater()
+                        except:
+                            pass
+                    
+                    old_worker.finished.connect(cleanup_worker)
+                    self._old_workers.append(old_worker)
+                
+                # Allow new worker creation immediately (don't wait)
+                self.release_worker = None
+            except Exception as e:
+                silent_print(f"Error stopping release worker: {e}")
+                try:
+                    if hasattr(self, 'release_worker') and self.release_worker:
+                        if not self.release_worker.isRunning():
+                            self.release_worker.deleteLater()
+                except:
+                    pass
+                self.release_worker = None
+        
+        # Clear pending releases queue and stop timer when switching repositories
+        if hasattr(self, '_pending_releases'):
+            self._pending_releases = []
+        if hasattr(self, '_release_update_timer') and self._release_update_timer:
+            try:
+                self._release_update_timer.stop()
+            except:
+                pass
 
         selected_repo = self.firmware_combo.currentData()
         if not selected_repo:
@@ -6968,74 +7797,622 @@ class FirmwareDownloaderGUI(QMainWindow):
             self.package_list.addItem("Please select a software type")
             return
 
-        # Check if we have tokens available - if not, this might be startup with empty tokens
+        # Get current filters
+        selected_type = self.device_type_combo.currentData()
+        show_prereleases = self.show_prerelease_checkbox.isChecked()
+        
+        # Check if we have tokens available (indicates online mode is expected)
         has_tokens = hasattr(self.github_api, 'tokens') and len(self.github_api.tokens) > 0
-        if not has_tokens:
-            silent_print("No tokens available yet - this might be startup, will retry after tokens are loaded")
-            # Set up a retry timer for when tokens are loaded
-            QTimer.singleShot(1500, self.retry_releases_after_tokens_loaded)
+        
+        # INSTANT: Check cache synchronously (no network, no blocking)
+        # Only show cached releases if we have tokens (online mode)
+        # If offline, show the offline message instead
+        cached_releases = self.github_api.get_cached_releases(selected_repo)
+        if cached_releases and has_tokens:
+            # Online mode: show cached releases instantly for fast startup
+            silent_print(f"Using {len(cached_releases)} cached releases (INSTANT, ONLINE MODE)")
+            # Show cached releases immediately
+            self._display_cached_releases(cached_releases, selected_repo, selected_type, show_prereleases)
+            # Start background refresh in background (non-blocking)
+            QTimer.singleShot(100, lambda: self._start_background_refresh(selected_repo, selected_type, show_prereleases))
             return
-
-        # Set up timeout timer
-        timeout_timer = QTimer()
-        timeout_timer.setSingleShot(True)
-        timeout_timer.timeout.connect(lambda: self.handle_releases_timeout())
-        timeout_timer.start(60000)  # 1 minute timeout
-
-        # Get releases for the selected repository
+        
+        # Offline mode OR no cache: show offline message
+        if not has_tokens:
+            # No tokens = offline mode - show offline message
+            silent_print("Offline mode detected - showing Install from rom.zip prompt")
+            self._show_offline_message(has_tokens)
+            # Don't retry - we're intentionally offline
+            return
+        
+        # Has tokens but no cache - show offline message while fetching
+        self._show_offline_message(has_tokens)
+        
+        # Start background fetch (non-blocking) - don't show loading item, keep offline message
+        # The left panel will show automatically when releases are loaded
+        self._start_background_refresh(selected_repo, selected_type, show_prereleases)
+        
+    def _display_cached_releases(self, cached_releases, selected_repo, selected_type, show_prereleases):
+        """Display cached releases instantly (offline mode)"""
         try:
-            silent_print(f"Attempting to load releases for {selected_repo}")
-            releases = self.github_api.get_all_releases(selected_repo)
-            timeout_timer.stop()  # Stop timeout if successful
-            silent_print(f"Successfully loaded {len(releases) if releases else 0} releases")
+            self.releases_loaded_count = 0
+            self.all_releases_loaded = []
+            
+            # Check if any pre-releases exist in cached releases
+            has_prereleases = False
+            for release in cached_releases:
+                tag_name = release.get('tag_name', '')
+                if release.get('prerelease', False) or 'nightly' in tag_name.lower():
+                    has_prereleases = True
+                    break
+            
+            # Show/hide pre-release checkbox based on availability
+            if hasattr(self, 'show_prerelease_checkbox'):
+                self.show_prerelease_checkbox.setVisible(has_prereleases)
+            
+            # Filter and display cached releases (no limit)
+            for release in cached_releases:
+                try:
+                    tag_name = release.get('tag_name', '')
+                    
+                    # Skip excluded releases
+                    if 'base' in tag_name.lower():
+                        continue
+                    
+                    # Check type filter
+                    has_type_b = 'type-b' in tag_name.lower()
+                    if selected_type == 'B':
+                        if not has_type_b:
+                            continue
+                    else:
+                        if has_type_b:
+                            continue
+                    
+                    # Check pre-release filter
+                    if not show_prereleases:
+                        if release.get('prerelease', False):
+                            continue
+                        if 'nightly' in tag_name.lower():
+                            continue
+                    
+                    # Add to list
+                    self._add_release_to_list(release)
+                    self.releases_loaded_count += 1
+                    self.all_releases_loaded.append(release)
+                    # No limit - show all releases
+                except Exception as e:
+                    silent_print(f"Error processing cached release: {e}")
+                    continue
+            
+            # No "View Older Releases" link needed - no limit on releases
+            
+            # Select first item
+            if self.package_list.count() > 0:
+                try:
+                    first_item = self.package_list.item(0)
+                    if first_item and isinstance(first_item.data(Qt.UserRole), dict) and not first_item.data(Qt.UserRole).get('is_link'):
+                        self.package_list.setCurrentRow(0)
+                        self.on_release_selected(first_item)
+                except Exception as e:
+                    silent_print(f"Error selecting first item: {e}")
+            
+            # Show left panel when releases are available
+            if self.releases_loaded_count > 0:
+                self._show_left_panel()
+            
+            silent_print(f"Displayed {self.releases_loaded_count} cached releases (OFFLINE MODE)")
         except Exception as e:
-            timeout_timer.stop()
-            silent_print(f"Error loading releases: {e}")
+            silent_print(f"Error in _display_cached_releases: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    def _show_initial_offline_state(self):
+        """Show offline message as default state on startup (before content loads)"""
+        try:
+            # Hide left panel by default
+            if hasattr(self, 'left_panel'):
+                self.left_panel.setVisible(False)
+            
+            # Check if we have tokens (might be online) - but don't block waiting for network
+            has_tokens = False
+            try:
+                if hasattr(self, 'github_api') and self.github_api:
+                    has_tokens = hasattr(self.github_api, 'tokens') and len(self.github_api.tokens) > 0
+            except:
+                pass  # Don't block if tokens aren't loaded yet
+            
+            # Show offline message
+            self._show_offline_message(has_tokens)
+        except Exception as e:
+            silent_print(f"Error showing initial offline state: {e}")
+    
+    def _show_offline_message(self, has_tokens):
+        """Show offline message and hide left panel when no releases are available"""
+        try:
+            # Hide left panel
+            if hasattr(self, 'left_panel'):
+                self.left_panel.setVisible(False)
+            
+            # Show offline message in release notes area
+            if hasattr(self, 'release_notes_browser'):
+                # Get theme-aware text color
+                text_color = self._get_text_color_for_theme()
+                
+                # Check if online
+                online_message = ""
+                if has_tokens:
+                    online_message = f"<p style='color: {text_color} !important; margin-top: 10px;'>If you are online, something else may be blocking the connection to the online firmware directory.</p>"
+                
+                message_html = f"""
+                <html>
+                <head>
+                    <style>
+                        body, div, p, strong {{
+                            color: {text_color} !important;
+                        }}
+                    </style>
+                </head>
+                <body style='font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Helvetica, Arial, sans-serif; line-height: 1.6; padding: 20px; text-align: center; color: {text_color} !important;'>
+                    <p style='font-size: 16px; color: {text_color} !important; margin-bottom: 15px;'>Please select <strong style="color: {text_color} !important;">Install from rom.zip</strong> to begin, or go online to view the latest updates for your player.</p>
+                    {online_message}
+                </body>
+                </html>
+                """
+                self.release_notes_browser.setHtml(message_html)
+            
+            # Switch to release notes view
+            if hasattr(self, 'image_notes_stack'):
+                self.image_notes_stack.setCurrentIndex(1)
+                # Update title
+                if hasattr(self, 'output_group'):
+                    self.output_group.setTitle("Getting Ready:")
+        except Exception as e:
+            silent_print(f"Error showing offline message: {e}")
+    
+    def _show_left_panel(self):
+        """Show left panel when releases are available"""
+        try:
+            if hasattr(self, 'left_panel'):
+                self.left_panel.setVisible(True)
+        except Exception as e:
+            silent_print(f"Error showing left panel: {e}")
+        
+    def _start_background_refresh(self, selected_repo, selected_type, show_prereleases):
+        """Start background refresh of releases (non-blocking)"""
+        # Don't reset counters if we already have cached releases displayed
+        # Only initialize if not already set
+        if not hasattr(self, 'releases_loaded_count'):
+            self.releases_loaded_count = 0
+        if not hasattr(self, 'all_releases_loaded'):
+            self.all_releases_loaded = []
+        
+        # Create and start progressive release worker (only fetches fresh data)
+        # Parent the worker to this window so it gets cleaned up properly
+        self.release_worker = ProgressiveReleaseWorker(
+            self.github_api, 
+            selected_repo, 
+            selected_type, 
+            show_prereleases
+        )
+        self.release_worker.setParent(self)  # Parent to main window for proper cleanup
+        self.release_worker.release_loaded.connect(self._on_fresh_release_loaded)
+        self.release_worker.loading_complete.connect(self.on_releases_loading_complete)
+        self.release_worker.loading_failed.connect(self._on_background_refresh_failed)
+        
+        # Connect finished signal to clean up properly
+        worker_ref = self.release_worker  # Capture reference
+        def cleanup_worker():
+            if hasattr(self, 'release_worker') and self.release_worker == worker_ref:
+                try:
+                    if not self.release_worker.isRunning():
+                        self.release_worker.deleteLater()
+                except:
+                    pass
+        
+        self.release_worker.finished.connect(cleanup_worker)
+        self.release_worker.start()
+        
+        silent_print(f"Started background refresh for {selected_repo}")
+    
+    def _on_fresh_release_loaded(self, release):
+        """Handle a fresh release loaded from network - queue for batched UI update"""
+        try:
+            # Skip if we're currently displaying release notes to avoid conflicts
+            if hasattr(self, '_displaying_release_notes') and self._displaying_release_notes:
+                return
+            
+            # Queue the release for batched processing
+            if not hasattr(self, '_pending_releases'):
+                self._pending_releases = []
+            
+            self._pending_releases.append(release)
+            
+            # Start or reset the batch processing timer
+            if not hasattr(self, '_release_update_timer') or self._release_update_timer is None:
+                self._release_update_timer = QTimer()
+                self._release_update_timer.setSingleShot(True)
+                self._release_update_timer.timeout.connect(self._process_batched_releases)
+            
+            # Process releases in batches every 150ms to prevent UI freezing
+            if not self._release_update_timer.isActive():
+                self._release_update_timer.start(150)
+        except Exception as e:
+            silent_print(f"Error queuing release: {e}")
+    
+    def _process_batched_releases(self):
+        """Process queued releases in batches to prevent UI freezing"""
+        try:
+            if not hasattr(self, '_pending_releases') or not self._pending_releases:
+                return
+            
+            # Defensive check - ensure UI elements exist
+            if not hasattr(self, 'package_list') or self.package_list is None:
+                self._pending_releases = []
+                return
+            if not hasattr(self, 'firmware_combo') or self.firmware_combo is None:
+                self._pending_releases = []
+                return
+            
+            # Get existing tags to avoid duplicates
+            existing_tags = set()
+            try:
+                list_count = self.package_list.count()
+                for i in range(list_count):
+                    try:
+                        item = self.package_list.item(i)
+                        if item and item.data(Qt.UserRole):
+                            data = item.data(Qt.UserRole)
+                            if isinstance(data, dict) and not data.get('is_link'):
+                                existing_tag = data.get('tag_name', '')
+                                if existing_tag:
+                                    existing_tags.add(existing_tag)
+                    except:
+                        continue
+            except RuntimeError:
+                self._pending_releases = []
+                return
+            
+            # Process up to 3 releases at a time to prevent freezing
+            batch_size = 3
+            processed = 0
+            releases_to_add = []
+            
+            for release in self._pending_releases[:]:
+                if processed >= batch_size:
+                    break
+                
+                tag_name = release.get('tag_name', '')
+                if not tag_name or tag_name in existing_tags:
+                    self._pending_releases.remove(release)
+                    continue
+                
+                releases_to_add.append(release)
+                existing_tags.add(tag_name)
+                processed += 1
+            
+            # Remove processed releases from queue
+            for release in releases_to_add:
+                if release in self._pending_releases:
+                    self._pending_releases.remove(release)
+            
+            # Add releases to UI
+            for release in releases_to_add:
+                try:
+                    self._add_release_to_list(release)
+                    self.releases_loaded_count += 1
+                    self.all_releases_loaded.append(release)
+                except (RuntimeError, AttributeError) as e:
+                    silent_print(f"Error adding release to list: {e}")
+                    continue
+            
+            # Show left panel when first release is loaded
+            if self.releases_loaded_count > 0 and not self.left_panel.isVisible():
+                self._show_left_panel()
+            
+            # If there are more releases to process, schedule another batch
+            if self._pending_releases:
+                if self._release_update_timer:
+                    self._release_update_timer.start(200)  # Longer delay between batches
+        except Exception as e:
+            silent_print(f"Error processing batched releases: {e}")
+            import traceback
+            traceback.print_exc()
+            self._pending_releases = []
+    
+    def _on_background_refresh_failed(self, error_msg):
+        """Handle background refresh failure - silently continue with cached data"""
+        silent_print(f"Background refresh failed (using cached data): {error_msg}")
+        # Don't show error - just continue with cached releases
+    
+    def _on_all_releases_loaded(self, releases):
+        """Handle releases loaded from a package - queue for batched UI update"""
+        try:
+            # Queue releases for batched processing
+            if not hasattr(self, '_all_releases_pending'):
+                self._all_releases_pending = []
+            
+            # Add software info to each release and queue them
+            for release in releases:
+                self._all_releases_pending.append(release)
+            
+            # Start batch processing timer if not already active
+            if not hasattr(self, '_all_releases_timer') or self._all_releases_timer is None:
+                self._all_releases_timer = QTimer()
+                self._all_releases_timer.setSingleShot(True)
+                self._all_releases_timer.timeout.connect(self._process_all_releases_batch)
+            
+            if not self._all_releases_timer.isActive():
+                self._all_releases_timer.start(150)  # Process every 150ms
+        except Exception as e:
+            silent_print(f"Error queuing all releases: {e}")
+    
+    def _process_all_releases_batch(self):
+        """Process queued releases from all packages in batches"""
+        try:
+            if not hasattr(self, '_all_releases_pending') or not self._all_releases_pending:
+                return
+            
+            # Defensive check - ensure UI elements exist
+            if not hasattr(self, 'package_list') or self.package_list is None:
+                self._all_releases_pending = []
+                return
+            
+            # Get existing tags to avoid duplicates
+            existing_tags = set()
+            try:
+                list_count = self.package_list.count()
+                for i in range(list_count):
+                    try:
+                        item = self.package_list.item(i)
+                        if item and item.data(Qt.UserRole):
+                            data = item.data(Qt.UserRole)
+                            if isinstance(data, dict) and not data.get('is_link'):
+                                existing_tag = data.get('tag_name', '')
+                                if existing_tag:
+                                    existing_tags.add(existing_tag)
+                    except:
+                        continue
+            except RuntimeError:
+                self._all_releases_pending = []
+                return
+            
+            # Process up to 5 releases at a time
+            batch_size = 5
+            processed = 0
+            releases_to_add = []
+            
+            for release in self._all_releases_pending[:]:
+                if processed >= batch_size:
+                    break
+                
+                tag_name = release.get('tag_name', '')
+                if not tag_name or tag_name in existing_tags:
+                    self._all_releases_pending.remove(release)
+                    continue
+                
+                releases_to_add.append(release)
+                existing_tags.add(tag_name)
+                processed += 1
+            
+            # Remove processed releases from queue
+            for release in releases_to_add:
+                if release in self._all_releases_pending:
+                    self._all_releases_pending.remove(release)
+            
+            # Add releases to UI
+            for release in releases_to_add:
+                try:
+                    software_name = release.get('software_name', 'Unknown')
+                    display_text = f"{software_name} - {release['tag_name']}"
+                    
+                    item = QListWidgetItem(display_text)
+                    item.setData(Qt.UserRole, release)
+                    self.package_list.addItem(item)
+                except (RuntimeError, AttributeError) as e:
+                    silent_print(f"Error adding release to list: {e}")
+                    continue
+            
+            # Show left panel when first release is loaded
+            if self.package_list.count() > 0 and not self.left_panel.isVisible():
+                self._show_left_panel()
+            
+            # If there are more releases to process, schedule another batch
+            if self._all_releases_pending:
+                if self._all_releases_timer:
+                    self._all_releases_timer.start(200)
+        except Exception as e:
+            silent_print(f"Error processing all releases batch: {e}")
+            import traceback
+            traceback.print_exc()
+            self._all_releases_pending = []
+    
+    def _on_all_releases_complete(self, all_releases):
+        """Handle completion of loading all releases from all packages"""
+        try:
+            silent_print(f"All releases loading complete: {len(all_releases)} total releases")
+            
+            # Defensive check - ensure UI elements exist
+            if not hasattr(self, 'package_list') or self.package_list is None:
+                return
+            
+            # Process any remaining releases in the queue
+            if hasattr(self, '_all_releases_pending') and self._all_releases_pending:
+                QTimer.singleShot(0, self._process_all_releases_batch)
+                # Continue processing until queue is empty
+                def continue_processing():
+                    if hasattr(self, '_all_releases_pending') and self._all_releases_pending:
+                        self._process_all_releases_batch()
+                        if hasattr(self, '_all_releases_pending') and self._all_releases_pending:
+                            QTimer.singleShot(50, continue_processing)
+                QTimer.singleShot(50, continue_processing)
+            
+            # If no releases were loaded, show offline message
+            if self.package_list.count() == 0:
+                has_tokens = hasattr(self.github_api, 'tokens') and len(self.github_api.tokens) > 0
+                self._show_offline_message(has_tokens)
+                return
+            
+            # Sort releases by software name (alphabetical), then by date (newest first)
+            try:
+                # Get all items from list
+                items = []
+                for i in range(self.package_list.count()):
+                    item = self.package_list.item(i)
+                    if item and item.data(Qt.UserRole):
+                        items.append((item, item.data(Qt.UserRole)))
+                
+                # Sort by software name, then by date
+                def sort_key(item_data):
+                    release = item_data[1]
+                    software_name = release.get('software_name', '')
+                    published_at = release.get('published_at', '')
+                    try:
+                        from datetime import datetime
+                        date_obj = datetime.fromisoformat(published_at.replace('Z', '+00:00'))
+                        timestamp = date_obj.timestamp()
+                    except:
+                        timestamp = 0
+                    return (software_name, -timestamp)
+                
+                items.sort(key=sort_key)
+                
+                # Clear and re-add sorted items
+                self.package_list.clear()
+                for item, release in items:
+                    software_name = release.get('software_name', 'Unknown')
+                    display_text = f"{software_name} - {release['tag_name']}"
+                    new_item = QListWidgetItem(display_text)
+                    new_item.setData(Qt.UserRole, release)
+                    self.package_list.addItem(new_item)
+                
+            except Exception as e:
+                silent_print(f"Error sorting releases: {e}")
+            
+            # Show left panel if releases are available
+            if self.package_list.count() > 0:
+                self._show_left_panel()
+            
+            # Select first item if available
+            try:
+                if self.package_list.count() > 0:
+                    first_item = self.package_list.item(0)
+                    if first_item and isinstance(first_item.data(Qt.UserRole), dict) and not first_item.data(Qt.UserRole).get('is_link'):
+                        self.package_list.setCurrentRow(0)
+                        self.on_release_selected(first_item)
+            except (RuntimeError, AttributeError) as e:
+                silent_print(f"Error selecting first item: {e}")
+        except Exception as e:
+            silent_print(f"Error in _on_all_releases_complete: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    def _on_all_releases_failed(self, error_msg):
+        """Handle failure to load all releases"""
+        try:
+            silent_print(f"Failed to load all releases: {error_msg}")
+            
+            # Defensive check - ensure UI elements exist
+            if not hasattr(self, 'package_list') or self.package_list is None:
+                return
+            
+            # If no releases were loaded, show offline message
+            if self.package_list.count() == 0:
+                has_tokens = hasattr(self.github_api, 'tokens') and len(self.github_api.tokens) > 0
+                self._show_offline_message(has_tokens)
+            # If we have some releases, just continue with what we have
+        except Exception as e:
+            silent_print(f"Error in _on_all_releases_failed: {e}")
+    
+    def _has_view_older_link(self):
+        """Check if 'View Older Releases' link already exists"""
+        try:
+            if not hasattr(self, 'package_list') or self.package_list is None:
+                return False
+            for i in range(self.package_list.count()):
+                item = self.package_list.item(i)
+                if item and item.data(Qt.UserRole):
+                    data = item.data(Qt.UserRole)
+                    if isinstance(data, dict) and data.get('is_link'):
+                        return True
+        except (RuntimeError, AttributeError):
+            return False
+        return False
+
+    def on_releases_loading_complete(self, all_releases):
+        """Handle completion of loading all releases"""
+        try:
+            silent_print(f"Progressive loading complete: {len(all_releases)} total, {self.releases_loaded_count} displayed")
+            
+            # Defensive check - ensure UI elements exist
+            if not hasattr(self, 'package_list') or self.package_list is None:
+                return
+            
+            # Remove loading placeholder if still there
+            try:
+                if self.package_list.count() > 0:
+                    first_item = self.package_list.item(0)
+                    if first_item and first_item.text() == "Loading releases...":
+                        self.package_list.takeItem(0)
+            except (RuntimeError, AttributeError):
+                pass
+            
+            # No "View Older Releases" link needed - no limit on releases
+            
+            # Process any remaining releases in the queue
+            if hasattr(self, '_pending_releases') and self._pending_releases:
+                # Process remaining releases immediately
+                QTimer.singleShot(0, self._process_batched_releases)
+                # Continue processing until queue is empty
+                def continue_processing():
+                    if hasattr(self, '_pending_releases') and self._pending_releases:
+                        self._process_batched_releases()
+                        if hasattr(self, '_pending_releases') and self._pending_releases:
+                            QTimer.singleShot(50, continue_processing)
+                QTimer.singleShot(50, continue_processing)
+            
+            # If no releases were loaded, show offline message
+            if self.releases_loaded_count == 0:
+                # Check if we have tokens (might be online)
+                has_tokens = hasattr(self.github_api, 'tokens') and len(self.github_api.tokens) > 0
+                self._show_offline_message(has_tokens)
+                return
+            
+            # Show left panel if releases are available
+            self._show_left_panel()
+            
+            # Select first item if available
+            try:
+                if self.package_list.count() > 0:
+                    first_item = self.package_list.item(0)
+                    if first_item and isinstance(first_item.data(Qt.UserRole), dict) and not first_item.data(Qt.UserRole).get('is_link'):
+                        self.package_list.setCurrentRow(0)
+                        self.on_release_selected(first_item)
+            except (RuntimeError, AttributeError) as e:
+                silent_print(f"Error selecting first item: {e}")
+        except Exception as e:
+            silent_print(f"Error in on_releases_loading_complete: {e}")
+            import traceback
+            traceback.print_exc()
+
+    def on_releases_loading_failed(self, error_msg):
+        """Handle failure to load releases - only show error if no cached data"""
+        silent_print(f"Progressive loading failed: {error_msg}")
+        # Only show error if list is empty (no cached data was shown)
+        if self.package_list.count() == 0 or (self.package_list.count() == 1 and self.package_list.item(0).text() == "Loading releases..."):
             self.package_list.clear()
             self.package_list.addItem("Unable To Load Releases")
-            # Don't update status label - keep it as "Ready" for firmware installation status only
-            return
+        # If we have cached releases, silently continue using them
 
-        # Remove loading placeholder
-        self.package_list.clear()
-
-        if not releases:
-            # Check if this might be due to no tokens (startup issue)
-            has_tokens = hasattr(self.github_api, 'tokens') and len(self.github_api.tokens) > 0
-            if not has_tokens:
-                silent_print("No releases found and no tokens available - this might be startup issue, will retry")
-                QTimer.singleShot(1500, self.retry_releases_after_tokens_loaded)
-                return
-            else:
-                self.package_list.addItem(f"No releases found for {selected_repo}")
-                return
-
-        # Get current type filter to filter releases
-        selected_type = self.device_type_combo.currentData()
-        
-        # Check if this repo has pre-releases and show/hide checkbox accordingly
-        has_prereleases = self._has_prereleases_in_repo(releases)
-        if has_prereleases:
-            self.prerelease_checkbox.show()
-        else:
-            self.prerelease_checkbox.hide()
-
-        # Add releases to the list with detailed information
-        for release in releases:
-            # Filter releases based on tag name and selected type
+    def _add_release_to_list(self, release):
+        """Add a single release to the list with detailed information"""
+        try:
             tag_name = release.get('tag_name', '')
+            selected_repo = self.firmware_combo.currentData()
             
-            # Skip releases that should be excluded (e.g., contains 'base')
-            if self._should_exclude_release(tag_name):
-                continue
-                
-            if not self._release_matches_type_filter(tag_name, selected_type):
-                continue  # Skip this release if it doesn't match the type filter
+            if not selected_repo:
+                silent_print("No repo selected, cannot add release")
+                return
             
-            # Filter by pre-release checkbox if not enabled
-            if not self.prerelease_filter_enabled and self._is_prerelease(tag_name):
-                continue  # Skip pre-releases if checkbox is not checked
-
             # Find the package info for this release to get software name from manifest
             package_info = None
             for package in self.packages:
@@ -7047,7 +8424,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             software_name = package_info.get('name', selected_repo) if package_info else selected_repo
 
             # Parse version designations
-            version_info = parse_version_designations(release['tag_name'])
+            version_info = parse_version_designations(release.get('tag_name', ''))
             
             # Get display version (either version number or published date)
             published_date = release.get('published_at', '')
@@ -7061,12 +8438,12 @@ class FirmwareDownloaderGUI(QMainWindow):
             display_text += f"Software: {software_name}\n"
             
             # Add designations as formatted text
-            if version_info['designations']:
+            if version_info.get('designations'):
                 designations_text = format_designations_text(version_info['designations'])
                 display_text += f"{designations_text}\n"
 
             # Only show published date if we're using version number as title
-            if len(version_info['clean_version']) <= 8 and published_date:
+            if len(version_info.get('clean_version', '')) <= 8 and published_date:
                 try:
                     from datetime import datetime
                     date_obj = datetime.fromisoformat(published_date.replace('Z', '+00:00'))
@@ -7082,16 +8459,33 @@ class FirmwareDownloaderGUI(QMainWindow):
             item = QListWidgetItem(display_text)
             item.setData(Qt.UserRole, release_with_software)
             self.package_list.addItem(item)
+            
+            silent_print(f"Added release to UI: {tag_name}")
+        except Exception as e:
+            silent_print(f"Error in _add_release_to_list: {e}")
+            import traceback
+            traceback.print_exc()
 
-        # Select the first item if available
-        if self.package_list.count() > 0:
-            self.package_list.setCurrentRow(0)
-            first_item = self.package_list.item(0)
-            if first_item:
-                self.on_release_selected(first_item)
-
-        # Keep status as Ready - don't change it for release loading
-        silent_print("Releases loaded successfully")
+    def _add_view_older_link(self):
+        """Add 'View Older Releases' link if not already present"""
+        # Check if link already exists
+        for i in range(self.package_list.count()):
+            item = self.package_list.item(i)
+            if item and item.data(Qt.UserRole):
+                data = item.data(Qt.UserRole)
+                if isinstance(data, dict) and data.get('is_link'):
+                    return  # Link already exists
+        
+        # Add separator for visual clarity
+        separator_item = QListWidgetItem("")
+        separator_item.setFlags(separator_item.flags() & ~Qt.ItemIsSelectable)
+        self.package_list.addItem(separator_item)
+        
+        # Add clickable link item
+        link_item = QListWidgetItem("📋 View Older Releases Online")
+        link_item.setData(Qt.UserRole, {'is_link': True, 'url': 'https://innioasis.app/firmware.html'})
+        link_item.setToolTip("View complete release history online (showing 10 most recent)")
+        self.package_list.addItem(link_item)
 
     def retry_releases_after_tokens_loaded(self):
         """Retry loading releases after tokens have been loaded in background"""
@@ -7144,10 +8538,6 @@ class FirmwareDownloaderGUI(QMainWindow):
                             continue
                             
                         if self._release_matches_type_filter(tag_name, selected_type):
-                            # Filter by pre-release checkbox if not enabled
-                            if not self.prerelease_filter_enabled and self._is_prerelease(tag_name):
-                                continue  # Skip pre-releases if checkbox is not checked
-                            
                             # Add software name and repo name to the release info for identification
                             release_with_software = release.copy()
                             release_with_software['software_name'] = name
@@ -7179,13 +8569,13 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print(f"Failed to load releases from repositories: {failed_repos}")
             
             # Add helpful message to the list
-            help_item = QListWidgetItem("⚠️ No releases found\n\nThis could be due to:\n• GitHub API rate limiting\n• Network connectivity issues\n• Repository access restrictions\n\nTry using 'Install from .zip' button instead")
+            help_item = QListWidgetItem("⚠️ No releases found\n\nThis could be due to:\n• GitHub API rate limiting\n• Network connectivity issues\n• Repository access restrictions\n\nTry using 'Install from rom.zip' button instead")
             help_item.setFlags(help_item.flags() & ~Qt.ItemIsSelectable)  # Make it non-selectable
             help_item.setData(Qt.UserRole, None)  # No release data
             self.package_list.addItem(help_item)
             
             # Also update status to be more helpful
-            self.status_label.setText("GitHub API unavailable - use 'Install from .zip' button")
+            self.status_label.setText("GitHub API unavailable - use 'Install from rom.zip' button")
         elif all_releases:
             # Don't update status label - keep it as "Ready" for firmware installation status only
             silent_print(f"Loaded {len(all_releases)} releases successfully")
@@ -7352,90 +8742,356 @@ class FirmwareDownloaderGUI(QMainWindow):
             )
 
     def populate_all_releases_list_progressive(self):
-        """Populate the releases list progressively for all software"""
+        """Populate the releases list progressively for all software using worker thread"""
         self.package_list.clear()
-
-        # Add loading placeholder
-        loading_item = QListWidgetItem("Loading system software listings...")
-        loading_item.setFlags(loading_item.flags() & ~Qt.ItemIsSelectable)
-        self.package_list.addItem(loading_item)
-
-        # Get all releases progressively
-        all_releases = []
-
-        for package in self.packages:
-            repo = package.get('repo')
-            if not repo:
-                continue
-
+        
+        # Stop any existing all releases worker
+        if hasattr(self, 'all_releases_worker') and self.all_releases_worker:
             try:
-                releases = self.github_api.get_all_releases(repo)
-                if releases:
-                    # Add software name and repo name to each release for consistent button text logic
-                    for release in releases:
-                        # Filter by pre-release checkbox if not enabled
-                        tag_name = release.get('tag_name', '')
-                        if not self.prerelease_filter_enabled and self._is_prerelease(tag_name):
-                            continue  # Skip pre-releases if checkbox is not checked
-                        
-                        release_with_software = release.copy()
-                        release_with_software['software_name'] = package.get('name', repo)
-                        release_with_software['repo_name'] = repo
-                        all_releases.append(release_with_software)
-
-                    # Update status less frequently to reduce UI updates
-                    if len(all_releases) % 5 == 0:
-                        # Don't update status label - keep it as "Ready" for firmware installation status only
-                        silent_print(f"Loaded {len(all_releases)} releases...")
-
+                old_worker = self.all_releases_worker
+                if old_worker.isRunning():
+                    old_worker.stop()
+                    # Disconnect signals first
+                    try:
+                        old_worker.releases_loaded.disconnect()
+                        old_worker.loading_complete.disconnect()
+                        old_worker.loading_failed.disconnect()
+                    except:
+                        pass
+                    # Let it clean up asynchronously (non-blocking)
+                    def cleanup_worker():
+                        try:
+                            if not old_worker.isRunning():
+                                old_worker.deleteLater()
+                        except:
+                            pass
+                    old_worker.finished.connect(cleanup_worker)
+                else:
+                    old_worker.deleteLater()
             except Exception as e:
-                silent_print(f"Error getting releases for {repo}: {e}")
-                continue
-
-        # Remove loading placeholder and show results
-        self.package_list.clear()
-
-        if not all_releases:
-            self.package_list.addItem("No releases found. Please check your internet connection.")
+                silent_print(f"Error stopping all releases worker: {e}")
+            self.all_releases_worker = None
+        
+        # Initialize tracking variables
+        if not hasattr(self, '_all_releases_pending'):
+            self._all_releases_pending = []
+        self._all_releases_pending = []
+        
+        # Show offline message immediately (default state)
+        has_tokens = hasattr(self.github_api, 'tokens') and len(self.github_api.tokens) > 0
+        self._show_offline_message(has_tokens)
+        
+        # Create and start worker thread
+        if not self.packages:
+            self._show_offline_message(has_tokens)
             return
-
-        # Sort releases by date (newest first)
-        all_releases.sort(key=lambda x: x.get('published_at', ''), reverse=True)
-
-        # Add releases to the list
-        for release in all_releases:
-            software_name = release.get('software_name', 'Unknown')
-            display_text = f"{software_name} - {release['tag_name']}"
-
-            item = QListWidgetItem(display_text)
-            item.setData(Qt.UserRole, release)
-            self.package_list.addItem(item)
-
-        # Select the first item if available
-        if self.package_list.count() > 0:
-            self.package_list.setCurrentRow(0)
-            first_item = self.package_list.item(0)
-            if first_item:
-                self.on_release_selected(first_item)
+        
+        self.all_releases_worker = AllReleasesWorker(self.github_api, self.packages)
+        self.all_releases_worker.setParent(self)  # Parent to main window for proper cleanup
+        
+        # Connect signals with QueuedConnection for thread safety
+        self.all_releases_worker.releases_loaded.connect(
+            self._on_all_releases_loaded, 
+            Qt.ConnectionType.QueuedConnection
+        )
+        self.all_releases_worker.loading_complete.connect(
+            self._on_all_releases_complete, 
+            Qt.ConnectionType.QueuedConnection
+        )
+        self.all_releases_worker.loading_failed.connect(
+            self._on_all_releases_failed, 
+            Qt.ConnectionType.QueuedConnection
+        )
+        
+        # Connect finished signal to clean up properly
+        worker_ref = self.all_releases_worker
+        def cleanup_worker():
+            if hasattr(self, 'all_releases_worker') and self.all_releases_worker == worker_ref:
+                try:
+                    if not self.all_releases_worker.isRunning():
+                        self.all_releases_worker.deleteLater()
+                except:
+                    pass
+        
+        self.all_releases_worker.finished.connect(cleanup_worker)
+        self.all_releases_worker.start()
+        
+        silent_print("Started loading all releases in background thread")
 
     def update_download_button_text(self, item):
-        """Update download button text based on selected item"""
-        if item and item.data(Qt.UserRole):
-            release_info = item.data(Qt.UserRole)
-
-            # Check if software name contains "Original"
-            software_name = release_info.get('software_name', '')
-            if 'original' in software_name.lower():
-                self.download_btn.setText("Download (Update / Restore)")
-            else:
-                self.download_btn.setText("Download")
-        else:
-            self.download_btn.setText("Download")
+        """Update install button text based on selected item"""
+        # Button text is always "Install / Restore" - no need to change it
+        pass
+    
+    def _get_text_color_for_theme(self):
+        """Get appropriate text color based on current theme (black for light, white for dark)"""
+        try:
+            # Check if we're in dark mode using Qt's palette
+            palette = self.palette()
+            bg_color = palette.color(palette.ColorRole.Window)
+            # If background is dark (brightness < 128), use white text, otherwise black
+            is_dark = bg_color.lightness() < 128
+            return "white" if is_dark else "black"
+        except:
+            # Fallback: try to get theme from theme monitor
+            try:
+                if hasattr(self, 'theme_monitor') and self.theme_monitor:
+                    current_theme = self.theme_monitor._get_current_theme()
+                    return "white" if current_theme == "dark" else "black"
+            except:
+                pass
+            # Default to black (light mode)
+            return "black"
 
     def on_release_selected(self, item):
         """Handle release selection from the list"""
+        # Check if this is the "View Older Releases" link
+        if item and item.data(Qt.UserRole):
+            data = item.data(Qt.UserRole)
+            if isinstance(data, dict) and data.get('is_link'):
+                # Open the URL in browser
+                url = data.get('url', 'https://innioasis.app/firmware.html')
+                webbrowser.open(url)
+                return  # Don't enable download button for links
+        
         self.download_btn.setEnabled(True)
         self.update_download_button_text(item)
+        
+        # Show release notes in the image display area
+        if item and item.data(Qt.UserRole):
+            release_info = item.data(Qt.UserRole)
+            
+            # Get release notes/body
+            release_body = release_info.get('body', '')
+            release_name = release_info.get('name', '')
+            tag_name = release_info.get('tag_name', '')
+            
+            # Format release notes for display
+            try:
+                if release_body or release_name:
+                    # Create HTML content for release notes
+                    import html as html_module
+                    import re
+                    
+                    # Escape release name and tag name
+                    safe_release_name = html_module.escape(str(release_name or tag_name))
+                    
+                    # Get theme-aware text color
+                    text_color = self._get_text_color_for_theme()
+                    
+                    notes_html = f"""<html>
+                    <head>
+                        <style>
+                            body, div, p, h1, h2, h3, h4, h5, h6, ul, ol, li, span, a {{
+                                color: {text_color} !important;
+                            }}
+                        </style>
+                    </head>
+                    <body style='font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Helvetica, Arial, sans-serif; line-height: 1.6; padding: 10px; color: {text_color} !important;'>"""
+                    notes_html += f"<h2 style='margin-top: 0; color: {text_color} !important;'>{safe_release_name}</h2>"
+                    
+                    if release_body:
+                        # Simple markdown to HTML conversion
+                        body_html = str(release_body)
+                        
+                        # Escape HTML first to prevent XSS
+                        body_html = html_module.escape(body_html)
+                        
+                        # Convert markdown to HTML (simplified, safe approach)
+                        lines = body_html.split('\n')
+                        
+                        # Find "Instructions"/"how"/"usage"/"using"/"manual" line and "Change"/"What's New" line
+                        instructions_index = -1
+                        change_index = -1
+                        
+                        for i, line in enumerate(lines):
+                            line_stripped = line.strip()
+                            # Remove markdown formatting (###, ##, #)
+                            cleaned_line = re.sub(r'^#+\s*', '', line_stripped, flags=re.IGNORECASE)
+                            cleaned_lower = cleaned_line.lower()
+                            
+                            # Check for instructions keywords
+                            if instructions_index == -1 and any(cleaned_lower.startswith(keyword) for keyword in ['instructions', 'how', 'usage', 'using', 'manual']):
+                                instructions_index = i
+                            
+                            # Check for Change/What's New
+                            if change_index == -1 and (cleaned_lower.startswith('change') or cleaned_lower.startswith("what's new")):
+                                change_index = i
+                        
+                        # Determine which lines to include
+                        # If instructions line exists before Change line, include instructions section + content after Change line
+                        if instructions_index != -1 and change_index != -1 and instructions_index < change_index:
+                            # Include instructions line and content up to (but not including) Change line
+                            # Then include content after Change line
+                            before_change = lines[instructions_index:change_index]
+                            after_change = lines[change_index + 1:]
+                            lines = before_change + after_change
+                        elif instructions_index != -1 and change_index != -1:
+                            # Change line comes before instructions - start after Change line
+                            lines = lines[change_index + 1:]
+                        elif instructions_index != -1:
+                            # Only instructions line found - include from instructions onwards
+                            lines = lines[instructions_index:]
+                        elif change_index != -1:
+                            # Only Change line found - start after it
+                            lines = lines[change_index + 1:]
+                        # If neither found, keep all lines (lines = lines)
+                        
+                        converted_lines = []
+                        in_list = False
+                        
+                        for line in lines:
+                            line_stripped = line.strip()
+                            
+                            # Check for headers (must be at start of line)
+                            if line_stripped.startswith('### '):
+                                text = line_stripped[4:].strip()
+                                if not in_list:
+                                    converted_lines.append(f'<h4 style="color: {text_color} !important;">{text}</h4>')
+                                else:
+                                    converted_lines.append('</ul>')
+                                    converted_lines.append(f'<h4 style="color: {text_color} !important;">{text}</h4>')
+                                    in_list = False
+                            elif line_stripped.startswith('## '):
+                                text = line_stripped[3:].strip()
+                                if in_list:
+                                    converted_lines.append('</ul>')
+                                    in_list = False
+                                converted_lines.append(f'<h3 style="color: {text_color} !important;">{text}</h3>')
+                            elif line_stripped.startswith('# '):
+                                text = line_stripped[2:].strip()
+                                if in_list:
+                                    converted_lines.append('</ul>')
+                                    in_list = False
+                                converted_lines.append(f'<h2 style="color: {text_color} !important;">{text}</h2>')
+                            # Check for lists
+                            elif line_stripped.startswith('- ') or line_stripped.startswith('* '):
+                                if not in_list:
+                                    converted_lines.append(f'<ul style="color: {text_color} !important;">')
+                                    in_list = True
+                                text = line_stripped[2:].strip()
+                                converted_lines.append(f'<li style="color: {text_color} !important;">{text}</li>')
+                            elif line_stripped == '':
+                                # Empty line - close list if open
+                                if in_list:
+                                    converted_lines.append('</ul>')
+                                    in_list = False
+                                converted_lines.append('<br>')
+                            else:
+                                # Regular text
+                                if in_list:
+                                    converted_lines.append('</ul>')
+                                    in_list = False
+                                if line_stripped:
+                                    converted_lines.append(f'<span style="color: {text_color} !important;">{line_stripped}</span><br>')
+                        
+                        # Close any open list
+                        if in_list:
+                            converted_lines.append('</ul>')
+                        
+                        # Join and wrap in paragraph
+                        body_html = ''.join(converted_lines)
+                        if body_html.strip():
+                            # Wrap in paragraph, but preserve existing HTML tags
+                            if not body_html.strip().startswith('<'):
+                                body_html = f'<p style="color: {text_color} !important;">{body_html}</p>'
+                        
+                        notes_html += body_html
+                    else:
+                        notes_html += f"""<p style='color: {text_color} !important; margin-bottom: 10px;'>Bug fixes, performance and stability improvements.</p>
+                        <p style='color: {text_color} !important; font-style: italic; font-size: 0.9em;'>(Release notes could not be loaded for this version)</p>"""
+                    
+                    notes_html += "</body></html>"
+                    
+                    # Set release notes and switch to notes view
+                    # Set a flag to prevent concurrent UI updates from worker thread
+                    self._displaying_release_notes = True
+                    try:
+                        # Set HTML directly with proper error handling
+                        if hasattr(self, 'release_notes_browser') and self.release_notes_browser is not None:
+                            try:
+                                self.release_notes_browser.setHtml(notes_html)
+                            except Exception as e:
+                                silent_print(f"Error setting HTML in browser: {e}")
+                                import traceback
+                                traceback.print_exc()
+                                raise
+                        
+                        if hasattr(self, 'image_notes_stack') and self.image_notes_stack is not None:
+                            try:
+                                self.image_notes_stack.setCurrentIndex(1)  # Switch to release notes (page 1)
+                                # Update title to "About this update:" when showing release notes
+                                if hasattr(self, 'output_group'):
+                                    self.output_group.setTitle("About this update:")
+                            except Exception as e:
+                                silent_print(f"Error switching to notes view: {e}")
+                                import traceback
+                                traceback.print_exc()
+                                # Fallback to image view
+                                self.image_notes_stack.setCurrentIndex(0)
+                                raise
+                    except Exception as e:
+                        silent_print(f"Error setting release notes: {e}")
+                        import traceback
+                        traceback.print_exc()
+                        # Fallback to image view
+                        if hasattr(self, 'image_notes_stack'):
+                            try:
+                                self.image_notes_stack.setCurrentIndex(0)
+                            except:
+                                pass
+                    finally:
+                        self._displaying_release_notes = False
+                else:
+                    # No release notes - show image instead
+                    if hasattr(self, 'image_notes_stack'):
+                        self.image_notes_stack.setCurrentIndex(0)  # Switch to image (page 0)
+            except Exception as e:
+                silent_print(f"Error formatting release notes: {e}")
+                import traceback
+                traceback.print_exc()
+                # Fallback to image view on error
+                if hasattr(self, 'image_notes_stack'):
+                    self.image_notes_stack.setCurrentIndex(0)
+            
+            assets = release_info.get('assets', [])
+            
+            silent_print(f"Release has {len(assets)} assets")
+            
+            # Check if update.zip exists in assets
+            has_update_zip = any(
+                asset.get('name', '').lower() == 'update.zip'
+                for asset in assets
+            )
+            
+            if has_update_zip:
+                silent_print("Found update.zip in release - showing Send to Y1 button")
+                if hasattr(self, 'send_update_btn'):
+                    self.send_update_btn.setVisible(True)
+                    self.send_update_btn.setEnabled(True)
+                # Store update.zip URL for later use
+                update_asset = next(
+                    (asset for asset in assets if asset.get('name', '').lower() == 'update.zip'),
+                    None
+                )
+                if update_asset:
+                    self.current_update_zip_url = update_asset.get('browser_download_url')
+                    silent_print(f"Update.zip URL: {self.current_update_zip_url}")
+            else:
+                silent_print("No update.zip found in release - hiding Send to Y1 button")
+                if hasattr(self, 'send_update_btn'):
+                    self.send_update_btn.setVisible(False)
+                    self.send_update_btn.setEnabled(False)
+                self.current_update_zip_url = None
+        else:
+            # No release selected - show image
+            if hasattr(self, 'image_notes_stack'):
+                self.image_notes_stack.setCurrentIndex(0)  # Switch to image
+            
+            if hasattr(self, 'send_update_btn'):
+                self.send_update_btn.setVisible(False)
+                self.send_update_btn.setEnabled(False)
+            self.current_update_zip_url = None
 
     def run_mtk_command_guided(self):
         """Run the MTK flash command with image display for guided installation"""
@@ -7656,7 +9312,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         try:
             # Find the install from zip button in the layout
             if hasattr(self, 'central_widget'):
-                self.find_and_hide_button(self.central_widget, "📦 Install from .zip")
+                self.find_and_hide_button(self.central_widget, "📦 Install from rom.zip")
         except Exception as e:
             silent_print(f"Error hiding install zip button: {e}")
 
@@ -7665,7 +9321,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         try:
             # Find the install from zip button in the layout
             if hasattr(self, 'central_widget'):
-                self.find_and_show_button(self.central_widget, "📦 Install from .zip")
+                self.find_and_show_button(self.central_widget, "📦 Install from rom.zip")
         except Exception as e:
             silent_print(f"Error showing install zip button: {e}")
 
@@ -7945,56 +9601,29 @@ class FirmwareDownloaderGUI(QMainWindow):
             self.set_image_with_aspect_ratio(self._current_pixmap)
 
     def download_image_from_web(self, image_path):
-        """Download an image from the website as a fallback"""
-        try:
-            # Construct the web URL
-            web_url = f"https://innioasis.app/{image_path}"
-            silent_print(f"Attempting to download image from: {web_url}")
-            
-            # Download the image
-            response = requests.get(web_url, timeout=10)
-            response.raise_for_status()
-            
-            # Ensure the local directory exists
-            local_path = Path(image_path)
-            local_path.parent.mkdir(parents=True, exist_ok=True)
-            
-            # Save the image locally
-            with open(local_path, 'wb') as f:
-                f.write(response.content)
-            
-            silent_print(f"Successfully downloaded image to: {local_path}")
-            return True
-            
-        except Exception as e:
-            silent_print(f"Failed to download image from web: {e}")
-            return False
+        """Download an image from the website as a fallback - DISABLED"""
+        # Feature disabled to prevent startup delays from dead URLs
+        return False
 
     def load_image_with_web_fallback(self, image_path):
-        """Load an image with web fallback if local file doesn't exist"""
+        """Load an image - web fallback disabled"""
         try:
             local_path = Path(image_path)
             
-            # Try to load from local file first
+            # Only try to load from local file
             if local_path.exists():
                 pixmap = QPixmap(image_path)
                 if not pixmap.isNull():
                     return pixmap
             
-            # Try to download from web if local file doesn't exist or is invalid
-            if self.download_image_from_web(image_path):
-                pixmap = QPixmap(image_path)
-                if not pixmap.isNull():
-                    return pixmap
-            
             return None
             
         except Exception as e:
-            silent_print(f"Error loading image with web fallback: {e}")
+            silent_print(f"Error loading image: {e}")
             return None
 
     def ensure_image_exists(self, image_path):
-        """Ensure an image exists locally, downloading from web if necessary"""
+        """Check if image exists locally - web downloading disabled"""
         try:
             local_path = Path(image_path)
             
@@ -8005,11 +9634,11 @@ class FirmwareDownloaderGUI(QMainWindow):
                 if not test_pixmap.isNull():
                     return True
             
-            # Try to download from web
-            return self.download_image_from_web(image_path)
+            # Web downloading disabled - just return False if not found locally
+            return False
             
         except Exception as e:
-            silent_print(f"Error ensuring image exists: {e}")
+            silent_print(f"Error checking image exists: {e}")
             return False
 
     def preload_critical_images(self):
@@ -8137,8 +9766,18 @@ class FirmwareDownloaderGUI(QMainWindow):
 
         self._current_pixmap = self._presteps_pixmap
         self.set_image_with_aspect_ratio(self._presteps_pixmap)
+        # Switch to image view (page 0) when showing installation images
+        self._switch_to_image_view()
         # Flash border to highlight the new image
         self.flash_image_border()
+    
+    def _switch_to_image_view(self):
+        """Switch stacked widget to image view (page 0)"""
+        if hasattr(self, 'image_notes_stack'):
+            self.image_notes_stack.setCurrentIndex(0)
+            # Update title back to "Getting Ready:" when showing images
+            if hasattr(self, 'output_group'):
+                self.output_group.setTitle("Getting Ready:")
 
     def load_please_wait_image(self):
         """Load please_wait image with lazy loading and platform fallback."""
@@ -8155,6 +9794,8 @@ class FirmwareDownloaderGUI(QMainWindow):
 
         self._current_pixmap = self._please_wait_pixmap
         self.set_image_with_aspect_ratio(self._please_wait_pixmap)
+        # Switch to image view (page 0) when showing installation images
+        self._switch_to_image_view()
         # Flash border to highlight the new image
         self.flash_image_border()
 
@@ -8173,6 +9814,8 @@ class FirmwareDownloaderGUI(QMainWindow):
 
         self._current_pixmap = self._initsteps_pixmap
         self.set_image_with_aspect_ratio(self._initsteps_pixmap)
+        # Switch to image view (page 0) when showing installation images
+        self._switch_to_image_view()
         # Flash border to highlight the new image
         self.flash_image_border()
 
@@ -8203,6 +9846,8 @@ class FirmwareDownloaderGUI(QMainWindow):
 
         self._current_pixmap = self._installing_pixmap
         self.set_image_with_aspect_ratio(self._installing_pixmap)
+        # Switch to image view (page 0) when showing installation images
+        self._switch_to_image_view()
 
     def load_installed_image(self):
         """Load installed image with lazy loading and web fallback"""
@@ -8231,6 +9876,8 @@ class FirmwareDownloaderGUI(QMainWindow):
 
         self._current_pixmap = self._installed_pixmap
         self.set_image_with_aspect_ratio(self._installed_pixmap)
+        # Switch to image view (page 0) when showing installation images
+        self._switch_to_image_view()
 
     def load_handshake_error_image(self):
         """Load handshake error image with lazy loading and platform fallback."""
@@ -8247,6 +9894,8 @@ class FirmwareDownloaderGUI(QMainWindow):
 
         self._current_pixmap = self._handshake_error_pixmap
         self.set_image_with_aspect_ratio(self._handshake_error_pixmap)
+        # Switch to image view (page 0) when showing installation images
+        self._switch_to_image_view()
 
     def load_process_ended_image(self):
         """Load process ended image with lazy loading and web fallback"""
@@ -8275,6 +9924,8 @@ class FirmwareDownloaderGUI(QMainWindow):
 
         self._current_pixmap = self._process_ended_pixmap
         self.set_image_with_aspect_ratio(self._process_ended_pixmap)
+        # Switch to image view (page 0) when showing installation images
+        self._switch_to_image_view()
 
     def load_method2_image(self):
         """Load method2 image with lazy loading and platform fallback."""
@@ -8319,20 +9970,10 @@ class FirmwareDownloaderGUI(QMainWindow):
         webbrowser.open("https://reddit.com/r/innioasis")
 
     def load_about_content(self):
-        """Load about content from remote URL or local fallback file"""
-        try:
-            # Try to load from remote URL first
-            import requests
-            response = requests.get("https://innioasis.app/about", timeout=5)
-            if response.status_code == 200:
-                content = response.text.strip()
-                if content:  # Make sure we got actual content
-                    logging.info("Successfully loaded about content from innioasis.app")
-                    return content
-        except Exception as e:
-            logging.warning(f"Failed to load about content from remote URL: {e}")
+        """Load about content from local file only - remote loading DISABLED to prevent hang"""
+        # Remote loading disabled to prevent settings dialog hang from dead URL
         
-        # Fallback to local file
+        # Try local file first
         try:
             local_about_file = Path("about")
             if local_about_file.exists():
@@ -8418,7 +10059,7 @@ class FirmwareDownloaderGUI(QMainWindow):
     def setup_credits_line_display(self, credits_label, credits_label_container):
         """Set up line-by-line display with fade transitions"""
         # Start with version line (from firmware_downloader.py, not remote)
-        clean_lines = ["Version 1.7.6"]
+        clean_lines = ["Version 1.7.8"]
         
         # Load credits content from remote or local file
         credits_text = self.load_about_content()
@@ -8648,6 +10289,106 @@ class FirmwareDownloaderGUI(QMainWindow):
             self.mtk_worker.stop()
             self.mtk_worker.wait()
         
+        # Stop release worker
+        if hasattr(self, 'release_worker') and self.release_worker:
+            try:
+                if self.release_worker.isRunning():
+                    # Disconnect signals first
+                    try:
+                        self.release_worker.release_loaded.disconnect()
+                        self.release_worker.loading_complete.disconnect()
+                        self.release_worker.loading_failed.disconnect()
+                    except:
+                        pass
+                    self.release_worker.stop()
+                    if not self.release_worker.wait(5000):  # Wait up to 5 seconds
+                        # Thread didn't finish - terminate it
+                        self.release_worker.terminate()
+                        self.release_worker.wait(2000)
+                # Use deleteLater for proper cleanup
+                self.release_worker.deleteLater()
+            except:
+                pass
+            self.release_worker = None
+        
+        # Stop data loader worker
+        if hasattr(self, 'data_loader_worker') and self.data_loader_worker:
+            try:
+                if self.data_loader_worker.isRunning():
+                    # Disconnect signals first
+                    try:
+                        self.data_loader_worker.data_loaded.disconnect()
+                        self.data_loader_worker.loading_failed.disconnect()
+                    except:
+                        pass
+                    self.data_loader_worker.stop()
+                    if not self.data_loader_worker.wait(2000):  # Wait up to 2 seconds
+                        # Thread didn't finish - terminate it
+                        self.data_loader_worker.terminate()
+                        self.data_loader_worker.wait(1000)
+                # Use deleteLater for proper cleanup
+                self.data_loader_worker.deleteLater()
+            except:
+                pass
+            self.data_loader_worker = None
+        
+        # Stop token loader worker
+        if hasattr(self, 'token_loader_worker') and self.token_loader_worker:
+            try:
+                if self.token_loader_worker.isRunning():
+                    # Disconnect signals first
+                    try:
+                        self.token_loader_worker.tokens_loaded.disconnect()
+                        self.token_loader_worker.loading_failed.disconnect()
+                    except:
+                        pass
+                    self.token_loader_worker.stop()
+                    if not self.token_loader_worker.wait(2000):  # Wait up to 2 seconds
+                        # Thread didn't finish - terminate it
+                        self.token_loader_worker.terminate()
+                        self.token_loader_worker.wait(1000)
+                # Use deleteLater for proper cleanup
+                self.token_loader_worker.deleteLater()
+            except:
+                pass
+            self.token_loader_worker = None
+        
+        # Stop all releases worker
+        if hasattr(self, 'all_releases_worker') and self.all_releases_worker:
+            try:
+                if self.all_releases_worker.isRunning():
+                    # Disconnect signals first
+                    try:
+                        self.all_releases_worker.releases_loaded.disconnect()
+                        self.all_releases_worker.loading_complete.disconnect()
+                        self.all_releases_worker.loading_failed.disconnect()
+                    except:
+                        pass
+                    self.all_releases_worker.stop()
+                    if not self.all_releases_worker.wait(5000):  # Wait up to 5 seconds
+                        # Thread didn't finish - terminate it
+                        self.all_releases_worker.terminate()
+                        self.all_releases_worker.wait(2000)
+                # Use deleteLater for proper cleanup
+                self.all_releases_worker.deleteLater()
+            except:
+                pass
+            self.all_releases_worker = None
+        
+        # Clean up old workers
+        if hasattr(self, '_old_workers'):
+            for old_worker in self._old_workers:
+                try:
+                    if old_worker.isRunning():
+                        old_worker.stop()
+                        if not old_worker.wait(2000):
+                            old_worker.terminate()
+                            old_worker.wait(1000)
+                    old_worker.deleteLater()
+                except:
+                    pass
+            self._old_workers = []
+        
         # Stop theme monitoring
         if hasattr(self, 'theme_monitor') and self.theme_monitor:
             self.theme_monitor.stop_monitoring()
@@ -8760,6 +10501,94 @@ class FirmwareDownloaderGUI(QMainWindow):
         if not zip_path.exists():
             QMessageBox.warning(self, "Error", "Selected file does not exist.")
             return
+        
+        # Check if the file is named "update.zip" (case-insensitive)
+        if zip_path.name.lower() == "update.zip":
+            # Show warning that this is a quick update file
+            reply = QMessageBox.warning(
+                self,
+                "Quick Update File Detected",
+                "⚠️ The file you selected is named 'update.zip', which is a quick update file.\n\n"
+                "This file must be copied to your Y1 player in USB Storage mode.\n\n"
+                "The application will now treat this as a Fast Update operation:\n"
+                "1. You'll be prompted to prepare your Y1\n"
+                "2. You'll be asked to select your Y1 drive or .rockbox folder\n"
+                "3. The update.zip will be copied to the correct location\n"
+                "4. You can then use the Firmware Update option on your Y1\n\n"
+                "Click OK to proceed with Fast Update, or Cancel to select a different file.",
+                QMessageBox.Ok | QMessageBox.Cancel,
+                QMessageBox.Ok
+            )
+            
+            if reply == QMessageBox.Cancel:
+                return
+            
+            # Show the same preparation dialog as Fast Update button
+            silent_print("Showing Fast Update preparation dialog")
+            reply = QMessageBox.question(
+                self,
+                "Fast Update - USB Mode",
+                "📱 Please prepare your Y1:\n\n"
+                "1. Power on your Y1\n"
+                "2. Connect it to your computer via USB\n"
+                "3. Make sure your Y1 is in USB Storage mode\n"
+                "   (Your computer should see it as a USB drive)\n\n"
+                "Click OK when your Y1 is connected and ready.",
+                QMessageBox.Ok | QMessageBox.Cancel,
+                QMessageBox.Ok
+            )
+            
+            if reply == QMessageBox.Cancel:
+                silent_print("User cancelled at preparation dialog")
+                return
+            
+            # Handle as Fast Update - copy to Y1
+            # Ask user to select Y1 drive or .rockbox folder
+            folder_path = QFileDialog.getExistingDirectory(
+                self,
+                "Select Y1 USB Drive or .rockbox Folder",
+                "",
+                QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks
+            )
+            
+            if not folder_path:
+                return
+            
+            # Copy update.zip to the selected folder
+            try:
+                destination = Path(folder_path) / "update.zip"
+                
+                self.status_label.setText("Copying update.zip to Y1...")
+                self.progress_bar.setVisible(True)
+                self.progress_bar.setValue(50)
+                
+                shutil.copy2(zip_path, destination)
+                
+                self.progress_bar.setValue(100)
+                self.status_label.setText("update.zip copied successfully!")
+                
+                QMessageBox.information(
+                    self,
+                    "Update Copied Successfully",
+                    "✅ update.zip has been copied to your Y1.\n\n"
+                    "Next steps:\n"
+                    "1. Safely disconnect your Y1 from your computer\n"
+                    "2. On your Y1, go to Main Menu > System\n"
+                    "3. Select Firmware Update\n"
+                    "4. The update will install automatically"
+                )
+                
+                self.progress_bar.setVisible(False)
+                return
+            except Exception as e:
+                self.progress_bar.setVisible(False)
+                QMessageBox.critical(
+                    self,
+                    "Error",
+                    f"Failed to copy update.zip:\n{str(e)}"
+                )
+                self.status_label.setText("Error copying update.zip")
+                return
             
         # Process the zip file with progress bar and status updates like download process
         self.status_label.setText("Processing zip file...")
@@ -8823,6 +10652,374 @@ class FirmwareDownloaderGUI(QMainWindow):
         finally:
             # Hide progress bar after processing
             QTimer.singleShot(2000, lambda: self.progress_bar.setVisible(False))
+    
+    def send_update_to_y1(self):
+        """Download and send update.zip to Y1 device using ADB or USB"""
+        silent_print("Fast Update button clicked")
+        
+        if not hasattr(self, 'current_update_zip_url') or not self.current_update_zip_url:
+            silent_print("ERROR: No update.zip URL available")
+            QMessageBox.warning(self, "Error", "No update.zip URL available for this release")
+            return
+        
+        silent_print(f"Update.zip URL: {self.current_update_zip_url}")
+        
+        # Try ADB method first
+        if self.try_adb_fast_update():
+            return
+        
+        # Fall back to USB storage mode
+        silent_print("ADB not available, falling back to USB storage mode")
+        
+        # Show instructions dialog for USB mode
+        reply = QMessageBox.question(
+            self,
+            "Fast Update - USB Mode",
+            "📱 Please prepare your Y1:\n\n"
+            "1. Power on your Y1\n"
+            "2. Connect it to your computer via USB\n"
+            "3. Make sure your Y1 is in USB Storage mode\n"
+            "   (Your computer should see it as a USB drive)\n\n"
+            "Click OK when your Y1 is connected and ready.",
+            QMessageBox.Ok | QMessageBox.Cancel,
+            QMessageBox.Ok
+        )
+        
+        if reply == QMessageBox.Cancel:
+            silent_print("User cancelled at preparation dialog")
+            return
+        
+        # Ask user to select Y1 drive or .rockbox folder
+        folder_path = QFileDialog.getExistingDirectory(
+            self,
+            "Select Y1 USB Drive or .rockbox Folder",
+            "",
+            QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks
+        )
+        
+        if not folder_path:
+            silent_print("User cancelled folder selection")
+            return
+        
+        silent_print(f"User selected folder: {folder_path}")
+        
+        # Start worker to download and place update.zip
+        self.update_worker = UpdateZipSenderWorker(self.current_update_zip_url, folder_path)
+        self.update_worker.status_updated.connect(self.update_status)
+        self.update_worker.progress_updated.connect(self.update_progress)
+        self.update_worker.send_completed.connect(self.on_update_send_completed)
+        
+        # Show progress
+        self.status_label.setText("Downloading update.zip...")
+        self.progress_bar.setVisible(True)
+        self.progress_bar.setRange(0, 100)
+        self.progress_bar.setValue(0)
+        
+        # Disable buttons during operation
+        self.download_btn.setEnabled(False)
+        if hasattr(self, 'send_update_btn'):
+            self.send_update_btn.setEnabled(False)
+        
+        silent_print("Starting UpdateZipSenderWorker thread...")
+        self.update_worker.start()
+    
+    def try_adb_fast_update(self):
+        """Try to perform fast update using ADB - silently falls back if unavailable"""
+        try:
+            # Find ADB executable
+            adb_path = self.find_adb_executable()
+            if not adb_path:
+                silent_print("ADB not found - falling back to USB mode")
+                return False
+            
+            silent_print(f"Found ADB at: {adb_path}")
+            
+            # Check if device is connected via ADB
+            result = subprocess.run(
+                [str(adb_path), 'devices'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            # Parse device list
+            devices = []
+            for line in result.stdout.split('\n'):
+                if '\tdevice' in line:
+                    devices.append(line.split('\t')[0])
+            
+            if not devices:
+                silent_print("No ADB devices connected - falling back to USB mode")
+                return False
+            
+            silent_print(f"Found {len(devices)} ADB device(s): {devices}")
+            
+            # Check if /data/data/update.sh exists on device
+            silent_print("Checking for /data/data/update.sh on device...")
+            check_result = subprocess.run(
+                [str(adb_path), 'shell', 'test -f /data/data/update.sh && echo exists'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            silent_print(f"ADB check result stdout: '{check_result.stdout}'")
+            silent_print(f"ADB check result stderr: '{check_result.stderr}'")
+            
+            if 'exists' not in check_result.stdout:
+                silent_print("/data/data/update.sh not found on device - falling back to USB mode")
+                return False
+            
+            silent_print("Found /data/data/update.sh on device - proceeding with ADB update")
+            
+            # Show ADB mode dialog
+            reply = QMessageBox.question(
+                self,
+                "Fast Update - ADB Mode",
+                "⚡ Automatic Update Available!\n\n"
+                "Your Y1 supports automatic updates via ADB.\n\n"
+                "The update will:\n"
+                "1. Download update.zip\n"
+                "2. Push it to /sdcard/.rockbox/update.zip\n"
+                "3. Run the update script automatically\n"
+                "4. Your Y1 will restart when done\n\n"
+                "Make sure your Y1 is connected and click OK to proceed.",
+                QMessageBox.Ok | QMessageBox.Cancel,
+                QMessageBox.Ok
+            )
+            
+            if reply == QMessageBox.Cancel:
+                silent_print("User cancelled ADB update - falling back to USB mode")
+                return False
+            
+            # Start ADB update process
+            self.execute_adb_update(adb_path)
+            return True
+            
+        except subprocess.TimeoutExpired:
+            silent_print("ADB command timed out - falling back to USB mode")
+            return False
+        except Exception as e:
+            silent_print(f"ADB not available or failed ({e}) - falling back to USB mode")
+            return False
+    
+    def find_adb_executable(self):
+        """Find ADB executable in assets or system PATH"""
+        # Check assets folder first
+        assets_adb = Path("assets/adb.exe" if platform.system() == "Windows" else "assets/adb")
+        silent_print(f"Checking for ADB at: {assets_adb}")
+        if assets_adb.exists():
+            silent_print(f"Found ADB in assets: {assets_adb}")
+            return assets_adb
+        
+        # Check system PATH
+        import shutil
+        system_adb = shutil.which("adb")
+        if system_adb:
+            silent_print(f"Found ADB in system PATH: {system_adb}")
+            return Path(system_adb)
+        
+        silent_print("ADB not found in assets or system PATH")
+        return None
+    
+    def execute_adb_update(self, adb_path):
+        """Execute the ADB-based update with live output to status"""
+        try:
+            self.status_label.setText("ADB: Downloading update.zip...")
+            self.progress_bar.setVisible(True)
+            self.progress_bar.setRange(0, 100)
+            self.progress_bar.setValue(0)
+            QApplication.processEvents()
+            
+            # Disable buttons
+            self.download_btn.setEnabled(False)
+            if hasattr(self, 'send_update_btn'):
+                self.send_update_btn.setEnabled(False)
+            
+            # Download update.zip
+            silent_print("Downloading update.zip...")
+            response = requests.get(self.current_update_zip_url, stream=True, timeout=30)
+            response.raise_for_status()
+            
+            total_size = int(response.headers.get('content-length', 0))
+            downloaded = 0
+            
+            temp_update_path = Path("update.zip.tmp")
+            with open(temp_update_path, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
+                        downloaded += len(chunk)
+                        if total_size > 0:
+                            progress = int((downloaded / total_size) * 40)  # 0-40% for download
+                            self.progress_bar.setValue(progress)
+                            QApplication.processEvents()
+            
+            silent_print("Download complete, pushing to device...")
+            self.status_label.setText("ADB: Creating .rockbox directory...")
+            self.progress_bar.setValue(40)
+            QApplication.processEvents()
+            
+            # Create .rockbox directory on device
+            mkdir_result = subprocess.run(
+                [str(adb_path), 'shell', 'mkdir', '-p', '/sdcard/.rockbox'],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            if mkdir_result.stdout.strip():
+                self.status_label.setText(f"ADB: {mkdir_result.stdout.strip()}")
+                QApplication.processEvents()
+            
+            self.status_label.setText("ADB: Pushing update.zip to device...")
+            self.progress_bar.setValue(50)
+            QApplication.processEvents()
+            
+            # Push update.zip
+            push_result = subprocess.run(
+                [str(adb_path), 'push', str(temp_update_path), '/sdcard/.rockbox/update.zip'],
+                capture_output=True,
+                text=True,
+                timeout=30,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            if push_result.returncode != 0:
+                raise Exception(f"Failed to push: {push_result.stderr}")
+            
+            # Show push output
+            if push_result.stdout.strip():
+                last_line = push_result.stdout.strip().split('\n')[-1]
+                self.status_label.setText(f"ADB: {last_line}")
+                QApplication.processEvents()
+            
+            silent_print("update.zip pushed successfully")
+            self.progress_bar.setValue(70)
+            
+            # Clean up temp file
+            temp_update_path.unlink()
+            
+            # Run update script as root
+            self.status_label.setText("ADB: Running update script as root...")
+            self.progress_bar.setValue(80)
+            QApplication.processEvents()
+            
+            silent_print("Executing /data/data/update.sh as root...")
+            
+            # Run the script
+            script_result = subprocess.run(
+                [str(adb_path), 'shell', 'su', '-c', '/data/data/update.sh'],
+                capture_output=True,
+                text=True,
+                timeout=60,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            # Show script output
+            if script_result.stdout.strip():
+                output_lines = script_result.stdout.strip().split('\n')
+                for line in output_lines[-3:]:  # Show last 3 lines
+                    silent_print(f"Update script: {line}")
+                last_line = output_lines[-1] if output_lines else "Script executed"
+                self.status_label.setText(f"ADB: {last_line}")
+                QApplication.processEvents()
+            
+            self.progress_bar.setValue(100)
+            QApplication.processEvents()
+            
+            # Small delay before hiding progress
+            QTimer.singleShot(500, lambda: self.progress_bar.setVisible(False))
+            
+            # Re-enable buttons
+            self.download_btn.setEnabled(True)
+            if hasattr(self, 'send_update_btn'):
+                self.send_update_btn.setEnabled(True)
+            
+            self.status_label.setText("ADB: Update completed!")
+            
+            # Show completion message
+            QMessageBox.information(
+                self,
+                "Update Complete! ✅",
+                "⚡ Fast Update completed successfully via ADB!\n\n"
+                "The update script has been executed on your Y1.\n"
+                "Your device will restart automatically to apply the update.\n\n"
+                "Please wait for your Y1 to reboot."
+            )
+            
+        except Exception as e:
+            silent_print(f"Error during ADB update: {e}")
+            import traceback
+            traceback.print_exc()
+            
+            # Clean up temp file
+            try:
+                if Path("update.zip.tmp").exists():
+                    Path("update.zip.tmp").unlink()
+            except:
+                pass
+            
+            self.progress_bar.setVisible(False)
+            
+            # Re-enable buttons
+            self.download_btn.setEnabled(True)
+            if hasattr(self, 'send_update_btn'):
+                self.send_update_btn.setEnabled(True)
+            
+            self.status_label.setText("ADB update failed")
+            
+            QMessageBox.critical(
+                self,
+                "ADB Update Failed",
+                f"Failed to perform automatic update via ADB:\n\n{str(e)}\n\n"
+                "Please try using USB Storage mode instead."
+            )
+    
+    def on_update_send_completed(self, success, message):
+        """Handle completion of update.zip send operation"""
+        silent_print(f"Update send completed: success={success}, message={message}")
+        
+        self.progress_bar.setVisible(False)
+        
+        # Re-enable buttons
+        self.download_btn.setEnabled(True)
+        if hasattr(self, 'send_update_btn'):
+            self.send_update_btn.setEnabled(True)
+        
+        if success:
+            silent_print("Update sent successfully! Showing completion dialog...")
+            self.status_label.setText("Update sent successfully!")
+            
+            # Get software name for the note
+            selected_item = self.package_list.currentItem()
+            software_name = "this firmware"
+            if selected_item and selected_item.data(Qt.UserRole):
+                release_info = selected_item.data(Qt.UserRole)
+                software_name = release_info.get('software_name', 'this firmware')
+            
+            # Show completion dialog with instructions
+            QMessageBox.information(
+                self,
+                "Update Sent Successfully! ✅",
+                f"⚠️ IMPORTANT - PLEASE READ:\n\n"
+                f"If this is the FIRST TIME you install {software_name} on your Y1, if you don't see the Firmware Update option in Main Menu > System, you'll need to use a tool like Innioasis Updater (+ SP Flash Tool or MTKclient) to do this update the first time.\n\n"
+                f"━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+                f"📱 Installation Instructions:\n\n"
+                f"1. Safely disconnect your Y1\n\n"
+                f"2. Go to Main Menu > System and click Firmware Update\n\n"
+                f"3. The update process will now run in the background and automatically restart the device once it is done"
+            )
+        else:
+            self.status_label.setText("Failed to send update")
+            QMessageBox.critical(
+                self,
+                "Error",
+                f"Failed to send update to Y1:\n\n{message}"
+            )
 
     def run_driver_setup(self):
         """Runs the driver setup script (main.py)"""
@@ -9347,6 +11544,63 @@ class FirmwareDownloaderGUI(QMainWindow):
     def refresh_button_styles(self):
         """Native buttons handle their own styling - no intervention needed"""
         pass
+    
+    def refresh_release_notes_on_theme_change(self):
+        """Refresh release notes display when theme changes to update text color"""
+        try:
+            # Check if release notes are currently displayed
+            if not hasattr(self, 'image_notes_stack') or not self.image_notes_stack:
+                return
+            
+            # Check if we're currently showing release notes (not the image)
+            if self.image_notes_stack.currentIndex() != 1:
+                return  # Not showing release notes, no need to refresh
+            
+            # Get currently selected release
+            if not hasattr(self, 'package_list') or not self.package_list:
+                return
+            
+            current_item = self.package_list.currentItem()
+            if not current_item:
+                return
+            
+            # Get release data
+            release_info = current_item.data(Qt.UserRole)
+            if not release_info or not isinstance(release_info, dict):
+                return
+            
+            # Check if it's a link (not a release)
+            if release_info.get('is_link'):
+                return
+            
+            # Re-render the release notes with new theme-aware color
+            # Temporarily disable the flag to allow re-rendering
+            self._displaying_release_notes = False
+            try:
+                # Re-call on_release_selected to re-render with new theme color
+                self.on_release_selected(current_item)
+            finally:
+                self._displaying_release_notes = False
+        except Exception as e:
+            silent_print(f"Error refreshing release notes on theme change: {e}")
+        
+        # Also refresh offline message if it's displayed
+        try:
+            # Check if offline message might be displayed
+            if hasattr(self, 'left_panel') and self.left_panel:
+                if not self.left_panel.isVisible():
+                    # Left panel is hidden, offline message might be shown
+                    # Check if we're showing release notes area
+                    if hasattr(self, 'image_notes_stack') and self.image_notes_stack:
+                        if self.image_notes_stack.currentIndex() == 1:
+                            # Check if there are no releases (offline state)
+                            if hasattr(self, 'package_list') and self.package_list:
+                                if self.package_list.count() == 0:
+                                    # Refresh offline message
+                                    has_tokens = hasattr(self.github_api, 'tokens') and len(self.github_api.tokens) > 0
+                                    self._show_offline_message(has_tokens)
+        except Exception as e:
+            silent_print(f"Error refreshing offline message on theme change: {e}")
 
     def check_theme_change(self):
         """Theme change detection disabled - native buttons handle styling"""
@@ -10071,51 +12325,79 @@ read -n 1
         return result
 
     def download_latest_updater(self):
-        """Download the latest updater.py script silently during launch"""
-        try:
-            updater_url = "https://innioasis.app/updater.py"
-            response = requests.get(updater_url, timeout=10)
-            response.raise_for_status()
+        """Download the latest updater.py script silently during launch in worker thread"""
+        def download_worker():
+            """Worker function to download updater in background thread"""
+            try:
+                updater_url = "https://innioasis.app/updater.py"
+                response = requests.get(updater_url, timeout=2)  # Short timeout
+                response.raise_for_status()
 
-            updater_path = Path("updater.py")
-            with open(updater_path, 'wb') as f:
-                f.write(response.content)
+                updater_path = Path("updater.py")
+                with open(updater_path, 'wb') as f:
+                    f.write(response.content)
 
-            silent_print("Latest updater.py downloaded successfully")
-        except Exception as e:
-            silent_print(f"Failed to download latest updater.py: {e}")
+                silent_print("Latest updater.py downloaded successfully")
+            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout, requests.exceptions.RequestException) as e:
+                # Network error - offline or connection failed (non-blocking)
+                silent_print(f"Network error downloading updater.py (offline?): {e}")
+            except Exception as e:
+                silent_print(f"Failed to download latest updater.py: {e}")
+        
+        # Run in background thread to avoid blocking
+        import threading
+        download_thread = threading.Thread(target=download_worker, daemon=True)
+        download_thread.start()
 
     def check_for_updates_and_show_button(self):
-        """Check GitHub for newer version and show update button only if needed"""
-        try:
-            # Get latest release from GitHub
-            latest_version = self.get_latest_github_version()
-            if latest_version:
-                current_version = "1.7.6"
-                
-                # Compare versions
-                if self.compare_versions(latest_version, current_version) > 0:
-                    # Newer version available - show button
-                    self.update_btn_right.setText("Updates Available")
-                    self.update_btn_right.setToolTip(f"New version {latest_version} available (current: {current_version})")
-                    self.update_btn_right.setVisible(True)
-                    silent_print(f"Newer version available: {latest_version} (current: {current_version})")
+        """Check GitHub for newer version and show update button only if needed (runs in worker thread)"""
+        def check_updates_worker():
+            """Worker function to check for updates in background thread"""
+            try:
+                # Get latest release from GitHub (this is now in a worker thread)
+                latest_version = self.get_latest_github_version()
+                if latest_version:
+                    current_version = "1.7.8"
+                    
+                    # Compare versions
+                    if self.compare_versions(latest_version, current_version) > 0:
+                        # Newer version available - show button via QTimer
+                        # Use QTimer.singleShot to safely update UI from worker thread
+                        QTimer.singleShot(0, lambda: self._show_update_button(latest_version, current_version))
+                    else:
+                        # Same or older version - don't show button
+                        silent_print(f"No updates needed (latest: {latest_version}, current: {current_version})")
                 else:
-                    # Same or older version - hide button
-                    self.update_btn_right.setVisible(False)
-                    silent_print(f"No updates needed (latest: {latest_version}, current: {current_version})")
+                    # Failed to get version - don't show button
+                    silent_print("Failed to check for updates")
+            except Exception as e:
+                silent_print(f"Error checking for updates: {e}")
+        
+        # Run in background thread to avoid blocking
+        import threading
+        check_thread = threading.Thread(target=check_updates_worker, daemon=True)
+        check_thread.start()
+    
+    def _show_update_button(self, latest_version, current_version):
+        """Show update button (called from main thread)"""
+        try:
+            # Newer version available - create and show button
+            if not hasattr(self, 'update_btn_right'):
+                self.update_btn_right = QPushButton("Updates Available")
+                self.update_btn_right.clicked.connect(self.launch_updater_script)
+                self.update_layout.addWidget(self.update_btn_right)
             else:
-                # Failed to get version - hide button to be safe
-                self.update_btn_right.setVisible(False)
-                silent_print("Failed to check for updates - hiding update button")
-                
+                # Update existing button
+                self.update_btn_right.setText("Updates Available")
+            
+            self.update_btn_right.setToolTip(f"New version {latest_version} available (current: {current_version})")
+            self.update_btn_right.setVisible(True)
+            silent_print(f"Newer version available: {latest_version} (current: {current_version})")
         except Exception as e:
-            silent_print(f"Error checking for updates: {e}")
-            # On error, hide the button to be safe
-            self.update_btn_right.setVisible(False)
+            silent_print(f"Error showing update button: {e}")
 
     def get_latest_github_version(self):
-        """Get the latest version from GitHub releases"""
+        """Get the latest version from GitHub releases (non-blocking, called from worker thread)"""
         try:
             import requests
             
@@ -10126,11 +12408,11 @@ read -n 1
                 if token:
                     headers['Authorization'] = f'token {token}'
             
-            # Get latest release
+            # Get latest release (short timeout for non-blocking)
             response = requests.get(
                 'https://api.github.com/repos/y1-community/Innioasis-Updater/releases/latest',
                 headers=headers,
-                timeout=10
+                timeout=2  # Short timeout
             )
             
             if response.status_code == 200:
@@ -10144,6 +12426,10 @@ read -n 1
                 silent_print(f"GitHub API returned status {response.status_code}")
                 return None
                 
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout, requests.exceptions.RequestException) as e:
+            # Network error - offline or connection failed (non-blocking)
+            silent_print(f"Network error fetching latest version from GitHub (offline?): {e}")
+            return None
         except Exception as e:
             silent_print(f"Error fetching latest version from GitHub: {e}")
             return None
