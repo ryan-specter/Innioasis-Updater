@@ -778,29 +778,60 @@ def remove_files_by_pattern(directory, pattern):
     """Remove files or directories matching a pattern in the given directory and subdirectories"""
     removed_count = 0
     try:
+        # Important directories to preserve (cache, config, etc.)
+        preserve_dirs = {'.cache', 'cache', 'Cache', 'CACHE'}
+        
+        # Important cache files to preserve (for fast startup)
+        preserve_cache_files = {
+            'config_cache.json',
+            'manifest_cache.json',
+            'releases_cache.json',
+            'tokens_cache.json'
+        }
+        
         # Check if pattern is a directory (no file extension and exists as directory)
         pattern_path = directory / pattern
         if pattern_path.exists() and pattern_path.is_dir():
-            # Remove entire directory
-            import shutil
-            shutil.rmtree(pattern_path)
-            silent_print(f"Removed redundant directory: {pattern}")
-            removed_count += 1
+            # Don't remove preserved directories
+            if pattern_path.name not in preserve_dirs:
+                # Remove entire directory
+                import shutil
+                shutil.rmtree(pattern_path)
+                silent_print(f"Removed redundant directory: {pattern}")
+                removed_count += 1
         elif '*' in pattern:
             # Handle wildcard patterns - search recursively in subdirectories
             for file_path in directory.rglob(pattern):
+                # Skip files in preserved directories (cache, etc.)
+                if any(preserve_dir in file_path.parts for preserve_dir in preserve_dirs):
+                    continue
+                
+                # Skip important cache files (for fast startup)
+                if file_path.is_file() and file_path.name in preserve_cache_files:
+                    continue
+                
                 if file_path.is_file():
                     file_path.unlink()
                     silent_print(f"Removed redundant file: {file_path.relative_to(directory)}")
                     removed_count += 1
                 elif file_path.is_dir():
-                    import shutil
-                    shutil.rmtree(file_path)
-                    silent_print(f"Removed redundant directory: {file_path.relative_to(directory)}")
-                    removed_count += 1
+                    # Don't remove preserved directories
+                    if file_path.name not in preserve_dirs:
+                        import shutil
+                        shutil.rmtree(file_path)
+                        silent_print(f"Removed redundant directory: {file_path.relative_to(directory)}")
+                        removed_count += 1
         else:
             # Handle specific file names - search recursively in subdirectories
             for file_path in directory.rglob(pattern):
+                # Skip files in preserved directories (cache, etc.)
+                if any(preserve_dir in file_path.parts for preserve_dir in preserve_dirs):
+                    continue
+                
+                # Skip important cache files (for fast startup)
+                if file_path.is_file() and file_path.name in preserve_cache_files:
+                    continue
+                
                 if file_path.is_file():
                     file_path.unlink()
                     silent_print(f"Removed redundant file: {file_path.relative_to(directory)}")
@@ -3202,6 +3233,9 @@ class FirmwareDownloaderGUI(QMainWindow):
         try:
             silent_print("Starting shortcut cleanup check...")
             
+            # Remove any shortcuts pointing to updater.py (outdated middleman script)
+            self.remove_updater_py_shortcuts()
+            
             # Comprehensive cleanup of all Y1 Helper and related shortcuts
             self.comprehensive_shortcut_cleanup()
             
@@ -3213,6 +3247,79 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print(f"Error during shortcut cleanup: {e}")
             import traceback
             silent_print(f"Full error traceback: {traceback.format_exc()}")
+    
+    def remove_updater_py_shortcuts(self):
+        """Remove any shortcuts pointing to updater.py (outdated - should point to firmware_downloader.py)"""
+        if platform.system() != "Windows":
+            return
+        
+        try:
+            import win32com.client
+            
+            removed_count = 0
+            
+            # Check desktop
+            desktop_path = Path.home() / "Desktop"
+            if desktop_path.exists():
+                for shortcut_file in desktop_path.glob("*.lnk"):
+                    try:
+                        shell = win32com.client.Dispatch("WScript.Shell")
+                        shortcut = shell.CreateShortcut(str(shortcut_file))
+                        target = shortcut.TargetPath.lower()
+                        
+                        # Check if shortcut points to updater.py
+                        if 'updater.py' in target or shortcut_file.name.lower() == 'updater.py.lnk':
+                            shortcut_file.unlink()
+                            removed_count += 1
+                            silent_print(f"Removed shortcut pointing to updater.py: {shortcut_file.name}")
+                    except Exception as e:
+                        # Skip shortcuts that can't be read
+                        continue
+            
+            # Check start menu
+            start_menu_paths = self.get_all_start_menu_paths()
+            for start_menu_path in start_menu_paths:
+                if start_menu_path.exists():
+                    for shortcut_file in start_menu_path.rglob("*.lnk"):
+                        try:
+                            shell = win32com.client.Dispatch("WScript.Shell")
+                            shortcut = shell.CreateShortcut(str(shortcut_file))
+                            target = shortcut.TargetPath.lower()
+                            
+                            # Check if shortcut points to updater.py
+                            if 'updater.py' in target or shortcut_file.name.lower() == 'updater.py.lnk':
+                                shortcut_file.unlink()
+                                removed_count += 1
+                                silent_print(f"Removed shortcut pointing to updater.py: {shortcut_file.name}")
+                        except Exception as e:
+                            # Skip shortcuts that can't be read
+                            continue
+            
+            # Also check shortcuts in current directory
+            current_dir = Path.cwd()
+            for shortcut_file in current_dir.glob("*.lnk"):
+                try:
+                    shell = win32com.client.Dispatch("WScript.Shell")
+                    shortcut = shell.CreateShortcut(str(shortcut_file))
+                    target = shortcut.TargetPath.lower()
+                    
+                    # Check if shortcut points to updater.py
+                    if 'updater.py' in target or shortcut_file.name.lower() == 'updater.py.lnk':
+                        shortcut_file.unlink()
+                        removed_count += 1
+                        silent_print(f"Removed shortcut pointing to updater.py: {shortcut_file.name}")
+                except Exception as e:
+                    # Skip shortcuts that can't be read
+                    continue
+            
+            if removed_count > 0:
+                silent_print(f"Removed {removed_count} shortcut(s) pointing to updater.py")
+            
+        except ImportError:
+            # win32com not available (might be on non-Windows or missing pywin32)
+            silent_print("Cannot check shortcut targets: win32com not available")
+        except Exception as e:
+            silent_print(f"Error removing updater.py shortcuts: {e}")
 
     def cleanup_rockbox_utility_zip(self):
         """Clean up RockboxUtility.zip - extract to assets on Windows, delete on other platforms"""
@@ -4332,7 +4439,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Add seasonal emoji to window title
         seasonal_emoji = get_seasonal_emoji()
         title_emoji = f" {seasonal_emoji}" if seasonal_emoji else ""
-        self.setWindowTitle(f"Innioasis Updater v1.7.9{title_emoji}")
+        self.setWindowTitle(f"Innioasis Updater v1.7.8{title_emoji}")
         self.setGeometry(100, 100, 1220, 574)
         
         # Set fixed window size to maintain layout
@@ -6566,7 +6673,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         msg.setText("No shortcut options are selected!")
         msg.setInformativeText(
             "If you proceed without creating shortcuts, you will need to manually run:\n\n"
-            '"%LocalAppData%\\Innioasis Updater\\pythonw.exe" updater.py\n\n'
+            '"%LocalAppData%\\Innioasis Updater\\pythonw.exe" firmware_downloader.py\n\n'
             "to use Innioasis Updater in the future.\n\n"
             "Are you sure you want to continue without shortcuts?"
         )
@@ -10201,7 +10308,7 @@ class FirmwareDownloaderGUI(QMainWindow):
     def setup_credits_line_display(self, credits_label, credits_label_container):
         """Set up line-by-line display with fade transitions"""
         # Start with version line (from firmware_downloader.py, not remote)
-        clean_lines = ["Version 1.7.9"]
+        clean_lines = ["Version 1.7.8"]
         
         # Load credits content from remote or local file
         credits_text = self.load_about_content()
@@ -12618,7 +12725,7 @@ read -n 1
                 # Get latest release from GitHub (this is now in a worker thread)
                 latest_version = self.get_latest_github_version()
                 if latest_version:
-                    current_version = "1.7.9"
+                    current_version = "1.7.8"
                     
                     # Compare versions
                     if self.compare_versions(latest_version, current_version) > 0:
@@ -12851,25 +12958,50 @@ if __name__ == "__main__":
             flash_tool_exe = current_dir / "flash_tool.exe"
             
             if flash_tool_exe.exists():
-                print("Launching flash_tool.exe after updating history.ini...")
                 # Launch flash_tool.exe without waiting (non-blocking)
-                # Use CREATE_NO_WINDOW on Windows to prevent console window
-                creation_flags = subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                # On Windows, use DETACHED_PROCESS to ensure process is fully detached
+                # This prevents blocking subsequent runs when using pythonw.exe
                 try:
-                    subprocess.Popen(
-                        [str(flash_tool_exe)],
-                        cwd=str(current_dir),
-                        creationflags=creation_flags
-                    )
-                    print("flash_tool.exe launched successfully")
+                    if platform.system() == "Windows":
+                        # Use DETACHED_PROCESS and CREATE_NEW_PROCESS_GROUP for proper detachment
+                        # This ensures the process doesn't block subsequent runs
+                        creation_flags = (
+                            subprocess.DETACHED_PROCESS |
+                            subprocess.CREATE_NEW_PROCESS_GROUP |
+                            subprocess.CREATE_NO_WINDOW
+                        )
+                        subprocess.Popen(
+                            [str(flash_tool_exe)],
+                            cwd=str(current_dir),
+                            creationflags=creation_flags,
+                            stdout=subprocess.DEVNULL,
+                            stderr=subprocess.DEVNULL,
+                            stdin=subprocess.DEVNULL
+                        )
+                    else:
+                        # On non-Windows, launch normally
+                        subprocess.Popen(
+                            [str(flash_tool_exe)],
+                            cwd=str(current_dir),
+                            stdout=subprocess.DEVNULL,
+                            stderr=subprocess.DEVNULL,
+                            stdin=subprocess.DEVNULL
+                        )
                 except Exception as e:
-                    print(f"Error launching flash_tool.exe: {e}")
+                    # Silent failure for pythonw.exe (no console)
+                    # Try to write error to a log file if possible
+                    try:
+                        error_log = current_dir / "flash_tool_error.log"
+                        with open(error_log, 'a') as f:
+                            f.write(f"{datetime.now()}: Error launching flash_tool.exe: {e}\n")
+                    except:
+                        pass
                     sys.exit(1)
                 
                 # Exit Python script immediately (GUI is not created)
                 sys.exit(0)
             else:
-                print(f"Error: flash_tool.exe not found at {flash_tool_exe}")
+                # Silent failure for pythonw.exe (no console)
                 sys.exit(1)
         
         # Create the application
