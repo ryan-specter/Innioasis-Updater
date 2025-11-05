@@ -1,3 +1,4 @@
+# Script from https://github.com/rockbox-y1/rockbox - pushed to devices via ADB to enable Fast Update - original author is @rockbox-y1
 echo "++++ Starting system update"
 
 mount -o rw,remount /system
