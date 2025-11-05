@@ -9326,8 +9326,17 @@ class FirmwareDownloaderGUI(QMainWindow):
                                 # Check for "See README.md" pattern (case-insensitive)
                                 if 'see readme.md' in line_stripped.lower() or 'see readme' in line_stripped.lower():
                                     if 'for more information' in line_stripped.lower() or 'more information' in line_stripped.lower():
-                                        # Replace this line with the new text
-                                        lines[i] = "Users can download update.zip files and place them on their device to update their player without needing to keep it plugged into a computer. These ⚡️ Fast Updates can be sent to your device from Innioasis Updater or downloaded directly from the web. In order to use ⚡️ Fast Update for the first time, you'll need to have first installed a ⚡️ Fast Update enabled update, using your computer."
+                                        # Replace this line with the new text (split into multiple lines for better spacing)
+                                        # Split into paragraphs for better readability, using markdown bold syntax
+                                        replacement_text = [
+                                            "Users can download update.zip files and place them on their device to update their player without needing to keep it plugged into a computer.",
+                                            "",
+                                            "These ⚡️ **Fast Updates** can be sent to your device from Innioasis Updater or downloaded directly from the web.",
+                                            "",
+                                            "In order to use ⚡️ **Fast Update** for the first time, you'll need to have first installed a ⚡️ **Fast Update** enabled update, using your computer."
+                                        ]
+                                        # Replace the single line with multiple lines
+                                        lines[i:i+1] = replacement_text
                                         break
                         
                         converted_lines = []
@@ -9363,6 +9372,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                                     converted_lines.append(f'<ul style="color: {text_color} !important;">')
                                     in_list = True
                                 text = line_stripped[2:].strip()
+                                # Convert markdown bold (**text**) to HTML bold in list items
+                                text = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', text)
                                 converted_lines.append(f'<li style="color: {text_color} !important;">{text}</li>')
                             elif line_stripped == '':
                                 # Empty line - close list if open
@@ -9371,12 +9382,16 @@ class FirmwareDownloaderGUI(QMainWindow):
                                     in_list = False
                                 converted_lines.append('<br>')
                             else:
-                                # Regular text
+                                # Regular text - process markdown bold (**text**)
                                 if in_list:
                                     converted_lines.append('</ul>')
                                     in_list = False
                                 if line_stripped:
-                                    converted_lines.append(f'<span style="color: {text_color} !important;">{line_stripped}</span><br>')
+                                    # Convert markdown bold (**text**) to HTML bold
+                                    processed_line = line_stripped
+                                    # Replace **text** with <strong>text</strong>
+                                    processed_line = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', processed_line)
+                                    converted_lines.append(f'<span style="color: {text_color} !important;">{processed_line}</span><br>')
                         
                         # Close any open list
                         if in_list:
