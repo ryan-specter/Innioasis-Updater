@@ -882,6 +882,42 @@ def get_zip_path(repo_name, version):
     safe_repo_name = repo_name.replace('/', '_')
     return ZIP_STORAGE_DIR / f"{safe_repo_name}_{version}.zip"
 
+def get_update_zip_cache_path(update_zip_url):
+    """Get the cache path for an update.zip file based on URL"""
+    # Create a safe filename from the URL
+    # Extract filename from URL or use a hash of the URL
+    from urllib.parse import urlparse
+    import hashlib
+    
+    parsed_url = urlparse(update_zip_url)
+    # Try to get filename from URL path
+    url_path = parsed_url.path
+    if url_path:
+        # Extract the last part of the path as potential filename
+        path_parts = url_path.split('/')
+        if path_parts:
+            last_part = path_parts[-1]
+            if last_part and last_part.endswith('.zip'):
+                # Use the filename from URL if it ends with .zip
+                safe_name = last_part
+            else:
+                # Create a hash-based filename
+                url_hash = hashlib.md5(update_zip_url.encode()).hexdigest()[:16]
+                safe_name = f"update_{url_hash}.zip"
+        else:
+            # Create a hash-based filename
+            url_hash = hashlib.md5(update_zip_url.encode()).hexdigest()[:16]
+            safe_name = f"update_{url_hash}.zip"
+    else:
+        # Create a hash-based filename
+        url_hash = hashlib.md5(update_zip_url.encode()).hexdigest()[:16]
+        safe_name = f"update_{url_hash}.zip"
+    
+    # Ensure cache directory exists
+    ZIP_STORAGE_DIR.mkdir(exist_ok=True)
+    
+    return ZIP_STORAGE_DIR / safe_name
+
 def load_cache(cache_file):
     """Load data from cache if it exists and is not expired"""
     try:
@@ -912,6 +948,32 @@ def save_cache(cache_file, data):
         silent_print(f"Cached data to {cache_file}")
     except Exception as e:
         silent_print(f"Error saving cache {cache_file}: {e}")
+
+def safe_extractall(zip_ref, extract_path=".", zip_name="archive"):
+    """Extract all files from zip, continuing on errors for locked files (e.g., running executables/DLLs)"""
+    extracted_files = []
+    skipped_files = []
+    
+    for member in zip_ref.namelist():
+        try:
+            zip_ref.extract(member, extract_path)
+            extracted_files.append(member)
+        except (PermissionError, OSError, IOError) as e:
+            # File is locked or can't be overwritten (e.g., running executable/DLL)
+            # Continue with other files instead of failing completely
+            skipped_files.append(member)
+            silent_print(f"Skipping locked file {member}: {e}")
+        except Exception as e:
+            # Other errors - log but continue
+            skipped_files.append(member)
+            silent_print(f"Skipping file {member} due to error: {e}")
+    
+    if skipped_files:
+        silent_print(f"Extracted {len(extracted_files)} files from {zip_name}, skipped {len(skipped_files)} locked/unwritable files")
+    else:
+        silent_print(f"Successfully extracted {len(extracted_files)} files from {zip_name}")
+    
+    return extracted_files
 
 def clear_cache():
     """Clear all cached data"""
@@ -2386,33 +2448,42 @@ class UpdateZipSenderWorker(QThread):
             silent_print(f"Starting update.zip download from {self.update_zip_url}")
             silent_print(f"Target directory: {self.target_directory}")
             
-            self.status_updated.emit("Downloading update.zip...")
+            # Check cache first
+            cache_path = get_update_zip_cache_path(self.update_zip_url)
+            temp_update_path = None
             
-            # Download update.zip
-            silent_print("Making request to download update.zip...")
-            response = requests.get(self.update_zip_url, stream=True, timeout=30)
-            response.raise_for_status()
-            
-            total_size = int(response.headers.get('content-length', 0))
-            downloaded = 0
-            
-            silent_print(f"Download started, total size: {total_size} bytes")
-            
-            # Create temporary file
-            temp_update_path = Path("update.zip.tmp")
-            
-            with open(temp_update_path, 'wb') as f:
-                for chunk in response.iter_content(chunk_size=8192):
-                    if chunk:
-                        f.write(chunk)
-                        downloaded += len(chunk)
-                        if total_size > 0:
-                            progress = int((downloaded / total_size) * 100)
-                            self.progress_updated.emit(progress)
-                            if progress % 20 == 0:  # Log every 20%
-                                silent_print(f"Download progress: {progress}%")
-            
-            silent_print(f"Download complete: {downloaded} bytes")
+            if cache_path.exists():
+                silent_print(f"Using cached update.zip from: {cache_path}")
+                self.status_updated.emit("Using cached update.zip...")
+                temp_update_path = cache_path
+            else:
+                # Download update.zip
+                self.status_updated.emit("Downloading update.zip...")
+                silent_print("Making request to download update.zip...")
+                response = requests.get(self.update_zip_url, stream=True, timeout=30)
+                response.raise_for_status()
+                
+                total_size = int(response.headers.get('content-length', 0))
+                downloaded = 0
+                
+                silent_print(f"Download started, total size: {total_size} bytes")
+                
+                # Download to cache file
+                cache_path.parent.mkdir(parents=True, exist_ok=True)
+                temp_update_path = cache_path
+                
+                with open(temp_update_path, 'wb') as f:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        if chunk:
+                            f.write(chunk)
+                            downloaded += len(chunk)
+                            if total_size > 0:
+                                progress = int((downloaded / total_size) * 100)
+                                self.progress_updated.emit(progress)
+                                if progress % 20 == 0:  # Log every 20%
+                                    silent_print(f"Download progress: {progress}%")
+                
+                silent_print(f"Download complete: {downloaded} bytes, cached to {cache_path}")
             self.status_updated.emit("Finding .rockbox folder...")
             
             # Find or create .rockbox folder
@@ -2436,15 +2507,16 @@ class UpdateZipSenderWorker(QThread):
                     rockbox_dir = potential_rockbox
                     silent_print(".rockbox folder created successfully")
             
-            # Move update.zip to .rockbox folder
+            # Copy update.zip to .rockbox folder (keep cached copy)
             self.status_updated.emit("Copying update.zip to .rockbox...")
             target_update_path = rockbox_dir / "update.zip"
-            silent_print(f"Moving update.zip to: {target_update_path}")
+            silent_print(f"Copying update.zip to: {target_update_path}")
             
             import shutil
-            shutil.move(str(temp_update_path), str(target_update_path))
+            # Copy instead of move to preserve cache
+            shutil.copy2(str(temp_update_path), str(target_update_path))
             
-            silent_print("update.zip successfully moved to .rockbox folder")
+            silent_print("update.zip successfully copied to .rockbox folder")
             self.send_completed.emit(True, f"update.zip successfully placed in {rockbox_dir}")
             
         except Exception as e:
@@ -2452,10 +2524,11 @@ class UpdateZipSenderWorker(QThread):
             import traceback
             traceback.print_exc()
             
-            # Clean up temp file
+            # Clean up temp file (only if it was a temporary file, not cached)
             try:
-                if Path("update.zip.tmp").exists():
-                    Path("update.zip.tmp").unlink()
+                temp_file = Path("update.zip.tmp")
+                if temp_file.exists():
+                    temp_file.unlink()
                     silent_print("Cleaned up temporary file")
             except:
                 pass
@@ -2528,9 +2601,7 @@ class DownloadWorker(QThread):
             # Extract the zip file
             extracted_files = []
             with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-                zip_ref.extractall(".")
-                # Get list of extracted files
-                extracted_files = zip_ref.namelist()
+                extracted_files = safe_extractall(zip_ref, ".", zip_path.name)
 
             # Log extracted files for cleanup
             log_extracted_files(extracted_files)
@@ -2932,6 +3003,132 @@ class TokenLoaderWorker(QThread):
                 self.loading_failed.emit(str(e))
 
 
+class ADBUpdateScriptWorker(QThread):
+    """Worker thread for downloading and pushing update.sh script via ADB"""
+    
+    download_progress = Signal(int)  # Emitted with download progress percentage
+    status_update = Signal(str)  # Emitted with status messages
+    completed = Signal(bool, str)  # Emitted when done (success, message)
+    
+    def __init__(self, adb_path, update_script_url, local_cache_path):
+        super().__init__()
+        self.adb_path = adb_path
+        self.update_script_url = update_script_url
+        self.local_cache_path = local_cache_path
+        self.stop_requested = False
+    
+    def stop(self):
+        """Request to stop operation"""
+        self.stop_requested = True
+    
+    def run(self):
+        """Download and push update.sh script"""
+        try:
+            if self.stop_requested:
+                return
+            
+            # Step 1: Download update.sh script
+            self.status_update.emit("Downloading update script...")
+            
+            # Try to download from GitHub
+            try:
+                import requests
+                response = requests.get(self.update_script_url, timeout=10, stream=True)
+                response.raise_for_status()
+                
+                total_size = int(response.headers.get('content-length', 0))
+                downloaded = 0
+                
+                with open(self.local_cache_path, 'wb') as f:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        if self.stop_requested:
+                            return
+                        if chunk:
+                            f.write(chunk)
+                            downloaded += len(chunk)
+                            if total_size > 0:
+                                progress = int((downloaded / total_size) * 100)
+                                self.download_progress.emit(progress)
+                
+                self.status_update.emit("Downloaded update script")
+                
+            except Exception as e:
+                # If download fails, try to use local cached copy
+                silent_print(f"Failed to download update script: {e}, trying local cache...")
+                self.status_update.emit("Using cached update script...")
+                
+                if not self.local_cache_path.exists():
+                    self.completed.emit(False, f"Failed to download and no local cache found: {e}")
+                    return
+            
+            if self.stop_requested:
+                return
+            
+            # Step 2: Push script to device
+            self.status_update.emit("Pushing update script to device...")
+            self.download_progress.emit(50)  # Show 50% progress during push
+            
+            # Prepare environment with proper PATH for macOS
+            import os
+            import platform
+            env = os.environ.copy()
+            if platform.system() == "Darwin":
+                homebrew_paths = ["/opt/homebrew/bin", "/usr/local/bin"]
+                current_path = env.get("PATH", "")
+                for brew_path in homebrew_paths:
+                    if brew_path not in current_path:
+                        env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
+            
+            # Create /data/data/update directory if needed
+            subprocess.run(
+                [str(self.adb_path), 'shell', 'mkdir', '-p', '/data/data/update'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            # Push the script
+            push_result = subprocess.run(
+                [str(self.adb_path), 'push', str(self.local_cache_path), '/data/data/update/update.sh'],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            if push_result.returncode != 0:
+                self.completed.emit(False, f"Failed to push update script: {push_result.stderr}")
+                return
+            
+            # Set permissions
+            self.status_update.emit("Making script executable...")
+            self.download_progress.emit(75)  # Show 75% progress during chmod
+            
+            chmod_result = subprocess.run(
+                [str(self.adb_path), 'shell', 'chmod', '755', '/data/data/update/update.sh'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            if self.stop_requested:
+                return
+            
+            self.download_progress.emit(100)  # Show 100% progress when complete
+            self.status_update.emit("Update script installed successfully")
+            self.completed.emit(True, "Update script installed successfully")
+            
+        except Exception as e:
+            if not self.stop_requested:
+                silent_print(f"Error in ADB update script worker: {e}")
+                self.completed.emit(False, f"Error: {str(e)}")
+
+
 class ThemeMonitor(QObject):
     """Monitors system theme changes and emits signals for UI updates"""
     theme_changed = Signal()
@@ -3136,12 +3333,15 @@ class FirmwareDownloaderGUI(QMainWindow):
 
         # Theme change detection removed - let native buttons handle styling
         self.last_theme_state = self.is_dark_mode
+        
+        # Check ADB device status at startup (non-blocking)
+        QTimer.singleShot(100, self.check_adb_and_update_script)
 
     def handle_version_check(self):
         """Handle version check file and show macOS app update message for new users"""
         try:
             version_file = Path(".version")
-            current_version = "1.7.9"
+            current_version = "1.8.0"
             
             # Read the last used version
             last_version = None
@@ -4495,7 +4695,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Add seasonal emoji to window title
         seasonal_emoji = get_seasonal_emoji()
         title_emoji = f" {seasonal_emoji}" if seasonal_emoji else ""
-        self.setWindowTitle(f"Innioasis Updater 1.7.9{title_emoji}")
+        self.setWindowTitle(f"Innioasis Updater 1.8.0{title_emoji}")
         self.setGeometry(100, 100, 1220, 574)
         
         # Set fixed window size to maintain layout
@@ -4686,29 +4886,73 @@ class FirmwareDownloaderGUI(QMainWindow):
             QTimer.singleShot(50, self.update_driver_dependent_ui)
         else:
             # On non-Windows systems, show "Install from rom.zip" button immediately
-            install_zip_btn = QPushButton("📦 Install from rom.zip")
+            self.install_zip_btn = QPushButton("📦 Install from rom.zip")
             # Use native styling - no custom stylesheet for automatic theme adaptation
             # Use default cursor for native OS feel
-            install_zip_btn.clicked.connect(self.install_from_zip)
-            coffee_layout.addWidget(install_zip_btn)
+            self.install_zip_btn.clicked.connect(self.install_from_zip)
+            coffee_layout.addWidget(self.install_zip_btn)
 
         # Reddit button moved to About tab
 
         # Discord button - using native styling
         seasonal_emoji = get_seasonal_emoji_random()
         discord_text = f"Get Help{seasonal_emoji}" if seasonal_emoji else "Get Help"
-        discord_btn = QPushButton(discord_text)
+        self.discord_btn = QPushButton(discord_text)
         # Use native styling - no custom stylesheet for automatic theme adaptation
-        discord_btn.setCursor(Qt.PointingHandCursor)  # Keep pointing hand for web link
-        discord_btn.clicked.connect(self.open_discord_link)
-        coffee_layout.addWidget(discord_btn)
+        self.discord_btn.setCursor(Qt.PointingHandCursor)  # Keep pointing hand for web link
+        self.discord_btn.clicked.connect(self.open_discord_link)
+        coffee_layout.addWidget(self.discord_btn)
 
         # About button (opens Settings dialog to About tab) - using native styling
-        about_btn = QPushButton("About")
+        self.about_btn = QPushButton("About")
         # Use native styling - no custom stylesheet for automatic theme adaptation
         # Use default cursor for native OS feel
-        about_btn.clicked.connect(lambda: self.show_settings_dialog("about"))
-        coffee_layout.addWidget(about_btn)
+        self.about_btn.clicked.connect(lambda: self.show_settings_dialog("about"))
+        coffee_layout.addWidget(self.about_btn)
+        
+        # ADB status indicator (will be shown if device is connected) - positioned in corner
+        self.adb_status_widget = QWidget()
+        self.adb_status_layout = QHBoxLayout(self.adb_status_widget)
+        self.adb_status_layout.setContentsMargins(0, 0, 0, 0)
+        self.adb_status_layout.setSpacing(4)
+        
+        self.adb_status_label = QLabel("ADB")
+        self.adb_status_label.setStyleSheet("""
+            QLabel {
+                color: #666666;
+                font-size: 10px;
+                font-weight: bold;
+            }
+        """)
+        
+        # Status light indicator (circle) - can be green or orange
+        self.adb_status_light = QLabel("●")
+        self.adb_status_light.setStyleSheet("""
+            QLabel {
+                color: #00FF00;
+                font-size: 12px;
+            }
+        """)
+        
+        self.adb_status_layout.addWidget(self.adb_status_label)
+        self.adb_status_layout.addWidget(self.adb_status_light)
+        self.adb_status_widget.setVisible(False)  # Hidden by default, shown when ADB device is connected
+        coffee_layout.addWidget(self.adb_status_widget)
+        
+        # Initialize ADB update script worker and timer
+        self.adb_update_script_worker = None
+        self.adb_check_timer = QTimer()
+        self.adb_check_timer.timeout.connect(self.check_adb_and_update_script)
+        self.adb_check_timer.start(10000)  # Check every 10 seconds
+        
+        # Flag to track if ADB operation is in progress (prevents periodic checks during operations)
+        self.adb_operation_in_progress = False
+        
+        # Initialize blinking animation timer for orange light
+        self.adb_blink_timer = QTimer()
+        self.adb_blink_timer.timeout.connect(self.blink_orange_light)
+        self.adb_light_blinking = False
+        self.adb_light_visible = True  # Track visibility state for blinking
 
         right_layout.addLayout(coffee_layout)
 
@@ -9317,27 +9561,35 @@ class FirmwareDownloaderGUI(QMainWindow):
                             lines = lines[change_index + 1:]
                         # If neither found, keep all lines (lines = lines)
                         
+                        # Check if device is fast update enabled (rooted and has update.sh)
+                        is_fast_update_enabled = self.is_device_fast_update_enabled()
+                        
                         # Replace "See README.md for more information" with detailed text if both conditions are met
-                        release_body_lower = release_body.lower() if release_body else ''
-                        if 'update functionality' in release_body_lower:
-                            # Check if any line contains "See README.md for more information"
-                            for i, line in enumerate(lines):
-                                line_stripped = line.strip()
-                                # Check for "See README.md" pattern (case-insensitive)
-                                if 'see readme.md' in line_stripped.lower() or 'see readme' in line_stripped.lower():
-                                    if 'for more information' in line_stripped.lower() or 'more information' in line_stripped.lower():
-                                        # Replace this line with the new text (split into multiple lines for better spacing)
-                                        # Split into paragraphs for better readability, using markdown bold syntax
-                                        replacement_text = [
-                                            "Users can download update.zip files and place them on their device to update their player without needing to keep it plugged into a computer.",
-                                            "",
-                                            "These ⚡️ **Fast Updates** can be sent to your device from Innioasis Updater or downloaded directly from the web.",
-                                            "",
-                                            "In order to use ⚡️ **Fast Update** for the first time, you'll need to have first installed a ⚡️ **Fast Update** enabled update, using your computer."
-                                        ]
-                                        # Replace the single line with multiple lines
-                                        lines[i:i+1] = replacement_text
-                                        break
+                        # Skip this if device is already fast update enabled
+                        if not is_fast_update_enabled:
+                            release_body_lower = release_body.lower() if release_body else ''
+                            if 'update functionality' in release_body_lower:
+                                # Check if any line contains "See README.md for more information"
+                                for i, line in enumerate(lines):
+                                    line_stripped = line.strip()
+                                    # Check for "See README.md" pattern (case-insensitive)
+                                    if 'see readme.md' in line_stripped.lower() or 'see readme' in line_stripped.lower():
+                                        if 'for more information' in line_stripped.lower() or 'more information' in line_stripped.lower():
+                                            # Replace this line with the new text (split into multiple lines for better spacing)
+                                            # Split into paragraphs for better readability, using markdown bold syntax
+                                            replacement_text = [
+                                                "Users can download update.zip files and place them on their device to update their player without needing to keep it plugged into a computer.",
+                                                "",
+                                                "These ⚡️ **Fast Updates** can be sent to your device from Innioasis Updater or downloaded directly from the web.",
+                                                "",
+                                                "In order to use ⚡️ **Fast Update** for the first time, you'll need to have first installed a ⚡️ **Fast Update** enabled update, using your computer."
+                                            ]
+                                            # Replace the single line with multiple lines
+                                            lines[i:i+1] = replacement_text
+                                            break
+                        else:
+                            # Device is fast update enabled - remove README.md line entirely
+                            lines = [line for line in lines if not (('see readme.md' in line.lower() or 'see readme' in line.lower()) and ('for more information' in line.lower() or 'more information' in line.lower()))]
                         
                         converted_lines = []
                         in_list = False
@@ -9406,7 +9658,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                         
                         notes_html += body_html
                     else:
-                        notes_html += f"""<p style='color: {text_color} !important; margin-bottom: 10px;'>Bug fixes, performance and stability improvements.</p>
+                        notes_html += f"""<p style='color: {text_color} !important; margin-bottom: 10px;'>Fix update script</p>
+                        <p style='color: {text_color} !important; margin-bottom: 10px;'>Bug fixes, performance and stability improvements.</p>
                         <p style='color: {text_color} !important; font-style: italic; font-size: 0.9em;'>(Release notes could not be loaded for this version)</p>"""
                     
                     notes_html += "</body></html>"
@@ -10179,6 +10432,28 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Flash border to highlight the new image
         self.flash_image_border()
     
+    def show_paperclip_message(self):
+        """Show message asking user to get paperclip/pin ready during download/extraction"""
+        try:
+            # Switch to image view
+            if hasattr(self, 'image_notes_stack') and self.image_notes_stack:
+                self.image_notes_stack.setCurrentIndex(0)  # Switch to image view (page 0)
+            
+            # Update title to "Getting Ready:"
+            if hasattr(self, 'output_group'):
+                self.output_group.setTitle("Getting Ready:")
+            
+            # Show presteps image
+            self.load_presteps_image()
+            
+            # Update status message only if it doesn't already contain download/extraction status
+            if hasattr(self, 'status_label'):
+                current_status = self.status_label.text().lower()
+                if "downloading" not in current_status and "extracting" not in current_status and "please get" not in current_status:
+                    self.status_label.setText("Please get a paperclip or pin ready while your firmware downloads and extracts...")
+        except Exception as e:
+            silent_print(f"Error showing paperclip message: {e}")
+    
     def _switch_to_image_view(self):
         """Switch stacked widget to image view (page 0)"""
         if hasattr(self, 'image_notes_stack'):
@@ -10467,7 +10742,7 @@ class FirmwareDownloaderGUI(QMainWindow):
     def setup_credits_line_display(self, credits_label, credits_label_container):
         """Set up line-by-line display with fade transitions"""
         # Start with version line (from firmware_downloader.py, not remote)
-        clean_lines = ["Version 1.7.9"]
+        clean_lines = ["Version 1.8.0"]
         
         # Load credits content from remote or local file
         credits_text = self.load_about_content()
@@ -10821,6 +11096,36 @@ class FirmwareDownloaderGUI(QMainWindow):
         if hasattr(self, 'theme_monitor') and self.theme_monitor:
             self.theme_monitor.stop_monitoring()
         
+        # Stop ADB check timer
+        if hasattr(self, 'adb_check_timer') and self.adb_check_timer:
+            self.adb_check_timer.stop()
+        
+        # Stop ADB blink timer
+        if hasattr(self, 'adb_blink_timer') and self.adb_blink_timer:
+            self.adb_blink_timer.stop()
+        
+        # Stop ADB update script worker
+        if hasattr(self, 'adb_update_script_worker') and self.adb_update_script_worker:
+            try:
+                if self.adb_update_script_worker.isRunning():
+                    # Disconnect signals first
+                    try:
+                        self.adb_update_script_worker.status_update.disconnect()
+                        self.adb_update_script_worker.download_progress.disconnect()
+                        self.adb_update_script_worker.completed.disconnect()
+                    except:
+                        pass
+                    self.adb_update_script_worker.stop()
+                    if not self.adb_update_script_worker.wait(2000):  # Wait up to 2 seconds
+                        # Thread didn't finish - terminate it
+                        self.adb_update_script_worker.terminate()
+                        self.adb_update_script_worker.wait(1000)
+                # Use deleteLater for proper cleanup
+                self.adb_update_script_worker.deleteLater()
+            except:
+                pass
+            self.adb_update_script_worker = None
+        
         event.accept()
 
     def open_discord_link(self):
@@ -11043,9 +11348,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             # Extract the zip file
             extracted_files = []
             with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-                zip_ref.extractall(".")
-                # Get list of extracted files
-                extracted_files = zip_ref.namelist()
+                extracted_files = safe_extractall(zip_ref, ".", zip_path.name)
             
             # Log extracted files for cleanup
             log_extracted_files(extracted_files)
@@ -11195,13 +11498,53 @@ class FirmwareDownloaderGUI(QMainWindow):
             
             silent_print(f"Found {len(devices)} ADB device(s): {devices}")
             
-            # Check if /data/data/update.sh exists on device
-            silent_print("Checking for /data/data/update.sh on device...")
-            check_result = subprocess.run(
-                [str(adb_path), 'shell', 'test -f /data/data/update.sh && echo exists'],
+            # Prepare environment with proper PATH for macOS
+            env = os.environ.copy()
+            if platform.system() == "Darwin":
+                homebrew_paths = ["/opt/homebrew/bin", "/usr/local/bin"]
+                current_path = env.get("PATH", "")
+                for brew_path in homebrew_paths:
+                    if brew_path not in current_path:
+                        env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
+            
+            # Check if device is rooted
+            silent_print("Checking if device is rooted...")
+            root_check_result = subprocess.run(
+                [str(adb_path), 'shell', 'su', '-c', 'id'],
                 capture_output=True,
                 text=True,
                 timeout=5,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            device_is_rooted = (root_check_result.returncode == 0 and 'uid=0' in root_check_result.stdout)
+            
+            if not device_is_rooted:
+                silent_print("Device is not rooted - fast update requires a firmware with Fast Update enabled")
+                QMessageBox.information(
+                    self,
+                    "Fast Update Not Available",
+                    "To use Fast Update, you need to first install a firmware with Fast Update enabled.\n\n"
+                    "Please install a firmware using your computer first, then you'll be able to use Fast Update for future updates.\n\n"
+                    "For now, please use USB mode:\n"
+                    "1. Connect your device via USB\n"
+                    "2. Copy update.zip to the .rockbox folder\n"
+                    "3. Use System Menu > Firmware Update on your device"
+                )
+                return False
+            
+            silent_print("Device is rooted - proceeding with fast update")
+            
+            # Check if /data/data/update/update.sh exists on device
+            update_script_path = '/data/data/update/update.sh'
+            silent_print(f"Checking for {update_script_path} on device...")
+            check_result = subprocess.run(
+                [str(adb_path), 'shell', f'test -f {update_script_path} && echo exists'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=env,
                 creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
             )
             
@@ -11209,10 +11552,10 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print(f"ADB check result stderr: '{check_result.stderr}'")
             
             if 'exists' not in check_result.stdout:
-                silent_print("/data/data/update.sh not found on device - falling back to USB mode")
+                silent_print(f"{update_script_path} not found on device - falling back to USB mode")
                 return False
             
-            silent_print("Found /data/data/update.sh on device - proceeding with ADB update")
+            silent_print(f"Found {update_script_path} on device - proceeding with ADB update")
             
             # Show ADB mode dialog
             reply = QMessageBox.question(
@@ -11245,6 +11588,81 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print(f"ADB not available or failed ({e}) - falling back to USB mode")
             return False
     
+    def is_device_fast_update_enabled(self):
+        """Check if device is fast update enabled (rooted and has update.sh)"""
+        try:
+            # Find ADB executable
+            adb_path = self.find_adb_executable()
+            if not adb_path:
+                return False
+            
+            # Prepare environment with proper PATH for macOS
+            env = os.environ.copy()
+            if platform.system() == "Darwin":
+                homebrew_paths = ["/opt/homebrew/bin", "/usr/local/bin"]
+                current_path = env.get("PATH", "")
+                for brew_path in homebrew_paths:
+                    if brew_path not in current_path:
+                        env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
+            
+            # Check if device is connected via ADB
+            result = subprocess.run(
+                [str(adb_path), 'devices'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            # Parse device list and look for specific device ID
+            target_device_id = "0123456789ABCDEF"
+            target_device_found = False
+            
+            for line in result.stdout.split('\n'):
+                if '\tdevice' in line:
+                    device_id = line.split('\t')[0]
+                    if device_id == target_device_id:
+                        target_device_found = True
+                        break
+            
+            if not target_device_found:
+                return False
+            
+            # Check if device is rooted
+            root_check_result = subprocess.run(
+                [str(adb_path), 'shell', 'su', '-c', 'id'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            device_is_rooted = (root_check_result.returncode == 0 and 'uid=0' in root_check_result.stdout)
+            
+            if not device_is_rooted:
+                return False
+            
+            # Check if update.sh exists
+            update_script_path = '/data/data/update/update.sh'
+            check_result = subprocess.run(
+                [str(adb_path), 'shell', f'test -f {update_script_path} && echo exists'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            update_script_exists = 'exists' in check_result.stdout
+            
+            return update_script_exists
+            
+        except Exception as e:
+            silent_print(f"Error checking fast update enabled status: {e}")
+            return False
+    
     def find_adb_executable(self):
         """Find ADB executable in assets or system PATH - prioritizes ./assets/adb.exe on Windows"""
         # Check assets folder first (use absolute path based on script location)
@@ -11266,8 +11684,312 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print(f"Found ADB in system PATH: {system_adb}")
             return Path(system_adb)
         
+        # On macOS, check common Homebrew locations if not in PATH
+        # This is important because GUI apps launched from Finder may not have full PATH
+        if platform.system() == "Darwin":
+            homebrew_paths = [
+                Path("/opt/homebrew/bin/adb"),  # Apple Silicon Macs
+                Path("/usr/local/bin/adb"),     # Intel Macs
+                Path.home() / "homebrew" / "bin" / "adb",  # Alternative Homebrew location
+            ]
+            for brew_adb in homebrew_paths:
+                if brew_adb.exists() and brew_adb.is_file():
+                    silent_print(f"Found ADB at Homebrew location: {brew_adb}")
+                    return brew_adb
+        
         silent_print("ADB not found in assets or system PATH")
         return None
+    
+    def check_adb_and_update_script(self):
+        """Check if ADB device is connected, verify update.sh, and push if missing"""
+        # Skip check if ADB operation is in progress
+        if hasattr(self, 'adb_operation_in_progress') and self.adb_operation_in_progress:
+            silent_print("Skipping ADB check - operation in progress")
+            return
+        
+        try:
+            # Find ADB executable
+            adb_path = self.find_adb_executable()
+            if not adb_path:
+                # ADB not found, hide indicator
+                if hasattr(self, 'adb_status_widget'):
+                    self.adb_status_widget.setVisible(False)
+                return
+            
+            # Prepare environment with proper PATH for macOS (especially for GUI apps)
+            env = os.environ.copy()
+            if platform.system() == "Darwin":
+                # Ensure Homebrew paths are in PATH
+                homebrew_paths = ["/opt/homebrew/bin", "/usr/local/bin"]
+                current_path = env.get("PATH", "")
+                for brew_path in homebrew_paths:
+                    if brew_path not in current_path:
+                        env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
+            
+            # Check if device is connected via ADB
+            result = subprocess.run(
+                [str(adb_path), 'devices'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            # Parse device list and look for specific device ID
+            target_device_id = "0123456789ABCDEF"
+            target_device_found = False
+            
+            for line in result.stdout.split('\n'):
+                if '\tdevice' in line:
+                    device_id = line.split('\t')[0]
+                    if device_id == target_device_id:
+                        target_device_found = True
+                        break
+            
+            if not target_device_found:
+                # Target device not connected - hide indicator
+                if hasattr(self, 'adb_status_widget'):
+                    self.adb_status_widget.setVisible(False)
+                return
+            
+            # Device is connected - check if device is rooted
+            root_check_result = subprocess.run(
+                [str(adb_path), 'shell', 'su', '-c', 'id'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            device_is_rooted = (root_check_result.returncode == 0 and 'uid=0' in root_check_result.stdout)
+            
+            if not device_is_rooted:
+                # Device is not rooted - hide indicator (user needs to install Fast Update enabled firmware first)
+                if hasattr(self, 'adb_status_widget'):
+                    self.adb_status_widget.setVisible(False)
+                # Disable fast install button - device not ready for fast update
+                if hasattr(self, 'send_update_btn'):
+                    self.send_update_btn.setEnabled(False)
+                return
+            
+            # Device is rooted - check for update.sh file
+            update_script_path = '/data/data/update/update.sh'
+            check_result = subprocess.run(
+                [str(adb_path), 'shell', f'test -f {update_script_path} && echo exists'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            # Check if update.sh exists - verify by checking for exact 'exists' in output
+            # The test command returns 0 if file exists, and outputs 'exists' if successful
+            update_script_exists = (check_result.returncode == 0 and 
+                                   'exists' in check_result.stdout.strip() and
+                                   check_result.stdout.strip() == 'exists')
+            
+            # Update indicator based on update script presence
+            # Green light: Only show when device is connected, rooted, AND script exists
+            # Orange blinking: Show when device is connected and rooted, but script is missing (being prepared)
+            if hasattr(self, 'adb_status_widget'):
+                self.adb_status_widget.setVisible(True)
+                
+                if update_script_exists:
+                    # Script exists - show green light and enable fast install
+                    # Stop blinking if it was active
+                    self.stop_orange_blink()
+                    self.adb_status_light.setStyleSheet("""
+                        QLabel {
+                            color: #00FF00;
+                            font-size: 12px;
+                        }
+                    """)
+                    # Enable fast install button if available
+                    if hasattr(self, 'send_update_btn'):
+                        self.send_update_btn.setEnabled(True)
+                else:
+                    # Script missing - show orange light and start blinking
+                    # Device is connected and rooted, but script is missing - preparing for Fast Update
+                    self.adb_status_light.setStyleSheet("""
+                        QLabel {
+                            color: #FFA500;
+                            font-size: 12px;
+                        }
+                    """)
+                    # Start blinking orange light
+                    self.start_orange_blink()
+                    # Disable fast install button until script is installed
+                    if hasattr(self, 'send_update_btn'):
+                        self.send_update_btn.setEnabled(False)
+                    
+                    # Start download and push if not already in progress
+                    if not (hasattr(self, 'adb_update_script_worker') and 
+                            self.adb_update_script_worker and 
+                            self.adb_update_script_worker.isRunning()):
+                        self.download_and_push_update_script(adb_path)
+            
+        except Exception as e:
+            # On error, hide indicator
+            if hasattr(self, 'adb_status_widget'):
+                self.adb_status_widget.setVisible(False)
+            silent_print(f"Error checking ADB status: {e}")
+    
+    def download_and_push_update_script(self, adb_path):
+        """Download and push update.sh script to device"""
+        # Set flag to prevent periodic ADB checks during operation
+        self.adb_operation_in_progress = True
+        try:
+            # Stop any existing worker
+            if hasattr(self, 'adb_update_script_worker') and self.adb_update_script_worker:
+                if self.adb_update_script_worker.isRunning():
+                    self.adb_update_script_worker.stop()
+                    self.adb_update_script_worker.wait(1000)
+            
+            # Start blinking orange light
+            self.start_orange_blink()
+            
+            # Update indicator text
+            if hasattr(self, 'adb_status_label'):
+                self.adb_status_label.setText("Preparing Device for Fast Updates")
+            
+            # Hide buttons (Install from zip to About)
+            self.hide_preparation_buttons()
+            
+            # Get script directory (same as Python script)
+            script_dir = Path.cwd()
+            local_cache_path = script_dir / "update.sh"
+            
+            # Create worker for downloading and pushing
+            update_script_url = "https://raw.githubusercontent.com/rockbox-y1/rockbox/refs/heads/y1/android/scripts/update.sh"
+            self.adb_update_script_worker = ADBUpdateScriptWorker(adb_path, update_script_url, local_cache_path)
+            
+            # Connect signals
+            self.adb_update_script_worker.status_update.connect(self.on_adb_script_status_update)
+            self.adb_update_script_worker.download_progress.connect(self.on_adb_script_download_progress)
+            self.adb_update_script_worker.completed.connect(self.on_adb_script_completed)
+            
+            # Start worker
+            self.adb_update_script_worker.start()
+            
+        except Exception as e:
+            silent_print(f"Error starting ADB update script worker: {e}")
+            # Reset flag on error
+            self.adb_operation_in_progress = False
+            self.stop_orange_blink()
+            self.show_preparation_buttons()
+    
+    def start_orange_blink(self):
+        """Start blinking animation for orange light"""
+        self.adb_light_blinking = True
+        self.adb_light_visible = True  # Start visible
+        self.adb_blink_timer.start(500)  # Blink every 500ms
+    
+    def stop_orange_blink(self):
+        """Stop blinking animation for orange light"""
+        self.adb_light_blinking = False
+        self.adb_blink_timer.stop()
+        # Reset to orange (not blinking)
+        if hasattr(self, 'adb_status_light'):
+            self.adb_status_light.setStyleSheet("""
+                QLabel {
+                    color: #FFA500;
+                    font-size: 12px;
+                }
+            """)
+    
+    def blink_orange_light(self):
+        """Toggle orange light visibility for blinking effect"""
+        if hasattr(self, 'adb_status_light') and self.adb_light_blinking:
+            # Toggle visibility
+            self.adb_light_visible = not self.adb_light_visible
+            if self.adb_light_visible:
+                # Make it orange
+                self.adb_status_light.setStyleSheet("""
+                    QLabel {
+                        color: #FFA500;
+                        font-size: 12px;
+                    }
+                """)
+            else:
+                # Make it transparent
+                self.adb_status_light.setStyleSheet("""
+                    QLabel {
+                        color: transparent;
+                        font-size: 12px;
+                    }
+                """)
+    
+    def hide_preparation_buttons(self):
+        """Hide buttons from Install from zip to About"""
+        if hasattr(self, 'install_zip_btn'):
+            self.install_zip_btn.setVisible(False)
+        if hasattr(self, 'driver_buttons_container'):
+            self.driver_buttons_container.setVisible(False)
+        if hasattr(self, 'discord_btn'):
+            self.discord_btn.setVisible(False)
+        if hasattr(self, 'about_btn'):
+            self.about_btn.setVisible(False)
+    
+    def show_preparation_buttons(self):
+        """Show buttons from Install from zip to About"""
+        if hasattr(self, 'install_zip_btn'):
+            self.install_zip_btn.setVisible(True)
+        if hasattr(self, 'driver_buttons_container'):
+            self.driver_buttons_container.setVisible(True)
+        if hasattr(self, 'discord_btn'):
+            self.discord_btn.setVisible(True)
+        if hasattr(self, 'about_btn'):
+            self.about_btn.setVisible(True)
+    
+    def on_adb_script_status_update(self, message):
+        """Handle status update from ADB script worker - show in status area"""
+        if hasattr(self, 'status_label'):
+            self.status_label.setText(message)
+        # Ensure progress bar is visible during preparation
+        if hasattr(self, 'progress_bar'):
+            if not self.progress_bar.isVisible():
+                self.progress_bar.setVisible(True)
+        silent_print(f"ADB Script Status: {message}")
+    
+    def on_adb_script_download_progress(self, progress):
+        """Handle download progress from ADB script worker"""
+        if hasattr(self, 'status_label'):
+            self.status_label.setText(f"Preparing Device for Fast Updates... {progress}%")
+        if hasattr(self, 'progress_bar'):
+            self.progress_bar.setVisible(True)
+            self.progress_bar.setValue(progress)
+    
+    def on_adb_script_completed(self, success, message):
+        """Handle completion of ADB script download/push"""
+        # Stop blinking
+        self.stop_orange_blink()
+        
+        # Show buttons again
+        self.show_preparation_buttons()
+        
+        # Reset indicator text
+        if hasattr(self, 'adb_status_label'):
+            self.adb_status_label.setText("ADB")
+        
+        if success:
+            if hasattr(self, 'status_label'):
+                self.status_label.setText("Update script installed successfully")
+            if hasattr(self, 'progress_bar'):
+                self.progress_bar.setVisible(False)
+            # Re-check ADB status to update indicator
+            QTimer.singleShot(500, self.check_adb_and_update_script)
+            # Enable fast install button
+            if hasattr(self, 'send_update_btn'):
+                self.send_update_btn.setEnabled(True)
+        else:
+            if hasattr(self, 'status_label'):
+                self.status_label.setText(f"Failed to install update script: {message}")
+            if hasattr(self, 'progress_bar'):
+                self.progress_bar.setVisible(False)
+        silent_print(f"ADB Script Worker completed: {success} - {message}")
     
     def run_update_script_via_adb(self):
         """Run the update script on the device via ADB after update.zip transfer"""
@@ -11303,25 +12025,136 @@ class FirmwareDownloaderGUI(QMainWindow):
             self.status_label.setText("ADB: Running update script as root...")
             QApplication.processEvents()
             
-            silent_print("Executing /data/data/update.sh as root...")
+            # Update script path
+            update_script_path = '/data/data/update/update.sh'
             
-            # Run the script
-            script_result = subprocess.run(
-                [str(adb_path), 'shell', 'su', '-c', '/data/data/update.sh'],
+            # Make the script executable before running it
+            silent_print(f"Making {update_script_path} executable...")
+            chmod_result = subprocess.run(
+                [str(adb_path), 'shell', 'su', '-c', f'chmod +x {update_script_path} || sh -c "chmod 755 {update_script_path}"'],
                 capture_output=True,
                 text=True,
-                timeout=60,
+                timeout=5,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            if chmod_result.returncode == 0:
+                silent_print(f"Successfully made {update_script_path} executable")
+            else:
+                silent_print(f"Warning: Could not make script executable (will try running with sh): {chmod_result.stderr}")
+            
+            silent_print(f"Executing {update_script_path} as root...")
+            
+            # Prepare environment with proper PATH for macOS
+            env = os.environ.copy()
+            if platform.system() == "Darwin":
+                homebrew_paths = ["/opt/homebrew/bin", "/usr/local/bin"]
+                current_path = env.get("PATH", "")
+                for brew_path in homebrew_paths:
+                    if brew_path not in current_path:
+                        env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
+            
+            # Run the script with real-time output capture
+            process = subprocess.Popen(
+                [str(adb_path), 'shell', 'su', '-c', f'sh {update_script_path}'],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                bufsize=1,
+                universal_newlines=True,
+                env=env,
                 creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
             )
             
-            if script_result.returncode == 0:
-                silent_print("Update script executed successfully")
-                self.status_label.setText("Update script executed successfully")
+            # Read output line by line and display in status area
+            script_output_lines = []
+            script_success = False
+            progress = 0
+            progress_increment = 25  # Each "++" line = 25% progress
+            
+            # Show progress bar
+            if hasattr(self, 'progress_bar'):
+                self.progress_bar.setVisible(True)
+                self.progress_bar.setRange(0, 100)
+                self.progress_bar.setValue(0)
+            
+            try:
+                while True:
+                    output = process.stdout.readline()
+                    if output == '' and process.poll() is not None:
+                        break
+                    
+                    if output:
+                        line = output.strip()
+                        if line:
+                            script_output_lines.append(line)
+                            silent_print(line)
+                            
+                            # Check if line contains "++" (progress indicator)
+                            if '++' in line:
+                                # Remove "++" and any leading/trailing whitespace for display
+                                display_text = line.replace('++', '').strip()
+                                if display_text:
+                                    self.status_label.setText(display_text)
+                                else:
+                                    self.status_label.setText(line)
+                                
+                                # Increment progress by 25% for each "++" line
+                                progress = min(progress + progress_increment, 100)
+                                if hasattr(self, 'progress_bar'):
+                                    self.progress_bar.setValue(progress)
+                            else:
+                                # Regular line without "++" - just show it
+                                self.status_label.setText(line)
+                            
+                            QApplication.processEvents()
+                
+                # Wait for process to complete
+                return_code = process.wait()
+                script_success = (return_code == 0)
+                
+            except subprocess.TimeoutExpired:
+                silent_print("Update script execution timed out")
+                process.terminate()
+                script_success = False
+            except Exception as e:
+                silent_print(f"Error reading script output: {e}")
+                process.terminate()
+                script_success = False
+            
+            if script_success:
+                # Show all output lines in status
+                if script_output_lines:
+                    # Show the last line (remove "++" prefix if present)
+                    final_line = script_output_lines[-1]
+                    if '++' in final_line:
+                        final_output = final_line.replace('++', '').strip()
+                        if not final_output:
+                            final_output = final_line
+                    else:
+                        final_output = final_line
+                    self.status_label.setText(final_output)
+                    # Set progress to 100% on completion
+                    if hasattr(self, 'progress_bar'):
+                        self.progress_bar.setValue(100)
+                else:
+                    self.status_label.setText("Update completed successfully")
+                    if hasattr(self, 'progress_bar'):
+                        self.progress_bar.setValue(100)
                 return True
             else:
-                silent_print(f"Update script returned error code: {script_result.returncode}")
-                silent_print(f"stderr: {script_result.stderr}")
-                self.status_label.setText(f"Update script error: {script_result.stderr[:100]}")
+                # Script failed - show instructions
+                self.status_label.setText("Update Script: Failed to execute automatically")
+                QMessageBox.warning(
+                    self,
+                    "Update Script Not Executed",
+                    "The update script could not be executed automatically via ADB.\n\n"
+                    "To complete the update:\n\n"
+                    "1. On your Y1 device, go to:\n"
+                    "   System Menu > Firmware Update\n\n"
+                    "2. The update.zip file has been placed in the .rockbox folder\n"
+                    "3. The device will install the update from there\n\n"
+                    "The update.zip file is ready on your device."
+                )
                 return False
                 
         except subprocess.TimeoutExpired:
@@ -11335,6 +12168,8 @@ class FirmwareDownloaderGUI(QMainWindow):
     
     def execute_adb_update(self, adb_path):
         """Execute the ADB-based update with live output to status"""
+        # Set flag to prevent periodic ADB checks during operation
+        self.adb_operation_in_progress = True
         try:
             self.status_label.setText("ADB: Downloading update.zip...")
             self.progress_bar.setVisible(True)
@@ -11347,26 +12182,43 @@ class FirmwareDownloaderGUI(QMainWindow):
             if hasattr(self, 'send_update_btn'):
                 self.send_update_btn.setEnabled(False)
             
-            # Download update.zip
-            silent_print("Downloading update.zip...")
-            response = requests.get(self.current_update_zip_url, stream=True, timeout=30)
-            response.raise_for_status()
+            # Check cache first
+            cache_path = get_update_zip_cache_path(self.current_update_zip_url)
+            temp_update_path = None
             
-            total_size = int(response.headers.get('content-length', 0))
-            downloaded = 0
+            if cache_path.exists():
+                silent_print(f"Using cached update.zip from: {cache_path}")
+                self.status_label.setText("ADB: Using cached update.zip...")
+                self.progress_bar.setValue(20)
+                QApplication.processEvents()
+                temp_update_path = cache_path
+            else:
+                # Download update.zip
+                silent_print("Downloading update.zip...")
+                self.status_label.setText("ADB: Downloading update.zip...")
+                response = requests.get(self.current_update_zip_url, stream=True, timeout=30)
+                response.raise_for_status()
+                
+                total_size = int(response.headers.get('content-length', 0))
+                downloaded = 0
+                
+                # Download to cache file
+                cache_path.parent.mkdir(parents=True, exist_ok=True)
+                temp_update_path = cache_path
+                
+                with open(temp_update_path, 'wb') as f:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        if chunk:
+                            f.write(chunk)
+                            downloaded += len(chunk)
+                            if total_size > 0:
+                                progress = int((downloaded / total_size) * 40)  # 0-40% for download
+                                self.progress_bar.setValue(progress)
+                                QApplication.processEvents()
+                
+                silent_print(f"Download complete: {downloaded} bytes, cached to {cache_path}")
             
-            temp_update_path = Path("update.zip.tmp")
-            with open(temp_update_path, 'wb') as f:
-                for chunk in response.iter_content(chunk_size=8192):
-                    if chunk:
-                        f.write(chunk)
-                        downloaded += len(chunk)
-                        if total_size > 0:
-                            progress = int((downloaded / total_size) * 40)  # 0-40% for download
-                            self.progress_bar.setValue(progress)
-                            QApplication.processEvents()
-            
-            silent_print("Download complete, pushing to device...")
+            silent_print("Preparing to push to device...")
             self.status_label.setText("ADB: Creating .rockbox directory...")
             self.progress_bar.setValue(40)
             QApplication.processEvents()
@@ -11409,35 +12261,107 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print("update.zip pushed successfully")
             self.progress_bar.setValue(70)
             
-            # Clean up temp file
-            temp_update_path.unlink()
+            # Don't delete cached file - keep it for future use
+            # Cache file will be reused on next download
             
             # Run update script as root
             self.status_label.setText("ADB: Running update script as root...")
             self.progress_bar.setValue(80)
             QApplication.processEvents()
             
-            silent_print("Executing /data/data/update.sh as root...")
+            # Update script path
+            update_script_path = '/data/data/update/update.sh'
             
-            # Run the script
-            script_result = subprocess.run(
-                [str(adb_path), 'shell', 'su', '-c', '/data/data/update.sh'],
+            # Make the script executable before running it
+            silent_print(f"Making {update_script_path} executable...")
+            chmod_result = subprocess.run(
+                [str(adb_path), 'shell', 'su', '-c', f'chmod +x {update_script_path} || sh -c "chmod 755 {update_script_path}"'],
                 capture_output=True,
                 text=True,
-                timeout=60,
+                timeout=5,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            if chmod_result.returncode == 0:
+                silent_print(f"Successfully made {update_script_path} executable")
+            else:
+                silent_print(f"Warning: Could not make script executable (will try running with sh): {chmod_result.stderr}")
+            
+            silent_print(f"Executing {update_script_path} as root...")
+            
+            # Prepare environment with proper PATH for macOS
+            env = os.environ.copy()
+            if platform.system() == "Darwin":
+                homebrew_paths = ["/opt/homebrew/bin", "/usr/local/bin"]
+                current_path = env.get("PATH", "")
+                for brew_path in homebrew_paths:
+                    if brew_path not in current_path:
+                        env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
+            
+            # Run the script with real-time output capture
+            process = subprocess.Popen(
+                [str(adb_path), 'shell', 'su', '-c', f'sh {update_script_path}'],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                bufsize=1,
+                universal_newlines=True,
+                env=env,
                 creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
             )
             
-            # Show script output
-            if script_result.stdout.strip():
-                output_lines = script_result.stdout.strip().split('\n')
-                for line in output_lines[-3:]:  # Show last 3 lines
-                    silent_print(f"Update script: {line}")
-                last_line = output_lines[-1] if output_lines else "Script executed"
-                self.status_label.setText(f"ADB: {last_line}")
-                QApplication.processEvents()
+            # Read output line by line and display in status area
+            script_output_lines = []
+            script_success = False
+            progress = 80  # Start from 80% (where we are after push)
+            progress_increment = 25  # Each "++" line = 25% progress
             
-            self.progress_bar.setValue(100)
+            try:
+                while True:
+                    output = process.stdout.readline()
+                    if output == '' and process.poll() is not None:
+                        break
+                    
+                    if output:
+                        line = output.strip()
+                        if line:
+                            script_output_lines.append(line)
+                            silent_print(line)
+                            
+                            # Check if line contains "++" (progress indicator)
+                            if '++' in line:
+                                # Remove "++" and any leading/trailing whitespace for display
+                                display_text = line.replace('++', '').strip()
+                                if display_text:
+                                    self.status_label.setText(display_text)
+                                else:
+                                    self.status_label.setText(line)
+                                
+                                # Increment progress by 25% for each "++" line
+                                progress = min(progress + progress_increment, 100)
+                                if hasattr(self, 'progress_bar'):
+                                    self.progress_bar.setValue(progress)
+                            else:
+                                # Regular line without "++" - just show it
+                                self.status_label.setText(line)
+                            
+                            QApplication.processEvents()
+                
+                # Wait for process to complete
+                return_code = process.wait()
+                script_success = (return_code == 0)
+                
+            except subprocess.TimeoutExpired:
+                silent_print("Update script execution timed out")
+                process.terminate()
+                script_success = False
+            except Exception as e:
+                silent_print(f"Error reading script output: {e}")
+                process.terminate()
+                script_success = False
+            
+            # Set progress to 100% on completion
+            if hasattr(self, 'progress_bar'):
+                self.progress_bar.setValue(100)
             QApplication.processEvents()
             
             # Small delay before hiding progress
@@ -11448,18 +12372,67 @@ class FirmwareDownloaderGUI(QMainWindow):
             if hasattr(self, 'send_update_btn'):
                 self.send_update_btn.setEnabled(True)
             
-            self.status_label.setText("ADB: Update completed!")
+            if script_success:
+                # Show all output lines in status
+                if script_output_lines:
+                    # Show the last line (remove "++" prefix if present)
+                    final_line = script_output_lines[-1]
+                    if '++' in final_line:
+                        final_output = final_line.replace('++', '').strip()
+                        if not final_output:
+                            final_output = final_line
+                    else:
+                        final_output = final_line
+                    self.status_label.setText(final_output)
+                else:
+                    self.status_label.setText("Update completed")
+                
+                # Show completion message
+                QMessageBox.information(
+                    self,
+                    "Update Complete! ✅",
+                    "⚡ Fast Update completed successfully via ADB!\n\n"
+                    "The update script has been executed on your Y1.\n"
+                    "Your device will restart automatically to apply the update.\n\n"
+                    "Please wait for your Y1 to reboot."
+                )
+            else:
+                # Script failed - show instructions
+                self.status_label.setText("Update Script: Failed to execute automatically")
+                QMessageBox.warning(
+                    self,
+                    "Update Script Not Executed",
+                    "The update script could not be executed automatically via ADB.\n\n"
+                    "To complete the update:\n\n"
+                    "1. On your Y1 device, go to:\n"
+                    "   System Menu > Firmware Update\n\n"
+                    "2. The update.zip file has been placed in the .rockbox folder\n"
+                    "3. The device will install the update from there\n\n"
+                    "The update.zip file is ready on your device."
+                )
             
-            # Show completion message
-            QMessageBox.information(
+        except subprocess.TimeoutExpired:
+            silent_print("ADB update operation timed out")
+            self.status_label.setText("ADB: Update operation timed out")
+            # Re-enable buttons
+            self.download_btn.setEnabled(True)
+            if hasattr(self, 'send_update_btn'):
+                self.send_update_btn.setEnabled(True)
+            if hasattr(self, 'progress_bar'):
+                self.progress_bar.setVisible(False)
+            QMessageBox.warning(
                 self,
-                "Update Complete! ✅",
-                "⚡ Fast Update completed successfully via ADB!\n\n"
-                "The update script has been executed on your Y1.\n"
-                "Your device will restart automatically to apply the update.\n\n"
-                "Please wait for your Y1 to reboot."
+                "Update Timeout",
+                "The ADB update operation timed out.\n\n"
+                "To complete the update:\n\n"
+                "1. On your Y1 device, go to:\n"
+                "   System Menu > Firmware Update\n\n"
+                "2. The update.zip file has been placed in the .rockbox folder\n"
+                "3. The device will install the update from there\n\n"
+                "The update.zip file is ready on your device."
             )
-            
+            # Reset flag on timeout
+            self.adb_operation_in_progress = False
         except Exception as e:
             silent_print(f"Error during ADB update: {e}")
             import traceback
@@ -11487,6 +12460,9 @@ class FirmwareDownloaderGUI(QMainWindow):
                 f"Failed to perform automatic update via ADB:\n\n{str(e)}\n\n"
                 "Please try using USB Storage mode instead."
             )
+        finally:
+            # Always reset flag when operation completes
+            self.adb_operation_in_progress = False
     
     def on_update_send_completed(self, success, message):
         """Handle completion of update.zip send operation"""
@@ -11759,12 +12735,94 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Check if zip file already exists locally
         zip_path = get_zip_path(selected_repo, release_info['tag_name'])
         if zip_path.exists():
+            # Zip already exists - check for Fast Update before proceeding
+            if self.is_device_fast_update_enabled():
+                # Check if this release has update.zip
+                assets = release_info.get('assets', [])
+                has_update_zip = any(
+                    asset.get('name', '').lower() == 'update.zip'
+                    for asset in assets
+                )
+                
+                if has_update_zip:
+                    # Offer Fast Update instead of regular install
+                    reply = QMessageBox.question(
+                        self,
+                        "Fast Update Available",
+                        "Are you sure you want to do a full clean install of this firmware?\n\n"
+                        "Your device appears to have Fast Update available, which will keep your bluetooth settings and personal apps in place.\n\n"
+                        "Would you like to use Fast Update instead?",
+                        QMessageBox.Yes | QMessageBox.No,
+                        QMessageBox.Yes
+                    )
+                    
+                    if reply == QMessageBox.Yes:
+                        # User chose Fast Update - switch to Fast Update
+                        # Find update.zip URL and set it
+                        update_asset = next(
+                            (asset for asset in assets if asset.get('name', '').lower() == 'update.zip'),
+                            None
+                        )
+                        if update_asset:
+                            self.current_update_zip_url = update_asset.get('browser_download_url')
+                            # Try Fast Update
+                            if self.try_adb_fast_update():
+                                return  # Fast Update started, exit
+                        # If Fast Update failed or no update.zip found, fall through to regular install
+                    # If user chose No, continue with regular install
+            
             # Zip already exists - automatically use it for seamless experience
             silent_print(f"Using existing zip file: {zip_path.name}")
             self.status_label.setText("Using existing zip file. Extracting...")
             self.process_existing_zip(zip_path, selected_repo, release_info['tag_name'])
             return
 
+        # Check for Fast Update before starting regular download
+        if self.is_device_fast_update_enabled():
+            # Check if this release has update.zip
+            assets = release_info.get('assets', [])
+            has_update_zip = any(
+                asset.get('name', '').lower() == 'update.zip'
+                for asset in assets
+            )
+            
+            if has_update_zip:
+                # Offer Fast Update instead of regular install
+                reply = QMessageBox.question(
+                    self,
+                    "Fast Update Available",
+                    "Are you sure you want to do a full clean install of this firmware?\n\n"
+                    "Your device appears to have Fast Update available, which will keep your bluetooth settings and personal apps in place.\n\n"
+                    "Would you like to use Fast Update instead?",
+                    QMessageBox.Yes | QMessageBox.No,
+                    QMessageBox.Yes
+                )
+                
+                if reply == QMessageBox.Yes:
+                    # User chose Fast Update - switch to Fast Update
+                    # Find update.zip URL and set it
+                    update_asset = next(
+                        (asset for asset in assets if asset.get('name', '').lower() == 'update.zip'),
+                        None
+                    )
+                    if update_asset:
+                        self.current_update_zip_url = update_asset.get('browser_download_url')
+                        # Try Fast Update
+                        if self.try_adb_fast_update():
+                            return  # Fast Update started, exit
+                    # If Fast Update failed or no update.zip found, fall through to regular install
+                # If user chose No, continue with regular install
+
+        # Switch from release notes view to image view when download starts
+        if hasattr(self, 'image_notes_stack') and self.image_notes_stack:
+            self.image_notes_stack.setCurrentIndex(0)  # Switch to image view (page 0)
+            # Update title back to "Getting Ready:" when showing images
+            if hasattr(self, 'output_group'):
+                self.output_group.setTitle("Getting Ready:")
+        
+        # Show paperclip message during download
+        self.show_paperclip_message()
+        
         # Start download worker
         self.download_worker = DownloadWorker(release_info['download_url'], selected_repo, release_info['tag_name'])
         self.download_worker.progress_updated.connect(self.progress_bar.setValue)
@@ -11785,6 +12843,16 @@ class FirmwareDownloaderGUI(QMainWindow):
     def process_existing_zip(self, zip_path, repo_name, version):
         """Process an existing zip file (extract and prepare for installation)"""
         try:
+            # Switch from release notes view to image view when extraction starts
+            if hasattr(self, 'image_notes_stack') and self.image_notes_stack:
+                self.image_notes_stack.setCurrentIndex(0)  # Switch to image view (page 0)
+                # Update title back to "Getting Ready:" when showing images
+                if hasattr(self, 'output_group'):
+                    self.output_group.setTitle("Getting Ready:")
+            
+            # Show paperclip message during extraction
+            self.show_paperclip_message()
+            
             self.status_label.setText("Extracting existing zip file...")
             self.progress_bar.setVisible(True)
             self.progress_bar.setValue(0)
@@ -11796,9 +12864,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             # Extract the zip file
             extracted_files = []
             with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-                zip_ref.extractall(".")
-                # Get list of extracted files
-                extracted_files = zip_ref.namelist()
+                extracted_files = safe_extractall(zip_ref, ".", zip_path.name)
             
             # Log extracted files for cleanup
             log_extracted_files(extracted_files)
@@ -12889,7 +13955,7 @@ read -n 1
                 # Get latest release from GitHub (this is now in a worker thread)
                 latest_version = self.get_latest_github_version()
                 if latest_version:
-                    current_version = "1.7.9"
+                    current_version = "1.8.0"
                     
                     # Compare versions
                     if self.compare_versions(latest_version, current_version) > 0:
