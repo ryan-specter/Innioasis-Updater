@@ -956,7 +956,24 @@ def safe_extractall(zip_ref, extract_path=".", zip_name="archive"):
     extracted_files = []
     skipped_files = []
     
+    # Helper function to check if path is macOS metadata
+    def is_macos_metadata(path):
+        path_str = str(path).replace('\\', '/').lower()
+        name = Path(path).name.lower()
+        if name.startswith('._') or name == '.ds_store' or name == '__macosx':
+            return True
+        if '_macosx' in path_str or '__macosx' in path_str:
+            return True
+        if '/._' in path_str or '\\._' in path_str:
+            return True
+        return False
+    
     for member in zip_ref.namelist():
+        # Skip macOS metadata files/folders
+        if is_macos_metadata(member):
+            silent_print(f"Skipping macOS metadata: {member}")
+            continue
+        
         try:
             zip_ref.extract(member, extract_path)
             extracted_files.append(member)
@@ -3010,6 +3027,390 @@ class TokenLoaderWorker(QThread):
                 self.loading_failed.emit(str(e))
 
 
+class FileTransferWorker(QThread):
+    """Worker thread for transferring files/folders to device via ADB"""
+    
+    status_update = Signal(str)  # Emitted with status messages
+    progress_update = Signal(int, int)  # Emitted with (current, total) progress
+    completed = Signal(bool, dict)  # Emitted when done (success, result_dict with transferred_count, failed_files)
+    
+    def __init__(self, adb_path, connected_device_id, env, file_paths, destination_folder):
+        super().__init__()
+        self.adb_path = adb_path
+        self.connected_device_id = connected_device_id
+        self.env = env
+        self.file_paths = file_paths
+        self.destination_folder = destination_folder
+        self.stop_requested = False
+    
+    def stop(self):
+        """Request to stop operation"""
+        self.stop_requested = True
+    
+    def run(self):
+        """Transfer files in background thread"""
+        try:
+            if self.stop_requested:
+                return
+            
+            transferred_count = 0
+            failed_files = []
+            total = len(self.file_paths)
+            
+            for i, file_path in enumerate(self.file_paths):
+                if self.stop_requested:
+                    break
+                
+                self.progress_update.emit(i, total)
+                
+                try:
+                    path = Path(file_path)
+                    if not path.exists():
+                        failed_files.append(f"{path.name} (not found)")
+                        continue
+                    
+                    # Skip macOS metadata files/folders
+                    # Check if it's a macOS metadata file/folder
+                    is_macos_metadata = False
+                    if path.name.startswith('._') or path.name == '.DS_Store' or '__MACOSX' in str(path):
+                        is_macos_metadata = True
+                    
+                    if is_macos_metadata:
+                        silent_print(f"Skipping macOS metadata: {path}")
+                        continue
+                    
+                    # Determine destination path on device using selected folder
+                    destination = f"{self.destination_folder}/{path.name}"
+                    
+                    # Show current file being transferred
+                    self.status_update.emit(f"Transferring: {path.name}...")
+                    
+                    # Build ADB command
+                    adb_cmd = [str(self.adb_path)]
+                    if self.connected_device_id:
+                        adb_cmd.extend(['-s', self.connected_device_id])
+                    
+                    if path.is_file():
+                        # Transfer file
+                        adb_cmd.extend(['push', str(path), destination])
+                    elif path.is_dir():
+                        # Transfer folder - use adb push with directory
+                        adb_cmd.extend(['push', str(path), destination])
+                    
+                    # Execute transfer with real-time output
+                    transfer_process = subprocess.Popen(
+                        adb_cmd,
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.STDOUT,
+                        text=True,
+                        bufsize=1,
+                        universal_newlines=True,
+                        env=self.env,
+                        creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                    )
+                    
+                    # Read output line by line and emit status updates
+                    transfer_output_lines = []
+                    while True:
+                        if self.stop_requested:
+                            transfer_process.terminate()
+                            break
+                        
+                        output = transfer_process.stdout.readline()
+                        if output == '' and transfer_process.poll() is not None:
+                            break
+                        
+                        if output:
+                            line = output.strip()
+                            if line:
+                                transfer_output_lines.append(line)
+                                silent_print(f"ADB Transfer: {line}")
+                                # Display in status area
+                                self.status_update.emit(f"ADB: {line}")
+                    
+                    # Wait for process to complete
+                    return_code = transfer_process.wait()
+                    
+                    if return_code == 0:
+                        transferred_count += 1
+                        silent_print(f"Successfully transferred: {path.name}")
+                    else:
+                        error_msg = '\n'.join(transfer_output_lines) if transfer_output_lines else "Unknown error"
+                        failed_files.append(f"{path.name} ({error_msg})")
+                        silent_print(f"Failed to transfer: {path.name} - {error_msg}")
+                    
+                except Exception as e:
+                    failed_files.append(f"{path.name} ({str(e)})")
+                    silent_print(f"Error transferring {path.name}: {e}")
+            
+            self.progress_update.emit(total, total)
+            
+            # Emit completion with result dictionary
+            result = {
+                'transferred_count': transferred_count,
+                'failed_files': failed_files,
+                'total': total
+            }
+            
+            if transferred_count == total:
+                self.completed.emit(True, result)
+            elif transferred_count > 0:
+                self.completed.emit(True, result)  # Partial success
+            else:
+                self.completed.emit(False, result)
+                
+        except Exception as e:
+            silent_print(f"Error in FileTransferWorker: {e}")
+            import traceback
+            traceback.print_exc()
+            result = {
+                'transferred_count': 0,
+                'failed_files': [f"Error: {str(e)}"],
+                'total': len(self.file_paths)
+            }
+            self.completed.emit(False, result)
+
+
+class FastUpdateWorker(QThread):
+    """Worker thread for Fast Update operations via ADB"""
+    
+    status_update = Signal(str)  # Emitted with status messages
+    progress_update = Signal(int)  # Emitted with progress percentage (0-100)
+    completed = Signal(bool, str)  # Emitted when done (success, message)
+    
+    def __init__(self, adb_path, update_zip_url, env):
+        super().__init__()
+        self.adb_path = adb_path
+        self.update_zip_url = update_zip_url
+        self.env = env
+        self.stop_requested = False
+    
+    def stop(self):
+        """Request to stop operation"""
+        self.stop_requested = True
+    
+    def run(self):
+        """Execute Fast Update in background thread"""
+        try:
+            if self.stop_requested:
+                return
+            
+            # Step 1: Download or use cached update.zip
+            self.status_update.emit("ADB: Downloading update.zip...")
+            self.progress_update.emit(0)
+            
+            cache_path = get_update_zip_cache_path(self.update_zip_url)
+            temp_update_path = None
+            
+            if cache_path.exists():
+                silent_print(f"Using cached update.zip from: {cache_path}")
+                self.status_update.emit("ADB: Using cached update.zip...")
+                self.progress_update.emit(20)
+                temp_update_path = cache_path
+            else:
+                # Download update.zip
+                silent_print("Downloading update.zip...")
+                self.status_update.emit("ADB: Downloading update.zip...")
+                response = requests.get(self.update_zip_url, stream=True, timeout=30)
+                response.raise_for_status()
+                
+                total_size = int(response.headers.get('content-length', 0))
+                downloaded = 0
+                
+                # Download to cache file
+                cache_path.parent.mkdir(parents=True, exist_ok=True)
+                temp_update_path = cache_path
+                
+                with open(temp_update_path, 'wb') as f:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        if self.stop_requested:
+                            return
+                        if chunk:
+                            f.write(chunk)
+                            downloaded += len(chunk)
+                            if total_size > 0:
+                                progress = int((downloaded / total_size) * 40)  # 0-40% for download
+                                self.progress_update.emit(progress)
+                
+                silent_print(f"Download complete: {downloaded} bytes, cached to {cache_path}")
+            
+            if self.stop_requested:
+                return
+            
+            # Step 2: Create .rockbox directory
+            self.status_update.emit("ADB: Creating .rockbox directory...")
+            self.progress_update.emit(40)
+            
+            mkdir_result = subprocess.run(
+                [str(self.adb_path), 'shell', 'mkdir', '-p', '/sdcard/.rockbox'],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env=self.env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            if mkdir_result.stdout.strip():
+                self.status_update.emit(f"ADB: {mkdir_result.stdout.strip()}")
+            
+            if self.stop_requested:
+                return
+            
+            # Step 3: Push update.zip to device
+            self.status_update.emit("ADB: Pushing update.zip to device...")
+            self.progress_update.emit(50)
+            
+            push_process = subprocess.Popen(
+                [str(self.adb_path), 'push', str(temp_update_path), '/sdcard/.rockbox/update.zip'],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                bufsize=1,
+                universal_newlines=True,
+                env=self.env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            # Read output line by line and emit status updates
+            push_output_lines = []
+            while True:
+                if self.stop_requested:
+                    push_process.terminate()
+                    return
+                
+                output = push_process.stdout.readline()
+                if output == '' and push_process.poll() is not None:
+                    break
+                
+                if output:
+                    line = output.strip()
+                    if line:
+                        push_output_lines.append(line)
+                        silent_print(f"ADB Push: {line}")
+                        self.status_update.emit(f"ADB: {line}")
+            
+            # Wait for process to complete
+            return_code = push_process.wait()
+            
+            if return_code != 0:
+                error_msg = '\n'.join(push_output_lines) if push_output_lines else "Unknown error"
+                self.completed.emit(False, f"Failed to push update.zip: {error_msg}")
+                return
+            
+            if self.stop_requested:
+                return
+            
+            silent_print("update.zip pushed successfully")
+            if push_output_lines:
+                final_line = push_output_lines[-1]
+                self.status_update.emit(f"ADB: {final_line}")
+            else:
+                self.status_update.emit("ADB: update.zip pushed successfully")
+            self.progress_update.emit(70)
+            
+            # Step 4: Run update script
+            self.status_update.emit("ADB: Running update script as root...")
+            self.progress_update.emit(80)
+            
+            update_script_path = '/data/data/update/update.sh'
+            
+            # Make the script executable
+            silent_print(f"Making {update_script_path} executable...")
+            chmod_result = subprocess.run(
+                [str(self.adb_path), 'shell', 'su', '-c', f'chmod +x {update_script_path} || sh -c "chmod 755 {update_script_path}"'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=self.env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            if chmod_result.returncode == 0:
+                silent_print(f"Successfully made {update_script_path} executable")
+            else:
+                silent_print(f"Warning: Could not make script executable: {chmod_result.stderr}")
+            
+            if self.stop_requested:
+                return
+            
+            # Run the script with real-time output capture
+            silent_print(f"Executing {update_script_path} as root...")
+            process = subprocess.Popen(
+                [str(self.adb_path), 'shell', 'su', '-c', f'sh {update_script_path}'],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                bufsize=1,
+                universal_newlines=True,
+                env=self.env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            # Read output line by line and emit status updates
+            script_output_lines = []
+            progress = 80  # Start from 80%
+            progress_increment = 25  # Each "++" line = 25% progress
+            
+            while True:
+                if self.stop_requested:
+                    process.terminate()
+                    return
+                
+                output = process.stdout.readline()
+                if output == '' and process.poll() is not None:
+                    break
+                
+                if output:
+                    line = output.strip()
+                    if line:
+                        script_output_lines.append(line)
+                        silent_print(line)
+                        
+                        # Check if line contains "++" (progress indicator)
+                        if '++' in line:
+                            # Remove "++" and any leading/trailing whitespace for display
+                            display_text = line.replace('++', '').strip()
+                            if display_text:
+                                self.status_update.emit(display_text)
+                            else:
+                                self.status_update.emit(line)
+                            
+                            # Increment progress by 25% for each "++" line
+                            progress = min(progress + progress_increment, 100)
+                            self.progress_update.emit(progress)
+                        else:
+                            # Regular line without "++" - just show it
+                            self.status_update.emit(line)
+            
+            # Wait for process to complete
+            return_code = process.wait()
+            script_success = (return_code == 0)
+            
+            self.progress_update.emit(100)
+            
+            if script_success:
+                # Show final output
+                if script_output_lines:
+                    final_line = script_output_lines[-1]
+                    if '++' in final_line:
+                        final_output = final_line.replace('++', '').strip()
+                        if not final_output:
+                            final_output = final_line
+                    else:
+                        final_output = final_line
+                    self.completed.emit(True, final_output)
+                else:
+                    self.completed.emit(True, "Update completed")
+            else:
+                error_msg = '\n'.join(script_output_lines) if script_output_lines else "Update script failed"
+                self.completed.emit(False, error_msg)
+                
+        except Exception as e:
+            silent_print(f"Error in FastUpdateWorker: {e}")
+            import traceback
+            traceback.print_exc()
+            self.completed.emit(False, f"Error: {str(e)}")
+
+
 class ThemeInstallWorker(QThread):
     """Worker thread for installing themes via ADB"""
     
@@ -3779,6 +4180,44 @@ class APKInstallWorker(QThread):
         return f"Failed to install {apk_name}.\n\nADB output:\n{output[:500]}"
 
 
+class ADBCheckWorker(QThread):
+    """Worker thread for periodic ADB connection checks"""
+    
+    status_update = Signal(str)  # Emitted with status messages (for debugging)
+    check_complete = Signal(str, object, object)  # Emitted when check is complete (status, device_id, hostname)
+    
+    def __init__(self, adb_path, env, parent_gui):
+        super().__init__()
+        self.adb_path = adb_path
+        self.env = env
+        self.parent_gui = parent_gui
+        self.stop_requested = False
+    
+    def stop(self):
+        """Request to stop operation"""
+        self.stop_requested = True
+    
+    def run(self):
+        """Perform ADB check in background thread"""
+        try:
+            if self.stop_requested:
+                return
+            
+            # Use the unified ADB status method (which does all the checking)
+            # This runs in the worker thread, so it won't block the GUI
+            if hasattr(self.parent_gui, 'get_unified_adb_status'):
+                status, device_id, hostname = self.parent_gui.get_unified_adb_status(self.adb_path, self.env)
+                # Emit results to main thread for UI update
+                self.check_complete.emit(status, device_id, hostname)
+            else:
+                # Fallback if unified method not available
+                self.check_complete.emit('no_adb', None, None)
+        except Exception as e:
+            silent_print(f"Error in ADBCheckWorker: {e}")
+            # Emit error result
+            self.check_complete.emit('no_adb', None, None)
+
+
 class ADBUpdateScriptWorker(QThread):
     """Worker thread for downloading and pushing update.sh script via ADB"""
     
@@ -3786,11 +4225,12 @@ class ADBUpdateScriptWorker(QThread):
     status_update = Signal(str)  # Emitted with status messages
     completed = Signal(bool, str)  # Emitted when done (success, message)
     
-    def __init__(self, adb_path, update_script_url, local_cache_path):
+    def __init__(self, adb_path, update_script_url, local_cache_path, connected_device_id=None):
         super().__init__()
         self.adb_path = adb_path
         self.update_script_url = update_script_url
         self.local_cache_path = local_cache_path
+        self.connected_device_id = connected_device_id
         self.stop_requested = False
     
     def stop(self):
@@ -3856,8 +4296,13 @@ class ADBUpdateScriptWorker(QThread):
                         env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
             
             # Create /data/data/update directory if needed
+            mkdir_cmd = [str(self.adb_path)]
+            if self.connected_device_id:
+                mkdir_cmd.extend(['-s', self.connected_device_id])
+            mkdir_cmd.extend(['shell', 'mkdir', '-p', '/data/data/update'])
+            
             subprocess.run(
-                [str(self.adb_path), 'shell', 'mkdir', '-p', '/data/data/update'],
+                mkdir_cmd,
                 capture_output=True,
                 text=True,
                 timeout=5,
@@ -3866,8 +4311,13 @@ class ADBUpdateScriptWorker(QThread):
             )
             
             # Push the script
+            push_cmd = [str(self.adb_path)]
+            if self.connected_device_id:
+                push_cmd.extend(['-s', self.connected_device_id])
+            push_cmd.extend(['push', str(self.local_cache_path), '/data/data/update/update.sh'])
+            
             push_result = subprocess.run(
-                [str(self.adb_path), 'push', str(self.local_cache_path), '/data/data/update/update.sh'],
+                push_cmd,
                 capture_output=True,
                 text=True,
                 timeout=10,
@@ -3883,8 +4333,13 @@ class ADBUpdateScriptWorker(QThread):
             self.status_update.emit("Making script executable...")
             self.download_progress.emit(75)  # Show 75% progress during chmod
             
+            chmod_cmd = [str(self.adb_path)]
+            if self.connected_device_id:
+                chmod_cmd.extend(['-s', self.connected_device_id])
+            chmod_cmd.extend(['shell', 'chmod', '755', '/data/data/update/update.sh'])
+            
             chmod_result = subprocess.run(
-                [str(self.adb_path), 'shell', 'chmod', '755', '/data/data/update/update.sh'],
+                chmod_cmd,
                 capture_output=True,
                 text=True,
                 timeout=5,
@@ -4009,8 +4464,19 @@ class DragDropStackedWidget(QStackedWidget):
         self._check_adb_status()
     
     def _check_adb_status(self):
-        """Check ADB status and return (is_connected, is_fast_update_enabled)"""
+        """Check ADB status and return (is_connected, is_fast_update_enabled) using unified method"""
         try:
+            # Use unified ADB status method for accurate detection
+            if hasattr(self.parent_gui, 'get_unified_adb_status'):
+                status, device_id, hostname = self.parent_gui.get_unified_adb_status()
+                if status == 'no_adb':
+                    return (False, False)
+                elif status == 'adb_only':
+                    return (True, False)
+                elif status == 'adb_root':
+                    return (True, True)
+            
+            # Fallback to UI state if unified method not available
             if not hasattr(self.parent_gui, 'adb_status_widget'):
                 return (False, False)
             
@@ -4049,17 +4515,17 @@ class DragDropStackedWidget(QStackedWidget):
             return "Drop to install app"
         
         # Check for rom*.zip or update*.zip files
-        zip_files = [
-            f for f in files 
-            if fnmatch.fnmatch(Path(f).name.lower(), 'rom*.zip') or 
-               fnmatch.fnmatch(Path(f).name.lower(), 'update*.zip')
-        ]
+        rom_zip_files = [f for f in files if fnmatch.fnmatch(Path(f).name.lower(), 'rom*.zip')]
+        update_zip_files = [f for f in files if fnmatch.fnmatch(Path(f).name.lower(), 'update*.zip')]
         
-        if zip_files:
+        if update_zip_files:
             if is_fast_update:
                 return "Drop to Fast Update"
             else:
-                return "Drop to install update"
+                # Don't show message for update.zip if Fast Update not available - will be blocked on drop
+                return None
+        elif rom_zip_files:
+            return "Drop to install update"
         else:
             return "Drop to transfer"
     
@@ -4211,8 +4677,8 @@ class DragDropStackedWidget(QStackedWidget):
                         QMessageBox.warning(
                             self.parent_gui,
                             "Fast Update Not Available",
-                            "Fast Update is not available. The device must be rooted and have the update script installed.\n\n"
-                            "Please use a regular install (rom.zip) or ensure your device is ready for Fast Update."
+                            "Fast Update is not available for this device.\n\n"
+                            "To update your device, please use a full Install/Restore with a rom.zip file instead."
                         )
                         event.ignore()
                         return
@@ -4334,6 +4800,13 @@ class FirmwareDownloaderGUI(QMainWindow):
             self.startmenu_toolkit_enabled = True  # Start Menu: Innioasis Toolkit.lnk
         
         # Automatic updates are now manual by default - no setting needed
+        
+        # Initialize flag to prevent duplicate wireless ADB connection dialogs
+        self._disconnect_usb_dialog_shown = False
+        
+        # Initialize file transfer queue for non-firmware files
+        self.file_transfer_queue = []  # Queue of (file_paths, destination_folder) tuples
+        self.file_transfer_worker = None  # Current transfer worker
 
         # Initialize theme monitor for dynamic theme switching
         self.theme_monitor = ThemeMonitor(self)
@@ -4409,6 +4882,9 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         # Check ADB device status at startup (non-blocking)
         QTimer.singleShot(100, self.check_adb_and_update_script)
+        
+        # Initialize status clear timer for auto-clearing orphaned messages
+        self.status_clear_timer = None
 
     def handle_version_check(self):
         """Handle version check file and show macOS app update message for new users"""
@@ -6035,9 +6511,10 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         # Initialize ADB update script worker and timer
         self.adb_update_script_worker = None
+        self.adb_check_worker = None
         self.adb_check_timer = QTimer()
-        self.adb_check_timer.timeout.connect(self.check_adb_and_update_script)
-        self.adb_check_timer.start(10000)  # Check every 10 seconds
+        self.adb_check_timer.timeout.connect(self.start_adb_check_worker)
+        self.adb_check_timer.start(7000)  # Check every 7 seconds (increased frequency for auto-reconnect)
         
         # Flag to track if ADB operation is in progress (prevents periodic checks during operations)
         self.adb_operation_in_progress = False
@@ -6447,8 +6924,13 @@ class FirmwareDownloaderGUI(QMainWindow):
         """Update the progress bar value"""
         self.progress_bar.setValue(value)
     
-    def update_status(self, message):
-        """Update the status label with a message"""
+    def update_status(self, message, auto_clear_seconds=5):
+        """Update the status label with a message and optionally auto-clear after timeout"""
+        # Cancel any existing clear timer
+        if hasattr(self, 'status_clear_timer') and self.status_clear_timer:
+            self.status_clear_timer.stop()
+            self.status_clear_timer = None
+        
         if not message or message.strip() == "":
             self.status_label.setText("Please follow the instructions below to install this software on your Y1")
         elif message.strip() == "MTK: Preloader":
@@ -6474,6 +6956,14 @@ class FirmwareDownloaderGUI(QMainWindow):
             self.status_label.setText("Now please follow the instructions displayed below. Please force quit the app if not responding and restart it.")
         else:
             self.status_label.setText(message)
+            # Auto-clear status after timeout (unless it's a persistent message like MTK or installation progress)
+            # Don't auto-clear if message indicates an active operation
+            persistent_keywords = ["MTK:", "Installing", "Downloading", "Preparing", "Starting", "Progress", "Please follow"]
+            if auto_clear_seconds > 0 and not any(keyword in message for keyword in persistent_keywords):
+                self.status_clear_timer = QTimer()
+                self.status_clear_timer.setSingleShot(True)
+                self.status_clear_timer.timeout.connect(lambda: self.status_label.setText("Ready"))
+                self.status_clear_timer.start(auto_clear_seconds * 1000)
 
     def handle_mtk_completion(self, success, message):
         """Handle MTK command completion"""
@@ -7364,7 +7854,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             QMessageBox.error(self, "Error", f"Failed to launch Y1 Remote Control: {e}")
 
     def try_new_features(self, dialog=None):
-        """Download and run test.py for trying new features"""
+        """Run local copy of test.py for trying new features"""
         try:
             # Close the dialog if provided
             if dialog:
@@ -7385,71 +7875,22 @@ class FirmwareDownloaderGUI(QMainWindow):
                     QTimer.singleShot(1000, self.close)
                     return
             
-            # Download test.py from the server using background worker
-            test_url = "https://innioasis.app/test.py"
+            # Check for local copy of test.py
             test_path = Path("test.py")
             
-            # Show progress
-            self.status_label.setText("Downloading new features version...")
-            self.progress_bar.setVisible(True)
-            self.progress_bar.setRange(0, 0)  # Indeterminate
-            QApplication.processEvents()
+            if not test_path.exists():
+                QMessageBox.warning(
+                    self,
+                    "test.py Not Found",
+                    "test.py not found in the current directory.\n\n"
+                    "Please ensure test.py is present before using this feature."
+                )
+                return
             
-            # Create and start URL download worker
-            self.test_download_worker = URLDownloadWorker(test_url, download_dir=Path.cwd())
-            self.test_download_worker.status_update.connect(self._on_test_download_status)
-            self.test_download_worker.progress_update.connect(self._on_test_download_progress)
-            self.test_download_worker.completed.connect(lambda path, ftype: self._on_test_download_complete(path, ftype, test_path))
-            self.test_download_worker.start()
-            
-        except Exception as e:
-            silent_print(f"Error starting test.py download: {e}")
-            import traceback
-            traceback.print_exc()
-            self.status_label.setText(f"Error: {str(e)[:100]}")
-            self.progress_bar.setVisible(False)
-            QMessageBox.warning(self, "Error", f"Error downloading new features: {str(e)}")
-    
-    def _on_test_download_status(self, message):
-        """Handle status updates from test.py download worker"""
-        self.status_label.setText(message)
-        QApplication.processEvents()
-    
-    def _on_test_download_progress(self, progress):
-        """Handle progress updates from test.py download worker"""
-        self.progress_bar.setRange(0, 100)
-        self.progress_bar.setValue(progress)
-        QApplication.processEvents()
-    
-    def _on_test_download_complete(self, file_path, file_type, expected_path):
-        """Handle completion of test.py download and launch it"""
-        self.progress_bar.setVisible(False)
-        
-        if not file_path or file_type == "error":
-            self.status_label.setText("Download failed")
-            QMessageBox.warning(self, "Download Failed", "Failed to download test.py from server.")
-            return
-        
-        if file_type == "cancelled":
-            self.status_label.setText("Download cancelled")
-            return
-        
-        # Ensure the file is named test.py (in case download worker named it differently)
-        downloaded_path = Path(file_path)
-        if downloaded_path.name != "test.py":
-            # Rename to test.py
-            test_path = downloaded_path.parent / "test.py"
-            if test_path.exists():
-                test_path.unlink()
-            downloaded_path.rename(test_path)
-            file_path = str(test_path)
-        
-        try:
-            silent_print(f"Downloaded test.py from https://innioasis.app/test.py")
+            # Launch local copy of test.py
             self.status_label.setText("Launching new features version...")
             QApplication.processEvents()
             
-            # Launch test.py
             if platform.system() == "Windows":
                 # On Windows, use pythonw if available to avoid console window
                 python_exe = sys.executable
@@ -7458,10 +7899,10 @@ class FirmwareDownloaderGUI(QMainWindow):
                     if Path(pythonw_exe).exists():
                         python_exe = pythonw_exe
                 
-                subprocess.Popen([python_exe, file_path], creationflags=subprocess.CREATE_NO_WINDOW)
+                subprocess.Popen([python_exe, str(test_path)], creationflags=subprocess.CREATE_NO_WINDOW)
             else:
                 # On macOS/Linux, use regular Python
-                subprocess.Popen([sys.executable, file_path])
+                subprocess.Popen([sys.executable, str(test_path)])
             
             # Terminate current instance after a short delay
             QTimer.singleShot(1000, self.close)
@@ -7472,17 +7913,6 @@ class FirmwareDownloaderGUI(QMainWindow):
             traceback.print_exc()
             self.status_label.setText(f"Error: {str(e)[:100]}")
             QMessageBox.warning(self, "Error", f"Error launching new features: {str(e)}")
-                
-        except Exception as e:
-            silent_print(f"Error in try_new_features: {e}")
-            import traceback
-            traceback.print_exc()
-            QMessageBox.warning(
-                self,
-                "Error",
-                f"An error occurred while trying to launch new features:\n\n{str(e)}"
-            )
-            self.status_label.setText("Error launching new features")
 
     def open_toolkit_folder(self):
         """Open the Innioasis Toolkit folder in File Explorer (Windows only)"""
@@ -8034,7 +8464,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                 creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
             )
             
-            # Check for wireless connection (IP address format)
+            # Check for wireless connection (IP address OR hostname format)
             target_device_id = "0123456789ABCDEF"
             wireless_connected = False
             wireless_ip = None
@@ -8042,14 +8472,26 @@ class FirmwareDownloaderGUI(QMainWindow):
             for line in result.stdout.split('\n'):
                 if '\tdevice' in line:
                     device_id = line.split('\t')[0]
-                    # Check for wireless connection (IP address format)
-                    if ':' in device_id and '.' in device_id:
+                    # Check for wireless connection (IP address OR hostname format like android-XXXXX:5555)
+                    if ':' in device_id:
                         parts = device_id.split(':')
                         if len(parts) == 2:
-                            ip_part = parts[0]
-                            ip_parts = ip_part.split('.')
-                            if len(ip_parts) == 4 and all(p.isdigit() for p in ip_parts):
-                                # Check if this device has the target ID
+                            host_part = parts[0]
+                            
+                            # Check if it's an IP address (has dots and 4 numeric parts)
+                            is_ip_address = False
+                            if '.' in host_part:
+                                ip_parts = host_part.split('.')
+                                if len(ip_parts) == 4 and all(p.isdigit() for p in ip_parts):
+                                    is_ip_address = True
+                            
+                            # Check if it's a hostname (like android-XXXXX)
+                            is_hostname = False
+                            if host_part.startswith('android-') and len(host_part) > 8:
+                                is_hostname = True
+                            
+                            # Check if this device has the target ID (for both IP and hostname formats)
+                            if is_ip_address or is_hostname:
                                 try:
                                     device_check = subprocess.run(
                                         [str(adb_path), '-s', device_id, 'shell', 'getprop', 'ro.serialno'],
@@ -8061,7 +8503,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                                     )
                                     if device_check.returncode == 0 and target_device_id in device_check.stdout.strip():
                                         wireless_connected = True
-                                        wireless_ip = ip_part
+                                        wireless_ip = host_part  # Use host_part (works for both IP and hostname)
                                         break
                                 except:
                                     pass
@@ -8121,10 +8563,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         saved_ip = self.load_wireless_adb_ip()
         if saved_ip:
             self.wireless_ip_input.setText(saved_ip)
-        else:
-            # Default to hostname if no saved IP
-            self.wireless_ip_input.setText("y1-wifi")
-        self.wireless_ip_input.setPlaceholderText("y1-wifi or 192.168.1.100")
+        # No default - user must enter IP/hostname or click Connect to auto-detect
+        self.wireless_ip_input.setPlaceholderText("IP address or hostname (leave empty to auto-detect)")
         ip_input_layout.addWidget(self.wireless_ip_input)
         
         ip_layout.addLayout(ip_input_layout)
@@ -8157,7 +8597,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                 creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
             )
             
-            # Check for wireless connection
+            # Check for wireless connection (IP address OR hostname format)
             target_device_id = "0123456789ABCDEF"
             wireless_connected = False
             wireless_device_id = None
@@ -8165,12 +8605,26 @@ class FirmwareDownloaderGUI(QMainWindow):
             for line in result.stdout.split('\n'):
                 if '\tdevice' in line:
                     device_id = line.split('\t')[0]
-                    if ':' in device_id and '.' in device_id:
+                    # Check for wireless connection (IP address OR hostname format like android-XXXXX:5555)
+                    if ':' in device_id:
                         parts = device_id.split(':')
                         if len(parts) == 2:
-                            ip_part = parts[0]
-                            ip_parts = ip_part.split('.')
-                            if len(ip_parts) == 4 and all(p.isdigit() for p in ip_parts):
+                            host_part = parts[0]
+                            
+                            # Check if it's an IP address (has dots and 4 numeric parts)
+                            is_ip_address = False
+                            if '.' in host_part:
+                                ip_parts = host_part.split('.')
+                                if len(ip_parts) == 4 and all(p.isdigit() for p in ip_parts):
+                                    is_ip_address = True
+                            
+                            # Check if it's a hostname (like android-XXXXX)
+                            is_hostname = False
+                            if host_part.startswith('android-') and len(host_part) > 8:
+                                is_hostname = True
+                            
+                            # Check if this device has the target ID (for both IP and hostname formats)
+                            if is_ip_address or is_hostname:
                                 try:
                                     device_check = subprocess.run(
                                         [str(adb_path), '-s', device_id, 'shell', 'getprop', 'ro.serialno'],
@@ -8190,8 +8644,13 @@ class FirmwareDownloaderGUI(QMainWindow):
             if wireless_connected and connect_btn.text() == "Disconnect":
                 # Disconnect
                 try:
+                    # Extract hostname/IP from device_id (remove port if present)
+                    disconnect_target = wireless_device_id
+                    if ':' in disconnect_target:
+                        disconnect_target = disconnect_target.split(':')[0]
+                    
                     disconnect_result = subprocess.run(
-                        [str(adb_path), 'disconnect', wireless_device_id],
+                        [str(adb_path), 'disconnect', disconnect_target],
                         capture_output=True,
                         text=True,
                         timeout=5,
@@ -8210,17 +8669,46 @@ class FirmwareDownloaderGUI(QMainWindow):
                 except Exception as e:
                     QMessageBox.warning(self, "Disconnect Error", f"Error disconnecting: {str(e)}")
             else:
-                # Connect
-                self.connect_wireless_adb(self.wireless_ip_input.text(), dialog)
+                # Connect - if field is empty, auto-detect from USB ADB
+                ip_or_hostname = self.wireless_ip_input.text().strip()
+                if not ip_or_hostname or ip_or_hostname == self.wireless_ip_input.placeholderText():
+                    # Auto-detect from USB ADB
+                    self._auto_detect_and_connect_wireless(adb_path, env, dialog)
+                else:
+                    self.connect_wireless_adb(ip_or_hostname, dialog)
                 # Re-check connection status after a delay
                 QTimer.singleShot(1000, check_wireless_connection)
         
         connect_btn.clicked.connect(on_connect_clicked)
         ip_layout.addWidget(connect_btn)
         
+        # Forget Device button
+        forget_btn = QPushButton("Forget Device")
+        forget_btn.setStyleSheet("font-size: 11px; padding: 5px;")
+        forget_btn.setToolTip("Clear saved hostname and IP address. The field will be auto-populated when you connect via USB.")
+        
+        def on_forget_clicked():
+            # Clear saved hostname and IP address
+            self.forget_wireless_adb_device()
+            # Clear the input field
+            if hasattr(self, 'wireless_ip_input'):
+                self.wireless_ip_input.clear()
+            # Show confirmation
+            QMessageBox.information(
+                self,
+                "Device Forgotten",
+                "Saved hostname and IP address have been cleared.\n\n"
+                "The field will be automatically populated when you connect your device via USB."
+            )
+            # Re-check connection status to update UI
+            QTimer.singleShot(100, check_wireless_connection)
+        
+        forget_btn.clicked.connect(on_forget_clicked)
+        ip_layout.addWidget(forget_btn)
+        
         wireless_layout.addWidget(ip_group)
         
-        # ADB Wi-Fi Reborn Setup section
+        # ADB Wi-Fi Reborn Setup section (only shown if app is not installed)
         setup_group = QGroupBox("Setup Wireless ADB")
         setup_layout = QVBoxLayout(setup_group)
         
@@ -8240,6 +8728,132 @@ class FirmwareDownloaderGUI(QMainWindow):
         credit_label.setAlignment(Qt.AlignCenter)
         credit_label.setOpenExternalLinks(True)
         setup_layout.addWidget(credit_label)
+        
+        # Function to check if ADB Wi-Fi Reborn is installed
+        def check_adb_wifi_installed():
+            adb_path = self.find_adb_executable()
+            if not adb_path:
+                # ADB not found, hide setup section (can't install without ADB)
+                setup_group.setVisible(False)
+                return
+            
+            env = os.environ.copy()
+            if platform.system() == "Darwin":
+                homebrew_paths = ["/opt/homebrew/bin", "/usr/local/bin"]
+                current_path = env.get("PATH", "")
+                for brew_path in homebrew_paths:
+                    if brew_path not in current_path:
+                        env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
+            
+            # Check if any device is connected (USB or wireless)
+            try:
+                result = subprocess.run(
+                    [str(adb_path), 'devices'],
+                    capture_output=True,
+                    text=True,
+                    timeout=5,
+                    env=env,
+                    creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                )
+                
+                target_device_id = "0123456789ABCDEF"
+                usb_device_id = None
+                wireless_device_id = None
+                
+                # Find connected device (USB or wireless)
+                for line in result.stdout.split('\n'):
+                    if '\tdevice' in line:
+                        device_id = line.split('\t')[0]
+                        # Check for USB device
+                        if device_id == target_device_id:
+                            usb_device_id = device_id
+                        # Check for wireless device (IP or hostname format)
+                        elif ':' in device_id:
+                            parts = device_id.split(':')
+                            if len(parts) == 2:
+                                host_part = parts[0]
+                                # Check if it's an IP address or hostname
+                                is_ip = '.' in host_part and len(host_part.split('.')) == 4
+                                is_hostname = host_part.startswith('android-') and len(host_part) > 8
+                                
+                                if is_ip or is_hostname:
+                                    # Verify it's our target device
+                                    try:
+                                        device_check = subprocess.run(
+                                            [str(adb_path), '-s', device_id, 'shell', 'getprop', 'ro.serialno'],
+                                            capture_output=True,
+                                            text=True,
+                                            timeout=3,
+                                            env=env,
+                                            creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                                        )
+                                        if device_check.returncode == 0 and target_device_id in device_check.stdout.strip():
+                                            wireless_device_id = device_id
+                                    except:
+                                        pass
+                
+                # If device is already connected via Wi-Fi, don't show setup section
+                if wireless_device_id:
+                    setup_group.setVisible(False)
+                    return
+                
+                # If no USB device connected, don't show setup section (can't install without USB)
+                if not usb_device_id:
+                    setup_group.setVisible(False)
+                    return
+                
+                # Check if USB device is rooted
+                try:
+                    root_check = subprocess.run(
+                        [str(adb_path), '-s', usb_device_id, 'shell', 'su', '-c', 'id'],
+                        capture_output=True,
+                        text=True,
+                        timeout=5,
+                        env=env,
+                        creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                    )
+                    is_rooted = (root_check.returncode == 0 and 'uid=0' in root_check.stdout)
+                except:
+                    is_rooted = False
+                
+                # Only show setup section if USB device is rooted
+                if not is_rooted:
+                    setup_group.setVisible(False)
+                    return
+                
+                # Check if ADB Wi-Fi Reborn is installed
+                try:
+                    pm_result = subprocess.run(
+                        [str(adb_path), '-s', usb_device_id, 'shell', 'pm', 'list', 'packages', 'com.ryosoftware.adbw'],
+                        capture_output=True,
+                        text=True,
+                        timeout=5,
+                        env=env,
+                        creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                    )
+                    
+                    # If package is found, hide setup section
+                    if pm_result.returncode == 0 and 'com.ryosoftware.adbw' in pm_result.stdout:
+                        setup_group.setVisible(False)
+                    else:
+                        # Package not found, show setup section (rooted USB device without app)
+                        setup_group.setVisible(True)
+                except:
+                    # Error checking, hide setup section to be safe
+                    setup_group.setVisible(False)
+            except:
+                # Error checking devices, hide setup section
+                setup_group.setVisible(False)
+        
+        # Check installation status when dialog opens
+        QTimer.singleShot(200, check_adb_wifi_installed)
+        
+        # Also check when wireless tab is shown
+        def on_wireless_tab_shown():
+            check_adb_wifi_installed()
+        
+        # Connect to tab change signal to re-check when tab is shown
+        tab_widget.currentChanged.connect(lambda index: check_adb_wifi_installed() if tab_widget.tabText(index) == "Wireless ADB" else None)
         
         wireless_layout.addWidget(setup_group)
         
@@ -11445,7 +12059,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                                             ]
                                             # Replace the single line with multiple lines
                                             lines[i:i+1] = replacement_text
-                                            break
+                                        break
                         else:
                             # Device is fast update enabled - remove README.md line entirely
                             lines = [line for line in lines if not (('see readme.md' in line.lower() or 'see readme' in line.lower()) and ('for more information' in line.lower() or 'more information' in line.lower()))]
@@ -13449,8 +14063,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                 silent_print("User cancelled ADB update - falling back to USB mode")
                 return False
             
-            # Start ADB update process
-            self.execute_adb_update(adb_path)
+            # Start ADB update process in worker thread
+            self.start_fast_update_worker(adb_path, env)
             return True
             
         except subprocess.TimeoutExpired:
@@ -13572,53 +14186,34 @@ class FirmwareDownloaderGUI(QMainWindow):
         silent_print("ADB not found in assets or system PATH")
         return None
     
-    def set_device_hostname(self, adb_path, device_id, env, hostname="y1-wifi"):
-        """Set device hostname to specified value (default: y1-wifi)"""
+    def detect_and_resolve_device_hostname(self, adb_path, device_id, env):
+        """Detect hostname from device over USB and resolve to IP address locally"""
         try:
-            # Try to set hostname using setprop (requires root)
-            # First try with su
-            setprop_cmd = [str(adb_path)]
-            if device_id:
-                setprop_cmd.extend(['-s', device_id])
-            setprop_cmd.extend(['shell', 'su', '-c', f'setprop net.hostname {hostname}'])
+            import socket
             
-            result = subprocess.run(
-                setprop_cmd,
-                capture_output=True,
-                text=True,
-                timeout=3,
-                env=env,
-                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
-            )
+            # Get hostname from device
+            hostname = self.get_device_hostname(adb_path, device_id, env)
+            if not hostname:
+                silent_print("Could not detect device hostname")
+                return None
             
-            if result.returncode == 0:
-                silent_print(f"Successfully set device hostname to {hostname}")
-                return True
-            else:
-                # Try without su (might work on some devices)
-                setprop_cmd_no_su = [str(adb_path)]
-                if device_id:
-                    setprop_cmd_no_su.extend(['-s', device_id])
-                setprop_cmd_no_su.extend(['shell', f'setprop net.hostname {hostname}'])
-                
-                result_no_su = subprocess.run(
-                    setprop_cmd_no_su,
-                    capture_output=True,
-                    text=True,
-                    timeout=3,
-                    env=env,
-                    creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
-                )
-                
-                if result_no_su.returncode == 0:
-                    silent_print(f"Successfully set device hostname to {hostname} (without su)")
-                    return True
-                else:
-                    silent_print(f"Failed to set device hostname: {result.stderr or result_no_su.stderr}")
-                    return False
+            silent_print(f"Detected device hostname: {hostname}")
+            
+            # Try to resolve hostname to IP address locally
+            try:
+                ip_address = socket.gethostbyname(hostname)
+                silent_print(f"Resolved hostname {hostname} to IP: {ip_address}")
+                return ip_address
+            except socket.gaierror:
+                # Hostname resolution failed - this is normal if device is not on local network
+                silent_print(f"Could not resolve hostname {hostname} to IP address (device may not be on local network)")
+                return None
+            except Exception as e:
+                silent_print(f"Error resolving hostname: {e}")
+                return None
         except Exception as e:
-            silent_print(f"Error setting device hostname: {e}")
-            return False
+            silent_print(f"Error detecting/resolving device hostname: {e}")
+            return None
     
     def get_device_hostname(self, adb_path, device_id, env):
         """Get friendly hostname of connected ADB device"""
@@ -13711,6 +14306,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         try:
             config = configparser.ConfigParser()
             config_file = Path("wireless_adb.ini")
+            if config_file.exists():
+                config.read(config_file)
             if not config.has_section('WirelessADB'):
                 config.add_section('WirelessADB')
             config.set('WirelessADB', 'ip_address', ip_address)
@@ -13720,8 +14317,132 @@ class FirmwareDownloaderGUI(QMainWindow):
         except Exception as e:
             silent_print(f"Error saving wireless ADB IP: {e}")
     
+    def save_wireless_adb_hostname(self, hostname):
+        """Save wireless ADB hostname to config file (for future IP resolution)"""
+        try:
+            config = configparser.ConfigParser()
+            config_file = Path("wireless_adb.ini")
+            if config_file.exists():
+                config.read(config_file)
+            if not config.has_section('WirelessADB'):
+                config.add_section('WirelessADB')
+            config.set('WirelessADB', 'hostname', hostname)
+            with open(config_file, 'w') as f:
+                config.write(f)
+            silent_print(f"Saved wireless ADB hostname: {hostname}")
+        except Exception as e:
+            silent_print(f"Error saving wireless ADB hostname: {e}")
+    
+    def load_wireless_adb_hostname(self):
+        """Load saved wireless ADB hostname from config file"""
+        try:
+            config = configparser.ConfigParser()
+            config_file = Path("wireless_adb.ini")
+            if config_file.exists():
+                config.read(config_file)
+                if config.has_option('WirelessADB', 'hostname'):
+                    return config.get('WirelessADB', 'hostname')
+        except Exception as e:
+            silent_print(f"Error loading wireless ADB hostname: {e}")
+        return None
+    
+    def forget_wireless_adb_device(self):
+        """Clear saved wireless ADB hostname and IP address from config file"""
+        try:
+            config = configparser.ConfigParser()
+            config_file = Path("wireless_adb.ini")
+            if config_file.exists():
+                config.read(config_file)
+                if config.has_section('WirelessADB'):
+                    # Remove hostname and IP address options
+                    if config.has_option('WirelessADB', 'hostname'):
+                        config.remove_option('WirelessADB', 'hostname')
+                    if config.has_option('WirelessADB', 'ip_address'):
+                        config.remove_option('WirelessADB', 'ip_address')
+                    
+                    # If section is now empty, remove it
+                    if not config.options('WirelessADB'):
+                        config.remove_section('WirelessADB')
+                    
+                    # Write back to file
+                    with open(config_file, 'w') as f:
+                        config.write(f)
+                    silent_print("Cleared saved wireless ADB hostname and IP address")
+        except Exception as e:
+            silent_print(f"Error forgetting wireless ADB device: {e}")
+    
+    def _auto_detect_and_connect_wireless(self, adb_path, env, dialog=None):
+        """Auto-detect hostname/IP from USB ADB and connect wirelessly"""
+        try:
+            import platform
+            
+            # Check if USB device is connected
+            result = subprocess.run(
+                [str(adb_path), 'devices'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            target_device_id = "0123456789ABCDEF"
+            usb_device_id = None
+            
+            # Find USB-connected device
+            for line in result.stdout.split('\n'):
+                if '\tdevice' in line:
+                    device_id = line.split('\t')[0]
+                    # USB devices don't have ':' in their ID (wireless devices have IP:port)
+                    if ':' not in device_id and device_id == target_device_id:
+                        usb_device_id = device_id
+                        break
+            
+            if not usb_device_id:
+                QMessageBox.warning(
+                    self,
+                    "USB Device Not Found",
+                    "No USB ADB device is connected.\n\n"
+                    "Please connect your Y1 via USB and ensure USB debugging is enabled."
+                )
+                return
+            
+            # Detect hostname and resolve to IP
+            ip_address = self.detect_and_resolve_device_hostname(adb_path, usb_device_id, env)
+            
+            if not ip_address:
+                QMessageBox.warning(
+                    self,
+                    "Auto-Detection Failed",
+                    "Could not automatically detect the device's IP address.\n\n"
+                    "This may mean:\n"
+                    "• ADB Wi-Fi Reborn is not installed or configured on your device\n"
+                    "• The device is not connected to the same Wi-Fi network\n"
+                    "• The device's hostname cannot be resolved on your local network\n\n"
+                    "Please manually enter the device's IP address or hostname."
+                )
+                return
+            
+            # Update the input field with detected IP
+            if hasattr(self, 'wireless_ip_input'):
+                self.wireless_ip_input.setText(ip_address)
+            
+            # Connect using detected IP
+            self.connect_wireless_adb(ip_address, dialog)
+            
+        except Exception as e:
+            silent_print(f"Error in auto-detect: {e}")
+            import traceback
+            traceback.print_exc()
+            QMessageBox.warning(
+                self,
+                "Auto-Detection Error",
+                f"Error during auto-detection: {str(e)}\n\n"
+                "Please manually enter the device's IP address or hostname."
+            )
+    
     def connect_wireless_adb(self, ip_address, dialog=None):
-        """Connect to device via wireless ADB with hostname fallback"""
+        """Connect to device via wireless ADB"""
         # Find ADB executable
         adb_path = self.find_adb_executable()
         if not adb_path:
@@ -13738,17 +14459,33 @@ class FirmwareDownloaderGUI(QMainWindow):
                 if brew_path not in current_path:
                     env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
         
-        # Try IP address first if provided
-        connection_target = None
-        if ip_address and ip_address.strip():
-            ip_address = ip_address.strip()
-            # Save IP address
-            self.save_wireless_adb_ip(ip_address)
-            connection_target = ip_address
-        else:
-            # If no IP provided, try hostname as fallback
-            connection_target = "y1-wifi"
-            silent_print(f"No IP address provided, trying hostname: {connection_target}")
+        # Require IP address or hostname
+        if not ip_address or not ip_address.strip():
+            # Try to use saved hostname if available
+            saved_hostname = self.load_wireless_adb_hostname()
+            if saved_hostname:
+                silent_print(f"Using saved hostname for connection: {saved_hostname}")
+                # Try to resolve hostname to IP
+                try:
+                    import socket
+                    ip_address = socket.gethostbyname(saved_hostname)
+                    silent_print(f"Resolved saved hostname {saved_hostname} to IP: {ip_address}")
+                except socket.gaierror:
+                    # If resolution fails, try using hostname directly
+                    ip_address = saved_hostname
+                    silent_print(f"Could not resolve hostname, using hostname directly: {saved_hostname}")
+            else:
+                QMessageBox.warning(
+                    self,
+                    "No Address Provided",
+                    "Please enter an IP address or hostname, or click Connect to auto-detect from USB ADB."
+                )
+                return
+        
+        ip_address = ip_address.strip()
+        # Save IP address or hostname
+        self.save_wireless_adb_ip(ip_address)
+        connection_target = ip_address
         
         # Try to connect using the target (IP or hostname)
         try:
@@ -13770,110 +14507,32 @@ class FirmwareDownloaderGUI(QMainWindow):
                 if dialog:
                     dialog.accept()
                 QMessageBox.information(self, "Connected", f"Successfully connected to {connection_target}")
-                # Set hostname after successful connection
-                QTimer.singleShot(500, lambda: self._set_hostname_after_connection(adb_path, connection_target, env))
+                # Trigger ADB check to update status (with delay to prevent red light on Windows)
+                # Also check if we should show disconnect USB dialog
+                QTimer.singleShot(2000, lambda: self._check_and_notify_after_auto_connect(adb_path, env))
                 return
-            elif ip_address and ip_address.strip():
-                # IP address failed, try hostname as fallback
-                silent_print(f"IP address {ip_address} failed, trying hostname fallback: y1-wifi")
-                connection_target = "y1-wifi:5555"
-                
-                connect_result = subprocess.run(
-                    [str(adb_path), 'connect', connection_target],
-                    capture_output=True,
-                    text=True,
-                    timeout=10,
-                    env=env,
-                    creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
-                )
-                
-                if connect_result.returncode == 0 and 'connected' in connect_result.stdout.lower():
-                    # Hostname connection successful
-                    if dialog:
-                        dialog.accept()
-                    QMessageBox.information(
-                        self, 
-                        "Connected", 
-                        f"Successfully connected using hostname {connection_target}\n\n"
-                        f"Note: IP address {ip_address} failed, but hostname connection succeeded."
-                    )
-                    # Set hostname after successful connection
-                    QTimer.singleShot(500, lambda: self._set_hostname_after_connection(adb_path, connection_target, env))
-                    return
-                else:
-                    # Both IP and hostname failed
-                    error_msg = connect_result.stderr or connect_result.stdout or "Unknown error"
-                    QMessageBox.warning(
-                        self, 
-                        "Connection Failed", 
-                        f"Failed to connect to device:\n\n"
-                        f"IP address {ip_address} failed\n"
-                        f"Hostname y1-wifi also failed\n\n"
-                        f"Error: {error_msg}"
-                    )
-                    return
             else:
-                # No IP provided and hostname failed
+                # Connection failed
                 error_msg = connect_result.stderr or connect_result.stdout or "Unknown error"
                 QMessageBox.warning(
                     self, 
                     "Connection Failed", 
-                    f"Failed to connect using hostname {connection_target}:\n\n{error_msg}"
+                    f"Failed to connect to device:\n\n"
+                    f"Address: {connection_target}\n"
+                    f"Error: {error_msg}\n\n"
+                    f"If using a hostname, ensure:\n"
+                    f"• ADB Wi-Fi Reborn is installed and configured\n"
+                    f"• The device is on the same Wi-Fi network\n"
+                    f"• The hostname can be resolved on your local network"
                 )
                 return
         except Exception as e:
             QMessageBox.warning(self, "Connection Error", f"Error connecting to device: {str(e)}")
             return
     
-    def _set_hostname_after_connection(self, adb_path, connection_target, env):
-        """Set device hostname after successful wireless connection"""
-        try:
-            # Extract device ID from connection target (IP or hostname)
-            # First, check if device is connected
-            devices_result = subprocess.run(
-                [str(adb_path), 'devices'],
-                capture_output=True,
-                text=True,
-                timeout=5,
-                env=env,
-                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
-            )
-            
-            # Find the connected device
-            target_device_id = "0123456789ABCDEF"
-            connected_device_id = None
-            
-            for line in devices_result.stdout.split('\n'):
-                if '\tdevice' in line:
-                    device_id = line.split('\t')[0]
-                    # Check if this is our device (by IP/hostname or serial)
-                    if connection_target.split(':')[0] in device_id or device_id == target_device_id:
-                        # Verify it's the right device
-                        try:
-                            device_check = subprocess.run(
-                                [str(adb_path), '-s', device_id, 'shell', 'getprop', 'ro.serialno'],
-                                capture_output=True,
-                                text=True,
-                                timeout=3,
-                                env=env,
-                                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
-                            )
-                            if device_check.returncode == 0 and target_device_id in device_check.stdout.strip():
-                                connected_device_id = device_id
-                                break
-                        except:
-                            pass
-            
-            # Set hostname if device found
-            if connected_device_id:
-                self.set_device_hostname(adb_path, connected_device_id, env, "y1-wifi")
-                # Trigger ADB check to update status
-                QTimer.singleShot(500, self.check_adb_and_update_script)
-        except Exception as e:
-            silent_print(f"Error setting hostname after connection: {e}")
     
     def _try_auto_connect_wireless(self, adb_path, env):
-        """Try to automatically connect wirelessly using hostname when USB is connected"""
+        """Try to automatically connect wirelessly by detecting hostname/IP from USB ADB"""
         try:
             # Only try if not already connected wirelessly
             result = subprocess.run(
@@ -13908,38 +14567,74 @@ class FirmwareDownloaderGUI(QMainWindow):
                         except:
                             pass
             
-            # If not connected wirelessly, try connecting via hostname
+            # If not connected wirelessly, try auto-detecting and connecting
             if not wireless_connected:
-                silent_print("Attempting automatic wireless connection via hostname: y1-wifi")
-                connect_result = subprocess.run(
-                    [str(adb_path), 'connect', 'y1-wifi:5555'],
-                    capture_output=True,
-                    text=True,
-                    timeout=10,
-                    env=env,
-                    creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
-                )
+                # Find USB device
+                usb_device_id = None
+                for line in result.stdout.split('\n'):
+                    if '\tdevice' in line:
+                        device_id = line.split('\t')[0]
+                        if ':' not in device_id and device_id == target_device_id:
+                            usb_device_id = device_id
+                            break
                 
-                if connect_result.returncode == 0 and 'connected' in connect_result.stdout.lower():
-                    silent_print("Successfully auto-connected wirelessly via hostname")
-                    # Update the IP field
-                    if hasattr(self, 'wireless_ip_input'):
-                        self.wireless_ip_input.setText("y1-wifi")
-                        self.save_wireless_adb_ip("y1-wifi")
-                    # Trigger connection status check
-                    QTimer.singleShot(500, lambda: self._check_and_notify_after_auto_connect(adb_path, env))
-                else:
-                    silent_print(f"Auto-connect via hostname failed (this is normal if Wi-Fi ADB is not set up): {connect_result.stderr or connect_result.stdout}")
+                if usb_device_id:
+                    # Get hostname first (preferred over IP for stability)
+                    device_hostname = self.get_device_hostname(adb_path, usb_device_id, env)
+                    
+                    # Try to connect using hostname first (more stable)
+                    connection_target = None
+                    if device_hostname:
+                        connection_target = device_hostname
+                        silent_print(f"Attempting automatic wireless connection via hostname: {device_hostname}")
+                    else:
+                        # Fallback to IP if hostname not available
+                        ip_address = self.detect_and_resolve_device_hostname(adb_path, usb_device_id, env)
+                        if ip_address:
+                            connection_target = ip_address
+                            silent_print(f"Attempting automatic wireless connection via detected IP: {ip_address}")
+                    
+                    if connection_target:
+                        # Add port if not present
+                        if ':' not in connection_target:
+                            connection_target = f"{connection_target}:5555"
+                        
+                        connect_result = subprocess.run(
+                            [str(adb_path), 'connect', connection_target],
+                            capture_output=True,
+                            text=True,
+                            timeout=10,
+                            env=env,
+                            creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                        )
+                        
+                        if connect_result.returncode == 0 and 'connected' in connect_result.stdout.lower():
+                            silent_print(f"Successfully auto-connected wirelessly via {device_hostname if device_hostname else 'IP'}")
+                            # Update the field with hostname (preferred) or IP
+                            if hasattr(self, 'wireless_ip_input'):
+                                if device_hostname:
+                                    # Save hostname (more stable)
+                                    self.wireless_ip_input.setText(device_hostname)
+                                    self.save_wireless_adb_ip(device_hostname)
+                                    self.save_wireless_adb_hostname(device_hostname)
+                                else:
+                                    # Fallback to IP
+                                    self.wireless_ip_input.setText(ip_address)
+                                    self.save_wireless_adb_ip(ip_address)
+                            # Trigger connection status check
+                            QTimer.singleShot(500, lambda: self._check_and_notify_after_auto_connect(adb_path, env))
+                        else:
+                            silent_print(f"Auto-connect failed (this is normal if Wi-Fi ADB is not set up): {connect_result.stderr or connect_result.stdout}")
+                    else:
+                        silent_print("Auto-connect skipped: Could not detect/resolve device hostname/IP (this is normal if Wi-Fi ADB is not set up)")
         except Exception as e:
             silent_print(f"Error during auto-connect attempt: {e}")
     
     def _check_and_notify_after_auto_connect(self, adb_path, env):
         """Check if device is rooted and Fast Update ready after auto-connect, then notify user"""
         try:
-            # First, trigger the normal ADB check to update status
-            self.check_adb_and_update_script()
-            
-            # Wait a bit for the check to complete, then verify device status
+            # Wait a bit for connection to fully establish before checking
+            # This prevents red light issue on Windows where check happens too quickly
             QTimer.singleShot(2000, lambda: self._verify_and_notify_fast_update_ready(adb_path, env))
         except Exception as e:
             silent_print(f"Error checking device status after auto-connect: {e}")
@@ -14035,20 +14730,21 @@ class FirmwareDownloaderGUI(QMainWindow):
                             usb_connected = True
                             break
                 
-                # Only show dialog if USB is still connected
+                # Only show dialog if USB is still connected (simple reminder to disconnect USB)
+                # Also trigger ADB check to update status (with delay to prevent red light on Windows)
                 if usb_connected:
-                    QMessageBox.information(
-                        self,
-                        "Wireless ADB Connected",
-                        "Your Y1 is now connected wirelessly via ADB.\n\n"
-                        "✓ Device is rooted\n"
-                        "✓ Fast Update is ready\n\n"
-                        "You can disconnect the USB cable if you like.\n\n"
-                        "Wireless ADB will continue to work for:\n"
-                        "• File transfers\n"
-                        "• Fast Updates\n"
-                        "• Remote control"
-                    )
+                    # Check flag to prevent duplicate dialogs from subsequent background checks
+                    if not hasattr(self, '_disconnect_usb_dialog_shown') or not self._disconnect_usb_dialog_shown:
+                        self._disconnect_usb_dialog_shown = True
+                        QMessageBox.information(
+                            self,
+                            "Wireless ADB Connected",
+                            "Your Y1 is now connected wirelessly via ADB.\n\n"
+                            "You can disconnect the USB cable if you like."
+                        )
+                
+                # Trigger ADB check to update status (with delay to prevent red light on Windows)
+                QTimer.singleShot(1000, self.check_adb_and_update_script)
         except Exception as e:
             silent_print(f"Error verifying Fast Update status: {e}")
     
@@ -14293,8 +14989,14 @@ class FirmwareDownloaderGUI(QMainWindow):
             self.progress_bar.setVisible(False)
     
     def _notify_dual_connection(self, is_startup=False):
-        """Notify user about dual connection (USB + Wi-Fi)"""
+        """Notify user about dual connection (USB + Wi-Fi) - only if disconnect USB dialog hasn't been shown"""
         try:
+            # Don't show if we've already shown the disconnect USB dialog
+            if hasattr(self, '_disconnect_usb_dialog_shown') and self._disconnect_usb_dialog_shown:
+                # Just set preference, don't show dialog
+                self.prefer_usb_for_transfers = True
+                return
+            
             if is_startup:
                 # More prominent message at startup
                 msg_box = QMessageBox(self)
@@ -14330,10 +15032,257 @@ class FirmwareDownloaderGUI(QMainWindow):
     
     def on_adb_status_clicked(self, event):
         """Handle click on ADB status widget to trigger connection check"""
-        self.check_adb_and_update_script()
+        self.start_adb_check_worker()
+    
+    def start_adb_check_worker(self):
+        """Start ADB check in background worker thread (non-blocking)"""
+        # Skip check if ADB operation is in progress
+        if hasattr(self, 'adb_operation_in_progress') and self.adb_operation_in_progress:
+            silent_print("Skipping ADB check - operation in progress")
+            return
+        
+        # Don't start a new worker if one is already running
+        if hasattr(self, 'adb_check_worker') and self.adb_check_worker and self.adb_check_worker.isRunning():
+            silent_print("ADB check already in progress")
+            return
+        
+        try:
+            # Find ADB executable
+            adb_path = self.find_adb_executable()
+            if not adb_path:
+                # ADB not found - update UI directly (quick operation)
+                if hasattr(self, 'adb_status_widget'):
+                    self.adb_status_widget.setVisible(True)
+                    self.adb_status_light.setStyleSheet("""
+                        QLabel {
+                            color: #FF0000;
+                            font-size: 12px;
+                        }
+                    """)
+                    if hasattr(self, 'adb_status_label'):
+                        self.adb_status_label.setText("ADB")
+                    self.adb_status_widget.setCursor(Qt.PointingHandCursor)
+                    self.adb_status_label.setCursor(Qt.PointingHandCursor)
+                    self.adb_status_light.setCursor(Qt.PointingHandCursor)
+                    self.adb_status_widget.setToolTip("")
+                    self.adb_status_label.setToolTip("")
+                    self.adb_status_light.setToolTip("")
+                if hasattr(self, 'send_update_btn'):
+                    self.send_update_btn.setEnabled(False)
+                return
+            
+            # Prepare environment
+            env = os.environ.copy()
+            if platform.system() == "Darwin":
+                homebrew_paths = ["/opt/homebrew/bin", "/usr/local/bin"]
+                current_path = env.get("PATH", "")
+                for brew_path in homebrew_paths:
+                    if brew_path not in current_path:
+                        env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
+            
+            # Create and start worker thread for non-blocking ADB check
+            self.adb_check_worker = ADBCheckWorker(adb_path, env, self)
+            self.adb_check_worker.check_complete.connect(self._on_adb_check_complete)
+            self.adb_check_worker.start()
+            
+        except Exception as e:
+            silent_print(f"Error starting ADB check worker: {e}")
+    
+    def _on_adb_check_complete(self, status, device_id, hostname):
+        """Handle completion of ADB check worker - update UI in main thread"""
+        # Update UI based on the check results from worker thread
+        # This runs in the main thread, so UI updates are safe
+        self.update_adb_status_ui(status, device_id, hostname)
+    
+    def update_adb_status_ui(self, status, device_id, hostname):
+        """Update ADB status UI based on check results from worker thread (runs in main thread, no blocking)"""
+        # Skip UI update if ADB operation is in progress
+        if hasattr(self, 'adb_operation_in_progress') and self.adb_operation_in_progress:
+            silent_print("Skipping ADB UI update - operation in progress")
+            return
+        
+        try:
+            # Find ADB executable for UI updates (quick check, no blocking)
+            adb_path = self.find_adb_executable()
+            if not adb_path:
+                # ADB not found, show red light and make clickable
+                if hasattr(self, 'adb_status_widget'):
+                    self.adb_status_widget.setVisible(True)
+                    self.adb_status_light.setStyleSheet("""
+                        QLabel {
+                            color: #FF0000;
+                            font-size: 12px;
+                        }
+                    """)
+                    if hasattr(self, 'adb_status_label'):
+                        self.adb_status_label.setText("ADB")
+                    # Make clickable for refresh when not connected
+                    self.adb_status_widget.setCursor(Qt.PointingHandCursor)
+                    self.adb_status_label.setCursor(Qt.PointingHandCursor)
+                    self.adb_status_light.setCursor(Qt.PointingHandCursor)
+                    # Remove tooltip
+                    self.adb_status_widget.setToolTip("")
+                    self.adb_status_label.setToolTip("")
+                    self.adb_status_light.setToolTip("")
+                # Disable fast install button
+                if hasattr(self, 'send_update_btn'):
+                    self.send_update_btn.setEnabled(False)
+                return
+            
+            # Use the status from the worker thread to update UI (no blocking operations)
+            if status == 'no_adb':
+                # No ADB connection - show red light and make clickable
+                # Reset dialog flag when USB disconnects so dialog can be shown again if reconnected
+                self._disconnect_usb_dialog_shown = False
+                if hasattr(self, 'adb_status_widget'):
+                    self.adb_status_widget.setVisible(True)
+                    self.adb_status_light.setStyleSheet("""
+                        QLabel {
+                            color: #FF0000;
+                            font-size: 12px;
+                        }
+                    """)
+                    if hasattr(self, 'adb_status_label'):
+                        self.adb_status_label.setText("ADB")
+                    # Make clickable for refresh when not connected
+                    self.adb_status_widget.setCursor(Qt.PointingHandCursor)
+                    self.adb_status_label.setCursor(Qt.PointingHandCursor)
+                    self.adb_status_light.setCursor(Qt.PointingHandCursor)
+                    # Remove tooltip
+                    self.adb_status_widget.setToolTip("")
+                    self.adb_status_label.setToolTip("")
+                    self.adb_status_light.setToolTip("")
+                # Disable fast install button
+                if hasattr(self, 'send_update_btn'):
+                    self.send_update_btn.setEnabled(False)
+                return
+            elif status == 'adb_only':
+                # ADB connected but not rooted - show orange light (not clickable)
+                if hasattr(self, 'adb_status_widget'):
+                    self.adb_status_widget.setVisible(True)
+                    # Stop blinking if it was active
+                    self.stop_orange_blink()
+                    self.adb_status_light.setStyleSheet("""
+                        QLabel {
+                            color: #FFA500;
+                            font-size: 12px;
+                        }
+                    """)
+                    if hasattr(self, 'adb_status_label'):
+                        self.adb_status_label.setText("ADB")
+                    # Make NOT clickable when connected (even if not rooted)
+                    self.adb_status_widget.setCursor(Qt.ArrowCursor)
+                    self.adb_status_label.setCursor(Qt.ArrowCursor)
+                    self.adb_status_light.setCursor(Qt.ArrowCursor)
+                    # Add tooltip explaining the state
+                    tooltip_text = "File transfers, screenshots and remote control will work, but Fast Update is not available on the currently installed firmware."
+                    self.adb_status_widget.setToolTip(tooltip_text)
+                    self.adb_status_label.setToolTip(tooltip_text)
+                    self.adb_status_light.setToolTip(tooltip_text)
+                # Disable fast install button - device not ready for fast update
+                if hasattr(self, 'send_update_btn'):
+                    self.send_update_btn.setEnabled(False)
+                
+                # Auto-populate wireless IP field with hostname if USB connected (rooted or not)
+                # Check if device_id is USB (not wireless)
+                target_device_id = "0123456789ABCDEF"
+                is_usb_connection = (device_id == target_device_id)
+                
+                if is_usb_connection and hostname and hasattr(self, 'wireless_ip_input'):
+                    # Check if hostname has changed from saved value
+                    saved_hostname = self.load_wireless_adb_hostname()
+                    if saved_hostname != hostname:
+                        # Hostname has changed - update it
+                        self.save_wireless_adb_hostname(hostname)
+                        silent_print(f"Detected hostname change: {saved_hostname} -> {hostname}")
+                    
+                    # Only auto-populate if field is empty or contains placeholder/IP
+                    current_value = self.wireless_ip_input.text().strip()
+                    # Check if current value is an IP address (has dots and 4 numeric parts)
+                    is_ip = False
+                    if '.' in current_value:
+                        parts = current_value.split('.')
+                        if len(parts) == 4 and all(p.isdigit() for p in parts):
+                            is_ip = True
+                    
+                    # Auto-populate with hostname if field is empty, placeholder, or contains IP
+                    if not current_value or current_value in ["", "192.168.1.100"] or is_ip:
+                        # Prioritize hostname over IP (hostnames are more stable)
+                        self.wireless_ip_input.setText(hostname)
+                        self.save_wireless_adb_ip(hostname)
+                        if not saved_hostname or saved_hostname != hostname:
+                            self.save_wireless_adb_hostname(hostname)
+                        silent_print(f"Auto-populated wireless ADB field with hostname: {hostname}")
+                
+                return
+            elif status == 'adb_root':
+                # ADB connected, rooted, and update.sh exists - show green light
+                if hasattr(self, 'adb_status_widget'):
+                    self.adb_status_widget.setVisible(True)
+                    # Stop blinking if it was active
+                    self.stop_orange_blink()
+                    self.adb_status_light.setStyleSheet("""
+                        QLabel {
+                            color: #00FF00;
+                            font-size: 12px;
+                        }
+                    """)
+                    if hasattr(self, 'adb_status_label'):
+                        self.adb_status_label.setText("ADB")
+                    # Make NOT clickable when connected
+                    self.adb_status_widget.setCursor(Qt.ArrowCursor)
+                    self.adb_status_label.setCursor(Qt.ArrowCursor)
+                    self.adb_status_light.setCursor(Qt.ArrowCursor)
+                    # Add tooltip if hostname available
+                    tooltip_text = ""
+                    if hostname:
+                        tooltip_text = f"Device: {hostname}"
+                    self.adb_status_widget.setToolTip(tooltip_text)
+                    self.adb_status_label.setToolTip(tooltip_text)
+                    self.adb_status_light.setToolTip(tooltip_text)
+                    # Enable fast install button
+                    if hasattr(self, 'send_update_btn'):
+                        self.send_update_btn.setEnabled(True)
+                        self.send_update_btn.setToolTip("Quick update: Downloads update.zip and places it in .rockbox folder on your Y1")
+                
+                # Auto-populate wireless IP field with hostname if USB connected
+                # Check if device_id is USB (not wireless)
+                target_device_id = "0123456789ABCDEF"
+                is_usb_connection = (device_id == target_device_id)
+                
+                if is_usb_connection and hostname and hasattr(self, 'wireless_ip_input'):
+                    # Only auto-populate if field is empty or contains placeholder/IP
+                    current_value = self.wireless_ip_input.text().strip()
+                    # Check if current value is an IP address (has dots and 4 numeric parts)
+                    is_ip = False
+                    if '.' in current_value:
+                        parts = current_value.split('.')
+                        if len(parts) == 4 and all(p.isdigit() for p in parts):
+                            is_ip = True
+                    
+                    # Auto-populate with hostname if field is empty, placeholder, or contains IP
+                    if not current_value or current_value in ["", "192.168.1.100"] or is_ip:
+                        # Prioritize hostname over IP (hostnames are more stable)
+                        self.wireless_ip_input.setText(hostname)
+                        self.save_wireless_adb_ip(hostname)
+                        self.save_wireless_adb_hostname(hostname)
+                        silent_print(f"Auto-populated wireless ADB field with hostname: {hostname}")
+                
+                return
+            
+            # Fallback - should not reach here, but handle gracefully
+            if hasattr(self, 'adb_status_widget'):
+                self.adb_status_widget.setVisible(False)
+            
+        except Exception as e:
+            # On error, hide indicator
+            if hasattr(self, 'adb_status_widget'):
+                self.adb_status_widget.setVisible(False)
+            silent_print(f"Error updating ADB status UI: {e}")
     
     def check_adb_and_update_script(self):
-        """Check if ADB device is connected, verify update.sh, and push if missing"""
+        """Check if ADB device is connected, verify update.sh, and push if missing (DEPRECATED - use update_adb_status_ui instead)"""
+        # This method is kept for backward compatibility but should use update_adb_status_ui
         # Skip check if ADB operation is in progress
         if hasattr(self, 'adb_operation_in_progress') and self.adb_operation_in_progress:
             silent_print("Skipping ADB check - operation in progress")
@@ -14394,27 +15343,41 @@ class FirmwareDownloaderGUI(QMainWindow):
             is_wireless = False
             usb_connected = False
             wifi_connected = False
+            all_devices = []  # Track all connected devices for multi-device detection
             
             for line in result.stdout.split('\n'):
                 if '\tdevice' in line:
                     device_id = line.split('\t')[0]
+                    all_devices.append(device_id)
+                    
                     # Check for USB device ID
                     if device_id == target_device_id:
                         target_device_found = True
                         connected_device_id = device_id
                         usb_connected = True
                         # Don't break - continue checking for Wi-Fi connection
-                    # Check for wireless connection (IP address format like 192.168.1.100:5555)
-                    if ':' in device_id and '.' in device_id:
-                        # This looks like an IP address - verify it's a valid IP format
+                    
+                    # Check for wireless connection (IP address format like 192.168.1.100:5555 OR hostname format like android-XXXXX:5555)
+                    if ':' in device_id:
                         parts = device_id.split(':')
                         if len(parts) == 2:
-                            ip_part = parts[0]
+                            host_part = parts[0]
                             port_part = parts[1]
-                            # Check if IP part looks valid (has 4 dot-separated numbers)
-                            ip_parts = ip_part.split('.')
-                            if len(ip_parts) == 4 and all(p.isdigit() for p in ip_parts):
-                                # This is an IP address - check if this device has the target ID
+                            
+                            # Check if it's an IP address (has dots and 4 numeric parts)
+                            is_ip_address = False
+                            if '.' in host_part:
+                                ip_parts = host_part.split('.')
+                                if len(ip_parts) == 4 and all(p.isdigit() for p in ip_parts):
+                                    is_ip_address = True
+                            
+                            # Check if it's a hostname (like android-XXXXX)
+                            is_hostname = False
+                            if host_part.startswith('android-') and len(host_part) > 8:
+                                is_hostname = True
+                            
+                            # Check if this device has the target ID (for both IP and hostname formats)
+                            if is_ip_address or is_hostname:
                                 try:
                                     device_check = subprocess.run(
                                         [str(adb_path), '-s', device_id, 'shell', 'getprop', 'ro.serialno'],
@@ -14432,6 +15395,158 @@ class FirmwareDownloaderGUI(QMainWindow):
                                         wifi_connected = True
                                 except:
                                     pass
+            
+            # Check for multiple devices and prompt user if needed
+            if len(all_devices) > 1:
+                # Multiple devices detected - check if it's the same device via USB and Wi-Fi
+                target_device_id = "0123456789ABCDEF"
+                usb_device = None
+                wireless_device = None
+                
+                # Identify USB and wireless devices
+                for device_id in all_devices:
+                    if device_id == target_device_id:
+                        usb_device = device_id
+                    elif ':' in device_id:
+                        # Check if it's a wireless connection (IP or hostname)
+                        parts = device_id.split(':')
+                        if len(parts) == 2:
+                            host_part = parts[0]
+                            is_ip = '.' in host_part and len(host_part.split('.')) == 4 and all(p.isdigit() for p in host_part.split('.'))
+                            is_hostname = host_part.startswith('android-') and len(host_part) > 8
+                            if is_ip or is_hostname:
+                                wireless_device = device_id
+                
+                # Check if USB and wireless devices are the same device
+                is_same_device = False
+                if usb_device and wireless_device:
+                    try:
+                        # Get serial number from USB device
+                        usb_serial = subprocess.run(
+                            [str(adb_path), '-s', usb_device, 'shell', 'getprop', 'ro.serialno'],
+                            capture_output=True,
+                            text=True,
+                            timeout=3,
+                            env=env,
+                            creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                        )
+                        
+                        # Get serial number from wireless device
+                        wireless_serial = subprocess.run(
+                            [str(adb_path), '-s', wireless_device, 'shell', 'getprop', 'ro.serialno'],
+                            capture_output=True,
+                            text=True,
+                            timeout=3,
+                            env=env,
+                            creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                        )
+                        
+                        # Compare serial numbers
+                        if (usb_serial.returncode == 0 and wireless_serial.returncode == 0 and
+                            usb_serial.stdout.strip() == wireless_serial.stdout.strip() and
+                            target_device_id in usb_serial.stdout.strip()):
+                            is_same_device = True
+                    except:
+                        pass
+                
+                # Show appropriate message
+                if is_same_device:
+                    # Same device connected via both USB and Wi-Fi
+                    reply = QMessageBox.information(
+                        self,
+                        "Dual Connection Detected",
+                        "Your Y1 is connected via both USB and Wi-Fi ADB.\n\n"
+                        "💡 Only one connection is needed. You can disconnect the USB cable and continue using wireless ADB.\n\n"
+                        "If you prefer to keep both connections, the app will prefer USB for file transfers.",
+                        QMessageBox.Ok
+                    )
+                    # Set preference to prefer USB when dual connection is active
+                    self.prefer_usb_for_transfers = True
+                else:
+                    # Different devices connected
+                    device_list = "\n".join([f"  • {d}" for d in all_devices])
+                    reply = QMessageBox.warning(
+                        self,
+                        "Multiple ADB Devices Detected",
+                        f"Multiple ADB devices are connected ({len(all_devices)} devices).\n\n"
+                        "This could mean:\n"
+                        "  • You have multiple devices connected via ADB\n"
+                        "  • One device is connected via both USB and Wi-Fi\n\n"
+                        "Please disconnect all ADB connections except for the device you want to interact with.\n\n"
+                        f"Connected devices:\n{device_list}",
+                        QMessageBox.Ok | QMessageBox.Cancel
+                    )
+                    if reply != QMessageBox.Ok:
+                        # User cancelled - return early
+                        return
+            
+            # If no device found via USB, try to auto-connect using saved hostname
+            # This runs during routine checks to automatically reestablish wireless connections
+            if not target_device_found and not usb_connected:
+                # Try to load saved hostname and attempt connection
+                saved_hostname = self.load_wireless_adb_hostname()
+                if saved_hostname:
+                    silent_print(f"Attempting to auto-reconnect to saved hostname: {saved_hostname}")
+                    try:
+                        # Add port if not present
+                        connection_target = saved_hostname
+                        if ':' not in connection_target:
+                            connection_target = f"{connection_target}:5555"
+                        
+                        # Try to reconnect (don't disconnect first - just attempt connection)
+                        # ADB will handle stale connections automatically
+                        connect_result = subprocess.run(
+                            [str(adb_path), 'connect', connection_target],
+                            capture_output=True,
+                            text=True,
+                            timeout=5,
+                            env=env,
+                            creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                        )
+                        silent_print(f"Auto-reconnect result: {connect_result.stdout}")
+                        
+                        # If connection was successful or already connected, check devices again
+                        if connect_result.returncode == 0 or 'connected' in connect_result.stdout.lower() or 'already connected' in connect_result.stdout.lower():
+                            # Wait a brief moment for connection to establish
+                            import time
+                            time.sleep(0.3)
+                            
+                            # Check devices again after reconnect attempt
+                            result = subprocess.run(
+                                [str(adb_path), 'devices'],
+                                capture_output=True,
+                                text=True,
+                                timeout=5,
+                                env=env,
+                                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                            )
+                            
+                            # Re-parse device list after reconnect attempt
+                            for line in result.stdout.split('\n'):
+                                if '\tdevice' in line:
+                                    device_id = line.split('\t')[0]
+                                    # Check if this is our target device (by hostname or by checking serial)
+                                    if saved_hostname in device_id or device_id.startswith('android-') or ':' in device_id:
+                                        try:
+                                            device_check = subprocess.run(
+                                                [str(adb_path), '-s', device_id, 'shell', 'getprop', 'ro.serialno'],
+                                                capture_output=True,
+                                                text=True,
+                                                timeout=3,
+                                                env=env,
+                                                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                                            )
+                                            if device_check.returncode == 0 and target_device_id in device_check.stdout.strip():
+                                                target_device_found = True
+                                                connected_device_id = device_id
+                                                is_wireless = True
+                                                wifi_connected = True
+                                                silent_print(f"Successfully auto-reconnected to device via hostname: {device_id}")
+                                                break
+                                        except:
+                                            pass
+                    except Exception as e:
+                        silent_print(f"Error during auto-reconnect attempt: {e}")
             
             # Check for dual connection (USB + Wi-Fi)
             dual_connection = usb_connected and wifi_connected
@@ -14461,28 +15576,64 @@ class FirmwareDownloaderGUI(QMainWindow):
                 except Exception as e:
                     silent_print(f"Could not get current hostname: {e}")
                 
-                # Set hostname to y1-wifi if not already set (for consistent identification)
-                if current_hostname != "y1-wifi":
-                    self.set_device_hostname(adb_path, connected_device_id, env, "y1-wifi")
-                    # Update current_hostname after setting
-                    current_hostname = "y1-wifi"
-                
                 # Get friendly hostname for display
                 device_hostname = self.get_device_hostname(adb_path, connected_device_id, env)
                 
-                # Auto-populate wireless ADB IP field with hostname if USB connected
-                if usb_connected and hasattr(self, 'wireless_ip_input'):
-                    # Only auto-populate if field is empty or contains placeholder
-                    current_ip = self.wireless_ip_input.text().strip()
-                    if not current_ip or current_ip in ["", "192.168.1.100"]:
-                        # Use hostname for wireless connection
-                        self.wireless_ip_input.setText("y1-wifi")
-                        # Save it for future reference
-                        self.save_wireless_adb_ip("y1-wifi")
-                        silent_print(f"Auto-populated wireless ADB IP field with hostname: y1-wifi")
+                # If device is connected via Wi-Fi with hostname format (android-XXXXX:5555), extract and save hostname
+                if is_wireless and connected_device_id and ':' in connected_device_id:
+                    wifi_hostname = connected_device_id.split(':')[0]
+                    if wifi_hostname.startswith('android-'):
+                        # Save the hostname for future connections
+                        self.save_wireless_adb_hostname(wifi_hostname)
+                        silent_print(f"Detected and stored Wi-Fi hostname: {wifi_hostname}")
+                        # Use the hostname from device_id if get_device_hostname didn't return it
+                        if not device_hostname or device_hostname != wifi_hostname:
+                            device_hostname = wifi_hostname
+                
+                # Always detect and store hostname when USB is connected (for future WiFi connections)
+                if usb_connected and device_hostname:
+                    # Check if hostname has changed from saved value
+                    saved_hostname = self.load_wireless_adb_hostname()
+                    if saved_hostname != device_hostname:
+                        # Hostname has changed - update it
+                        self.save_wireless_adb_hostname(device_hostname)
+                        silent_print(f"Detected hostname change: {saved_hostname} -> {device_hostname}")
+                        silent_print(f"Updated stored device hostname for future WiFi connections: {device_hostname}")
+                    elif not saved_hostname:
+                        # No saved hostname - store it for the first time
+                        self.save_wireless_adb_hostname(device_hostname)
+                        silent_print(f"Detected and stored device hostname for future WiFi connections: {device_hostname}")
+                    else:
+                        # Hostname matches saved value - no update needed
+                        silent_print(f"Device hostname unchanged: {device_hostname}")
+                    
+                    # Try to resolve hostname to IP address for immediate use
+                    resolved_ip = self.detect_and_resolve_device_hostname(adb_path, connected_device_id, env)
+                    if resolved_ip:
+                        silent_print(f"Resolved hostname {device_hostname} to IP: {resolved_ip}")
+                    
+                    # Auto-populate wireless ADB IP field with detected hostname/IP if USB connected
+                    if hasattr(self, 'wireless_ip_input'):
+                        # Only auto-populate if field is empty or contains placeholder
+                        current_ip = self.wireless_ip_input.text().strip()
+                        if not current_ip or current_ip in ["", "192.168.1.100"]:
+                            # Prioritize hostname over IP address (hostnames are more stable)
+                            if device_hostname:
+                                # Use hostname (more reliable, won't break on IP changes)
+                                self.wireless_ip_input.setText(device_hostname)
+                                self.save_wireless_adb_ip(device_hostname)
+                                # Hostname change check already done above, so no need to save again
+                                silent_print(f"Auto-populated wireless ADB IP field with hostname: {device_hostname}")
+                            elif resolved_ip:
+                                # Fallback to resolved IP address if hostname not available
+                                self.wireless_ip_input.setText(resolved_ip)
+                                self.save_wireless_adb_ip(resolved_ip)
+                                silent_print(f"Auto-populated wireless ADB IP field with resolved IP: {resolved_ip}")
             
             if not target_device_found:
                 # Target device not connected - show red light and make clickable
+                # Reset dialog flag when USB disconnects so dialog can be shown again if reconnected
+                self._disconnect_usb_dialog_shown = False
                 if hasattr(self, 'adb_status_widget'):
                     self.adb_status_widget.setVisible(True)
                     self.adb_status_light.setStyleSheet("""
@@ -14507,9 +15658,9 @@ class FirmwareDownloaderGUI(QMainWindow):
                 return
             
             # Device is connected - check if device is rooted
-            # Use device ID if wireless, otherwise use default
+            # Always use connected_device_id if available (works for both USB and wireless)
             root_check_cmd = [str(adb_path)]
-            if is_wireless and connected_device_id:
+            if connected_device_id:
                 root_check_cmd.extend(['-s', connected_device_id])
             root_check_cmd.extend(['shell', 'su', '-c', 'id'])
             
@@ -14553,22 +15704,9 @@ class FirmwareDownloaderGUI(QMainWindow):
                 if hasattr(self, 'send_update_btn'):
                     self.send_update_btn.setEnabled(False)
                 
-                # Show notification about dual connection if detected
-                # Check if this is the first check after launch
-                is_startup = not hasattr(self, '_adb_checked_after_launch')
-                if is_startup:
-                    self._adb_checked_after_launch = True
-                
+                # Don't show dual connection dialog here - let _verify_and_notify_fast_update_ready handle it
+                # Just set preference to prefer USB when dual connection is active
                 if dual_connection:
-                    if is_startup:
-                        # Show prominent notification at startup
-                        QTimer.singleShot(1500, lambda: self._notify_dual_connection(is_startup=True))
-                    elif not hasattr(self, '_dual_connection_notified'):
-                        # Show less intrusive notification during runtime (only once)
-                        QTimer.singleShot(1000, lambda: self._notify_dual_connection(is_startup=False))
-                        self._dual_connection_notified = True
-                    
-                    # Set preference to prefer USB when dual connection is active
                     self.prefer_usb_for_transfers = True
                 
                 return
@@ -14576,7 +15714,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             # Device is rooted - check for update.sh file
             update_script_path = '/data/data/update/update.sh'
             check_cmd = [str(adb_path)]
-            if is_wireless and connected_device_id:
+            if connected_device_id:
                 check_cmd.extend(['-s', connected_device_id])
             check_cmd.extend(['shell', f'test -f {update_script_path} && echo exists'])
             
@@ -14705,9 +15843,60 @@ class FirmwareDownloaderGUI(QMainWindow):
             script_dir = Path.cwd()
             local_cache_path = script_dir / "update.sh"
             
+            # Get connected device ID for the worker
+            import os
+            import platform
+            env = os.environ.copy()
+            if platform.system() == "Darwin":
+                homebrew_paths = ["/opt/homebrew/bin", "/usr/local/bin"]
+                current_path = env.get("PATH", "")
+                for brew_path in homebrew_paths:
+                    if brew_path not in current_path:
+                        env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
+            
+            # Get connected device ID
+            devices_result = subprocess.run(
+                [str(adb_path), 'devices'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            target_device_id = "0123456789ABCDEF"
+            connected_device_id = None
+            
+            for line in devices_result.stdout.split('\n'):
+                if '\tdevice' in line:
+                    device_id = line.split('\t')[0]
+                    if device_id == target_device_id:
+                        connected_device_id = device_id
+                        break
+                    elif ':' in device_id and '.' in device_id:
+                        parts = device_id.split(':')
+                        if len(parts) == 2:
+                            ip_part = parts[0]
+                            ip_parts = ip_part.split('.')
+                            if len(ip_parts) == 4 and all(p.isdigit() for p in ip_parts):
+                                try:
+                                    device_check = subprocess.run(
+                                        [str(adb_path), '-s', device_id, 'shell', 'getprop', 'ro.serialno'],
+                                        capture_output=True,
+                                        text=True,
+                                        timeout=3,
+                                        env=env,
+                                        creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                                    )
+                                    if device_check.returncode == 0 and target_device_id in device_check.stdout.strip():
+                                        connected_device_id = device_id
+                                        break
+                                except:
+                                    pass
+            
             # Create worker for downloading and pushing
             update_script_url = "https://raw.githubusercontent.com/rockbox-y1/rockbox/refs/heads/y1/android/scripts/update.sh"
-            self.adb_update_script_worker = ADBUpdateScriptWorker(adb_path, update_script_url, local_cache_path)
+            self.adb_update_script_worker = ADBUpdateScriptWorker(adb_path, update_script_url, local_cache_path, connected_device_id)
             
             # Connect signals
             self.adb_update_script_worker.status_update.connect(self.on_adb_script_status_update)
@@ -15093,13 +16282,13 @@ class FirmwareDownloaderGUI(QMainWindow):
             self.progress_bar.setValue(50)
             QApplication.processEvents()
             
-            # Push update.zip with real-time output
+            # Push update.zip with real-time output (unbuffered for immediate output)
             push_process = subprocess.Popen(
                 [str(adb_path), 'push', str(temp_update_path), '/sdcard/.rockbox/update.zip'],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 text=True,
-                bufsize=1,
+                bufsize=0,  # Unbuffered for immediate output
                 universal_newlines=True,
                 env=env,
                 creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
@@ -15120,6 +16309,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                             silent_print(f"ADB Push: {line}")
                             # Display in status area
                             self.status_label.setText(f"ADB: {line}")
+                            # Process events immediately to update UI in real-time
                 QApplication.processEvents()
                 
                 # Wait for process to complete
@@ -15175,19 +16365,19 @@ class FirmwareDownloaderGUI(QMainWindow):
             
             silent_print(f"Executing {update_script_path} as root...")
             
-            # Run the script with real-time output capture
+            # Run the script with real-time output capture (unbuffered for immediate output)
             process = subprocess.Popen(
                 [str(adb_path), 'shell', 'su', '-c', f'sh {update_script_path}'],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 text=True,
-                bufsize=1,
+                bufsize=0,  # Unbuffered for immediate output
                 universal_newlines=True,
                 env=env,
                 creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
             )
             
-            # Read output line by line and display in status area
+            # Read output line by line and display in status area in real-time
             script_output_lines = []
             script_success = False
             progress = 80  # Start from 80% (where we are after push)
@@ -15222,6 +16412,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                                 # Regular line without "++" - just show it
                                 self.status_label.setText(line)
                             
+                            # Process events immediately to update UI in real-time
                 QApplication.processEvents()
             
                 # Wait for process to complete
@@ -15241,9 +16432,9 @@ class FirmwareDownloaderGUI(QMainWindow):
             if hasattr(self, 'progress_bar'):
                 self.progress_bar.setValue(100)
                 QApplication.processEvents()
-            
-            # Small delay before hiding progress
-            QTimer.singleShot(500, lambda: self.progress_bar.setVisible(False))
+                
+                # Small delay before hiding progress
+                QTimer.singleShot(500, lambda: self.progress_bar.setVisible(False))
             
             # Re-enable buttons
             self.download_btn.setEnabled(True)
@@ -15335,7 +16526,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                 self.adb_operation_in_progress = False
     
     def transfer_files_to_device(self, file_paths):
-        """Transfer files/folders to device over ADB when connected"""
+        """Transfer files/folders to device over ADB when connected (with queuing support)"""
         try:
             # Check if ADB is available
             adb_path = self.find_adb_executable()
@@ -15362,92 +16553,19 @@ class FirmwareDownloaderGUI(QMainWindow):
             self.status_label.setText("Checking for connected device...")
             QApplication.processEvents()
             
-            # Check for connected device
-            devices_result = subprocess.run(
-                [str(adb_path), 'devices'],
-                capture_output=True,
-                text=True,
-                timeout=5,
-                env=env,
-                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
-            )
+            # Use unified ADB status method
+            status, connected_device_id, device_hostname = self.get_unified_adb_status(adb_path, env)
             
-            # Process events to keep GUI responsive
-            QApplication.processEvents()
-            
-            if devices_result.returncode != 0:
+            if status == 'no_adb':
                 QMessageBox.warning(
                     self,
-                    "ADB Error",
-                    "Failed to check ADB devices. Please ensure ADB is working correctly."
-                )
-                return
-            
-            # Parse device list and look for specific device ID (USB or wireless)
-            # Use the same logic as check_adb_and_update_script for consistency
-            target_device_id = "0123456789ABCDEF"
-            target_device_found = False
-            connected_device_id = None
-            is_wireless = False
-            usb_connected = False
-            wifi_connected = False
-            
-            for line in devices_result.stdout.split('\n'):
-                if '\tdevice' in line:
-                    device_id = line.split('\t')[0]
-                    # Check for USB device ID
-                    if device_id == target_device_id:
-                        target_device_found = True
-                        connected_device_id = device_id
-                        usb_connected = True
-                        # Don't break - continue checking for Wi-Fi connection
-                    # Check for wireless connection (IP address format like 192.168.1.100:5555)
-                    if ':' in device_id and '.' in device_id:
-                        # This looks like an IP address - verify it's a valid IP format
-                        parts = device_id.split(':')
-                        if len(parts) == 2:
-                            ip_part = parts[0]
-                            port_part = parts[1]
-                            # Check if IP part looks valid (has 4 dot-separated numbers)
-                            ip_parts = ip_part.split('.')
-                            if len(ip_parts) == 4 and all(p.isdigit() for p in ip_parts):
-                                # This is an IP address - check if this device has the target ID
-                                try:
-                                    device_check = subprocess.run(
-                                        [str(adb_path), '-s', device_id, 'shell', 'getprop', 'ro.serialno'],
-                                        capture_output=True,
-                                        text=True,
-                                        timeout=3,
-                                        env=env,
-                                        creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
-                                    )
-                                    if device_check.returncode == 0 and target_device_id in device_check.stdout.strip():
-                                        target_device_found = True
-                                        if not connected_device_id:  # Only set if USB not found
-                                            connected_device_id = device_id
-                                            is_wireless = True
-                                        wifi_connected = True
-                                except:
-                                    pass
-            
-            # Check for dual connection (USB + Wi-Fi)
-            dual_connection = usb_connected and wifi_connected
-            
-            # If dual connection is active and preference is set, prefer USB
-            if dual_connection and hasattr(self, 'prefer_usb_for_transfers') and self.prefer_usb_for_transfers:
-                # Prefer USB connection for transfers
-                if usb_connected:
-                    connected_device_id = target_device_id
-                    is_wireless = False
-                    silent_print("Dual connection detected - preferring USB for file transfer")
-            
-            if not target_device_found:
-                QMessageBox.warning(
-                    self,
-                    "Device Not Connected",
+                    "ADB Not Connected",
                     "No ADB device is connected. Please connect your device via USB or wireless ADB."
                 )
                 return
+            
+            # Process events to keep GUI responsive
+            QApplication.processEvents()
             
             # Ask user to select destination folder on device
             destination_folder = self.select_device_folder(adb_path, connected_device_id, env, file_paths)
@@ -15455,124 +16573,24 @@ class FirmwareDownloaderGUI(QMainWindow):
                 # User cancelled folder selection
                 return
             
-            # Set flag to prevent periodic ADB checks during operation
-            self.adb_operation_in_progress = True
-            
-            # Show progress
-            self.status_label.setText("Preparing to transfer files...")
-            self.progress_bar.setVisible(True)
-            self.progress_bar.setRange(0, len(file_paths))
-            self.progress_bar.setValue(0)
-            QApplication.processEvents()
-            
-            # Transfer each file/folder
-            transferred_count = 0
-            failed_files = []
-            
-            for file_path in file_paths:
-                try:
-                    path = Path(file_path)
-                    if not path.exists():
-                        failed_files.append(f"{path.name} (not found)")
-                        continue
-                    
-                    # Determine destination path on device using selected folder
-                    destination = f"{destination_folder}/{path.name}"
-                    
-                    # Show current file being transferred
-                    self.status_label.setText(f"Transferring: {path.name}...")
-                    QApplication.processEvents()
-                    
-                    # Build ADB command
-                    adb_cmd = [str(adb_path)]
-                    if connected_device_id:
-                        adb_cmd.extend(['-s', connected_device_id])
-                    
-                    if path.is_file():
-                        # Transfer file
-                        adb_cmd.extend(['push', str(path), destination])
-                    elif path.is_dir():
-                        # Transfer folder - use adb push with directory
-                        adb_cmd.extend(['push', str(path), destination])
-                    
-                    # Execute transfer with real-time output
-                    transfer_process = subprocess.Popen(
-                        adb_cmd,
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.STDOUT,
-                        text=True,
-                        bufsize=1,
-                        universal_newlines=True,
-                        env=env,
-                        creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
-                    )
-                    
-                    # Read output line by line
-                    transfer_output_lines = []
-                    while True:
-                        output = transfer_process.stdout.readline()
-                        if output == '' and transfer_process.poll() is not None:
-                            break
-                        
-                        if output:
-                            line = output.strip()
-                            if line:
-                                transfer_output_lines.append(line)
-                                silent_print(f"ADB Transfer: {line}")
-                                # Display in status area
-                                self.status_label.setText(f"ADB: {line}")
-                                QApplication.processEvents()
-                    
-                    # Wait for process to complete
-                    return_code = transfer_process.wait()
-                    
-                    if return_code == 0:
-                        transferred_count += 1
-                        silent_print(f"Successfully transferred: {path.name}")
-                    else:
-                        error_msg = '\n'.join(transfer_output_lines) if transfer_output_lines else "Unknown error"
-                        failed_files.append(f"{path.name} ({error_msg})")
-                        silent_print(f"Failed to transfer: {path.name} - {error_msg}")
-                    
-                    # Update progress
-                    self.progress_bar.setValue(transferred_count + len(failed_files))
-                    QApplication.processEvents()
-                    
-                except Exception as e:
-                    failed_files.append(f"{path.name} ({str(e)})")
-                    silent_print(f"Error transferring {path.name}: {e}")
-            
-            # Reset flag
-            self.adb_operation_in_progress = False
-            
-            # Show completion message
-            if transferred_count == len(file_paths):
-                self.status_label.setText(f"Successfully transferred {transferred_count} item(s) to device")
+            # Check if a transfer is already in progress
+            if (hasattr(self, 'file_transfer_worker') and self.file_transfer_worker and 
+                self.file_transfer_worker.isRunning()):
+                # Add to queue instead of starting immediately
+                self.file_transfer_queue.append((file_paths, destination_folder, adb_path, connected_device_id, env))
+                queue_size = len(self.file_transfer_queue)
+                self.status_label.setText(f"Transfer queued ({queue_size} in queue). Current transfer in progress...")
                 QMessageBox.information(
                     self,
-                    "Transfer Complete",
-                    f"Successfully transferred {transferred_count} item(s) to your device."
+                    "Transfer Queued",
+                    f"Your files have been added to the transfer queue.\n\n"
+                    f"Queue position: {queue_size}\n"
+                    f"The transfer will begin automatically after the current transfer completes."
                 )
-            elif transferred_count > 0:
-                self.status_label.setText(f"Transferred {transferred_count} of {len(file_paths)} item(s)")
-                failed_list = '\n'.join(failed_files)
-                QMessageBox.warning(
-                    self,
-                    "Transfer Partially Complete",
-                    f"Transferred {transferred_count} of {len(file_paths)} item(s).\n\n"
-                    f"Failed items:\n{failed_list}"
-                )
-            else:
-                self.status_label.setText("File transfer failed")
-                failed_list = '\n'.join(failed_files)
-                QMessageBox.warning(
-                    self,
-                    "Transfer Failed",
-                    f"Failed to transfer all items:\n\n{failed_list}"
-                )
+                return
             
-            # Hide progress bar
-            self.progress_bar.setVisible(False)
+            # No transfer in progress - start immediately
+            self._start_file_transfer(file_paths, destination_folder, adb_path, connected_device_id, env)
             
         except Exception as e:
             silent_print(f"Error during file transfer: {e}")
@@ -15588,6 +16606,111 @@ class FirmwareDownloaderGUI(QMainWindow):
             # Reset flag on error
             if hasattr(self, 'adb_operation_in_progress'):
                 self.adb_operation_in_progress = False
+    
+    def _start_file_transfer(self, file_paths, destination_folder, adb_path, connected_device_id, env):
+        """Start a file transfer (internal method)"""
+        try:
+            # Set flag to prevent periodic ADB checks during operation
+            self.adb_operation_in_progress = True
+            
+            # Show progress
+            queue_size = len(self.file_transfer_queue)
+            if queue_size > 0:
+                self.status_label.setText(f"Preparing to transfer files... ({queue_size} in queue)")
+            else:
+                self.status_label.setText("Preparing to transfer files...")
+            self.progress_bar.setVisible(True)
+            self.progress_bar.setRange(0, len(file_paths))
+            self.progress_bar.setValue(0)
+            QApplication.processEvents()
+            
+            # Create and start worker thread for non-blocking file transfer
+            self.file_transfer_worker = FileTransferWorker(adb_path, connected_device_id, env, file_paths, destination_folder)
+            self.file_transfer_worker.status_update.connect(self._on_file_transfer_status)
+            self.file_transfer_worker.progress_update.connect(self._on_file_transfer_progress)
+            self.file_transfer_worker.completed.connect(self._on_file_transfer_complete)
+            
+            # Start worker thread
+            self.file_transfer_worker.start()
+            
+        except Exception as e:
+            silent_print(f"Error starting file transfer: {e}")
+            import traceback
+            traceback.print_exc()
+            self.status_label.setText(f"Transfer error: {str(e)[:100]}")
+            self.progress_bar.setVisible(False)
+            # Reset flag on error
+            if hasattr(self, 'adb_operation_in_progress'):
+                self.adb_operation_in_progress = False
+            # Try to process next item in queue
+            self._process_next_queued_transfer()
+    
+    def _on_file_transfer_status(self, message):
+        """Handle status updates from FileTransferWorker"""
+        # Add queue information to status if there are queued transfers
+        queue_size = len(self.file_transfer_queue) if hasattr(self, 'file_transfer_queue') else 0
+        if queue_size > 0:
+            self.status_label.setText(f"{message} ({queue_size} in queue)")
+        else:
+            self.status_label.setText(message)
+    
+    def _on_file_transfer_progress(self, current, total):
+        """Handle progress updates from FileTransferWorker"""
+        self.progress_bar.setValue(current)
+    
+    def _on_file_transfer_complete(self, success, result):
+        """Handle completion of FileTransferWorker"""
+        # Reset flag
+        self.adb_operation_in_progress = False
+        
+        transferred_count = result.get('transferred_count', 0)
+        failed_files = result.get('failed_files', [])
+        total = result.get('total', 0)
+        
+        # Show completion message
+        if transferred_count == total:
+            self.status_label.setText(f"Successfully transferred {transferred_count} item(s) to device")
+            QMessageBox.information(
+                self,
+                "Transfer Complete",
+                f"Successfully transferred {transferred_count} item(s) to your device."
+            )
+        elif transferred_count > 0:
+            self.status_label.setText(f"Transferred {transferred_count} of {total} item(s)")
+            failed_list = '\n'.join(failed_files)
+            QMessageBox.warning(
+                self,
+                "Transfer Partially Complete",
+                f"Transferred {transferred_count} of {total} item(s).\n\n"
+                f"Failed items:\n{failed_list}"
+            )
+        else:
+            self.status_label.setText("File transfer failed")
+            failed_list = '\n'.join(failed_files)
+            QMessageBox.warning(
+                self,
+                "Transfer Failed",
+                f"Failed to transfer all items:\n\n{failed_list}"
+            )
+        
+        # Hide progress bar
+        self.progress_bar.setVisible(False)
+        
+        # Process next item in queue if available
+        self._process_next_queued_transfer()
+    
+    def _process_next_queued_transfer(self):
+        """Process the next item in the file transfer queue"""
+        if not hasattr(self, 'file_transfer_queue'):
+            self.file_transfer_queue = []
+        
+        if self.file_transfer_queue:
+            # Get next item from queue
+            file_paths, destination_folder, adb_path, connected_device_id, env = self.file_transfer_queue.pop(0)
+            silent_print(f"Processing queued transfer: {len(file_paths)} file(s)")
+            
+            # Start the next transfer
+            QTimer.singleShot(500, lambda: self._start_file_transfer(file_paths, destination_folder, adb_path, connected_device_id, env))
     
     def select_device_folder(self, adb_path, device_id, env, file_paths=None):
         """Show dialog to select destination folder on device with expandable tree view"""
@@ -16045,6 +17168,10 @@ class FirmwareDownloaderGUI(QMainWindow):
                     if file_name.endswith('/'):
                         continue
                     
+                    # Skip macOS metadata files/folders
+                    if self._is_macos_metadata(file_name):
+                        continue
+                    
                     # Check if file is in .rockbox folder
                     if file_name.startswith('.rockbox/') or file_name.startswith('.rockbox\\'):
                         has_rockbox = True
@@ -16074,6 +17201,10 @@ class FirmwareDownloaderGUI(QMainWindow):
                 for file_name in file_list:
                     # Skip empty directories
                     if file_name.endswith('/'):
+                        continue
+                    
+                    # Skip macOS metadata files/folders
+                    if self._is_macos_metadata(file_name):
                         continue
                     
                     name_lower = file_name.lower()
@@ -16111,6 +17242,112 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print(f"Error checking theme folder: {e}")
             return False
     
+    def _is_macos_metadata(self, path):
+        """Check if path is macOS metadata (should be skipped)"""
+        path_str = str(path).replace('\\', '/')  # Normalize path separators
+        path_lower = path_str.lower()
+        name = Path(path).name
+        
+        # Check for common macOS metadata folders/files
+        if name.startswith('._') or name == '.ds_store' or name == '__macosx':
+            return True
+        if '_macosx' in path_lower or '__macosx' in path_lower:
+            return True
+        if '/._' in path_lower or '\\._' in path_lower:
+            return True
+        if path_lower.endswith('/.ds_store') or path_lower.endswith('\\.ds_store'):
+            return True
+        
+        return False
+    
+    def _cleanup_macos_metadata(self, directory):
+        """Remove macOS metadata files and folders from a directory"""
+        removed_count = 0
+        try:
+            dir_path = Path(directory)
+            if not dir_path.exists() or not dir_path.is_dir():
+                return removed_count
+            
+            # Remove macOS metadata files and folders
+            for item in dir_path.rglob('*'):
+                if self._is_macos_metadata(item):
+                    try:
+                        if item.is_file():
+                            item.unlink()
+                            removed_count += 1
+                            silent_print(f"Removed macOS metadata file: {item}")
+                        elif item.is_dir():
+                            import shutil
+                            shutil.rmtree(item, ignore_errors=True)
+                            removed_count += 1
+                            silent_print(f"Removed macOS metadata folder: {item}")
+                    except Exception as e:
+                        silent_print(f"Error removing macOS metadata {item}: {e}")
+            
+            return removed_count
+        except Exception as e:
+            silent_print(f"Error cleaning up macOS metadata: {e}")
+            return removed_count
+    
+    def _cleanup_device_macos_metadata(self, adb_path, device_id, env):
+        """Remove macOS metadata files and folders from device storage"""
+        try:
+            import platform
+            
+            # Common locations where macOS metadata might be found
+            storage_paths = [
+                "/storage/sdcard0",
+                "/sdcard",
+                "/storage/emulated/0"
+            ]
+            
+            # macOS metadata patterns to remove
+            metadata_patterns = [
+                "__MACOSX",
+                "_MACOSX",
+                "._*",
+                ".DS_Store"
+            ]
+            
+            for storage_path in storage_paths:
+                # Try to find and remove macOS metadata folders
+                for pattern in metadata_patterns:
+                    try:
+                        # Use find command to locate macOS metadata
+                        find_cmd = [str(adb_path), '-s', device_id, 'shell', 
+                                   f'find {storage_path} -name "{pattern}" -type f -o -name "{pattern}" -type d 2>/dev/null']
+                        find_result = subprocess.run(
+                            find_cmd,
+                            capture_output=True,
+                            text=True,
+                            timeout=10,
+                            env=env,
+                            creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                        )
+                        
+                        if find_result.returncode == 0 and find_result.stdout.strip():
+                            # Remove found metadata files/folders
+                            for metadata_path in find_result.stdout.strip().split('\n'):
+                                if metadata_path.strip():
+                                    try:
+                                        rm_cmd = [str(adb_path), '-s', device_id, 'shell', 
+                                                 f'rm -rf "{metadata_path.strip()}"']
+                                        subprocess.run(
+                                            rm_cmd,
+                                            capture_output=True,
+                                            text=True,
+                                            timeout=5,
+                                            env=env,
+                                            creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                                        )
+                                        silent_print(f"Removed macOS metadata from device: {metadata_path.strip()}")
+                                    except:
+                                        pass
+                    except:
+                        pass
+        except Exception as e:
+            silent_print(f"Error cleaning up device macOS metadata: {e}")
+    
     def _find_theme_folders(self, root_path):
         """Recursively find all theme folders in a directory"""
         theme_folders = []
@@ -16119,13 +17356,17 @@ class FirmwareDownloaderGUI(QMainWindow):
             if not root.exists():
                 return theme_folders
             
-            # Check if root itself is a theme folder
-            if root.is_dir() and self._is_theme_folder(root):
+            # Check if root itself is a theme folder (skip if it's macOS metadata)
+            if root.is_dir() and not self._is_macos_metadata(root) and self._is_theme_folder(root):
                 theme_folders.append(str(root))
             
             # Recursively search subdirectories
             if root.is_dir():
                 for item in root.rglob('*'):
+                    # Skip macOS metadata folders
+                    if self._is_macos_metadata(item):
+                        continue
+                    
                     if item.is_dir() and self._is_theme_folder(item):
                         # Avoid duplicates (if parent is also a theme)
                         is_duplicate = False
@@ -16173,47 +17414,10 @@ class FirmwareDownloaderGUI(QMainWindow):
                     if brew_path not in current_path:
                         env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
             
-            # Get connected device ID
-            devices_result = subprocess.run(
-                [str(adb_path), 'devices'],
-                capture_output=True,
-                text=True,
-                timeout=5,
-                env=env,
-                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
-            )
+            # Use unified ADB status method
+            status, connected_device_id, device_hostname = self.get_unified_adb_status(adb_path, env)
             
-            target_device_id = "0123456789ABCDEF"
-            connected_device_id = None
-            
-            for line in devices_result.stdout.split('\n'):
-                if '\tdevice' in line:
-                    device_id = line.split('\t')[0]
-                    if device_id == target_device_id:
-                        connected_device_id = device_id
-                        break
-                    elif ':' in device_id and '.' in device_id:
-                        parts = device_id.split(':')
-                        if len(parts) == 2:
-                            ip_part = parts[0]
-                            ip_parts = ip_part.split('.')
-                            if len(ip_parts) == 4 and all(p.isdigit() for p in ip_parts):
-                                try:
-                                    device_check = subprocess.run(
-                                        [str(adb_path), '-s', device_id, 'shell', 'getprop', 'ro.serialno'],
-                                        capture_output=True,
-                                        text=True,
-                                        timeout=3,
-                                        env=env,
-                                        creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
-                                    )
-                                    if device_check.returncode == 0 and target_device_id in device_check.stdout.strip():
-                                        connected_device_id = device_id
-                                        break
-                                except:
-                                    pass
-            
-            if not connected_device_id:
+            if status == 'no_adb':
                 QMessageBox.warning(self, "Device Not Connected", "No ADB device is connected.")
                 return
             
@@ -16238,11 +17442,18 @@ class FirmwareDownloaderGUI(QMainWindow):
             self.status_label.setText("Installing Rockbox Theme...")
             QApplication.processEvents()
             
+            # Clean up macOS metadata from source folder before pushing
+            self._cleanup_macos_metadata(folder_path)
+            
             # Push each file/directory individually to merge into existing .rockbox
-            # First, get list of all items in the folder
+            # First, get list of all items in the folder (skip macOS metadata)
             items_to_push = []
             if folder_path_obj.is_dir():
                 for item in folder_path_obj.iterdir():
+                    # Skip macOS metadata files/folders
+                    if self._is_macos_metadata(item):
+                        silent_print(f"Skipping macOS metadata: {item}")
+                        continue
                     items_to_push.append(item)
             
             if not items_to_push:
@@ -16442,8 +17653,23 @@ class FirmwareDownloaderGUI(QMainWindow):
                 self.status_label.setText("Extracting Rockbox Theme...")
                 QApplication.processEvents()
                 
+                # Extract zip, filtering out macOS metadata
                 with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-                    zip_ref.extractall(temp_dir)
+                    for member in zip_ref.namelist():
+                        # Skip macOS metadata files/folders
+                        if self._is_macos_metadata(member):
+                            silent_print(f"Skipping macOS metadata: {member}")
+                            continue
+                        
+                        # Extract member with proper path handling
+                        try:
+                            zip_ref.extract(member, temp_dir)
+                        except Exception as e:
+                            silent_print(f"Error extracting {member}: {e}")
+                            continue
+                
+                # Clean up any macOS metadata that might have been extracted
+                self._cleanup_macos_metadata(temp_dir)
                 
                 # Find .rockbox folder in extracted contents
                 rockbox_folder = None
@@ -16479,10 +17705,30 @@ class FirmwareDownloaderGUI(QMainWindow):
             self.progress_bar.setVisible(False)
             self.adb_operation_in_progress = False
     
-    def _get_connected_device_id(self, adb_path, env):
-        """Helper function to get connected device ID"""
+    def get_unified_adb_status(self, adb_path=None, env=None):
+        """
+        Unified method to get ADB connection status.
+        Returns: ('no_adb' | 'adb_only' | 'adb_root', connected_device_id, device_hostname)
+        """
         try:
-            devices_result = subprocess.run(
+            # Find ADB executable if not provided
+            if not adb_path:
+                adb_path = self.find_adb_executable()
+                if not adb_path:
+                    return ('no_adb', None, None)
+            
+            # Prepare environment if not provided
+            if env is None:
+                env = os.environ.copy()
+                if platform.system() == "Darwin":
+                    homebrew_paths = ["/opt/homebrew/bin", "/usr/local/bin"]
+                    current_path = env.get("PATH", "")
+                    for brew_path in homebrew_paths:
+                        if brew_path not in current_path:
+                            env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
+            
+            # Check if device is connected via ADB
+            result = subprocess.run(
                 [str(adb_path), 'devices'],
                 capture_output=True,
                 text=True,
@@ -16491,21 +17737,38 @@ class FirmwareDownloaderGUI(QMainWindow):
                 creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
             )
             
+            # Parse device list and look for specific device ID (USB or wireless)
             target_device_id = "0123456789ABCDEF"
             connected_device_id = None
+            is_wireless = False
             
-            for line in devices_result.stdout.split('\n'):
+            for line in result.stdout.split('\n'):
                 if '\tdevice' in line:
                     device_id = line.split('\t')[0]
+                    # Check for USB device ID
                     if device_id == target_device_id:
                         connected_device_id = device_id
                         break
-                    elif ':' in device_id and '.' in device_id:
+                    # Check for wireless connection (IP address OR hostname format)
+                    elif ':' in device_id:
                         parts = device_id.split(':')
                         if len(parts) == 2:
-                            ip_part = parts[0]
-                            ip_parts = ip_part.split('.')
-                            if len(ip_parts) == 4 and all(p.isdigit() for p in ip_parts):
+                            host_part = parts[0]
+                            
+                            # Check if it's an IP address (has dots and 4 numeric parts)
+                            is_ip_address = False
+                            if '.' in host_part:
+                                ip_parts = host_part.split('.')
+                                if len(ip_parts) == 4 and all(p.isdigit() for p in ip_parts):
+                                    is_ip_address = True
+                            
+                            # Check if it's a hostname (like android-XXXXX)
+                            is_hostname = False
+                            if host_part.startswith('android-') and len(host_part) > 8:
+                                is_hostname = True
+                            
+                            # Check if this device has the target ID (for both IP and hostname formats)
+                            if is_ip_address or is_hostname:
                                 try:
                                     device_check = subprocess.run(
                                         [str(adb_path), '-s', device_id, 'shell', 'getprop', 'ro.serialno'],
@@ -16517,14 +17780,74 @@ class FirmwareDownloaderGUI(QMainWindow):
                                     )
                                     if device_check.returncode == 0 and target_device_id in device_check.stdout.strip():
                                         connected_device_id = device_id
+                                        is_wireless = True
                                         break
                                 except:
                                     pass
             
-            return connected_device_id
+            if not connected_device_id:
+                return ('no_adb', None, None)
+            
+            # Device is connected - check if device is rooted
+            root_check_cmd = [str(adb_path)]
+            if connected_device_id:
+                root_check_cmd.extend(['-s', connected_device_id])
+            root_check_cmd.extend(['shell', 'su', '-c', 'id'])
+            
+            root_check_result = subprocess.run(
+                root_check_cmd,
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            device_is_rooted = (root_check_result.returncode == 0 and 'uid=0' in root_check_result.stdout)
+            
+            if not device_is_rooted:
+                # ADB Only - connected but not rooted
+                device_hostname = self.get_device_hostname(adb_path, connected_device_id, env)
+                return ('adb_only', connected_device_id, device_hostname)
+            
+            # Device is rooted - check for update.sh file
+            update_script_path = '/data/data/update/update.sh'
+            check_cmd = [str(adb_path)]
+            if connected_device_id:
+                check_cmd.extend(['-s', connected_device_id])
+            check_cmd.extend(['shell', f'test -f {update_script_path} && echo exists'])
+            
+            check_result = subprocess.run(
+                check_cmd,
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            # Check if update.sh exists
+            update_script_exists = (check_result.returncode == 0 and 
+                                   'exists' in check_result.stdout.strip() and
+                                   check_result.stdout.strip() == 'exists')
+            
+            device_hostname = self.get_device_hostname(adb_path, connected_device_id, env)
+            
+            if update_script_exists:
+                # ADB with root - full fast update and smart drag-n-drop functionality
+                return ('adb_root', connected_device_id, device_hostname)
+            else:
+                # ADB Only - rooted but update script not present (will be pushed)
+                return ('adb_only', connected_device_id, device_hostname)
+            
         except Exception as e:
-            silent_print(f"Error getting connected device ID: {e}")
-            return None
+            silent_print(f"Error getting unified ADB status: {e}")
+            return ('no_adb', None, None)
+    
+    def _get_connected_device_id(self, adb_path, env):
+        """Helper function to get connected device ID (uses unified method)"""
+        status, device_id, _ = self.get_unified_adb_status(adb_path, env)
+        return device_id
     
     def install_theme_folder(self, theme_folder_path, connected_device_id, adb_path, env):
         """Install a single theme folder to device"""
@@ -16879,8 +18202,25 @@ class FirmwareDownloaderGUI(QMainWindow):
                 self.status_label.setText("Extracting theme zip...")
                 QApplication.processEvents()
                 
+                # Extract zip, filtering out macOS metadata
                 with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-                    zip_ref.extractall(temp_dir)
+                    for member in zip_ref.namelist():
+                        # Skip macOS metadata files/folders
+                        if self._is_macos_metadata(member):
+                            silent_print(f"Skipping macOS metadata: {member}")
+                            continue
+                        
+                        # Extract member with proper path handling
+                        try:
+                            # Use extract() instead of extractall() to handle paths with spaces
+                            zip_ref.extract(member, temp_dir)
+                        except Exception as e:
+                            silent_print(f"Error extracting {member}: {e}")
+                            # Continue with other files
+                            continue
+                
+                # Clean up any macOS metadata that might have been extracted
+                self._cleanup_macos_metadata(temp_dir)
                 
                 # Find all theme folders in extracted zip
                 temp_path = Path(temp_dir)
