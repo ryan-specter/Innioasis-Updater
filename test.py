@@ -4803,6 +4803,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         # Initialize flag to prevent duplicate wireless ADB connection dialogs
         self._disconnect_usb_dialog_shown = False
+        # Track if auto-connect has been attempted for current USB device
+        self._auto_connect_attempted_for_device = None
         
         # Initialize file transfer queue for non-firmware files
         self.file_transfer_queue = []  # Queue of (file_paths, destination_folder) tuples
@@ -8444,9 +8446,14 @@ class FirmwareDownloaderGUI(QMainWindow):
             adb_path = self.find_adb_executable()
             if not adb_path:
                 status_label.setText("ADB not found")
+                status_label.setStyleSheet("margin: 5px; color: #666;")
                 if connect_btn:
                     connect_btn.setText("Connect")
                 return
+            
+            # Show searching status while checking
+            status_label.setText("Checking connection status...")
+            status_label.setStyleSheet("margin: 5px; font-style: italic; color: #666;")
             
             # Run check in background thread to prevent UI hang
             def check_in_background():
@@ -8470,49 +8477,130 @@ class FirmwareDownloaderGUI(QMainWindow):
             
             def update_ui_from_status(status, connected_device_id, device_hostname):
                 try:
-                    if status == 'no_adb':
-                        status_label.setText("Not connected wirelessly")
+                    # Prepare environment for ADB commands
+                    import os
+                    import platform
+                    env = os.environ.copy()
+                    if platform.system() == "Darwin":
+                        homebrew_paths = ["/opt/homebrew/bin", "/usr/local/bin"]
+                        current_path = env.get("PATH", "")
+                        for brew_path in homebrew_paths:
+                            if brew_path not in current_path:
+                                env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
+                    
+                    # First, check if there's a wireless connection by checking adb devices
+                    result = subprocess.run(
+                        [str(adb_path), 'devices'],
+                        capture_output=True,
+                        text=True,
+                        timeout=5,
+                        env=env,
+                        creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                    )
+                    
+                    target_device_id = "0123456789ABCDEF"
+                    wireless_device_id = None
+                    usb_device_id = None
+                    
+                    # Check all connected devices
+                    for line in result.stdout.split('\n'):
+                        if '\tdevice' in line:
+                            device_id = line.split('\t')[0]
+                            if device_id == target_device_id:
+                                usb_device_id = device_id
+                            elif ':' in device_id:
+                                # Check if it's a wireless connection for our target device
+                                try:
+                                    device_check = subprocess.run(
+                                        [str(adb_path), '-s', device_id, 'shell', 'getprop', 'ro.serialno'],
+                                        capture_output=True,
+                                        text=True,
+                                        timeout=3,
+                                        env=env,
+                                        creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                                    )
+                                    if device_check.returncode == 0 and target_device_id in device_check.stdout.strip():
+                                        wireless_device_id = device_id
+                                        break
+                                except:
+                                    pass
+                    
+                    # Update UI based on actual connection state
+                    if wireless_device_id:
+                        # Wireless connection is active
+                        host_part = wireless_device_id.split(':')[0]
+                        
+                        # Determine connection method
+                        connection_method = "IP address"
+                        if host_part.startswith('android-'):
+                            connection_method = "hostname"
+                        
+                        # Check if device is rooted (for status display)
+                        is_rooted = False
+                        try:
+                            root_check = subprocess.run(
+                                [str(adb_path), '-s', wireless_device_id, 'shell', 'su', '-c', 'id'],
+                                capture_output=True,
+                                text=True,
+                                timeout=3,
+                                env=env,
+                                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                            )
+                            is_rooted = (root_check.returncode == 0 and 'uid=0' in root_check.stdout)
+                        except:
+                            pass
+                        
+                        root_status = " (rooted)" if is_rooted else ""
+                        status_label.setText(f"✓ Wirelessly connected at {host_part}:5555 ({connection_method}){root_status}")
+                        status_label.setStyleSheet("margin: 5px; color: #00FF00; font-weight: bold;")
+                        if connect_btn:
+                            connect_btn.setText("Disconnect")
+                            # Store the wireless device ID for disconnect
+                            connect_btn.setProperty("wireless_device_id", wireless_device_id)
+                        
+                        # Save connection target
+                        if host_part:
+                            self.save_wireless_adb_ip(host_part)
+                            if hasattr(self, 'wireless_ip_input'):
+                                self.wireless_ip_input.setText(host_part)
+                    elif usb_device_id:
+                        # USB connection only (not wireless)
+                        # Check if device is rooted (for status display)
+                        is_rooted = False
+                        try:
+                            root_check = subprocess.run(
+                                [str(adb_path), '-s', usb_device_id, 'shell', 'su', '-c', 'id'],
+                                capture_output=True,
+                                text=True,
+                                timeout=3,
+                                env=env,
+                                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                            )
+                            is_rooted = (root_check.returncode == 0 and 'uid=0' in root_check.stdout)
+                        except:
+                            pass
+                        
+                        root_status = " (rooted)" if is_rooted else ""
+                        status_label.setText(f"Connected via USB (not wireless){root_status}")
                         status_label.setStyleSheet("margin: 5px; color: #666;")
                         if connect_btn:
                             connect_btn.setText("Connect")
-                    elif status in ['adb_only', 'adb_root']:
-                        # Check if it's a wireless connection
-                        if connected_device_id and ':' in connected_device_id:
-                            # Extract hostname/IP from device_id
-                            host_part = connected_device_id.split(':')[0]
-                            
-                            # Determine connection method
-                            connection_method = "IP address"
-                            if host_part.startswith('android-'):
-                                connection_method = "hostname"
-                            
-                            status_label.setText(f"✓ Wirelessly connected at {host_part}:5555 ({connection_method})")
-                            status_label.setStyleSheet("margin: 5px; color: #00FF00; font-weight: bold;")
-                            if connect_btn:
-                                connect_btn.setText("Disconnect")
-                            
-                            # Save connection target
-                            if host_part:
-                                self.save_wireless_adb_ip(host_part)
-                                if hasattr(self, 'wireless_ip_input'):
-                                    self.wireless_ip_input.setText(host_part)
-                        else:
-                            # USB connection
-                            status_label.setText("Connected via USB (not wireless)")
-                            status_label.setStyleSheet("margin: 5px; color: #666;")
-                            if connect_btn:
-                                connect_btn.setText("Connect")
+                    else:
+                        # No ADB connection - show searching status
+                        status_label.setText("Not connected (searching for device...)")
+                        status_label.setStyleSheet("margin: 5px; font-style: italic; color: #666;")
+                        if connect_btn:
+                            connect_btn.setText("Connect")
                 except Exception as e:
                     silent_print(f"Error updating UI from status: {e}")
                     status_label.setText("Error checking connection")
+                    if connect_btn:
+                        connect_btn.setText("Connect")
             
             # Run check in background thread
             import threading
             thread = threading.Thread(target=check_in_background, daemon=True)
             thread.start()
-        
-        # Check connection status immediately (non-blocking)
-        QTimer.singleShot(100, check_wireless_connection)
         
         # IP Address field (for manual connection)
         ip_group = QGroupBox("Manual Connection (if needed)")
@@ -8605,7 +8693,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                                 except:
                                     pass
             
-            if wireless_connected and connect_btn.text() == "Disconnect":
+            # Disconnect if wireless connection is active (check actual state, not button text)
+            if wireless_connected:
                 # Disconnect
                 try:
                     # Extract hostname/IP from device_id (remove port if present)
@@ -8655,16 +8744,91 @@ class FirmwareDownloaderGUI(QMainWindow):
         forget_btn.setToolTip("Clear saved hostname and IP address. The field will be auto-populated when you connect via USB.")
         
         def on_forget_clicked():
+            # First, disconnect Wi-Fi ADB if connected
+            adb_path = self.find_adb_executable()
+            if adb_path:
+                import os
+                import platform
+                env = os.environ.copy()
+                if platform.system() == "Darwin":
+                    homebrew_paths = ["/opt/homebrew/bin", "/usr/local/bin"]
+                    current_path = env.get("PATH", "")
+                    for brew_path in homebrew_paths:
+                        if brew_path not in current_path:
+                            env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
+                
+                # Check if there's a wireless connection
+                try:
+                    result = subprocess.run(
+                        [str(adb_path), 'devices'],
+                        capture_output=True,
+                        text=True,
+                        timeout=5,
+                        env=env,
+                        creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                    )
+                    
+                    target_device_id = "0123456789ABCDEF"
+                    wireless_device_id = None
+                    usb_connected = False
+                    
+                    # Check all connected devices
+                    for line in result.stdout.split('\n'):
+                        if '\tdevice' in line:
+                            device_id = line.split('\t')[0]
+                            if device_id == target_device_id:
+                                usb_connected = True
+                            elif ':' in device_id:
+                                # Check if it's a wireless connection for our target device
+                                try:
+                                    device_check = subprocess.run(
+                                        [str(adb_path), '-s', device_id, 'shell', 'getprop', 'ro.serialno'],
+                                        capture_output=True,
+                                        text=True,
+                                        timeout=3,
+                                        env=env,
+                                        creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                                    )
+                                    if device_check.returncode == 0 and target_device_id in device_check.stdout.strip():
+                                        wireless_device_id = device_id
+                                        break
+                                except:
+                                    pass
+                    
+                    # Disconnect Wi-Fi ADB if connected
+                    if wireless_device_id:
+                        disconnect_target = wireless_device_id.split(':')[0] if ':' in wireless_device_id else wireless_device_id
+                        try:
+                            disconnect_result = subprocess.run(
+                                [str(adb_path), 'disconnect', disconnect_target],
+                                capture_output=True,
+                                text=True,
+                                timeout=5,
+                                env=env,
+                                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                            )
+                            if disconnect_result.returncode == 0:
+                                silent_print(f"Disconnected Wi-Fi ADB: {disconnect_target}")
+                        except Exception as e:
+                            silent_print(f"Error disconnecting Wi-Fi ADB: {e}")
+                except Exception as e:
+                    silent_print(f"Error checking devices for disconnect: {e}")
+            
             # Clear saved hostname and IP address
             self.forget_wireless_adb_device()
             # Clear the input field
             if hasattr(self, 'wireless_ip_input'):
                 self.wireless_ip_input.clear()
+            
+            # Update ADB status (will update status light if not connected by USB)
+            self.start_adb_check_worker()
+            
             # Show confirmation
             QMessageBox.information(
                 self,
                 "Device Forgotten",
                 "Saved hostname and IP address have been cleared.\n\n"
+                "If connected wirelessly, the Wi-Fi ADB connection has been disconnected.\n\n"
                 "The field will be automatically populated when you connect your device via USB."
             )
             # Re-check connection status to update UI
@@ -8674,6 +8838,10 @@ class FirmwareDownloaderGUI(QMainWindow):
         ip_layout.addWidget(forget_btn)
         
         wireless_layout.addWidget(ip_group)
+        
+        # Check connection status immediately after UI is set up (non-blocking)
+        # This ensures the Connect button text is updated correctly
+        QTimer.singleShot(100, check_wireless_connection)
         
         # ADB Wi-Fi Reborn Setup section (only shown if app is not installed)
         setup_group = QGroupBox("Setup Wireless ADB")
@@ -8828,11 +8996,16 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         # Also check when wireless tab is shown (non-blocking)
         def on_wireless_tab_shown():
-            check_thread = threading.Thread(target=check_in_background, daemon=True)
-            check_thread.start()
+            # Refresh connection status when tab is shown
+            check_wireless_connection()
         
         # Connect to tab change signal to re-check when tab is shown (non-blocking)
         tab_widget.currentChanged.connect(lambda index: on_wireless_tab_shown() if tab_widget.tabText(index) == "Wireless ADB" else None)
+        
+        # Set up periodic refresh of connection status (every 5 seconds while dialog is open)
+        status_refresh_timer = QTimer()
+        status_refresh_timer.timeout.connect(check_wireless_connection)
+        status_refresh_timer.start(5000)  # Refresh every 5 seconds
         
         wireless_layout.addWidget(setup_group)
         
@@ -14673,8 +14846,9 @@ class FirmwareDownloaderGUI(QMainWindow):
                                     elif ':' in device_id:
                                         wifi_connected = True
                             
-                            # Warn user if both USB and Wi-Fi are connected
-                            if usb_connected and wifi_connected:
+                            # Warn user if both USB and Wi-Fi are connected (only once)
+                            if usb_connected and wifi_connected and not self._disconnect_usb_dialog_shown:
+                                self._disconnect_usb_dialog_shown = True
                                 QMessageBox.warning(
                                     self,
                                     "Dual Connection Detected",
@@ -15201,6 +15375,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                 # No ADB connection - show red light and make clickable
                 # Reset dialog flag when USB disconnects so dialog can be shown again if reconnected
                 self._disconnect_usb_dialog_shown = False
+                # Reset auto-connect flag when device disconnects
+                self._auto_connect_attempted_for_device = None
                 if hasattr(self, 'adb_status_widget'):
                     self.adb_status_widget.setVisible(True)
                     self.adb_status_light.setStyleSheet("""
@@ -15280,6 +15456,23 @@ class FirmwareDownloaderGUI(QMainWindow):
                         if not saved_hostname or saved_hostname != hostname:
                             self.save_wireless_adb_hostname(hostname)
                         silent_print(f"Auto-populated wireless ADB field with hostname: {hostname}")
+                
+                # Automatically attempt Wi-Fi connection when USB device is detected
+                # Only attempt once per USB device connection
+                if device_id and device_id != self._auto_connect_attempted_for_device:
+                    self._auto_connect_attempted_for_device = device_id
+                    # Attempt auto-connect in background (silent on failure)
+                    import os
+                    import platform
+                    env = os.environ.copy()
+                    if platform.system() == "Darwin":
+                        homebrew_paths = ["/opt/homebrew/bin", "/usr/local/bin"]
+                        current_path = env.get("PATH", "")
+                        for brew_path in homebrew_paths:
+                            if brew_path not in current_path:
+                                env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
+                    # Use QTimer to attempt connection in background (non-blocking)
+                    QTimer.singleShot(500, lambda: self._try_auto_connect_wireless(adb_path, env))
                 
                 return
             elif status == 'adb_root':
