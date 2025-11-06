@@ -14599,6 +14599,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                         if ':' not in connection_target:
                             connection_target = f"{connection_target}:5555"
                         
+                        # Background auto-connect attempts are silent - no logging unless successful
                         connect_result = subprocess.run(
                             [str(adb_path), 'connect', connection_target],
                             capture_output=True,
@@ -14608,6 +14609,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                             creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
                         )
                         
+                        # Only log successful connections - failed attempts are completely silent
                         if connect_result.returncode == 0 and 'connected' in connect_result.stdout.lower():
                             silent_print(f"Successfully auto-connected wirelessly via {device_hostname if device_hostname else 'IP'}")
                             # Update the field with hostname (preferred) or IP
@@ -14623,12 +14625,11 @@ class FirmwareDownloaderGUI(QMainWindow):
                                     self.save_wireless_adb_ip(ip_address)
                             # Trigger connection status check
                             QTimer.singleShot(500, lambda: self._check_and_notify_after_auto_connect(adb_path, env))
-                        else:
-                            silent_print(f"Auto-connect failed (this is normal if Wi-Fi ADB is not set up): {connect_result.stderr or connect_result.stdout}")
-                    else:
-                        silent_print("Auto-connect skipped: Could not detect/resolve device hostname/IP (this is normal if Wi-Fi ADB is not set up)")
-        except Exception as e:
-            silent_print(f"Error during auto-connect attempt: {e}")
+                        # Failed attempts are silently ignored - no logging or user notification
+        except Exception:
+            # Silently ignore all errors during background auto-connect attempts
+            # Don't log or show errors to the user
+            pass
     
     def _check_and_notify_after_auto_connect(self, adb_path, env):
         """Check if device is rooted and Fast Update ready after auto-connect, then notify user"""
@@ -15482,19 +15483,20 @@ class FirmwareDownloaderGUI(QMainWindow):
             
             # If no device found via USB, try to auto-connect using saved hostname
             # This runs during routine checks to automatically reestablish wireless connections
+            # Background attempts are silent and don't bother the user if they fail
             if not target_device_found and not usb_connected:
                 # Try to load saved hostname and attempt connection
                 saved_hostname = self.load_wireless_adb_hostname()
                 if saved_hostname:
-                    silent_print(f"Attempting to auto-reconnect to saved hostname: {saved_hostname}")
                     try:
                         # Add port if not present
                         connection_target = saved_hostname
                         if ':' not in connection_target:
                             connection_target = f"{connection_target}:5555"
                         
-                        # Try to reconnect (don't disconnect first - just attempt connection)
+                        # Try to reconnect silently (don't disconnect first - just attempt connection)
                         # ADB will handle stale connections automatically
+                        # Background attempts are silent - no logging unless successful
                         connect_result = subprocess.run(
                             [str(adb_path), 'connect', connection_target],
                             capture_output=True,
@@ -15503,10 +15505,9 @@ class FirmwareDownloaderGUI(QMainWindow):
                             env=env,
                             creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
                         )
-                        silent_print(f"Auto-reconnect result: {connect_result.stdout}")
                         
-                        # If connection was successful or already connected, check devices again
-                        if connect_result.returncode == 0 or 'connected' in connect_result.stdout.lower() or 'already connected' in connect_result.stdout.lower():
+                        # Only log successful connections - failed attempts are completely silent
+                        if connect_result.returncode == 0 and ('connected' in connect_result.stdout.lower() or 'already connected' in connect_result.stdout.lower()):
                             # Wait a brief moment for connection to establish
                             import time
                             time.sleep(0.3)
@@ -15541,12 +15542,15 @@ class FirmwareDownloaderGUI(QMainWindow):
                                                 connected_device_id = device_id
                                                 is_wireless = True
                                                 wifi_connected = True
+                                                # Only log successful reconnection
                                                 silent_print(f"Successfully auto-reconnected to device via hostname: {device_id}")
                                                 break
                                         except:
                                             pass
-                    except Exception as e:
-                        silent_print(f"Error during auto-reconnect attempt: {e}")
+                    except Exception:
+                        # Silently ignore all errors during background auto-reconnect attempts
+                        # Don't log or show errors to the user
+                        pass
             
             # Check for dual connection (USB + Wi-Fi)
             dual_connection = usb_connected and wifi_connected
