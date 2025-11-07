@@ -3275,7 +3275,7 @@
                 </div>
                 <div class="header-text">
                     <h1>Innioasis Updater</h1>
-                    <p id="dynamic-subtitle">We've helped <span id="download-count">4,500+</span> Innioasis Y1 owners stay up-to-date on Windows and Mac</p>
+                    <p id="dynamic-subtitle">We've helped <span id="download-count">5,000+</span> Innioasis Y1 owners stay up-to-date on Windows and Mac</p>
                 </div>
             </div>
             <div class="header-download">
@@ -3755,12 +3755,12 @@
             <div class="info-modal" id="driverInfoModal">
                 <div class="info-modal-content">
                     <button class="info-modal-close" onclick="closeDriverInfo()">×</button>
-                    <h3>📥 USB Development Kit Installation Info</h3>
-                    <p>When installing the USB Development Kit, you may see nothing appear. This usually means:</p>
+                    <h3>📥 MediaTek SP USB Driver Info</h3>
+                    <p>When installing the SP USB Driver you may see "Remove Origin Driver?" appear. This usually means:</p>
                 
                     <ul>
                         <li>The driver was already installed</li>
-                        <li>You'll need to reboot your PC</li>
+                        <li>Click Yes and the install will continue as expected</li>
                         <li></li>
                     </ul>
                     
@@ -4208,7 +4208,7 @@ your-rom-repo/
         <div class="footer">
             <p>Created with ❤️ by <a href="https://ko-fi.com/teamslide" target="_blank">Ryan Specter and Team Slide</a> | 
                <a href="https://reddit.com/r/innioasis" target="_blank">r/Innioasis</a> | 
-               <a href="https://github.com/y1-community/innioasis-updater" target="_blank">Website and App Hosted on GitHub Pages</a> | 
+               Updater is Open Source. <a href="https://github.com/y1-community/Innioasis-Updater/blob/main/index.html" target="_blank">Improve this page.</a> | 
                <a href="https://github.com/y1-community/Innioasis-Updater?tab=readme-ov-file#developer-heres-how-to-submit-firmwares-to-innioasis-updater" target="_blank">Add your Firmware to Innioasis Updater</a></p>
         </div>
     </div>
@@ -6597,8 +6597,8 @@ your-rom-repo/
         // Download functions
         function downloadDriver(driverType) {
             if (driverType === 'mtk') {
-                const url = 'https://github.com/daynix/UsbDk/releases/download/v1.00-22/UsbDk_1.0.22_x64.msi';
-                const filename = 'UsbDk_1.0.22_x64.msi';
+                const url = 'https://github.com/y1-community/Inni-Drivers/releases/download/mirror/DriverInstall.exe';
+                const filename = 'DriverInstall.exe';
                 
                 // For Safari, open in new tab, for other browsers use download attribute
                 if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
@@ -7309,3 +7309,4 @@ your-rom-repo/
     </script>
 </body>
 </html>
+
