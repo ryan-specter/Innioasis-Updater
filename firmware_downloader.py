@@ -30,7 +30,8 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QHBoxLayo
                                QFileDialog, QDialog, QTabWidget, QScrollArea, QTextBrowser, QLineEdit,
                                QTreeWidget, QTreeWidgetItem, QTreeView, QAbstractItemView)
 from PySide6.QtCore import QThread, Signal, Qt, QSize, QTimer, QPropertyAnimation, QEasingCurve, QObject, QMimeData
-from PySide6.QtGui import QFont, QPixmap, QTextDocument, QPalette, QDragEnterEvent, QDropEvent
+from PySide6.QtGui import (QFont, QPixmap, QTextDocument, QPalette, QDragEnterEvent,
+                           QDropEvent, QIcon, QImage, QPainter, QColor)
 import platform
 import time
 import logging
@@ -47,6 +48,8 @@ if platform.system() == "Darwin":
 
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
+
+APP_VERSION = "1.8.2"
 
 def parse_version_designations(version_name):
     """Parse version names and extract designations with flexible adjective handling"""
@@ -4813,6 +4816,16 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Always use method functionality removed - app now always defaults to Method 1
         self.debug_mode = False  # Default debug mode disabled
         self.last_attempted_method = None  # Track the last attempted installation method
+        self.app_update_available = False  # Track whether an Innioasis Updater release is available
+        self._latest_app_version = None
+        self.available_versions = []
+        self.version_combo = None
+        self.suppress_update_notifications = False  # Global preference
+        self.app_version = self._load_app_version()
+        self._update_prompt_triggered = False
+        self.badge_icon = self._create_badge_icon()
+        self.settings_badge = None
+        self._active_settings_dialog = None
         
         # Initialize shortcut settings with defaults (Windows only)
         if platform.system() == "Windows":
@@ -4844,10 +4857,12 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.theme_monitor = ThemeMonitor(self)
         self.theme_monitor.theme_changed.connect(self.refresh_button_styles)
         self.theme_monitor.theme_changed.connect(self.refresh_release_notes_on_theme_change)
+        self.theme_monitor.theme_changed.connect(self.update_creator_label)
         self.theme_monitor.start_monitoring()
 
         # Initialize UI first for immediate responsiveness
         self.init_ui()
+        QTimer.singleShot(0, self.update_update_badges)
         
         # Show offline message immediately (default state before content loads)
         # Hide left panel by default - will show when releases are available
@@ -4914,15 +4929,91 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         # Check ADB device status at startup (non-blocking via worker thread)
         QTimer.singleShot(100, self.start_adb_check_worker)
+        # Schedule update check slightly later to avoid contention with data loading
+        QTimer.singleShot(1800, self.check_for_updates_and_show_button)
         
         # Initialize status clear timer for auto-clearing orphaned messages
         self.status_clear_timer = None
+        # Set initial creator label styling
+        QTimer.singleShot(0, self.update_creator_label)
+
+    def update_creator_label(self):
+        """Update the creator label text and styling based on theme."""
+        if not hasattr(self, 'creator_label') or not self.creator_label:
+            return
+        message = self._creator_messages[self._creator_message_index % len(self._creator_messages)]
+        is_dark = self.is_dark_mode()
+        if hasattr(self, 'theme_monitor') and getattr(self.theme_monitor, 'last_theme', None):
+            last_theme = self.theme_monitor.last_theme
+            if last_theme == "dark":
+                is_dark = True
+            elif last_theme == "light":
+                is_dark = False
+        text_color = "#FFFFFF" if is_dark else "#000000"
+        link_color = "#4FA8FF" if is_dark else "#0C4BCC"
+        emphasis_color = text_color
+
+        formatted_message = message
+        if "by Y1 users, for Y1 users" in formatted_message:
+            formatted_message = formatted_message.replace(
+                "by Y1 users, for Y1 users",
+                f'by <span style="font-weight: 700; font-size: 13px; color: {emphasis_color};">Y1 users</span>, '
+                f'for <span style="font-weight: 700; font-size: 13px; color: {emphasis_color};">Y1 users</span>'
+            )
+        if "Ryan Specter" in formatted_message:
+            formatted_message = formatted_message.replace(
+                "Ryan Specter",
+                f'<span style="font-weight: 700; font-size: 13px; color: {link_color};">Ryan Specter</span>'
+            )
+        if formatted_message.startswith("Developer:"):
+            formatted_message = formatted_message.replace(
+                "Developer:",
+                f'<span style="font-weight: 700; font-size: 12px; color: {emphasis_color};">Developer:</span>',
+                1
+            )
+
+        html = (
+            f'<a href="https://ko-fi.com/team-slide" '
+            f'style="color: {text_color}; text-decoration: none;">{formatted_message}</a>'
+        )
+        self.creator_label.setText(html)
+        self.creator_label.setStyleSheet(f"""
+            QLabel {{
+                color: {text_color};
+                font-size: 12px;
+                font-weight: 600;
+            }}
+            QLabel:hover {{
+                color: {text_color};
+            }}
+            a {{
+                color: {text_color};
+                text-decoration: none;
+            }}
+        """)
+
+    def cycle_creator_message(self):
+        """Rotate through creator messages."""
+        self._creator_message_index = (self._creator_message_index + 1) % len(self._creator_messages)
+        self.update_creator_label()
+
+    def _load_app_version(self):
+        """Load and persist the application version (uses constant APP_VERSION)."""
+        version = APP_VERSION
+        try:
+            version_file = Path(".version")
+            current_text = version_file.read_text().strip() if version_file.exists() else ""
+            if current_text != version:
+                version_file.write_text(version)
+        except Exception as e:
+            silent_print(f"Warning: could not sync .version file: {e}")
+        return version
 
     def handle_version_check(self):
         """Handle version check file and show macOS app update message for new users"""
         try:
             version_file = Path(".version")
-            current_version = "1.8.1"
+            current_version = self.app_version
             
             # Read the last used version
             last_version = None
@@ -6297,7 +6388,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Add seasonal emoji to window title
         seasonal_emoji = get_seasonal_emoji()
         title_emoji = f" {seasonal_emoji}" if seasonal_emoji else ""
-        self.setWindowTitle(f"Innioasis Updater 1.8.1{title_emoji}")
+        self.setWindowTitle(f"Innioasis Updater 1.8.2{title_emoji}")
         self.setGeometry(100, 100, 1220, 574)
         
         # Set fixed window size to maintain layout
@@ -6349,11 +6440,24 @@ class FirmwareDownloaderGUI(QMainWindow):
         seasonal_emoji = get_seasonal_emoji_random()
         settings_text = f"Settings{seasonal_emoji}" if seasonal_emoji else "Settings"
         self.settings_btn = QPushButton(settings_text)
+        self.settings_base_text = settings_text
         # Use native styling - no custom stylesheet for automatic theme adaptation
         # Use default cursor for native OS feel
         self.settings_btn.setToolTip("Settings and Tools - Installation method, shortcuts, and Y1 Remote Control")
         self.settings_btn.clicked.connect(self.show_settings_dialog)
         device_type_layout.addWidget(self.settings_btn)
+        self.settings_badge = QLabel()
+        self.settings_badge.setFixedSize(10, 10)
+        self.settings_badge.setVisible(False)
+        self.settings_badge.setAttribute(Qt.WA_TransparentForMouseEvents, True)
+        self.settings_badge.setStyleSheet("""
+            QLabel {
+                background-color: #FF8800;
+                border-radius: 5px;
+            }
+        """)
+        device_type_layout.addWidget(self.settings_badge)
+        device_type_layout.setAlignment(self.settings_badge, Qt.AlignVCenter)
         
         # Add small spacing between Settings and Toolkit buttons
         device_type_layout.addSpacing(4)
@@ -6466,15 +6570,20 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.coffee_layout = coffee_layout  # Store reference for button movement
 
         # Creator credit
-        creator_label = QLabel("Made with 🩵 by Y1 users, <u><i>for</i></u> Y1 users")
-        creator_label.setStyleSheet("""
-            QLabel {
-                color: #666666;
-                font-size: 11px;
-                font-style: italic;
-            }
-        """)
+        # Creator label with alternating messages
+        creator_label = QLabel()
+        creator_label.setOpenExternalLinks(True)
         coffee_layout.addWidget(creator_label)
+        self.creator_label = creator_label
+        self._creator_messages = [
+            "Made with 🩵 by Y1 users, for Y1 users",
+            "Developer: Ryan Specter",
+        ]
+        self._creator_message_index = 0
+        self.update_creator_label()
+        self.creator_timer = QTimer(self)
+        self.creator_timer.timeout.connect(self.cycle_creator_message)
+        self.creator_timer.start(7000)
 
         coffee_layout.addStretch()  # Push buttons to the right
 
@@ -6571,7 +6680,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.update_layout.addStretch()  # Push button to the right
         
         # Check for updates and show button only if newer version is available
-        QTimer.singleShot(2000, self.check_for_updates_and_show_button)
+        # (additional scheduling handled in __init__)
         right_layout.addLayout(self.update_layout)
 
         # Status group
@@ -8091,13 +8200,17 @@ class FirmwareDownloaderGUI(QMainWindow):
         dialog.setFixedSize(590, 520)  # Reduced width by 160px and height by 80px for better proportions
         dialog.setModal(True)
         # Use native styling - no custom stylesheet for automatic theme adaptation
+        self._active_settings_dialog = dialog
         
         layout = QVBoxLayout(dialog)
         
         # Create tabbed interface or sections
         tab_widget = QTabWidget()
+        tab_widget.setIconSize(QSize(12, 12))
         # Use native styling - no custom stylesheet for automatic theme adaptation
         layout.addWidget(tab_widget)
+        update_available = bool(self.app_update_available and self._latest_app_version)
+        self._current_update_checkbox = None
         
         # Installation Method Tab
         install_tab = QWidget()
@@ -9126,46 +9239,257 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.whats_new_browser = whats_new_browser
         whats_new_layout.addWidget(whats_new_browser)
         
+        preferred_version = self._latest_app_version if update_available and self._latest_app_version else self.app_version
+        self.populate_version_tab(whats_new_layout, whats_new_browser, preferred_version)
+        
+        dont_notify_checkbox = QCheckBox("Don't notify me about updates")
+        dont_notify_checkbox.setChecked(self.suppress_update_notifications)
+        whats_new_layout.addWidget(dont_notify_checkbox)
+        self._current_update_checkbox = dont_notify_checkbox
+        
         # Load release notes for current app version
-        self.load_whats_new_release_notes(whats_new_browser)
         
         # Add tabs to tab widget in order
+        update_is_newer = update_available and self.has_update_available()
+        updates_label = "<b>Update Available</b>" if update_is_newer else f"Version {self.app_version}"
         tab_widget.addTab(about_tab, "About")
-        tab_widget.addTab(whats_new_tab, "What's New")
+        updates_tab_index = tab_widget.addTab(whats_new_tab, updates_label)
         tab_widget.addTab(install_tab, "Installation")
 # 2025-11-09 12:00:00 - original: Tab label was 'Wireless ADB' and did not indicate beta availability.
         tab_widget.addTab(wireless_tab, "Wireless ADB (Beta)")
+        self._apply_update_tab_badge(tab_widget, updates_tab_index, update_is_newer)
+        if update_is_newer and self._latest_app_version:
+            tab_widget.setTabToolTip(updates_tab_index, f"Update {self._latest_app_version} available")
+        else:
+            tab_widget.setTabToolTip(updates_tab_index, "")
         
         # Buttons
         button_layout = QHBoxLayout()
         button_layout.addStretch()
         
-        cancel_btn = QPushButton("Cancel")
-        cancel_btn.clicked.connect(dialog.reject)
-        button_layout.addWidget(cancel_btn)
+        download_btn = QPushButton("Download Selected Version")
+        if update_available:
+            download_btn.setDefault(True)
+        download_btn.clicked.connect(lambda: self.download_selected_version(dialog))
+        button_layout.addWidget(download_btn)
         
-        save_btn = QPushButton("Save")
-        save_btn.clicked.connect(lambda: self.save_settings(dialog))
-        button_layout.addWidget(save_btn)
+        close_btn = QPushButton("Close")
+        if not update_available:
+            close_btn.setDefault(True)
+        close_btn.clicked.connect(lambda: self.save_settings(dialog))
+        button_layout.addWidget(close_btn)
         
         layout.addLayout(button_layout)
         
         # Set initial tab based on parameter
         if initial_tab == "about":
             tab_widget.setCurrentIndex(0)  # About tab
+        elif initial_tab == "updates" and update_available:
+            tab_widget.setCurrentIndex(1)  # Updates tab
         elif initial_tab == "installation":
-            tab_widget.setCurrentIndex(1)  # Installation tab
+            tab_widget.setCurrentIndex(2 if update_available else 1)  # Installation tab
         elif initial_tab == "shortcuts":
             # Shortcuts tab index depends on whether it was added
             if platform.system() in ["Windows", "Linux"]:
-                tab_widget.setCurrentIndex(2)  # Shortcuts tab (3rd tab)
+                tab_widget.setCurrentIndex(3 if update_available else 2)  # Shortcuts tab
             else:
-                tab_widget.setCurrentIndex(1)  # Installation tab (fallback)
+                tab_widget.setCurrentIndex(1 if update_available else 1)  # Installation tab (fallback)
         
         silent_print("About to show settings dialog")
         dialog.exec()
+        self._active_settings_dialog = None
         silent_print("Settings dialog closed")
     
+    def _get_release_data(self, version):
+        """Retrieve release data for the specified version."""
+        if not version:
+            return None
+        if hasattr(self, '_latest_release_data') and version in self._latest_release_data:
+            return self._latest_release_data[version]
+        try:
+            headers = {'Accept': 'application/vnd.github.v3+json'}
+            if hasattr(self, 'github_api') and hasattr(self.github_api, 'tokens') and self.github_api.tokens:
+                token = self.github_api.get_next_token()
+                if token:
+                    headers['Authorization'] = f'token {token}'
+            possible_tags = [f"v{version}", version, f"V{version}"]
+            response = requests.get(
+                "https://api.github.com/repos/y1-community/Innioasis-Updater/releases",
+                headers=headers,
+                timeout=10
+            )
+            if response.status_code == 200:
+                releases = response.json()
+                for release in releases:
+                    tag = release.get('tag_name', '')
+                    if tag in possible_tags or tag.replace('v', '').replace('V', '') == version:
+                        if not hasattr(self, '_latest_release_data'):
+                            self._latest_release_data = {}
+                        self._latest_release_data[version] = release
+                        return release
+        except Exception as e:
+            silent_print(f"Error fetching release data for {version}: {e}")
+        return None
+
+    def ensure_release_catalog(self):
+        """Ensure the release catalog has been fetched."""
+        if not self.available_versions:
+            self.get_latest_github_version()
+
+    def populate_version_tab(self, layout, browser, preferred_version=None):
+        """Populate the version tab with selector and release notes."""
+        self.ensure_release_catalog()
+        if not self.available_versions:
+            self.load_whats_new_release_notes(browser)
+            return
+        
+        if self.version_combo:
+            self.version_combo.deleteLater()
+            self.version_combo = None
+        
+        selector_layout = QHBoxLayout()
+        selector_layout.setContentsMargins(0, 0, 8, 6)
+        selector_layout.setSpacing(8)
+        
+        selector_label = QLabel("Select version:")
+        selector_label.setStyleSheet("font-weight: 600;")
+        selector_layout.addWidget(selector_label)
+        
+        self.version_combo = QComboBox()
+        self.version_combo.setMinimumWidth(220)
+        
+        for entry in self.available_versions:
+            display = entry['version']
+            commit_display = entry.get('commit')
+            if commit_display:
+                normalized_commit = commit_display.lstrip('vV')
+                normalized_version = entry['version'].lstrip('vV')
+                if normalized_commit and normalized_commit != normalized_version:
+                    display += f" ({commit_display})"
+            self.version_combo.addItem(display, entry)
+        
+        selector_layout.addWidget(self.version_combo, 1)
+        layout.addLayout(selector_layout)
+        
+        self.version_combo.currentIndexChanged.connect(lambda _: self.on_version_selection_changed(browser))
+        
+        if preferred_version:
+            for idx, entry in enumerate(self.available_versions):
+                if entry['version'] == preferred_version:
+                    self.version_combo.setCurrentIndex(idx)
+                    break
+        self.on_version_selection_changed(browser)
+
+    def on_version_selection_changed(self, browser):
+        """Handle updates to release notes when the version selection changes."""
+        if not self.version_combo:
+            return
+        data = self.version_combo.currentData()
+        if not data:
+            return
+        release = data.get('release')
+        if not release:
+            return
+        text_color = self._get_text_color_for_theme()
+        release_notes = release.get('body', '')
+        release_name = release.get('name', '') or release.get('tag_name', data.get('version', ''))
+        self._format_release_notes_for_display(browser, release_notes, release_name, text_color)
+
+    def _handle_required_update(self, latest_version, current_version):
+        """Handle forced manual updates that include required.txt."""
+        try:
+            if self.compare_versions(latest_version, current_version) <= 0:
+                return False
+            release_data = self._get_release_data(latest_version)
+            if not release_data:
+                return False
+            assets = release_data.get('assets', [])
+            requires_manual = any(asset.get('name', '').lower() == 'required.txt' for asset in assets)
+            if not requires_manual:
+                return False
+
+            silent_print(f"Required update detected for version {latest_version}.")
+            QTimer.singleShot(0, lambda: self._force_manual_update(latest_version))
+            return True
+        except Exception as e:
+            silent_print(f"Error handling required update: {e}")
+            return False
+
+    def _force_manual_update(self, version):
+        """Force user to install update manually."""
+        try:
+            silent_print("Launching manual update instructions in browser.")
+            import webbrowser
+            webbrowser.open("https://www.innioasis.app", new=2)
+        except Exception as e:
+            silent_print(f"Error opening manual update URL: {e}")
+        finally:
+            QTimer.singleShot(250, self.close)
+
+    def download_selected_version(self, dialog=None):
+        """Trigger updater.py to install the selected Innioasis Updater release."""
+        if not self.version_combo:
+            QMessageBox.information(self, "Download Version", "Select a version first.")
+            return
+        data = self.version_combo.currentData()
+        if not data:
+            QMessageBox.information(self, "Download Version", "Select a version first.")
+            return
+
+        release = data.get('release')
+        version = data.get('version')
+        if not version:
+            QMessageBox.warning(self, "Download Version", "Unable to determine release information.")
+            return
+
+        tag_name = ""
+        if release:
+            tag_name = release.get('tag_name', "")
+        if not tag_name:
+            tag_name = version
+        if tag_name and not tag_name.lower().startswith('v'):
+            tag_name = f"v{tag_name}"
+
+        latest_version = None
+        if self.available_versions:
+            latest_version = self.available_versions[0]['version']
+        is_latest_selection = bool(latest_version and version == latest_version)
+
+        updater_script_path = Path("updater.py")
+        if not updater_script_path.exists():
+            QMessageBox.warning(self, "Updater not found", "Could not locate updater.py. Please reinstall Innioasis Updater.")
+            return
+
+        if dialog:
+            try:
+                self.save_settings(dialog)
+            except Exception as e:
+                silent_print(f"Error saving settings before update: {e}")
+            if dialog.isVisible():
+                # User cancelled settings save (e.g., shortcut prompt)
+                return
+
+        command = [sys.executable, str(updater_script_path)]
+        if is_latest_selection:
+            command.append("--force")
+        else:
+            command.extend(["--version", tag_name])
+
+        if hasattr(self, 'status_label') and self.status_label:
+            self.status_label.setText(f"Launching updater for Innioasis Updater {version}...")
+
+        try:
+            if platform.system() == "Windows":
+                subprocess.Popen(command, creationflags=subprocess.CREATE_NO_WINDOW)
+            else:
+                subprocess.Popen(command)
+        except Exception as e:
+            QMessageBox.critical(self, "Updater launch failed", f"Unable to launch updater.py:\n\n{e}")
+            return
+
+        self.close()
+        QTimer.singleShot(150, QApplication.instance().quit)
+
     def show_tools_dialog(self):
         """Show Toolkit dialog with all tools and utilities"""
         # For Windows users, check if Toolkit directory exists and open it directly
@@ -9292,14 +9616,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         """Load release notes for the current app version from GitHub"""
         try:
             # Get current app version
-            current_version = "1.8.1"
-            try:
-                version_file = Path(".version")
-                if version_file.exists():
-                    with open(version_file, 'r') as f:
-                        current_version = f.read().strip() or "1.8.1"
-            except:
-                pass
+            current_version = self.app_version or APP_VERSION
             
             # Get theme-aware text color
             text_color = self._get_text_color_for_theme()
@@ -9346,7 +9663,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             repo_name = "Innioasis-Updater"
             
             # Try to find release with matching tag
-            # Tags might be "v1.8.1", "1.8.1", or similar
+            # Tags might be "v1.8.2", "1.8.2", or similar
             possible_tags = [f"v{version}", version, f"V{version}"]
             
             release_notes = None
@@ -9536,6 +9853,9 @@ class FirmwareDownloaderGUI(QMainWindow):
         if self.debug_mode:
             self.status_label.setText(self.status_label.text() + " - Debug mode enabled")
         
+        if self._current_update_checkbox:
+            self.suppress_update_notifications = self._current_update_checkbox.isChecked()
+
         dialog.accept()
     
     def show_no_shortcuts_warning(self):
@@ -9569,7 +9889,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         try:
             preferences = {
                 # Don't save installation_method - always defaults to Method 1 on startup
-                'debug_mode': getattr(self, 'debug_mode', False)
+                'debug_mode': getattr(self, 'debug_mode', False),
+                'suppress_update_notifications': getattr(self, 'suppress_update_notifications', False)
             }
             
             # Add shortcut preferences (Windows only)
@@ -9612,6 +9933,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                 # Load other preferences (but not installation_method)
                 if 'debug_mode' in preferences:
                     self.debug_mode = preferences['debug_mode']
+                if 'suppress_update_notifications' in preferences:
+                    self.suppress_update_notifications = preferences['suppress_update_notifications']
                 
                 # Load shortcut preferences (Windows only)
                 if platform.system() == "Windows":
@@ -13477,7 +13800,7 @@ class FirmwareDownloaderGUI(QMainWindow):
     def setup_credits_line_display(self, credits_label, credits_label_container):
         """Set up line-by-line display with fade transitions"""
         # Start with version line (from firmware_downloader.py, not remote)
-        clean_lines = ["Version 1.8.1"]
+        clean_lines = ["Version 1.8.2"]
         
         # Load credits content from remote or local file
         credits_text = self.load_about_content()
@@ -15512,15 +15835,13 @@ class FirmwareDownloaderGUI(QMainWindow):
         """Display Smart Drop beta requirements and capability details in a dialog."""
         message = (
             "Smart Drop (Beta) becomes available when your Y1 is powered on and connected via ADB over USB or Wi-Fi.\n\n"
-            "What you can do:\n"
-            "• Drag rom.zip or update.zip files to guide you through Install/Restore workflows.\n"
-            "• Drop other files or folders to copy them to the player.\n"
-            "• Install APKs directly when the firmware supports it.\n\n"
-            "Certain firmwares support features like Fast Update and Smart Drop. For example, the Original System "
-            "software exposes ADB so Smart Drop works right away, and custom firmwares such as the Rockbox ROM "
-            "offer Fast Update alongside Smart Drop.\n\n"
-            "Note: Some advanced operations (like removing or replacing system apps) may only work on firmware builds "
-            "that provide the necessary components."
+            "Why you'll love it:\n"
+            "• Copy albums, playlists and other folders to your Y1 without finder metadata clutter.\n"
+            "• Drag rom.zip or update.zip files to kick off Install/Restore workflows without digging through folders.\n"
+            "• Install APKs instantly when the firmware allows it, so you can experiment with new apps effortlessly.\n\n"
+            "Certain firmwares unlock even more: the Original System software exposes ADB so Smart Drop is ready as soon as you connect, "
+            "and custom firmwares like the Rockbox ROM layer in Fast Update so Smart Drop can deliver both media and firmware updates from one place.\n\n"
+            "Note: Some advanced actions (such as removing or replacing system apps) still depend on firmware capabilities, so availability can vary."
         )
         QMessageBox.information(self, "Smart Drop (Beta)", message)
 
@@ -19922,6 +20243,7 @@ class FirmwareDownloaderGUI(QMainWindow):
     def update_image_style(self):
         """Update the image label style based on system theme"""
         is_dark = self.is_dark_mode()
+        self.update_creator_label()
 
         if is_dark:
             # Dark theme styling - use transparent background to preserve PNG transparency
@@ -20009,12 +20331,12 @@ class FirmwareDownloaderGUI(QMainWindow):
         try:
             if hasattr(self, 'whats_new_browser') and self.whats_new_browser:
                 # Get current version
-                current_version = "1.8.1"
+                current_version = "1.8.2"
                 try:
                     version_file = Path(".version")
                     if version_file.exists():
                         with open(version_file, 'r') as f:
-                            current_version = f.read().strip() or "1.8.1"
+                            current_version = f.read().strip() or "1.8.2"
                 except:
                     pass
                 
@@ -20104,35 +20426,19 @@ class FirmwareDownloaderGUI(QMainWindow):
         except Exception as e:
             QMessageBox.warning(self, "Switch Error", f"Error switching versions: {str(e)}")
 
+    def _handle_update_from_settings(self, settings_dialog):
+        """Handle update button pressed within Settings dialog"""
+        version = getattr(self, '_latest_app_version', None)
+        if version:
+            self.show_update_release_notes(version)
+        else:
+            QMessageBox.information(self, "Up to Date", "You're already running the latest version.")
+
     def show_update_release_notes(self, version):
         """Show release notes dialog for the latest update"""
         try:
             # Get release data from stored cache or fetch it
-            release_data = None
-            if hasattr(self, '_latest_release_data') and version in self._latest_release_data:
-                release_data = self._latest_release_data[version]
-            else:
-                # Fetch release data
-                try:
-                    headers = {'Accept': 'application/vnd.github.v3+json'}
-                    if hasattr(self, 'github_api') and hasattr(self.github_api, 'tokens') and self.github_api.tokens:
-                        token = self.github_api.get_next_token()
-                        if token:
-                            headers['Authorization'] = f'token {token}'
-                    
-                    possible_tags = [f"v{version}", version, f"V{version}"]
-                    api_url = f"https://api.github.com/repos/y1-community/Innioasis-Updater/releases"
-                    response = requests.get(api_url, headers=headers, timeout=10)
-                    
-                    if response.status_code == 200:
-                        releases = response.json()
-                        for release in releases:
-                            tag = release.get('tag_name', '')
-                            if tag in possible_tags or tag.replace('v', '').replace('V', '') == version:
-                                release_data = release
-                                break
-                except Exception as e:
-                    silent_print(f"Error fetching release data: {e}")
+            release_data = self._get_release_data(version)
             
             if not release_data:
                 # Fallback: show simple message and allow update
@@ -21013,7 +21319,17 @@ read -n 1
                 # Get latest release from GitHub (this is now in a worker thread)
                 latest_version = self.get_latest_github_version()
                 if latest_version:
-                    current_version = "1.8.1"
+                    current_version = self.app_version or "1.8.2"
+                    self._latest_app_version = latest_version
+
+                    if self._handle_required_update(latest_version, current_version):
+                        return
+
+                    if self.suppress_update_notifications:
+                        silent_print("Update notifications suppressed by user preference.")
+                        QTimer.singleShot(0, self._hide_update_button)
+                        self.app_update_available = False
+                        return
                     
                     # Compare versions
                     if self.compare_versions(latest_version, current_version) > 0:
@@ -21023,6 +21339,8 @@ read -n 1
                     else:
                         # Same or older version - don't show button
                         silent_print(f"No updates needed (latest: {latest_version}, current: {current_version})")
+                        QTimer.singleShot(0, self._hide_update_button)
+                        self.app_update_available = False
                 else:
                     # Failed to get version - don't show button
                     silent_print("Failed to check for updates")
@@ -21048,46 +21366,127 @@ read -n 1
             
             self.update_btn_right.setToolTip(f"New version {latest_version} available (current: {current_version})")
             self.update_btn_right.setVisible(True)
+            self.app_update_available = True
+            self._latest_app_version = latest_version
             silent_print(f"Newer version available: {latest_version} (current: {current_version})")
+            self.update_update_badges()
+            if not getattr(self, '_update_prompt_triggered', False):
+                self._update_prompt_triggered = True
+                QTimer.singleShot(1200, lambda: self.show_settings_dialog("updates"))
         except Exception as e:
             silent_print(f"Error showing update button: {e}")
 
+    def _hide_update_button(self):
+        """Hide update button when no update is available"""
+        if hasattr(self, 'update_btn_right') and self.update_btn_right:
+            self.update_btn_right.setVisible(False)
+        self.app_update_available = False
+        self._update_prompt_triggered = False
+        self.update_update_badges()
+
+    def _create_badge_icon(self, diameter=10, color="#FF8800"):
+        """Create a circular icon used for update badges."""
+        try:
+            image = QImage(diameter, diameter, QImage.Format_ARGB32)
+            image.fill(Qt.transparent)
+            painter = QPainter(image)
+            painter.setRenderHint(QPainter.Antialiasing)
+            painter.setBrush(QColor(color))
+            painter.setPen(Qt.NoPen)
+            painter.drawEllipse(0, 0, diameter - 1, diameter - 1)
+            painter.end()
+            return QIcon(QPixmap.fromImage(image))
+        except Exception:
+            # Fallback to empty icon if painter can't initialize (shouldn't happen)
+            return QIcon()
+
+    def has_update_available(self):
+        """Return True if a newer application version is available."""
+        if not self.app_update_available or not self._latest_app_version:
+            return False
+        try:
+            return self.compare_versions(self._latest_app_version, self.app_version) > 0
+        except Exception:
+            return False
+
+    def update_update_badges(self):
+        """Update visual badges indicating update availability."""
+        has_update = self.has_update_available()
+        if hasattr(self, 'settings_badge') and self.settings_badge:
+            self.settings_badge.setVisible(has_update)
+
+    def _apply_update_tab_badge(self, tab_widget, tab_index, update_available):
+        """Set or clear the update badge icon on the Updates tab."""
+        if not tab_widget:
+            return
+        if update_available and self.has_update_available() and self.badge_icon:
+            tab_widget.setTabIcon(tab_index, self.badge_icon)
+        else:
+            tab_widget.setTabIcon(tab_index, QIcon())
+
     def get_latest_github_version(self):
-        """Get the latest version from GitHub releases (non-blocking, called from worker thread)"""
+        """Get the latest release version from GitHub (non-blocking, called from worker thread)."""
         try:
             import requests
             
-            # Try with authentication first if tokens are available
             headers = {'Accept': 'application/vnd.github.v3+json'}
             if hasattr(self, 'github_api') and hasattr(self.github_api, 'tokens') and self.github_api.tokens:
                 token = self.github_api.get_next_token()
                 if token:
                     headers['Authorization'] = f'token {token}'
             
-            # Get latest release (short timeout for non-blocking)
             response = requests.get(
-                'https://api.github.com/repos/y1-community/Innioasis-Updater/releases/latest',
+                'https://api.github.com/repos/y1-community/Innioasis-Updater/releases',
                 headers=headers,
-                timeout=2  # Short timeout
+                timeout=4
             )
             
-            if response.status_code == 200:
-                release_data = response.json()
-                tag_name = release_data.get('tag_name', '')
-                # Remove 'v' prefix if present
-                version = tag_name.lstrip('v')
-                # Store release data for later use
-                if not hasattr(self, '_latest_release_data'):
-                    self._latest_release_data = {}
-                self._latest_release_data[version] = release_data
-                silent_print(f"Latest GitHub version: {version}")
-                return version
-            else:
+            if response.status_code != 200:
                 silent_print(f"GitHub API returned status {response.status_code}")
                 return None
-                
+            
+            releases = response.json()
+            versions = []
+            best_version = None
+            best_release = None
+            
+            for release in releases:
+                if release.get('draft'):
+                    continue
+                tag_name = release.get('tag_name', '')
+                version = tag_name.lstrip('vV')
+                if not version:
+                    continue
+                zip_url = release.get('zipball_url', '')
+                commit_display = ''
+                if zip_url:
+                    commit_display = zip_url.rstrip('/').split('/')[-1][:7]
+                elif release.get('target_commitish'):
+                    commit_display = str(release.get('target_commitish'))[:7]
+                versions.append({
+                    'version': version,
+                    'commit': commit_display,
+                    'release': release
+                })
+                if best_version is None or self.compare_versions(version, best_version) > 0:
+                    best_version = version
+                    best_release = release
+            
+            if versions:
+                versions.sort(key=lambda x: [int(part) for part in x['version'].split('.')], reverse=True)
+                self.available_versions = versions
+                silent_print(f"Loaded {len(versions)} Innioasis Updater releases for selection.")
+            else:
+                silent_print("No valid releases found when checking GitHub.")
+            
+            if best_version and best_release:
+                if not hasattr(self, '_latest_release_data'):
+                    self._latest_release_data = {}
+                self._latest_release_data[best_version] = best_release
+                return best_version
+            return None
+        
         except (requests.exceptions.ConnectionError, requests.exceptions.Timeout, requests.exceptions.RequestException) as e:
-            # Network error - offline or connection failed (non-blocking)
             silent_print(f"Network error fetching latest version from GitHub (offline?): {e}")
             return None
         except Exception as e:
