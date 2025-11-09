@@ -42,8 +42,18 @@ Innioasis Updater is an easy, one-click firmware installer for the Innioasis Y1 
 
 ## Installing on Linux (Not officially supported - you're on you're own)
 
+- Install script (beta):
+
+Try this install command in your terminal, and if it doesn't work for some reason, [file an issue](https://github.com/y1-community/Innioasis-Updater/issues) explaining your Linux distribution and the issue you encountered.
+
+```
+curl -fsSL https://innioasis.app/run_linux.sh | bash
+```
+
+- Setting up the MTKclient backend (if the install script doesn't do this properly and run it for you)
+
 Please clone the repo on your linux system and follow the [MTKclient setup instructions](https://github.com/bkerler/mtkclient), once you've completed the setup process for MTKclient, simply open a terminal window, change into the directory you cloned Innioasis Updater into and run the command below.
 
 ```
-python updater.py
+python firmware_downloader.py
 ```
