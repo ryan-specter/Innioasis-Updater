@@ -4922,7 +4922,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         """Handle version check file and show macOS app update message for new users"""
         try:
             version_file = Path(".version")
-            current_version = "1.8.2"
+            current_version = "1.8.1"
             
             # Read the last used version
             last_version = None
@@ -6297,7 +6297,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Add seasonal emoji to window title
         seasonal_emoji = get_seasonal_emoji()
         title_emoji = f" {seasonal_emoji}" if seasonal_emoji else ""
-        self.setWindowTitle(f"Innioasis Updater 1.8.2{title_emoji}")
+        self.setWindowTitle(f"Innioasis Updater 1.8.1{title_emoji}")
         self.setGeometry(100, 100, 1220, 574)
         
         # Set fixed window size to maintain layout
@@ -9292,12 +9292,12 @@ class FirmwareDownloaderGUI(QMainWindow):
         """Load release notes for the current app version from GitHub"""
         try:
             # Get current app version
-            current_version = "1.8.2"
+            current_version = "1.8.1"
             try:
                 version_file = Path(".version")
                 if version_file.exists():
                     with open(version_file, 'r') as f:
-                        current_version = f.read().strip() or "1.8.2"
+                        current_version = f.read().strip() or "1.8.1"
             except:
                 pass
             
@@ -9346,7 +9346,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             repo_name = "Innioasis-Updater"
             
             # Try to find release with matching tag
-            # Tags might be "v1.8.2", "1.8.2", or similar
+            # Tags might be "v1.8.1", "1.8.1", or similar
             possible_tags = [f"v{version}", version, f"V{version}"]
             
             release_notes = None
@@ -13477,7 +13477,7 @@ class FirmwareDownloaderGUI(QMainWindow):
     def setup_credits_line_display(self, credits_label, credits_label_container):
         """Set up line-by-line display with fade transitions"""
         # Start with version line (from firmware_downloader.py, not remote)
-        clean_lines = ["Version 1.8.2"]
+        clean_lines = ["Version 1.8.1"]
         
         # Load credits content from remote or local file
         credits_text = self.load_about_content()
@@ -20009,12 +20009,12 @@ class FirmwareDownloaderGUI(QMainWindow):
         try:
             if hasattr(self, 'whats_new_browser') and self.whats_new_browser:
                 # Get current version
-                current_version = "1.8.2"
+                current_version = "1.8.1"
                 try:
                     version_file = Path(".version")
                     if version_file.exists():
                         with open(version_file, 'r') as f:
-                            current_version = f.read().strip() or "1.8.2"
+                            current_version = f.read().strip() or "1.8.1"
                 except:
                     pass
                 
@@ -21013,7 +21013,7 @@ read -n 1
                 # Get latest release from GitHub (this is now in a worker thread)
                 latest_version = self.get_latest_github_version()
                 if latest_version:
-                    current_version = "1.8.2"
+                    current_version = "1.8.1"
                     
                     # Compare versions
                     if self.compare_versions(latest_version, current_version) > 0:
