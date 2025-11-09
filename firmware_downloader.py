@@ -9786,11 +9786,74 @@ class FirmwareDownloaderGUI(QMainWindow):
                 "Restart required",
                 f"Innioasis Updater {version} has been installed.\nThe application will restart to load the new version."
             )
+            # 2025-11-09 18:45 UTC original restart logic kept for reference:
+            # self.close()
+            # QTimer.singleShot(200, QApplication.instance().quit)
+            # Old behavior: the app quit after updating and relied on the user to relaunch it manually.
             self.close()
-            QTimer.singleShot(200, QApplication.instance().quit)
+            self._schedule_post_update_relaunch()
         elif not install_dialog.success:
             error_message = install_dialog.error_message or "The selected version could not be installed."
             QMessageBox.warning(self, "Update not applied", error_message)
+
+    def _schedule_post_update_relaunch(self):
+        """Schedule the automatic relaunch after a successful update."""
+        # 2025-11-09 18:45 UTC update note: previously the GUI quit without relaunching; now we relaunch automatically.
+        QTimer.singleShot(100, self._launch_updated_app)
+        QTimer.singleShot(800, QApplication.instance().quit)
+
+    def _launch_updated_app(self):
+        """Launch the Innioasis Updater after installing a new release."""
+        # 2025-11-09 18:45 UTC legacy behavior reference: manual relaunch by the user after quitting the GUI.
+        try:
+            system = platform.system()
+            if system == "Darwin":
+                app_path = Path.home() / "Applications" / "Innioasis Updater.app"
+                if not app_path.exists():
+                    fallback_path = Path("/Applications/Innioasis Updater.app")
+                    if fallback_path.exists():
+                        app_path = fallback_path
+                if app_path.exists():
+                    subprocess.Popen(
+                        ["/usr/bin/open", str(app_path)],
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL,
+                        stdin=subprocess.DEVNULL
+                    )
+                else:
+                    silent_print(f"Innioasis Updater.app not found in Applications folder: {app_path}")
+            elif system == "Windows":
+                script_path = Path(__file__).resolve()
+                python_exe = Path(sys.executable)
+                if python_exe.exists() and script_path.exists():
+                    popen_kwargs = {
+                        "cwd": str(Path.cwd()),
+                        "stdout": subprocess.DEVNULL,
+                        "stderr": subprocess.DEVNULL,
+                        "stdin": subprocess.DEVNULL,
+                        "close_fds": True,
+                    }
+                    creation_flags = 0
+                    for flag_name in ("CREATE_NEW_PROCESS_GROUP", "DETACHED_PROCESS", "CREATE_NO_WINDOW"):
+                        if hasattr(subprocess, flag_name):
+                            creation_flags |= getattr(subprocess, flag_name)
+                    if creation_flags:
+                        popen_kwargs["creationflags"] = creation_flags
+                    subprocess.Popen([str(python_exe), str(script_path)], **popen_kwargs)
+                else:
+                    silent_print("Unable to relaunch firmware_downloader.py automatically on Windows.")
+            else:
+                script_path = Path(__file__).resolve()
+                subprocess.Popen(
+                    [str(sys.executable), str(script_path)],
+                    cwd=str(Path.cwd()),
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    stdin=subprocess.DEVNULL,
+                    close_fds=True
+                )
+        except Exception as exc:
+            silent_print(f"Failed to relaunch updated application: {exc}")
 
     def show_tools_dialog(self):
         """Show Toolkit dialog with all tools and utilities"""
