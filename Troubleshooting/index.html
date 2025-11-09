@@ -3275,7 +3275,7 @@
                 </div>
                 <div class="header-text">
                     <h1>Innioasis Updater</h1>
-                    <p id="dynamic-subtitle">We've helped to update <span id="download-count">3,350+</span> Innioasis Y1s on Windows and Mac</p>
+                    <p id="dynamic-subtitle">We've helped <span id="download-count">5,100+</span> Innioasis Y1 owners stay up-to-date on Windows and Mac</p>
                 </div>
             </div>
             <div class="header-download">
@@ -3350,7 +3350,7 @@
                             <div class="app-getting-ready" id="getting-ready-section">
                                 <strong>Getting ready:</strong>
                                 <div class="app-instruction-image">
-                                    <img src="https://innioasis.app/mtkclient/gui/images/presteps.png" alt="Installation instructions" class="app-main-image">
+                                    <img src="./mtkclient/gui/images/presteps.png" alt="Installation instructions" class="app-main-image">
                                 </div>
                             </div>
                             <div class="app-labs">interactive app demo - sequences shortened for demonstration purposes, options may differ between operating systems.          </div>
@@ -3518,10 +3518,10 @@
                                 <div class="checklist">
                                     <div class="checklist-item">
                                         <div class="checklist-content">
-                                             <h5>📥 MediaTek Driver (Required)</h5>
+                                             <h5>📥 USB Development Kit Driver (Required)</h5>
                                              <p>This is required for your computer to recognize your Y1 device on Windows</p>
                                             <div class="checklist-actions">
-                                                <button class="btn btn-primary" onclick="downloadDriver('mtk')">Download MediaTek Driver</button>
+                                                <button class="btn btn-primary" onclick="downloadDriver('mtk')">Download USB Development Kit Driver</button>
                                                 <button class="info-btn" onclick="showDriverInfo()" title="Important installation info">Help</button>
                                                 <a href="#" onclick="markDriverComplete(); return false;" class="skip-link">Already done this</a>
                                             </div>
@@ -3564,7 +3564,7 @@
                                 <p>Almost there! Here's what to do next:</p>
                                 
                                 <ol>
-                                    <li>Install the MediaTek driver you downloaded</li>
+                                    <li>Install the USB Development Kit driver you downloaded</li>
                                     <li>Install Innioasis Updater</li>
                                     <li><strong>Restart your computer</strong> (this is important after installing drivers!)</li>
                                     <li>Launch Innioasis Updater from the Start Menu</li>
@@ -3755,18 +3755,13 @@
             <div class="info-modal" id="driverInfoModal">
                 <div class="info-modal-content">
                     <button class="info-modal-close" onclick="closeDriverInfo()">×</button>
-                    <h3>📥 MediaTek Driver Installation Info</h3>
-                    <p>When installing the MediaTek driver, you may see a dialog asking about removing the "origin driver". Here's what to do:</p>
-                    
-                    <div class="highlight">
-                        <strong>Important:</strong> If the installer asks "Remove origin driver?", click <strong>Yes</strong>. This is totally normal and helps make sure the driver works nicely with your Y1 device.
-                    </div>
-                    
-                    <p>This step is necessary because:</p>
+                    <h3>📥 MediaTek SP USB Driver Info</h3>
+                    <p>When installing the SP USB Driver you may see "Remove Origin Driver?" appear. This usually means:</p>
+                
                     <ul>
-                        <li>It removes any conflicting drivers that might interfere</li>
-                        <li>It ensures the MediaTek driver has full control over USB communication</li>
-                        <li>It prevents driver conflicts that could cause connection issues</li>
+                        <li>The driver was already installed</li>
+                        <li>Click Yes and the install will continue as expected</li>
+                        <li></li>
                     </ul>
                     
                     <p>After installation, restart your computer as prompted to complete the setup.</p>
@@ -3938,13 +3933,13 @@
                     <!-- Card 7: Manual firmware download (Universal) -->
                     <div class="troubleshooting-card">
                         <h4>📥 App won't work at all?</h4>
-                        <p>Download firmwares from <a href="https://innioasis.app/firmware.html" target="_blank">innioasis.app/firmware.html</a> and use the troubleshooting shortcuts</p>
+                        <p>Download firmwares from <a href="./firmware.html" target="_blank">innioasis.app/firmware.html</a> and use the troubleshooting shortcuts</p>
                     </div>
                     
                     <!-- Non-Windows Platform Message -->
                     <div class="troubleshooting-card platform-non-windows" style="display: none;">
                         <h4>💻 Troubleshooting for your platform</h4>
-                        <p>These troubleshooting steps are specific to Windows. For Mac and Linux users, please refer to the installation guide or visit <a href="https://innioasis.app/firmware.html" target="_blank">innioasis.app/firmware.html</a> for platform-specific help.</p>
+                        <p>These troubleshooting steps are specific to Windows. For Mac and Linux users, please refer to the installation guide or visit <a href="./firmware.html" target="_blank">innioasis.app/firmware.html</a> for platform-specific help.</p>
                     </div>
                         </div>
                         
@@ -3957,7 +3952,7 @@
                 </ul>
                 <p><strong>Optional Driver:</strong></p>
                 <ul>
-                    <li><strong>USB Development Kit / UsbDk</strong> - Optional download from <a href="https://innioasis.app/driver_usbdk.msi" target="_blank">innioasis.app/driver_usbdk.msi</a></li>
+                    <li><strong>USB Development Kit / UsbDk</strong> - Optional download from <a href="https://github.com/daynix/UsbDk/releases/download/v1.00-22/UsbDk_1.0.22_x64.msi" target="_blank">Daynix's GitHub</a></li>
                     <li><strong>Purpose:</strong> Enables MTKclient-based installation methods on Windows for cross-platform ROM testing</li>
                     <li><strong>Note:</strong> Only needed for ROM developers who want to test cross-platform compatibility</li>
                 </ul>
@@ -4134,7 +4129,7 @@ your-rom-repo/
                 <p><strong>Essential Resources for Y1 Development:</strong></p>
                 <ul>
                     <li><strong>GitHub Repository:</strong> <a href="https://github.com/team-slide/Innioasis-Updater" target="_blank">github.com/team-slide/Innioasis-Updater</a></li>
-                    <li><strong>Firmware Directory:</strong> <a href="https://innioasis.app/firmware.html" target="_blank">innioasis.app/firmware.html</a></li>
+                    <li><strong>Firmware Directory:</strong> <a href="./firmware.html" target="_blank">innioasis.app/firmware.html</a></li>
                     <li><strong>Slidia Manifest:</strong> <a href="https://github.com/Team-Slide/Slidia" target="_blank">github.com/Team-Slide/Slidia</a></li>
                     <li><strong>Rockbox-y1 Reference:</strong> <a href="https://github.com/rockbox-y1/rockbox" target="_blank">github.com/rockbox-y1/rockbox</a></li>
                 </ul>
@@ -4168,7 +4163,7 @@ your-rom-repo/
             <!-- Rockbox Overview -->
             <div class="info-card">
                 <h3>🎵 What is Rockbox?</h3>
-                <p>Rockbox is a powerful music player that modifies your Y1's Android system with Jo Falkner's Rockbox Android port. Install it directly from Innioasis Updater or <a href="https://innioasis.app/firmware.html" target="_blank">firmware directory</a>.</p>
+                <p>Rockbox is a powerful music player that modifies your Y1's Android system with Jo Falkner's Rockbox Android port. Install it directly from Innioasis Updater or <a href="./firmware.html" target="_blank">firmware directory</a>.</p>
                 
                 <p><strong>Key Features:</strong></p>
                 <ul>
@@ -4213,8 +4208,8 @@ your-rom-repo/
         <div class="footer">
             <p>Created with ❤️ by <a href="https://ko-fi.com/teamslide" target="_blank">Ryan Specter and Team Slide</a> | 
                <a href="https://reddit.com/r/innioasis" target="_blank">r/Innioasis</a> | 
-               <a href="https://discord.gg/Timmkoo" target="_blank">Discord</a> | 
-               <a href="https://innioasis.app" target="_blank">Add your Apps and Firmwares to Innioasis Updater</a></p>
+               Updater is Open Source. <a href="https://github.com/y1-community/Innioasis-Updater/blob/main/index.html" target="_blank">Improve this page.</a> | 
+               <a href="https://github.com/y1-community/Innioasis-Updater?tab=readme-ov-file#developer-heres-how-to-submit-firmwares-to-innioasis-updater" target="_blank">Add your Firmware to Innioasis Updater</a></p>
         </div>
     </div>
 
@@ -4237,8 +4232,8 @@ your-rom-repo/
             if (!heroBanner) return;
 
             const screenshotUrls = [
-                'https://innioasis.app/mtkclient/gui/images/screenshot.jpg',
-                'https://innioasis.app/mtkclient/gui/images/screenshot.png'
+                './mtkclient/gui/images/screenshot.jpg',
+                './mtkclient/gui/images/screenshot.png'
             ];
 
             let currentIndex = 0;
@@ -4937,7 +4932,7 @@ your-rom-repo/
         }
         
         function getWallpaperUrl(platformInfo) {
-            const basePath = 'https://innioasis.app/mtkclient/gui/images/';
+            const basePath = './mtkclient/gui/images/';
             
             // OS-appropriate screenshots with gradient fallbacks
             const screenshots = {
@@ -5044,9 +5039,9 @@ your-rom-repo/
             // Get the correct image path based on platform and step
             function getImagePath(imageType) {
                 if (imageType === 'initsteps') {
-                    return platform === 'windows' ? 'https://innioasis.app/mtkclient/gui/images/initsteps_win.png' : 'https://innioasis.app/mtkclient/gui/images/initsteps.png';
+                    return platform === 'windows' ? './mtkclient/gui/images/initsteps_win.png' : './mtkclient/gui/images/initsteps.png';
                 }
-                return `https://innioasis.app/mtkclient/gui/images/${imageType}.png`;
+                return `./mtkclient/gui/images/${imageType}.png`;
             }
 
             // Get the correct initsteps image based on platform and method
@@ -5098,7 +5093,7 @@ your-rom-repo/
                         gettingReadyElement.innerHTML = `
                             <strong>Getting Ready:</strong>
                             <div class="app-instruction-image">
-                                <img src="https://innioasis.app/mtkclient/gui/images/presteps.png" alt="Installation instructions" class="app-main-image">
+                                <img src="./mtkclient/gui/images/presteps.png" alt="Installation instructions" class="app-main-image">
                             </div>
                         `;
                     }, 4000); // Wait 4 seconds before reset
@@ -5353,7 +5348,7 @@ your-rom-repo/
         // Enhanced API token loading from config.ini with better error handling
         async function loadApiTokens() {
             const configUrls = [
-                'https://innioasis.app/config.ini',
+                './config.ini',
                 './config.ini',
                 'config.ini'
             ];
@@ -6602,14 +6597,14 @@ your-rom-repo/
         // Download functions
         function downloadDriver(driverType) {
             if (driverType === 'mtk') {
-                const url = 'https://innioasis.app/driver_mtk.exe';
-                const filename = 'driver_mtk.exe';
+                const url = 'https://github.com/y1-community/Inni-Drivers/releases/download/mirror/DriverInstall.exe';
+                const filename = 'DriverInstall.exe';
                 
                 // For Safari, open in new tab, for other browsers use download attribute
                 if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
                     window.open(url, '_blank');
                     setTimeout(() => {
-                        alert(`🎉 Opening MediaTek driver download page in new tab! Click the download button on the GitHub page.`);
+                        alert(`🎉 Opening USB Development Kit download page in new tab! Click the download button on the GitHub page.`);
                     }, 1000);
                 } else {
                     const link = document.createElement('a');
@@ -6619,12 +6614,12 @@ your-rom-repo/
                     link.click();
                     document.body.removeChild(link);
                     setTimeout(() => {
-                        alert(`🎉 MediaTek driver download started! Check your Downloads folder.`);
+                        alert(`🎉 USB Development Kit driver download started! Check your Downloads folder.`);
                     }, 1000);
                 }
             } else if (driverType === 'usb') {
-                const url = 'https://innioasis.app/driver_usbdk.msi';
-                const filename = 'driver_usbdk.msi';
+                const url = 'https://github.com/daynix/UsbDk/releases/download/v1.00-22/UsbDk_1.0.22_x64.msi';
+                const filename = 'UsbDk_1.0.22_x64.msi';
                 
                 if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
                     window.open(url, '_blank');
@@ -6646,11 +6641,11 @@ your-rom-repo/
         }
 
         function downloadWindows() {
-            const url = 'https://github.com/team-slide/Innioasis-Updater/releases/latest/download/Innioasis.Updater.-.Windows.exe';
+            const url = 'https://github.com/team-slide/Innioasis-Updater/releases/latest/download/installer.exe';
             
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'Innioasis.Updater.-.Windows.exe';
+            link.download = 'installer.exe';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -7158,9 +7153,9 @@ your-rom-repo/
             // Determine screenshot URL based on platform
             let screenshotUrl;
             if (platformInfo.platform === 'windows') {
-                screenshotUrl = 'https://innioasis.app/mtkclient/gui/images/screenshot_win.jpg';
+                screenshotUrl = './mtkclient/gui/images/screenshot_win.jpg';
             } else {
-                screenshotUrl = 'https://innioasis.app/mtkclient/gui/images/screenshot.png';
+                screenshotUrl = './mtkclient/gui/images/screenshot.png';
             }
             
             // Apply background directly
