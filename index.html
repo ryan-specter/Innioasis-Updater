@@ -1899,6 +1899,10 @@
 
         <div class="main-content">
 
+            <div style="background: var(--bg-secondary); border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; font-size: 0.9rem; color: var(--text-secondary);">
+                Simplify music transfers and updates with <strong>Smart Drop</strong> and <strong>⚡ Fast Drop</strong> in Updater 1.8.2. Coming soon.
+            </div>
+
             <div class="filters">
                 <div class="filter-group">
                     <label for="deviceType">Device Type</label>
@@ -2192,10 +2196,10 @@
         // Global variables
         let packages = [];
         let currentFilters = {
-            deviceType: '',
-            deviceModel: '',
-            software: '',
-            showPrereleases: true
+            deviceType: 'A',
+            deviceModel: 'Y1',
+            software: 'Original Software',
+            showPrereleases: false
         };
 
         // Function to toggle theme installation instructions (accordion style)
@@ -2727,9 +2731,9 @@
                 filterFirmware();
             });
             document.getElementById('deviceModel').addEventListener('change', function() {
-                updateTypeFilterVisibility();
-                populateSoftwareCombo();
-                filterFirmware();
+                    updateTypeFilterVisibility();
+                    populateSoftwareCombo();
+                    filterFirmware();
             });
             document.getElementById('software').addEventListener('change', function() {
                 updateAvailableSoftwareTitle();
@@ -2799,6 +2803,28 @@
                 populateDeviceTypeCombo();
                 populateDeviceModelCombo();
                 populateSoftwareCombo();
+                
+                // Apply default selections
+                const deviceTypeSelect = document.getElementById('deviceType');
+                const deviceModelSelect = document.getElementById('deviceModel');
+                const softwareSelect = document.getElementById('software');
+                const prereleaseCheckbox = document.getElementById('showPrereleases');
+                
+                if (deviceTypeSelect) {
+                    deviceTypeSelect.value = currentFilters.deviceType || 'A';
+                }
+                if (deviceModelSelect) {
+                    deviceModelSelect.value = currentFilters.deviceModel || '';
+                }
+                if (softwareSelect) {
+                    softwareSelect.value = currentFilters.software || '';
+                }
+                if (prereleaseCheckbox) {
+                    prereleaseCheckbox.checked = currentFilters.showPrereleases;
+                }
+                
+                updateTypeFilterVisibility();
+                updateAvailableSoftwareTitle();
                 
                 // Apply default filters and load firmware
                 filterFirmware();
