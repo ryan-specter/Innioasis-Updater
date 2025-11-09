@@ -18,6 +18,8 @@ import tempfile
 import logging
 import datetime
 import webbrowser
+import urllib.parse
+import urllib.parse
 from PySide6.QtWidgets import (QApplication, QVBoxLayout, QHBoxLayout, QWidget, QLabel, QProgressBar,
                                QPushButton, QDialog, QTextEdit, QMessageBox)
 from PySide6.QtCore import QThread, Signal, Qt, QTimer
@@ -219,12 +221,31 @@ class UpdateWorker(QThread):
     status_updated = Signal(str)
     update_completed = Signal(bool)
     
-    def __init__(self):
+    def __init__(self, version_tag=None, force_latest=False):
         super().__init__()
         self.should_stop = False
         self.platform_info = CrossPlatformHelper.get_platform_info()
         self.files_updated = 0
         self.files_skipped = 0
+        self.version_tag = version_tag
+        self.normalized_tag = self._normalize_tag(version_tag) if version_tag else None
+        self.force_latest = force_latest
+
+    def _normalize_tag(self, tag):
+        """Ensure release tags are prefixed with 'v' for GitHub URLs."""
+        if not tag:
+            return None
+        try:
+            tag = tag.strip()
+        except AttributeError:
+            return None
+        if not tag:
+            return None
+        if tag[0].lower() == 'v':
+            core = tag[1:]
+        else:
+            core = tag
+        return f"v{core}"
         
     def run(self):
         temp_dir = None
@@ -234,17 +255,194 @@ class UpdateWorker(QThread):
             current_dir = Path.cwd()
             temp_dir = Path(tempfile.mkdtemp(prefix="innioasis-update-"))
             timestamp_file = current_dir / ".last_update_check"
-            self.status_updated.emit("Just checking what's new...")
+
+            target_label = self.normalized_tag if self.normalized_tag else "latest"
+            intro_message = f"Preparing Innioasis Updater {target_label}..." if self.normalized_tag else "Preparing to refresh Innioasis Updater..."
+            if self.force_latest and not self.normalized_tag:
+                intro_message = "Forcing a refresh of the latest Innioasis Updater..."
+            self.status_updated.emit(intro_message)
             self.progress_updated.emit(5)
-            
-            main_repo_url = "https://github.com/y1-community/Innioasis-Updater/archive/refs/heads/main.zip"
+
+            zip_url = self._build_zip_url()
             zip_file = temp_dir / "innioasis_updater_latest.zip"
-            self.status_updated.emit("Downloading latest updates from repository...")
-            self.download_with_progress(main_repo_url, zip_file, 5, 40)
+            extracted_dir = None
 
-            self.progress_updated.emit(45)
+            if zip_url:
+                download_label = self.normalized_tag if self.normalized_tag else "latest release"
+                self.status_updated.emit(f"Downloading {download_label} from GitHub...")
+                try:
+                    if self.download_repository_zip(zip_url, zip_file, 5, 40):
+                        extracted_dir = self.extract_repository_zip(zip_file, temp_dir)
+                        if extracted_dir is None:
+                            self.status_updated.emit("Downloaded package could not be unpacked. Trying innioasis.app mirror...")
+                    else:
+                        self.status_updated.emit("GitHub download failed. Trying innioasis.app mirror...")
+                except Exception as e:
+                    logging.error("GitHub download failed: %s", e)
+                    self.status_updated.emit("GitHub download failed. Trying innioasis.app mirror...")
+            else:
+                self.status_updated.emit("No GitHub download URL available. Trying innioasis.app mirror...")
 
-            self.status_updated.emit("Unpacking your updates...")
+            mirror_used = False
+            if extracted_dir is None:
+                mirror_used = True
+                if not self.update_from_mirror(current_dir):
+                    self.status_updated.emit("Unable to retrieve updates. Keeping your existing installation.")
+                    self.download_latest_manifest(current_dir)
+                    self.progress_updated.emit(100)
+                    self.update_completed.emit(True)
+                    return
+                else:
+                    self.progress_updated.emit(85)
+                    self.status_updated.emit("Mirror update applied. Finalizing...")
+            else:
+                self.progress_updated.emit(45)
+                self.status_updated.emit("Unpacking your updates...")
+                items_to_copy = list(extracted_dir.iterdir())
+                total_items = len(items_to_copy) if items_to_copy else 1
+                if not items_to_copy:
+                    mirror_used = True
+                    if not self.update_from_mirror(current_dir):
+                        self.status_updated.emit("Unable to retrieve updates. Keeping your existing installation.")
+                        self.download_latest_manifest(current_dir)
+                        self.progress_updated.emit(100)
+                        self.update_completed.emit(True)
+                        return
+                else:
+                    for i, item in enumerate(items_to_copy):
+                        if self.should_stop:
+                            break
+                        try:
+                            dest_item = current_dir / item.name
+
+                            if item.name.lower() in ['.git', '__pycache__', '.ds_store', 'firmware_downloads', '.web_scripts']:
+                                continue
+
+                            ext = item.suffix.lower()
+                            if item.is_file():
+                                if not self.platform_info['is_windows'] and ext in ['.exe', '.dll', '.lnk']:
+                                    self.files_skipped += 1
+                                    continue
+
+                                if ext in ['.exe', '.dll'] and dest_item.exists():
+                                    try:
+                                        if item.stat().st_mtime <= dest_item.stat().st_mtime:
+                                            self.files_skipped += 1
+                                            continue
+                                    except Exception:
+                                        self.files_skipped += 1
+                                        continue
+
+                                try:
+                                    shutil.copy2(item, dest_item)
+                                    self.files_updated += 1
+                                except (IOError, OSError, PermissionError):
+                                    self.files_skipped += 1
+                                    continue
+
+                            elif item.is_dir():
+                                if dest_item.exists():
+                                    for subitem in item.iterdir():
+                                        subdest = dest_item / subitem.name
+                                        if subitem.is_file():
+                                            if not self.platform_info['is_windows'] and subitem.suffix.lower() in ['.exe', '.dll', '.lnk']:
+                                                self.files_skipped += 1
+                                                continue
+
+                                            if subitem.suffix.lower() in ['.exe', '.dll'] and subdest.exists():
+                                                try:
+                                                    if subitem.stat().st_mtime <= subdest.stat().st_mtime:
+                                                        self.files_skipped += 1
+                                                        continue
+                                                except Exception:
+                                                    self.files_skipped += 1
+                                                    continue
+
+                                            try:
+                                                shutil.copy2(subitem, subdest)
+                                                self.files_updated += 1
+                                            except (IOError, OSError, PermissionError):
+                                                self.files_skipped += 1
+                                                continue
+                                        elif subitem.is_dir():
+                                            if not subdest.exists():
+                                                try:
+                                                    shutil.copytree(subitem, subdest)
+                                                    self.files_updated += 1
+                                                except (IOError, OSError, PermissionError):
+                                                    self.files_skipped += 1
+                                                    continue
+                                            else:
+                                                self.merge_directories(subitem, subdest)
+                                else:
+                                    try:
+                                        shutil.copytree(item, dest_item)
+                                        self.files_updated += 1
+                                    except (IOError, OSError, PermissionError):
+                                        self.files_skipped += 1
+                                        continue
+                        except Exception as e:
+                            logging.info("Skipping %s due to error: %s", item.name, e)
+                            self.files_skipped += 1
+                            continue
+
+                        progress = int(65 + ((i + 1) / total_items) * 20)
+                        self.progress_updated.emit(progress)
+                        if i % 5 == 0 or i == total_items - 1:
+                            copy_percent = ((i + 1) / total_items) * 100
+                            self.status_updated.emit(f"Installing updates... {copy_percent:.1f}% ({i + 1}/{total_items} items) - {self.files_updated} files updated")
+
+            self.status_updated.emit("Refreshing firmware catalog...")
+            self.download_latest_manifest(current_dir)
+            try:
+                timestamp_file.write_text(str(datetime.date.today()))
+            except Exception:
+                pass
+
+            self.progress_updated.emit(100)
+            if mirror_used:
+                self.status_updated.emit("Mirror update complete. You're good to go! ✨")
+            else:
+                self.status_updated.emit("Brilliant! Your app is now up to date. ✨")
+            self.update_completed.emit(True)
+
+        except requests.exceptions.RequestException as e:
+            logging.error("Network error during update: %s", e)
+            self.status_updated.emit("No worries! Your app will work perfectly fine without the latest updates.")
+            time.sleep(2)
+            self.update_completed.emit(True)
+        except Exception as e:
+            self.status_updated.emit("Everything's ready to go! ✨")
+            logging.info("Update process had issues but continuing: %s", e)
+            self.update_completed.emit(True)
+        finally:
+            if temp_dir and temp_dir.exists():
+                try:
+                    shutil.rmtree(temp_dir, ignore_errors=True)
+                except Exception:
+                    pass
+
+    def _build_zip_url(self):
+        """Construct the GitHub ZIP URL for the desired release."""
+        if self.normalized_tag:
+            return f"https://github.com/y1-community/Innioasis-Updater/archive/refs/tags/{self.normalized_tag}.zip"
+        return "https://github.com/y1-community/Innioasis-Updater/archive/refs/heads/main.zip"
+
+    def download_repository_zip(self, url, filepath, base_progress, progress_range):
+        """Download the GitHub ZIP with progress feedback."""
+        try:
+            self.download_with_progress(url, filepath, base_progress, progress_range)
+            return True
+        except requests.exceptions.RequestException as e:
+            logging.error("Download failed from %s: %s", url, e)
+            return False
+        except Exception as e:
+            logging.error("Unexpected error downloading %s: %s", url, e)
+            return False
+
+    def extract_repository_zip(self, zip_file, temp_dir):
+        """Extract the downloaded ZIP to temp directory."""
+        try:
             with zipfile.ZipFile(zip_file, 'r') as z:
                 file_list = z.infolist()
                 total_files = len(file_list) if file_list else 1
@@ -252,156 +450,91 @@ class UpdateWorker(QThread):
                     z.extract(member, temp_dir)
                     progress = int(45 + (i / total_files) * 20)
                     self.progress_updated.emit(progress)
-                    
-                    # Update status with extraction progress
-                    if i % 10 == 0 or i == total_files - 1:  # Update every 10 files or on last file
+                    if i % 10 == 0 or i == total_files - 1:
                         extract_percent = ((i + 1) / total_files) * 100
                         self.status_updated.emit(f"Extracting files... {extract_percent:.1f}% ({i + 1}/{total_files} files)")
 
-            extracted_dir = next(temp_dir.glob("Innioasis-Updater-main*"), None)
-            if not extracted_dir: 
-                self.status_updated.emit("Almost there! Getting your files ready...")
-                # Continue anyway - the update can still be successful
-            
-            self.status_updated.emit("Updating your app with the latest features...")
-            if extracted_dir:
-                items_to_copy = list(extracted_dir.iterdir())
-            else:
-                # If we can't find the extracted dir, just continue
-                items_to_copy = []
-            
-            total_items = len(items_to_copy) if items_to_copy else 1
-            
-            for i, item in enumerate(items_to_copy):
-                if self.should_stop: break
-                try:
-                    dest_item = current_dir / item.name
-                    
-                    # Skip system and cache directories
-                    if item.name.lower() in ['.git', '__pycache__', '.ds_store', 'firmware_downloads', '.web_scripts']:
-                        continue
-                    
-                    ext = item.suffix.lower()
-                    if item.is_file():
-                        # Skip platform-incompatible files on non-Windows
-                        if not self.platform_info['is_windows'] and ext in ['.exe', '.dll', '.lnk']:
-                            self.files_skipped += 1
-                            continue
-                        
-                        # For .exe and .dll files, only copy if they don't exist or are newer
-                        if ext in ['.exe', '.dll']:
-                            if dest_item.exists():
-                                # Check if the new file is newer
-                                try:
-                                    if item.stat().st_mtime <= dest_item.stat().st_mtime:
-                                        self.files_skipped += 1
-                                        continue
-                                except:
-                                    # If we can't compare timestamps, skip to be safe
-                                    self.files_skipped += 1
-                                    continue
-                        
-                        # Try to copy the file, but don't stress if it fails
-                        try:
-                            shutil.copy2(item, dest_item)
-                            self.files_updated += 1
-                        except (IOError, OSError, PermissionError):
-                            # File might be in use or locked - that's cool, skip it
-                            self.files_skipped += 1
-                            continue
-                        
-                    elif item.is_dir():
-                        # For directories, preserve existing content and merge new files
-                        if dest_item.exists():
-                            # Copy individual files from the directory without deleting anything
-                            for subitem in item.iterdir():
-                                subdest = dest_item / subitem.name
-                                if subitem.is_file():
-                                    # Skip platform-incompatible files
-                                    if not self.platform_info['is_windows'] and subitem.suffix.lower() in ['.exe', '.dll', '.lnk']:
-                                        self.files_skipped += 1
-                                        continue
-                                    
-                                    # For .exe and .dll files, only copy if they don't exist or are newer
-                                    if subitem.suffix.lower() in ['.exe', '.dll']:
-                                        if subdest.exists():
-                                            # Check if the new file is newer
-                                            try:
-                                                if subitem.stat().st_mtime <= subdest.stat().st_mtime:
-                                                    self.files_skipped += 1
-                                                    continue
-                                            except:
-                                                # If we can't compare timestamps, skip to be safe
-                                                self.files_skipped += 1
-                                                continue
-                                    
-                                    # Try to copy the file, but don't stress if it fails
-                                    try:
-                                        shutil.copy2(subitem, subdest)
-                                        self.files_updated += 1
-                                    except (IOError, OSError, PermissionError):
-                                        # File might be in use or locked - that's cool, skip it
-                                        self.files_skipped += 1
-                                        continue
-                                elif subitem.is_dir():
-                                    # For subdirectories, copy if they don't exist, otherwise merge
-                                    if not subdest.exists():
-                                        try:
-                                            shutil.copytree(subitem, subdest)
-                                            self.files_updated += 1
-                                        except (IOError, OSError, PermissionError):
-                                            self.files_skipped += 1
-                                            continue
-                                    else:
-                                        # Recursively merge subdirectories
-                                        self.merge_directories(subitem, subdest)
-                        else:
-                            # Directory doesn't exist, copy it normally
-                            try:
-                                shutil.copytree(item, dest_item)
-                                self.files_updated += 1
-                            except (IOError, OSError, PermissionError):
-                                self.files_skipped += 1
-                                continue
-                except Exception as e:
-                    # Don't treat any file operation as critical - just log and continue
-                    logging.info("Skipping %s due to error: %s", item.name, e)
-                    self.files_skipped += 1
-                    continue
-                
-                progress = int(65 + ((i + 1) / total_items) * 30)
-                self.progress_updated.emit(progress)
-                
-                # Update status with file copying progress
-                if i % 5 == 0 or i == total_items - 1:  # Update every 5 items or on last item
-                    copy_percent = ((i + 1) / total_items) * 100
-                    self.status_updated.emit(f"Installing updates... {copy_percent:.1f}% ({i + 1}/{total_items} items) - {self.files_updated} files updated")
+            extracted_dirs = [entry for entry in temp_dir.iterdir() if entry.is_dir()]
+            return extracted_dirs[0] if extracted_dirs else None
+        except (zipfile.BadZipFile, FileNotFoundError) as e:
+            logging.error("Failed to extract repository ZIP: %s", e)
+            return None
 
-            # Always consider the update successful if we got this far
-            self.status_updated.emit("Brilliant! Your app is now up to date. ✨")
-            
-            self.status_updated.emit("Just finishing up...")
+    def update_from_mirror(self, current_dir):
+        """Fallback update mechanism using innioasis.app mirror."""
+        base_url = "https://innioasis.app/"
+        essential_files = [
+            Path("firmware_downloader.py"),
+            Path("updater.py"),
+            Path("config.ini"),
+            Path("index.html"),
+            Path("mtkclient/__init__.py"),
+            Path("mtkclient/mtk.py"),
+            Path("mtkclient/gui/__init__.py"),
+        ]
+        safe_suffixes = {'.py', '.pyw', '.html', '.css', '.js', '.json', '.ini', '.txt', '.md', '.yaml', '.yml', '.xml', '.svg'}
+        skip_dirs = {'.git', '__pycache__', 'firmware_downloads', '.web_scripts', '.build', 'UpdaterDownloads', '.idea', '.vscode'}
+
+        updated_any = False
+        attempts = 0
+        max_attempts = 400
+
+        self.status_updated.emit("Fetching files from innioasis.app mirror...")
+
+        def download_single(relative_path):
+            nonlocal updated_any, attempts
+            url = urllib.parse.urljoin(base_url, relative_path.as_posix())
+            url = requests.utils.requote_uri(url)
             try:
-                timestamp_file.write_text(str(datetime.date.today()))
-            except:
-                pass  # Don't stress about timestamp file
-            self.progress_updated.emit(100)
-            self.update_completed.emit(True)
-            
-        except requests.exceptions.RequestException as e:
-            self.status_updated.emit("No worries! Your app will work perfectly fine without the latest updates.")
-            time.sleep(2)
-            self.update_completed.emit(True)  # Still successful - app can run
+                response = requests.get(url, timeout=10)
+                if response.status_code == 200:
+                    target_path = current_dir / relative_path
+                    target_path.parent.mkdir(parents=True, exist_ok=True)
+                    target_path.write_bytes(response.content)
+                    self.files_updated += 1
+                    updated_any = True
+                else:
+                    self.files_skipped += 1
+            except Exception as exc:
+                logging.info("Mirror download skipped %s: %s", relative_path.as_posix(), exc)
+                self.files_skipped += 1
+            attempts += 1
+
+        for rel in essential_files:
+            download_single(rel)
+
+        if attempts >= max_attempts:
+            return updated_any
+
+        for path in current_dir.rglob("*"):
+            if attempts >= max_attempts:
+                break
+            if path.is_dir():
+                continue
+            if any(part in skip_dirs for part in path.relative_to(current_dir).parts):
+                continue
+            suffix = path.suffix.lower()
+            if suffix and suffix not in safe_suffixes:
+                continue
+            download_single(path.relative_to(current_dir))
+            if attempts % 25 == 0:
+                self.status_updated.emit(f"Mirror update in progress... {attempts} files attempted")
+
+        return updated_any
+
+    def download_latest_manifest(self, current_dir):
+        """Download the latest firmware manifest after updates."""
+        manifest_url = "https://innioasis.app/slidia_manifest.xml"
+        target_path = current_dir / "slidia_manifest.xml"
+        try:
+            response = requests.get(manifest_url, timeout=10)
+            if response.status_code == 200:
+                target_path.write_bytes(response.content)
+                logging.info("Refreshed slidia_manifest.xml")
+            else:
+                logging.warning("Manifest download returned status %s", response.status_code)
         except Exception as e:
-            self.status_updated.emit("Everything's ready to go! ✨")
-            logging.info("Update process had issues but continuing: %s", e)
-            self.update_completed.emit(True)  # Still successful - app can run
-        finally:
-            if temp_dir and temp_dir.exists(): 
-                try:
-                    shutil.rmtree(temp_dir, ignore_errors=True)
-                except:
-                    pass  # Don't stress about cleanup
+            logging.error("Failed to refresh manifest: %s", e)
 
     def merge_directories(self, src_dir, dest_dir):
         """Recursively merge source directory into destination directory, preserving existing files"""
@@ -593,11 +726,13 @@ class DriverSetupDialog(QDialog):
 
 class UpdateProgressDialog(QDialog):
     """Progress dialog for the update process."""
-    def __init__(self, mode='update', parent=None):
+    def __init__(self, mode='update', target_version=None, force_requested=False, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Innioasis Updater")
         self.setModal(True)
         self.setFixedSize(500, 220)
+        self.version_tag = target_version
+        self.force_requested = force_requested
         
         layout = QVBoxLayout(self)
         title_label = QLabel("Innioasis Updater"); title_label.setFont(QFont("Arial", 16, QFont.Bold)); title_label.setAlignment(Qt.AlignCenter)
@@ -622,7 +757,7 @@ class UpdateProgressDialog(QDialog):
         layout.addWidget(self.update_button)
 
         if mode == 'update':
-            self.update_worker = UpdateWorker()
+            self.update_worker = UpdateWorker(version_tag=self.version_tag, force_latest=self.force_requested)
             self.update_worker.progress_updated.connect(self.progress_bar.setValue)
             self.update_worker.status_updated.connect(self.on_status_updated)
             self.update_worker.update_completed.connect(self.on_update_completed)
@@ -709,7 +844,7 @@ class UpdateProgressDialog(QDialog):
         self.force_update_button.hide()
         
         # Create and start the update worker
-        self.update_worker = UpdateWorker()
+        self.update_worker = UpdateWorker(version_tag=self.version_tag, force_latest=True)
         self.update_worker.progress_updated.connect(self.progress_bar.setValue)
         self.update_worker.status_updated.connect(self.on_status_updated)
         self.update_worker.update_completed.connect(self.on_update_completed)
@@ -1104,6 +1239,7 @@ def main():
     
     parser = argparse.ArgumentParser(description="Innioasis Updater Script", add_help=False)
     parser.add_argument("-f", "--force", action="store_true", help="Force the update.")
+    parser.add_argument("--version", help="Install a specific GitHub release tag.")
     args, _ = parser.parse_known_args()
 
     app = QApplication(sys.argv)
@@ -1111,9 +1247,11 @@ def main():
     mode = 'update' # Default mode
     platform_info = CrossPlatformHelper.get_platform_info()
 
-    needs_update = False
-    if args.force: needs_update = True
-    else:
+    requested_version = args.version
+    force_requested = bool(args.force)
+
+    needs_update = bool(requested_version or force_requested)
+    if not needs_update:
         # Check if firmware_downloader.py is missing - force update if so
         firmware_downloader_path = Path.cwd() / "firmware_downloader.py"
         if not firmware_downloader_path.exists():
@@ -1137,7 +1275,7 @@ def main():
         mode = 'no_update'
 
     app.setStyle('Fusion')
-    dialog = UpdateProgressDialog(mode=mode)
+    dialog = UpdateProgressDialog(mode=mode, target_version=requested_version, force_requested=force_requested)
     dialog.exec()
     
     # Always update the timestamp file, even if updates were skipped
