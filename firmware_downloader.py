@@ -5278,7 +5278,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             )
 
         html = (
-            f'<a href="https://ko-fi.com/teamslide" '
+            f'<a href="https://ko-fi.com/team-slide" '
             f'style="color: {text_color}; text-decoration: none;">{formatted_message}</a>'
         )
         self.creator_label.setText(html)
@@ -6914,19 +6914,27 @@ class FirmwareDownloaderGUI(QMainWindow):
 
         # Discord button - using native styling
         seasonal_emoji = get_seasonal_emoji_random()
+# 2025-11-09 22:10:00 UTC - original: Button label permanently read "Get Help" and always opened Discord support.
         discord_text = f"Get Help{seasonal_emoji}" if seasonal_emoji else "Get Help"
         self.discord_btn = QPushButton(discord_text)
+        self.discord_btn_base_text = discord_text
+        self.discord_btn_base_tooltip = self.discord_btn.toolTip() or ""
         # Use native styling - no custom stylesheet for automatic theme adaptation
         self.discord_btn.setCursor(Qt.PointingHandCursor)  # Keep pointing hand for web link
         self.discord_btn.clicked.connect(self.open_discord_link)
         coffee_layout.addWidget(self.discord_btn)
 
         # About button (opens Settings dialog to About tab) - using native styling
+# 2025-11-09 22:10:00 UTC - original: Button label permanently read "About" and navigated directly to the About tab.
         self.about_btn = QPushButton("About")
+        self.about_btn_base_text = "About"
+        self.about_btn_base_tooltip = self.about_btn.toolTip() or ""
         # Use native styling - no custom stylesheet for automatic theme adaptation
         # Use default cursor for native OS feel
-        self.about_btn.clicked.connect(lambda: self.show_settings_dialog("about"))
+        self.about_btn.clicked.connect(self.open_about_tab)
         coffee_layout.addWidget(self.about_btn)
+        self._top_right_update_mode = False
+        self._refresh_top_right_update_cta()
         
         # ADB status indicator (will be shown if device is connected) - positioned in corner
         self.adb_status_widget = QWidget()
@@ -8516,6 +8524,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         tab_widget.setIconSize(QSize(12, 12))
         # Use native styling - no custom stylesheet for automatic theme adaptation
         layout.addWidget(tab_widget)
+        self._active_settings_tab_widget = tab_widget
         update_available = bool(self.app_update_available and self._latest_app_version)
         self._current_update_checkbox = None
         
@@ -9547,10 +9556,13 @@ class FirmwareDownloaderGUI(QMainWindow):
         whats_new_layout.addWidget(whats_new_browser)
         
         preferred_version = self._latest_app_version if update_available and self._latest_app_version else self.app_version
+        # 2025-11-09 21:40:00 UTC - original: Version tab populated without any inline notice about newer releases.
         self.populate_version_tab(whats_new_layout, whats_new_browser, preferred_version)
         
+        # 2025-11-09 21:40:00 UTC - original: Update suppression checkbox did not update UI until settings were saved.
         dont_notify_checkbox = QCheckBox("Don't notify me about updates")
         dont_notify_checkbox.setChecked(self.suppress_update_notifications)
+        dont_notify_checkbox.toggled.connect(self._handle_update_notification_toggle)
         whats_new_layout.addWidget(dont_notify_checkbox)
         self._current_update_checkbox = dont_notify_checkbox
         
@@ -9561,6 +9573,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         updates_label = "<b>Update Available</b>" if update_is_newer else f"Version {self.app_version}"
         tab_widget.addTab(about_tab, "About")
         updates_tab_index = tab_widget.addTab(whats_new_tab, updates_label)
+        self._active_updates_tab_index = updates_tab_index
         tab_widget.addTab(install_tab, "Installation")
 # 2025-11-09 12:00:00 - original: Tab label was 'Wireless ADB' and did not indicate beta availability.
         tab_widget.addTab(wireless_tab, "Wireless ADB (Beta)")
@@ -9605,6 +9618,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         silent_print("About to show settings dialog")
         dialog.exec()
+        self._active_settings_tab_widget = None
+        self._active_updates_tab_index = None
         self._active_settings_dialog = None
         silent_print("Settings dialog closed")
     
@@ -9650,6 +9665,24 @@ class FirmwareDownloaderGUI(QMainWindow):
         if not self.available_versions:
             self.load_whats_new_release_notes(browser)
             return
+
+        # 2025-11-09 21:41:00 UTC - original: Layout did not include an inline banner about the user's app version status.
+        if hasattr(self, '_update_notice_label') and self._update_notice_label:
+            try:
+                layout.removeWidget(self._update_notice_label)
+            except Exception:
+                pass
+            self._update_notice_label.deleteLater()
+            self._update_notice_label = None
+
+        notice_label = QLabel()
+        notice_label.setWordWrap(True)
+        notice_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+        notice_label.setObjectName("update_notice_label")
+        notice_label.setStyleSheet("font-weight: 600; margin: 6px 4px;")
+        layout.addWidget(notice_label)
+        self._update_notice_label = notice_label
+        self._refresh_update_notice_label()
         
         if self.version_combo:
             self.version_combo.deleteLater()
@@ -9681,12 +9714,125 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         self.version_combo.currentIndexChanged.connect(lambda _: self.on_version_selection_changed(browser))
         
-        if preferred_version:
+        target_index = None
+        normalized_preferred = preferred_version.lstrip('vV') if preferred_version else None
+        current_version = getattr(self, 'app_version', '') or ''
+
+        if normalized_preferred:
             for idx, entry in enumerate(self.available_versions):
-                if entry['version'] == preferred_version:
-                    self.version_combo.setCurrentIndex(idx)
+                if entry['version'].lstrip('vV') == normalized_preferred:
+                    target_index = idx
                     break
+
+        if target_index is None:
+            for idx, entry in enumerate(self.available_versions):
+                try:
+                    if self.compare_versions(entry['version'].lstrip('vV'), current_version) > 0:
+                        target_index = idx
+                        break
+                except Exception:
+                    continue
+
+        if target_index is None and self.available_versions:
+            # 2025-11-10 00:05 UTC original behavior selected the preferred_version only; now we default to the latest release.
+            target_index = 0
+
+        if target_index is not None:
+            self.version_combo.setCurrentIndex(target_index)
+
         self.on_version_selection_changed(browser)
+
+    # 2025-11-09 21:41:00 UTC - original: Version tab checkbox toggles only changed state on save and the UI never refreshed inline.
+    def _handle_update_notification_toggle(self, checked):
+        """Handle live updates to the update notification suppression toggle."""
+        self.suppress_update_notifications = checked
+        self._refresh_update_notice_label()
+        self.update_update_badges()
+        self._refresh_top_right_update_cta()
+
+    # 2025-11-09 21:41:00 UTC - original: There was no inline status message alerting users when their build was behind.
+    def _refresh_update_notice_label(self):
+        """Refresh the inline update notice in the Version tab."""
+        label = getattr(self, '_update_notice_label', None)
+        if not label:
+            return
+        try:
+            if self.suppress_update_notifications:
+                label.clear()
+                label.hide()
+                return
+            if self.has_update_available():
+                latest_version = self._latest_app_version or ""
+                current_version = self.app_version or ""
+                palette = self.palette()
+                highlight_color = palette.highlight().color()
+                highlight_text = palette.highlightedText().color().name()
+                bg_rgba = f"rgba({highlight_color.red()}, {highlight_color.green()}, {highlight_color.blue()}, 72)"
+                label.setStyleSheet(
+                    "font-weight: 600; margin: 6px 4px; padding: 10px; border-radius: 7px;"
+                    f"background-color: {bg_rgba}; color: {highlight_text};"
+                )
+                label.setText(
+                    f"Innioasis Updater {latest_version} is available. "
+                    f"You're currently running {current_version}. "
+                    "Download the new release to stay up to date."
+                )
+                label.show()
+            else:
+                label.clear()
+                label.hide()
+        except Exception as e:
+            silent_print(f"Error refreshing update notice label: {e}")
+            label.clear()
+            label.hide()
+
+    def _set_button_connection(self, button, slot):
+        """Utility to safely replace a button's clicked connection."""
+        if not button or slot is None:
+            return
+        try:
+            button.clicked.disconnect()
+        except TypeError:
+            pass
+        button.clicked.connect(slot)
+
+    def _open_updates_tab_from_cta(self):
+        """Open the Settings dialog directly to the updates tab."""
+# 2025-11-09 22:10:00 UTC - original: Update CTA reused Get Help/About actions; now it focuses the updates tab.
+        self.show_settings_dialog("updates")
+
+    def _refresh_top_right_update_cta(self):
+        """Refresh the top-right buttons so they promote updates when appropriate."""
+        try:
+            latest_version = self._latest_app_version if self.has_update_available() and not getattr(self, 'suppress_update_notifications', False) else None
+        except Exception:
+            latest_version = None
+
+        buttons = [getattr(self, 'discord_btn', None), getattr(self, 'about_btn', None)]
+
+        if latest_version:
+            update_text = f"Update to {latest_version}"
+            for btn in buttons:
+                if btn:
+                    btn.setText(update_text)
+                    btn.setToolTip(f"Open update details for Innioasis Updater {latest_version}")
+            if getattr(self, 'discord_btn', None):
+                self._set_button_connection(self.discord_btn, self._open_updates_tab_from_cta)
+            if getattr(self, 'about_btn', None):
+                self._set_button_connection(self.about_btn, self._open_updates_tab_from_cta)
+            self._top_right_update_mode = True
+        else:
+            if not getattr(self, '_top_right_update_mode', False):
+                return
+            if getattr(self, 'discord_btn', None):
+                self.discord_btn.setText(getattr(self, 'discord_btn_base_text', "Get Help"))
+                self.discord_btn.setToolTip(getattr(self, 'discord_btn_base_tooltip', ""))
+                self._set_button_connection(self.discord_btn, getattr(self, 'open_discord_link', None))
+            if getattr(self, 'about_btn', None):
+                self.about_btn.setText(getattr(self, 'about_btn_base_text', "About"))
+                self.about_btn.setToolTip(getattr(self, 'about_btn_base_tooltip', ""))
+                self._set_button_connection(self.about_btn, getattr(self, 'open_about_tab', None))
+            self._top_right_update_mode = False
 
     def on_version_selection_changed(self, browser):
         """Handle updates to release notes when the version selection changes."""
@@ -10074,11 +10220,20 @@ class FirmwareDownloaderGUI(QMainWindow):
                 notes_html += f"<h2 style='margin-top: 0; color: {text_color} !important;'>{safe_release_name}</h2>"
                 
                 # Convert markdown to HTML (same logic as firmware release notes)
-                body_html = str(release_notes)
-                body_html = html_module.escape(body_html)
-                
-                lines = body_html.split('\n')
-                converted_lines = []
+                raw_notes_text = str(release_notes)
+                # 2025-11-09 23:50 UTC original behavior kept the introductory text that sometimes repeated install instructions.
+                # New behavior trims everything before headings like 'What's new', 'Changes', 'New in', or 'Changelog' for cleaner changelog displays.
+                strip_keywords = ("what's new", "whats new", "changes", "changelog", "new in")
+                raw_lines = raw_notes_text.splitlines()
+                start_index = 0
+                for idx, raw_line in enumerate(raw_lines):
+                    sanitized = raw_line.strip().replace('’', "'")
+                    sanitized = sanitized.lstrip('#*_>-+• ').strip()
+                    sanitized = re.sub(r'^\d+[\.)]\s*', '', sanitized)
+                    sanitized_lower = sanitized.lower()
+                    if any(sanitized_lower.startswith(keyword) for keyword in strip_keywords):
+                        start_index = idx
+                        break
                 in_list = False
                 
                 for line in lines:
@@ -11988,6 +12143,15 @@ class FirmwareDownloaderGUI(QMainWindow):
             if self._pending_releases:
                 if self._release_update_timer:
                     self._release_update_timer.start(200)  # Longer delay between batches
+
+            if self.package_list.count() > 0 and not self.package_list.currentItem():
+                try:
+                    self.package_list.setCurrentRow(0)
+                    first_item = self.package_list.item(0)
+                    if first_item:
+                        self.on_release_selected(first_item)
+                except Exception as select_err:
+                    silent_print(f"Error selecting first release after batch: {select_err}")
         except Exception as e:
             silent_print(f"Error processing batched releases: {e}")
             import traceback
@@ -14558,6 +14722,11 @@ class FirmwareDownloaderGUI(QMainWindow):
         """Help with common issues"""
         import webbrowser
         webbrowser.open("https://innioasis.app/Troubleshooting")
+
+    def open_about_tab(self):
+        """Open Settings dialog to About tab"""
+# 2025-11-09 22:10:00 UTC - original: About button used a lambda inside init_ui; this helper keeps parity while enabling dynamic label changes.
+        self.show_settings_dialog("about")
 
     def open_driver_setup_link(self):
         """Show driver setup dialog and open the installation guide"""
@@ -20921,8 +21090,28 @@ class FirmwareDownloaderGUI(QMainWindow):
                 <body style='font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Helvetica, Arial, sans-serif; line-height: 1.6; padding: 10px; color: {text_color} !important;'>"""
                 notes_html += f"<h2 style='margin-top: 0; color: {text_color} !important;'>{safe_release_name}</h2>"
                 
+# 2025-11-09 22:10:00 UTC - original: The full release body rendered, including preface text above the Changes section.
+                filtered_notes = str(release_notes)
+                try:
+                    raw_lines = filtered_notes.splitlines()
+                    anchor_index = None
+                    for idx, raw_line in enumerate(raw_lines):
+                        stripped = raw_line.strip()
+                        if stripped and stripped.lower().startswith("changes"):
+                            anchor_index = idx + 1
+                            break
+                    if anchor_index is not None and anchor_index < len(raw_lines):
+                        filtered_notes = "\n".join(raw_lines[anchor_index:]).lstrip()
+                    else:
+                        filtered_notes = filtered_notes.lstrip()
+                    if not filtered_notes.strip():
+                        filtered_notes = str(release_notes)
+                except Exception as filter_err:
+                    silent_print(f"Error trimming release notes to Changes section: {filter_err}")
+                    filtered_notes = str(release_notes)
+
                 # Convert markdown to HTML (same logic as What's New)
-                body_html = str(release_notes)
+                body_html = filtered_notes
                 body_html = html_module.escape(body_html)
                 
                 lines = body_html.split('\n')
@@ -21738,9 +21927,12 @@ read -n 1
             self._latest_app_version = latest_version
             silent_print(f"Newer version available: {latest_version} (current: {current_version})")
             self.update_update_badges()
+            # 2025-11-09 21:42:00 UTC - original: Inline version tab notice was never refreshed when a new update was detected.
+            self._refresh_update_notice_label()
+            self._refresh_top_right_update_cta()
             if not getattr(self, '_update_prompt_triggered', False):
                 self._update_prompt_triggered = True
-                QTimer.singleShot(1200, lambda: self.show_settings_dialog("updates"))
+                QTimer.singleShot(600, lambda: self._show_update_available_dialog(latest_version, current_version))
         except Exception as e:
             silent_print(f"Error showing update button: {e}")
 
@@ -21751,6 +21943,9 @@ read -n 1
         self.app_update_available = False
         self._update_prompt_triggered = False
         self.update_update_badges()
+        # 2025-11-09 21:42:00 UTC - original: Version tab banner stayed visible even after update dismissal.
+        self._refresh_update_notice_label()
+        self._refresh_top_right_update_cta()
 
     def _create_badge_icon(self, diameter=10, color="#FF8800"):
         """Create a circular icon used for update badges."""
@@ -21781,7 +21976,20 @@ read -n 1
         """Update visual badges indicating update availability."""
         has_update = self.has_update_available()
         if hasattr(self, 'settings_badge') and self.settings_badge:
-            self.settings_badge.setVisible(has_update)
+            # 2025-11-09 22:10:00 UTC - original: An orange badge appeared beside the Settings button; requirement now keeps it hidden.
+            self.settings_badge.setVisible(False)
+
+        if hasattr(self, '_active_settings_tab_widget') and self._active_settings_tab_widget is not None:
+            try:
+                tab_widget = self._active_settings_tab_widget
+                tab_index = getattr(self, '_active_updates_tab_index', None)
+                if tab_index is not None:
+                    self._apply_update_tab_badge(tab_widget, tab_index, has_update)
+            except Exception as badge_err:
+                silent_print(f"Error refreshing update badge icon: {badge_err}")
+        # 2025-11-09 21:42:00 UTC - original: Badge refresh skipped the Version tab banner, leaving stale information.
+        self._refresh_update_notice_label()
+        self._refresh_top_right_update_cta()
 
     def _apply_update_tab_badge(self, tab_widget, tab_index, update_available):
         """Set or clear the update badge icon on the Updates tab."""
@@ -21791,6 +21999,31 @@ read -n 1
             tab_widget.setTabIcon(tab_index, self.badge_icon)
         else:
             tab_widget.setTabIcon(tab_index, QIcon())
+
+    def _show_update_available_dialog(self, latest_version, current_version):
+        """Prompt the user that a new application version is available."""
+        try:
+            if not self.has_update_available():
+                return
+            message = f"Innioasis Updater {latest_version} is now available to download."
+            details = f"You're currently running {current_version}." if current_version else "A newer build is ready to install."
+            dialog = QMessageBox(self)
+            dialog.setIcon(QMessageBox.Information)
+            dialog.setWindowTitle("Update Available")
+            dialog.setText(message)
+            dialog.setInformativeText(details + "\nWould you like to find out more now?")
+            find_out_more_btn = dialog.addButton("Find Out More", QMessageBox.AcceptRole)
+            later_btn = dialog.addButton("Later", QMessageBox.RejectRole)
+            dialog.setDefaultButton(find_out_more_btn)
+            dialog.exec()
+            if dialog.clickedButton() == find_out_more_btn:
+                QTimer.singleShot(0, lambda: self.show_settings_dialog("updates"))
+        except Exception as e:
+            silent_print(f"Error showing update prompt: {e}")
+            try:
+                QTimer.singleShot(0, lambda: self.show_settings_dialog("updates"))
+            except Exception:
+                pass
 
     def get_latest_github_version(self):
         """Get the latest release version from GitHub (non-blocking, called from worker thread)."""
