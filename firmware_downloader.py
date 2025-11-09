@@ -14,11 +14,13 @@ import configparser
 import json
 import pickle
 import shutil
+import tempfile
 import argparse
 import webbrowser
 import fnmatch
 from pathlib import Path
 from urllib.parse import urlparse
+import urllib.parse
 from xml.etree import ElementTree as ET
 from datetime import datetime, date
 import random
@@ -3028,6 +3030,309 @@ class TokenLoaderWorker(QThread):
             if not self.stop_requested:
                 silent_print(f"Error loading tokens in background: {e}")
                 self.loading_failed.emit(str(e))
+
+
+class ReleaseInstallWorker(QThread):
+    """Worker that downloads and installs a selected Innioasis Updater release."""
+
+    progress_updated = Signal(int)
+    status_updated = Signal(str)
+    finished = Signal(bool, str)
+
+    def __init__(self, version, release_data, download_token=None, parent=None):
+        super().__init__(parent)
+        self.version = version
+        self.release_data = release_data or {}
+        self.download_token = download_token
+        self.is_windows = platform.system() == "Windows"
+        self.stop_requested = False
+
+    def _normalize_tag(self):
+        tag = self.release_data.get('tag_name') or self.version
+        if not tag:
+            return None
+        tag = tag.strip()
+        if not tag:
+            return None
+        if tag.lower().startswith('v'):
+            return tag
+        return f"v{tag}"
+
+    def run(self):
+        temp_dir = None
+        try:
+            current_dir = Path.cwd()
+            temp_dir = Path(tempfile.mkdtemp(prefix="innioasis-release-"))
+
+            normalized_tag = self._normalize_tag()
+            zip_url = self.release_data.get('zipball_url')
+            if not zip_url and normalized_tag:
+                zip_url = f"https://github.com/y1-community/Innioasis-Updater/archive/refs/tags/{normalized_tag}.zip"
+
+            zip_path = temp_dir / "release.zip"
+            extracted_dir = None
+
+            if zip_url:
+                self.status_updated.emit(f"Downloading Innioasis Updater {self.version} from GitHub…")
+                if self._download_release_zip(zip_url, zip_path):
+                    extracted_dir = self._extract_zip(zip_path, temp_dir)
+                else:
+                    self.status_updated.emit("Could not download release ZIP. Falling back to innioasis.app mirror…")
+            else:
+                self.status_updated.emit("No GitHub archive available. Falling back to innioasis.app mirror…")
+
+            if extracted_dir:
+                self.status_updated.emit("Installing files from release archive…")
+                self._copy_release_contents(extracted_dir, current_dir)
+            else:
+                if not self._update_from_mirror(current_dir):
+                    self.finished.emit(False, "Unable to download release from GitHub or innioasis.app mirror.")
+                    return
+
+            self.status_updated.emit("Refreshing manifest and configuration…")
+            self._download_manifest_and_config(current_dir)
+
+            self.progress_updated.emit(100)
+            self.finished.emit(True, "Installation complete.")
+        except Exception as e:
+            logging.error("ReleaseInstallWorker error: %s", e)
+            self.finished.emit(False, str(e))
+        finally:
+            if temp_dir and temp_dir.exists():
+                shutil.rmtree(temp_dir, ignore_errors=True)
+
+    def _download_release_zip(self, url, destination):
+        try:
+            headers = {'Accept': 'application/vnd.github+json'}
+            if self.download_token:
+                headers['Authorization'] = f'token {self.download_token}'
+            response = requests.get(url, stream=True, timeout=20, headers=headers)
+            if response.status_code == 302:
+                redirect_url = response.headers.get('Location')
+                if redirect_url:
+                    response = requests.get(redirect_url, stream=True, timeout=20, headers=headers)
+            response.raise_for_status()
+
+            total = int(response.headers.get('content-length', 0))
+            downloaded = 0
+            start_progress = 5
+            range_span = 30
+            with open(destination, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    if self.stop_requested:
+                        return False
+                    if chunk:
+                        f.write(chunk)
+                        downloaded += len(chunk)
+                        if total:
+                            progress = start_progress + int((downloaded / total) * range_span)
+                            self.progress_updated.emit(min(progress, start_progress + range_span))
+            if total == 0:
+                self.progress_updated.emit(start_progress + range_span)
+            return True
+        except Exception as e:
+            logging.error("Failed to download release zip: %s", e)
+            return False
+
+    def _extract_zip(self, zip_path, temp_dir):
+        try:
+            with zipfile.ZipFile(zip_path, 'r') as z:
+                members = z.infolist()
+                total = len(members) or 1
+                for idx, member in enumerate(members):
+                    if self.stop_requested:
+                        return None
+                    z.extract(member, temp_dir)
+                    if idx % 20 == 0 or idx == total - 1:
+                        progress = 40 + int((idx / total) * 10)
+                        self.progress_updated.emit(progress)
+            extracted_dirs = [p for p in temp_dir.iterdir() if p.is_dir()]
+            extracted_dirs.sort(key=lambda p: p.stat().st_mtime, reverse=True)
+            return extracted_dirs[0] if extracted_dirs else None
+        except Exception as e:
+            logging.error("Failed to extract release zip: %s", e)
+            return None
+
+    def _copy_release_contents(self, extracted_root, target_dir):
+        items = list(extracted_root.iterdir())
+        if not items and extracted_root.is_dir():
+            items = [p for p in extracted_root.rglob('*') if p.parent == extracted_root]
+
+        total = len(items) or 1
+        skip_names = {'.git', '__pycache__', '.ds_store', 'firmware_downloads', '.web_scripts'}
+
+        for idx, item in enumerate(items):
+            if self.stop_requested:
+                return
+            if item.name.lower() in skip_names:
+                continue
+            target_path = target_dir / item.name
+            try:
+                if item.is_file():
+                    self._copy_file(item, target_path)
+                elif item.is_dir():
+                    self._copy_directory(item, target_path, skip_names)
+            except Exception as e:
+                logging.info("Skipping %s due to error: %s", item.name, e)
+            progress = 55 + int((idx / total) * 25)
+            self.progress_updated.emit(min(progress, 80))
+
+    def _copy_file(self, src, dest):
+        suffix = src.suffix.lower()
+        if not self.is_windows and suffix in ['.exe', '.dll', '.lnk']:
+            return
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        if suffix in ['.exe', '.dll'] and dest.exists():
+            try:
+                if src.stat().st_mtime <= dest.stat().st_mtime:
+                    return
+            except Exception:
+                return
+        shutil.copy2(src, dest)
+
+    def _copy_directory(self, src_dir, dest_dir, skip_names):
+        if dest_dir.exists():
+            for child in src_dir.iterdir():
+                if child.name.lower() in skip_names:
+                    continue
+                target = dest_dir / child.name
+                if child.is_file():
+                    self._copy_file(child, target)
+                elif child.is_dir():
+                    self._copy_directory(child, target, skip_names)
+        else:
+            try:
+                shutil.copytree(src_dir, dest_dir)
+            except FileExistsError:
+                self._copy_directory(src_dir, dest_dir, skip_names)
+
+    def _update_from_mirror(self, target_dir):
+        try:
+            self.status_updated.emit("Getting the newest files from innioasis.app…")
+            essential_files = [
+                Path("firmware_downloader.py"),
+                Path("updater.py"),
+                Path("config.ini"),
+                Path("index.html"),
+                Path("mtkclient/__init__.py"),
+                Path("mtkclient/mtk.py"),
+                Path("mtkclient/gui/__init__.py"),
+            ]
+            safe_suffixes = {
+                '.py', '.pyw', '.html', '.css', '.js', '.json',
+                '.ini', '.txt', '.md', '.yaml', '.yml', '.xml', '.svg'
+            }
+            skip_dirs = {'.git', '__pycache__', 'firmware_downloads', '.web_scripts', '.build', 'UpdaterDownloads', '.idea', '.vscode'}
+            base_url = "https://www.innioasis.app/"
+
+            def download_single(relative_path):
+                url = urllib.parse.urljoin(base_url, relative_path.as_posix())
+                url = requests.utils.requote_uri(url)
+                response = requests.get(url, timeout=10)
+                if response.status_code == 200:
+                    dest = target_dir / relative_path
+                    dest.parent.mkdir(parents=True, exist_ok=True)
+                    dest.write_bytes(response.content)
+                    return True
+                return False
+
+            updated_any = False
+            for rel in essential_files:
+                if download_single(rel):
+                    updated_any = True
+
+            if not updated_any:
+                return False
+
+            attempts = 0
+            for path in target_dir.rglob("*"):
+                if attempts > 400:
+                    break
+                if any(part in skip_dirs for part in path.relative_to(target_dir).parts):
+                    continue
+                if path.is_dir():
+                    continue
+                suffix = path.suffix.lower()
+                if suffix and suffix not in safe_suffixes:
+                    continue
+                if download_single(path.relative_to(target_dir)):
+                    updated_any = True
+                attempts += 1
+
+            self.progress_updated.emit(90)
+            return updated_any
+        except Exception as e:
+            logging.error("Mirror update failed: %s", e)
+            return False
+
+    def _download_manifest_and_config(self, target_dir):
+        endpoints = [
+            ("https://innioasis.app/slidia_manifest.xml", target_dir / "slidia_manifest.xml"),
+            ("https://innioasis.app/config.ini", target_dir / "config.ini"),
+        ]
+        for idx, (url, dest) in enumerate(endpoints):
+            try:
+                response = requests.get(url, timeout=10)
+                response.raise_for_status()
+                dest.write_bytes(response.content)
+            except Exception as e:
+                logging.error("Failed to refresh %s: %s", dest.name, e)
+            self.progress_updated.emit(92 + idx * 3)
+
+
+class ReleaseInstallDialog(QDialog):
+    """Modal dialog that shows progress while installing a selected release."""
+
+    def __init__(self, parent, version, release_data, download_token=None):
+        super().__init__(parent)
+        self.setWindowTitle(f"Installing Innioasis Updater {version}")
+        self.setModal(True)
+        self.setFixedSize(520, 220)
+        self.success = False
+        self.error_message = ""
+
+        layout = QVBoxLayout(self)
+        title = QLabel(f"Innioasis Updater {version}")
+        title.setFont(QFont("Arial", 15, QFont.Bold))
+        title.setAlignment(Qt.AlignCenter)
+        layout.addWidget(title)
+
+        self.status_label = QLabel("Preparing…")
+        self.status_label.setAlignment(Qt.AlignCenter)
+        self.status_label.setWordWrap(True)
+        layout.addWidget(self.status_label)
+
+        self.progress_bar = QProgressBar()
+        self.progress_bar.setRange(0, 100)
+        self.progress_bar.setValue(5)
+        layout.addWidget(self.progress_bar)
+
+        self.close_btn = QPushButton("Close")
+        self.close_btn.setEnabled(False)
+        self.close_btn.clicked.connect(self.accept)
+        btn_layout = QHBoxLayout()
+        btn_layout.addStretch()
+        btn_layout.addWidget(self.close_btn)
+        layout.addLayout(btn_layout)
+
+        token = download_token
+        self.worker = ReleaseInstallWorker(version, release_data, token)
+        self.worker.progress_updated.connect(self.progress_bar.setValue)
+        self.worker.status_updated.connect(self.status_label.setText)
+        self.worker.finished.connect(self._on_finished)
+        self.worker.start()
+
+    def _on_finished(self, success, message):
+        self.success = success
+        self.error_message = message
+        if success:
+            self.progress_bar.setValue(100)
+            self.status_label.setText(message or "Installation complete.")
+        else:
+            self.status_label.setText(message or "Update finished with issues.")
+        self.close_btn.setEnabled(True)
+        if success:
+            QTimer.singleShot(1200, self.accept)
 
 
 class FileTransferWorker(QThread):
@@ -9426,8 +9731,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         finally:
             QTimer.singleShot(250, self.close)
 
-    def download_selected_version(self, dialog=None):
-        """Trigger updater.py to install the selected Innioasis Updater release."""
+    def download_selected_version(self, settings_dialog=None):
+        """Install the selected Innioasis Updater release directly from the GUI."""
         if not self.version_combo:
             QMessageBox.information(self, "Download Version", "Select a version first.")
             return
@@ -9450,45 +9755,42 @@ class FirmwareDownloaderGUI(QMainWindow):
         if tag_name and not tag_name.lower().startswith('v'):
             tag_name = f"v{tag_name}"
 
-        latest_version = None
-        if self.available_versions:
-            latest_version = self.available_versions[0]['version']
-        is_latest_selection = bool(latest_version and version == latest_version)
+        if not release:
+            release = self._get_release_data(version)
+            if not release:
+                QMessageBox.warning(self, "Download Version", "Unable to fetch release details for this version.")
+                return
 
-        updater_script_path = Path("updater.py")
-        if not updater_script_path.exists():
-            QMessageBox.warning(self, "Updater not found", "Could not locate updater.py. Please reinstall Innioasis Updater.")
-            return
-
-        if dialog:
+        if settings_dialog:
             try:
-                self.save_settings(dialog)
+                self.save_settings(settings_dialog)
             except Exception as e:
                 silent_print(f"Error saving settings before update: {e}")
-            if dialog.isVisible():
+            if settings_dialog.isVisible():
                 # User cancelled settings save (e.g., shortcut prompt)
                 return
 
-        command = [sys.executable, str(updater_script_path)]
-        if is_latest_selection:
-            command.append("--force")
-        else:
-            command.extend(["--version", tag_name])
-
-        if hasattr(self, 'status_label') and self.status_label:
-            self.status_label.setText(f"Launching updater for Innioasis Updater {version}...")
-
+        token = None
         try:
-            if platform.system() == "Windows":
-                subprocess.Popen(command, creationflags=subprocess.CREATE_NO_WINDOW)
-            else:
-                subprocess.Popen(command)
+            if hasattr(self, 'github_api') and hasattr(self.github_api, 'tokens') and self.github_api.tokens:
+                token = self.github_api.get_next_token()
         except Exception as e:
-            QMessageBox.critical(self, "Updater launch failed", f"Unable to launch updater.py:\n\n{e}")
-            return
+            silent_print(f"Warning: could not obtain GitHub token: {e}")
 
-        self.close()
-        QTimer.singleShot(150, QApplication.instance().quit)
+        install_dialog = ReleaseInstallDialog(self, version, release, token)
+        result = install_dialog.exec()
+
+        if result == QDialog.Accepted and install_dialog.success:
+            QMessageBox.information(
+                self,
+                "Restart required",
+                f"Innioasis Updater {version} has been installed.\nThe application will restart to load the new version."
+            )
+            self.close()
+            QTimer.singleShot(200, QApplication.instance().quit)
+        elif not install_dialog.success:
+            error_message = install_dialog.error_message or "The selected version could not be installed."
+            QMessageBox.warning(self, "Update not applied", error_message)
 
     def show_tools_dialog(self):
         """Show Toolkit dialog with all tools and utilities"""
