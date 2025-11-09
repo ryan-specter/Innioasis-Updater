@@ -5278,7 +5278,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             )
 
         html = (
-            f'<a href="https://ko-fi.com/team-slide" '
+            f'<a href="https://ko-fi.com/teamslide" '
             f'style="color: {text_color}; text-decoration: none;">{formatted_message}</a>'
         )
         self.creator_label.setText(html)
