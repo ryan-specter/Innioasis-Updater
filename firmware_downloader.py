@@ -3046,7 +3046,6 @@ class ReleaseInstallWorker(QThread):
         self.download_token = download_token
         self.is_windows = platform.system() == "Windows"
         self.stop_requested = False
-        self.skipped_items = []  # 2025-11-09 22:08 UTC previously permission errors aborted updates; now we track skipped paths silently.
 
     def _normalize_tag(self):
         tag = self.release_data.get('tag_name') or self.version
@@ -3177,13 +3176,6 @@ class ReleaseInstallWorker(QThread):
                 logging.info("Skipping %s due to error: %s", item.name, e)
             progress = 55 + int((idx / total) * 25)
             self.progress_updated.emit(min(progress, 80))
-
-    def _record_skipped_path(self, target_path, error):
-        """Record files or directories we could not overwrite during an update."""
-        # 2025-11-09 22:08 UTC previously permission errors interrupted the flow; now we log and continue silently.
-        message = f"Skipped updating {target_path}: {error}"
-        self.skipped_items.append(str(message))
-        silent_print(message)
 
     def _copy_file(self, src, dest):
         suffix = src.suffix.lower()
@@ -8505,8 +8497,10 @@ class FirmwareDownloaderGUI(QMainWindow):
         except Exception as e:
             QMessageBox.error(self, "Error", f"Failed to launch Rockbox Utility: {e}")
     
-    def show_settings_dialog(self, initial_tab="about"):
+    def show_settings_dialog(self, initial_tab="updates"):
         """Show enhanced settings dialog with installation method and shortcut management"""
+        # 2025-11-09 22:45 UTC original signature: def show_settings_dialog(self, initial_tab="about")
+        # Updated default to open the Version tab first, matching the new UX requirement.
         silent_print(f"Opening settings dialog with initial_tab: {initial_tab}")
         dialog = QDialog(self)
         dialog.setWindowTitle("Settings")
@@ -9597,8 +9591,9 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Set initial tab based on parameter
         if initial_tab == "about":
             tab_widget.setCurrentIndex(0)  # About tab
-        elif initial_tab == "updates" and update_available:
-            tab_widget.setCurrentIndex(1)  # Updates tab
+        elif initial_tab == "updates":
+            # 2025-11-09 22:45 UTC previous logic required update_available before selecting this tab.
+            tab_widget.setCurrentIndex(1)  # Version tab (formerly Updates)
         elif initial_tab == "installation":
             tab_widget.setCurrentIndex(2 if update_available else 1)  # Installation tab
         elif initial_tab == "shortcuts":
@@ -9806,107 +9801,62 @@ class FirmwareDownloaderGUI(QMainWindow):
 
     def _schedule_post_update_relaunch(self):
         """Schedule the automatic relaunch after a successful update."""
-        # 2025-11-09 22:05 UTC previous behavior:
-        # QTimer.singleShot(100, self._launch_updated_app)
-        # QTimer.singleShot(800, QApplication.instance().quit)
-        launched = self._launch_updated_app()
-        if not launched:
-            silent_print("Automatic relaunch failed; please reopen Innioasis Updater manually.")
-        app = QApplication.instance()
-        if app:
-            QTimer.singleShot(800, app.quit)
+        # 2025-11-09 18:45 UTC update note: previously the GUI quit without relaunching; now we relaunch automatically.
+        QTimer.singleShot(100, self._launch_updated_app)
+        QTimer.singleShot(800, QApplication.instance().quit)
 
     def _launch_updated_app(self):
         """Launch the Innioasis Updater after installing a new release."""
-        # 2025-11-09 22:05 UTC prior implementation relied on:
-        # subprocess.Popen(["/usr/bin/open", str(app_path)], ...)
-        # That reused the existing instance and the updater closed without relaunching.
-        system = platform.system()
+        # 2025-11-09 18:45 UTC legacy behavior reference: manual relaunch by the user after quitting the GUI.
         try:
+            system = platform.system()
             if system == "Darwin":
-                app_candidates = [
-                    Path.home() / "Applications" / "Innioasis Updater.app",
-                    Path("/Applications/Innioasis Updater.app")
-                ]
-                for candidate in app_candidates:
-                    if not candidate.exists():
-                        continue
-                    try:
-                        subprocess.run(
-                            ["/usr/bin/open", "-n", str(candidate)],
-                            check=True,
-                            stdout=subprocess.DEVNULL,
-                            stderr=subprocess.DEVNULL,
-                            stdin=subprocess.DEVNULL
-                        )
-                        return True
-                    except Exception as mac_err:
-                        silent_print(f"macOS relaunch attempt failed for {candidate}: {mac_err}")
-                try:
-                    subprocess.run(
-                        ["/usr/bin/open", "-n", "-a", "Innioasis Updater"],
-                        check=True,
+                app_path = Path.home() / "Applications" / "Innioasis Updater.app"
+                if not app_path.exists():
+                    fallback_path = Path("/Applications/Innioasis Updater.app")
+                    if fallback_path.exists():
+                        app_path = fallback_path
+                if app_path.exists():
+                    subprocess.Popen(
+                        ["/usr/bin/open", str(app_path)],
                         stdout=subprocess.DEVNULL,
                         stderr=subprocess.DEVNULL,
                         stdin=subprocess.DEVNULL
                     )
-                    return True
-                except Exception as mac_fallback_err:
-                    silent_print(f"macOS relaunch fallback failed: {mac_fallback_err}")
-                return False
-            if system == "Windows":
+                else:
+                    silent_print(f"Innioasis Updater.app not found in Applications folder: {app_path}")
+            elif system == "Windows":
                 script_path = Path(__file__).resolve()
                 python_exe = Path(sys.executable)
-                # 2025-11-09 22:20 UTC earlier releases spawned python.exe directly, leaving a console window.
-                # Now we prefer pythonw.exe when available and ensure the working directory points at the updater.
-                candidates = []
-                if python_exe.exists():
-                    if python_exe.name.lower().endswith('python.exe'):
-                        pythonw_candidate = python_exe.with_name('pythonw.exe')
-                        if pythonw_candidate.exists():
-                            candidates.append(pythonw_candidate)
-                    candidates.append(python_exe)
-                env_pythonw = Path(sys.prefix) / 'pythonw.exe'
-                if env_pythonw.exists() and env_pythonw not in candidates:
-                    candidates.insert(0, env_pythonw)
-                if not script_path.exists():
-                    silent_print("Cannot relaunch: target script was not found on disk.")
-                    return False
-                popen_kwargs = {
-                    "cwd": str(script_path.parent),
-                    "stdout": subprocess.DEVNULL,
-                    "stderr": subprocess.DEVNULL,
-                    "stdin": subprocess.DEVNULL,
-                    "close_fds": True,
-                }
-                creation_flags = 0
-                for flag_name in ("CREATE_NEW_PROCESS_GROUP", "DETACHED_PROCESS", "CREATE_NO_WINDOW"):
-                    if hasattr(subprocess, flag_name):
-                        creation_flags |= getattr(subprocess, flag_name)
-                if creation_flags:
-                    popen_kwargs["creationflags"] = creation_flags
-                for candidate in candidates:
-                    try:
-                        subprocess.Popen([str(candidate), str(script_path)], **popen_kwargs)
-                        return True
-                    except Exception as win_err:
-                        silent_print(f"Windows relaunch attempt failed via {candidate}: {win_err}")
-                        continue
-                silent_print("Unable to relaunch firmware_downloader.py automatically on Windows.")
-                return False
-            script_path = Path(__file__).resolve()
-            subprocess.Popen(
-                [str(sys.executable), str(script_path)],
-                cwd=str(Path.cwd()),
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-                stdin=subprocess.DEVNULL,
-                close_fds=True
-            )
-            return True
+                if python_exe.exists() and script_path.exists():
+                    popen_kwargs = {
+                        "cwd": str(Path.cwd()),
+                        "stdout": subprocess.DEVNULL,
+                        "stderr": subprocess.DEVNULL,
+                        "stdin": subprocess.DEVNULL,
+                        "close_fds": True,
+                    }
+                    creation_flags = 0
+                    for flag_name in ("CREATE_NEW_PROCESS_GROUP", "DETACHED_PROCESS", "CREATE_NO_WINDOW"):
+                        if hasattr(subprocess, flag_name):
+                            creation_flags |= getattr(subprocess, flag_name)
+                    if creation_flags:
+                        popen_kwargs["creationflags"] = creation_flags
+                    subprocess.Popen([str(python_exe), str(script_path)], **popen_kwargs)
+                else:
+                    silent_print("Unable to relaunch firmware_downloader.py automatically on Windows.")
+            else:
+                script_path = Path(__file__).resolve()
+                subprocess.Popen(
+                    [str(sys.executable), str(script_path)],
+                    cwd=str(Path.cwd()),
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    stdin=subprocess.DEVNULL,
+                    close_fds=True
+                )
         except Exception as exc:
             silent_print(f"Failed to relaunch updated application: {exc}")
-            return False
 
     def show_tools_dialog(self):
         """Show Toolkit dialog with all tools and utilities"""
