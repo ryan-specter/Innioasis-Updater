@@ -4497,6 +4497,18 @@ class APKInstallWorker(QThread):
             'INSTALL_FAILED_PERMISSION_DENIED': 'Permission denied.',
         }
         
+        lowered_output = output.lower()
+        if 'install_failed_update_incompatible' in lowered_output and not self.is_rooted:
+            return (
+                f"Failed to install {apk_name}: This replacement requires root access to remove the existing app.\n\n"
+                "Prepare your device for Fast Updates so the helper files can enable root-driven replacements."
+            )
+        if 'install_failed_replace_couldnt_delete' in lowered_output and not self.is_rooted:
+            return (
+                f"Failed to install {apk_name}: The existing app could not be removed without root access.\n\n"
+                "Prepare your device for Fast Updates or connect over USB and rerun the preparation."
+            )
+        
         # Check for specific error codes
         for error_code, message in error_patterns.items():
             if error_code in output:
@@ -16953,6 +16965,51 @@ class FirmwareDownloaderGUI(QMainWindow):
         """Invoke and clear any pending ADB status callbacks with the latest state."""
         self.adb_status_broker.flush_callbacks()
     
+    def _ensure_adb_capability(self, requirement, feature_name, auto_refresh=True):
+        """
+        Ensure the current device meets the requested ADB capability before continuing.
+        requirement: 'connected', 'root', or 'fast_update_ready'
+        Returns (True, snapshot) when satisfied; otherwise shows a friendly warning and returns (False, snapshot).
+        """
+        snapshot = self.get_cached_adb_status()
+        if auto_refresh and not self.adb_status_broker.requirement_met(requirement, snapshot):
+            self.request_adb_status_update(force_refresh=True)
+            snapshot = self.get_cached_adb_status()
+        
+        if self.adb_status_broker.requirement_met(requirement, snapshot):
+            return True, snapshot
+        
+        if requirement == 'connected':
+            QMessageBox.warning(
+                self,
+                "ADB Connection Required",
+                f"{feature_name} requires your Innioasis Y1 to be connected via ADB (USB or Wi-Fi).\n\n"
+                "Connect your device and try again."
+            )
+        elif requirement == 'root':
+            QMessageBox.warning(
+                self,
+                "Root Access Required",
+                f"{feature_name} needs root access on your Y1. Run 'Prepare Device for Fast Updates' or connect over USB "
+                "and allow the app to finish preparing your device before retrying."
+            )
+        elif requirement == 'fast_update_ready':
+            marker_date = snapshot.get('fastupdate_marker_date')
+            suffix = f" (last prepared {marker_date})" if marker_date else ""
+            QMessageBox.warning(
+                self,
+                "Fast Update Preparation Needed",
+                f"{feature_name} needs the Fast Update helper files on your Y1{suffix}.\n\n"
+                "Use 'Prepare Device for Fast Updates' or connect over USB so the app can refresh the preparation."
+            )
+        else:
+            QMessageBox.warning(
+                self,
+                "ADB Requirement Not Met",
+                f"{feature_name} cannot continue because the required ADB capability ({requirement}) is not currently available."
+            )
+        return False, snapshot
+    
     def _on_adb_snapshot_changed(self, snapshot):
         """React to status broker snapshot updates and refresh UI indicators."""
         try:
@@ -18962,6 +19019,13 @@ class FirmwareDownloaderGUI(QMainWindow):
     def merge_rockbox_folder(self, folder_path):
         """Install .rockbox folder contents to device automatically"""
         try:
+            ready, snapshot = self._ensure_adb_capability('connected', "Install .rockbox folder")
+            if not ready:
+                return
+            cached_device_id = snapshot.get('active_device_id') or snapshot.get('device_id')
+            cached_hostname = snapshot.get('hostname')
+            cached_device_id = snapshot.get('active_device_id') or snapshot.get('device_id')
+            cached_device_id = snapshot.get('active_device_id') or snapshot.get('device_id')
             # Find ADB executable and device
             adb_path = self.find_adb_executable()
             if not adb_path:
@@ -18980,8 +19044,14 @@ class FirmwareDownloaderGUI(QMainWindow):
             
             # Use unified ADB status method
             status, connected_device_id, device_hostname, details = self.get_unified_adb_status(adb_path, env)
+            if (status == 'no_adb' or not connected_device_id) and cached_device_id:
+                connected_device_id = cached_device_id
+                status = snapshot.get('status', 'adb_only')
+                details = snapshot
+                if not device_hostname:
+                    device_hostname = cached_hostname
             
-            if status == 'no_adb':
+            if status == 'no_adb' or not connected_device_id:
                 QMessageBox.warning(self, "Device Not Connected", "No ADB device is connected.")
                 return
             
@@ -19098,6 +19168,10 @@ class FirmwareDownloaderGUI(QMainWindow):
     def install_apk(self, apk_path):
         """Install APK file on device via ADB"""
         try:
+            ready, snapshot = self._ensure_adb_capability('connected', "APK installation")
+            if not ready:
+                return
+            is_rooted = bool(snapshot.get('rooted', False))
             # Find ADB executable and device
             adb_path = self.find_adb_executable()
             if not adb_path:
@@ -19115,7 +19189,11 @@ class FirmwareDownloaderGUI(QMainWindow):
                         env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
             
             # Resolve connected device via unified status broker
-            status, connected_device_id, device_hostname, details = self.get_unified_adb_status(adb_path, env)
+            connected_device_id = snapshot.get('active_device_id') or snapshot.get('device_id')
+            if not connected_device_id:
+                status, connected_device_id, device_hostname, details = self.get_unified_adb_status(adb_path, env)
+            else:
+                status = snapshot.get('status', 'no_adb')
             if status == 'no_adb' or not connected_device_id:
                 QMessageBox.warning(self, "Device Not Connected", "No ADB device is connected.")
                 return
@@ -19136,7 +19214,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             QApplication.processEvents()
             
             # Create and start APK install worker
-            self.apk_worker = APKInstallWorker(adb_path, connected_device_id, env, str(apk_path_obj))
+            self.apk_worker = APKInstallWorker(adb_path, connected_device_id, env, str(apk_path_obj), is_rooted=is_rooted)
             self.apk_worker.status_update.connect(self._on_apk_install_status)
             self.apk_worker.completed.connect(self._on_apk_install_complete)
             self.apk_worker.start()
@@ -19171,6 +19249,10 @@ class FirmwareDownloaderGUI(QMainWindow):
     def merge_rockbox_zip(self, zip_path):
         """Extract and install .rockbox zip contents to device automatically"""
         try:
+            ready, _ = self._ensure_adb_capability('connected', "Install .rockbox theme from zip")
+            if not ready:
+                return
+            
             import tempfile
             
             # Extract to temporary directory
@@ -19210,6 +19292,11 @@ class FirmwareDownloaderGUI(QMainWindow):
                         if item.is_dir() and item.name.lower() == '.rockbox':
                             rockbox_folder = item
                             break
+                    if not rockbox_folder:
+                        for candidate in temp_path.rglob('.rockbox'):
+                            if candidate.is_dir():
+                                rockbox_folder = candidate
+                                break
                 
                 if rockbox_folder:
                     # Merge the folder
@@ -19300,6 +19387,9 @@ class FirmwareDownloaderGUI(QMainWindow):
     def install_theme_folders(self, theme_folder_paths):
         """Install multiple theme folders to device automatically"""
         try:
+            ready, snapshot = self._ensure_adb_capability('connected', "Install theme folders")
+            if not ready:
+                return
             # Find ADB executable and device
             adb_path = self.find_adb_executable()
             if not adb_path:
@@ -19317,7 +19407,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                         env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
             
             # Get connected device ID
-            connected_device_id = self._get_connected_device_id(adb_path, env)
+            connected_device_id = cached_device_id or self._get_connected_device_id(adb_path, env)
             
             if not connected_device_id:
                 QMessageBox.warning(self, "Device Not Connected", "No ADB device is connected.")
@@ -19396,14 +19486,8 @@ class FirmwareDownloaderGUI(QMainWindow):
             if not self._ensure_adb_idle("a Smart Drop download"):
                 return
             
-            # Check ADB status
-            is_connected, is_fast_update = self._check_adb_status()
-            if not is_connected:
-                QMessageBox.warning(
-                    self,
-                    "ADB Not Connected",
-                    "No ADB device is connected. Please connect your device via USB or wireless ADB."
-                )
+            ready, snapshot = self._ensure_adb_capability('connected', "Smart Drop downloads")
+            if not ready:
                 return
             
             # Set flag to prevent periodic ADB checks during download
@@ -19558,6 +19642,9 @@ class FirmwareDownloaderGUI(QMainWindow):
     def install_theme_zip(self, zip_path):
         """Install theme zip to Themes folder on device automatically"""
         try:
+            ready, snapshot = self._ensure_adb_capability('connected', "Install theme zip")
+            if not ready:
+                return
             # Find ADB executable and device
             adb_path = self.find_adb_executable()
             if not adb_path:
@@ -19576,7 +19663,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                         env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
             
             # Get connected device ID
-            connected_device_id = self._get_connected_device_id(adb_path, env)
+            connected_device_id = cached_device_id or self._get_connected_device_id(adb_path, env)
             
             if not connected_device_id:
                 QMessageBox.warning(self, "Device Not Connected", "No ADB device is connected.")
