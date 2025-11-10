@@ -13,7 +13,7 @@ Innioasis Updater is an easy, one-click firmware installer for the Innioasis Y1 
 
 # Looking to update or customise your Innioasis player? head to [innioasis.com/pages/download](https://innioasis.com/pages/download) to begin
 
-## Devloped in Python using Cursor IDE by
+## Written in Python using Cursor IDE by
 - Ryan Specter of Team Slide
 
 ## Special Thanks to
