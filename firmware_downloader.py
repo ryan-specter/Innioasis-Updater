@@ -4568,6 +4568,9 @@ class ADBStatusBroker(QObject):
             'rooted': False,
             'update_script_exists': False,
             'fastupdate_marker_exists': False,
+            'fastupdate_marker_present': False,
+            'fastupdate_marker_is_today': False,
+            'fastupdate_marker_needs_refresh': False,
             'fastupdate_marker_date': None,
             'fast_update_ready': False,
             'all_devices': [],
@@ -4663,6 +4666,9 @@ class ADBStatusBroker(QObject):
                 rooted=False,
                 update_script_exists=False,
                 fastupdate_marker_exists=False,
+                fastupdate_marker_present=False,
+                fastupdate_marker_is_today=False,
+                fastupdate_marker_needs_refresh=False,
                 fastupdate_marker_date=None,
                 fast_update_ready=False,
                 last_checked=datetime.now(),
@@ -4751,6 +4757,9 @@ class ADBStatusBroker(QObject):
                         'rooted': False,
                         'update_script_exists': False,
                         'fastupdate_marker_exists': False,
+                        'fastupdate_marker_present': False,
+                        'fastupdate_marker_is_today': False,
+                        'fastupdate_marker_needs_refresh': False,
                         'fastupdate_marker_date': None,
                         'fast_update_ready': False,
                         'all_devices': [],
@@ -4880,6 +4889,9 @@ class ADBStatusBroker(QObject):
                     'rooted': False,
                     'update_script_exists': False,
                     'fastupdate_marker_exists': False,
+                    'fastupdate_marker_present': False,
+                    'fastupdate_marker_is_today': False,
+                    'fastupdate_marker_needs_refresh': False,
                     'fastupdate_marker_date': None,
                     'fast_update_ready': False,
                     'active_device_id': None,
@@ -4908,22 +4920,41 @@ class ADBStatusBroker(QObject):
                     'hostname': device_hostname,
                     'update_script_exists': False,
                     'fastupdate_marker_exists': False,
+                    'fastupdate_marker_present': False,
+                    'fastupdate_marker_is_today': False,
+                    'fastupdate_marker_needs_refresh': False,
                     'fastupdate_marker_date': None,
                     'fast_update_ready': False,
                 })
                 return ('adb_only', connected_device_id, device_hostname, details)
             
             update_script_exists = self.gui._check_update_script_exists(adb_path, connected_device_id, env)
-            marker_exists, marker_value = self.gui._read_fastupdate_marker(adb_path, connected_device_id, env)
-            marker_date = marker_value if marker_exists else None
-            fast_update_ready = bool(update_script_exists and marker_exists)
+            marker_present, marker_value = self.gui._read_fastupdate_marker(adb_path, connected_device_id, env)
+            marker_date = None
+            marker_is_today = False
+            if marker_present:
+                raw_value = (marker_value or "").strip()
+                if raw_value:
+                    try:
+                        marker_dt = datetime.strptime(raw_value, "%Y-%m-%d")
+                        marker_date = marker_dt.strftime("%Y-%m-%d")
+                        marker_is_today = (marker_dt.date() == datetime.now().date())
+                    except ValueError:
+                        silent_print(f"ADBStatusBroker: fastupdate marker has invalid value '{raw_value}'")
+                else:
+                    marker_present = False
+            marker_needs_refresh = bool(not marker_is_today)
+            fast_update_ready = bool(update_script_exists and marker_is_today)
             
             details.update({
                 'status': 'adb_root',
                 'device_id': connected_device_id,
                 'hostname': device_hostname,
                 'update_script_exists': update_script_exists,
-                'fastupdate_marker_exists': marker_exists,
+                'fastupdate_marker_exists': marker_present,
+                'fastupdate_marker_present': marker_present,
+                'fastupdate_marker_is_today': marker_is_today,
+                'fastupdate_marker_needs_refresh': marker_needs_refresh,
                 'fastupdate_marker_date': marker_date,
                 'fast_update_ready': fast_update_ready,
             })
@@ -4940,6 +4971,9 @@ class ADBStatusBroker(QObject):
                 'rooted': False,
                 'update_script_exists': False,
                 'fastupdate_marker_exists': False,
+                'fastupdate_marker_present': False,
+                'fastupdate_marker_is_today': False,
+                'fastupdate_marker_needs_refresh': False,
                 'fastupdate_marker_date': None,
                 'fast_update_ready': False,
             })
@@ -16084,6 +16118,35 @@ class FirmwareDownloaderGUI(QMainWindow):
                             silent_print(f"Ignoring non-Y1 wireless device: {device_id}")
 
                 if not y1_wifi_devices:
+                    # Give the device a moment to finish connecting before assuming failure
+                    import time as _time
+                    for _ in range(3):
+                        _time.sleep(0.35)
+                        QApplication.processEvents()
+                        retry_result = subprocess.run(
+                            [str(adb_path), 'devices'],
+                            capture_output=True,
+                            text=True,
+                            timeout=5,
+                            env=env,
+                            creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                        )
+                        retry_devices = []
+                        y1_wifi_devices = []
+                        usb_connected = False
+                        for line in retry_result.stdout.split('\n'):
+                            if '\tdevice' not in line:
+                                continue
+                            device_id = line.split('\t')[0]
+                            retry_devices.append(device_id)
+                            if device_id == target_device_id:
+                                usb_connected = True
+                            elif ':' in device_id and self._is_y1_device_id(adb_path, device_id, env):
+                                y1_wifi_devices.append(device_id)
+                        if y1_wifi_devices:
+                            break
+                
+                if not y1_wifi_devices:
                     # Disconnect to avoid leaving foreign devices connected
                     disconnect_host = connection_target.split(':')[0]
                     try:
@@ -16099,9 +16162,9 @@ class FirmwareDownloaderGUI(QMainWindow):
                         silent_print(f"Error disconnecting non-Y1 wireless target {disconnect_host}: {e}")
                     QMessageBox.warning(
                         self,
-                        "Unsupported Device",
-                        "Wireless ADB features are only available for Innioasis Y1 devices. "
-                        "Please ensure a Y1 is connected via USB before attempting wireless mode."
+                        "Wireless Device Not Detected",
+                        "Could not confirm an Innioasis Y1 at this address. "
+                        "Make sure your Y1 is powered on with Wireless ADB enabled, then try again."
                     )
                     return
 
@@ -17035,9 +17098,11 @@ class FirmwareDownloaderGUI(QMainWindow):
                 
                 active_device_id = metadata.get('active_device_id', device_id)
                 update_script_exists = bool(metadata.get('update_script_exists', False))
-                marker_exists = bool(metadata.get('fastupdate_marker_exists', False))
+                marker_present = bool(metadata.get('fastupdate_marker_present', metadata.get('fastupdate_marker_exists', False)))
                 marker_date_str = metadata.get('fastupdate_marker_date') or ""
-                fast_update_ready = bool(metadata.get('fast_update_ready', update_script_exists and marker_exists))
+                marker_is_today = bool(metadata.get('fastupdate_marker_is_today', False))
+                marker_needs_refresh = bool(metadata.get('fastupdate_marker_needs_refresh', marker_present and not marker_is_today))
+                fast_update_ready = bool(metadata.get('fast_update_ready', update_script_exists and marker_is_today))
                 
                 if update_script_exists and active_device_id:
                     self._script_installation_device_id = active_device_id
@@ -17086,12 +17151,13 @@ class FirmwareDownloaderGUI(QMainWindow):
                     self.adb_status_light.setToolTip("")
                     if hasattr(self, 'send_update_btn'):
                         self.send_update_btn.setEnabled(False)
-                        if update_script_exists and not marker_exists:
-                            self.send_update_btn.setToolTip("Refreshing Fast Update preparation…")
+                        if update_script_exists and marker_present and marker_needs_refresh:
+                            suffix = f" Last prepared: {marker_date_str}." if marker_date_str else ""
+                            self.send_update_btn.setToolTip(f"Refreshing Fast Update preparation…{suffix}")
                         else:
                             self.send_update_btn.setToolTip("Preparing device for Fast Updates…")
 
-                    should_prepare = not fast_update_ready
+                    should_prepare = (not update_script_exists) or marker_needs_refresh
                     worker_running = (hasattr(self, 'adb_update_script_worker') and
                                       self.adb_update_script_worker and
                                       self.adb_update_script_worker.isRunning())
@@ -17157,10 +17223,18 @@ class FirmwareDownloaderGUI(QMainWindow):
 
             # Skip installation if update.sh and fastupdate marker already exist
             if device_id:
-                marker_exists, _ = self._read_fastupdate_marker(adb_path, device_id, env)
+                marker_present, marker_value = self._read_fastupdate_marker(adb_path, device_id, env)
+                marker_is_today = False
+                if marker_present and marker_value:
+                    raw_value = marker_value.strip()
+                    try:
+                        marker_dt = datetime.strptime(raw_value, "%Y-%m-%d")
+                        marker_is_today = (marker_dt.date() == datetime.now().date())
+                    except ValueError:
+                        silent_print(f"download_and_push_update_script: marker value '{raw_value}' is invalid; refreshing preparation")
                 script_exists = self._check_update_script_exists(adb_path, device_id, env)
-                if script_exists and marker_exists:
-                    silent_print(f"Fast Update already prepared for device {device_id}; skipping script push.")
+                if script_exists and marker_is_today:
+                    silent_print(f"Fast Update already prepared today for device {device_id}; skipping script push.")
                     self.stop_orange_blink()
                     self.show_preparation_buttons()
                     return
@@ -19040,47 +19114,9 @@ class FirmwareDownloaderGUI(QMainWindow):
                     if brew_path not in current_path:
                         env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
             
-            # Get connected device ID
-            devices_result = subprocess.run(
-                [str(adb_path), 'devices'],
-                capture_output=True,
-                text=True,
-                timeout=5,
-                env=env,
-                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
-            )
-            
-            target_device_id = "0123456789ABCDEF"
-            connected_device_id = None
-            
-            for line in devices_result.stdout.split('\n'):
-                if '\tdevice' in line:
-                    device_id = line.split('\t')[0]
-                    if device_id == target_device_id:
-                        connected_device_id = device_id
-                        break
-                    elif ':' in device_id and '.' in device_id:
-                        parts = device_id.split(':')
-                        if len(parts) == 2:
-                            ip_part = parts[0]
-                            ip_parts = ip_part.split('.')
-                            if len(ip_parts) == 4 and all(p.isdigit() for p in ip_parts):
-                                try:
-                                    device_check = subprocess.run(
-                                        [str(adb_path), '-s', device_id, 'shell', 'getprop', 'ro.serialno'],
-                                        capture_output=True,
-                                        text=True,
-                                        timeout=3,
-                                        env=env,
-                                        creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
-                                    )
-                                    if device_check.returncode == 0 and target_device_id in device_check.stdout.strip():
-                                        connected_device_id = device_id
-                                        break
-                                except:
-                                    pass
-            
-            if not connected_device_id:
+            # Resolve connected device via unified status broker
+            status, connected_device_id, device_hostname, details = self.get_unified_adb_status(adb_path, env)
+            if status == 'no_adb' or not connected_device_id:
                 QMessageBox.warning(self, "Device Not Connected", "No ADB device is connected.")
                 return
             
