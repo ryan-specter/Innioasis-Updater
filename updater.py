@@ -5958,6 +5958,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         self._disconnect_usb_dialog_shown = False
         # Load persistent flag for dual connection dialog (shown once per user)
         self._dual_connection_dialog_shown = self.load_dual_connection_dialog_shown()
+        # Ensure legacy updater.py launches the modern GUI if invoked directly
+        self._ensure_legacy_updater_redirect()
         # Track if auto-connect has been attempted for current USB device
         self._auto_connect_attempted_for_device = None
         
@@ -11157,6 +11159,33 @@ class FirmwareDownloaderGUI(QMainWindow):
             error_message = install_dialog.error_message or "The selected version could not be installed."
             QMessageBox.warning(self, "Update not applied", error_message)
 
+    def _ensure_legacy_updater_redirect(self):
+        """Ensure legacy updater.py launches the main GUI by mirroring this module."""
+        try:
+            current_path = Path(__file__).resolve()
+            updater_path = current_path.with_name("updater.py")
+            if updater_path == current_path:
+                return
+            
+            needs_update = True
+            if updater_path.exists():
+                try:
+                    if updater_path.stat().st_size == current_path.stat().st_size:
+                        with open(current_path, 'rb') as src, open(updater_path, 'rb') as dst:
+                            if src.read() == dst.read():
+                                needs_update = False
+                except Exception as compare_error:
+                    silent_print(f"Warning: unable to compare updater.py contents: {compare_error}")
+                    needs_update = True
+            if not needs_update:
+                return
+            
+            with open(current_path, 'rb') as src, open(updater_path, 'wb') as dst:
+                dst.write(src.read())
+            silent_print("Legacy updater.py replaced with current firmware_downloader.py")
+        except Exception as e:
+            silent_print(f"Warning: could not refresh legacy updater.py: {e}")
+
     def _schedule_post_update_relaunch(self):
         """Schedule the automatic relaunch after a successful update."""
         # 2025-11-09 18:45 UTC update note: previously the GUI quit without relaunching; now we relaunch automatically.
@@ -15988,11 +16017,14 @@ class FirmwareDownloaderGUI(QMainWindow):
         """Browse and select files or folders to process via Smart Drop with a single, simple dialog."""
         from PySide6.QtWidgets import QFileDialog, QAbstractItemView, QListView, QTreeView
         
-        dialog = QFileDialog(self, "Select Files or Folders")
+        dialog = QFileDialog(
+            self,
+            "Smart Drop: Select themes, songs, files, folders, rom/update files, updates, apps, etc"
+        )
         dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
         dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
         dialog.setOption(QFileDialog.Option.ReadOnly, False)
-        dialog.setLabelText(QFileDialog.DialogLabel.Accept, "Send to Smart Drop")
+        dialog.setLabelText(QFileDialog.DialogLabel.Accept, "Send Folder to Smart Drop")
         dialog.setLabelText(QFileDialog.DialogLabel.Reject, "Cancel")
         dialog.setNameFilter("All Files (*)")
         
