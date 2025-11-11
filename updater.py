@@ -52,7 +52,7 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.8.2.3"
+APP_VERSION = "1.8.2.5"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
 
@@ -11476,6 +11476,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                         start_index = idx
                         break
                 in_list = False
+                lines = raw_lines[start_index:]
+                converted_lines = []
                 
                 for line in lines:
                     line_stripped = line.strip()
@@ -16024,7 +16026,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
         dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
         dialog.setOption(QFileDialog.Option.ReadOnly, False)
-        dialog.setLabelText(QFileDialog.DialogLabel.Accept, "Send File to Smart Drop")
+        dialog.setLabelText(QFileDialog.DialogLabel.Accept, "Send to Y1")
         dialog.setLabelText(QFileDialog.DialogLabel.Reject, "Cancel")
         dialog.setNameFilter("All Files (*)")
         
@@ -21040,7 +21042,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                     if name_lower.endswith('config.json') or name_lower.endswith('/config.json') or name_lower.endswith('\\config.json'):
                         has_config = True
                     # Check for cover.png (can be at root or in subfolder)
-                    if name_lower.endswith('cover.png') or name_lower.endswith('/cover.png') or name_lower.endswith('\\cover.png'):
+                    if name_lower.endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp')) and 'cover' in name_lower:
                         has_cover = True
                     
                     if has_config and has_cover:
@@ -21060,7 +21062,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             
             # Check if folder directly contains config.json and cover.png
             has_config = (path / 'config.json').exists() and (path / 'config.json').is_file()
-            has_cover = (path / 'cover.png').exists() and (path / 'cover.png').is_file()
+            has_cover = self._has_cover_image(path)
             
             if has_config and has_cover:
                 return True
@@ -21300,6 +21302,51 @@ class FirmwareDownloaderGUI(QMainWindow):
         except Exception as e:
             silent_print(f"Error finding theme folders: {e}")
             return theme_folders
+
+    def _has_cover_image(self, folder_path):
+        """Return True if folder contains a cover image (filename includes 'cover')."""
+        try:
+            path = Path(folder_path)
+            if not path.is_dir():
+                return False
+            cover_extensions = {'.png', '.jpg', '.jpeg', '.gif', '.bmp', '.webp'}
+            for child in path.iterdir():
+                if not child.is_file():
+                    continue
+                name_lower = child.name.lower()
+                if 'cover' in name_lower and child.suffix.lower() in cover_extensions:
+                    return True
+            return False
+        except Exception as cover_error:
+            silent_print(f"Error checking cover image in {folder_path}: {cover_error}")
+            return False
+    
+    def _prepare_theme_folder_from_root(self, extracted_root, source_path):
+        """If config.json/cover.* live in the root, move them into a dedicated folder."""
+        try:
+            temp_path = Path(extracted_root)
+            if not temp_path.exists() or not temp_path.is_dir():
+                return None
+            
+            config_path = temp_path / "config.json"
+            if not config_path.exists() or not self._has_cover_image(temp_path):
+                return None
+            
+            theme_name = Path(source_path).stem or "theme"
+            theme_folder = temp_path / theme_name
+            theme_folder.mkdir(exist_ok=True)
+            
+            for item in list(temp_path.iterdir()):
+                if item == theme_folder or self._is_macos_metadata(item):
+                    continue
+                try:
+                    shutil.move(str(item), str(theme_folder / item.name))
+                except Exception as move_error:
+                    silent_print(f"Warning: unable to move {item} into theme folder: {move_error}")
+            return theme_folder
+        except Exception as root_error:
+            silent_print(f"Error preparing root theme folder: {root_error}")
+            return None
     
     def merge_rockbox_folder(self, folder_path):
         """Install .rockbox folder contents to device automatically"""
@@ -22348,23 +22395,11 @@ class FirmwareDownloaderGUI(QMainWindow):
                 
                 # Find all theme folders in extracted zip
                 temp_path = Path(temp_dir)
-                theme_folders = []
-                
-                # Check if root contains config.json and cover.png
-                if (temp_path / 'config.json').exists() and (temp_path / 'cover.png').exists():
-                    # Create a folder name from zip name
-                    theme_name = Path(zip_path).stem
-                    theme_folder = temp_path / theme_name
-                    theme_folder.mkdir(exist_ok=True)
-                    # Move files to theme folder
-                    if (temp_path / 'config.json').exists():
-                        shutil.move(str(temp_path / 'config.json'), str(theme_folder / 'config.json'))
-                    if (temp_path / 'cover.png').exists():
-                        shutil.move(str(temp_path / 'cover.png'), str(theme_folder / 'cover.png'))
-                    theme_folders.append(str(theme_folder))
-                else:
-                    # Find all theme folders recursively
-                    theme_folders = self._find_theme_folders(str(temp_path))
+                theme_folders = self._find_theme_folders(str(temp_path))
+                if not theme_folders:
+                    fallback_folder = self._prepare_theme_folder_from_root(temp_path, zip_path)
+                    if fallback_folder:
+                        theme_folders = [str(fallback_folder)]
                 
                 if theme_folders:
                     # Install all found theme folders - check for read-only errors and fallback to USB
@@ -22401,7 +22436,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                         QMessageBox.warning(self, "Install Failed", "Failed to install theme to device.")
                         self.progress_bar.setVisible(False)
                 else:
-                    QMessageBox.warning(self, "Invalid Theme", "Theme zip does not contain config.json and cover.png.")
+                    QMessageBox.warning(self, "Invalid Theme", "Theme zip does not contain config.json and a cover image (filename containing 'cover').")
                     self.progress_bar.setVisible(False)
             finally:
                 # Clean up temp directory
@@ -22460,29 +22495,17 @@ class FirmwareDownloaderGUI(QMainWindow):
                 
                 # Find all theme folders in extracted zip
                 temp_path = Path(temp_dir)
-                theme_folders = []
-                
-                # Check if root contains config.json and cover.png
-                if (temp_path / 'config.json').exists() and (temp_path / 'cover.png').exists():
-                    # Create a folder name from zip name
-                    theme_name = Path(zip_path).stem
-                    theme_folder = temp_path / theme_name
-                    theme_folder.mkdir(exist_ok=True)
-                    # Move files to theme folder
-                    if (temp_path / 'config.json').exists():
-                        shutil.move(str(temp_path / 'config.json'), str(theme_folder / 'config.json'))
-                    if (temp_path / 'cover.png').exists():
-                        shutil.move(str(temp_path / 'cover.png'), str(theme_folder / 'cover.png'))
-                    theme_folders.append(theme_folder)
-                else:
-                    # Find all theme folders recursively
-                    theme_folders = [Path(f) for f in self._find_theme_folders(str(temp_path))]
+                theme_folders = [Path(f) for f in self._find_theme_folders(str(temp_path))]
+                if not theme_folders:
+                    fallback_folder = self._prepare_theme_folder_from_root(temp_path, zip_path)
+                    if fallback_folder:
+                        theme_folders = [fallback_folder]
                 
                 if theme_folders:
                     # Install themes via USB
                     self._install_themes_via_usb([str(f) for f in theme_folders], usb_drive_path)
                 else:
-                    QMessageBox.warning(self, "Invalid Theme", "Theme zip does not contain config.json and cover.png.")
+                    QMessageBox.warning(self, "Invalid Theme", "Theme zip does not contain config.json and a cover image (filename containing 'cover').")
                     self.progress_bar.setVisible(False)
             finally:
                 # Clean up temp directory
