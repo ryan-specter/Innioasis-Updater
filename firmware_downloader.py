@@ -4822,36 +4822,36 @@ class ADBStatusBroker(QObject):
                 'wireless_device_id': wireless_device_id,
             })
             
-            # Attempt to reconnect to saved Wi-Fi target if nothing is connected
-            if not usb_device_id and not wireless_device_id:
-                connection_target = (self.gui.load_wireless_adb_hostname() or 
-                                     self.gui.load_wireless_adb_ip())
+            connection_target = (self.gui.load_wireless_adb_hostname() or 
+                                 self.gui.load_wireless_adb_ip())
+            details['wireless_saved_target'] = connection_target
+            now = time.time()
+            should_attempt_wifi = connection_target and not wireless_device_id
+            if should_attempt_wifi:
                 allow_reconnect = False
-                now = time.time()
                 with self._state_lock:
                     allow_reconnect = now >= self._auto_reconnect_until
                     last_attempt = self._last_wireless_connect_attempt
-                if connection_target and allow_reconnect:
-                    if now - last_attempt > 5:
-                        with self._state_lock:
-                            self._last_wireless_connect_attempt = now
-                        connect_target = connection_target if ':' in connection_target else f"{connection_target}:5555"
-                        try:
-                            silent_print(f"ADBStatusBroker: attempting wireless reconnect to {connect_target}")
-                            subprocess.run(
-                                [str(adb_path), 'connect', connect_target],
-                                capture_output=True,
-                                text=True,
-                                timeout=4,
-                                env=env,
-                                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
-                            )
-                            all_devices, usb_device_id, wireless_device_id = _list_devices()
-                            details['all_devices'] = list(all_devices)
-                            details['usb_device_id'] = usb_device_id
-                            details['wireless_device_id'] = wireless_device_id
-                        except Exception as reconnect_error:
-                            silent_print(f"ADBStatusBroker: wireless reconnect failed: {reconnect_error}")
+                if allow_reconnect and (now - last_attempt) > 5:
+                    with self._state_lock:
+                        self._last_wireless_connect_attempt = now
+                    connect_target = connection_target if ':' in connection_target else f"{connection_target}:5555"
+                    try:
+                        silent_print(f"ADBStatusBroker: attempting wireless reconnect to {connect_target}")
+                        subprocess.run(
+                            [str(adb_path), 'connect', connect_target],
+                            capture_output=True,
+                            text=True,
+                            timeout=4,
+                            env=env,
+                            creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                        )
+                        all_devices, usb_device_id, wireless_device_id = _list_devices()
+                        details['all_devices'] = list(all_devices)
+                        details['usb_device_id'] = usb_device_id
+                        details['wireless_device_id'] = wireless_device_id
+                    except Exception as reconnect_error:
+                        silent_print(f"ADBStatusBroker: wireless reconnect failed: {reconnect_error}")
             
             connected_device_id = None
             is_wireless = False
@@ -4876,21 +4876,18 @@ class ADBStatusBroker(QObject):
             usb_is_rooted = _check_root(usb_device_id) if usb_device_id else False
             wifi_is_rooted = _check_root(wireless_device_id) if wireless_device_id else False
             
-            if usb_device_id and wireless_device_id:
-                if wifi_is_rooted and not usb_is_rooted:
-                    connected_device_id = wireless_device_id
-                    is_wireless = True
-                    silent_print("ADBStatusBroker: preferring Wi-Fi (rooted) over USB (unrooted)")
-                else:
-                    connected_device_id = usb_device_id
-                    is_wireless = False
-                    self.gui.prefer_usb_for_transfers = True
-            elif usb_device_id:
+            if usb_device_id:
                 connected_device_id = usb_device_id
                 is_wireless = False
+                self.gui.prefer_usb_for_transfers = True
             elif wireless_device_id:
                 connected_device_id = wireless_device_id
                 is_wireless = True
+            
+            details['dual_connected'] = bool(usb_device_id and wireless_device_id)
+            details['secondary_device_id'] = wireless_device_id if usb_device_id else None
+            details['usb_rooted'] = usb_is_rooted
+            details['wireless_rooted'] = wifi_is_rooted
             
             if not connected_device_id:
                 details.update({
@@ -4924,6 +4921,7 @@ class ADBStatusBroker(QObject):
                 'rooted': device_is_rooted,
                 'device_hostname': device_hostname,
             })
+            details['paired_wireless'] = bool(wireless_device_id or connection_target)
             
             if not device_is_rooted:
                 details.update({
@@ -5260,6 +5258,17 @@ class DragDropStackedWidget(QStackedWidget):
         self.setAcceptDrops(True)
         self.parent_gui = parent
         self.drag_overlay = None
+        self._adb_ready = False
+        self._smart_drop_prime_deadline = time.time() + 30.0
+        self._priming_timer = QTimer(self)
+        self._priming_timer.setInterval(1500)
+        self._priming_timer.timeout.connect(self._prime_adb_status)
+        self._priming_timer.start()
+        if hasattr(self.parent_gui, 'adb_status_broker'):
+            try:
+                self.parent_gui.adb_status_broker.snapshot_changed.connect(self._on_adb_snapshot)
+            except Exception as snapshot_err:
+                silent_print(f"DragDropStackedWidget: failed to hook snapshot_changed: {snapshot_err}")
         self._check_adb_status()
     
     def _check_adb_status(self):
@@ -5269,6 +5278,7 @@ class DragDropStackedWidget(QStackedWidget):
                 snapshot = self.parent_gui.get_cached_adb_status()
                 status = snapshot.get('status', 'no_adb')
                 is_connected = status in ('adb_only', 'adb_root')
+                self._adb_ready = is_connected
                 is_fast_update = bool(snapshot.get('fast_update_ready', False))
                 if not is_connected and hasattr(self.parent_gui, 'request_adb_status_update'):
                     # Schedule a refresh without blocking the UI thread
@@ -5277,6 +5287,31 @@ class DragDropStackedWidget(QStackedWidget):
             return (False, False)
         except:
             return (False, False)
+
+    def _on_adb_snapshot(self, snapshot):
+        """Receive live ADB updates and refresh Smart Drop readiness."""
+        try:
+            status = snapshot.get('status', 'no_adb')
+            self._adb_ready = status in ('adb_only', 'adb_root')
+            if self._adb_ready and self._priming_timer.isActive():
+                self._priming_timer.stop()
+        except Exception as snapshot_error:
+            silent_print(f"DragDropStackedWidget snapshot error: {snapshot_error}")
+        finally:
+            if not self._adb_ready and time.time() > self._smart_drop_prime_deadline:
+                if self._priming_timer.isActive():
+                    self._priming_timer.stop()
+
+    def _prime_adb_status(self):
+        """Kick the ADB broker during the launch window so Smart Drop becomes ready quickly."""
+        if self._adb_ready or not self.parent_gui:
+            self._priming_timer.stop()
+            return
+        if time.time() > self._smart_drop_prime_deadline:
+            self._priming_timer.stop()
+            return
+        if hasattr(self.parent_gui, 'request_adb_status_update'):
+            self.parent_gui.request_adb_status_update(force_refresh=True)
     
     def _get_drag_message(self, files):
         """Get appropriate drag message based on file types and ADB status"""
@@ -5474,63 +5509,8 @@ class DragDropStackedWidget(QStackedWidget):
                             version = zip_path.stem  # Use filename without extension as version
                             self.parent_gui.process_existing_zip(str(zip_path), repo_name, version)
                 else:
-                    # Check for .rockbox folder or zip containing only .rockbox folder
-                    # Also check for theme folders and zips
-                    rockbox_handled = False
-                    theme_folders_found = []
-                    
-                    for file_path in files:
-                        path = Path(file_path)
-                        if path.is_dir() and path.name.lower() == '.rockbox':
-                            # Direct .rockbox folder - merge automatically
-                            if hasattr(self.parent_gui, 'merge_rockbox_folder'):
-                                self.parent_gui.merge_rockbox_folder(str(path))
-                                rockbox_handled = True
-                        elif path.is_dir():
-                            # Check if folder is a theme folder or contains theme folders
-                            if hasattr(self.parent_gui, '_is_theme_folder'):
-                                if self.parent_gui._is_theme_folder(str(path)):
-                                    theme_folders_found.append(str(path))
-                                elif hasattr(self.parent_gui, '_find_theme_folders'):
-                                    # Search for nested theme folders
-                                    nested_themes = self.parent_gui._find_theme_folders(str(path))
-                                    theme_folders_found.extend(nested_themes)
-                        elif path.is_file() and path.suffix.lower() == '.zip':
-                            # Check if zip contains only .rockbox folder and is <25MB
-                            if path.stat().st_size < 25 * 1024 * 1024:  # <25MB
-                                if hasattr(self.parent_gui, '_is_rockbox_only_zip'):
-                                    if self.parent_gui._is_rockbox_only_zip(str(path)):
-                                        if hasattr(self.parent_gui, 'merge_rockbox_zip'):
-                                            self.parent_gui.merge_rockbox_zip(str(path))
-                                            rockbox_handled = True
-                                            continue
-                                # Check if zip contains config.json and cover.png (theme)
-                                if hasattr(self.parent_gui, '_is_theme_zip'):
-                                    if self.parent_gui._is_theme_zip(str(path)):
-                                        if hasattr(self.parent_gui, 'install_theme_zip'):
-                                            self.parent_gui.install_theme_zip(str(path))
-                                            rockbox_handled = True
-                                            continue
-                    
-                    # Install all found theme folders
-                    if theme_folders_found:
-                        if hasattr(self.parent_gui, 'install_theme_folders'):
-                            self.parent_gui.install_theme_folders(theme_folders_found)
-                            rockbox_handled = True
-                    
-                    # Check for APK files
-                    apk_files = [f for f in files if Path(f).suffix.lower() == '.apk']
-                    if apk_files:
-                        for apk_file in apk_files:
-                            if hasattr(self.parent_gui, 'install_apk'):
-                                self.parent_gui.install_apk(apk_file)
-                        # Don't transfer APK files as regular files
-                        files = [f for f in files if Path(f).suffix.lower() != '.apk']
-                    
-                    if not rockbox_handled and files:
-                        # Transfer other files to device
-                        if hasattr(self.parent_gui, 'transfer_files_to_device'):
-                            self.parent_gui.transfer_files_to_device(files)
+                    if hasattr(self.parent_gui, 'handle_smart_drop_payload'):
+                        self.parent_gui.handle_smart_drop_payload(files)
             
             event.acceptProposedAction()
         else:
@@ -5571,12 +5551,15 @@ class FirmwareDownloaderGUI(QMainWindow):
         self._latest_app_version = None
         self.available_versions = []
         self.version_combo = None
+        self.version_download_btn = None
         self.suppress_update_notifications = False  # Global preference
         self.app_version = self._load_app_version()
         self._update_prompt_triggered = False
         self.badge_icon = self._create_badge_icon()
         self.settings_badge = None
         self._active_settings_dialog = None
+        self._pending_auto_download_latest = False
+        self._last_dual_connection_state = False
         try:
             self.is_windows_arm64 = (
                 platform.system() == "Windows"
@@ -5610,6 +5593,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Initialize file transfer queue for non-firmware files
         self.file_transfer_queue = []  # Queue of (file_paths, destination_folder) tuples
         self.file_transfer_worker = None  # Current transfer worker
+        self._smart_drop_followup_transfers = []
+        self._smart_drop_cleanup_paths = []
 
         # Initialize theme monitor for dynamic theme switching
         self.theme_monitor = ThemeMonitor(self)
@@ -9030,8 +9015,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         except Exception as e:
             QMessageBox.error(self, "Error", f"Failed to launch Rockbox Utility: {e}")
     
-    def show_settings_dialog(self, initial_tab="updates"):
-        """Show enhanced settings dialog with installation method and shortcut management"""
+    def show_settings_dialog(self, initial_tab="updates", auto_download_latest=False):
+        """Show enhanced settings dialog with installation method and shortcut management."""
         # 2025-11-09 22:45 UTC original signature: def show_settings_dialog(self, initial_tab="about")
         # Updated default to open the Version tab first, matching the new UX requirement.
         silent_print(f"Opening settings dialog with initial_tab: {initial_tab}")
@@ -9041,6 +9026,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         dialog.setModal(True)
         # Use native styling - no custom stylesheet for automatic theme adaptation
         self._active_settings_dialog = dialog
+        self._pending_auto_download_latest = auto_download_latest
         
         layout = QVBoxLayout(dialog)
         
@@ -9436,8 +9422,10 @@ class FirmwareDownloaderGUI(QMainWindow):
                             if brew_path not in current_path:
                                 env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
                     
-                    # Use unified ADB status method (non-blocking)
-                    status, connected_device_id, device_hostname, details = self.get_unified_adb_status(adb_path, env)
+                    # Use unified ADB status method (blocking=True because we're already off the GUI thread)
+                    status, connected_device_id, device_hostname, details = self.get_unified_adb_status(
+                        adb_path, env, blocking=True
+                    )
                     
                     # Update UI in main thread
                     QTimer.singleShot(0, lambda: update_ui_from_status(status, connected_device_id, device_hostname, details))
@@ -10038,13 +10026,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Buttons
         button_layout = QHBoxLayout()
         button_layout.addStretch()
-        
-        download_btn = QPushButton("Download Selected Version")
-        if update_available:
-            download_btn.setDefault(True)
-        download_btn.clicked.connect(lambda: self.download_selected_version(dialog))
-        button_layout.addWidget(download_btn)
-        
+
         close_btn = QPushButton("Close")
         if not update_available:
             close_btn.setDefault(True)
@@ -10072,9 +10054,13 @@ class FirmwareDownloaderGUI(QMainWindow):
             tab_widget.setCurrentIndex(0)
         
         silent_print("About to show settings dialog")
+        if auto_download_latest:
+            QTimer.singleShot(150, lambda: self._maybe_auto_download_latest(dialog))
         dialog.exec()
         self._active_settings_tab_widget = None
         self._active_updates_tab_index = None
+        self._active_settings_dialog = None
+        self._pending_auto_download_latest = False
         self._active_settings_dialog = None
         silent_print("Settings dialog closed")
     
@@ -10142,6 +10128,13 @@ class FirmwareDownloaderGUI(QMainWindow):
         if self.version_combo:
             self.version_combo.deleteLater()
             self.version_combo = None
+        if hasattr(self, 'version_download_btn') and self.version_download_btn:
+            try:
+                layout.removeWidget(self.version_download_btn)
+            except Exception:
+                pass
+            self.version_download_btn.deleteLater()
+            self.version_download_btn = None
         
         selector_layout = QHBoxLayout()
         selector_layout.setContentsMargins(0, 0, 8, 6)
@@ -10155,6 +10148,9 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.version_combo.setMinimumWidth(220)
         
         for entry in self.available_versions:
+            normalized_version = entry['version'].lstrip('vV')
+            if self.compare_versions(normalized_version, "1.8.2") < 0:
+                continue
             display = entry['version']
             commit_display = entry.get('commit')
             if commit_display:
@@ -10180,7 +10176,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                     break
 
         if target_index is None:
-            for idx, entry in enumerate(self.available_versions):
+            filtered_versions = [entry for entry in self.available_versions if self.compare_versions(entry['version'].lstrip('vV'), "1.8.2") >= 0]
+            for idx, entry in enumerate(filtered_versions):
                 try:
                     if self.compare_versions(entry['version'].lstrip('vV'), current_version) > 0:
                         target_index = idx
@@ -10196,6 +10193,14 @@ class FirmwareDownloaderGUI(QMainWindow):
             self.version_combo.setCurrentIndex(target_index)
 
         self.on_version_selection_changed(browser)
+        action_layout = QHBoxLayout()
+        action_layout.addStretch()
+        self.version_download_btn = QPushButton("Download Selected Version")
+        self.version_download_btn.setCursor(Qt.PointingHandCursor)
+        self.version_download_btn.clicked.connect(lambda: self.download_selected_version(self._active_settings_dialog))
+        action_layout.addWidget(self.version_download_btn)
+        layout.addLayout(action_layout)
+        self._refresh_version_download_cta()
 
     # 2025-11-09 21:41:00 UTC - original: Version tab checkbox toggles only changed state on save and the UI never refreshed inline.
     def _handle_update_notification_toggle(self, checked):
@@ -10240,6 +10245,59 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print(f"Error refreshing update notice label: {e}")
             label.clear()
             label.hide()
+
+    def _refresh_version_download_cta(self):
+        """Update the Version tab download button label based on the current selection."""
+        button = getattr(self, 'version_download_btn', None)
+        if not button:
+            return
+        selected_version = None
+        if self.version_combo and self.version_combo.currentData():
+            selected_version = self.version_combo.currentData().get('version')
+        if selected_version:
+            button.setText(f"Download {selected_version}")
+        else:
+            button.setText("Download Selected Version")
+        if self.has_update_available():
+            button.setToolTip(f"Install Innioasis Updater {self._latest_app_version}")
+        else:
+            button.setToolTip("Download the selected Innioasis Updater release")
+
+    def _maybe_auto_download_latest(self, settings_dialog=None):
+        """Automatically download the latest release when prompted by the update dialog."""
+        if not getattr(self, '_pending_auto_download_latest', False):
+            return
+        if self.suppress_update_notifications:
+            silent_print("Auto download skipped because notifications are suppressed.")
+            return
+        if not self.has_update_available():
+            silent_print("Auto download skipped because no update is available.")
+            return
+        combo = getattr(self, 'version_combo', None)
+        if not combo or combo.count() == 0:
+            QTimer.singleShot(200, lambda: self._maybe_auto_download_latest(settings_dialog))
+            return
+        target_version = self._latest_app_version
+        if target_version:
+            for idx in range(combo.count()):
+                data = combo.itemData(idx)
+                if not data:
+                    continue
+                version_value = data.get('version')
+                if version_value and self.compare_versions(version_value, target_version) == 0:
+                    combo.setCurrentIndex(idx)
+                    break
+        QTimer.singleShot(100, lambda: self.download_selected_version(settings_dialog or self._active_settings_dialog))
+
+    def _launch_auto_update_download(self):
+        """Open the Version tab and immediately download the newest release."""
+        if self.suppress_update_notifications:
+            silent_print("Auto update download suppressed by user preference.")
+            return
+        if not self.has_update_available():
+            self.show_settings_dialog("updates")
+            return
+        QTimer.singleShot(0, lambda: self.show_settings_dialog("updates", auto_download_latest=True))
 
     def _set_button_connection(self, button, slot):
         """Utility to safely replace a button's clicked connection."""
@@ -10303,6 +10361,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         release_notes = release.get('body', '')
         release_name = release.get('name', '') or release.get('tag_name', data.get('version', ''))
         self._format_release_notes_for_display(browser, release_notes, release_name, text_color)
+        self._refresh_version_download_cta()
 
     def _handle_required_update(self, latest_version, current_version):
         """Handle forced manual updates that include required.txt."""
@@ -17016,6 +17075,10 @@ class FirmwareDownloaderGUI(QMainWindow):
             status = snapshot.get('status', 'no_adb')
             device_id = snapshot.get('device_id')
             hostname = snapshot.get('hostname')
+            dual_connected = bool(snapshot.get('dual_connected'))
+            if dual_connected and not getattr(self, '_last_dual_connection_state', False):
+                self._notify_dual_connection(is_startup=not getattr(self, '_dual_connection_dialog_shown', False))
+            self._last_dual_connection_state = dual_connected
             self.update_adb_status_ui(status, device_id, hostname, snapshot)
         except Exception as e:
             silent_print(f"Error applying ADB snapshot: {e}")
@@ -17093,6 +17156,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                     self.adb_status_light.setCursor(Qt.ArrowCursor)
                     # Add tooltip explaining the state
                     tooltip_text = "File transfers, screenshots and remote control will work, but Fast Update is not available on the currently installed firmware."
+                    if metadata.get('dual_connected'):
+                        tooltip_text += "\nWi-Fi ADB is paired for cable-free use when you're ready to unplug."
                     self.adb_status_widget.setToolTip(tooltip_text)
                     self.adb_status_label.setToolTip(tooltip_text)
                     self.adb_status_light.setToolTip(tooltip_text)
@@ -17182,6 +17247,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                         tooltip_lines.append(f"Device: {hostname}")
                     if marker_date_str:
                         tooltip_lines.append(f"Fast Update prepared: {marker_date_str}")
+                    if metadata.get('dual_connected'):
+                        tooltip_lines.append("Wi-Fi ADB linked (USB in use for commands).")
                     tooltip_text = "\n".join(tooltip_lines)
                     self.adb_status_widget.setToolTip(tooltip_text)
                     self.adb_status_label.setToolTip(tooltip_text)
@@ -18033,6 +18100,211 @@ class FirmwareDownloaderGUI(QMainWindow):
             if hasattr(self, 'adb_operation_in_progress'):
                 self.adb_operation_in_progress = False
     
+    def handle_smart_drop_payload(self, file_paths):
+        """Analyze and process Smart Drop content including themes, Rockbox assets, and media."""
+        try:
+            if not file_paths:
+                return
+            paths = []
+            for item in file_paths:
+                if not item:
+                    continue
+                path_obj = Path(item)
+                if not path_obj.exists():
+                    silent_print(f"Smart Drop: Skipping missing item {item}")
+                    continue
+                paths.append(path_obj)
+            if not paths:
+                QMessageBox.information(self, "Smart Drop", "No files were available to process.")
+                return
+            
+            analysis = self._analyze_smart_drop_sources(paths)
+            cleanup_targets = analysis.get('cleanup_paths', [])
+            if cleanup_targets:
+                self._register_smart_drop_cleanup(cleanup_targets)
+            
+            handled_anything = False
+            
+            rockbox_dirs = sorted({path for path in analysis.get('rockbox_dirs', set())}, key=lambda p: str(p))
+            for rockbox_dir in rockbox_dirs:
+                if hasattr(self, 'merge_rockbox_folder'):
+                    handled_anything = True
+                    self.merge_rockbox_folder(str(rockbox_dir))
+            
+            theme_dirs = sorted({path for path in analysis.get('theme_dirs', set())}, key=lambda p: str(p))
+            if theme_dirs and hasattr(self, 'install_theme_folders'):
+                handled_anything = True
+                self.install_theme_folders([str(path) for path in theme_dirs])
+            
+            apk_files = sorted({path for path in analysis.get('apk_files', set())}, key=lambda p: str(p))
+            if apk_files and hasattr(self, 'install_apk'):
+                handled_anything = True
+                for apk in apk_files:
+                    try:
+                        self.install_apk(str(apk))
+                    except Exception as apk_error:
+                        silent_print(f"Smart Drop: Failed to install APK {apk}: {apk_error}")
+            
+            transfer_sequences = []
+            audio_paths = sorted({path for path in analysis.get('audio_files', set())}, key=lambda p: str(p))
+            if audio_paths:
+                transfer_sequences.append(("audio files", [str(p) for p in audio_paths]))
+            image_paths = sorted({path for path in analysis.get('image_files', set())}, key=lambda p: str(p))
+            if image_paths:
+                transfer_sequences.append(("image files", [str(p) for p in image_paths]))
+            other_paths = sorted({path for path in analysis.get('other_files', set())}, key=lambda p: str(p))
+            if other_paths:
+                transfer_sequences.append(("files", [str(p) for p in other_paths]))
+            
+            if transfer_sequences:
+                handled_anything = True
+                self._queue_smart_drop_transfers(transfer_sequences)
+            elif cleanup_targets and not getattr(self, 'adb_operation_in_progress', False):
+                QTimer.singleShot(200, self._run_smart_drop_cleanup)
+            
+            if not handled_anything:
+                QMessageBox.information(self, "Smart Drop", "No supported files were detected in the selection.")
+        except Exception as e:
+            silent_print(f"Smart Drop processing error: {e}")
+            import traceback
+            traceback.print_exc()
+            QMessageBox.warning(
+                self,
+                "Smart Drop Error",
+                f"An error occurred while processing the dropped items:\n\n{str(e)}"
+            )
+            QTimer.singleShot(200, self._run_smart_drop_cleanup)
+
+    def _analyze_smart_drop_sources(self, sources):
+        """Inspect Smart Drop sources and bucket their contents."""
+        analysis = {
+            'rockbox_dirs': set(),
+            'theme_dirs': set(),
+            'apk_files': set(),
+            'audio_files': set(),
+            'image_files': set(),
+            'other_files': set(),
+            'cleanup_paths': []
+        }
+        for source in sources:
+            try:
+                if source.is_dir():
+                    self._collect_smart_drop_directory(source, analysis)
+                elif source.is_file():
+                    suffix = source.suffix.lower()
+                    if suffix == '.zip':
+                        self._collect_smart_drop_zip(source, analysis)
+                    else:
+                        self._categorize_smart_drop_file(source, analysis)
+            except Exception as analyze_error:
+                silent_print(f"Smart Drop: failed to inspect {source}: {analyze_error}")
+        return analysis
+
+    def _collect_smart_drop_directory(self, directory, analysis):
+        """Recursively evaluate a directory for Smart Drop content."""
+        try:
+            directory = Path(directory)
+            if not directory.exists() or self._is_macos_metadata(directory):
+                return
+            if directory.name.lower() == '.rockbox':
+                analysis['rockbox_dirs'].add(directory)
+                return
+            if hasattr(self, '_is_theme_folder') and self._is_theme_folder(str(directory)):
+                analysis['theme_dirs'].add(directory)
+                return
+            for entry in directory.iterdir():
+                if self._is_macos_metadata(entry):
+                    continue
+                if entry.is_dir():
+                    self._collect_smart_drop_directory(entry, analysis)
+                else:
+                    self._categorize_smart_drop_file(entry, analysis)
+        except Exception as dir_error:
+            silent_print(f"Smart Drop: directory scan error for {directory}: {dir_error}")
+
+    def _collect_smart_drop_zip(self, zip_path, analysis):
+        """Extract a ZIP to a temporary location and analyze its contents."""
+        try:
+            temp_dir = Path(tempfile.mkdtemp(prefix="smartdrop-"))
+            with zipfile.ZipFile(zip_path, 'r') as zf:
+                for member in zf.infolist():
+                    member_name = member.filename or ""
+                    if self._is_macos_metadata(member_name):
+                        continue
+                    try:
+                        zf.extract(member, temp_dir)
+                    except Exception as extract_error:
+                        silent_print(f"Smart Drop: failed to extract {member_name} from {zip_path}: {extract_error}")
+            self._cleanup_macos_metadata(temp_dir)
+            analysis['cleanup_paths'].append(temp_dir)
+            self._collect_smart_drop_directory(temp_dir, analysis)
+        except Exception as zip_error:
+            silent_print(f"Smart Drop: zip analysis error for {zip_path}: {zip_error}")
+
+    def _categorize_smart_drop_file(self, file_path, analysis):
+        """Classify a single file for Smart Drop handling."""
+        try:
+            file_path = Path(file_path)
+            if not file_path.exists() or self._is_macos_metadata(file_path):
+                return
+            suffix = file_path.suffix.lower()
+            audio_extensions = {'.mp3', '.flac', '.ogg', '.wav', '.m4a', '.aac', '.opus', '.wma'}
+            image_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp'}
+            if suffix == '.apk':
+                analysis['apk_files'].add(file_path)
+            elif suffix in audio_extensions:
+                analysis['audio_files'].add(file_path)
+            elif suffix in image_extensions:
+                analysis['image_files'].add(file_path)
+            else:
+                analysis['other_files'].add(file_path)
+        except Exception as file_error:
+            silent_print(f"Smart Drop: file categorization error for {file_path}: {file_error}")
+
+    def _queue_smart_drop_transfers(self, transfers):
+        """Queue Smart Drop transfers so they run sequentially without collisions."""
+        if not transfers:
+            return
+        for label, paths in transfers:
+            if not paths:
+                continue
+            self._smart_drop_followup_transfers.append((label, paths))
+        QTimer.singleShot(0, self._kick_smart_drop_transfer_runner)
+
+    def _kick_smart_drop_transfer_runner(self):
+        """Process queued Smart Drop transfers one at a time."""
+        if getattr(self, 'adb_operation_in_progress', False):
+            QTimer.singleShot(600, self._kick_smart_drop_transfer_runner)
+            return
+        if not self._smart_drop_followup_transfers:
+            if not self.file_transfer_queue:
+                self._run_smart_drop_cleanup()
+            return
+        label, paths = self._smart_drop_followup_transfers.pop(0)
+        if label and hasattr(self, 'status_label'):
+            self.status_label.setText(f"Preparing to transfer {label}...")
+        self.transfer_files_to_device(paths)
+        if not getattr(self, 'adb_operation_in_progress', False):
+            QTimer.singleShot(600, self._kick_smart_drop_transfer_runner)
+
+    def _register_smart_drop_cleanup(self, paths):
+        """Track temporary paths so they can be deleted after Smart Drop completes."""
+        if not paths:
+            return
+        self._smart_drop_cleanup_paths.extend(paths)
+
+    def _run_smart_drop_cleanup(self):
+        """Remove any temporary directories created during Smart Drop analysis."""
+        if not getattr(self, '_smart_drop_cleanup_paths', None):
+            return
+        cleanup_targets = list(self._smart_drop_cleanup_paths)
+        self._smart_drop_cleanup_paths = []
+        for target in cleanup_targets:
+            try:
+                shutil.rmtree(target, ignore_errors=True)
+            except Exception as cleanup_error:
+                silent_print(f"Smart Drop: cleanup failed for {target}: {cleanup_error}")
+
     def transfer_files_to_device(self, file_paths):
         """Transfer files/folders to device over ADB when connected (with queuing support) or via USB fallback"""
         try:
@@ -18229,6 +18501,9 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         # Process next item in queue if available
         self._process_next_queued_transfer()
+        QTimer.singleShot(150, self._kick_smart_drop_transfer_runner)
+        if not self.file_transfer_queue and not self._smart_drop_followup_transfers:
+            QTimer.singleShot(200, self._run_smart_drop_cleanup)
     
     def _process_next_queued_transfer(self):
         """Process the next item in the file transfer queue"""
@@ -19318,22 +19593,63 @@ class FirmwareDownloaderGUI(QMainWindow):
             self.progress_bar.setVisible(False)
             self.adb_operation_in_progress = False
     
-    def get_unified_adb_status(self, adb_path=None, env=None):
+    def get_unified_adb_status(self, adb_path=None, env=None, blocking=None, force_refresh=False):
         """
         Unified method to get ADB connection status.
-        Returns: ('no_adb' | 'adb_only' | 'adb_root', device_id, hostname, details_dict)
+        
+        Args:
+            adb_path: Optional override for the adb executable path.
+            env: Optional environment mapping to pass to adb calls.
+            blocking: When True, perform a fresh detection synchronously.
+                      When False, return the cached snapshot and schedule an async refresh if needed.
+                      Defaults to False on the GUI thread and True on background threads.
+            force_refresh: When True, schedule a forced refresh even if the cached snapshot is fresh.
+        
+        Returns:
+            ('no_adb' | 'adb_only' | 'adb_root', device_id, hostname, details_dict)
         """
-        status, device_id, hostname, details = self.adb_status_broker.compute_snapshot(adb_path, env)
-        payload = {
-            'status': status,
-            'device_id': device_id,
-            'hostname': hostname,
-            'last_checked': datetime.now(),
-        }
-        if isinstance(details, dict):
-            payload.update(details)
-        snapshot = self.adb_status_broker.update_snapshot(**payload)
-        self.adb_status_broker.flush_callbacks(snapshot)
+        app = QApplication.instance()
+        gui_thread = app.thread() if app else None
+        is_gui_thread = gui_thread is not None and QThread.currentThread() == gui_thread
+
+        if blocking is None:
+            blocking = not is_gui_thread
+
+        if blocking:
+            status, device_id, hostname, details = self.adb_status_broker.compute_snapshot(adb_path, env)
+            payload = {
+                'status': status,
+                'device_id': device_id,
+                'hostname': hostname,
+                'last_checked': datetime.now(),
+            }
+            if isinstance(details, dict):
+                payload.update(details)
+            snapshot = self.adb_status_broker.update_snapshot(**payload)
+            self.adb_status_broker.flush_callbacks(snapshot)
+            return status, device_id, hostname, details
+
+        snapshot = self.adb_status_broker.get_snapshot() or {}
+        status = snapshot.get('status', 'no_adb')
+        device_id = snapshot.get('active_device_id') or snapshot.get('device_id')
+        hostname = snapshot.get('hostname')
+        details = dict(snapshot)
+
+        should_refresh = force_refresh
+        last_checked = snapshot.get('last_checked')
+        if not should_refresh:
+            if not isinstance(last_checked, datetime):
+                should_refresh = True
+            else:
+                try:
+                    should_refresh = (datetime.now() - last_checked).total_seconds() > 3.0
+                except Exception:
+                    should_refresh = True
+
+        if should_refresh:
+            refresh_reason = "unified_status(force)" if force_refresh else "unified_status(stale)"
+            self.adb_status_broker.request_refresh(force=force_refresh, reason=refresh_reason)
+
         return status, device_id, hostname, details
     
     def _get_connected_device_id(self, adb_path, env):
@@ -19390,6 +19706,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             ready, snapshot = self._ensure_adb_capability('connected', "Install theme folders")
             if not ready:
                 return
+            cached_device_id = snapshot.get('active_device_id') or snapshot.get('device_id')
             # Find ADB executable and device
             adb_path = self.find_adb_executable()
             if not adb_path:
@@ -19645,6 +19962,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             ready, snapshot = self._ensure_adb_capability('connected', "Install theme zip")
             if not ready:
                 return
+            cached_device_id = snapshot.get('active_device_id') or snapshot.get('device_id')
             # Find ADB executable and device
             adb_path = self.find_adb_executable()
             if not adb_path:
@@ -21640,6 +21958,7 @@ read -n 1
         # 2025-11-09 21:42:00 UTC - original: Version tab banner stayed visible even after update dismissal.
         self._refresh_update_notice_label()
         self._refresh_top_right_update_cta()
+        self._refresh_version_download_cta()
 
     def _create_badge_icon(self, diameter=10, color="#FF8800"):
         """Create a circular icon used for update badges."""
@@ -21699,23 +22018,28 @@ read -n 1
         try:
             if not self.has_update_available():
                 return
+            if self.suppress_update_notifications:
+                silent_print("Update dialog suppressed by user preference.")
+                return
             message = f"Innioasis Updater {latest_version} is now available to download."
             details = f"You're currently running {current_version}." if current_version else "A newer build is ready to install."
             dialog = QMessageBox(self)
             dialog.setIcon(QMessageBox.Information)
             dialog.setWindowTitle("Update Available")
             dialog.setText(message)
-            dialog.setInformativeText(details + "\nWould you like to find out more now?")
-            find_out_more_btn = dialog.addButton("Find Out More", QMessageBox.AcceptRole)
+            dialog.setInformativeText(
+                details + "\n\nSelect “Download Now” and we'll open the Version tab and start downloading the latest build automatically."
+            )
+            download_btn = dialog.addButton("Download Now", QMessageBox.AcceptRole)
             later_btn = dialog.addButton("Later", QMessageBox.RejectRole)
-            dialog.setDefaultButton(find_out_more_btn)
+            dialog.setDefaultButton(download_btn)
             dialog.exec()
-            if dialog.clickedButton() == find_out_more_btn:
-                QTimer.singleShot(0, lambda: self.show_settings_dialog("updates"))
+            if dialog.clickedButton() == download_btn:
+                self._launch_auto_update_download()
         except Exception as e:
             silent_print(f"Error showing update prompt: {e}")
             try:
-                QTimer.singleShot(0, lambda: self.show_settings_dialog("updates"))
+                QTimer.singleShot(0, lambda: self.show_settings_dialog("updates", auto_download_latest=True))
             except Exception:
                 pass
 
