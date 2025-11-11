@@ -20465,6 +20465,13 @@ class FirmwareDownloaderGUI(QMainWindow):
             # Try to run the update script via ADB after USB transfer
             script_success = self.run_update_script_via_adb()
             
+            # Track successful fast update for post-reboot ADB status check delay
+            if script_success and transfer_method == "adb":
+                # Mark that we just completed a fast update - device will reboot
+                self._fast_update_just_completed = True
+                self._fast_update_completion_time = time.time()
+                silent_print("Fast update completed successfully - device will reboot, delaying ADB status checks")
+            
             # Get software name for the note
             selected_item = self.package_list.currentItem()
             software_name = "this firmware"
@@ -20479,8 +20486,12 @@ class FirmwareDownloaderGUI(QMainWindow):
                     "Update Complete! ✅",
                     f"✅ update.zip has been sent to your Y1.\n\n"
                     f"✅ Update script executed successfully via ADB.\n\n"
-                    f"Your Y1 will restart and apply the update automatically."
+                    f"Your Y1 will restart and apply the update automatically.\n\n"
+                    f"After reboot, the app will automatically detect Fast Update capability."
                 )
+                # Delay ADB status refresh after reboot (device needs time to initialize)
+                # Wait 30 seconds after expected reboot time for device to fully initialize
+                QTimer.singleShot(35000, lambda: self._refresh_adb_status_after_fast_update())
             elif transfer_method == "usb_storage":
                 # Only show "IMPORTANT - PLEASE READ" dialog for USB Storage Mode transfers
                 QMessageBox.information(
