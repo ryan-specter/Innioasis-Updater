@@ -6,6 +6,7 @@ Downloads firmware releases from XML manifest and processes them with mtk.py
 
 import sys
 import os
+import re
 import zipfile
 import subprocess
 import threading
@@ -5560,6 +5561,9 @@ class FirmwareDownloaderGUI(QMainWindow):
         self._active_settings_dialog = None
         self._pending_auto_download_latest = False
         self._last_dual_connection_state = False
+        self._update_check_attempts = 0
+        self._max_update_check_attempts = 4
+        self._update_check_in_progress = False
         try:
             self.is_windows_arm64 = (
                 platform.system() == "Windows"
@@ -5672,8 +5676,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         # Check ADB device status at startup (non-blocking via worker thread)
         QTimer.singleShot(100, self.start_adb_check_worker)
-        # Schedule update check slightly later to avoid contention with data loading
-        QTimer.singleShot(1800, self.check_for_updates_and_show_button)
+        # Schedule update check early so users see update prompts immediately
+        QTimer.singleShot(300, self.check_for_updates_and_show_button)
         
         # Initialize status clear timer for auto-clearing orphaned messages
         self.status_clear_timer = None
@@ -7240,6 +7244,24 @@ class FirmwareDownloaderGUI(QMainWindow):
         package_group = QGroupBox("Available System Software")
         self.package_group = package_group  # Store reference for dynamic updates
         package_layout = QVBoxLayout(package_group)
+        package_group.setObjectName("package_group")
+        package_group.setStyleSheet("QGroupBox#package_group { margin-top: 6px; }")
+        
+        self.update_alert_banner = QLabel()
+        self.update_alert_banner.setObjectName("update_alert_banner")
+        self.update_alert_banner.setWordWrap(True)
+        self.update_alert_banner.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+        self.update_alert_banner.setVisible(False)
+        self.update_alert_banner.setCursor(Qt.PointingHandCursor)
+        self.update_alert_banner.setStyleSheet(
+            "font-weight: 600; padding: 10px; border-radius: 7px; margin: 0 0 6px 0;"
+            "background-color: rgba(79, 129, 189, 0.18); color: #0c1b33;"
+        )
+        package_layout.addWidget(self.update_alert_banner)
+        self.update_alert_banner.mousePressEvent = self._on_update_banner_clicked
+        
+        # Keep layout margins consistent after inserting banner
+        package_layout.setSpacing(6)
 
         self.package_list = QListWidget()
         self.package_list.itemClicked.connect(self.on_release_selected)
@@ -9656,7 +9678,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                     )
                     if disconnect_result.returncode == 0:
                         QMessageBox.information(self, "Disconnected", f"Disconnected from {wireless_device_id}")
-                        connect_btn.setText("Connect / Disconnect")
+                        connect_btn.setText("Connect")
                         status_label.setText("Not connected wirelessly")
                         status_label.setStyleSheet("margin: 5px; color: #666;")
                         if hasattr(self, 'adb_status_broker'):
@@ -9992,7 +10014,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.whats_new_browser = whats_new_browser
         whats_new_layout.addWidget(whats_new_browser)
         
-        preferred_version = self._latest_app_version if update_available and self._latest_app_version else self.app_version
+        preferred_version = self._latest_app_version or self.app_version
         # 2025-11-09 21:40:00 UTC - original: Version tab populated without any inline notice about newer releases.
         self.populate_version_tab(whats_new_layout, whats_new_browser, preferred_version)
         
@@ -10007,7 +10029,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         # Add tabs to tab widget in order
         update_is_newer = update_available and self.has_update_available()
-        updates_label = "<b>Update Available</b>" if update_is_newer else f"Version {self.app_version}"
+        updates_label = "Update Available" if update_is_newer else f"Version {self.app_version}"
         tab_widget.addTab(about_tab, "About")
         updates_tab_index = tab_widget.addTab(whats_new_tab, updates_label)
         self._active_updates_tab_index = updates_tab_index
@@ -10214,37 +10236,95 @@ class FirmwareDownloaderGUI(QMainWindow):
     def _refresh_update_notice_label(self):
         """Refresh the inline update notice in the Version tab."""
         label = getattr(self, '_update_notice_label', None)
-        if not label:
-            return
+        banner = getattr(self, 'update_alert_banner', None)
+        had_error = False
         try:
-            if self.suppress_update_notifications:
-                label.clear()
-                label.hide()
-                return
-            if self.has_update_available():
+            messages = []
+            if self.has_update_available() and not self.suppress_update_notifications:
                 latest_version = self._latest_app_version or ""
                 current_version = self.app_version or ""
-                palette = self.palette()
-                highlight_color = palette.highlight().color()
-                highlight_text = palette.highlightedText().color().name()
-                bg_rgba = f"rgba({highlight_color.red()}, {highlight_color.green()}, {highlight_color.blue()}, 72)"
-                label.setStyleSheet(
-                    "font-weight: 600; margin: 6px 4px; padding: 10px; border-radius: 7px;"
-                    f"background-color: {bg_rgba}; color: {highlight_text};"
-                )
-                label.setText(
+                messages.append(
                     f"Innioasis Updater {latest_version} is available. "
-                    f"You're currently running {current_version}. "
-                    "Download the new release to stay up to date."
+                    f"You're currently running {current_version}. Download the new release to stay up to date."
                 )
-                label.show()
-            else:
-                label.clear()
-                label.hide()
+
+            for target in (label, banner):
+                if not target:
+                    continue
+                if messages:
+                    try:
+                        is_dark = self.is_dark_mode()
+                    except Exception:
+                        is_dark = False
+                    if is_dark:
+                        bg_rgba = "rgba(255, 255, 255, 0.12)"
+                        text_color = "#F5F9FF"
+                    else:
+                        bg_rgba = "rgba(12, 27, 51, 0.10)"
+                        text_color = "#0C1B33"
+                    margin_rule = "margin: 6px 4px;" if target is label else "margin: 0 0 6px 0;"
+                    target.setStyleSheet(
+                        f"font-weight: 600; {margin_rule} padding: 10px; border-radius: 7px;"
+                        f"background-color: {bg_rgba}; color: {text_color};"
+                    )
+                    target.setText("\n".join(messages))
+                    target.setVisible(True)
+                else:
+                    target.clear()
+                    target.setVisible(False)
         except Exception as e:
+            had_error = True
             silent_print(f"Error refreshing update notice label: {e}")
-            label.clear()
-            label.hide()
+        finally:
+            if had_error:
+                if label:
+                    label.clear()
+                    label.setVisible(False)
+                if banner:
+                    banner.clear()
+                    banner.setVisible(False)
+
+            try:
+                if hasattr(self, 'firmware_combo') and self.firmware_combo:
+                    self.update_package_group_title(self.firmware_combo.currentText())
+            except Exception:
+                pass
+
+    def _schedule_update_check(self, delay_ms=0, force=False):
+        """Schedule an update check with optional retry semantics."""
+        try:
+            max_attempts = getattr(self, '_max_update_check_attempts', 3)
+            attempts = getattr(self, '_update_check_attempts', 0)
+            if not force and attempts >= max_attempts:
+                return
+            delay = max(0, int(delay_ms))
+            QTimer.singleShot(delay, lambda: self._run_scheduled_update_check(force))
+        except Exception as e:
+            silent_print(f"Error scheduling update check: {e}")
+
+    def _run_scheduled_update_check(self, force=False):
+        """Invoke the update check unless one is already running."""
+        if getattr(self, '_update_check_in_progress', False):
+            max_attempts = getattr(self, '_max_update_check_attempts', 3)
+            attempts = getattr(self, '_update_check_attempts', 0)
+            if force or attempts < max_attempts:
+                QTimer.singleShot(1500, lambda: self._schedule_update_check(0, force))
+            return
+        max_attempts = getattr(self, '_max_update_check_attempts', 3)
+        if not force and getattr(self, '_update_check_attempts', 0) >= max_attempts:
+            return
+        self._update_check_attempts = getattr(self, '_update_check_attempts', 0) + 1
+        self.check_for_updates_and_show_button()
+
+
+    def _on_update_banner_clicked(self, event):
+        """Handle clicks on the main-window update banner."""
+        if self.has_update_available() and not self.suppress_update_notifications:
+            self._launch_auto_update_download()
+        else:
+            self.show_settings_dialog("updates")
+        if event:
+            event.accept()
 
     def _refresh_version_download_cta(self):
         """Update the Version tab download button label based on the current selection."""
@@ -12229,7 +12309,10 @@ class FirmwareDownloaderGUI(QMainWindow):
 
     def update_package_group_title(self, firmware_name):
         """Update the package group title based on selected software"""
-        if firmware_name:
+        has_gui_update = self.has_update_available() and not self.suppress_update_notifications
+        if has_gui_update:
+            self.package_group.setTitle("Update Available")
+        elif firmware_name:
             self.package_group.setTitle(firmware_name)
         else:
             self.package_group.setTitle("Available System Software")
@@ -21880,8 +21963,26 @@ read -n 1
         download_thread = threading.Thread(target=download_worker, daemon=True)
         download_thread.start()
 
+    def _schedule_update_retry(self, delay_ms=3000):
+        """Retry update detection after a delay when initial attempts fail."""
+        try:
+            if getattr(self, "_update_check_attempts", 0) >= getattr(self, "_max_update_check_attempts", 3):
+                return
+            delay = max(0, int(delay_ms))
+            QTimer.singleShot(delay, self.check_for_updates_and_show_button)
+        except Exception as e:
+            silent_print(f"Error scheduling update retry: {e}")
+
     def check_for_updates_and_show_button(self):
         """Check GitHub for newer version and show update button only if needed (runs in worker thread)"""
+        if getattr(self, '_update_check_in_progress', False):
+            return
+        if self._update_check_attempts >= getattr(self, '_max_update_check_attempts', 3):
+            return
+
+        self._update_check_attempts += 1
+        self._update_check_in_progress = True
+
         def check_updates_worker():
             """Worker function to check for updates in background thread"""
             try:
@@ -21889,32 +21990,43 @@ read -n 1
                 latest_version = self.get_latest_github_version()
                 if latest_version:
                     current_version = self.app_version or "1.8.2"
+                    is_newer = self.compare_versions(latest_version, current_version) > 0
+
+                    if not is_newer:
+                        silent_print(f"No updates needed (latest: {latest_version}, current: {current_version})")
+                        self._latest_app_version = None
+                        self.app_update_available = False
+                        QTimer.singleShot(0, self._hide_update_button)
+                        self._update_check_attempts = self._max_update_check_attempts
+                        return
+
                     self._latest_app_version = latest_version
+                    self.app_update_available = True
 
                     if self._handle_required_update(latest_version, current_version):
+                        self._update_check_attempts = self._max_update_check_attempts
                         return
 
                     if self.suppress_update_notifications:
                         silent_print("Update notifications suppressed by user preference.")
-                        QTimer.singleShot(0, self._hide_update_button)
-                        self.app_update_available = False
+                        QTimer.singleShot(0, self._suppress_update_ui)
+                        self._update_check_attempts = self._max_update_check_attempts
                         return
                     
-                    # Compare versions
-                    if self.compare_versions(latest_version, current_version) > 0:
-                        # Newer version available - show button via QTimer
-                        # Use QTimer.singleShot to safely update UI from worker thread
-                        QTimer.singleShot(0, lambda: self._show_update_button(latest_version, current_version))
-                    else:
-                        # Same or older version - don't show button
-                        silent_print(f"No updates needed (latest: {latest_version}, current: {current_version})")
-                        QTimer.singleShot(0, self._hide_update_button)
-                        self.app_update_available = False
+                    silent_print(f"Update detected: latest={latest_version}, current={current_version}")
+                    # Newer version available - show button via QTimer
+                    # Use QTimer.singleShot to safely update UI from worker thread
+                    QTimer.singleShot(0, lambda: self._show_update_button(latest_version, current_version))
+                    self._update_check_attempts = self._max_update_check_attempts
                 else:
                     # Failed to get version - don't show button
                     silent_print("Failed to check for updates")
+                    self._schedule_update_retry(3000)
             except Exception as e:
                 silent_print(f"Error checking for updates: {e}")
+                self._schedule_update_retry(3000)
+            finally:
+                self._update_check_in_progress = False
         
         # Run in background thread to avoid blocking
         import threading
@@ -21956,6 +22068,15 @@ read -n 1
         self._update_prompt_triggered = False
         self.update_update_badges()
         # 2025-11-09 21:42:00 UTC - original: Version tab banner stayed visible even after update dismissal.
+        self._refresh_update_notice_label()
+        self._refresh_top_right_update_cta()
+        self._refresh_version_download_cta()
+    
+    def _suppress_update_ui(self):
+        """Hide CTA elements when notifications are suppressed but keep state for manual checks."""
+        if hasattr(self, 'update_btn_right') and self.update_btn_right:
+            self.update_btn_right.setVisible(False)
+        self.update_update_badges()
         self._refresh_update_notice_label()
         self._refresh_top_right_update_cta()
         self._refresh_version_download_cta()
@@ -22069,12 +22190,17 @@ read -n 1
             best_version = None
             best_release = None
             
+            best_numeric = None
             for release in releases:
                 if release.get('draft'):
                     continue
                 tag_name = release.get('tag_name', '')
                 version = tag_name.lstrip('vV')
                 if not version:
+                    continue
+                numeric_version = self._parse_semver(version)
+                if numeric_version is None:
+                    silent_print(f"Skipping non-semver release tag: {tag_name}")
                     continue
                 zip_url = release.get('zipball_url', '')
                 commit_display = ''
@@ -22085,15 +22211,20 @@ read -n 1
                 versions.append({
                     'version': version,
                     'commit': commit_display,
-                    'release': release
+                    'release': release,
+                    'numeric': numeric_version
                 })
-                if best_version is None or self.compare_versions(version, best_version) > 0:
+                if best_version is None or best_numeric is None or numeric_version > best_numeric:
                     best_version = version
                     best_release = release
+                    best_numeric = numeric_version
             
             if versions:
-                versions.sort(key=lambda x: [int(part) for part in x['version'].split('.')], reverse=True)
-                self.available_versions = versions
+                versions.sort(key=lambda x: x['numeric'], reverse=True)
+                self.available_versions = [
+                    {k: v for k, v in entry.items() if k != 'numeric'}
+                    for entry in versions
+                ]
                 silent_print(f"Loaded {len(versions)} Innioasis Updater releases for selection.")
             else:
                 silent_print("No valid releases found when checking GitHub.")
@@ -22114,28 +22245,40 @@ read -n 1
 
     def compare_versions(self, version1, version2):
         """Compare two version strings. Returns 1 if v1 > v2, -1 if v1 < v2, 0 if equal"""
+        v1 = self._parse_semver(version1)
+        v2 = self._parse_semver(version2)
+        if v1 is None or v2 is None:
+            # Fallback to lexical comparison if either version isn't semver-compatible
+            if str(version1) > str(version2):
+                return 1
+            if str(version1) < str(version2):
+                return -1
+            return 0
+        
+        max_length = max(len(v1), len(v2))
+        v1_extended = list(v1) + [0] * (max_length - len(v1))
+        v2_extended = list(v2) + [0] * (max_length - len(v2))
+        
+        for i in range(max_length):
+            if v1_extended[i] > v2_extended[i]:
+                return 1
+            if v1_extended[i] < v2_extended[i]:
+                return -1
+        return 0
+
+    def _parse_semver(self, version):
+        """Convert a dotted numeric version string into a tuple of ints. Return None if invalid."""
+        if version is None:
+            return None
+        version_str = str(version).strip()
+        if not version_str:
+            return None
+        if not re.fullmatch(r'\d+(?:\.\d+)*', version_str):
+            return None
         try:
-            # Split version strings and convert to integers
-            v1_parts = [int(x) for x in version1.split('.')]
-            v2_parts = [int(x) for x in version2.split('.')]
-            
-            # Pad shorter version with zeros
-            max_length = max(len(v1_parts), len(v2_parts))
-            v1_parts.extend([0] * (max_length - len(v1_parts)))
-            v2_parts.extend([0] * (max_length - len(v2_parts)))
-            
-            # Compare each part
-            for i in range(max_length):
-                if v1_parts[i] > v2_parts[i]:
-                    return 1
-                elif v1_parts[i] < v2_parts[i]:
-                    return -1
-            
-            return 0
-            
-        except Exception as e:
-            silent_print(f"Error comparing versions {version1} and {version2}: {e}")
-            return 0
+            return tuple(int(part) for part in version_str.split('.'))
+        except ValueError:
+            return None
 
     def check_for_utility_updates(self):
         """Silently download and run the latest updater.py"""
