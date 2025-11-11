@@ -9656,7 +9656,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                     )
                     if disconnect_result.returncode == 0:
                         QMessageBox.information(self, "Disconnected", f"Disconnected from {wireless_device_id}")
-                        connect_btn.setText("Connect")
+                        connect_btn.setText("Connect / Disconnect")
                         status_label.setText("Not connected wirelessly")
                         status_label.setStyleSheet("margin: 5px; color: #666;")
                         if hasattr(self, 'adb_status_broker'):
