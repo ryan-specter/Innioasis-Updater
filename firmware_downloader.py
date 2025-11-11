@@ -32,7 +32,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QHBoxLayo
                                QGroupBox, QSplitter, QStackedWidget, QCheckBox, QProgressDialog,
                                QFileDialog, QDialog, QTabWidget, QScrollArea, QTextBrowser, QLineEdit,
                                QTreeWidget, QTreeWidgetItem, QTreeView, QAbstractItemView)
-from PySide6.QtCore import QThread, Signal, Qt, QSize, QTimer, QPropertyAnimation, QEasingCurve, QObject, QMimeData
+from PySide6.QtCore import QThread, Signal, Qt, QSize, QTimer, QPropertyAnimation, QEasingCurve, QObject, QMimeData, QEvent
 from PySide6.QtGui import (QFont, QPixmap, QTextDocument, QPalette, QDragEnterEvent,
                            QDropEvent, QIcon, QImage, QPainter, QColor)
 import platform
@@ -55,6 +55,15 @@ SILENT_MODE = True
 APP_VERSION = "1.8.2"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
+
+class UpdateCheckEvent(QEvent):
+    """Custom event for update check results from worker thread"""
+    EventType = QEvent.Type(QEvent.registerEventType())
+    
+    def __init__(self, latest_version, current_version):
+        super().__init__(UpdateCheckEvent.EventType)
+        self.latest_version = latest_version
+        self.current_version = current_version
 
 def parse_version_designations(version_name):
     """Parse version names and extract designations with flexible adjective handling"""
@@ -3447,8 +3456,17 @@ class FileTransferWorker(QThread):
                         silent_print(f"Successfully transferred: {path.name}")
                     else:
                         error_msg = '\n'.join(transfer_output_lines) if transfer_output_lines else "Unknown error"
-                        failed_files.append(f"{path.name} ({error_msg})")
-                        silent_print(f"Failed to transfer: {path.name} - {error_msg}")
+                        # Check for read-only file system error - indicates USB Storage mode is active
+                        if "read-only file system" in error_msg.lower() or "Read-only file system" in error_msg:
+                            silent_print(f"Read-only file system detected - USB Storage mode likely active, falling back to USB storage mode")
+                            # Emit signal to trigger USB storage mode fallback
+                            self.status_update.emit(f"ADB transfer failed (read-only), switching to USB storage mode...")
+                            # Store failed file for USB transfer
+                            failed_files.append(f"{path.name} (read-only, will retry via USB)")
+                            # Continue to next file - USB fallback will be handled by main thread
+                        else:
+                            failed_files.append(f"{path.name} ({error_msg})")
+                            silent_print(f"Failed to transfer: {path.name} - {error_msg}")
                     
                 except Exception as e:
                     failed_files.append(f"{path.name} ({str(e)})")
@@ -3635,6 +3653,15 @@ class FastUpdateWorker(QThread):
             # Step 4: Run update script
             self.status_update.emit("ADB: Running update script as root...")
             self.progress_update.emit(80)
+            
+            # Clean up macOS metadata files on device before running update script
+            self.status_update.emit("ADB: Cleaning macOS metadata files...")
+            try:
+                if self.device_id:
+                    # Clean up macOS metadata directly via ADB commands
+                    self._cleanup_device_macos_metadata_direct(self.adb_path, self.device_id, self.env)
+            except Exception as e:
+                silent_print(f"Error cleaning macOS metadata during Fast Update: {e}")
             
             update_script_path = '/data/data/update/update.sh'
             
@@ -5716,6 +5743,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.last_attempted_method = None  # Track the last attempted installation method
         self.app_update_available = False  # Track whether an Innioasis Updater release is available
         self._latest_app_version = None
+        self.saved_usb_drive_path = None  # Saved USB drive path for Smart Drop
         self.available_versions = []
         self.version_combo = None
         self.version_download_btn = None
@@ -5730,6 +5758,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         self._update_check_attempts = 0
         self._max_update_check_attempts = 4
         self._update_check_in_progress = False
+        self._gui_closing = False  # Flag to prevent worker threads from accessing GUI during shutdown
         try:
             self.is_windows_arm64 = (
                 platform.system() == "Windows"
@@ -5760,6 +5789,9 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Track if auto-connect has been attempted for current USB device
         self._auto_connect_attempted_for_device = None
         
+        # Load saved USB drive path on startup
+        self.saved_usb_drive_path = self.load_usb_drive_path()
+        
         # Initialize file transfer queue for non-firmware files
         self.file_transfer_queue = []  # Queue of (file_paths, destination_folder) tuples
         self.file_transfer_worker = None  # Current transfer worker
@@ -5783,10 +5815,12 @@ class FirmwareDownloaderGUI(QMainWindow):
         QTimer.singleShot(0, self._show_initial_offline_state)
 
         # Create .no_updates file at launch if it doesn't exist (manual updates by default)
-        QTimer.singleShot(25, self.ensure_manual_updates_default)
+        # REMOVED: Legacy updater.py method no longer used - app handles updates internally
+        # QTimer.singleShot(25, self.ensure_manual_updates_default)
 
         # Handle version check file and macOS app update message (non-blocking)
-        QTimer.singleShot(50, self.handle_version_check)
+        # REMOVED: Legacy .version file handling - app handles updates internally
+        # QTimer.singleShot(50, self.handle_version_check)
 
         # Clean up any previously extracted files at startup (non-blocking, delayed)
         QTimer.singleShot(1000, cleanup_extracted_files)
@@ -5819,7 +5853,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         QTimer.singleShot(500, self.ensure_troubleshooting_shortcuts_available)
 
         # Download latest updater.py during launch
-        QTimer.singleShot(600, self.download_latest_updater)
+        # REMOVED: Legacy updater.py method no longer used - app handles updates internally
+        # QTimer.singleShot(600, self.download_latest_updater)
 
         # Preload critical images with web fallback
         QTimer.singleShot(700, self.preload_critical_images)
@@ -5845,6 +5880,10 @@ class FirmwareDownloaderGUI(QMainWindow):
         QTimer.singleShot(100, self.start_adb_check_worker)
         # Schedule update check early so users see update prompts immediately (independent of settings dialog)
         QTimer.singleShot(300, self._run_independent_update_check)
+        # Also schedule periodic update checks every 5 minutes to catch updates that might be missed
+        self._update_check_timer = QTimer()
+        self._update_check_timer.timeout.connect(self._run_independent_update_check)
+        self._update_check_timer.start(300000)  # 5 minutes
         
         # Initialize status clear timer for auto-clearing orphaned messages
         self.status_clear_timer = None
@@ -5925,28 +5964,8 @@ class FirmwareDownloaderGUI(QMainWindow):
 
     def handle_version_check(self):
         """Handle version check file and show macOS app update message for new users"""
-        try:
-            version_file = Path(".version")
-            current_version = self.app_version
-            
-            # Read the last used version
-            last_version = None
-            if version_file.exists():
-                try:
-                    last_version = version_file.read_text().strip()
-                except Exception as e:
-                    logging.warning(f"Could not read .version file: {e}")
-            
-            # Write current version to file
-            try:
-                version_file.write_text(current_version)
-            except Exception as e:
-                logging.warning(f"Could not write .version file: {e}")
-            
-            # macOS app update message removed as requested
-                
-        except Exception as e:
-            logging.error(f"Error in handle_version_check: {e}")
+        # REMOVED: Legacy .version file handling - app handles updates internally
+        pass
 
     def check_sp_flash_tool(self):
         """Check if any flash tool is running on Windows and show warning"""
@@ -7546,7 +7565,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.about_btn.clicked.connect(self.open_about_tab)
         coffee_layout.addWidget(self.about_btn)
         self._top_right_update_mode = False
-        self._refresh_top_right_update_cta()
+        # Removed: _refresh_top_right_update_cta - no longer modifying Discord/About buttons
         
         # ADB status indicator (will be shown if device is connected) - positioned in corner
         self.adb_status_widget = QWidget()
@@ -7607,10 +7626,8 @@ class FirmwareDownloaderGUI(QMainWindow):
 
         # App Update button container (button only shown when update is available)
         self.update_layout = QHBoxLayout()
-        self.update_layout.addStretch()  # Push button to the right
+        self.update_layout.addStretch()  # Layout kept for potential future use, but no buttons added
         
-        # Check for updates and show button only if newer version is available
-        # (additional scheduling handled in __init__)
         right_layout.addLayout(self.update_layout)
 
         # Status group
@@ -8198,13 +8215,13 @@ class FirmwareDownloaderGUI(QMainWindow):
 
     def disable_update_button(self):
         """Disable the update button during MTK installation"""
-        if hasattr(self, 'update_btn_right'):
-            self.update_btn_right.setEnabled(False)
+            # Disable buttons during operation - but don't reference update_btn_right
+            # (update buttons removed - only banner is shown)
 
     def enable_update_button(self):
         """Enable the update button when returning to ready state"""
-        if hasattr(self, 'update_btn_right'):
-            self.update_btn_right.setEnabled(True)
+            # Re-enable buttons after operation - but don't reference update_btn_right
+            # (update buttons removed - only banner is shown)
 
     def show_troubleshooting_instructions(self):
         """Show Method 2 troubleshooting instructions"""
@@ -10208,6 +10225,15 @@ class FirmwareDownloaderGUI(QMainWindow):
         shortcuts_tab_index = None
 # 2025-11-09 12:00:00 - original: Tab label was 'Wireless ADB' and did not indicate beta availability.
         tab_widget.addTab(wireless_tab, "Wireless ADB (Beta)")
+        
+        # Add Smart Drop tab
+        smart_drop_tab = QWidget()
+        smart_drop_layout = QVBoxLayout(smart_drop_tab)
+        smart_drop_layout.setSpacing(8)
+        smart_drop_layout.setContentsMargins(10, 10, 10, 10)
+        self.populate_smart_drop_tab(smart_drop_layout)
+        tab_widget.addTab(smart_drop_tab, "Smart Drop")
+        
         self._apply_update_tab_badge(tab_widget, updates_tab_index, update_is_newer)
         if update_is_newer and self._latest_app_version:
             tab_widget.setTabToolTip(updates_tab_index, f"Update {self._latest_app_version} available")
@@ -10291,6 +10317,159 @@ class FirmwareDownloaderGUI(QMainWindow):
         if not self.available_versions:
             self.get_latest_github_version()
 
+    def populate_smart_drop_tab(self, layout):
+        """Populate the Smart Drop settings tab with USB drive path selection"""
+        from PySide6.QtWidgets import QLabel, QLineEdit, QPushButton, QHBoxLayout, QFileDialog, QMessageBox, QGroupBox
+        
+        # Title
+        title_label = QLabel("Smart Drop USB Storage Settings")
+        title_label.setStyleSheet("font-weight: bold; font-size: 14px; margin-bottom: 8px;")
+        layout.addWidget(title_label)
+        
+        # Description
+        desc_label = QLabel(
+            "Configure the USB storage drive path for your Y1 device. "
+            "This is used when USB Storage Mode is enabled and ADB file transfers are not available.\n\n"
+            "The app will automatically detect drives containing '.rockbox' or 'Themes' folders, "
+            "but you can manually specify a path if auto-detection fails."
+        )
+        desc_label.setWordWrap(True)
+        layout.addWidget(desc_label)
+        
+        # USB Drive Path Section
+        path_group = QGroupBox("Y1 USB Drive Path")
+        path_layout = QVBoxLayout(path_group)
+        
+        # Current path display
+        current_layout = QHBoxLayout()
+        current_label = QLabel("Current path:")
+        self.smart_drop_path_display = QLineEdit()
+        self.smart_drop_path_display.setReadOnly(True)
+        self.smart_drop_path_display.setPlaceholderText("Not set - will auto-detect")
+        # Load saved path
+        saved_path = self.load_usb_drive_path()
+        if saved_path:
+            self.smart_drop_path_display.setText(saved_path)
+        else:
+            # Try auto-detection
+            detected = self._detect_usb_storage_drive()
+            if detected:
+                self.smart_drop_path_display.setText(detected)
+        current_layout.addWidget(current_label)
+        current_layout.addWidget(self.smart_drop_path_display)
+        path_layout.addLayout(current_layout)
+        
+        # Buttons
+        button_layout = QHBoxLayout()
+        detect_btn = QPushButton("Auto-Detect")
+        detect_btn.clicked.connect(self._on_detect_usb_drive)
+        select_btn = QPushButton("Browse...")
+        select_btn.clicked.connect(self._on_select_usb_drive)
+        clear_btn = QPushButton("Clear")
+        clear_btn.clicked.connect(self._on_clear_usb_drive)
+        button_layout.addWidget(detect_btn)
+        button_layout.addWidget(select_btn)
+        button_layout.addWidget(clear_btn)
+        button_layout.addStretch()
+        path_layout.addLayout(button_layout)
+        
+        layout.addWidget(path_group)
+        layout.addStretch()
+    
+    def _on_detect_usb_drive(self):
+        """Handle auto-detect USB drive button click"""
+        detected = self._detect_usb_storage_drive()
+        if detected:
+            self.smart_drop_path_display.setText(detected)
+            self.saved_usb_drive_path = detected
+            self.save_usb_drive_path(detected)
+            QMessageBox.information(self, "Auto-Detection", f"Found Y1 USB drive:\n\n{detected}")
+        else:
+            QMessageBox.information(self, "Auto-Detection", "No Y1 USB drive detected.\n\nPlease ensure your Y1 is connected in USB Storage Mode and contains a '.rockbox' or 'Themes' folder.")
+    
+    def _on_select_usb_drive(self):
+        """Handle browse USB drive button click"""
+        from PySide6.QtWidgets import QFileDialog, QMessageBox
+        folder = QFileDialog.getExistingDirectory(
+            self,
+            "Select Y1 USB Drive",
+            self.smart_drop_path_display.text() or "",
+            QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks
+        )
+        if folder:
+            # Verify it's a Y1 drive
+            folder_path = Path(folder)
+            themes_path = folder_path / "Themes"
+            rockbox_path = folder_path / ".rockbox"
+            if themes_path.exists() or rockbox_path.exists():
+                self.smart_drop_path_display.setText(folder)
+                self.saved_usb_drive_path = folder
+                self.save_usb_drive_path(folder)
+                QMessageBox.information(self, "Path Set", f"Y1 USB drive path set to:\n\n{folder}")
+            else:
+                reply = QMessageBox.warning(
+                    self,
+                    "Invalid Path",
+                    "The selected folder doesn't appear to be a Y1 USB drive.\n\n"
+                    "Y1 drives should contain a '.rockbox' or 'Themes' folder.\n\n"
+                    "Do you want to use this path anyway?",
+                    QMessageBox.Yes | QMessageBox.No
+                )
+                if reply == QMessageBox.Yes:
+                    self.smart_drop_path_display.setText(folder)
+                    self.saved_usb_drive_path = folder
+                    self.save_usb_drive_path(folder)
+    
+    def _on_clear_usb_drive(self):
+        """Handle clear USB drive path button click"""
+        self.smart_drop_path_display.clear()
+        self.saved_usb_drive_path = None
+        self.save_usb_drive_path(None)
+    
+    def save_usb_drive_path(self, path):
+        """Save USB drive path to preferences"""
+        try:
+            preferences_file = Path("installation_preferences.json")
+            import json
+            preferences = {}
+            if preferences_file.exists():
+                with open(preferences_file, 'r') as f:
+                    preferences = json.load(f)
+            
+            if path:
+                preferences['usb_drive_path'] = path
+            elif 'usb_drive_path' in preferences:
+                del preferences['usb_drive_path']
+            
+            with open(preferences_file, 'w') as f:
+                json.dump(preferences, f, indent=2)
+            
+            silent_print(f"Saved USB drive path: {path}")
+        except Exception as e:
+            silent_print(f"Error saving USB drive path: {e}")
+    
+    def load_usb_drive_path(self):
+        """Load USB drive path from preferences"""
+        try:
+            preferences_file = Path("installation_preferences.json")
+            if preferences_file.exists():
+                import json
+                with open(preferences_file, 'r') as f:
+                    preferences = json.load(f)
+                
+                if 'usb_drive_path' in preferences:
+                    path = preferences['usb_drive_path']
+                    # Verify path still exists and is valid
+                    if Path(path).exists():
+                        self.saved_usb_drive_path = path
+                        return path
+                    else:
+                        silent_print(f"Saved USB drive path no longer exists: {path}")
+        except Exception as e:
+            silent_print(f"Error loading USB drive path: {e}")
+        
+        return None
+
     def populate_version_tab(self, layout, browser, preferred_version=None):
         """Populate the version tab with selector and release notes."""
         self.ensure_release_catalog()
@@ -10314,6 +10493,14 @@ class FirmwareDownloaderGUI(QMainWindow):
         notice_label.setStyleSheet("font-weight: 600; margin: 6px 4px;")
         layout.addWidget(notice_label)
         self._update_notice_label = notice_label
+        
+        # Trigger update check if not already done or in progress
+        if not getattr(self, '_update_check_in_progress', False) and self._update_check_attempts < self._max_update_check_attempts:
+            silent_print("populate_version_tab: Triggering update check")
+            self.check_for_updates_and_show_button()
+        
+        # Refresh the notice label after a short delay to ensure update check completes
+        QTimer.singleShot(500, self._refresh_update_notice_label)
         self._refresh_update_notice_label()
         
         if self.version_combo:
@@ -10391,7 +10578,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.version_download_btn.clicked.connect(lambda: self.download_selected_version(self._active_settings_dialog))
         action_layout.addWidget(self.version_download_btn)
         layout.addLayout(action_layout)
-        self._refresh_version_download_cta()
+        # Removed: _refresh_version_download_cta - version download button handled in settings dialog
 
     # 2025-11-09 21:41:00 UTC - original: Version tab checkbox toggles only changed state on save and the UI never refreshed inline.
     def _handle_update_notification_toggle(self, checked):
@@ -10399,26 +10586,32 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.suppress_update_notifications = checked
         self._refresh_update_notice_label()
         self.update_update_badges()
-        self._refresh_top_right_update_cta()
+        # Removed: _refresh_top_right_update_cta - no longer modifying Discord/About buttons
 
     # 2025-11-09 21:41:00 UTC - original: There was no inline status message alerting users when their build was behind.
     def _refresh_update_notice_label(self):
-        """Refresh the inline update notice in the Version tab."""
+        """Refresh the inline update notice in the Version tab and main GUI banner."""
         label = getattr(self, '_update_notice_label', None)
         banner = getattr(self, 'update_alert_banner', None)
         had_error = False
         try:
             messages = []
-            if self.has_update_available() and not self.suppress_update_notifications:
+            has_update = self.has_update_available()
+            suppress = self.suppress_update_notifications
+            silent_print(f"_refresh_update_notice_label: has_update={has_update}, suppress={suppress}, _latest_app_version={getattr(self, '_latest_app_version', None)}")
+            
+            if has_update and not suppress:
                 latest_version = self._latest_app_version or ""
-                current_version = self.app_version or ""
+                current_version = self.app_version or APP_VERSION
                 messages.append(
                     f"Innioasis Updater {latest_version} is available. "
                     f"You're currently running {current_version}. Download the new release to stay up to date."
                 )
+                silent_print(f"_refresh_update_notice_label: Adding message for banner/label")
 
             for target in (label, banner):
                 if not target:
+                    silent_print(f"_refresh_update_notice_label: Target is None (label={label is not None}, banner={banner is not None})")
                     continue
                 if messages:
                     try:
@@ -10438,12 +10631,16 @@ class FirmwareDownloaderGUI(QMainWindow):
                     )
                     target.setText("\n".join(messages))
                     target.setVisible(True)
+                    silent_print(f"_refresh_update_notice_label: Set message and made visible on {target.objectName() if hasattr(target, 'objectName') else 'target'}")
                 else:
                     target.clear()
                     target.setVisible(False)
+                    silent_print(f"_refresh_update_notice_label: Cleared and hid {target.objectName() if hasattr(target, 'objectName') else 'target'}")
         except Exception as e:
             had_error = True
             silent_print(f"Error refreshing update notice label: {e}")
+            import traceback
+            traceback.print_exc()
         finally:
             if had_error:
                 if label:
@@ -10610,7 +10807,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         release_notes = release.get('body', '')
         release_name = release.get('name', '') or release.get('tag_name', data.get('version', ''))
         self._format_release_notes_for_display(browser, release_notes, release_name, text_color)
-        self._refresh_version_download_cta()
+        # Removed: _refresh_version_download_cta - version download button handled in settings dialog
 
     def _handle_required_update(self, latest_version, current_version):
         """Handle forced manual updates that include required.txt."""
@@ -11130,6 +11327,14 @@ class FirmwareDownloaderGUI(QMainWindow):
             # Apply shortcut settings immediately (this will use the updated auto-updates setting)
             self.apply_shortcut_settings()
         
+        # Save USB drive path if Smart Drop tab was shown
+        if hasattr(self, 'smart_drop_path_display') and self.smart_drop_path_display:
+            path_text = self.smart_drop_path_display.text().strip()
+            if path_text:
+                self.save_usb_drive_path(path_text)
+            else:
+                self.save_usb_drive_path(None)
+        
         # Save to persistent storage
         self.save_installation_preferences()
         
@@ -11541,24 +11746,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             return False
 
     # Method removed - automatic updates are now manual by default
-
-    def ensure_manual_updates_default(self):
-        """Ensure .no_updates file exists at launch to make updates manual by default"""
-        try:
-            no_updates_file = Path(".no_updates")
-            if not no_updates_file.exists():
-                # Create .no_updates file to disable automatic updates by default
-                no_updates_file.write_text("Automatic utility updates disabled by default for all users")
-                silent_print("Created .no_updates file - automatic updates are now manual by default")
-            else:
-                silent_print(".no_updates file already exists - updates remain manual")
-            
-            # Ensure Skip Update shortcut exists for Windows users (manual updates by default)
-            if platform.system() == "Windows":
-                self.ensure_skip_update_shortcut_exists()
-                
-        except Exception as e:
-            silent_print(f"Error creating .no_updates file: {e}")
+    # Legacy updater.py method no longer used - app handles updates internally
 
     def update_driver_dependent_ui(self):
         """Update UI elements that depend on driver status (called after UI loads)"""
@@ -13638,7 +13826,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         context_menu.addSeparator()
         manage_storage_action = context_menu.addAction("Manage Storage")
 
-        action = context_menu.exec_(self.package_list.mapToGlobal(position))
+        action = context_menu.exec(self.package_list.mapToGlobal(position))
 
         if action == view_releases_action and firmware_data:
             # Open GitHub releases page for this software
@@ -14258,8 +14446,8 @@ class FirmwareDownloaderGUI(QMainWindow):
 
     def disable_update_button(self):
         """Disable the update button during MTK installation"""
-        if hasattr(self, 'update_btn_right'):
-            self.update_btn_right.setEnabled(False)
+            # Disable buttons during operation - but don't reference update_btn_right
+            # (update buttons removed - only banner is shown)
         # Also disable settings button during operations
         self.settings_btn.setEnabled(False)
         if hasattr(self, 'toolkit_btn'):
@@ -14267,8 +14455,8 @@ class FirmwareDownloaderGUI(QMainWindow):
 
     def enable_update_button(self):
         """Enable the update button when returning to ready state"""
-        if hasattr(self, 'update_btn_right'):
-            self.update_btn_right.setEnabled(True)
+            # Re-enable buttons after operation - but don't reference update_btn_right
+            # (update buttons removed - only banner is shown)
         # Also enable settings button when operations are complete
         self.settings_btn.setEnabled(True)
         if hasattr(self, 'toolkit_btn'):
@@ -14282,8 +14470,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                 self.download_btn.setVisible(False)
             
             # Hide update button (not relevant during SP Flash Tool installation)
-            if hasattr(self, 'update_btn_right'):
-                self.update_btn_right.setVisible(False)
+            # Hide update UI during installation - but don't reference update_btn_right
+            # (update buttons removed - only banner is shown)
             
             # Hide install from zip button if it exists
             # Note: This button is created dynamically, so we need to find it
@@ -15326,6 +15514,17 @@ class FirmwareDownloaderGUI(QMainWindow):
 
     def closeEvent(self, event):
         """Handle application close event"""
+        # Stop update check timer
+        if hasattr(self, '_update_check_timer') and self._update_check_timer:
+            try:
+                self._update_check_timer.stop()
+                self._update_check_timer = None
+            except:
+                pass
+        
+        # Mark that GUI is closing to prevent worker threads from accessing it
+        self._gui_closing = True
+        
         # Stop any running workers
         if hasattr(self, 'download_worker') and self.download_worker:
             self.download_worker.stop()
@@ -15888,7 +16087,20 @@ class FirmwareDownloaderGUI(QMainWindow):
             self._fallback_to_usb_mode()
     
     def _detect_usb_storage_drive(self):
-        """Detect USB storage drive by looking for 'Themes' or '.rockbox' folders"""
+        """Detect USB storage drive by looking for Y1-specific folders with confidence scoring"""
+        # First check saved path
+        if self.saved_usb_drive_path:
+            saved_path = Path(self.saved_usb_drive_path)
+            if saved_path.exists():
+                confidence = self._score_y1_drive_confidence(saved_path)
+                if confidence >= 2:  # At least 2 folders present
+                    silent_print(f"Using saved USB storage drive: {self.saved_usb_drive_path} (confidence: {confidence}/5)")
+                    return str(self.saved_usb_drive_path)
+        
+        # Then try auto-detection with confidence scoring
+        best_match = None
+        best_confidence = 0
+        
         try:
             try:
                 import psutil
@@ -15900,16 +16112,10 @@ class FirmwareDownloaderGUI(QMainWindow):
                         if not mountpoint.exists() or not mountpoint.is_dir():
                             continue
                         
-                        # Check for Themes or .rockbox folder
-                        themes_path = mountpoint / "Themes"
-                        rockbox_path = mountpoint / ".rockbox"
-                        
-                        if themes_path.exists() and themes_path.is_dir():
-                            silent_print(f"Found USB storage drive via Themes folder: {mountpoint}")
-                            return str(mountpoint)
-                        if rockbox_path.exists() and rockbox_path.is_dir():
-                            silent_print(f"Found USB storage drive via .rockbox folder: {mountpoint}")
-                            return str(mountpoint)
+                        confidence = self._score_y1_drive_confidence(mountpoint)
+                        if confidence > best_confidence:
+                            best_confidence = confidence
+                            best_match = mountpoint
                     except (PermissionError, OSError):
                         continue
             except ImportError:
@@ -15933,21 +16139,50 @@ class FirmwareDownloaderGUI(QMainWindow):
                     for item in base.iterdir():
                         if not item.is_dir():
                             continue
-                        themes_path = item / "Themes"
-                        rockbox_path = item / ".rockbox"
-                        if themes_path.exists() and themes_path.is_dir():
-                            silent_print(f"Found USB storage drive via Themes folder: {item}")
-                            return str(item)
-                        if rockbox_path.exists() and rockbox_path.is_dir():
-                            silent_print(f"Found USB storage drive via .rockbox folder: {item}")
-                            return str(item)
+                        confidence = self._score_y1_drive_confidence(item)
+                        if confidence > best_confidence:
+                            best_confidence = confidence
+                            best_match = item
                 except (PermissionError, OSError):
                     continue
+            
+            if best_match and best_confidence >= 2:  # Require at least 2 folders for confidence
+                silent_print(f"Found USB storage drive: {best_match} (confidence: {best_confidence}/5)")
+                # Auto-save detected path
+                self.save_usb_drive_path(str(best_match))
+                return str(best_match)
         
         except Exception as e:
             silent_print(f"Error detecting USB storage drive: {e}")
         
         return None
+    
+    def _score_y1_drive_confidence(self, drive_path):
+        """Score confidence that a drive is a Y1 device based on folder presence (0-5)"""
+        try:
+            drive = Path(drive_path)
+            if not drive.exists() or not drive.is_dir():
+                return 0
+            
+            # Check for Y1-specific folders
+            folders_to_check = {
+                "Android": drive / "Android",
+                "Music": drive / "Music",
+                "Pictures": drive / "Pictures",
+                ".rockbox": drive / ".rockbox",
+                "Themes": drive / "Themes"
+            }
+            
+            confidence = 0
+            for folder_name, folder_path in folders_to_check.items():
+                if folder_path.exists() and folder_path.is_dir():
+                    confidence += 1
+                    silent_print(f"Found Y1 folder '{folder_name}' on drive: {drive_path}")
+            
+            return confidence
+        except Exception as e:
+            silent_print(f"Error scoring drive confidence: {e}")
+            return 0
     
     def _perform_usb_storage_fast_update(self, usb_drive_path):
         """Perform fast update using USB storage mode (silently)"""
@@ -17444,6 +17679,35 @@ class FirmwareDownloaderGUI(QMainWindow):
                 return
             elif status == 'adb_only':
                 # ADB connected but not rooted - show orange light (not clickable)
+                # However, if we just completed a fast update, device might still be initializing after reboot
+                # Delay showing "not available" message and retry check with longer delays
+                if getattr(self, '_fast_update_just_completed', False):
+                    completion_time = getattr(self, '_fast_update_completion_time', 0)
+                    time_since_completion = time.time() - completion_time
+                    # If less than 90 seconds since fast update, retry the check instead of showing "not available"
+                    # Device needs time to reboot and fully initialize
+                    if time_since_completion < 90:
+                        retry_delay = min(10000, 5000 + int(time_since_completion * 1000))  # Increase delay over time
+                        silent_print(f"Fast update just completed ({int(time_since_completion)}s ago) - retrying Fast Update check in {retry_delay}ms...")
+                        QTimer.singleShot(retry_delay, lambda: self.adb_status_broker.request_refresh(force=True, reason="post_fast_update_retry"))
+                        return  # Don't show "not available" message yet
+                    else:
+                        # Enough time has passed, clear the flag
+                        self._fast_update_just_completed = False
+                        silent_print("Fast update completion flag cleared - enough time has passed")
+                
+                # Clean up macOS metadata when non-root connection is established
+                if device_id and adb_path:
+                    # Schedule cleanup in background thread to avoid blocking UI
+                    import threading
+                    def cleanup_metadata():
+                        try:
+                            env = self._build_adb_environment()
+                            self._cleanup_device_macos_metadata(adb_path, device_id, env)
+                        except Exception as e:
+                            silent_print(f"Error cleaning macOS metadata on connection: {e}")
+                    threading.Thread(target=cleanup_metadata, daemon=True).start()
+                
                 if hasattr(self, 'adb_status_widget'):
                     self.adb_status_widget.setVisible(True)
                     # Stop blinking if it was active
@@ -17532,6 +17796,18 @@ class FirmwareDownloaderGUI(QMainWindow):
                 marker_needs_refresh = bool(metadata.get('fastupdate_marker_needs_refresh', marker_present and not marker_is_today))
                 fast_update_ready = bool(metadata.get('fast_update_ready', update_script_exists and marker_is_today))
                 
+                # Clean up macOS metadata when root connection is established
+                if active_device_id and adb_path:
+                    # Schedule cleanup in background thread to avoid blocking UI
+                    import threading
+                    def cleanup_metadata():
+                        try:
+                            env = self._build_adb_environment()
+                            self._cleanup_device_macos_metadata(adb_path, active_device_id, env)
+                        except Exception as e:
+                            silent_print(f"Error cleaning macOS metadata on root connection: {e}")
+                    threading.Thread(target=cleanup_metadata, daemon=True).start()
+                
                 if update_script_exists and active_device_id:
                     self._script_installation_device_id = active_device_id
 
@@ -17595,6 +17871,8 @@ class FirmwareDownloaderGUI(QMainWindow):
 
                     if should_prepare and adb_path and active_device_id and not worker_running and not operation_in_progress:
                         self.download_and_push_update_script(adb_path, active_device_id)
+                        # Clean up macOS metadata as part of Fast Update preparation (silent, non-blocking)
+                        self._cleanup_device_macos_metadata_silent(adb_path, active_device_id, self._build_adb_environment())
                 
                 # Auto-populate wireless IP field with hostname if USB connected
                 # Check if device_id is USB (not wireless)
@@ -17665,6 +17943,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                 script_exists = self._check_update_script_exists(adb_path, device_id, env)
                 if script_exists and marker_is_today:
                     silent_print(f"Fast Update already prepared today for device {device_id}; skipping script push.")
+                    # Still run cleanup even if already prepared
+                    self._cleanup_device_macos_metadata_silent(adb_path, device_id, env)
                     self.stop_orange_blink()
                     self.show_preparation_buttons()
                     return
@@ -17884,6 +18164,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                                 if brew_path not in current_path:
                                     env["PATH"] = f"{brew_path}:{env.get('PATH', '')}"
                     self._write_fastupdate_marker(adb_path, device_id, env)
+                    # Clean up macOS metadata after script installation
+                    self._cleanup_device_macos_metadata_silent(adb_path, device_id, env)
             except Exception as marker_error:
                 silent_print(f"Unable to update Fast Update marker: {marker_error}")
             finally:
@@ -19547,6 +19829,84 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print(f"Error cleaning up macOS metadata: {e}")
             return removed_count
     
+    def _cleanup_device_macos_metadata_silent(self, adb_path, device_id, env):
+        """Silently remove macOS metadata files from device storage - graceful failure, no user interruption"""
+        try:
+            if not adb_path or not device_id:
+                return
+            
+            # Run cleanup in background thread to avoid blocking
+            import threading
+            def cleanup_worker():
+                try:
+                    self._cleanup_device_macos_metadata_direct(adb_path, device_id, env)
+                except Exception as e:
+                    # Silent failure - don't interrupt user
+                    silent_print(f"Silent cleanup of macOS metadata failed (non-critical): {e}")
+            
+            cleanup_thread = threading.Thread(target=cleanup_worker, daemon=True)
+            cleanup_thread.start()
+        except Exception:
+            # Silent failure - don't interrupt user
+            pass
+    
+    def _cleanup_device_macos_metadata_direct(self, adb_path, device_id, env):
+        """Remove macOS metadata files directly via ADB (for use in worker threads)"""
+        try:
+            # Common locations where macOS metadata might be found
+            storage_paths = [
+                "/storage/sdcard0",
+                "/sdcard",
+                "/storage/emulated/0"
+            ]
+            
+            # macOS metadata patterns to remove
+            metadata_patterns = [
+                "__MACOSX",
+                "_MACOSX",
+                "._*",
+                ".DS_Store"
+            ]
+            
+            for storage_path in storage_paths:
+                # Try to find and remove macOS metadata folders/files
+                for pattern in metadata_patterns:
+                    try:
+                        # Use find command to locate macOS metadata
+                        find_cmd = [str(adb_path), '-s', device_id, 'shell', 
+                                   f'find {storage_path} -name "{pattern}" -type f -o -name "{pattern}" -type d 2>/dev/null']
+                        find_result = subprocess.run(
+                            find_cmd,
+                            capture_output=True,
+                            text=True,
+                            timeout=10,
+                            env=env,
+                            creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                        )
+                        
+                        if find_result.returncode == 0 and find_result.stdout.strip():
+                            # Remove found metadata files/folders
+                            for metadata_path in find_result.stdout.strip().split('\n'):
+                                if metadata_path.strip():
+                                    try:
+                                        rm_cmd = [str(adb_path), '-s', device_id, 'shell', 
+                                                 f'rm -rf "{metadata_path.strip()}"']
+                                        subprocess.run(
+                                            rm_cmd,
+                                            capture_output=True,
+                                            text=True,
+                                            timeout=5,
+                                            env=env,
+                                            creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                                        )
+                                        silent_print(f"Removed macOS metadata from device: {metadata_path.strip()}")
+                                    except:
+                                        pass
+                    except:
+                        pass
+        except Exception as e:
+            silent_print(f"Error cleaning up device macOS metadata directly: {e}")
+    
     def _cleanup_device_macos_metadata(self, adb_path, device_id, env):
         """Remove macOS metadata files and folders from device storage"""
         try:
@@ -19805,6 +20165,26 @@ class FirmwareDownloaderGUI(QMainWindow):
     def install_apk(self, apk_path):
         """Install APK file on device via ADB"""
         try:
+            # Check if USB Storage mode might be active and prompt user to turn it off
+            usb_drive = self._detect_usb_storage_drive()
+            if usb_drive:
+                reply = QMessageBox.question(
+                    self,
+                    "USB Storage Mode Detected",
+                    "Your Y1 appears to be in USB Storage Mode.\n\n"
+                    "APK installation requires ADB access, which is blocked when USB Storage Mode is active.\n\n"
+                    "Please turn off USB Storage Mode on your Y1:\n"
+                    "1. Go to Main Menu > System > USB Mode\n"
+                    "2. Select 'ADB' or 'Charge Only'\n"
+                    "3. Click OK to continue with APK installation\n\n"
+                    f"Detected Y1 drive: {usb_drive}",
+                    QMessageBox.Ok | QMessageBox.Cancel,
+                    QMessageBox.Ok
+                )
+                if reply == QMessageBox.Cancel:
+                    silent_print("User cancelled APK installation - USB Storage Mode active")
+                    return
+            
             ready, snapshot = self._ensure_adb_capability('connected', "APK installation")
             if not ready:
                 return
@@ -21586,43 +21966,13 @@ class FirmwareDownloaderGUI(QMainWindow):
 
     def launch_updater_script(self):
         """Silently download and run the latest updater script"""
-        try:
-            # Silently try to download the latest updater.py
-            try:
-                updater_url = "https://innioasis.app/updater.py"
-                response = requests.get(updater_url, timeout=10)
-                response.raise_for_status()
-
-                updater_path = Path("updater.py")
-                with open(updater_path, 'wb') as f:
-                    f.write(response.content)
-
-                silent_print("Latest updater.py downloaded successfully")
-            except Exception as e:
-                silent_print(f"Failed to download latest updater.py, using local copy: {e}")
-
-            # Check if updater script exists (either downloaded or local)
-            updater_script_path = Path("updater.py")
-            if not updater_script_path.exists():
-                QMessageBox.warning(self, "Update Error",
-                                  "Updater script not found. Please ensure updater.py is in the same directory.")
-                return
-
-            # Kill conflicting processes before launching updater
-            self.terminate_conflicting_processes_for_update()
-            
-            # Launch the updater script with -f argument for force update
-            if platform.system() == "Windows":
-                subprocess.Popen([sys.executable, str(updater_script_path), "-f"], 
-                               creationflags=subprocess.CREATE_NO_WINDOW)
-            else:
-                subprocess.Popen([sys.executable, str(updater_script_path), "-f"])
-
-            # Close the current app after a short delay
-            QTimer.singleShot(1000, self.close)
-
-        except Exception as e:
-            QMessageBox.warning(self, "Update Error", f"Error launching updater: {str(e)}")
+        # REMOVED: Legacy updater.py method no longer used - app handles updates internally
+        # Updates are now handled directly by the app
+        QMessageBox.information(
+            self,
+            "Update Available",
+            "Please use the 'Download Selected Version' button in Settings > Update Available / Version tab to update the app."
+        )
 
     def terminate_conflicting_processes_for_update(self):
         """Terminate adb and libusb processes before launching updater"""
@@ -22230,39 +22580,39 @@ read -n 1
 
     def download_latest_updater(self):
         """Download the latest updater.py script silently during launch in worker thread"""
-        def download_worker():
-            """Worker function to download updater in background thread"""
-            try:
-                updater_url = "https://innioasis.app/updater.py"
-                response = requests.get(updater_url, timeout=2)  # Short timeout
-                response.raise_for_status()
+        # REMOVED: Legacy updater.py method no longer used - app handles updates internally
+        pass
 
-                updater_path = Path("updater.py")
-                with open(updater_path, 'wb') as f:
-                    f.write(response.content)
-
-                silent_print("Latest updater.py downloaded successfully")
-            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout, requests.exceptions.RequestException) as e:
-                # Network error - offline or connection failed (non-blocking)
-                silent_print(f"Network error downloading updater.py (offline?): {e}")
-            except Exception as e:
-                silent_print(f"Failed to download latest updater.py: {e}")
-        
-        # Run in background thread to avoid blocking
-        import threading
-        download_thread = threading.Thread(target=download_worker, daemon=True)
-        download_thread.start()
-
+    def _refresh_adb_status_after_fast_update(self):
+        """Refresh ADB status after fast update reboot - device needs time to initialize"""
+        try:
+            silent_print("Refreshing ADB status after fast update reboot...")
+            # Clear the fast update completion flag
+            self._fast_update_just_completed = False
+            # Force a fresh ADB status check
+            self.adb_status_broker.request_refresh(force=True, reason="post_fast_update_reboot")
+        except Exception as e:
+            silent_print(f"Error refreshing ADB status after fast update: {e}")
+    
     def _run_independent_update_check(self):
         """Run update check independently of settings dialog - updates main GUI banner immediately"""
         try:
+            # Ensure banner exists before checking
+            if not hasattr(self, 'update_alert_banner') or not self.update_alert_banner:
+                silent_print("Update banner not yet created, retrying check...")
+                QTimer.singleShot(500, self._run_independent_update_check)
+                return
+            
             # Reset attempt counter for independent check
             self._update_check_attempts = 0
             self._update_check_in_progress = False
-            # Run the update check
+            # Run the update check - this will call get_latest_github_version independently
+            silent_print("Running independent update check for Innioasis Updater...")
             self.check_for_updates_and_show_button()
         except Exception as e:
             silent_print(f"Error running independent update check: {e}")
+            import traceback
+            traceback.print_exc()
             # Retry after delay
             QTimer.singleShot(2000, self._run_independent_update_check)
     
@@ -22289,100 +22639,213 @@ read -n 1
         def check_updates_worker():
             """Worker function to check for updates in background thread"""
             try:
+                # Check if GUI still exists and is not closing before accessing it
+                if not hasattr(self, '_update_check_in_progress'):
+                    silent_print("Update check: GUI not initialized, skipping")
+                    return
+                
+                if getattr(self, '_gui_closing', False):
+                    silent_print("Update check: GUI closing, skipping")
+                    return
+                
+                silent_print("Update check: Starting GitHub API request...")
                 # Get latest release from GitHub (this is now in a worker thread)
+                # This call is completely independent of the settings dialog
                 latest_version = self.get_latest_github_version()
+                silent_print(f"Update check: Got latest version from GitHub: {latest_version}")
+                
+                # Check again after potentially long-running operation
+                if getattr(self, '_gui_closing', False):
+                    silent_print("Update check: GUI closing after API call, skipping")
+                    return
+                
                 if latest_version:
                     current_version = self.app_version or APP_VERSION
+                    silent_print(f"Update check: Comparing versions - latest: {latest_version}, current: {current_version}")
                     is_newer = self.compare_versions(latest_version, current_version) > 0
 
                     if not is_newer:
                         silent_print(f"No updates needed (latest: {latest_version}, current: {current_version})")
-                        self._latest_app_version = None
-                        self.app_update_available = False
-                        QTimer.singleShot(0, self._hide_update_button)
+                        # Use QTimer to safely update UI from worker thread
+                        QTimer.singleShot(0, lambda: self._safe_hide_update_button())
                         self._update_check_attempts = self._max_update_check_attempts
                         return
 
-                    self._latest_app_version = latest_version
-                    self.app_update_available = True
+                    silent_print(f"Update check: Newer version found! Latest: {latest_version}, Current: {current_version}")
+                    # Use QTimer to safely update UI from worker thread
+                    QTimer.singleShot(0, lambda: self._safe_set_update_available(latest_version, current_version))
 
                     if self._handle_required_update(latest_version, current_version):
+                        silent_print("Update check: Required update handled, skipping UI")
                         self._update_check_attempts = self._max_update_check_attempts
                         return
 
                     if self.suppress_update_notifications:
                         silent_print("Update notifications suppressed by user preference.")
-                        QTimer.singleShot(0, self._suppress_update_ui)
+                        QTimer.singleShot(0, lambda: self._safe_suppress_update_ui())
                         self._update_check_attempts = self._max_update_check_attempts
                         return
                     
-                    silent_print(f"Update detected: latest={latest_version}, current={current_version}")
-                    # Newer version available - show button via QTimer
-                    # Use QTimer.singleShot to safely update UI from worker thread
-                    QTimer.singleShot(0, lambda: self._show_update_button(latest_version, current_version))
+                    silent_print(f"Update detected: latest={latest_version}, current={current_version} - showing UI")
+                    # Newer version available - show button and banner
+                    # Store versions in instance variables and use QTimer to call from main thread
+                    self._pending_latest_version = str(latest_version)
+                    self._pending_current_version = str(current_version)
+                    # Use QTimer.singleShot with explicit variable capture - ensure it executes on main thread
+                    # Store result and use a timer to check periodically, or use QApplication.postEvent
+                    from PySide6.QtWidgets import QApplication
+                    # Post a custom event to ensure main thread execution
+                    QApplication.postEvent(self, UpdateCheckEvent(latest_version, current_version))
                     self._update_check_attempts = self._max_update_check_attempts
                 else:
                     # Failed to get version - don't show button
-                    silent_print("Failed to check for updates")
-                    self._schedule_update_retry(3000)
+                    silent_print("Failed to check for updates - no version returned")
+                    if not getattr(self, '_gui_closing', False):
+                        QTimer.singleShot(3000, lambda: self._safe_schedule_update_retry())
             except Exception as e:
                 silent_print(f"Error checking for updates: {e}")
-                self._schedule_update_retry(3000)
+                import traceback
+                traceback.print_exc()
+                if not getattr(self, '_gui_closing', False):
+                    QTimer.singleShot(3000, lambda: self._safe_schedule_update_retry())
             finally:
-                self._update_check_in_progress = False
+                # Use QTimer to safely update flag from worker thread
+                if not getattr(self, '_gui_closing', False):
+                    QTimer.singleShot(0, lambda: setattr(self, '_update_check_in_progress', False) if hasattr(self, '_update_check_in_progress') else None)
         
         # Run in background thread to avoid blocking
         import threading
         check_thread = threading.Thread(target=check_updates_worker, daemon=True)
         check_thread.start()
+        # Store thread reference for cleanup (optional, daemon threads will be killed on exit)
+        if not hasattr(self, '_update_check_threads'):
+            self._update_check_threads = []
+        self._update_check_threads.append(check_thread)
+    
+    def _safe_hide_update_button(self):
+        """Safely hide update button - checks if GUI still exists"""
+        try:
+            if not getattr(self, '_gui_closing', False):
+                self._hide_update_button()
+        except (RuntimeError, AttributeError) as e:
+            silent_print(f"Safe hide update button failed (GUI closing?): {e}")
+            pass  # GUI destroyed, ignore
+    
+    def _safe_set_update_available(self, latest_version, current_version):
+        """Safely set update available state - checks if GUI still exists"""
+        try:
+            if not getattr(self, '_gui_closing', False):
+                self._latest_app_version = latest_version
+                self.app_update_available = True
+        except (RuntimeError, AttributeError) as e:
+            silent_print(f"Safe set update available failed (GUI closing?): {e}")
+            pass  # GUI destroyed, ignore
+    
+    def _safe_suppress_update_ui(self):
+        """Safely suppress update UI - checks if GUI still exists"""
+        try:
+            if not getattr(self, '_gui_closing', False):
+                self._suppress_update_ui()
+        except (RuntimeError, AttributeError) as e:
+            silent_print(f"Safe suppress update UI failed (GUI closing?): {e}")
+            pass  # GUI destroyed, ignore
+    
+    def customEvent(self, event):
+        """Handle custom events from worker threads"""
+        if isinstance(event, UpdateCheckEvent):
+            try:
+                silent_print(f"customEvent received: latest={event.latest_version}, current={event.current_version}")
+                if not getattr(self, '_gui_closing', False):
+                    self._process_update_check_result(event.latest_version, event.current_version)
+            except Exception as e:
+                silent_print(f"Error handling UpdateCheckEvent: {e}")
+                import traceback
+                traceback.print_exc()
+        else:
+            super().customEvent(event)
+    
+    def _process_update_check_result(self, latest_version, current_version):
+        """Process update check result on main thread - called from QTimer callback"""
+        try:
+            silent_print(f"_process_update_check_result called: latest={latest_version}, current={current_version}")
+            if not getattr(self, '_gui_closing', False):
+                self._safe_show_update_button(latest_version, current_version)
+        except Exception as e:
+            silent_print(f"Error processing update check result: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    def _safe_show_update_button(self, latest_version, current_version):
+        """Safely show update button - checks if GUI still exists"""
+        try:
+            if not getattr(self, '_gui_closing', False):
+                silent_print(f"_safe_show_update_button called with latest={latest_version}, current={current_version}")
+                # Directly call the method - we're already on main thread via QMetaObject.invokeMethod
+                self._show_update_button(latest_version, current_version)
+            else:
+                silent_print("_safe_show_update_button: GUI closing, skipping")
+        except (RuntimeError, AttributeError) as e:
+            silent_print(f"Safe show update button failed (GUI closing?): {e}")
+            import traceback
+            traceback.print_exc()
+            pass  # GUI destroyed, ignore
+        except Exception as e:
+            silent_print(f"Unexpected error in _safe_show_update_button: {e}")
+            import traceback
+            traceback.print_exc()
+    
+    def _safe_schedule_update_retry(self):
+        """Safely schedule update retry - checks if GUI still exists"""
+        try:
+            if not getattr(self, '_gui_closing', False):
+                self._schedule_update_retry(3000)
+        except (RuntimeError, AttributeError) as e:
+            silent_print(f"Safe schedule update retry failed (GUI closing?): {e}")
+            pass  # GUI destroyed, ignore
     
     def _show_update_button(self, latest_version, current_version):
-        """Show update button (called from main thread)"""
+        """Show update banner (called from main thread) - only banner, no buttons"""
         try:
-            # Newer version available - create and show button
-            if not hasattr(self, 'update_btn_right'):
-                self.update_btn_right = QPushButton(f"{latest_version} now available")
-                self.update_btn_right.clicked.connect(lambda: self.show_update_release_notes(latest_version))
-                self.update_layout.addWidget(self.update_btn_right)
-            else:
-                # Update existing button
-                self.update_btn_right.setText(f"{latest_version} now available")
-            
-            self.update_btn_right.setToolTip(f"New version {latest_version} available (current: {current_version})")
-            self.update_btn_right.setVisible(True)
+            silent_print(f"_show_update_button called: latest={latest_version}, current={current_version}")
+            # Set update state
             self.app_update_available = True
             self._latest_app_version = latest_version
             silent_print(f"Newer version available: {latest_version} (current: {current_version})")
+            silent_print(f"app_update_available={self.app_update_available}, _latest_app_version={self._latest_app_version}")
+            
+            # Update badges and banner only - no buttons
             self.update_update_badges()
-            # 2025-11-09 21:42:00 UTC - original: Inline version tab notice was never refreshed when a new update was detected.
-            self._refresh_update_notice_label()
-            self._refresh_top_right_update_cta()
-            if not getattr(self, '_update_prompt_triggered', False):
-                self._update_prompt_triggered = True
-                QTimer.singleShot(600, lambda: self._show_update_available_dialog(latest_version, current_version))
+            silent_print("Calling _refresh_update_notice_label...")
+            self._refresh_update_notice_label()  # Updates main GUI banner only
+            
+            # Force banner refresh again after a short delay to ensure it's visible
+            QTimer.singleShot(100, self._refresh_update_notice_label)
         except Exception as e:
-            silent_print(f"Error showing update button: {e}")
+            silent_print(f"Error showing update banner: {e}")
+            import traceback
+            traceback.print_exc()
 
     def _hide_update_button(self):
-        """Hide update button when no update is available"""
+        """Hide update UI when no update is available"""
+        # Remove any update buttons if they exist
         if hasattr(self, 'update_btn_right') and self.update_btn_right:
             self.update_btn_right.setVisible(False)
+            self.update_btn_right.deleteLater()
+            self.update_btn_right = None
         self.app_update_available = False
         self._update_prompt_triggered = False
         self.update_update_badges()
-        # 2025-11-09 21:42:00 UTC - original: Version tab banner stayed visible even after update dismissal.
         self._refresh_update_notice_label()
-        self._refresh_top_right_update_cta()
-        self._refresh_version_download_cta()
     
     def _suppress_update_ui(self):
         """Hide CTA elements when notifications are suppressed but keep state for manual checks."""
+        # Remove any update buttons if they exist
         if hasattr(self, 'update_btn_right') and self.update_btn_right:
             self.update_btn_right.setVisible(False)
+            self.update_btn_right.deleteLater()
+            self.update_btn_right = None
         self.update_update_badges()
         self._refresh_update_notice_label()
-        self._refresh_top_right_update_cta()
-        self._refresh_version_download_cta()
 
     def _create_badge_icon(self, diameter=10, color="#FF8800"):
         """Create a circular icon used for update badges."""
@@ -22413,7 +22876,7 @@ read -n 1
         """Update visual badges indicating update availability."""
         has_update = self.has_update_available()
         if hasattr(self, 'settings_badge') and self.settings_badge:
-            # 2025-11-09 22:10:00 UTC - original: An orange badge appeared beside the Settings button; requirement now keeps it hidden.
+            # Keep settings badge hidden - only banner is shown
             self.settings_badge.setVisible(False)
 
         if hasattr(self, '_active_settings_tab_widget') and self._active_settings_tab_widget is not None:
@@ -22424,9 +22887,8 @@ read -n 1
                     self._apply_update_tab_badge(tab_widget, tab_index, has_update)
             except Exception as badge_err:
                 silent_print(f"Error refreshing update badge icon: {badge_err}")
-        # 2025-11-09 21:42:00 UTC - original: Badge refresh skipped the Version tab banner, leaving stale information.
+        # Only refresh the banner - no buttons
         self._refresh_update_notice_label()
-        self._refresh_top_right_update_cta()
 
     def _apply_update_tab_badge(self, tab_widget, tab_index, update_available):
         """Set or clear the update badge icon on the Updates tab."""
@@ -22438,34 +22900,9 @@ read -n 1
             tab_widget.setTabIcon(tab_index, QIcon())
 
     def _show_update_available_dialog(self, latest_version, current_version):
-        """Prompt the user that a new application version is available."""
-        try:
-            if not self.has_update_available():
-                return
-            if self.suppress_update_notifications:
-                silent_print("Update dialog suppressed by user preference.")
-                return
-            message = f"Innioasis Updater {latest_version} is now available to download."
-            details = f"You're currently running {current_version}." if current_version else "A newer build is ready to install."
-            dialog = QMessageBox(self)
-            dialog.setIcon(QMessageBox.Information)
-            dialog.setWindowTitle("Update Available")
-            dialog.setText(message)
-            dialog.setInformativeText(
-                details + "\n\nSelect “Download Now” and we'll open the Version tab and start downloading the latest build automatically."
-            )
-            download_btn = dialog.addButton("Download Now", QMessageBox.AcceptRole)
-            later_btn = dialog.addButton("Later", QMessageBox.RejectRole)
-            dialog.setDefaultButton(download_btn)
-            dialog.exec()
-            if dialog.clickedButton() == download_btn:
-                self._launch_auto_update_download()
-        except Exception as e:
-            silent_print(f"Error showing update prompt: {e}")
-            try:
-                QTimer.singleShot(0, lambda: self.show_settings_dialog("updates", auto_download_latest=True))
-            except Exception:
-                pass
+        """Removed: Update dialog - users can click banner to go to settings"""
+        # Dialog removed - only banner is shown, clicking banner opens settings
+        pass
 
     def get_latest_github_version(self):
         """Get the latest release version from GitHub (non-blocking, called from worker thread)."""
@@ -22610,18 +23047,13 @@ read -n 1
 
     def run_updater(self):
         """Run the updater.py script"""
-        try:
-            updater_path = Path("updater.py")
-            if updater_path.exists():
-                # Close the current application
-                self.close()
-                
-                # Run the updater
-                subprocess.Popen([sys.executable, str(updater_path)])
-            else:
-                QMessageBox.error(self, "Error", "updater.py not found!")
-        except Exception as e:
-            QMessageBox.error(self, "Error", f"Failed to run updater.py: {e}")
+        # REMOVED: Legacy updater.py method no longer used - app handles updates internally
+        # Updates are now handled directly by the app
+        QMessageBox.information(
+            self,
+            "Update Available",
+            "Please use the 'Download Selected Version' button in Settings > Update Available / Version tab to update the app."
+        )
 
     def hide_left_panel(self):
         """Hide the left panel to give more space to the right panel during installation"""
