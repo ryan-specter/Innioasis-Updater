@@ -15914,10 +15914,17 @@ class FirmwareDownloaderGUI(QMainWindow):
         """Browse and select files/directories to process via Smart Drop (rom.zip, update.zip, APK, themes, audio, etc.)"""
         from PySide6.QtWidgets import QFileDialog, QMessageBox, QDialog, QVBoxLayout, QPushButton, QLabel
         
+        # Check ADB status to determine which buttons should be enabled
+        snapshot = self.get_cached_adb_status()
+        adb_status = snapshot.get('status', 'no_adb')
+        has_adb = adb_status != 'no_adb'
+        has_root = adb_status == 'adb_root'
+        has_usb_storage = self._detect_usb_storage_drive() is not None
+        
         # Show task selection dialog for discoverability
         task_dialog = QDialog(self)
         task_dialog.setWindowTitle("Select Task")
-        task_dialog.setMinimumWidth(400)
+        task_dialog.setMinimumWidth(450)
         layout = QVBoxLayout(task_dialog)
         
         label = QLabel("What would you like to do?")
@@ -15925,26 +15932,43 @@ class FirmwareDownloaderGUI(QMainWindow):
         layout.addWidget(label)
         
         # Task buttons - all route through Smart Drop which handles intelligently
+        # Format: (task_name, description, requires_adb, requires_root)
         tasks = [
-            ("Install APK", "Install Android application files (.apk)"),
-            ("Install Themes from Folder", "Install Rockbox themes from a folder"),
-            ("Install Themes from Zip", "Install Rockbox themes from a zip file"),
-            ("Install Device Update", "Install firmware update (rom.zip or update.zip)"),
-            ("Transfer Files", "Transfer music, images, or other files to device"),
-            ("Browse Files", "Select any files or folders (Smart Drop will handle automatically)")
+            ("Install APK", "Install Android application files (.apk)", True, False),
+            ("Install Y1 or Rockbox Themes from Folder", "Install Y1 or Rockbox themes from a folder", False, False),
+            ("Install Y1 or Rockbox Themes from Zip", "Install Y1 or Rockbox themes from a zip file", False, False),
+            ("Install Device Update", "Install firmware update (rom.zip or update.zip)", False, False),
+            ("Transfer Files", "Transfer music, images, or other files to device", False, False),
+            ("Browse Files", "Select any files or folders (Smart Drop will handle automatically)", False, False)
         ]
         
         selected_task = None
+        task_buttons = {}
         
-        def create_task_button(task_name, description):
+        def create_task_button(task_name, description, requires_adb, requires_root):
             btn = QPushButton(f"{task_name}\n{description}")
             btn.setMinimumHeight(60)
             btn.setStyleSheet("text-align: left; padding: 10px;")
+            
+            # Enable/disable based on requirements
+            enabled = True
+            if requires_adb and not has_adb:
+                enabled = False
+                btn.setToolTip("ADB connection required (USB or Wi-Fi)")
+            elif requires_root and not has_root:
+                enabled = False
+                btn.setToolTip("Root access required")
+            
+            btn.setEnabled(enabled)
+            if not enabled:
+                btn.setStyleSheet("text-align: left; padding: 10px; color: gray;")
+            
             btn.clicked.connect(lambda checked, t=task_name: task_dialog.accept() or setattr(task_dialog, '_selected_task', t))
             return btn
         
-        for task_name, description in tasks:
-            btn = create_task_button(task_name, description)
+        for task_name, description, requires_adb, requires_root in tasks:
+            btn = create_task_button(task_name, description, requires_adb, requires_root)
+            task_buttons[task_name] = btn
             layout.addWidget(btn)
         
         cancel_btn = QPushButton("Cancel")
@@ -15954,71 +15978,81 @@ class FirmwareDownloaderGUI(QMainWindow):
         if task_dialog.exec() != QDialog.Accepted:
             return
         
-        selected_task = getattr(task_dialog, '_selected_task', "Browse Files")
+        # All tasks route through Smart Drop - only difference is file/folder selection dialog
+        # Format: (task_name, file_filter, default_to_folders)
+        # file_filter: None = all files, "*.zip" = zip files, "*.apk" = apk files, etc.
+        # default_to_folders: True = show folder dialog first, False = show file dialog first
         
-        # All tasks use the same Smart Drop handler - it intelligently handles file types
-        # Show appropriate file dialog based on task (but accept any files)
+        task_configs = {
+            "Install APK": ("*.apk", False),
+            "Install Y1 or Rockbox Themes from Folder": (None, True),
+            "Install Y1 or Rockbox Themes from Zip": ("*.zip", False),
+            "Install Device Update": ("*.zip", False),
+            "Transfer Files": ("*.mp3 *.flac *.ogg *.wav *.m4a *.aac *.jpg *.jpeg *.png *.gif *.bmp", False),
+            "Browse Files": (None, False)
+        }
+        
+        selected_task = getattr(task_dialog, '_selected_task', "Browse Files")
+        file_filter, default_to_folders = task_configs.get(selected_task, (None, False))
+        
         selected_paths = []
         
-        if selected_task == "Install APK":
+        # Show file or folder dialog based on task preference, but allow both
+        if default_to_folders:
+            # Start with folder selection
+            while True:
+                folder_path = QFileDialog.getExistingDirectory(
+                    self,
+                    f"Select Folder{'s' if selected_paths else ''} (Click Cancel when done)",
+                    "",
+                    QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks
+                )
+                if folder_path:
+                    selected_paths.append(folder_path)
+                    another = QMessageBox.question(
+                        self,
+                        "Add Another Folder?",
+                        f"Added: {Path(folder_path).name}\n\nWould you like to select another folder or add files?",
+                        QMessageBox.Yes | QMessageBox.No,
+                        QMessageBox.No
+                    )
+                    if another == QMessageBox.No:
+                        break
+                else:
+                    break
+            
+            # Ask if they want to add files
+            if selected_paths:
+                add_files = QMessageBox.question(
+                    self,
+                    "Add Files?",
+                    f"Selected {len(selected_paths)} folder(s).\n\nWould you like to also select files?",
+                    QMessageBox.Yes | QMessageBox.No,
+                    QMessageBox.No
+                )
+                if add_files == QMessageBox.Yes:
+                    filter_str = f"{selected_task} Files ({file_filter});;All Files (*)" if file_filter else "All Files (*)"
+                    file_paths, _ = QFileDialog.getOpenFileNames(
+                        self,
+                        "Select Files to Add",
+                        "",
+                        filter_str
+                    )
+                    if file_paths:
+                        selected_paths.extend(file_paths)
+        else:
+            # Start with file selection
+            filter_str = f"{selected_task} Files ({file_filter});;All Files (*)" if file_filter else "All Files (*)"
             file_paths, _ = QFileDialog.getOpenFileNames(
                 self,
-                "Select APK Files to Install",
+                f"Select Files{' for ' + selected_task if selected_task != 'Browse Files' else ''}",
                 "",
-                "APK Files (*.apk);;All Files (*)"
-            )
-            if file_paths:
-                selected_paths.extend(file_paths)
-        elif selected_task == "Install Themes from Folder":
-            folder_path = QFileDialog.getExistingDirectory(
-                self,
-                "Select Theme Folder",
-                "",
-                QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks
-            )
-            if folder_path:
-                selected_paths.append(folder_path)
-        elif selected_task == "Install Themes from Zip":
-            file_paths, _ = QFileDialog.getOpenFileNames(
-                self,
-                "Select Theme Zip Files",
-                "",
-                "ZIP Files (*.zip);;All Files (*)"
-            )
-            if file_paths:
-                selected_paths.extend(file_paths)
-        elif selected_task == "Install Device Update":
-            file_paths, _ = QFileDialog.getOpenFileNames(
-                self,
-                "Select Firmware Update Files (rom.zip or update.zip)",
-                "",
-                "ZIP Files (*.zip);;All Files (*)"
-            )
-            if file_paths:
-                selected_paths.extend(file_paths)
-        elif selected_task == "Transfer Files":
-            file_paths, _ = QFileDialog.getOpenFileNames(
-                self,
-                "Select Files to Transfer",
-                "",
-                "All Supported Files (*.mp3 *.flac *.ogg *.wav *.m4a *.aac *.jpg *.jpeg *.png *.gif *.bmp);;"
-                "Audio Files (*.mp3 *.flac *.ogg *.wav *.m4a *.aac);;"
-                "Image Files (*.jpg *.jpeg *.png *.gif *.bmp);;All Files (*)"
-            )
-            if file_paths:
-                selected_paths.extend(file_paths)
-        else:  # "Browse Files" or default
-            # First try files
-            file_paths, _ = QFileDialog.getOpenFileNames(
-                self,
-                "Select Files or Folders (or click Cancel to select folders)",
-                "",
-                "All Files (*)"
+                filter_str
             )
             if file_paths:
                 selected_paths.extend(file_paths)
             
-            # Then ask if they want to add folders
+            # Ask if they want to add folders
             if selected_paths:
                 add_folders = QMessageBox.question(
                     self,
@@ -16061,7 +16095,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                     while True:
                         folder_path = QFileDialog.getExistingDirectory(
                             self,
-                            "Select Folder to Install or Transfer (Click Cancel when done)",
+                            "Select Folder (Click Cancel when done)",
                             "",
                             QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks
                         )
@@ -16317,14 +16351,8 @@ class FirmwareDownloaderGUI(QMainWindow):
             reply = QMessageBox.question(
                 self,
                 "USB Storage Mode Detected",
-                "Your Y1 appears to be in USB Storage Mode.\n\n"
-                "Fast Update requires ADB access and cannot proceed while USB Storage Mode is active.\n"
-                "The update script (update.sh) needs to access update.zip on the Y1 itself, which is "
-                "blocked when USB Storage Mode is active.\n\n"
-                "Please turn off USB Storage Mode on your Y1:\n"
-                "1. Go to Main Menu > System > USB Mode\n"
-                "2. Select 'ADB' or 'Charge Only'\n"
-                "3. Click OK after you have turned off USB Storage Mode\n\n"
+                "Fast Update requires ADB access and cannot proceed while USB Storage Mode is active.\n\n"
+                "Please turn off USB Storage mode, then click OK.\n\n"
                 f"Detected Y1 drive: {usb_drive}",
                 QMessageBox.Ok | QMessageBox.Cancel,
                 QMessageBox.Ok
@@ -16454,14 +16482,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                 reply = QMessageBox.question(
                     self,
                     "USB Storage Mode Detected",
-                    "Your Y1 appears to be in USB Storage Mode.\n\n"
-                    "Fast Update requires ADB access and cannot proceed while USB Storage Mode is active.\n"
-                    "The update script (update.sh) needs to access update.zip on the Y1 itself, which is "
-                    "blocked when USB Storage Mode is active.\n\n"
-                    "Please turn off USB Storage Mode on your Y1:\n"
-                    "1. Go to Main Menu > System > USB Mode\n"
-                    "2. Select 'ADB' or 'Charge Only'\n"
-                    "3. Click OK after you have turned off USB Storage Mode\n\n"
+                    "Fast Update requires ADB access and cannot proceed while USB Storage Mode is active.\n\n"
+                    "Please turn off USB Storage mode, then click OK.\n\n"
                     f"Detected Y1 drive: {usb_drive}",
                     QMessageBox.Ok | QMessageBox.Cancel,
                     QMessageBox.Ok
@@ -21134,26 +21156,8 @@ class FirmwareDownloaderGUI(QMainWindow):
     def install_apk(self, apk_path):
         """Install APK file on device via ADB"""
         try:
-            # Check if USB Storage mode might be active and prompt user to turn it off
-            usb_drive = self._detect_usb_storage_drive()
-            if usb_drive:
-                reply = QMessageBox.question(
-                    self,
-                    "USB Storage Mode Detected",
-                    "Your Y1 appears to be in USB Storage Mode.\n\n"
-                    "APK installation requires ADB access, which is blocked when USB Storage Mode is active.\n\n"
-                    "Please turn off USB Storage Mode on your Y1:\n"
-                    "1. Go to Main Menu > System > USB Mode\n"
-                    "2. Select 'ADB' or 'Charge Only'\n"
-                    "3. Click OK to continue with APK installation\n\n"
-                    f"Detected Y1 drive: {usb_drive}",
-                    QMessageBox.Ok | QMessageBox.Cancel,
-                    QMessageBox.Ok
-                )
-                if reply == QMessageBox.Cancel:
-                    silent_print("User cancelled APK installation - USB Storage Mode active")
-                    return
-            
+            # Note: APK installation will work via ADB if available, or fail gracefully if USB Storage Mode is active
+            # No need to prompt user to turn off USB Storage Mode - they can use USB Storage Mode for file transfers instead
             ready, snapshot = self._ensure_adb_capability('connected', "APK installation")
             if not ready:
                 return
@@ -21505,10 +21509,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                 "Theme Installation Failed",
                 "Theme installation failed because the device storage is read-only.\n\n"
                 "This usually happens when USB Storage Mode is enabled.\n\n"
-                "Please enable USB Storage Mode on your Y1:\n"
-                "1. Go to Main Menu > System > USB Mode\n"
-                "2. Select 'USB Storage'\n"
-                "3. Try installing the theme again"
+                "Please enable USB Storage mode and try installing the theme again."
             )
     
     def _install_themes_via_usb(self, theme_folder_paths, usb_drive_path):
