@@ -5843,8 +5843,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         # Check ADB device status at startup (non-blocking via worker thread)
         QTimer.singleShot(100, self.start_adb_check_worker)
-        # Schedule update check early so users see update prompts immediately
-        QTimer.singleShot(300, self.check_for_updates_and_show_button)
+        # Schedule update check early so users see update prompts immediately (independent of settings dialog)
+        QTimer.singleShot(300, self._run_independent_update_check)
         
         # Initialize status clear timer for auto-clearing orphaned messages
         self.status_clear_timer = None
@@ -22242,6 +22242,19 @@ read -n 1
         download_thread = threading.Thread(target=download_worker, daemon=True)
         download_thread.start()
 
+    def _run_independent_update_check(self):
+        """Run update check independently of settings dialog - updates main GUI banner immediately"""
+        try:
+            # Reset attempt counter for independent check
+            self._update_check_attempts = 0
+            self._update_check_in_progress = False
+            # Run the update check
+            self.check_for_updates_and_show_button()
+        except Exception as e:
+            silent_print(f"Error running independent update check: {e}")
+            # Retry after delay
+            QTimer.singleShot(2000, self._run_independent_update_check)
+    
     def _schedule_update_retry(self, delay_ms=3000):
         """Retry update detection after a delay when initial attempts fail."""
         try:
