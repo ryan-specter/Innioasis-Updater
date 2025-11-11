@@ -23,7 +23,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 import urllib.parse
 from xml.etree import ElementTree as ET
-from datetime import datetime, date, timedelta
+from datetime import datetime, date
 import random
 # 2025-11-09 12:00:00 - original: PySide6.QtWidgets import did not include QListView, QTreeView, or QAbstractItemView which are now required for the transfer picker dialog.
 from PySide6.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QHBoxLayout,
@@ -31,9 +31,8 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QHBoxLayo
                                QLabel, QComboBox, QProgressBar, QMessageBox,
                                QGroupBox, QSplitter, QStackedWidget, QCheckBox, QProgressDialog,
                                QFileDialog, QDialog, QTabWidget, QScrollArea, QTextBrowser, QLineEdit,
-                               QTreeWidget, QTreeWidgetItem, QTreeView, QAbstractItemView, QDialogButtonBox,
-                               QFileSystemModel, QInputDialog, QHeaderView)
-from PySide6.QtCore import QThread, Signal, Qt, QSize, QTimer, QPropertyAnimation, QEasingCurve, QObject, QMimeData, QEvent, QDir
+                               QTreeWidget, QTreeWidgetItem, QTreeView, QAbstractItemView)
+from PySide6.QtCore import QThread, Signal, Qt, QSize, QTimer, QPropertyAnimation, QEasingCurve, QObject, QMimeData, QEvent
 from PySide6.QtGui import (QFont, QPixmap, QTextDocument, QPalette, QDragEnterEvent,
                            QDropEvent, QIcon, QImage, QPainter, QColor)
 import platform
@@ -53,7 +52,7 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.8.3"
+APP_VERSION = "1.8.2.4"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
 
@@ -3459,13 +3458,9 @@ class FileTransferWorker(QThread):
                         error_msg = '\n'.join(transfer_output_lines) if transfer_output_lines else "Unknown error"
                         # Check for read-only file system error - indicates USB Storage mode is active
                         if "read-only file system" in error_msg.lower() or "Read-only file system" in error_msg:
-                            silent_print(
-                                "Read-only file system detected - USB Storage mode likely active, falling back to USB storage mode"
-                            )
+                            silent_print("Read-only file system detected - USB Storage mode likely active, falling back to USB storage mode")
                             # Emit signal to trigger USB storage mode fallback
-                            self.status_update.emit(
-                                "ADB transfer failed (read-only), switching to USB storage mode..."
-                            )
+                            self.status_update.emit("ADB transfer failed (read-only), switching to USB storage mode...")
                             # Store failed file for USB transfer
                             failed_files.append(f"{path.name} (read-only, will retry via USB)")
                             # Continue to next file - USB fallback will be handled by main thread
@@ -4022,8 +4017,8 @@ class ThemeInstallWorker(QThread):
                             silent_print(f"Read-only file system detected for theme '{theme_name}' - USB Storage mode likely active")
                             read_only_failed_themes.append(theme_folder_path)
                             self.status_update.emit(f"✗ Theme '{theme_name}' failed (read-only), will retry via USB storage mode")
-                    else:
-                        self.status_update.emit(f"✗ Failed to install theme '{theme_name}'")
+                        else:
+                            self.status_update.emit(f"✗ Failed to install theme '{theme_name}'")
                         
                 except Exception as e:
                     self.status_update.emit(f"✗ Error installing theme: {str(e)[:100]}")
@@ -5190,10 +5185,11 @@ class ADBStatusBroker(QObject):
                 'wireless_device_id': wireless_device_id,
             })
             
-                connection_target = (self.gui.load_wireless_adb_hostname() or 
-                                     self.gui.load_wireless_adb_ip())
+            connection_target = (
+                self.gui.load_wireless_adb_hostname() or self.gui.load_wireless_adb_ip()
+            )
             details['wireless_saved_target'] = connection_target
-                now = time.time()
+            now = time.time()
             should_attempt_wifi = connection_target and not wireless_device_id
             if should_attempt_wifi:
                 allow_reconnect = False
@@ -5201,25 +5197,27 @@ class ADBStatusBroker(QObject):
                     allow_reconnect = now >= self._auto_reconnect_until
                     last_attempt = self._last_wireless_connect_attempt
                 if allow_reconnect and (now - last_attempt) > 5:
-                        with self._state_lock:
-                            self._last_wireless_connect_attempt = now
-                        connect_target = connection_target if ':' in connection_target else f"{connection_target}:5555"
-                        try:
-                            silent_print(f"ADBStatusBroker: attempting wireless reconnect to {connect_target}")
-                            subprocess.run(
-                                [str(adb_path), 'connect', connect_target],
-                                capture_output=True,
-                                text=True,
-                                timeout=4,
-                                env=env,
-                                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
-                            )
-                            all_devices, usb_device_id, wireless_device_id = _list_devices()
-                            details['all_devices'] = list(all_devices)
-                            details['usb_device_id'] = usb_device_id
-                            details['wireless_device_id'] = wireless_device_id
-                        except Exception as reconnect_error:
-                            silent_print(f"ADBStatusBroker: wireless reconnect failed: {reconnect_error}")
+                    with self._state_lock:
+                        self._last_wireless_connect_attempt = now
+                    connect_target = (
+                        connection_target if ':' in connection_target else f"{connection_target}:5555"
+                    )
+                    try:
+                        silent_print(f"ADBStatusBroker: attempting wireless reconnect to {connect_target}")
+                        subprocess.run(
+                            [str(adb_path), 'connect', connect_target],
+                            capture_output=True,
+                            text=True,
+                            timeout=4,
+                            env=env,
+                            creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                        )
+                        all_devices, usb_device_id, wireless_device_id = _list_devices()
+                        details['all_devices'] = list(all_devices)
+                        details['usb_device_id'] = usb_device_id
+                        details['wireless_device_id'] = wireless_device_id
+                    except Exception as reconnect_error:
+                        silent_print(f"ADBStatusBroker: wireless reconnect failed: {reconnect_error}")
             
             connected_device_id = None
             is_wireless = False
@@ -5618,341 +5616,6 @@ class ThemeMonitor(QObject):
             return "light"
 
 
-class SmartDropFileSystemModel(QFileSystemModel):
-    """Custom file system model that highlights known Y1 volumes."""
-    
-    def __init__(self, y1_roots=None, parent=None):
-        super().__init__(parent)
-        self._y1_roots = []
-        self.set_y1_roots(y1_roots or [])
-    
-    def set_y1_roots(self, paths):
-        normalized = []
-        for path in paths:
-            if not path:
-                continue
-            try:
-                normalized.append(self._normalize_path(path))
-            except Exception:
-                continue
-        self._y1_roots = normalized
-    
-    def data(self, index, role=Qt.DisplayRole):
-        value = super().data(index, role)
-        if role != Qt.DisplayRole or not index.isValid():
-            return value
-        
-        try:
-            path = self._normalize_path(self.filePath(index))
-        except Exception:
-            return value
-        
-        for y1_root in self._y1_roots:
-            if self._paths_match(path, y1_root):
-                display_name = Path(y1_root).name or Path(y1_root).drive or value
-                return f"{display_name} (Y1)"
-        return value
-    
-    @staticmethod
-    def _normalize_path(path):
-        path_obj = Path(path)
-        try:
-            return Path(os.path.abspath(os.path.expanduser(str(path_obj))))
-        except Exception:
-            return path_obj
-    
-    @staticmethod
-    def _paths_match(left, right):
-        try:
-            left_norm = os.path.normcase(str(left))
-            right_norm = os.path.normcase(str(right))
-            return left_norm == right_norm
-        except Exception:
-            return False
-
-
-class SmartDropBrowseDialog(QDialog):
-    """Custom Smart Drop picker with contextual actions and Y1 awareness."""
-    
-    DEFAULT_TITLE = "Smart Drop: Select themes, songs, files, folders, rom/update files, updates, apps, etc"
-    MANAGE_TITLE = "Manage Y1 files"
-    AUDIO_EXTENSIONS = {'.mp3', '.flac', '.wav', '.aac', '.ogg', '.m4a', '.ape', '.alac', '.wv'}
-    UPDATE_PREFIXES = ("update", "rom")
-    
-    def __init__(self, parent=None, initial_path=None, y1_paths=None):
-        super().__init__(parent)
-        self.setModal(True)
-        self.setWindowTitle(self.DEFAULT_TITLE)
-        self.resize(900, 560)
-        
-        self.selected_paths = []
-        self.y1_roots = [self._normalize(Path(p)) for p in (y1_paths or []) if p]
-        self.current_directory = self._normalize(Path(initial_path or Path.home()))
-        
-        layout = QVBoxLayout(self)
-        
-        self.path_display = QLineEdit(str(self.current_directory))
-        self.path_display.setReadOnly(True)
-        layout.addWidget(self.path_display)
-        
-        splitter = QSplitter()
-        layout.addWidget(splitter, 1)
-        
-        self.dir_model = SmartDropFileSystemModel(self.y1_roots, self)
-        self.dir_model.setFilter(QDir.AllDirs | QDir.Drives | QDir.NoDotAndDotDot)
-        self.dir_model.setRootPath(QDir.rootPath())
-        
-        self.dir_view = QTreeView()
-        self.dir_view.setModel(self.dir_model)
-        self.dir_view.setHeaderHidden(True)
-        self.dir_view.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.dir_view.setSelectionMode(QAbstractItemView.SingleSelection)
-        splitter.addWidget(self.dir_view)
-        
-        self.file_model = SmartDropFileSystemModel(self.y1_roots, self)
-        self.file_model.setFilter(QDir.AllEntries | QDir.NoDotAndDotDot)
-        self.file_model.setRootPath(QDir.rootPath())
-        
-        self.file_view = QTreeView()
-        self.file_view.setModel(self.file_model)
-        self.file_view.setRootIsDecorated(False)
-        self.file_view.setAlternatingRowColors(True)
-        self.file_view.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.file_view.setSelectionMode(QAbstractItemView.ExtendedSelection)
-        self.file_view.setSortingEnabled(True)
-        self.file_view.sortByColumn(0, Qt.AscendingOrder)
-        header = self.file_view.header()
-        header.setStretchLastSection(False)
-        header.setSectionResizeMode(0, QHeaderView.Stretch)
-        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
-        splitter.addWidget(self.file_view)
-        
-        splitter.setStretchFactor(0, 1)
-        splitter.setStretchFactor(1, 3)
-        
-        button_layout = QHBoxLayout()
-        button_layout.addStretch()
-        
-        self.rename_button = QPushButton("Rename…")
-        self.rename_button.clicked.connect(self._rename_selected)
-        button_layout.addWidget(self.rename_button)
-        
-        self.send_folder_button = QPushButton("Send Current Folder")
-        self.send_folder_button.clicked.connect(self._send_current_folder)
-        button_layout.addWidget(self.send_folder_button)
-        
-        self.cancel_button = QPushButton("Cancel")
-        self.cancel_button.clicked.connect(self.reject)
-        button_layout.addWidget(self.cancel_button)
-        
-        self.action_button = QPushButton("Send to Smart Drop")
-        self.action_button.setDefault(True)
-        self.action_button.clicked.connect(self._primary_action)
-        button_layout.addWidget(self.action_button)
-        
-        layout.addLayout(button_layout)
-        
-        self.dir_view.selectionModel().currentChanged.connect(self._on_directory_changed)
-        self.file_view.doubleClicked.connect(self._on_double_clicked)
-        self.file_view.selectionModel().selectionChanged.connect(lambda *_: self._update_action_state())
-        
-        self._set_initial_directory(self.current_directory)
-        self._update_action_state()
-    
-    @staticmethod
-    def _normalize(path_obj):
-        try:
-            return Path(os.path.abspath(os.path.expanduser(str(path_obj))))
-        except Exception:
-            return Path(path_obj)
-    
-    def _set_initial_directory(self, directory):
-        if not directory.exists():
-            directory = Path.home()
-        self.set_directory(str(directory))
-        dir_index = self.dir_model.index(str(directory))
-        if dir_index.isValid():
-            self.dir_view.setCurrentIndex(dir_index)
-            self.dir_view.scrollTo(dir_index, QAbstractItemView.PositionAtCenter)
-    
-    def set_directory(self, directory_path):
-        directory = self._normalize(Path(directory_path))
-        if not directory.exists():
-            return
-        self.current_directory = directory
-        self.path_display.setText(str(directory))
-        file_index = self.file_model.index(str(directory))
-        if file_index.isValid():
-            self.file_view.setRootIndex(file_index)
-        self._update_action_state()
-    
-    def _on_directory_changed(self, current, _previous):
-        path = self.dir_model.filePath(current)
-        if path:
-            self.set_directory(path)
-    
-    def _on_double_clicked(self, index):
-        if not index.isValid():
-            return
-        if self.file_model.isDir(index):
-            self.set_directory(self.file_model.filePath(index))
-        else:
-            self.selected_paths = [self.file_model.filePath(index)]
-            self.accept()
-    
-    def _send_current_folder(self):
-        self.selected_paths = [str(self.current_directory)]
-        self.accept()
-    
-    def _primary_action(self):
-        if self._in_y1_mode():
-            self._delete_selected()
-            return
-        
-        paths = self._selected_file_paths()
-        if not paths:
-            return
-        self.selected_paths = paths
-        self.accept()
-    
-    def _selected_file_paths(self):
-        selection = self.file_view.selectionModel().selectedRows()
-        paths = []
-        for index in selection:
-            if index.column() != 0:
-                continue
-            path = self.file_model.filePath(index)
-            if path and path not in paths:
-                paths.append(path)
-        return paths
-    
-    def _update_action_state(self):
-        in_y1 = self._in_y1_mode()
-        paths = self._selected_file_paths()
-        
-        self.setWindowTitle(self.MANAGE_TITLE if in_y1 else self.DEFAULT_TITLE)
-        self.rename_button.setVisible(in_y1)
-        self.rename_button.setEnabled(in_y1 and len(paths) == 1)
-        self.send_folder_button.setEnabled(True)
-        
-        if in_y1:
-            self.action_button.setText("Delete from Y1")
-            self.action_button.setToolTip("Delete the selected files or folders from the connected Y1 drive.")
-            self.action_button.setEnabled(bool(paths))
-        else:
-            label, tooltip = self._label_for_selection(paths)
-            self.action_button.setText(label)
-            if tooltip:
-                self.action_button.setToolTip(tooltip)
-            else:
-                self.action_button.setToolTip("")
-            self.action_button.setEnabled(bool(paths))
-    
-    def _label_for_selection(self, paths):
-        if not paths:
-            return "Send to Smart Drop", ""
-        
-        has_update = any(self._looks_like_update_zip(p) for p in paths)
-        if has_update:
-            return "Install Update on Y1", "Install the selected update package on your Y1."
-        
-        audio_files = [p for p in paths if self._looks_like_audio_file(p)]
-        if audio_files and len(audio_files) == len(paths):
-            if len(paths) == 1:
-                return "Send Track to Y1", "Send the selected track to your Y1."
-            return "Send Tracks to Y1", "Send the selected tracks to your Y1."
-        
-        if all(Path(p).is_dir() for p in paths):
-            return "Send Folders to Smart Drop", "Send the selected folders to Smart Drop."
-        
-        return "Send to Smart Drop", "Send the selected items to Smart Drop."
-    
-    def _in_y1_mode(self):
-        if not self.y1_roots:
-            return False
-        try:
-            directory = self.current_directory
-            for root in self.y1_roots:
-                if self._path_contains(directory, root):
-                    return True
-        except Exception:
-            pass
-        return False
-    
-    def _delete_selected(self):
-        paths = self._selected_file_paths()
-        if not paths:
-            return
-        message = "Delete the selected item from your Y1?" if len(paths) == 1 else f"Delete {len(paths)} selected items from your Y1?"
-        reply = QMessageBox.question(self, "Delete from Y1", message, QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-        if reply != QMessageBox.Yes:
-            return
-        
-        errors = []
-        for path in paths:
-            try:
-                target = Path(path)
-                if target.is_dir():
-                    shutil.rmtree(target)
-                else:
-                    target.unlink()
-            except Exception as delete_error:
-                errors.append(f"{path}: {delete_error}")
-        if errors:
-            QMessageBox.warning(self, "Delete Error", "Some items could not be deleted:\n\n" + "\n".join(errors))
-        
-        if hasattr(self.file_model, "refresh"):
-            self.file_model.refresh(self.file_model.index(str(self.current_directory)))
-        self._update_action_state()
-    
-    def _rename_selected(self):
-        paths = self._selected_file_paths()
-        if len(paths) != 1:
-            return
-        target = Path(paths[0])
-        new_name, ok = QInputDialog.getText(self, "Rename", "Enter a new name:", text=target.name)
-        if not ok or not new_name:
-            return
-        new_path = target.with_name(new_name)
-        if new_path.exists():
-            QMessageBox.warning(self, "Rename Error", f"Cannot rename to {new_name} because that name already exists.")
-            return
-        try:
-            target.rename(new_path)
-        except Exception as rename_error:
-            QMessageBox.warning(self, "Rename Error", f"Could not rename {target.name}:\n\n{rename_error}")
-            return
-        
-        if hasattr(self.file_model, "refresh"):
-            self.file_model.refresh(self.file_model.index(str(self.current_directory)))
-        self._update_action_state()
-    
-    def _looks_like_update_zip(self, path):
-        name = Path(path).name.lower()
-        if not name.endswith(".zip"):
-            return False
-        return name.startswith(self.UPDATE_PREFIXES)
-    
-    def _looks_like_audio_file(self, path):
-        return Path(path).suffix.lower() in self.AUDIO_EXTENSIONS
-    
-    def _path_contains(self, candidate, root):
-        try:
-            candidate_norm = self._normalize(candidate)
-            root_norm = self._normalize(root)
-            candidate_str = os.path.normcase(str(candidate_norm))
-            root_str = os.path.normcase(str(root_norm))
-            try:
-                common = os.path.commonpath([candidate_str, root_str])
-            except ValueError:
-                return False
-            return common == root_str
-        except Exception:
-            return False
-
-
 class DragDropStackedWidget(QStackedWidget):
     """Custom QStackedWidget that accepts drag-and-drop of files/folders"""
     
@@ -6295,6 +5958,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         self._disconnect_usb_dialog_shown = False
         # Load persistent flag for dual connection dialog (shown once per user)
         self._dual_connection_dialog_shown = self.load_dual_connection_dialog_shown()
+        # Ensure legacy updater.py launches the modern GUI if invoked directly
+        self._ensure_legacy_updater_redirect()
         # Track if auto-connect has been attempted for current USB device
         self._auto_connect_attempted_for_device = None
         
@@ -8595,7 +8260,12 @@ class FirmwareDownloaderGUI(QMainWindow):
         Returns True when idle, otherwise shows a friendly notice and returns False.
         """
         if getattr(self, 'adb_operation_in_progress', False):
-            silent_print(f"ADB busy notice suppressed for {action_description}")
+            notice = (
+                "Another ADB task is already running.\n\n"
+                "Please wait for the current Fast Update or device preparation to finish "
+                "before starting {}."
+            ).format(action_description)
+            QMessageBox.information(self, "ADB Busy", notice)
             return False
         return True
 
@@ -11041,14 +10711,14 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Check if app version is newer than latest available release
         # If so, enable show_older_releases by default and make checkbox read-only
         app_version_newer_than_latest = False
-        current_app_version_value = (getattr(self, 'app_version', '') or APP_VERSION).lstrip('vV')
         if self.available_versions:
             latest_release_version = self.available_versions[0]['version'].lstrip('vV')
+            current_app_version = APP_VERSION.lstrip('vV')
             try:
-                if self.compare_versions(current_app_version_value, latest_release_version) > 0:
+                if self.compare_versions(current_app_version, latest_release_version) > 0:
                     app_version_newer_than_latest = True
                     self.show_older_releases = True  # Enable by default
-                    silent_print(f"App version {current_app_version_value} is newer than latest release {latest_release_version} - enabling 'Show older releases'")
+                    silent_print(f"App version {current_app_version} is newer than latest release {latest_release_version} - enabling 'Show older releases'")
             except Exception as compare_error:
                 silent_print(f"Error comparing versions: {compare_error}")
         
@@ -11062,12 +10732,11 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         self.version_combo = QComboBox()
         self.version_combo.setMinimumWidth(220)
-        current_app_version = getattr(self, 'app_version', '') or APP_VERSION
         
         # Filter versions based on show_older_releases checkbox
         for entry in self.available_versions:
             normalized_version = entry['version'].lstrip('vV')
-            if not self.show_older_releases and self.compare_versions(normalized_version, current_app_version) < 0:
+            if not self.show_older_releases and self.compare_versions(normalized_version, APP_VERSION) < 0:
                 continue
             display = entry['version']
             commit_display = entry.get('commit')
@@ -11102,26 +10771,20 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         target_index = None
         normalized_preferred = preferred_version.lstrip('vV') if preferred_version else None
-        normalized_current_app = current_app_version.lstrip('vV')
+        current_version = getattr(self, 'app_version', '') or ''
 
         if normalized_preferred:
-            filtered_versions = [
-                entry for entry in self.available_versions
-                if self.show_older_releases or self.compare_versions(entry['version'].lstrip('vV'), current_app_version) >= 0
-            ]
+            filtered_versions = [entry for entry in self.available_versions if self.show_older_releases or self.compare_versions(entry['version'].lstrip('vV'), APP_VERSION) >= 0]
             for idx, entry in enumerate(filtered_versions):
                 if entry['version'].lstrip('vV') == normalized_preferred:
                     target_index = idx
                     break
 
         if target_index is None:
-            filtered_versions = [
-                entry for entry in self.available_versions
-                if self.show_older_releases or self.compare_versions(entry['version'].lstrip('vV'), current_app_version) >= 0
-            ]
+            filtered_versions = [entry for entry in self.available_versions if self.show_older_releases or self.compare_versions(entry['version'].lstrip('vV'), APP_VERSION) >= 0]
             for idx, entry in enumerate(filtered_versions):
                 try:
-                    if self.compare_versions(entry['version'].lstrip('vV'), normalized_current_app) > 0:
+                    if self.compare_versions(entry['version'].lstrip('vV'), current_version) > 0:
                         target_index = idx
                         break
                 except Exception:
@@ -11147,7 +10810,6 @@ class FirmwareDownloaderGUI(QMainWindow):
     def _on_show_older_releases_changed(self, state, browser):
         """Handle changes to the 'Show older releases' checkbox"""
         self.show_older_releases = (state == Qt.Checked)
-        current_app_version = getattr(self, 'app_version', '') or APP_VERSION
         # Refresh the version tab to update the combo box
         if hasattr(self, '_active_settings_dialog') and self._active_settings_dialog:
             # Find the version tab layout and repopulate it
@@ -11213,7 +10875,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                     if is_dark:
                         bg_rgba = "rgba(255, 255, 255, 0.12)"
                         text_color = "#F5F9FF"
-            else:
+                    else:
                         bg_rgba = "rgba(12, 27, 51, 0.10)"
                         text_color = "#0C1B33"
                     margin_rule = "margin: 6px 4px;" if target is label else "margin: 0 0 6px 0;"
@@ -11236,7 +10898,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         finally:
             if had_error:
                 if label:
-            label.clear()
+                    label.clear()
                     label.setVisible(False)
                 if banner:
                     banner.clear()
@@ -11497,73 +11159,91 @@ class FirmwareDownloaderGUI(QMainWindow):
             error_message = install_dialog.error_message or "The selected version could not be installed."
             QMessageBox.warning(self, "Update not applied", error_message)
 
+    def _ensure_legacy_updater_redirect(self):
+        """Ensure legacy updater.py launches the main GUI by mirroring this module."""
+        try:
+            current_path = Path(__file__).resolve()
+            updater_path = current_path.with_name("updater.py")
+            if updater_path == current_path:
+                return
+            
+            needs_update = True
+            if updater_path.exists():
+                try:
+                    if updater_path.stat().st_size == current_path.stat().st_size:
+                        with open(current_path, 'rb') as src, open(updater_path, 'rb') as dst:
+                            if src.read() == dst.read():
+                                needs_update = False
+                except Exception as compare_error:
+                    silent_print(f"Warning: unable to compare updater.py contents: {compare_error}")
+                    needs_update = True
+            if not needs_update:
+                return
+            
+            with open(current_path, 'rb') as src, open(updater_path, 'wb') as dst:
+                dst.write(src.read())
+            silent_print("Legacy updater.py replaced with current firmware_downloader.py")
+        except Exception as e:
+            silent_print(f"Warning: could not refresh legacy updater.py: {e}")
+
     def _schedule_post_update_relaunch(self):
         """Schedule the automatic relaunch after a successful update."""
-        self._pending_relaunch_command = self._prepare_relaunch_command()
-        QTimer.singleShot(600, self._run_pending_relaunch)
-        QTimer.singleShot(1800, QApplication.instance().quit)
+        # 2025-11-09 18:45 UTC update note: previously the GUI quit without relaunching; now we relaunch automatically.
+        QTimer.singleShot(100, self._launch_updated_app)
+        QTimer.singleShot(800, QApplication.instance().quit)
 
-    def _run_pending_relaunch(self):
-        """Execute the prepared relaunch command if available."""
+    def _launch_updated_app(self):
+        """Launch the Innioasis Updater after installing a new release."""
+        # 2025-11-09 18:45 UTC legacy behavior reference: manual relaunch by the user after quitting the GUI.
         try:
-            if not getattr(self, '_pending_relaunch_command', None):
-                silent_print("No relaunch command prepared; skipping automatic relaunch.")
-                return
-            cmd, kwargs = self._pending_relaunch_command
-            subprocess.Popen(cmd, **kwargs)
-            silent_print(f"Relaunched Innioasis Updater using command: {cmd}")
+            system = platform.system()
+            if system == "Darwin":
+                app_path = Path.home() / "Applications" / "Innioasis Updater.app"
+                if not app_path.exists():
+                    fallback_path = Path("/Applications/Innioasis Updater.app")
+                    if fallback_path.exists():
+                        app_path = fallback_path
+                if app_path.exists():
+                    subprocess.Popen(
+                        ["/usr/bin/open", str(app_path)],
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL,
+                        stdin=subprocess.DEVNULL
+                    )
+                else:
+                    silent_print(f"Innioasis Updater.app not found in Applications folder: {app_path}")
+            elif system == "Windows":
+                script_path = Path(__file__).resolve()
+                python_exe = Path(sys.executable)
+                if python_exe.exists() and script_path.exists():
+                    popen_kwargs = {
+                        "cwd": str(Path.cwd()),
+                        "stdout": subprocess.DEVNULL,
+                        "stderr": subprocess.DEVNULL,
+                        "stdin": subprocess.DEVNULL,
+                        "close_fds": True,
+                    }
+                    creation_flags = 0
+                    for flag_name in ("CREATE_NEW_PROCESS_GROUP", "DETACHED_PROCESS", "CREATE_NO_WINDOW"):
+                        if hasattr(subprocess, flag_name):
+                            creation_flags |= getattr(subprocess, flag_name)
+                    if creation_flags:
+                        popen_kwargs["creationflags"] = creation_flags
+                    subprocess.Popen([str(python_exe), str(script_path)], **popen_kwargs)
+                else:
+                    silent_print("Unable to relaunch firmware_downloader.py automatically on Windows.")
+            else:
+                script_path = Path(__file__).resolve()
+                subprocess.Popen(
+                    [str(sys.executable), str(script_path)],
+                    cwd=str(Path.cwd()),
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    stdin=subprocess.DEVNULL,
+                    close_fds=True
+                )
         except Exception as exc:
             silent_print(f"Failed to relaunch updated application: {exc}")
-        finally:
-            self._pending_relaunch_command = None
-
-    def _prepare_relaunch_command(self):
-        """Build the command/kwargs tuple required to relaunch the updater script."""
-        try:
-            python_candidates = []
-            if getattr(sys, "executable", None):
-                python_candidates.append(Path(sys.executable))
-            if platform.system() == "Darwin":
-                embedded_python = Path(sys.prefix) / "bin" / "python3"
-                python_candidates.append(embedded_python)
-            if shutil.which("python3"):
-                python_candidates.append(Path(shutil.which("python3")))
-            python_path = next((p for p in python_candidates if p and p.exists()), None)
-            if not python_path:
-                silent_print("Unable to locate Python interpreter for relaunch.")
-                return None
-
-            script_candidates = [
-                Path(__file__).resolve(),
-                Path.cwd() / "firmware_downloader.py",
-                Path(sys.argv[0]).resolve() if sys.argv and Path(sys.argv[0]).exists() else None
-            ]
-            script_path = next((p for p in script_candidates if p and p.exists()), None)
-            if not script_path:
-                silent_print("Unable to locate firmware_downloader.py for relaunch.")
-                return None
-
-            popen_kwargs = {
-                "cwd": str(script_path.parent),
-                "stdout": subprocess.DEVNULL,
-                "stderr": subprocess.DEVNULL,
-                "stdin": subprocess.DEVNULL,
-                "close_fds": True,
-            }
-            if platform.system() == "Windows":
-                creation_flags = 0
-                for flag_name in ("CREATE_NEW_PROCESS_GROUP", "DETACHED_PROCESS", "CREATE_NO_WINDOW"):
-                    if hasattr(subprocess, flag_name):
-                        creation_flags |= getattr(subprocess, flag_name)
-                if creation_flags:
-                    popen_kwargs["creationflags"] = creation_flags
-            env = os.environ.copy()
-            popen_kwargs["env"] = env
-            command = [str(python_path), str(script_path)]
-            return command, popen_kwargs
-        except Exception as build_exc:
-            silent_print(f"Error preparing relaunch command: {build_exc}")
-            return None
 
     def show_tools_dialog(self):
         """Show Toolkit dialog with all tools and utilities"""
@@ -11796,6 +11476,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                         start_index = idx
                         break
                 in_list = False
+                lines = raw_lines[start_index:]
+                converted_lines = []
                 
                 for line in lines:
                     line_stripped = line.strip()
@@ -16335,47 +16017,34 @@ class FirmwareDownloaderGUI(QMainWindow):
 
     def browse_files(self):
         """Browse and select files or folders to process via Smart Drop with a single, simple dialog."""
-        y1_paths = self._gather_known_y1_paths()
-        initial_path = None
-        if getattr(self, 'saved_usb_drive_path', None):
-            initial_path = self.saved_usb_drive_path
-        elif y1_paths:
-            initial_path = y1_paths[0]
-        else:
-            default_downloads = Path.home() / "Downloads"
-            initial_path = str(default_downloads if default_downloads.exists() else Path.home())
+        from PySide6.QtWidgets import QFileDialog, QAbstractItemView, QListView, QTreeView
         
-        dialog = SmartDropBrowseDialog(self, initial_path=initial_path, y1_paths=y1_paths)
-        if dialog.exec() != QDialog.Accepted:
+        dialog = QFileDialog(
+            self,
+            "Smart Drop: Select themes, songs, files, folders, rom/update files, updates, apps, etc"
+        )
+        dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
+        dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
+        dialog.setOption(QFileDialog.Option.ReadOnly, False)
+        dialog.setLabelText(QFileDialog.DialogLabel.Accept, "Send to Y1")
+        dialog.setLabelText(QFileDialog.DialogLabel.Reject, "Cancel")
+        dialog.setNameFilter("All Files (*)")
+        
+        # Ensure multi-selection is enabled in both list and tree views
+        for view in dialog.findChildren(QListView):
+            view.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        for view in dialog.findChildren(QTreeView):
+            view.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        
+        if not dialog.exec():
             return
         
-        selected_paths = dialog.selected_paths
+        selected_paths = dialog.selectedFiles()
         if not selected_paths:
             return
         
         silent_print(f"Browse Files: Processing {len(selected_paths)} item(s) via Smart Drop")
         self.handle_smart_drop_payload(selected_paths)
-    
-    def _gather_known_y1_paths(self):
-        """Collect known Y1 paths from saved preferences and live detection."""
-        paths = set()
-        saved_path = getattr(self, 'saved_usb_drive_path', None)
-        if saved_path:
-            paths.add(str(saved_path))
-        if hasattr(self, 'smart_drop_path_display') and self.smart_drop_path_display and self.smart_drop_path_display.text():
-            paths.add(self.smart_drop_path_display.text())
-        try:
-            detected = self._detect_usb_storage_drive()
-            if detected:
-                if isinstance(detected, (list, tuple, set)):
-                    for item in detected:
-                        if item:
-                            paths.add(str(item))
-                else:
-                    paths.add(str(detected))
-        except Exception as detection_error:
-            silent_print(f"Error gathering Y1 paths: {detection_error}")
-        return [str(Path(p)) for p in paths if p]
     
     def _check_storage_space(self, required_gb=6):
         """Check if there's enough free storage space
@@ -16666,20 +16335,20 @@ class FirmwareDownloaderGUI(QMainWindow):
                 break
             
             # USB Storage Mode detected - prompt user to turn it off
-        reply = QMessageBox.question(
-            self,
+            reply = QMessageBox.question(
+                self,
                 "USB Storage Mode Detected",
                 "Fast Update requires ADB access and cannot proceed while USB Storage Mode is active.\n\n"
                 "Please turn off USB Storage mode, then click OK.\n\n"
                 f"Detected Y1 drive: {usb_drive}",
-            QMessageBox.Ok | QMessageBox.Cancel,
-            QMessageBox.Ok
-        )
-        
-        if reply == QMessageBox.Cancel:
+                QMessageBox.Ok | QMessageBox.Cancel,
+                QMessageBox.Ok
+            )
+            
+            if reply == QMessageBox.Cancel:
                 silent_print("User cancelled Fast Update - USB Storage Mode active")
-            return
-        
+                return
+            
             # Check again after user clicked OK - if still active, prompt again
             # This creates a loop that continues until USB Storage Mode is actually turned off
             QApplication.processEvents()
@@ -16735,7 +16404,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             
         except Exception as e:
             silent_print(f"Error starting ADB fast update check: {e}")
-                return False
+            return False
             
     def _on_adb_fast_update_check_complete(self, success, selected_device, env, usb_storage_available):
         """Handle completion of ADB fast update availability check"""
@@ -16899,7 +16568,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             "• The USB cable is properly connected\n\n"
             "You can try again once your Y1 is connected."
         )
-            self.status_label.setText("Ready")
+        self.status_label.setText("Connection not detected")
         return False, None, None
     
     def _detect_usb_storage_drive(self):
@@ -18420,29 +18089,37 @@ class FirmwareDownloaderGUI(QMainWindow):
     def _on_adb_snapshot_changed(self, snapshot):
         """React to status broker snapshot updates and refresh UI indicators."""
         try:
+            # Check for USB storage mode, but also check if Root + Fast Update are available
+            usb_drive = self._detect_usb_storage_drive()
             status = snapshot.get('status', 'no_adb')
             device_id = snapshot.get('device_id')
             hostname = snapshot.get('hostname')
             metadata = snapshot.get('metadata', {})
-            usb_drive = self._detect_usb_storage_drive()
             
+            # If USB storage mode is detected, check if Root + Fast Update are available
             if usb_drive:
+                # Check if Root + Fast Update are available via ADB
                 fast_update_ready = bool(metadata.get('fast_update_ready', False))
                 update_script_exists = bool(metadata.get('update_script_exists', False))
                 marker_is_today = bool(metadata.get('fastupdate_marker_is_today', False))
                 is_rooted = status == 'adb_root' or bool(metadata.get('rooted', False))
                 
+                # If Root + Fast Update are available, show green ADB status instead of orange USB
                 if is_rooted and fast_update_ready and update_script_exists and marker_is_today:
-                    silent_print("USB Storage Mode detected but Fast Update prerequisites satisfied - keeping green ADB status")
-                    enriched_metadata = dict(metadata)
-                    enriched_metadata['usb_storage_drive'] = usb_drive
-                    self.update_adb_status_ui(status, device_id, hostname, enriched_metadata)
+                    silent_print(f"USB Storage Mode detected but Root + Fast Update available - showing green ADB status")
+                    # Show green ADB status (Root + Fast Update available)
+                    self.update_adb_status_ui(status, device_id, hostname, metadata)
                     return
-                
-                status = 'usb_storage'
-                self.update_adb_status_ui(status, None, None, {'usb_storage_drive': usb_drive})
-                return
+                else:
+                    # Root + Fast Update not available - show orange USB status
+                    status = 'usb_storage'
+                    device_id = None
+                    hostname = None
+                    details = {'usb_storage_drive': usb_drive}
+                    self.update_adb_status_ui(status, device_id, hostname, details)
+                    return
             
+            # No USB storage mode - proceed with normal ADB status update
             dual_connected = bool(snapshot.get('dual_connected'))
             if dual_connected and not getattr(self, '_last_dual_connection_state', False):
                 self._notify_dual_connection(is_startup=not getattr(self, '_dual_connection_dialog_shown', False))
@@ -18453,28 +18130,39 @@ class FirmwareDownloaderGUI(QMainWindow):
     
     def _check_usb_and_adb_status(self):
         """Check for USB storage mode first, then ADB status if no USB storage mode"""
-        snapshot = self.adb_status_broker.get_snapshot() or {}
+        # Check USB storage mode first
         usb_drive = self._detect_usb_storage_drive()
         if usb_drive:
+            # USB Storage Mode detected - check ADB status to see if Root + Fast Update are available
+            # Get current ADB snapshot to check for Root + Fast Update
+            snapshot = self.adb_status_broker.get_snapshot() or {}
             status = snapshot.get('status', 'no_adb')
             device_id = snapshot.get('device_id')
             hostname = snapshot.get('hostname')
             metadata = snapshot.get('metadata', {})
             
+            # Check if Root + Fast Update are available
             fast_update_ready = bool(metadata.get('fast_update_ready', False))
             update_script_exists = bool(metadata.get('update_script_exists', False))
             marker_is_today = bool(metadata.get('fastupdate_marker_is_today', False))
             is_rooted = status == 'adb_root' or bool(metadata.get('rooted', False))
             
+            # If Root + Fast Update are available, show green ADB status instead of orange USB
             if is_rooted and fast_update_ready and update_script_exists and marker_is_today:
-                enriched_metadata = dict(metadata)
-                enriched_metadata['usb_storage_drive'] = usb_drive
-                self.update_adb_status_ui(status, device_id, hostname, enriched_metadata)
+                silent_print(f"USB Storage Mode detected but Root + Fast Update available - showing green ADB status")
+                # Show green ADB status (Root + Fast Update available)
+                self.update_adb_status_ui(status, device_id, hostname, metadata)
                 return
-            
-            self.update_adb_status_ui('usb_storage', None, None, {'usb_storage_drive': usb_drive})
-            return
+            else:
+                # Root + Fast Update not available - show orange USB status
+                status = 'usb_storage'
+                device_id = None
+                hostname = None
+                details = {'usb_storage_drive': usb_drive}
+                self.update_adb_status_ui(status, device_id, hostname, details)
+                return
         
+        # No USB storage mode - check ADB status
         self.start_adb_check_worker(reason="timer")
     
     def get_connection_label(self, device_id):
@@ -18501,50 +18189,88 @@ class FirmwareDownloaderGUI(QMainWindow):
             return
         
         try:
-            metadata = dict(details or {})
-            usb_drive = metadata.pop('usb_storage_drive', None)
-            fast_update_ready = bool(metadata.get('fast_update_ready', False))
-            update_script_exists = bool(metadata.get('update_script_exists', False))
-            marker_is_today = bool(metadata.get('fastupdate_marker_is_today', False))
-            is_rooted = status == 'adb_root' or bool(metadata.get('rooted', False))
-            allow_fast_update_indicator = usb_drive and is_rooted and fast_update_ready and update_script_exists and marker_is_today
+            # Check for USB storage mode, but also check if Root + Fast Update are available
+            usb_drive = self._detect_usb_storage_drive()
             
-            if usb_drive and not allow_fast_update_indicator:
-                if hasattr(self, 'adb_status_widget'):
-                    self.adb_status_widget.setVisible(True)
-                if hasattr(self, 'adb_status_light'):
-                    self.adb_status_light.setStyleSheet("""
-                        QLabel {
-                            color: #FF8800;
-                            font-size: 12px;
-                        }
-                    """)
-                if hasattr(self, 'adb_status_label'):
-                    self.adb_status_label.setText("USB")
-                    self.adb_status_label.setStyleSheet("""
-                        QLabel {
-                            color: #666666;
-                            font-size: 10px;
-                            font-weight: bold;
-                        }
-                    """)
-                tooltip_text = "Smart Drop is available via USB storage mode. Fast Update status is determined by marker files on device."
-                if hasattr(self, 'adb_status_widget'):
-                    self.adb_status_widget.setToolTip(tooltip_text)
-                    self.adb_status_widget.setCursor(Qt.ArrowCursor)
-                if hasattr(self, 'adb_status_label'):
-                    self.adb_status_label.setToolTip(tooltip_text)
-                    self.adb_status_label.setCursor(Qt.ArrowCursor)
-                if hasattr(self, 'adb_status_light'):
-                    self.adb_status_light.setToolTip(tooltip_text)
-                    self.adb_status_light.setCursor(Qt.ArrowCursor)
-                if hasattr(self, 'send_update_btn'):
-                    self.send_update_btn.setEnabled(True)
-                    self.send_update_btn.setToolTip("Fast Update: Click to start. You'll be prompted to turn off USB Storage Mode if needed.")
-                silent_print(f"USB Storage Mode detected: {usb_drive} - showing USB status indicator")
-                return
+            # If USB storage mode is detected, check if Root + Fast Update are available
+            if usb_drive:
+                # Get current ADB snapshot to check for Root + Fast Update availability
+                snapshot = self.adb_status_broker.get_snapshot() or {}
+                adb_status = snapshot.get('status', 'no_adb')
+                adb_device_id = snapshot.get('device_id')
+                adb_hostname = snapshot.get('hostname')
+                adb_metadata = snapshot.get('metadata', {})
+                
+                # Check if Root + Fast Update are available
+                fast_update_ready = bool(adb_metadata.get('fast_update_ready', False))
+                update_script_exists = bool(adb_metadata.get('update_script_exists', False))
+                marker_is_today = bool(adb_metadata.get('fastupdate_marker_is_today', False))
+                is_rooted = adb_status == 'adb_root' or bool(adb_metadata.get('rooted', False))
+                
+                # If Root + Fast Update are available, show green ADB status instead of orange USB
+                if is_rooted and fast_update_ready and update_script_exists and marker_is_today:
+                    silent_print(f"USB Storage Mode detected but Root + Fast Update available - showing green ADB status")
+                    # Show green ADB status (Root + Fast Update available)
+                    # User will be prompted to turn off USB storage mode when Fast Update is clicked
+                    # Temporarily store USB drive info in metadata for tooltip
+                    adb_metadata_with_usb = dict(adb_metadata)
+                    adb_metadata_with_usb['usb_storage_drive'] = usb_drive
+                    self.update_adb_status_ui(adb_status, adb_device_id, adb_hostname, adb_metadata_with_usb)
+                    return
+                else:
+                    # Root + Fast Update not available - show orange USB status
+                    if hasattr(self, 'adb_status_widget'):
+                        self.adb_status_widget.setVisible(True)
+                    
+                    # Show orange USB light
+                    if hasattr(self, 'adb_status_light'):
+                        self.adb_status_light.setStyleSheet("""
+                            QLabel {
+                                color: #FF8800;
+                                font-size: 12px;
+                            }
+                        """)
+                    
+                    # Update label to show "USB"
+                    if hasattr(self, 'adb_status_label'):
+                        self.adb_status_label.setText("USB")
+                        self.adb_status_label.setStyleSheet("""
+                            QLabel {
+                                color: #666666;
+                                font-size: 10px;
+                                font-weight: bold;
+                            }
+                        """)
+                    
+                    # Set tooltip - Fast Update status is determined by marker files on device, not USB storage mode
+                    tooltip_text = "Smart Drop is available via USB storage mode. Fast Update status is determined by marker files on device."
+                    if hasattr(self, 'adb_status_widget'):
+                        self.adb_status_widget.setToolTip(tooltip_text)
+                    if hasattr(self, 'adb_status_label'):
+                        self.adb_status_label.setToolTip(tooltip_text)
+                    if hasattr(self, 'adb_status_light'):
+                        self.adb_status_light.setToolTip(tooltip_text)
+                    
+                    # Make status widget non-clickable for USB mode
+                    if hasattr(self, 'adb_status_widget'):
+                        self.adb_status_widget.setCursor(Qt.ArrowCursor)
+                    if hasattr(self, 'adb_status_label'):
+                        self.adb_status_label.setCursor(Qt.ArrowCursor)
+                    if hasattr(self, 'adb_status_light'):
+                        self.adb_status_light.setCursor(Qt.ArrowCursor)
+                    
+                    # Don't disable Fast Update button - user can start it and will be prompted to turn off USB storage mode
+                    # Fast Update status will be determined by marker files, not USB storage mode presence
+                    if hasattr(self, 'send_update_btn'):
+                        # Keep button enabled - user will be prompted when they click it
+                        self.send_update_btn.setEnabled(True)
+                        self.send_update_btn.setToolTip("Fast Update: Click to start. You'll be prompted to turn off USB Storage Mode if needed.")
+                    
+                    silent_print(f"USB Storage Mode detected: {usb_drive} - Fast Update button remains enabled")
+                    return  # Don't check ADB status if USB storage mode is active
             
-            # Render normal ADB status (green indicator when prerequisites satisfied).
+            # No USB storage mode - proceed with normal ADB status check
+            metadata = details or {}
             # Find ADB executable for UI updates (quick check, no blocking)
             adb_path = self.find_adb_executable()
             if not adb_path:
@@ -18791,28 +18517,28 @@ class FirmwareDownloaderGUI(QMainWindow):
                             self.send_update_btn.setToolTip(f"Fast Update ready. {tooltip_suffix}")
                     else:
                         # Device needs preparation - show preparing status
-                    self.adb_status_light.setStyleSheet("""
-                        QLabel {
-                            color: #FFA500;
-                            font-size: 12px;
-                        }
-                    """)
-                    if hasattr(self, 'adb_status_label'):
-                        self.adb_status_label.setText("Preparing Device for Fast Updates")
-                    self.start_orange_blink()
-                    self.adb_status_widget.setCursor(Qt.ArrowCursor)
-                    self.adb_status_label.setCursor(Qt.ArrowCursor)
-                    self.adb_status_light.setCursor(Qt.ArrowCursor)
-                    self.adb_status_widget.setToolTip("")
-                    self.adb_status_label.setToolTip("")
-                    self.adb_status_light.setToolTip("")
-                    if hasattr(self, 'send_update_btn'):
-                        self.send_update_btn.setEnabled(False)
-                        if update_script_exists and marker_present and marker_needs_refresh:
-                            suffix = f" Last prepared: {marker_date_str}." if marker_date_str else ""
-                            self.send_update_btn.setToolTip(f"Refreshing Fast Update preparation…{suffix}")
-                        else:
-                            self.send_update_btn.setToolTip("Preparing device for Fast Updates…")
+                        self.adb_status_light.setStyleSheet("""
+                            QLabel {
+                                color: #FFA500;
+                                font-size: 12px;
+                            }
+                        """)
+                        if hasattr(self, 'adb_status_label'):
+                            self.adb_status_label.setText("Preparing Device for Fast Updates")
+                        self.start_orange_blink()
+                        self.adb_status_widget.setCursor(Qt.ArrowCursor)
+                        self.adb_status_label.setCursor(Qt.ArrowCursor)
+                        self.adb_status_light.setCursor(Qt.ArrowCursor)
+                        self.adb_status_widget.setToolTip("")
+                        self.adb_status_label.setToolTip("")
+                        self.adb_status_light.setToolTip("")
+                        if hasattr(self, 'send_update_btn'):
+                            self.send_update_btn.setEnabled(False)
+                            if update_script_exists and marker_present and marker_needs_refresh:
+                                suffix = f" Last prepared: {marker_date_str}." if marker_date_str else ""
+                                self.send_update_btn.setToolTip(f"Refreshing Fast Update preparation…{suffix}")
+                            else:
+                                self.send_update_btn.setToolTip("Preparing device for Fast Updates…")
 
                     should_prepare = (not update_script_exists) or marker_needs_refresh
                     worker_running = (hasattr(self, 'adb_update_script_worker') and
@@ -18822,8 +18548,8 @@ class FirmwareDownloaderGUI(QMainWindow):
 
                     if should_prepare and adb_path and active_device_id and not worker_running and not operation_in_progress:
                         self.download_and_push_update_script(adb_path, active_device_id)
-                            # Clean up macOS metadata as part of Fast Update preparation (silent, non-blocking)
-                            self._cleanup_device_macos_metadata_silent(adb_path, active_device_id, self._build_adb_environment())
+                        # Clean up macOS metadata as part of Fast Update preparation (silent, non-blocking)
+                        self._cleanup_device_macos_metadata_silent(adb_path, active_device_id, self._build_adb_environment())
                 
                 # Auto-populate wireless IP field with hostname if USB connected
                 # Check if device_id is USB (not wireless)
@@ -20250,12 +19976,12 @@ class FirmwareDownloaderGUI(QMainWindow):
                         silent_print(f"ADB transfer failed, using USB storage drive: {usb_drive}")
                         self._transfer_files_via_usb(file_paths, usb_drive)
                     else:
-                    self.status_label.setText("Transfer error: Unable to start ADB transfer.")
-                    QMessageBox.warning(
-                        self,
-                        "Transfer Error",
-                        "Unable to start ADB transfer. Please verify your connection and try again."
-                    )
+                        self.status_label.setText("Transfer error: Unable to start ADB transfer.")
+                        QMessageBox.warning(
+                            self,
+                            "Transfer Error",
+                            "Unable to start ADB transfer. Please verify your connection and try again."
+                        )
             
             self.request_adb_status_update(force_refresh=True, callback=_on_status_ready)
             
@@ -20269,13 +19995,13 @@ class FirmwareDownloaderGUI(QMainWindow):
                 silent_print(f"Transfer error, trying USB storage drive: {usb_drive}")
                 self._transfer_files_via_usb(file_paths, usb_drive)
             else:
-            self.status_label.setText(f"Transfer error: {str(e)[:100]}")
-            self.progress_bar.setVisible(False)
-            QMessageBox.warning(
-                self,
-                "Transfer Error",
-                f"An error occurred during file transfer:\n\n{str(e)}"
-            )
+                self.status_label.setText(f"Transfer error: {str(e)[:100]}")
+                self.progress_bar.setVisible(False)
+                QMessageBox.warning(
+                    self,
+                    "Transfer Error",
+                    f"An error occurred during file transfer:\n\n{str(e)}"
+                )
             # Reset flag on error
             if hasattr(self, 'adb_operation_in_progress'):
                 self.adb_operation_in_progress = False
@@ -20666,17 +20392,17 @@ class FirmwareDownloaderGUI(QMainWindow):
                 folder_path = usb_drive_path
                 silent_print(f"Using auto-detected USB storage drive: {folder_path}")
             else:
-            # Ask user to select USB drive or folder location using OS-native file dialog
-            folder_path = QFileDialog.getExistingDirectory(
-                self,
-                "Select Y1 USB Drive or Destination Folder",
-                "",
-                QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks
-            )
+                # Ask user to select USB drive or folder location using OS-native file dialog
+                folder_path = QFileDialog.getExistingDirectory(
+                    self,
+                    "Select Y1 USB Drive or Destination Folder",
+                    "",
+                    QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks
+                )
             
             if not folder_path:
                 # User cancelled
-                    return
+                return
             
             # Check if a transfer is already in progress
             if (hasattr(self, 'usb_transfer_worker') and self.usb_transfer_worker and 
@@ -20725,7 +20451,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         queue_size = len(self.usb_transfer_queue) if hasattr(self, 'usb_transfer_queue') else 0
         if queue_size > 0:
             self.status_label.setText(f"{message} ({queue_size} in queue)")
-                        else:
+        else:
             self.status_label.setText(message)
     
     def _on_usb_transfer_progress(self, current, total):
@@ -20742,37 +20468,37 @@ class FirmwareDownloaderGUI(QMainWindow):
         total = result.get('total', 0)
         usb_drive_path = result.get('usb_drive_path', '')
         auto_detected = usb_drive_path == self._detect_usb_storage_drive()
-            
-            # Hide progress bar
-            self.progress_bar.setVisible(False)
-            
-            # Show completion message
-        if transferred_count == total:
-                self.status_label.setText(f"Successfully transferred {transferred_count} item(s) to USB drive")
-            if not auto_detected:  # Only show dialog if user manually selected
+        
+        # Hide progress bar
+        self.progress_bar.setVisible(False)
+        
+        # Show completion message
+        if transferred_count == total and success:
+            self.status_label.setText(f"Successfully transferred {transferred_count} item(s) to USB drive")
+            if not auto_detected:
                 QMessageBox.information(
                     self,
                     "Transfer Complete",
                     f"Successfully transferred {transferred_count} item(s) to:\n\n{usb_drive_path}"
                 )
-            elif transferred_count > 0:
+        elif transferred_count > 0:
             self.status_label.setText(f"Transferred {transferred_count} of {total} item(s)")
-                failed_list = '\n'.join(failed_files)
-                QMessageBox.warning(
-                    self,
-                    "Transfer Partially Complete",
+            failed_list = '\n'.join(failed_files)
+            QMessageBox.warning(
+                self,
+                "Transfer Partially Complete",
                 f"Transferred {transferred_count} of {total} item(s) to:\n\n{usb_drive_path}\n\n"
-                    f"Failed items:\n{failed_list}"
-                )
-            else:
+                f"Failed items:\n{failed_list}"
+            )
+        else:
             self.status_label.setText("USB transfer failed")
-                failed_list = '\n'.join(failed_files)
-                QMessageBox.warning(
-                    self,
-                    "Transfer Failed",
+            failed_list = '\n'.join(failed_files)
+            QMessageBox.warning(
+                self,
+                "Transfer Failed",
                 f"Failed to transfer all items to:\n\n{usb_drive_path}\n\n"
-                    f"Failed items:\n{failed_list}"
-                )
+                f"Failed items:\n{failed_list}"
+            )
         
         # Process next item in queue if available
         self._process_next_queued_usb_transfer()
@@ -21538,18 +21264,40 @@ class FirmwareDownloaderGUI(QMainWindow):
             if not root.exists():
                 return theme_folders
             
-            # Collect Rockbox .rockbox directories
-            for rockbox_dir in root.rglob('.rockbox'):
-                if rockbox_dir.is_dir():
-                    theme_folders.append(str(rockbox_dir))
+            # Check if root itself is a theme folder (skip if it's macOS metadata)
+            if root.is_dir() and not self._is_macos_metadata(root) and self._is_theme_folder(root):
+                theme_folders.append(str(root))
             
-            # Collect Y1 theme folders with config.json + cover.png (avoid duplicates)
-            for item in root.rglob('*'):
-                if self._is_macos_metadata(item):
-                    continue
-                if item.is_dir() and self._is_theme_folder(item):
-                    if not any(Path(existing) in item.parents for existing in theme_folders):
-                        theme_folders.append(str(item))
+            # Recursively search subdirectories
+            if root.is_dir():
+                for item in root.rglob('*'):
+                    # Skip macOS metadata folders
+                    if self._is_macos_metadata(item):
+                        continue
+                    
+                    if item.is_dir() and self._is_theme_folder(item):
+                        # Avoid duplicates (if parent is also a theme)
+                        is_duplicate = False
+                        for existing in theme_folders:
+                            existing_path = Path(existing)
+                            # Check if this folder is a subdirectory of an existing theme folder
+                            try:
+                                item.relative_to(existing_path)
+                                is_duplicate = True
+                                break
+                            except ValueError:
+                                pass
+                            # Check if existing folder is a subdirectory of this folder
+                            try:
+                                existing_path.relative_to(item)
+                                # Remove the existing folder as it's nested in this one
+                                theme_folders.remove(existing)
+                            except ValueError:
+                                pass
+                        
+                        if not is_duplicate:
+                            theme_folders.append(str(item))
+            
             return theme_folders
         except Exception as e:
             silent_print(f"Error finding theme folders: {e}")
@@ -22035,17 +21783,17 @@ class FirmwareDownloaderGUI(QMainWindow):
             blocking = not is_gui_thread
 
         if blocking:
-        status, device_id, hostname, details = self.adb_status_broker.compute_snapshot(adb_path, env)
-        payload = {
-            'status': status,
-            'device_id': device_id,
-            'hostname': hostname,
-            'last_checked': datetime.now(),
-        }
-        if isinstance(details, dict):
-            payload.update(details)
-        snapshot = self.adb_status_broker.update_snapshot(**payload)
-        self.adb_status_broker.flush_callbacks(snapshot)
+            status, device_id, hostname, details = self.adb_status_broker.compute_snapshot(adb_path, env)
+            payload = {
+                'status': status,
+                'device_id': device_id,
+                'hostname': hostname,
+                'last_checked': datetime.now(),
+            }
+            if isinstance(details, dict):
+                payload.update(details)
+            snapshot = self.adb_status_broker.update_snapshot(**payload)
+            self.adb_status_broker.flush_callbacks(snapshot)
             return status, device_id, hostname, details
 
         snapshot = self.adb_status_broker.get_snapshot() or {}
@@ -23225,7 +22973,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                     error_message
                 )
                 self.status_label.setText(f"Insufficient storage space ({available_gb:.2f} GB available, 6 GB required)")
-                    return
+                return
             
             # Switch from release notes view to image view when extraction starts
             if hasattr(self, 'image_notes_stack') and self.image_notes_stack:
@@ -24587,7 +24335,7 @@ read -n 1
             # Run the update check - this will call get_latest_github_version independently
             silent_print("Running independent update check for Innioasis Updater...")
             self.check_for_updates_and_show_button()
-            except Exception as e:
+        except Exception as e:
             silent_print(f"Error running independent update check: {e}")
             import traceback
             traceback.print_exc()
@@ -24739,7 +24487,7 @@ read -n 1
                 silent_print(f"Error handling UpdateCheckEvent: {e}")
                 import traceback
                 traceback.print_exc()
-            else:
+        else:
             super().customEvent(event)
     
     def _process_update_check_result(self, latest_version, current_version):
@@ -24880,7 +24628,7 @@ read -n 1
     def _show_update_available_dialog(self, latest_version, current_version):
         """Removed: Update dialog - users can click banner to go to settings"""
         # Dialog removed - only banner is shown, clicking banner opens settings
-                pass
+        pass
 
     def get_latest_github_version(self):
         """Get the latest release version from GitHub (non-blocking, called from worker thread)."""
@@ -24977,12 +24725,12 @@ read -n 1
         v1_extended = list(v1) + [0] * (max_length - len(v1))
         v2_extended = list(v2) + [0] * (max_length - len(v2))
         
-            for i in range(max_length):
+        for i in range(max_length):
             if v1_extended[i] > v2_extended[i]:
-                    return 1
+                return 1
             if v1_extended[i] < v2_extended[i]:
-                    return -1
-            return 0
+                return -1
+        return 0
             
     def _parse_semver(self, version):
         """Convert a dotted numeric version string into a tuple of ints. Return None if invalid."""
