@@ -52,7 +52,7 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.8.2"
+APP_VERSION = "1.8.2.1"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
 
@@ -9407,7 +9407,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         silent_print(f"Opening settings dialog with initial_tab: {initial_tab}")
         dialog = QDialog(self)
         dialog.setWindowTitle("Settings")
-        dialog.setFixedSize(700, 600)  # Increased size to accommodate extra tabs (especially on Windows)
+        dialog.setFixedSize(800, 700)  # Increased size to accommodate Smart Drop tab content properly
         dialog.setModal(True)
         # Use native styling - no custom stylesheet for automatic theme adaptation
         self._active_settings_dialog = dialog
@@ -10347,7 +10347,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             check_wireless_connection()
         
         # Connect to tab change signal to re-check when tab is shown (non-blocking)
-        tab_widget.currentChanged.connect(lambda index: on_wireless_tab_shown() if tab_widget.tabText(index) == "Wireless ADB" else None)
+        tab_widget.currentChanged.connect(lambda index: on_wireless_tab_shown() if tab_widget.tabText(index) == "Smart Drop" else None)
         
         # Set up periodic refresh of connection status (every 5 seconds while dialog is open)
         status_refresh_timer = QTimer()
@@ -10355,6 +10355,9 @@ class FirmwareDownloaderGUI(QMainWindow):
         status_refresh_timer.start(5000)  # Refresh every 5 seconds
         
         wireless_layout.addWidget(setup_group)
+        
+        # Add Smart Drop USB Storage Settings section
+        self.populate_smart_drop_tab(wireless_layout)
         
         wireless_layout.addStretch()
         
@@ -10401,15 +10404,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             installation_tab_index = tab_widget.addTab(install_tab, "Installation")
         shortcuts_tab_index = None
 # 2025-11-09 12:00:00 - original: Tab label was 'Wireless ADB' and did not indicate beta availability.
-        tab_widget.addTab(wireless_tab, "Wireless ADB (Beta)")
-        
-        # Add Smart Drop tab
-        smart_drop_tab = QWidget()
-        smart_drop_layout = QVBoxLayout(smart_drop_tab)
-        smart_drop_layout.setSpacing(8)
-        smart_drop_layout.setContentsMargins(10, 10, 10, 10)
-        self.populate_smart_drop_tab(smart_drop_layout)
-        tab_widget.addTab(smart_drop_tab, "Smart Drop")
+        tab_widget.addTab(wireless_tab, "Smart Drop")
         
         self._apply_update_tab_badge(tab_widget, updates_tab_index, update_is_newer)
         if update_is_newer and self._latest_app_version:
@@ -10495,8 +10490,13 @@ class FirmwareDownloaderGUI(QMainWindow):
             self.get_latest_github_version()
 
     def populate_smart_drop_tab(self, layout):
-        """Populate the Smart Drop settings tab with USB drive path selection"""
+        """Populate Smart Drop USB storage settings section (now part of Smart Drop tab)"""
         from PySide6.QtWidgets import QLabel, QLineEdit, QPushButton, QHBoxLayout, QFileDialog, QMessageBox, QGroupBox
+        
+        # Add separator/spacing before Smart Drop section
+        separator = QLabel("")
+        separator.setStyleSheet("margin: 10px 0;")
+        layout.addWidget(separator)
         
         # Title
         title_label = QLabel("Smart Drop USB Storage Settings")
@@ -10551,7 +10551,6 @@ class FirmwareDownloaderGUI(QMainWindow):
         path_layout.addLayout(button_layout)
         
         layout.addWidget(path_group)
-        layout.addStretch()
     
     def _on_detect_usb_drive(self):
         """Handle auto-detect USB drive button click"""
@@ -10691,6 +10690,31 @@ class FirmwareDownloaderGUI(QMainWindow):
                 pass
             self.version_download_btn.deleteLater()
             self.version_download_btn = None
+        if hasattr(self, 'show_older_releases_checkbox') and self.show_older_releases_checkbox:
+            try:
+                layout.removeWidget(self.show_older_releases_checkbox)
+            except Exception:
+                pass
+            self.show_older_releases_checkbox.deleteLater()
+            self.show_older_releases_checkbox = None
+        
+        # Initialize show_older_releases flag if not set
+        if not hasattr(self, 'show_older_releases'):
+            self.show_older_releases = False
+        
+        # Check if app version is newer than latest available release
+        # If so, enable show_older_releases by default and make checkbox read-only
+        app_version_newer_than_latest = False
+        if self.available_versions:
+            latest_release_version = self.available_versions[0]['version'].lstrip('vV')
+            current_app_version = APP_VERSION.lstrip('vV')
+            try:
+                if self.compare_versions(current_app_version, latest_release_version) > 0:
+                    app_version_newer_than_latest = True
+                    self.show_older_releases = True  # Enable by default
+                    silent_print(f"App version {current_app_version} is newer than latest release {latest_release_version} - enabling 'Show older releases'")
+            except Exception as compare_error:
+                silent_print(f"Error comparing versions: {compare_error}")
         
         selector_layout = QHBoxLayout()
         selector_layout.setContentsMargins(0, 0, 8, 6)
@@ -10703,9 +10727,10 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.version_combo = QComboBox()
         self.version_combo.setMinimumWidth(220)
         
+        # Filter versions based on show_older_releases checkbox
         for entry in self.available_versions:
             normalized_version = entry['version'].lstrip('vV')
-            if self.compare_versions(normalized_version, APP_VERSION) < 0:
+            if not self.show_older_releases and self.compare_versions(normalized_version, APP_VERSION) < 0:
                 continue
             display = entry['version']
             commit_display = entry.get('commit')
@@ -10719,20 +10744,38 @@ class FirmwareDownloaderGUI(QMainWindow):
         selector_layout.addWidget(self.version_combo, 1)
         layout.addLayout(selector_layout)
         
+        # Add checkbox for showing older releases
+        checkbox_layout = QHBoxLayout()
+        checkbox_layout.setContentsMargins(0, 0, 8, 6)
+        checkbox_layout.setSpacing(8)
+        checkbox_layout.addStretch()
+        
+        self.show_older_releases_checkbox = QCheckBox("Show older releases")
+        self.show_older_releases_checkbox.setChecked(self.show_older_releases)
+        # If app version is newer than latest, make checkbox read-only
+        if app_version_newer_than_latest:
+            self.show_older_releases_checkbox.setEnabled(False)
+            self.show_older_releases_checkbox.setToolTip("App version is newer than latest release - older releases are always shown")
+        else:
+            self.show_older_releases_checkbox.stateChanged.connect(lambda state: self._on_show_older_releases_changed(state, browser))
+        checkbox_layout.addWidget(self.show_older_releases_checkbox)
+        layout.addLayout(checkbox_layout)
+        
         self.version_combo.currentIndexChanged.connect(lambda _: self.on_version_selection_changed(browser))
         
         target_index = None
         normalized_preferred = preferred_version.lstrip('vV') if preferred_version else None
         current_version = getattr(self, 'app_version', '') or ''
-
+        
         if normalized_preferred:
-            for idx, entry in enumerate(self.available_versions):
+            filtered_versions = [entry for entry in self.available_versions if self.show_older_releases or self.compare_versions(entry['version'].lstrip('vV'), APP_VERSION) >= 0]
+            for idx, entry in enumerate(filtered_versions):
                 if entry['version'].lstrip('vV') == normalized_preferred:
                     target_index = idx
                     break
 
         if target_index is None:
-            filtered_versions = [entry for entry in self.available_versions if self.compare_versions(entry['version'].lstrip('vV'), APP_VERSION) >= 0]
+            filtered_versions = [entry for entry in self.available_versions if self.show_older_releases or self.compare_versions(entry['version'].lstrip('vV'), APP_VERSION) >= 0]
             for idx, entry in enumerate(filtered_versions):
                 try:
                     if self.compare_versions(entry['version'].lstrip('vV'), current_version) > 0:
@@ -10741,8 +10784,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                 except Exception:
                     continue
 
-        if target_index is None and self.available_versions:
-            # 2025-11-10 00:05 UTC original behavior selected the preferred_version only; now we default to the latest release.
+        if target_index is None and filtered_versions:
+            # Default to the latest release
             target_index = 0
 
         if target_index is not None:
@@ -10757,6 +10800,33 @@ class FirmwareDownloaderGUI(QMainWindow):
         action_layout.addWidget(self.version_download_btn)
         layout.addLayout(action_layout)
         # Removed: _refresh_version_download_cta - version download button handled in settings dialog
+    
+    def _on_show_older_releases_changed(self, state, browser):
+        """Handle changes to the 'Show older releases' checkbox"""
+        self.show_older_releases = (state == Qt.Checked)
+        # Refresh the version tab to update the combo box
+        if hasattr(self, '_active_settings_dialog') and self._active_settings_dialog:
+            # Find the version tab layout and repopulate it
+            for i in range(self._active_settings_dialog.layout().count()):
+                widget = self._active_settings_dialog.layout().itemAt(i).widget()
+                if isinstance(widget, QTabWidget):
+                    for j in range(widget.count()):
+                        if widget.tabText(j) == "Update Available / Version":
+                            # Get the current browser widget
+                            tab_widget = widget.widget(j)
+                            if tab_widget:
+                                # Clear the layout and repopulate
+                                layout = tab_widget.layout()
+                                if layout:
+                                    # Clear existing widgets except the browser
+                                    while layout.count():
+                                        item = layout.takeAt(0)
+                                        if item.widget() and item.widget() != browser:
+                                            item.widget().deleteLater()
+                                    # Repopulate with updated filter
+                                    self.populate_version_tab(layout, browser)
+                            break
+                    break
 
     # 2025-11-09 21:41:00 UTC - original: Version tab checkbox toggles only changed state on save and the UI never refreshed inline.
     def _handle_update_notification_toggle(self, checked):
@@ -15934,12 +16004,11 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Task buttons - all route through Smart Drop which handles intelligently
         # Format: (task_name, description, requires_adb, requires_root)
         tasks = [
-            ("Install APK", "Install Android application files (.apk)", True, False),
-            ("Install Y1 or Rockbox Themes from Folder", "Install Y1 or Rockbox themes from a folder", False, False),
-            ("Install Y1 or Rockbox Themes from Zip", "Install Y1 or Rockbox themes from a zip file", False, False),
-            ("Install Device Update", "Install firmware update (rom.zip or update.zip)", False, False),
-            ("Transfer Files", "Transfer music, images, or other files to device", False, False),
-            ("Browse Files", "Select any files or folders (Smart Drop will handle automatically)", False, False)
+            ("Files", "Select files to transfer or install", False, False),
+            ("Folders", "Select folders to transfer or install", False, False),
+            ("Themes (Folder)", "Install Y1 or Rockbox themes from a folder", False, False),
+            ("Themes (.zip)", "Install Y1 or Rockbox themes from a zip file", False, False),
+            ("Device Updates", "Install firmware update (rom.zip or update.zip)", False, False)
         ]
         
         selected_task = None
@@ -15978,22 +16047,21 @@ class FirmwareDownloaderGUI(QMainWindow):
         if task_dialog.exec() != QDialog.Accepted:
             return
         
-        # All tasks route through Smart Drop - only difference is file/folder selection dialog
-        # Format: (task_name, file_filter, default_to_folders)
-        # file_filter: None = all files, "*.zip" = zip files, "*.apk" = apk files, etc.
+        # All tasks route through Smart Drop - only difference is initial dialog preference
+        # Format: (default_to_folders)
         # default_to_folders: True = show folder dialog first, False = show file dialog first
+        # Note: All dialogs allow selecting any files/folders - Smart Drop handles intelligently
         
         task_configs = {
-            "Install APK": ("*.apk", False),
-            "Install Y1 or Rockbox Themes from Folder": (None, True),
-            "Install Y1 or Rockbox Themes from Zip": ("*.zip", False),
-            "Install Device Update": ("*.zip", False),
-            "Transfer Files": ("*.mp3 *.flac *.ogg *.wav *.m4a *.aac *.jpg *.jpeg *.png *.gif *.bmp", False),
-            "Browse Files": (None, False)
+            "Files": False,  # Start with file dialog
+            "Folders": True,  # Start with folder dialog
+            "Themes (Folder)": True,  # Start with folder dialog
+            "Themes (.zip)": False,  # Start with file dialog
+            "Device Updates": False  # Start with file dialog
         }
         
-        selected_task = getattr(task_dialog, '_selected_task', "Browse Files")
-        file_filter, default_to_folders = task_configs.get(selected_task, (None, False))
+        selected_task = getattr(task_dialog, '_selected_task', "Files")
+        default_to_folders = task_configs.get(selected_task, False)
         
         selected_paths = []
         
@@ -16031,87 +16099,24 @@ class FirmwareDownloaderGUI(QMainWindow):
                     QMessageBox.No
                 )
                 if add_files == QMessageBox.Yes:
-                    filter_str = f"{selected_task} Files ({file_filter});;All Files (*)" if file_filter else "All Files (*)"
                     file_paths, _ = QFileDialog.getOpenFileNames(
                         self,
                         "Select Files to Add",
                         "",
-                        filter_str
+                        "All Files (*)"
                     )
                     if file_paths:
                         selected_paths.extend(file_paths)
         else:
-            # Start with file selection
-            filter_str = f"{selected_task} Files ({file_filter});;All Files (*)" if file_filter else "All Files (*)"
+            # Start with file selection - allow any files (no restrictions)
             file_paths, _ = QFileDialog.getOpenFileNames(
                 self,
                 f"Select Files{' for ' + selected_task if selected_task != 'Browse Files' else ''}",
                 "",
-                filter_str
+                "All Files (*)"
             )
             if file_paths:
                 selected_paths.extend(file_paths)
-            
-            # Ask if they want to add folders
-            if selected_paths:
-                add_folders = QMessageBox.question(
-                    self,
-                    "Add Folders?",
-                    f"Selected {len(selected_paths)} file(s).\n\nWould you like to also select folders?",
-                    QMessageBox.Yes | QMessageBox.No,
-                    QMessageBox.No
-                )
-                if add_folders == QMessageBox.Yes:
-                    while True:
-                        folder_path = QFileDialog.getExistingDirectory(
-                            self,
-                            "Select Folder to Add (Click Cancel when done)",
-                            "",
-                            QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks
-                        )
-                        if folder_path:
-                            selected_paths.append(folder_path)
-                            another = QMessageBox.question(
-                                self,
-                                "Add Another Folder?",
-                                f"Added: {Path(folder_path).name}\n\nWould you like to select another folder?",
-                                QMessageBox.Yes | QMessageBox.No,
-                                QMessageBox.No
-                            )
-                            if another == QMessageBox.No:
-                                break
-                        else:
-                            break
-            else:
-                # No files selected - ask if they want to select folders instead
-                select_folders = QMessageBox.question(
-                    self,
-                    "Select Folders Instead?",
-                    "No files selected.\n\nWould you like to select folders instead?",
-                    QMessageBox.Yes | QMessageBox.No,
-                    QMessageBox.Yes
-                )
-                if select_folders == QMessageBox.Yes:
-                    while True:
-                        folder_path = QFileDialog.getExistingDirectory(
-                            self,
-                            "Select Folder (Click Cancel when done)",
-                            "",
-                            QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks
-                        )
-                        if folder_path:
-                            selected_paths.append(folder_path)
-                            another = QMessageBox.question(
-                                self,
-                                "Add Another Folder?",
-                                f"Added: {Path(folder_path).name}\n\nWould you like to select another folder?",
-                                QMessageBox.Yes | QMessageBox.No,
-                                QMessageBox.No
-                            )
-                            if another == QMessageBox.No:
-                                break
-                        else:
-                            break
         
         if not selected_paths:
             return
@@ -16120,8 +16125,53 @@ class FirmwareDownloaderGUI(QMainWindow):
         silent_print(f"Browse Files ({selected_task}): Processing {len(selected_paths)} item(s) via Smart Drop")
         self.handle_smart_drop_payload(selected_paths)
     
-    def install_from_zip(self):
-        """Install firmware from a local zip file (legacy method - kept for compatibility)"""
+    def _check_storage_space(self, required_gb=6):
+        """Check if there's enough free storage space
+        
+        Args:
+            required_gb: Minimum required free space in GB (default: 6GB)
+            
+        Returns:
+            tuple: (has_enough_space: bool, available_gb: float, error_message: str or None)
+        """
+        try:
+            # Get current working directory to check its disk
+            current_path = Path.cwd()
+            
+            # Get disk usage for the current directory's drive/partition
+            usage = shutil.disk_usage(current_path)
+            
+            # Calculate available space in GB
+            available_bytes = usage.free
+            available_gb = available_bytes / (1024 ** 3)  # Convert to GB
+            
+            # Check if enough space is available
+            has_enough_space = available_gb >= required_gb
+            
+            if not has_enough_space:
+                error_message = (
+                    f"Insufficient storage space.\n\n"
+                    f"Required: {required_gb} GB\n"
+                    f"Available: {available_gb:.2f} GB\n\n"
+                    f"Please free up at least {required_gb - available_gb:.2f} GB of space "
+                    f"before proceeding with firmware installation."
+                )
+            else:
+                error_message = None
+            
+            return has_enough_space, available_gb, error_message
+            
+        except Exception as e:
+            silent_print(f"Error checking storage space: {e}")
+            # If we can't check, allow the operation to proceed (fail gracefully)
+            return True, 0.0, None
+    
+    def install_from_zip(self, zip_path=None):
+        """Install firmware from a local zip file
+        
+        Args:
+            zip_path: Optional path to zip file. If None, opens file dialog.
+        """
         from PySide6.QtWidgets import QFileDialog, QMessageBox
         
         # Check driver availability for Windows users
@@ -16149,24 +16199,29 @@ class FirmwareDownloaderGUI(QMainWindow):
                     return
                 # Continue with fallback methods if OK is clicked
         
-        # Open file dialog to select zip file
-        file_path, _ = QFileDialog.getOpenFileName(
-            self,
-            "Select Firmware ZIP File",
-            "",
-            "ZIP Files (*.zip)"
-        )
-        
-        if not file_path:
-            return
+        # If zip_path not provided, open file dialog to select zip file
+        if zip_path is None:
+            file_path, _ = QFileDialog.getOpenFileName(
+                self,
+                "Select Firmware ZIP File",
+                "",
+                "ZIP Files (*.zip)"
+            )
             
-        zip_path = Path(file_path)
+            if not file_path:
+                return
+                
+            zip_path = Path(file_path)
+        else:
+            zip_path = Path(zip_path)
+        
         if not zip_path.exists():
             QMessageBox.warning(self, "Error", "Selected file does not exist.")
             return
         
         # Check if the file is named "update.zip" (case-insensitive)
         if zip_path.name.lower() == "update.zip":
+            # This is a Fast Update - skip storage check (Fast Updates don't require 6GB)
             # Show warning that this is a quick update file
             reply = QMessageBox.warning(
                 self,
@@ -16263,6 +16318,17 @@ class FirmwareDownloaderGUI(QMainWindow):
                     f"Failed to copy update.zip:\n{str(e)}"
                 )
                 self.status_label.setText("Error copying update.zip")
+            return
+            
+        # Check storage space before processing rom.zip (full firmware install requires 6GB)
+        has_enough_space, available_gb, error_message = self._check_storage_space(required_gb=6)
+        if not has_enough_space:
+            QMessageBox.warning(
+                self,
+                "Insufficient Storage Space",
+                error_message
+            )
+            self.status_label.setText(f"Insufficient storage space ({available_gb:.2f} GB available, 6 GB required)")
             return
             
         # Process the zip file with progress bar and status updates like download process
@@ -18445,39 +18511,94 @@ class FirmwareDownloaderGUI(QMainWindow):
                         tooltip_suffix = f"Last prepared: {marker_date_str}" if marker_date_str else "Device is ready for Fast Update."
                         self.send_update_btn.setToolTip(f"Fast Update ready. {tooltip_suffix}")
                 else:
-                    self.adb_status_light.setStyleSheet("""
-                        QLabel {
-                            color: #FFA500;
-                            font-size: 12px;
-                        }
-                    """)
-                    if hasattr(self, 'adb_status_label'):
-                        self.adb_status_label.setText("Preparing Device for Fast Updates")
-                    self.start_orange_blink()
-                    self.adb_status_widget.setCursor(Qt.ArrowCursor)
-                    self.adb_status_label.setCursor(Qt.ArrowCursor)
-                    self.adb_status_light.setCursor(Qt.ArrowCursor)
-                    self.adb_status_widget.setToolTip("")
-                    self.adb_status_label.setToolTip("")
-                    self.adb_status_light.setToolTip("")
-                    if hasattr(self, 'send_update_btn'):
-                        self.send_update_btn.setEnabled(False)
-                        if update_script_exists and marker_present and marker_needs_refresh:
-                            suffix = f" Last prepared: {marker_date_str}." if marker_date_str else ""
-                            self.send_update_btn.setToolTip(f"Refreshing Fast Update preparation…{suffix}")
-                        else:
-                            self.send_update_btn.setToolTip("Preparing device for Fast Updates…")
+                    # Double-check if device is actually already prepared before showing "Preparing" status
+                    # This prevents stuck "Preparing" status when device is already ready
+                    device_already_prepared = False
+                    if adb_path and active_device_id:
+                        try:
+                            env_check = self._build_adb_environment()
+                            # Quick check: verify script exists and marker is today
+                            script_check = self._check_update_script_exists(adb_path, active_device_id, env_check)
+                            marker_present_check, marker_value_check = self._read_fastupdate_marker(adb_path, active_device_id, env_check)
+                            marker_is_today_check = False
+                            if marker_present_check and marker_value_check:
+                                try:
+                                    marker_dt = datetime.strptime(marker_value_check.strip(), "%Y-%m-%d")
+                                    marker_is_today_check = (marker_dt.date() == datetime.now().date())
+                                except ValueError:
+                                    pass
+                            
+                            if script_check and marker_is_today_check:
+                                # Device is already prepared - show ready status instead
+                                device_already_prepared = True
+                                silent_print(f"Device {active_device_id} is already prepared - skipping 'Preparing' status")
+                        except Exception as check_error:
+                            silent_print(f"Error checking device preparation status: {check_error}")
+                    
+                    if device_already_prepared:
+                        # Device is ready - show ready status instead of preparing
+                        self.stop_orange_blink()
+                        self.adb_status_light.setStyleSheet("""
+                            QLabel {
+                                color: #00FF00;
+                                font-size: 12px;
+                            }
+                        """)
+                        if hasattr(self, 'adb_status_label'):
+                            self.adb_status_label.setText(self.get_connection_label(device_id))
+                        self.adb_status_widget.setCursor(Qt.ArrowCursor)
+                        self.adb_status_label.setCursor(Qt.ArrowCursor)
+                        self.adb_status_light.setCursor(Qt.ArrowCursor)
+                        tooltip_lines = []
+                        if hostname:
+                            tooltip_lines.append(f"Device: {hostname}")
+                        if marker_date_str:
+                            tooltip_lines.append(f"Fast Update prepared: {marker_date_str}")
+                        if metadata.get('dual_connected'):
+                            tooltip_lines.append("Wi-Fi ADB linked (USB in use for commands).")
+                        tooltip_text = "\n".join(tooltip_lines)
+                        self.adb_status_widget.setToolTip(tooltip_text)
+                        self.adb_status_label.setToolTip(tooltip_text)
+                        self.adb_status_light.setToolTip(tooltip_text)
+                        if hasattr(self, 'send_update_btn'):
+                            self.send_update_btn.setEnabled(True)
+                            tooltip_suffix = f"Last prepared: {marker_date_str}" if marker_date_str else "Device is ready for Fast Update."
+                            self.send_update_btn.setToolTip(f"Fast Update ready. {tooltip_suffix}")
+                    else:
+                        # Device needs preparation - show preparing status
+                        self.adb_status_light.setStyleSheet("""
+                            QLabel {
+                                color: #FFA500;
+                                font-size: 12px;
+                            }
+                        """)
+                        if hasattr(self, 'adb_status_label'):
+                            self.adb_status_label.setText("Preparing Device for Fast Updates")
+                        self.start_orange_blink()
+                        self.adb_status_widget.setCursor(Qt.ArrowCursor)
+                        self.adb_status_label.setCursor(Qt.ArrowCursor)
+                        self.adb_status_light.setCursor(Qt.ArrowCursor)
+                        self.adb_status_widget.setToolTip("")
+                        self.adb_status_label.setToolTip("")
+                        self.adb_status_light.setToolTip("")
+                        if hasattr(self, 'send_update_btn'):
+                            self.send_update_btn.setEnabled(False)
+                            if update_script_exists and marker_present and marker_needs_refresh:
+                                suffix = f" Last prepared: {marker_date_str}." if marker_date_str else ""
+                                self.send_update_btn.setToolTip(f"Refreshing Fast Update preparation…{suffix}")
+                            else:
+                                self.send_update_btn.setToolTip("Preparing device for Fast Updates…")
 
-                    should_prepare = (not update_script_exists) or marker_needs_refresh
-                    worker_running = (hasattr(self, 'adb_update_script_worker') and
-                                      self.adb_update_script_worker and
-                                      self.adb_update_script_worker.isRunning())
-                    operation_in_progress = getattr(self, 'adb_operation_in_progress', False)
+                        should_prepare = (not update_script_exists) or marker_needs_refresh
+                        worker_running = (hasattr(self, 'adb_update_script_worker') and
+                                          self.adb_update_script_worker and
+                                          self.adb_update_script_worker.isRunning())
+                        operation_in_progress = getattr(self, 'adb_operation_in_progress', False)
 
-                    if should_prepare and adb_path and active_device_id and not worker_running and not operation_in_progress:
-                        self.download_and_push_update_script(adb_path, active_device_id)
-                        # Clean up macOS metadata as part of Fast Update preparation (silent, non-blocking)
-                        self._cleanup_device_macos_metadata_silent(adb_path, active_device_id, self._build_adb_environment())
+                        if should_prepare and adb_path and active_device_id and not worker_running and not operation_in_progress:
+                            self.download_and_push_update_script(adb_path, active_device_id)
+                            # Clean up macOS metadata as part of Fast Update preparation (silent, non-blocking)
+                            self._cleanup_device_macos_metadata_silent(adb_path, active_device_id, self._build_adb_environment())
                 
                 # Auto-populate wireless IP field with hostname if USB connected
                 # Check if device_id is USB (not wireless)
@@ -19311,48 +19432,129 @@ class FirmwareDownloaderGUI(QMainWindow):
                 QMessageBox.information(self, "Smart Drop", "No files were available to process.")
                 return
             
-            analysis = self._analyze_smart_drop_sources(paths)
+            # Check if we have USB Storage Mode or ADB connection
+            usb_drive = self._detect_usb_storage_drive()
+            snapshot = self.get_cached_adb_status()
+            adb_status = snapshot.get('status', 'no_adb')
+            has_adb = adb_status != 'no_adb'
+            has_connection = usb_drive is not None or has_adb
+            
+            # Separate rom*.zip files from other files
+            rom_zip_files = []
+            other_files = []
+            for path in paths:
+                if path.is_file() and fnmatch.fnmatch(path.name.lower(), 'rom*.zip'):
+                    rom_zip_files.append(path)
+                else:
+                    other_files.append(path)
+            
+            # If no connection and there are non-rom.zip files, show warning
+            if not has_connection and other_files:
+                QMessageBox.warning(
+                    self,
+                    "No Connection Available",
+                    "No USB Storage Mode or ADB connection detected.\n\n"
+                    "Most file operations require a connection to your Y1 device.\n\n"
+                    "However, rom.zip files can be used for full firmware installation, "
+                    "which requires the device to be powered off and disconnected from USB.\n\n"
+                    "Please connect your Y1 via USB Storage Mode or ADB (USB/Wi-Fi) "
+                    "to transfer other files, or use rom.zip files for firmware installation."
+                )
+                return
+            
+            # Process rom.zip files first (if any) - installation process will prompt to turn off/disconnect
+            if rom_zip_files:
+                for rom_zip in rom_zip_files:
+                    self.install_from_zip(str(rom_zip))
+                # If only rom.zip files, we're done
+                if not other_files:
+                    return
+            
+            # Normal Smart Drop processing for non-rom.zip files
+            if not other_files:
+                return
+            
+            # Check for update.zip files first
+            update_zip_files = []
+            remaining_files = []
+            for path in other_files:
+                if path.is_file() and path.name.lower() == 'update.zip':
+                    update_zip_files.append(path)
+                else:
+                    remaining_files.append(path)
+            
+            # Handle update.zip files specially
+            if update_zip_files:
+                for update_zip in update_zip_files:
+                    # Handle update.zip installation (copy to .rockbox and run ADB commands)
+                    self._handle_update_zip_smart_drop(str(update_zip))
+                # If only update.zip files, we're done
+                if not remaining_files:
+                    return
+            
+            # Analyze remaining files
+            analysis = self._analyze_smart_drop_sources(remaining_files)
             cleanup_targets = analysis.get('cleanup_paths', [])
             if cleanup_targets:
                 self._register_smart_drop_cleanup(cleanup_targets)
             
             handled_anything = False
             
-            rockbox_dirs = sorted({path for path in analysis.get('rockbox_dirs', set())}, key=lambda p: str(p))
-            for rockbox_dir in rockbox_dirs:
-                if hasattr(self, 'merge_rockbox_folder'):
+            # Check if we have themes AND other files - if so, transfer zips/folders as-is
+            has_themes = bool(analysis.get('rockbox_dirs') or analysis.get('theme_dirs'))
+            has_other_content = bool(
+                analysis.get('audio_files') or 
+                analysis.get('image_files') or 
+                analysis.get('apk_files') or
+                analysis.get('other_files')
+            )
+            
+            # If zip/folder contains themes AND other files, transfer as-is
+            if has_themes and has_other_content:
+                # Transfer zips/folders as-is without unpacking
+                for source in remaining_files:
+                    if source.is_file() and source.suffix.lower() == '.zip':
+                        # Transfer zip as-is
+                        handled_anything = True
+                        self._transfer_file_as_is(str(source))
+                    elif source.is_dir():
+                        # Transfer folder as-is
+                        handled_anything = True
+                        self._transfer_folder_as_is(str(source))
+            else:
+                # Handle themes only (no other content)
+                rockbox_dirs = sorted({path for path in analysis.get('rockbox_dirs', set())}, key=lambda p: str(p))
+                for rockbox_dir in rockbox_dirs:
+                    if hasattr(self, 'merge_rockbox_folder'):
+                        handled_anything = True
+                        self.merge_rockbox_folder(str(rockbox_dir))
+                
+                theme_dirs = sorted({path for path in analysis.get('theme_dirs', set())}, key=lambda p: str(p))
+                if theme_dirs and hasattr(self, 'install_theme_folders'):
                     handled_anything = True
-                    self.merge_rockbox_folder(str(rockbox_dir))
+                    self.install_theme_folders([str(path) for path in theme_dirs])
+                
+                # Handle APKs separately
+                apk_files = sorted({path for path in analysis.get('apk_files', set())}, key=lambda p: str(p))
+                if apk_files and hasattr(self, 'install_apk'):
+                    handled_anything = True
+                    for apk in apk_files:
+                        try:
+                            self.install_apk(str(apk))
+                        except Exception as apk_error:
+                            silent_print(f"Smart Drop: Failed to install APK {apk}: {apk_error}")
+                
+                # If no themes but other files, transfer as-is
+                if not has_themes and has_other_content:
+                    for source in remaining_files:
+                        if source.is_file():
+                            handled_anything = True
+                            self._transfer_file_as_is(str(source))
+                        elif source.is_dir():
+                            handled_anything = True
+                            self._transfer_folder_as_is(str(source))
             
-            theme_dirs = sorted({path for path in analysis.get('theme_dirs', set())}, key=lambda p: str(p))
-            if theme_dirs and hasattr(self, 'install_theme_folders'):
-                handled_anything = True
-                self.install_theme_folders([str(path) for path in theme_dirs])
-            
-            apk_files = sorted({path for path in analysis.get('apk_files', set())}, key=lambda p: str(p))
-            if apk_files and hasattr(self, 'install_apk'):
-                handled_anything = True
-                for apk in apk_files:
-                    try:
-                        self.install_apk(str(apk))
-                    except Exception as apk_error:
-                        silent_print(f"Smart Drop: Failed to install APK {apk}: {apk_error}")
-            
-            transfer_sequences = []
-            audio_paths = sorted({path for path in analysis.get('audio_files', set())}, key=lambda p: str(p))
-            if audio_paths:
-                transfer_sequences.append(("audio files", [str(p) for p in audio_paths]))
-            image_paths = sorted({path for path in analysis.get('image_files', set())}, key=lambda p: str(p))
-            if image_paths:
-                transfer_sequences.append(("image files", [str(p) for p in image_paths]))
-            other_paths = sorted({path for path in analysis.get('other_files', set())}, key=lambda p: str(p))
-            if other_paths:
-                transfer_sequences.append(("files", [str(p) for p in other_paths]))
-            
-            if transfer_sequences:
-                handled_anything = True
-                self._queue_smart_drop_transfers(transfer_sequences)
-            elif cleanup_targets and not getattr(self, 'adb_operation_in_progress', False):
+            if cleanup_targets and not handled_anything and not getattr(self, 'adb_operation_in_progress', False):
                 QTimer.singleShot(200, self._run_smart_drop_cleanup)
             
             if not handled_anything:
@@ -19453,6 +19655,146 @@ class FirmwareDownloaderGUI(QMainWindow):
                 analysis['other_files'].add(file_path)
         except Exception as file_error:
             silent_print(f"Smart Drop: file categorization error for {file_path}: {file_error}")
+    
+    def _handle_update_zip_smart_drop(self, update_zip_path):
+        """Handle update.zip files dropped via Smart Drop - copy to .rockbox and run ADB commands."""
+        try:
+            update_zip_path = Path(update_zip_path)
+            if not update_zip_path.exists():
+                QMessageBox.warning(self, "Error", f"update.zip file not found: {update_zip_path}")
+                return
+            
+            # Check for USB storage mode first
+            usb_drive = self._detect_usb_storage_drive()
+            if usb_drive:
+                # Copy to .rockbox folder on USB drive
+                rockbox_dir = Path(usb_drive) / ".rockbox"
+                if not rockbox_dir.exists():
+                    rockbox_dir.mkdir(parents=True, exist_ok=True)
+                destination = rockbox_dir / "update.zip"
+                shutil.copy2(update_zip_path, destination)
+                self.status_label.setText("update.zip copied to .rockbox folder")
+                
+                # Try to run update script via ADB
+                script_success = self.run_update_script_via_adb()
+                if script_success:
+                    QMessageBox.information(
+                        self,
+                        "Update Complete",
+                        "✅ update.zip has been copied to your Y1.\n\n"
+                        "✅ Update script executed successfully via ADB.\n\n"
+                        "Your Y1 will restart and apply the update automatically."
+                    )
+                else:
+                    QMessageBox.information(
+                        self,
+                        "Update Copied",
+                        "✅ update.zip has been copied to your Y1.\n\n"
+                        "Next steps:\n"
+                        "1. Safely disconnect your Y1 from your computer\n"
+                        "2. On your Y1, go to Main Menu > System\n"
+                        "3. Select Firmware Update\n"
+                        "4. The update will install automatically"
+                    )
+                return
+            
+            # No USB drive - try ADB
+            adb_path = self.find_adb_executable()
+            if not adb_path:
+                QMessageBox.warning(
+                    self,
+                    "No Connection",
+                    "No USB Storage Mode or ADB connection detected.\n\n"
+                    "Please connect your Y1 via USB Storage Mode or ADB to install update.zip."
+                )
+                return
+            
+            # Use ADB to push update.zip
+            env = self._build_adb_environment()
+            snapshot = self.get_cached_adb_status()
+            device_id = snapshot.get('device_id')
+            
+            if not device_id:
+                QMessageBox.warning(
+                    self,
+                    "No ADB Connection",
+                    "No ADB device connected.\n\n"
+                    "Please connect your Y1 via USB or Wi-Fi ADB to install update.zip."
+                )
+                return
+            
+            # Push update.zip to device
+            self.status_label.setText("Pushing update.zip to device...")
+            push_cmd = [str(adb_path), '-s', device_id, 'push', str(update_zip_path), '/sdcard/.rockbox/update.zip']
+            result = subprocess.run(
+                push_cmd,
+                capture_output=True,
+                text=True,
+                timeout=60,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            
+            if result.returncode == 0:
+                # Try to run update script
+                script_success = self.run_update_script_via_adb()
+                if script_success:
+                    QMessageBox.information(
+                        self,
+                        "Update Complete",
+                        "✅ update.zip has been pushed to your Y1.\n\n"
+                        "✅ Update script executed successfully via ADB.\n\n"
+                        "Your Y1 will restart and apply the update automatically."
+                    )
+                else:
+                    QMessageBox.information(
+                        self,
+                        "Update Pushed",
+                        "✅ update.zip has been pushed to your Y1.\n\n"
+                        "Next steps:\n"
+                        "1. On your Y1, go to Main Menu > System\n"
+                        "2. Select Firmware Update\n"
+                        "3. The update will install automatically"
+                    )
+                self.status_label.setText("update.zip pushed successfully")
+            else:
+                QMessageBox.warning(
+                    self,
+                    "Push Failed",
+                    f"Failed to push update.zip to device:\n{result.stderr}"
+                )
+                self.status_label.setText("Failed to push update.zip")
+        except Exception as e:
+            silent_print(f"Error handling update.zip: {e}")
+            QMessageBox.warning(
+                self,
+                "Error",
+                f"Failed to handle update.zip:\n{str(e)}"
+            )
+    
+    def _transfer_file_as_is(self, file_path):
+        """Transfer a single file to the device as-is (no unpacking or special handling)."""
+        try:
+            self.transfer_files_to_device([file_path])
+        except Exception as e:
+            silent_print(f"Error transferring file {file_path}: {e}")
+            QMessageBox.warning(
+                self,
+                "Transfer Error",
+                f"Failed to transfer file:\n{str(e)}"
+            )
+    
+    def _transfer_folder_as_is(self, folder_path):
+        """Transfer a folder to the device as-is (no unpacking or special handling)."""
+        try:
+            self.transfer_files_to_device([folder_path])
+        except Exception as e:
+            silent_print(f"Error transferring folder {folder_path}: {e}")
+            QMessageBox.warning(
+                self,
+                "Transfer Error",
+                f"Failed to transfer folder:\n{str(e)}"
+            )
 
     def _queue_smart_drop_transfers(self, transfers):
         """Queue Smart Drop transfers so they run sequentially without collisions."""
@@ -21049,7 +21391,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             device_rockbox_path.mkdir(parents=True, exist_ok=True)
             
             # Show progress
-            self.status_label.setText("Merging .rockbox folder via USB storage mode...")
+            self.status_label.setText("Installing Rockbox theme via USB storage mode...")
             self.progress_bar.setVisible(True)
             self.progress_bar.setRange(0, 0)  # Indeterminate
             QApplication.processEvents()
@@ -21109,7 +21451,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                 error_msg = f"Some items failed to install:\n\n" + "\n".join(failed_items[:5])
                 if len(failed_items) > 5:
                     error_msg += f"\n... and {len(failed_items) - 5} more"
-                self.status_label.setText("Partially installed .rockbox folder")
+                self.status_label.setText("Partially installed Rockbox theme")
                 QMessageBox.warning(
                     self,
                     "Installation Partially Failed",
@@ -21118,13 +21460,33 @@ class FirmwareDownloaderGUI(QMainWindow):
                 self.progress_bar.setVisible(False)
             else:
                 # All items succeeded
-                self.status_label.setText("Successfully merged .rockbox folder via USB storage mode")
-                QMessageBox.information(
-                    self,
-                    "Installation Complete",
-                    "Successfully merged .rockbox folder contents to your Y1.\n\n"
-                    "Files will be available after you turn off USB Storage Mode."
-                )
+                # Count themes installed (check for theme folders)
+                theme_count = 0
+                for item in items_to_copy:
+                    if item.is_dir():
+                        # Check if it's a theme folder (has config.json and cover.*)
+                        config_path = item / "config.json"
+                        cover_files = list(item.glob("cover.*"))
+                        if config_path.exists() and cover_files:
+                            theme_count += 1
+                
+                if theme_count > 0:
+                    theme_word = "theme" if theme_count == 1 else "themes"
+                    self.status_label.setText(f"Successfully installed {theme_count} Rockbox {theme_word}")
+                    QMessageBox.information(
+                        self,
+                        "Installation Complete",
+                        f"Successfully installed {theme_count} Rockbox {theme_word}.\n\n"
+                        "Files will be available after you turn off USB Storage Mode."
+                    )
+                else:
+                    self.status_label.setText("Successfully installed Rockbox theme")
+                    QMessageBox.information(
+                        self,
+                        "Installation Complete",
+                        "Successfully installed Rockbox theme.\n\n"
+                        "Files will be available after you turn off USB Storage Mode."
+                    )
                 QTimer.singleShot(2000, lambda: self.progress_bar.setVisible(False))
             
         except Exception as e:
@@ -21501,15 +21863,16 @@ class FirmwareDownloaderGUI(QMainWindow):
             finally:
                 self.adb_operation_in_progress = False
         else:
-            # No USB drive detected - inform user
-            self.status_label.setText("Theme installation failed (read-only). Please enable USB Storage Mode.")
+            # No USB drive detected - theme installation requires USB Storage Mode or ADB
+            self.status_label.setText("Theme installation failed (read-only). USB Storage Mode or ADB connection required.")
             self.progress_bar.setVisible(False)
             QMessageBox.warning(
                 self,
                 "Theme Installation Failed",
                 "Theme installation failed because the device storage is read-only.\n\n"
-                "This usually happens when USB Storage Mode is enabled.\n\n"
-                "Please enable USB Storage mode and try installing the theme again."
+                "Theme installation requires either:\n"
+                "• USB Storage Mode enabled, or\n"
+                "• ADB connection (USB or Wi-Fi)"
             )
     
     def _install_themes_via_usb(self, theme_folder_paths, usb_drive_path):
@@ -22446,6 +22809,18 @@ class FirmwareDownloaderGUI(QMainWindow):
                 # ARM64 Windows: Block full installs, only allow Fast Updates
                 silent_print("ARM64 Windows detected during Install/Restore; operation skipped.")
                 self.status_label.setText("Install / Restore isn't available on Windows ARM64. Please use Fast Update.")
+                return
+
+        # Check storage space before starting download/extraction (full firmware install requires 6GB)
+        # Note: Fast Updates have already exited above, so this is always a full install
+        has_enough_space, available_gb, error_message = self._check_storage_space(required_gb=6)
+        if not has_enough_space:
+            QMessageBox.warning(
+                self,
+                "Insufficient Storage Space",
+                error_message
+            )
+            self.status_label.setText(f"Insufficient storage space ({available_gb:.2f} GB available, 6 GB required)")
             return
 
         # Switch from release notes view to image view when download starts
@@ -22490,6 +22865,17 @@ class FirmwareDownloaderGUI(QMainWindow):
                     silent_print("ARM64 Windows: process_existing_zip aborted (Install/Restore unavailable).")
                     self.status_label.setText("Install / Restore isn't available on Windows ARM64. Please use Fast Update.")
                     return
+            
+            # Check storage space before extracting (full firmware install requires 6GB)
+            has_enough_space, available_gb, error_message = self._check_storage_space(required_gb=6)
+            if not has_enough_space:
+                QMessageBox.warning(
+                    self,
+                    "Insufficient Storage Space",
+                    error_message
+                )
+                self.status_label.setText(f"Insufficient storage space ({available_gb:.2f} GB available, 6 GB required)")
+                return
             
             # Switch from release notes view to image view when extraction starts
             if hasattr(self, 'image_notes_stack') and self.image_notes_stack:
@@ -22582,6 +22968,18 @@ class FirmwareDownloaderGUI(QMainWindow):
 
     def handle_installation_method(self):
         """Handle installation based on the selected method in settings"""
+        # Check storage space before starting installation (full firmware install requires 6GB)
+        # Note: This is always a full install, not Fast Update, so storage check is required
+        has_enough_space, available_gb, error_message = self._check_storage_space(required_gb=6)
+        if not has_enough_space:
+            QMessageBox.warning(
+                self,
+                "Insufficient Storage Space",
+                error_message
+            )
+            self.status_label.setText(f"Insufficient storage space ({available_gb:.2f} GB available, 6 GB required)")
+            return
+        
         # Check driver status for Windows users
         if platform.system() == "Windows":
             driver_info = self.check_drivers_and_architecture()
