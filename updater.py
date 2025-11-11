@@ -52,7 +52,7 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.8.2.2"
+APP_VERSION = "1.8.2.3"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
 
@@ -16024,7 +16024,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
         dialog.setOption(QFileDialog.Option.DontUseNativeDialog, True)
         dialog.setOption(QFileDialog.Option.ReadOnly, False)
-        dialog.setLabelText(QFileDialog.DialogLabel.Accept, "Send Folder to Smart Drop")
+        dialog.setLabelText(QFileDialog.DialogLabel.Accept, "Send File to Smart Drop")
         dialog.setLabelText(QFileDialog.DialogLabel.Reject, "Cancel")
         dialog.setNameFilter("All Files (*)")
         
