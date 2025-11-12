@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fix Innioasis Updater & Y1 Helper with a Clean Install</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #0f172a;
+            --bg-panel: #111c33;
+            --bg-panel-alt: #12203b;
+            --bg-highlight: #1f2d4d;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5f5;
+            --accent: #3b82f6;
+            --accent-alt: #8b5cf6;
+            --success: #22c55e;
+            --warning: #facc15;
+            --border: rgba(148, 163, 184, 0.25);
+            --shadow: 0 30px 60px rgba(15, 23, 42, 0.45);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(140deg, #070b16, #0f172a 45%, #172546 85%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        a {
+            color: var(--accent);
+        }
+
+        a:hover,
+        a:focus {
+            color: #60a5fa;
+        }
+
+        header,
+        main,
+        footer {
+            width: min(1100px, 92vw);
+            margin: 0 auto;
+        }
+
+        header {
+            padding: 72px 0 40px;
+            text-align: center;
+        }
+
+        .top-strip {
+            background: rgba(59, 130, 246, 0.18);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            border-radius: 0 0 18px 18px;
+            margin: 0 auto 20px;
+            padding: 14px 20px;
+            width: min(1100px, 92vw);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .top-strip a {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 18px;
+            border-radius: 999px;
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .badge::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        h1 {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            margin-top: 22px;
+            margin-bottom: 16px;
+        }
+
+        .intro {
+            margin: 0 auto;
+            max-width: 720px;
+            color: var(--text-secondary);
+        }
+
+        .callouts {
+            display: grid;
+            gap: 16px;
+            margin-top: 36px;
+            text-align: left;
+        }
+
+        .callout {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.12));
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            border-radius: 18px;
+            padding: 20px 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .callout strong {
+            color: #e0eaff;
+        }
+
+        main {
+            display: grid;
+            gap: 32px;
+            padding-bottom: 72px;
+        }
+
+        section {
+            background: var(--bg-panel);
+            border-radius: 24px;
+            padding: clamp(28px, 3vw, 40px);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        section h2 {
+            font-size: clamp(1.8rem, 3vw, 2.2rem);
+            margin-bottom: 20px;
+        }
+
+        section h3 {
+            font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+            margin-bottom: 16px;
+        }
+
+        p + p {
+            margin-top: 12px;
+        }
+
+        ul,
+        ol {
+            margin-top: 16px;
+            margin-left: 20px;
+            color: var(--text-secondary);
+        }
+
+        li + li {
+            margin-top: 10px;
+        }
+
+        .symptom-list {
+            display: grid;
+            gap: 12px;
+            margin-top: 24px;
+            list-style: none;
+        }
+
+        .symptom-list li {
+            background: var(--bg-panel-alt);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 14px 16px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .symptom-list li::before {
+            content: "•";
+            font-size: 26px;
+            line-height: 1;
+            color: var(--accent);
+            margin-top: -2px;
+        }
+
+        .cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 24px;
+            padding: 15px 26px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-alt));
+            color: white;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-decoration: none;
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.35);
+        }
+
+        .cta:hover {
+            transform: translateY(-1px);
+        }
+
+        .step-grid {
+            display: grid;
+            gap: 18px;
+            margin-top: 24px;
+        }
+
+        .step-card {
+            background: var(--bg-panel-alt);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 18px 20px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .step-label {
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            color: var(--accent);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        figure {
+            margin: 28px 0 0;
+            border-radius: 18px;
+            overflow: hidden;
+            background: var(--bg-highlight);
+            border: 1px solid var(--border);
+        }
+
+        figure img {
+            width: 100%;
+            display: block;
+        }
+
+        figcaption {
+            padding: 16px 18px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            background: rgba(15, 23, 42, 0.65);
+        }
+
+        .note {
+            margin-top: 20px;
+            padding: 16px 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(94, 234, 212, 0.35);
+            background: rgba(13, 148, 136, 0.12);
+            color: #ccfbf1;
+        }
+
+        .warning-note {
+            border-color: rgba(250, 204, 21, 0.35);
+            background: rgba(250, 204, 21, 0.16);
+            color: #fef9c3;
+        }
+
+        .features-list {
+            display: grid;
+            gap: 12px;
+            list-style: none;
+            margin: 24px 0 0;
+        }
+
+        .features-list li {
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: var(--bg-panel-alt);
+            border: 1px solid var(--border);
+        }
+
+        footer {
+            padding: 32px 0 48px;
+            text-align: center;
+            color: rgba(148, 163, 184, 0.8);
+        }
+
+        @media (min-width: 860px) {
+            .two-column {
+                display: grid;
+                grid-template-columns: 1.05fr 0.95fr;
+                gap: 28px;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 720px) {
+            header {
+                padding-top: 56px;
+            }
+
+            section {
+                padding: 24px 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="top-strip">
+            <p>This guide helps current <a href="https://innioasis.app/installguide.html">Innioasis Updater</a> users refresh their install. Brand new to the Y1? Start at <a href="https://innioasis.app">innioasis.app</a> for the full setup.</p>
+        </div>
+        <span class="badge">Manual Update Advisory · Release 1.8.2.8</span>
+        <h1>Fix Innioasis Updater & Y1 Helper Issues with a Clean Install</h1>
+        <p class="intro">
+            If your <a href="https://innioasis.app/installguide.html">Innioasis Updater</a> hasn’t pulled the 1.8.2.8 release, launches slowly, or you’ve been relying on the older Y1 Helper tool, follow the clean install instructions below. This guide walks you through the supported reinstall on Windows and macOS so you can get back to reliable updates, Smart Drop, Fast Update, and remote control features in one place.
+        </p>
+        <div class="callouts">
+            <div class="callout">
+                <strong>Windows and macOS users:</strong> perform this clean install if Updater hasn’t updated itself recently, is lingering on older builds, or fails to launch within a few seconds.
+            </div>
+            <div class="callout warning-note">
+                Some long-dormant installs do not self-update. A fresh installer run is the fastest path to regain Smart Drop and Rockbox Fast Update support.
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="symptoms">
+            <h2>Confirm You Need the Clean Install</h2>
+            <p>Manual reinstallation is recommended when you see any of the following symptoms:</p>
+            <ul class="symptom-list">
+                <li>Updater takes minutes to launch or stalls while checking for updates.</li>
+                <li>Smart Drop, Rockbox Fast Update, or Wi-Fi ADB options never appeared after recent releases.</li>
+                <li>Device firmware updates fail to download or apply even though they’re available.</li>
+                <li>You skipped multiple releases and haven’t used the Updater in a long time.</li>
+            </ul>
+            <figure>
+                <img src="https://i.redd.it/jbaadpt4us0g1.png" alt="Manual update advisory for Innioasis Updater 1.8.2.8">
+                <figcaption>Reminder: 1.8.2.8 is the minimum version required to receive the latest feature set.</figcaption>
+            </figure>
+        </section>
+
+        <section id="windows">
+            <h2>Windows: Perform a Clean Reinstall</h2>
+            <p>Use the official Windows installer to refresh Updater on Windows 10 or Windows 11 (64-bit). This fully replaces older builds and restores the self-update channel.</p>
+            <a class="cta" href="https://github.com/y1-community/supplemental-apks/releases/download/1.0/installer.exe">
+                Download Clean Installer for Windows
+            </a>
+            <div class="step-grid">
+                <article class="step-card">
+                    <span class="step-label">Step 1</span>
+                    <h3>Download the latest installer</h3>
+                    <p>Save the installer to your Downloads folder. Close Innioasis Updater if it is currently running.</p>
+                </article>
+                <article class="step-card">
+                    <span class="step-label">Step 2</span>
+                    <h3>Run the installer as Administrator</h3>
+                    <p>Right-click the installer and choose “Run as administrator”. Accept the prompts to replace any existing copy.</p>
+                </article>
+                <article class="step-card">
+                    <span class="step-label">Step 3</span>
+                    <h3>Let Updater relaunch</h3>
+                    <p>After setup completes, launch Innioasis Updater. It should now detect 1.8.2.8 automatically and regain Smart Drop and Fast Update.</p>
+                </article>
+            </div>
+            <figure>
+                <img src="https://i.redd.it/f9zfmxrkxs0g1.png" alt="Windows users may need a manual update to access Smart Drop and Fast Update">
+                <figcaption>Users returning after a long break may be stranded on older builds—reinstalling reconnects you to feature updates.</figcaption>
+            </figure>
+            <p class="note">
+                This reinstall also fixes prolonged startup times and restores the Updater’s ability to fetch device firmware automatically.
+            </p>
+        </section>
+
+        <section id="mac">
+            <h2>macOS: Refresh with the DMG Installer</h2>
+            <div class="two-column">
+                <div>
+                    <p>macOS packages include a built-in reinstall workflow that clears out stale components, ensures launch agents are up to date, and drops in version 1.8.2.8.</p>
+                    <a class="cta" href="https://github.com/y1-community/supplemental-apks/releases/download/1.0/Innioasis.Updater.for.Mac.dmg">
+                        Download Innioasis Updater DMG
+                    </a>
+                    <ol>
+                        <li>Open the downloaded DMG and expand the Finder window so you can see the <strong>Reinstall</strong> option.</li>
+                        <li>Run the Reinstall command to refresh the existing copy of Updater. This removes older helper files that may block new features.</li>
+                        <li>Launch Innioasis Updater again from Applications. Confirm the About panel lists version <strong>1.8.2.8</strong>.</li>
+                    </ol>
+                </div>
+                <div>
+                    <figure>
+                        <img src="https://i.redd.it/c928j8eyat0g1.png" alt="macOS DMG includes a reinstall option">
+                        <figcaption>The macOS disk image exposes Reinstall and Uninstall commands to clean up outdated components.</figcaption>
+                    </figure>
+                </div>
+            </div>
+            <figure>
+                <img src="https://i.redd.it/5fuyy0lnxs0g1.png" alt="macOS reinstall restarts the Innioasis Updater setup process">
+                <figcaption>Allow the setup process to finish. It lays down the newest helper services for a faster launch experience.</figcaption>
+            </figure>
+            <div class="note warning-note">
+                If you see “Innioasis Updater cannot be opened” after reinstalling, go to <em>System Settings › Privacy &amp; Security</em> and choose <strong>Open Anyway</strong> to approve the app.
+            </div>
+            <figure>
+                <img src="https://i.redd.it/j4l4k3inkt0g1.png" alt="macOS security prompt for Innioasis Updater">
+                <figcaption>macOS may block newly reinstalled apps until you explicitly allow them.</figcaption>
+            </figure>
+            <figure>
+                <img src="https://preview.redd.it/psa-manual-update-needed-for-windows-and-mac-users-v0-5gs3cpzfkt0g1.png?width=640&crop=smart&auto=webp&s=ea2d22b65169767fde4b428caa647b338977ab4e" alt="macOS Open Anyway control in Privacy & Security settings">
+                <figcaption>Scroll to the bottom of Privacy &amp; Security after the launch attempt, then click <strong>Open Anyway</strong>.</figcaption>
+            </figure>
+        </section>
+
+        <section id="after">
+            <h2>After You Update to 1.8.2.8</h2>
+            <p>Once you are on the latest version, you gain access to the features below. These are only available on current builds.</p>
+            <ul class="features-list">
+                <li><strong>Smart Drop</strong> for intelligent transfer of Y1 themes, Rockbox themes, music, firmware, and custom apps over USB or Wi-Fi ADB.</li>
+                <li><strong>Rockbox Fast Update</strong> to push Wi-Fi based Rockbox updates directly to your device.</li>
+                <li><strong>Wi-Fi ADB setup assistance</strong> so cables are optional after the first pairing.</li>
+                <li>General stability improvements and dramatically faster launch times across both platforms.</li>
+            </ul>
+            <p class="note">
+                Need help verifying your version? Open Innioasis Updater, choose <strong>Help › About</strong>, and confirm the build shows <strong>1.8.2.8</strong>.
+            </p>
+        </section>
+
+        <section id="support">
+            <h2>Still Need Assistance?</h2>
+            <p>If the clean install fails, capture any error messages and reach out to the Innioasis community support channels. Include your OS version, Updater build (if available), and the steps you have already tried.</p>
+            <p>Keeping your install current ensures you always receive the newest firmware packages and tools as they roll out.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p><em>P.S. The remote control, screenshot, and other goodies from the classic Y1 Helper now live inside the <a href="https://innioasis.app/installguide.html">Updater</a> Toolkit after you reinstall.</em></p>
+        <p>© Innioasis Updater · Clean install guidance for release 1.8.2.8</p>
+    </footer>
+</body>
+</html>
+
