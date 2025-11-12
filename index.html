@@ -3019,6 +3019,8 @@
                 return;
             }
 
+            const wasShowingPrereleases = currentFilters.showPrereleases;
+
             container.classList.add('ready');
             container.classList.toggle('disabled', !hasPrereleases);
             checkbox.disabled = !hasPrereleases;
@@ -3027,10 +3029,18 @@
                 checkbox.checked = userPrefersPrereleases;
                 labelText.textContent = 'Include nightly/beta builds';
                 currentFilters.showPrereleases = userPrefersPrereleases;
+                if (userPrefersPrereleases && !wasShowingPrereleases) {
+                    filterFirmware();
+                    return;
+                }
             } else {
                 checkbox.checked = false;
                 labelText.textContent = 'No prerelease builds for this selection';
                 currentFilters.showPrereleases = false;
+                if (wasShowingPrereleases) {
+                    filterFirmware();
+                    return;
+                }
             }
         }
 
@@ -3205,12 +3215,9 @@
                                tagLower.includes('nightly') || 
                                tagLower.includes('beta');
                     });
-                    const prereleasesContainer = document.getElementById('prereleasesFilterContainer');
-                    if (hasPreleases) {
-                        prereleasesContainer.style.display = 'flex';
-                    } else {
-                        prereleasesContainer.style.display = 'none';
-                    }
+                    updatePrereleaseToggle(hasPreleases);
+                } else {
+                    updatePrereleaseToggle(false);
                 }
                 return;
             }
@@ -3326,13 +3333,7 @@
                        tagLower.includes('nightly') || 
                        tagLower.includes('beta');
             });
-            
-            const prereleasesContainer = document.getElementById('prereleasesFilterContainer');
-            if (hasPreleases) {
-                prereleasesContainer.style.display = 'flex';
-            } else {
-                prereleasesContainer.style.display = 'none';
-            }
+            updatePrereleaseToggle(hasPreleases);
             
             // Add touch handling for scrolling text and check if scrolling is actually needed
             setTimeout(() => {
