@@ -53,7 +53,7 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.8.2.7"
+APP_VERSION = "1.8.2.8"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/storage/sdcard0/.fastupdate"
 LEGACY_FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
@@ -18985,7 +18985,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                 self.send_update_btn.setEnabled(True)
         else:
             if hasattr(self, 'status_label'):
-                self.status_label.setText(f"Failed to install update script: {message}")
+                self.status_label.setText("Ready")
             if hasattr(self, 'progress_bar'):
                 self.progress_bar.setVisible(False)
         silent_print(f"ADB Script Worker completed: {success} - {message}")
