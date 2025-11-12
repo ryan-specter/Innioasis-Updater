@@ -336,15 +336,18 @@
                 <li>Device firmware updates fail to download or apply even though they’re available.</li>
                 <li>You skipped multiple releases and haven’t used the Updater in a long time.</li>
             </ul>
+            <!--
             <figure>
                 <img src="https://i.redd.it/jbaadpt4us0g1.png" alt="Manual update advisory for Innioasis Updater 1.8.2.8">
                 <figcaption>Reminder: 1.8.2.8 is the minimum version required to receive the latest feature set.</figcaption>
             </figure>
+            -->
         </section>
 
         <section id="windows">
             <h2>Windows: Perform a Clean Reinstall</h2>
             <p>Use the official Windows installer to refresh Updater on Windows 10 or Windows 11 (64-bit). This fully replaces older builds and restores the self-update channel.</p>
+            <p class="note">Before you run the installer, open <em>Settings › Apps › Installed Apps</em> (or the legacy <em>Add/Remove Programs</em> panel) and uninstall any existing copy of Innioasis Updater. Starting clean prevents file conflicts.</p>
             <a class="cta" href="https://github.com/y1-community/supplemental-apks/releases/download/1.0/installer.exe">
                 Download Clean Installer for Windows
             </a>
@@ -356,19 +359,21 @@
                 </article>
                 <article class="step-card">
                     <span class="step-label">Step 2</span>
-                    <h3>Run the installer as Administrator</h3>
-                    <p>Right-click the installer and choose “Run as administrator”. Accept the prompts to replace any existing copy.</p>
+                    <h3>Remove any existing install</h3>
+                    <p>Open <em>Settings › Apps › Installed Apps</em> (or the legacy <em>Control Panel › Add/Remove Programs</em>) and uninstall Innioasis Updater so the reinstall starts from a clean slate.</p>
                 </article>
                 <article class="step-card">
                     <span class="step-label">Step 3</span>
-                    <h3>Let Updater relaunch</h3>
-                    <p>After setup completes, launch Innioasis Updater. It should now detect 1.8.2.8 automatically and regain Smart Drop and Fast Update.</p>
+                    <h3>Install and relaunch</h3>
+                    <p>Run the installer you downloaded—Windows will prompt for permission. When setup finishes, launch Innioasis Updater; it should now detect 1.8.2.8 automatically and regain Smart Drop and Fast Update.</p>
                 </article>
             </div>
+            <!--
             <figure>
                 <img src="https://i.redd.it/f9zfmxrkxs0g1.png" alt="Windows users may need a manual update to access Smart Drop and Fast Update">
                 <figcaption>Users returning after a long break may be stranded on older builds—reinstalling reconnects you to feature updates.</figcaption>
             </figure>
+            -->
             <p class="note">
                 This reinstall also fixes prolonged startup times and restores the Updater’s ability to fetch device firmware automatically.
             </p>
@@ -389,19 +394,24 @@
                     </ol>
                 </div>
                 <div>
+                    <!--
                     <figure>
                         <img src="https://i.redd.it/c928j8eyat0g1.png" alt="macOS DMG includes a reinstall option">
                         <figcaption>The macOS disk image exposes Reinstall and Uninstall commands to clean up outdated components.</figcaption>
                     </figure>
+                    -->
                 </div>
             </div>
+            <!--
             <figure>
                 <img src="https://i.redd.it/5fuyy0lnxs0g1.png" alt="macOS reinstall restarts the Innioasis Updater setup process">
                 <figcaption>Allow the setup process to finish. It lays down the newest helper services for a faster launch experience.</figcaption>
             </figure>
+            -->
             <div class="note warning-note">
                 If you see “Innioasis Updater cannot be opened” after reinstalling, go to <em>System Settings › Privacy &amp; Security</em> and choose <strong>Open Anyway</strong> to approve the app.
             </div>
+            <!--
             <figure>
                 <img src="https://i.redd.it/j4l4k3inkt0g1.png" alt="macOS security prompt for Innioasis Updater">
                 <figcaption>macOS may block newly reinstalled apps until you explicitly allow them.</figcaption>
@@ -410,6 +420,7 @@
                 <img src="https://preview.redd.it/psa-manual-update-needed-for-windows-and-mac-users-v0-5gs3cpzfkt0g1.png?width=640&crop=smart&auto=webp&s=ea2d22b65169767fde4b428caa647b338977ab4e" alt="macOS Open Anyway control in Privacy & Security settings">
                 <figcaption>Scroll to the bottom of Privacy &amp; Security after the launch attempt, then click <strong>Open Anyway</strong>.</figcaption>
             </figure>
+            -->
         </section>
 
         <section id="after">
@@ -435,6 +446,8 @@
 
     <footer>
         <p><em>P.S. The remote control, screenshot, and other goodies from the classic Y1 Helper now live inside the <a href="https://innioasis.app/installguide.html">Updater</a> Toolkit after you reinstall.</em></p>
+        <p>Created by <a href="https://ko-fi.com/teamslide">Ryan Specter</a> in collaboration with <a href="https://www.innioasis.com/pages/download">Innioasis</a>.</p>
+        <p>This clean install guide is open source—view or contribute to it on <a href="https://github.com/y1-community/Innioasis-Updater/blob/main/Troubleshooting/clean_install.html">GitHub</a>.</p>
         <p>© Innioasis Updater · Clean install guidance for release 1.8.2.8</p>
     </footer>
 </body>
