@@ -472,6 +472,36 @@
             border: 1px solid var(--border-secondary);
         }
 
+        .prerelease-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: normal;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .prerelease-toggle.ready {
+            opacity: 1;
+        }
+
+        .prerelease-toggle.disabled {
+            cursor: not-allowed;
+            opacity: 0.55;
+        }
+
+        .prerelease-toggle input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .prerelease-toggle.disabled input {
+            cursor: not-allowed;
+        }
+
         .filters {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -1932,9 +1962,9 @@
             <div class="firmware-list">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
                     <h3 id="availableSoftwareTitle" style="margin: 0;">Available System Software</h3>
-                    <label id="prereleasesFilterContainer" style="display: none; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; font-weight: normal;">
-                        <input type="checkbox" id="showPrereleases" style="width: 18px; height: 18px; cursor: pointer;">
-                        <span>Include nightly/beta builds</span>
+                    <label id="prereleasesFilterContainer" class="prerelease-toggle disabled">
+                        <input type="checkbox" id="showPrereleases">
+                        <span id="prereleasesLabelText">Include nightly/beta builds</span>
                     </label>
                 </div>
                 <div id="firmwareContainer">
@@ -2201,6 +2231,7 @@
             software: 'Original Software',
             showPrereleases: false
         };
+        let userPrefersPrereleases = false;
 
         // Function to toggle theme installation instructions (accordion style)
         function toggleThemeInstructions(themeId) {
@@ -2740,6 +2771,7 @@
                 filterFirmware();
             });
             document.getElementById('showPrereleases').addEventListener('change', function() {
+                userPrefersPrereleases = this.checked;
                 filterFirmware();
             });
         }
@@ -2976,6 +3008,30 @@
             currentFilters.showPrereleases = document.getElementById('showPrereleases').checked;
             
             loadFirmwareList();
+        }
+
+        function updatePrereleaseToggle(hasPrereleases) {
+            const container = document.getElementById('prereleasesFilterContainer');
+            const checkbox = document.getElementById('showPrereleases');
+            const labelText = document.getElementById('prereleasesLabelText');
+
+            if (!container || !checkbox || !labelText) {
+                return;
+            }
+
+            container.classList.add('ready');
+            container.classList.toggle('disabled', !hasPrereleases);
+            checkbox.disabled = !hasPrereleases;
+
+            if (hasPrereleases) {
+                checkbox.checked = userPrefersPrereleases;
+                labelText.textContent = 'Include nightly/beta builds';
+                currentFilters.showPrereleases = userPrefersPrereleases;
+            } else {
+                checkbox.checked = false;
+                labelText.textContent = 'No prerelease builds for this selection';
+                currentFilters.showPrereleases = false;
+            }
         }
 
         async function loadFirmwareList() {
