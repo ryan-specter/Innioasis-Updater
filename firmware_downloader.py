@@ -53,9 +53,10 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.8.2.6"
+APP_VERSION = "1.8.2.7"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
-FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
+FASTUPDATE_MARKER_PATH = "/storage/sdcard0/.fastupdate"
+LEGACY_FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
 
 class UpdateCheckEvent(QEvent):
     """Custom event for update check results from worker thread"""
@@ -4908,12 +4909,11 @@ class ADBFastUpdateCheckWorker(QThread):
             
             # Also check for .fastupdate marker in /storage/sdcard0/ via ADB (regardless of USB storage mode)
             # This allows checking the marker date even when USB storage mode is enabled
-            fastupdate_marker_path = '/storage/sdcard0/.fastupdate'
             fastupdate_marker_exists = False
             if not update_script_exists:
-                silent_print(f"update.sh not found - checking for {fastupdate_marker_path} marker...")
+                silent_print(f"update.sh not found - checking for {FASTUPDATE_MARKER_PATH} marker...")
                 marker_check = subprocess.run(
-                    [str(self.adb_path), '-s', selected_device, 'shell', f'test -f {fastupdate_marker_path} && echo exists'],
+                    [str(self.adb_path), '-s', selected_device, 'shell', f'test -f {FASTUPDATE_MARKER_PATH} && echo exists'],
                     capture_output=True,
                     text=True,
                     timeout=5,
@@ -4921,14 +4921,14 @@ class ADBFastUpdateCheckWorker(QThread):
                     creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
                 )
                 if 'exists' in marker_check.stdout:
-                    silent_print(f"Found {fastupdate_marker_path} - fast update available")
+                    silent_print(f"Found {FASTUPDATE_MARKER_PATH} - fast update available")
                     fastupdate_marker_exists = True
                     update_script_exists = True
                 else:
                     # Place .fastupdate marker in /storage/sdcard0/ for future checks
-                    silent_print(f"Placing {fastupdate_marker_path} marker for fast update detection...")
+                    silent_print(f"Placing {FASTUPDATE_MARKER_PATH} marker for fast update detection...")
                     marker_place = subprocess.run(
-                        [str(self.adb_path), '-s', selected_device, 'shell', f'touch {fastupdate_marker_path}'],
+                        [str(self.adb_path), '-s', selected_device, 'shell', f'touch {FASTUPDATE_MARKER_PATH}'],
                         capture_output=True,
                         text=True,
                         timeout=5,
@@ -8342,29 +8342,43 @@ class FirmwareDownloaderGUI(QMainWindow):
         return True
 
     def _read_fastupdate_marker(self, adb_path, device_id, env):
-        """Return (exists, date_string) for the .fastupdate marker on device."""
-        try:
-            marker_cmd = [str(adb_path)]
-            if device_id:
-                marker_cmd.extend(['-s', device_id])
-            marker_cmd.extend(['shell', 'su', '-c', f'cat {FASTUPDATE_MARKER_PATH}'])
-            result = subprocess.run(
-                marker_cmd,
-                capture_output=True,
-                text=True,
-                timeout=3,
-                env=env,
-                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
-            )
-            if result.returncode == 0:
-                marker_output = result.stdout.strip()
-                marker_value = marker_output.splitlines()[0] if marker_output else ""
-                if marker_value:
-                    return True, marker_value
+        """Return (exists, date_string) for the .fastupdate marker on device (primary with legacy fallback)."""
+        def _read_marker(path):
+            try:
+                marker_cmd = [str(adb_path)]
+                if device_id:
+                    marker_cmd.extend(['-s', device_id])
+                marker_cmd.extend(['shell', 'su', '-c', f'cat {path}'])
+                result = subprocess.run(
+                    marker_cmd,
+                    capture_output=True,
+                    text=True,
+                    timeout=3,
+                    env=env,
+                    creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                )
+                if result.returncode == 0:
+                    marker_output = result.stdout.strip()
+                    marker_value = marker_output.splitlines()[0] if marker_output else ""
+                    if marker_value:
+                        return True, marker_value
+            except Exception as e:
+                silent_print(f"Fast Update marker read failed for {path}: {e}")
             return False, ""
-        except Exception as e:
-            silent_print(f"Fast Update marker read failed: {e}")
-            return False, ""
+        
+        exists, value = _read_marker(FASTUPDATE_MARKER_PATH)
+        if exists:
+            return exists, value
+        # Legacy fallback for older versions that stored marker under /data/data/update/
+        legacy_exists, legacy_value = _read_marker(LEGACY_FASTUPDATE_MARKER_PATH)
+        if legacy_exists:
+            silent_print("Found legacy Fast Update marker, migrating to primary location…")
+            try:
+                self._write_fastupdate_marker(adb_path, device_id, env)
+            except Exception as migrate_error:
+                silent_print(f"Failed to migrate legacy Fast Update marker: {migrate_error}")
+            return True, legacy_value
+        return False, ""
 
     def _write_fastupdate_marker(self, adb_path, device_id, env):
         """Write today's date into the Fast Update marker on the device."""
@@ -8395,6 +8409,20 @@ class FirmwareDownloaderGUI(QMainWindow):
                 env=env,
                 creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
             )
+            # Clean up legacy marker if present
+            if LEGACY_FASTUPDATE_MARKER_PATH != FASTUPDATE_MARKER_PATH:
+                cleanup_cmd = [str(adb_path)]
+                if device_id:
+                    cleanup_cmd.extend(['-s', device_id])
+                cleanup_cmd.extend(['shell', 'su', '-c', f'rm -f {LEGACY_FASTUPDATE_MARKER_PATH}'])
+                subprocess.run(
+                    cleanup_cmd,
+                    capture_output=True,
+                    text=True,
+                    timeout=3,
+                    env=env,
+                    creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                )
             silent_print(f"Fast Update marker written for device {device_id}: {today_str}")
         except Exception as e:
             silent_print(f"Failed to write Fast Update marker: {e}")
@@ -9485,17 +9513,22 @@ class FirmwareDownloaderGUI(QMainWindow):
         silent_print(f"Opening settings dialog with initial_tab: {initial_tab}")
         dialog = QDialog(self)
         dialog.setWindowTitle("Settings")
-        dialog.setFixedSize(800, 700)  # Increased size to accommodate Smart Drop tab content properly
+        dialog.resize(960, 760)
+        dialog.setMinimumSize(720, 600)
         dialog.setModal(True)
         # Use native styling - no custom stylesheet for automatic theme adaptation
         self._active_settings_dialog = dialog
         self._pending_auto_download_latest = auto_download_latest
         
         layout = QVBoxLayout(dialog)
+        layout.setContentsMargins(16, 16, 16, 16)
+        layout.setSpacing(12)
         
         # Create tabbed interface or sections
         tab_widget = QTabWidget()
         tab_widget.setIconSize(QSize(12, 12))
+        tab_widget.setDocumentMode(True)
+        tab_widget.setElideMode(Qt.ElideRight)
         # Use native styling - no custom stylesheet for automatic theme adaptation
         layout.addWidget(tab_widget)
         self._active_settings_tab_widget = tab_widget
@@ -9833,11 +9866,14 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Add some spacing
         about_layout.addStretch()
         
-        # Wireless ADB Tab
+        # Wireless ADB Tab (scrollable for smaller displays)
+        wireless_scroll = QScrollArea()
+        wireless_scroll.setWidgetResizable(True)
         wireless_tab = QWidget()
         wireless_layout = QVBoxLayout(wireless_tab)
-        wireless_layout.setSpacing(8)
-        wireless_layout.setContentsMargins(10, 10, 10, 10)
+        wireless_layout.setSpacing(16)
+        wireless_layout.setContentsMargins(16, 16, 16, 16)
+        wireless_scroll.setWidget(wireless_tab)
         
 # 2025-11-09 12:00:00 - original: QLabel text was 'Wireless Fast Update and Remote Control' without beta designation.
         wireless_title = QLabel("Wireless Fast Update and Remote Control (Beta)")
@@ -10482,7 +10518,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             installation_tab_index = tab_widget.addTab(install_tab, "Installation")
         shortcuts_tab_index = None
 # 2025-11-09 12:00:00 - original: Tab label was 'Wireless ADB' and did not indicate beta availability.
-        tab_widget.addTab(wireless_tab, "Smart Drop")
+        tab_widget.addTab(wireless_scroll, "Smart Drop")
         
         self._apply_update_tab_badge(tab_widget, updates_tab_index, update_is_newer)
         if update_is_newer and self._latest_app_version:
@@ -10629,6 +10665,23 @@ class FirmwareDownloaderGUI(QMainWindow):
         path_layout.addLayout(button_layout)
         
         layout.addWidget(path_group)
+
+        # Wi-Fi tools (ADB root required)
+        wifi_group = QGroupBox("Wi-Fi Tools (ADB Root Required)")
+        wifi_layout = QVBoxLayout(wifi_group)
+        wifi_desc = QLabel(
+            "Connect your Y1 to a Wi-Fi network directly from your computer. "
+            "Requires a rooted device connected over USB with ADB enabled."
+        )
+        wifi_desc.setWordWrap(True)
+        wifi_layout.addWidget(wifi_desc)
+        wifi_btn_layout = QHBoxLayout()
+        wifi_btn = QPushButton("Connect to Wi-Fi via ADB…")
+        wifi_btn.clicked.connect(self.open_wifi_connect_dialog)
+        wifi_btn_layout.addWidget(wifi_btn)
+        wifi_btn_layout.addStretch()
+        wifi_layout.addLayout(wifi_btn_layout)
+        layout.addWidget(wifi_group)
     
     def _on_detect_usb_drive(self):
         """Handle auto-detect USB drive button click"""
@@ -18261,8 +18314,9 @@ class FirmwareDownloaderGUI(QMainWindow):
             return
         
         try:
-            # Check for USB storage mode, but also check if Root + Fast Update are available
-            usb_drive = self._detect_usb_storage_drive()
+            # Check for USB storage mode, but allow callers to bypass this when forcing display state
+            skip_usb_detection = bool(details and details.get('_skip_usb_detection'))
+            usb_drive = None if skip_usb_detection else self._detect_usb_storage_drive()
             
             # If USB storage mode is detected, check if Root + Fast Update are available
             if usb_drive:
@@ -18281,14 +18335,15 @@ class FirmwareDownloaderGUI(QMainWindow):
                 
                 # If Root + Fast Update are available, show green ADB status instead of orange USB
                 if is_rooted and fast_update_ready and update_script_exists and marker_is_today:
-                    silent_print(f"USB Storage Mode detected but Root + Fast Update available - showing green ADB status")
-                    # Show green ADB status (Root + Fast Update available)
-                    # User will be prompted to turn off USB storage mode when Fast Update is clicked
-                    # Temporarily store USB drive info in metadata for tooltip
-                    adb_metadata_with_usb = dict(adb_metadata)
-                    adb_metadata_with_usb['usb_storage_drive'] = usb_drive
-                    self.update_adb_status_ui(adb_status, adb_device_id, adb_hostname, adb_metadata_with_usb)
-                    return
+                    silent_print("USB Storage Mode detected but device is rooted with Fast Update ready - forcing green ADB status")
+                    metadata_with_usb = dict(adb_metadata)
+                    metadata_with_usb['usb_storage_drive'] = usb_drive
+                    metadata_with_usb['_skip_usb_detection'] = True
+                    status = adb_status or 'adb_root'
+                    device_id = adb_device_id
+                    hostname = adb_hostname
+                    details = metadata_with_usb
+                    usb_drive = None  # prevent orange USB fallback below
                 else:
                     # Root + Fast Update not available - show orange USB status
                     if hasattr(self, 'adb_status_widget'):
@@ -20039,14 +20094,14 @@ class FirmwareDownloaderGUI(QMainWindow):
             
             def _on_status_ready(snapshot):
                 try:
-                    self._continue_transfer_after_status(file_paths, adb_path, env, snapshot)
+                    self._continue_transfer_after_status(file_paths, adb_path, env, snapshot, retry_via=retry_via)
                 except Exception as callback_error:
                     silent_print(f"Error handling Smart Drop status: {callback_error}")
                     # Try USB storage mode as fallback
-                    usb_drive = self._detect_usb_storage_drive()
-                    if usb_drive:
-                        silent_print(f"ADB transfer failed, using USB storage drive: {usb_drive}")
-                    self._transfer_files_via_usb(file_paths, usb_drive, fallback_try='adb')
+                    usb_drive_fallback = self._detect_usb_storage_drive()
+                    if usb_drive_fallback:
+                        silent_print(f"ADB transfer failed, using USB storage drive: {usb_drive_fallback}")
+                        self._transfer_files_via_usb(file_paths, usb_drive_fallback, fallback_try='adb')
                     else:
                         self.status_label.setText("Transfer error: Unable to start ADB transfer.")
                         QMessageBox.warning(
@@ -20131,10 +20186,11 @@ class FirmwareDownloaderGUI(QMainWindow):
             return
         
         # Check if a transfer is already in progress
+        fallback_for_queue = 'usb' if retry_via is None else None
         if (hasattr(self, 'file_transfer_worker') and self.file_transfer_worker and 
                 self.file_transfer_worker.isRunning()):
             # Add to queue instead of starting immediately
-            self.file_transfer_queue.append((file_paths, destination_folder, adb_path, connected_device_id, env))
+            self.file_transfer_queue.append((file_paths, destination_folder, adb_path, connected_device_id, env, fallback_for_queue))
             queue_size = len(self.file_transfer_queue)
             self.status_label.setText(f"Transfer queued ({queue_size} in queue). Current transfer in progress...")
             QMessageBox.information(
@@ -20147,9 +20203,9 @@ class FirmwareDownloaderGUI(QMainWindow):
             return
         
         # No transfer in progress - start immediately
-        self._start_file_transfer(file_paths, destination_folder, adb_path, connected_device_id, env)
+        self._start_file_transfer(file_paths, destination_folder, adb_path, connected_device_id, env, fallback_try=fallback_for_queue)
     
-    def _start_file_transfer(self, file_paths, destination_folder, adb_path, connected_device_id, env):
+    def _start_file_transfer(self, file_paths, destination_folder, adb_path, connected_device_id, env, fallback_try=None):
         """Start a file transfer (internal method)"""
         try:
             # Set flag to prevent periodic ADB checks during operation
@@ -20168,6 +20224,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             
             # Create and start worker thread for non-blocking file transfer
             self.file_transfer_worker = FileTransferWorker(adb_path, connected_device_id, env, file_paths, destination_folder)
+            self.file_transfer_worker.fallback_try = fallback_try
             self.file_transfer_worker.status_update.connect(self._on_file_transfer_status)
             self.file_transfer_worker.progress_update.connect(self._on_file_transfer_progress)
             self.file_transfer_worker.completed.connect(self._on_file_transfer_complete)
@@ -20207,39 +20264,56 @@ class FirmwareDownloaderGUI(QMainWindow):
         """Handle completion of FileTransferWorker"""
         # Reset flag
         self.adb_operation_in_progress = False
+        fallback_try = None
+        original_paths = []
+        if hasattr(self, 'file_transfer_worker') and self.file_transfer_worker:
+            fallback_try = getattr(self.file_transfer_worker, 'fallback_try', None)
+            try:
+                original_paths = list(self.file_transfer_worker.file_paths)
+            except Exception:
+                original_paths = []
         
         transferred_count = result.get('transferred_count', 0)
         failed_files = result.get('failed_files', [])
         total = result.get('total', 0)
+        retry_triggered = bool(fallback_try == 'usb' and transferred_count < total)
         
         # Show completion message
-        if transferred_count == total:
-            self.status_label.setText(f"Successfully transferred {transferred_count} item(s) to device")
-            QMessageBox.information(
-                self,
-                "Transfer Complete",
-                f"Successfully transferred {transferred_count} item(s) to your device."
-            )
-        elif transferred_count > 0:
-            self.status_label.setText(f"Transferred {transferred_count} of {total} item(s)")
-            failed_list = '\n'.join(failed_files)
-            QMessageBox.warning(
-                self,
-                "Transfer Partially Complete",
-                f"Transferred {transferred_count} of {total} item(s).\n\n"
-                f"Failed items:\n{failed_list}"
-            )
+        if retry_triggered:
+            self.status_label.setText("ADB transfer incomplete, switching to USB storage…")
         else:
-            self.status_label.setText("File transfer failed")
-            failed_list = '\n'.join(failed_files)
-            QMessageBox.warning(
-                self,
-                "Transfer Failed",
-                f"Failed to transfer all items:\n\n{failed_list}"
-            )
+            if transferred_count == total:
+                self.status_label.setText(f"Successfully transferred {transferred_count} item(s) to device")
+                QMessageBox.information(
+                    self,
+                    "Transfer Complete",
+                    f"Successfully transferred {transferred_count} item(s) to your device."
+                )
+            elif transferred_count > 0:
+                self.status_label.setText(f"Transferred {transferred_count} of {total} item(s)")
+                failed_list = '\n'.join(failed_files)
+                QMessageBox.warning(
+                    self,
+                    "Transfer Partially Complete",
+                    f"Transferred {transferred_count} of {total} item(s).\n\n"
+                    f"Failed items:\n{failed_list}"
+                )
+            else:
+                self.status_label.setText("File transfer failed")
+                failed_list = '\n'.join(failed_files)
+                QMessageBox.warning(
+                    self,
+                    "Transfer Failed",
+                    f"Failed to transfer all items:\n\n{failed_list}"
+                )
+            # Hide progress bar only when not retrying
+            self.progress_bar.setVisible(False)
         
-        # Hide progress bar
-        self.progress_bar.setVisible(False)
+        if retry_triggered and original_paths:
+            QTimer.singleShot(250, lambda paths=list(original_paths): self._transfer_files_via_usb(paths, fallback_try='adb'))
+        
+        # Clear worker reference before queue processing
+        self.file_transfer_worker = None
         
         # Process next item in queue if available
         self._process_next_queued_transfer()
@@ -20254,11 +20328,16 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         if self.file_transfer_queue:
             # Get next item from queue
-            file_paths, destination_folder, adb_path, connected_device_id, env = self.file_transfer_queue.pop(0)
+            file_paths, destination_folder, adb_path, connected_device_id, env, fallback_try = self.file_transfer_queue.pop(0)
             silent_print(f"Processing queued transfer: {len(file_paths)} file(s)")
             
             # Start the next transfer
-            QTimer.singleShot(500, lambda: self._start_file_transfer(file_paths, destination_folder, adb_path, connected_device_id, env))
+            QTimer.singleShot(
+                500,
+                lambda paths=list(file_paths), dest=destination_folder, adb=adb_path,
+                       device_id=connected_device_id, env_vars=env, fb=fallback_try:
+                    self._start_file_transfer(paths, dest, adb, device_id, env_vars, fallback_try=fb)
+            )
     
     def select_device_folder(self, adb_path, device_id, env, file_paths=None):
         """Show dialog to select destination folder on device with expandable tree view"""
@@ -20454,7 +20533,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             mountpoint = "/storage/sdcard0"
             return mountpoint
     
-    def _transfer_files_via_usb(self, file_paths, usb_drive_path=None):
+    def _transfer_files_via_usb(self, file_paths, usb_drive_path=None, fallback_try=None):
         """Transfer files/folders to device via USB drive using worker thread (non-blocking)"""
         try:
             from PySide6.QtWidgets import QFileDialog, QMessageBox
@@ -20482,7 +20561,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                 # Add to queue instead of starting immediately
                 if not hasattr(self, 'usb_transfer_queue'):
                     self.usb_transfer_queue = []
-                self.usb_transfer_queue.append((file_paths, folder_path))
+                self.usb_transfer_queue.append((file_paths, folder_path, fallback_try))
                 queue_size = len(self.usb_transfer_queue)
                 self.status_label.setText(f"USB transfer queued ({queue_size} in queue). Current transfer in progress...")
                 QMessageBox.information(
@@ -20503,6 +20582,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             
             # Create and start worker thread for non-blocking USB file transfer
             self.usb_transfer_worker = USBFileTransferWorker(file_paths, folder_path)
+            self.usb_transfer_worker.fallback_try = fallback_try
             self.usb_transfer_worker.status_update.connect(self._on_usb_transfer_status)
             self.usb_transfer_worker.progress_update.connect(self._on_usb_transfer_progress)
             self.usb_transfer_worker.completed.connect(self._on_usb_transfer_complete)
@@ -20540,40 +20620,61 @@ class FirmwareDownloaderGUI(QMainWindow):
         total = result.get('total', 0)
         usb_drive_path = result.get('usb_drive_path', '')
         auto_detected = usb_drive_path == self._detect_usb_storage_drive()
+        fallback_try = None
+        original_paths = []
+        if hasattr(self, 'usb_transfer_worker') and self.usb_transfer_worker:
+            fallback_try = getattr(self.usb_transfer_worker, 'fallback_try', None)
+            try:
+                original_paths = list(self.usb_transfer_worker.file_paths)
+            except Exception:
+                original_paths = []
+        # Clear worker reference early
+        self.usb_transfer_worker = None
         
-        # Hide progress bar
-        self.progress_bar.setVisible(False)
+        retry_triggered = bool(fallback_try == 'adb' and transferred_count < total)
+        
+        if retry_triggered:
+            self.status_label.setText("USB transfer incomplete, trying ADB over USB connection…")
+            # Kick off ADB transfer (prevent USB retry loop by marking retry_via)
+            QTimer.singleShot(250, lambda paths=list(original_paths): self.transfer_files_to_device(paths, retry_via='usb'))
+        else:
+            # Hide progress bar when no retry
+            self.progress_bar.setVisible(False)
         
         # Show completion message
-        if transferred_count == total and success:
-            self.status_label.setText(f"Successfully transferred {transferred_count} item(s) to USB drive")
-            if not auto_detected:
-                QMessageBox.information(
+        if not retry_triggered:
+            if transferred_count == total and success:
+                self.status_label.setText(f"Successfully transferred {transferred_count} item(s) to USB drive")
+                if not auto_detected:
+                    QMessageBox.information(
+                        self,
+                        "Transfer Complete",
+                        f"Successfully transferred {transferred_count} item(s) to:\n\n{usb_drive_path}"
+                    )
+            elif transferred_count > 0:
+                self.status_label.setText(f"Transferred {transferred_count} of {total} item(s)")
+                failed_list = '\n'.join(failed_files)
+                QMessageBox.warning(
                     self,
-                    "Transfer Complete",
-                    f"Successfully transferred {transferred_count} item(s) to:\n\n{usb_drive_path}"
+                    "Transfer Partially Complete",
+                    f"Transferred {transferred_count} of {total} item(s) to:\n\n{usb_drive_path}\n\n"
+                    f"Failed items:\n{failed_list}"
                 )
-        elif transferred_count > 0:
-            self.status_label.setText(f"Transferred {transferred_count} of {total} item(s)")
-            failed_list = '\n'.join(failed_files)
-            QMessageBox.warning(
-                self,
-                "Transfer Partially Complete",
-                f"Transferred {transferred_count} of {total} item(s) to:\n\n{usb_drive_path}\n\n"
-                f"Failed items:\n{failed_list}"
-            )
-        else:
-            self.status_label.setText("USB transfer failed")
-            failed_list = '\n'.join(failed_files)
-            QMessageBox.warning(
-                self,
-                "Transfer Failed",
-                f"Failed to transfer all items to:\n\n{usb_drive_path}\n\n"
-                f"Failed items:\n{failed_list}"
-            )
+            else:
+                self.status_label.setText("USB transfer failed")
+                failed_list = '\n'.join(failed_files)
+                QMessageBox.warning(
+                    self,
+                    "Transfer Failed",
+                    f"Failed to transfer all items to:\n\n{usb_drive_path}\n\n"
+                    f"Failed items:\n{failed_list}"
+                )
         
         # Process next item in queue if available
         self._process_next_queued_usb_transfer()
+        if retry_triggered:
+            # Make sure cleanup continues when retry chain finishes
+            return
     
     def _process_next_queued_usb_transfer(self):
         """Process the next item in the USB file transfer queue"""
@@ -20582,11 +20683,241 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         if self.usb_transfer_queue:
             # Get next item from queue
-            file_paths, usb_drive_path = self.usb_transfer_queue.pop(0)
+            file_paths, usb_drive_path, fallback_try = self.usb_transfer_queue.pop(0)
             silent_print(f"Processing queued USB transfer: {len(file_paths)} file(s)")
             
             # Start the next transfer
-            QTimer.singleShot(500, lambda: self._transfer_files_via_usb(file_paths, usb_drive_path))
+            QTimer.singleShot(500, lambda: self._transfer_files_via_usb(file_paths, usb_drive_path, fallback_try))
+
+    def open_wifi_connect_dialog(self):
+        """Display Wi-Fi connection dialog and allow connecting via ADB (root required)."""
+        from PySide6.QtWidgets import (
+            QDialog, QVBoxLayout, QLabel, QHBoxLayout,
+            QPushButton, QLineEdit, QMessageBox, QCheckBox
+        )
+        ready, snapshot = self._ensure_adb_capability('root', "Connect to Wi-Fi via ADB")
+        if not ready:
+            return
+        adb_path = self.find_adb_executable()
+        if not adb_path:
+            QMessageBox.warning(self, "ADB Not Found", "ADB is required to configure Wi-Fi over USB.")
+            return
+        env = self._build_adb_environment()
+        device_id = snapshot.get('active_device_id') or snapshot.get('device_id')
+        if not device_id:
+            QMessageBox.warning(self, "Device Not Connected", "No rooted ADB device detected.")
+            return
+        
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Connect Y1 to Wi-Fi (ADB Root)")
+        dialog.setMinimumWidth(420)
+        layout = QVBoxLayout(dialog)
+        
+        info_label = QLabel(
+            "Enter the Wi-Fi network name (SSID) and password. Your Y1 must be connected over USB with root ADB access."
+        )
+        info_label.setWordWrap(True)
+        layout.addWidget(info_label)
+        
+        ssid_label = QLabel("Wi-Fi network name (SSID):")
+        layout.addWidget(ssid_label)
+        ssid_input = QLineEdit()
+        ssid_input.setPlaceholderText("Exact network name (case sensitive)")
+        layout.addWidget(ssid_input)
+        
+        password_label = QLabel("Network password (leave blank for open networks):")
+        layout.addWidget(password_label)
+        password_input = QLineEdit()
+        password_input.setEchoMode(QLineEdit.Password)
+        layout.addWidget(password_input)
+        show_password_cb = QCheckBox("Show password")
+        show_password_cb.toggled.connect(
+            lambda checked: password_input.setEchoMode(QLineEdit.Normal if checked else QLineEdit.Password)
+        )
+        layout.addWidget(show_password_cb)
+        
+        status_label = QLabel("")
+        layout.addWidget(status_label)
+        
+        button_row = QHBoxLayout()
+        connect_btn = QPushButton("Connect")
+        cancel_btn = QPushButton("Cancel")
+        button_row.addStretch()
+        button_row.addWidget(connect_btn)
+        button_row.addWidget(cancel_btn)
+        layout.addLayout(button_row)
+        
+        def attempt_connect():
+            ssid = ssid_input.text().strip()
+            if not ssid:
+                QMessageBox.warning(dialog, "Missing SSID", "Please enter the exact Wi-Fi network name (SSID).")
+                return
+            password = password_input.text()
+            status_label.setText("Sending Wi-Fi connection command via ADB…")
+            QApplication.setOverrideCursor(Qt.WaitCursor)
+            QApplication.processEvents()
+            try:
+                success, message = self._connect_wifi_network_via_adb(adb_path, device_id, env, ssid, password)
+            finally:
+                QApplication.restoreOverrideCursor()
+            if success:
+                status_label.setText("Wi-Fi connection command sent successfully.")
+                QMessageBox.information(dialog, "Wi-Fi", message or "Command sent successfully.")
+                dialog.accept()
+            else:
+                status_label.setText("Connection attempt failed. Review the message and try again.")
+                QMessageBox.warning(dialog, "Wi-Fi Connection Failed", message or "Unknown error occurred.")
+        
+        connect_btn.clicked.connect(attempt_connect)
+        cancel_btn.clicked.connect(dialog.reject)
+        
+        ssid_input.setFocus()
+        dialog.exec()
+    
+    def _get_wifi_networks_via_adb(self, adb_path, device_id, env):
+        """Retrieve Wi-Fi scan results via adb shell (root)."""
+        networks = []
+        adb_base = [str(adb_path), '-s', device_id, 'shell', 'su', '-c']
+        try:
+            subprocess.run(
+                adb_base + ['cmd wifi start-scan'],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+        except Exception as e:
+            silent_print(f"Wi-Fi start-scan error: {e}")
+        try:
+            result = subprocess.run(
+                adb_base + ['cmd wifi list-scan-results'],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+            )
+            if result.returncode == 0 and result.stdout:
+                networks = self._parse_cmd_wifi_scan(result.stdout)
+        except Exception as e:
+            silent_print(f"Wi-Fi list-scan-results error: {e}")
+        
+        if not networks:
+            try:
+                subprocess.run(
+                    adb_base + ['wpa_cli -i wlan0 scan'],
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
+                    env=env,
+                    creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                )
+                fallback = subprocess.run(
+                    adb_base + ['wpa_cli -i wlan0 scan_results'],
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
+                    env=env,
+                    creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                )
+                if fallback.returncode == 0 and fallback.stdout:
+                    networks = self._parse_wpa_cli_scan(fallback.stdout)
+            except Exception as e:
+                silent_print(f"Wi-Fi wpa_cli scan error: {e}")
+        return networks
+    
+    def _parse_cmd_wifi_scan(self, output):
+        """Parse cmd wifi list-scan-results output."""
+        networks = []
+        current = {}
+        for raw_line in output.splitlines():
+            line = raw_line.strip()
+            if not line:
+                if current and current.get('ssid'):
+                    networks.append(current)
+                current = {}
+                continue
+            if line.lower().startswith('network'):
+                if current and current.get('ssid'):
+                    networks.append(current)
+                current = {}
+                continue
+            if 'SSID:' in line:
+                current['ssid'] = line.split('SSID:', 1)[1].strip()
+            elif 'BSSID:' in line:
+                current['bssid'] = line.split('BSSID:', 1)[1].strip()
+            elif 'RSSI:' in line:
+                current['signal'] = line.split('RSSI:', 1)[1].strip()
+            elif 'level:' in line and 'signal' not in current:
+                current['signal'] = line.split('level:', 1)[1].strip()
+            elif 'frequency:' in line:
+                current['frequency'] = line.split('frequency:', 1)[1].strip()
+        if current and current.get('ssid'):
+            networks.append(current)
+        # Deduplicate by SSID/BSSID
+        seen = set()
+        deduped = []
+        for net in networks:
+            key = (net.get('ssid'), net.get('bssid'))
+            if key in seen:
+                continue
+            seen.add(key)
+            deduped.append(net)
+        return deduped
+    
+    def _parse_wpa_cli_scan(self, output):
+        """Parse wpa_cli scan_results output."""
+        networks = []
+        lines = [line.strip() for line in output.splitlines() if line.strip()]
+        if not lines:
+            return networks
+        for line in lines[1:]:
+            parts = line.split('\t')
+            if len(parts) >= 5:
+                bssid, freq, level, flags, ssid = parts[:5]
+                networks.append({
+                    'ssid': ssid,
+                    'bssid': bssid,
+                    'frequency': freq,
+                    'signal': f"{level} dBm" if level else None,
+                    'flags': flags
+                })
+        return networks
+    
+    def _connect_wifi_network_via_adb(self, adb_path, device_id, env, ssid, password):
+        """Issue adb shell command to connect to Wi-Fi network."""
+        safe_ssid = ssid.replace('"', r'\"')
+        safe_password = password.replace('"', r'\"')
+        base_cmd = f'cmd wifi connect-network "{safe_ssid}"'
+        if safe_password:
+            base_cmd += f' "{safe_password}"'
+        adb_command = [str(adb_path), '-s', device_id, 'shell', 'su', '-c', base_cmd]
+        result = subprocess.run(
+            adb_command,
+            capture_output=True,
+            text=True,
+            timeout=20,
+            env=env,
+            creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+        )
+        stdout = (result.stdout or "").strip()
+        stderr = (result.stderr or "").strip()
+        message = stdout or stderr or "Command executed."
+        success = result.returncode == 0
+        if success:
+            try:
+                subprocess.run(
+                    [str(adb_path), '-s', device_id, 'shell', 'su', '-c', 'cmd wifi reconnect'],
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
+                    env=env,
+                    creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                )
+            except Exception as reconnect_error:
+                silent_print(f"Wi-Fi reconnect command error: {reconnect_error}")
+        return success, message
     
     def _copy_tree_clean_metadata(self, src, dst):
         """Copy directory tree while cleaning macOS metadata files"""
