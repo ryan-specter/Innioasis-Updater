@@ -53,7 +53,7 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.8.2.8"
+APP_VERSION = "1.8.2.9"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/storage/sdcard0/.fastupdate"
 LEGACY_FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
@@ -6060,10 +6060,6 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Hide left panel by default - will show when releases are available
         QTimer.singleShot(0, self._show_initial_offline_state)
 
-        # Create .no_updates file at launch if it doesn't exist (manual updates by default)
-        # REMOVED: Legacy updater.py method no longer used - app handles updates internally
-        # QTimer.singleShot(25, self.ensure_manual_updates_default)
-
         # Handle version check file and macOS app update message (non-blocking)
         # REMOVED: Legacy .version file handling - app handles updates internally
         # QTimer.singleShot(50, self.handle_version_check)
@@ -11272,7 +11268,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             QMessageBox.information(
                 self,
                 "Restart required",
-                f"Innioasis Updater {version} has been installed.\nThe application will restart to load the new version."
+                f"Innioasis Updater {version} has been installed.\nRestart the app to load the new version"
             )
             # 2025-11-09 18:45 UTC original restart logic kept for reference:
             # self.close()
@@ -12838,11 +12834,6 @@ class FirmwareDownloaderGUI(QMainWindow):
             
         try:
             # Note: Preferences are already loaded by load_installation_preferences() called earlier
-            # Check for .no_updates file to determine if updates are disabled
-            no_updates_file = Path(".no_updates")
-            updates_disabled_by_file = no_updates_file.exists()
-            
-            # Automatic updates are now manual by default - no need to check .no_updates file for settings
             
             # Ensure the Skip Update shortcut exists if auto-updates are disabled
             if True:  # Manual updates by default
