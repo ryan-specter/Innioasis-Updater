@@ -19,6 +19,7 @@ import tempfile
 import argparse
 import webbrowser
 import fnmatch
+import shlex
 from pathlib import Path
 from urllib.parse import urlparse
 import urllib.parse
@@ -52,7 +53,7 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.8.2.5"
+APP_VERSION = "1.8.2.6"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
 
@@ -3550,15 +3551,17 @@ class USBFileTransferWorker(QThread):
                         continue
                     
                     if source_path.is_file():
-                        # Copy file to destination
-                        dest_path = dest_base / source_path.name
+                        # Copy file to destination, sanitizing name for FAT/exFAT compatibility
+                        dest_name = self._sanitize_usb_filename(source_path.name)
+                        dest_path = dest_base / dest_name
                         import shutil
                         shutil.copy2(source_path, dest_path)
                         transferred_count += 1
                         silent_print(f"Successfully copied: {source_path.name}")
                     elif source_path.is_dir():
                         # Copy directory to destination, cleaning macOS metadata
-                        dest_path = dest_base / source_path.name
+                        dest_folder_name = self._sanitize_usb_filename(source_path.name)
+                        dest_path = dest_base / dest_folder_name
                         import shutil
                         if dest_path.exists():
                             # Merge directories
@@ -3953,7 +3956,20 @@ class ThemeInstallWorker(QThread):
                 return
             
             mountpoint = "/storage/sdcard0"
-            themes_path = f"{mountpoint}/.rockbox/themes"
+            themes_path = f"{mountpoint}/Themes"
+            
+            # Ensure Themes directory exists
+            try:
+                subprocess.run(
+                    [str(self.adb_path), '-s', self.connected_device_id, 'shell', f'mkdir -p {shlex.quote(themes_path)}'],
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
+                    env=self.env,
+                    creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                )
+            except Exception as mkdir_error:
+                silent_print(f"Warning: unable to ensure Themes directory: {mkdir_error}")
             
             success_count = 0
             total = len(self.theme_folders)
@@ -3970,6 +3986,20 @@ class ThemeInstallWorker(QThread):
                     theme_name = theme_path.name
                     
                     self.status_update.emit(f"Installing theme '{theme_name}'...")
+                    
+                    # Remove any previous copy to avoid stale assets
+                    dest_path = f"{themes_path}/{theme_name}"
+                    try:
+                        subprocess.run(
+                            [str(self.adb_path), '-s', self.connected_device_id, 'shell', f'rm -rf {shlex.quote(dest_path)}'],
+                            capture_output=True,
+                            text=True,
+                            timeout=10,
+                            env=self.env,
+                            creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                        )
+                    except Exception as rm_error:
+                        silent_print(f"Warning: unable to remove existing theme {theme_name}: {rm_error}")
                     
                     # Push theme folder to device
                     adb_cmd = [str(self.adb_path), '-s', self.connected_device_id, 'push', str(theme_path), themes_path]
@@ -5636,6 +5666,11 @@ class DragDropStackedWidget(QStackedWidget):
             except Exception as snapshot_err:
                 silent_print(f"DragDropStackedWidget: failed to hook snapshot_changed: {snapshot_err}")
         self._check_adb_status()
+        self._operation_overlay_active = False
+        self._operation_mode = None
+        self._operation_overlay_timer = QTimer(self)
+        self._operation_overlay_timer.setSingleShot(True)
+        self._operation_overlay_timer.timeout.connect(self._verify_operation_overlay_state)
     
     def _check_adb_status(self):
         """Check ADB status and return (is_connected, is_fast_update_enabled) using unified method"""
@@ -5712,7 +5747,7 @@ class DragDropStackedWidget(QStackedWidget):
         else:
             return "Smart Drop (Beta): Drop to transfer"
     
-    def _show_drag_overlay(self, message):
+    def _show_drag_overlay(self, message, style='dashed'):
         """Show drag overlay with message"""
         try:
             if not message:
@@ -5725,16 +5760,22 @@ class DragDropStackedWidget(QStackedWidget):
             # Create overlay label
             self.drag_overlay = QLabel(message, self)
             self.drag_overlay.setAlignment(Qt.AlignCenter)
-            self.drag_overlay.setStyleSheet("""
-                QLabel {
-                    background-color: rgba(0, 0, 0, 200);
+            border_style = "3px dashed white"
+            background_style = "rgba(0, 0, 0, 200)"
+            if style == 'solid':
+                border_style = "3px solid #7ab7ff"
+                background_style = "rgba(12, 27, 51, 220)"
+            self.drag_overlay.setStyleSheet(f"""
+                QLabel {{
+                    background-color: {background_style};
                     color: white;
-                    font-size: 24px;
-                    font-weight: bold;
-                    border: 3px dashed white;
-                    border-radius: 10px;
-                    padding: 20px;
-                }
+                    font-size: 22px;
+                    font-weight: 600;
+                    letter-spacing: 0.02em;
+                    border: {border_style};
+                    border-radius: 12px;
+                    padding: 24px;
+                }}
             """)
             self.drag_overlay.setGeometry(self.rect())
             self.drag_overlay.setVisible(True)
@@ -5742,15 +5783,46 @@ class DragDropStackedWidget(QStackedWidget):
         except Exception as e:
             silent_print(f"Error showing drag overlay: {e}")
     
-    def _hide_drag_overlay(self):
+    def _hide_drag_overlay(self, force=False):
         """Hide drag overlay"""
         try:
+            if self._operation_overlay_active and not force:
+                return
             if self.drag_overlay:
                 self.drag_overlay.setVisible(False)
                 self.drag_overlay.deleteLater()
                 self.drag_overlay = None
         except:
             pass
+    
+    def show_operation_overlay(self, mode='smart_drop'):
+        """Show persistent overlay indicating an in-progress Smart Drop or Fast Update."""
+        messages = {
+            'fast_update': "⚡ Fast Update in progress…",
+            'fast_drop': "⚡ Fast Drop in progress…",
+            'smart_drop': "Smart Drop in progress…"
+        }
+        self._operation_overlay_active = True
+        self._operation_mode = mode
+        self._operation_overlay_timer.start(1200)
+        self._show_drag_overlay(messages.get(mode, "Processing…"), style='solid')
+    
+    def hide_operation_overlay(self):
+        """Hide persistent operation overlay forcefully."""
+        self._operation_overlay_active = False
+        self._operation_mode = None
+        self._operation_overlay_timer.stop()
+        self._hide_drag_overlay(force=True)
+    
+    def _verify_operation_overlay_state(self):
+        """Ensure overlay stays only while an operation is active."""
+        if not self._operation_overlay_active:
+            return
+        parent_active = False
+        if self.parent_gui:
+            parent_active = getattr(self.parent_gui, '_dropzone_operation_active', False)
+        if not parent_active:
+            self.hide_operation_overlay()
     
     def dragEnterEvent(self, event: QDragEnterEvent):
         """Handle drag enter event"""
@@ -19936,7 +20008,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             except Exception as cleanup_error:
                 silent_print(f"Smart Drop: cleanup failed for {target}: {cleanup_error}")
 
-    def transfer_files_to_device(self, file_paths):
+    def transfer_files_to_device(self, file_paths, retry_via=None):
         """Transfer files/folders to device over ADB when connected (with queuing support) or via USB fallback"""
         try:
             if not self._ensure_adb_idle("a Smart Drop transfer"):
@@ -19948,11 +20020,11 @@ class FirmwareDownloaderGUI(QMainWindow):
                 return
             
             # If USB storage mode is available, use it directly
-            if connection_type == "usb_storage" and usb_drive:
+            if connection_type == "usb_storage" and usb_drive and retry_via != 'usb':
                 silent_print(f"USB Storage Mode detected, using USB storage drive for file transfer: {usb_drive}")
                 destination_folder = self._select_usb_storage_folder(usb_drive, file_paths)
                 if destination_folder:
-                    self._transfer_files_via_usb(file_paths, destination_folder)
+                    self._transfer_files_via_usb(file_paths, destination_folder, fallback_try='adb' if retry_via is None else None)
                 return
             
             # Check if ADB is available
@@ -19974,7 +20046,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                     usb_drive = self._detect_usb_storage_drive()
                     if usb_drive:
                         silent_print(f"ADB transfer failed, using USB storage drive: {usb_drive}")
-                        self._transfer_files_via_usb(file_paths, usb_drive)
+                    self._transfer_files_via_usb(file_paths, usb_drive, fallback_try='adb')
                     else:
                         self.status_label.setText("Transfer error: Unable to start ADB transfer.")
                         QMessageBox.warning(
@@ -19991,9 +20063,9 @@ class FirmwareDownloaderGUI(QMainWindow):
             traceback.print_exc()
             # Try USB storage mode as fallback
             usb_drive = self._detect_usb_storage_drive()
-            if usb_drive:
+            if usb_drive and retry_via != 'usb':
                 silent_print(f"Transfer error, trying USB storage drive: {usb_drive}")
-                self._transfer_files_via_usb(file_paths, usb_drive)
+                self._transfer_files_via_usb(file_paths, usb_drive, fallback_try='adb')
             else:
                 self.status_label.setText(f"Transfer error: {str(e)[:100]}")
                 self.progress_bar.setVisible(False)
@@ -20006,7 +20078,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             if hasattr(self, 'adb_operation_in_progress'):
                 self.adb_operation_in_progress = False
     
-    def _continue_transfer_after_status(self, file_paths, adb_path, env, snapshot):
+    def _continue_transfer_after_status(self, file_paths, adb_path, env, snapshot, retry_via=None):
         """Continue Smart Drop workflow after asynchronous status lookup completes.
         
         Gracefully selects the appropriate transfer method:
@@ -20022,13 +20094,13 @@ class FirmwareDownloaderGUI(QMainWindow):
         # Note: USB Storage Mode works great for file transfers, but blocks ADB operations
         # like Fast Update scripts and APK installs
         usb_drive = self._detect_usb_storage_drive()
-        if usb_drive:
+        if usb_drive and retry_via != 'usb':
             silent_print(f"USB Storage Mode detected, using USB storage drive for file transfer: {usb_drive}")
             # Use USB storage mode file system access for folder selection
             destination_folder = self._select_usb_storage_folder(usb_drive, file_paths)
             if destination_folder:
                 # Transfer directly to USB drive using file system access
-                self._transfer_files_via_usb(file_paths, destination_folder)
+                self._transfer_files_via_usb(file_paths, destination_folder, fallback_try='adb' if retry_via is None else None)
             return
         
         # No USB Storage Mode - check ADB status
@@ -20046,7 +20118,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                 QMessageBox.Yes
             )
             if reply == QMessageBox.Yes:
-                self._transfer_files_via_usb(file_paths)
+                self._transfer_files_via_usb(file_paths, fallback_try='adb')
             return
         
         # Process events to keep GUI responsive
@@ -21873,16 +21945,42 @@ class FirmwareDownloaderGUI(QMainWindow):
         """Install a single theme folder to device"""
         try:
             mountpoint = "/storage/sdcard0"
-            themes_path = f"{mountpoint}/.rockbox/themes"
+            themes_root = f"{mountpoint}/Themes"
+            # Ensure Themes directory exists before pushing content
+            try:
+                subprocess.run(
+                    [str(adb_path), '-s', connected_device_id, 'shell', f'mkdir -p {shlex.quote(themes_root)}'],
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
+                    env=env,
+                    creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                )
+            except Exception as mkdir_error:
+                silent_print(f"Warning: unable to ensure Themes directory: {mkdir_error}")
             
             theme_path = Path(theme_folder_path)
             theme_name = theme_path.name
             
-            # Push theme folder to device
-            self.status_label.setText(f"Pushing theme '{theme_name}' to device...")
+            # Remove any existing copy before pushing to avoid stale assets
+            dest_path = f"{themes_root}/{theme_name}"
+            try:
+                subprocess.run(
+                    [str(adb_path), '-s', connected_device_id, 'shell', f'rm -rf {shlex.quote(dest_path)}'],
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
+                    env=env,
+                    creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                )
+            except Exception as rm_error:
+                silent_print(f"Warning: unable to remove existing theme {theme_name}: {rm_error}")
+            
+            # Push theme folder to device Themes directory
+            self.status_label.setText(f"Pushing theme '{theme_name}' to Themes on Y1…")
             QApplication.processEvents()
             
-            adb_cmd = [str(adb_path), '-s', connected_device_id, 'push', str(theme_path), themes_path]
+            adb_cmd = [str(adb_path), '-s', connected_device_id, 'push', str(theme_path), themes_root]
             
             push_process = subprocess.Popen(
                 adb_cmd,
