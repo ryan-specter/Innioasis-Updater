@@ -31,7 +31,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QVBoxLayout, QHBoxLayo
                                QWidget, QListWidget, QListWidgetItem, QListView, QPushButton, QTextEdit,
                                QLabel, QComboBox, QProgressBar, QMessageBox,
                                QGroupBox, QSplitter, QStackedWidget, QCheckBox, QProgressDialog,
-                               QFileDialog, QDialog, QTabWidget, QScrollArea, QTextBrowser, QLineEdit,
+                               QFileDialog, QDialog, QDialogButtonBox, QTabWidget, QScrollArea, QTextBrowser, QLineEdit,
                                QTreeWidget, QTreeWidgetItem, QTreeView, QAbstractItemView)
 from PySide6.QtCore import QThread, Signal, Qt, QSize, QTimer, QPropertyAnimation, QEasingCurve, QObject, QMimeData, QEvent
 from PySide6.QtGui import (QFont, QPixmap, QTextDocument, QPalette, QDragEnterEvent,
@@ -53,10 +53,28 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.8.2.9"
+APP_VERSION = "1.8.3"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/storage/sdcard0/.fastupdate"
 LEGACY_FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
+
+
+def _extract_signal_value(value):
+    """Normalize RSSI/level strings to integer dBm for comparisons."""
+    if value is None:
+        return -200
+    if isinstance(value, (int, float)):
+        try:
+            return int(value)
+        except Exception:
+            return -200
+    try:
+        cleaned = str(value).replace("dBm", "").replace("dB", "").strip()
+        if cleaned:
+            return int(float(cleaned))
+    except Exception:
+        pass
+    return -200
 
 class UpdateCheckEvent(QEvent):
     """Custom event for update check results from worker thread"""
@@ -6043,6 +6061,8 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.file_transfer_worker = None  # Current transfer worker
         self._smart_drop_followup_transfers = []
         self._smart_drop_cleanup_paths = []
+        self._wifi_scan_executor = ThreadPoolExecutor(max_workers=2)
+        self._active_wifi_scan_futures = set()
 
         # Initialize theme monitor for dynamic theme switching
         self.theme_monitor = ThemeMonitor(self)
@@ -10304,15 +10324,31 @@ class FirmwareDownloaderGUI(QMainWindow):
         setup_group = QGroupBox("Setup Wireless ADB (Beta)")
         setup_layout = QVBoxLayout(setup_group)
         
-        setup_desc = QLabel("Install ADB Wi-Fi Reborn to enable wireless ADB connections on your device.")
+        wifi_info = QLabel(
+            "Wireless ADB tools let Smart Drop and Fast Update run without a cable. "
+            "Connect your rooted Y1 over USB, then use the Wi-Fi settings to pair it."
+        )
+        wifi_info.setWordWrap(True)
+        layout.addWidget(wifi_info)
+        
+        setup_desc = QLabel(
+            "Want Smart Drop and Fast Update without a cable? Install ADB Wi-Fi Reborn and configure Wi-Fi on your Y1."
+        )
         setup_desc.setStyleSheet("margin: 5px;")
         setup_desc.setWordWrap(True)
         setup_layout.addWidget(setup_desc)
         
         # Install ADB Wi-Fi Reborn button
-        install_adb_wifi_btn = QPushButton("📱 Install ADB Wi-Fi Reborn")
+        install_adb_wifi_btn = QPushButton("📱 Setup Wi-Fi ADB App")
         install_adb_wifi_btn.clicked.connect(lambda: self.install_adb_wifi_reborn())
-        setup_layout.addWidget(install_adb_wifi_btn)
+        
+        wifi_settings_shortcut = QPushButton("📶 Y1 Wi-Fi Settings")
+        wifi_settings_shortcut.clicked.connect(lambda: self.open_wireless_wifi_dialog())
+        
+        button_row = QHBoxLayout()
+        button_row.addWidget(install_adb_wifi_btn)
+        button_row.addWidget(wifi_settings_shortcut)
+        setup_layout.addLayout(button_row)
         
         # Credit label with link to Google Play Store
         credit_label = QLabel('<a href="https://play.google.com/store/apps/details?id=com.ryosoftware.adbw&hl=en">ADB Wi-Fi Reborn by RYO Software</a>')
@@ -10387,9 +10423,8 @@ class FirmwareDownloaderGUI(QMainWindow):
                             setup_group.setVisible(False)
                             return
                         
-                        # If no USB device connected, don't show setup section (can't install without USB)
+                        # If no USB device connected, keep card but disable controls
                         if not usb_device_id:
-                            setup_group.setVisible(False)
                             return
                         
                         # Check if USB device is rooted (in background)
@@ -10412,9 +10447,18 @@ class FirmwareDownloaderGUI(QMainWindow):
                         
                         def check_package(is_rooted):
                             try:
+                                install_adb_wifi_btn.setEnabled(is_rooted)
+                                wifi_settings_shortcut.setEnabled(is_rooted)
                                 if not is_rooted:
-                                    setup_group.setVisible(False)
+                                    install_adb_wifi_btn.setToolTip("Wireless ADB setup requires root access on the Y1.")
+                                    wifi_settings_shortcut.setToolTip("Wireless configuration requires root access on the Y1.")
                                     return
+                                else:
+                                    install_adb_wifi_btn.setToolTip("")
+                                    wifi_settings_shortcut.setToolTip("")
+                                    wifi_info.setText(
+                                        "Your Y1 is connected over USB with root access. Use Y1 Wi-Fi Settings to configure wireless transfers."
+                                    )
                                 
                                 # Check if ADB Wi-Fi Reborn is installed
                                 pm_result = subprocess.run(
@@ -10457,7 +10501,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             check_wireless_connection()
         
         # Connect to tab change signal to re-check when tab is shown (non-blocking)
-        tab_widget.currentChanged.connect(lambda index: on_wireless_tab_shown() if tab_widget.tabText(index) == "Smart Drop" else None)
+        tab_widget.currentChanged.connect(lambda index: on_wireless_tab_shown() if tab_widget.tabText(index) == "Smart Drop & Wi-Fi" else None)
         
         # Set up periodic refresh of connection status (every 5 seconds while dialog is open)
         status_refresh_timer = QTimer()
@@ -10514,7 +10558,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             installation_tab_index = tab_widget.addTab(install_tab, "Installation")
         shortcuts_tab_index = None
 # 2025-11-09 12:00:00 - original: Tab label was 'Wireless ADB' and did not indicate beta availability.
-        tab_widget.addTab(wireless_scroll, "Smart Drop")
+        tab_widget.addTab(wireless_scroll, "Smart Drop & Wi-Fi")
         
         self._apply_update_tab_badge(tab_widget, updates_tab_index, update_is_newer)
         if update_is_newer and self._latest_app_version:
@@ -10662,22 +10706,16 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         layout.addWidget(path_group)
 
-        # Wi-Fi tools (ADB root required)
-        wifi_group = QGroupBox("Wi-Fi Tools (ADB Root Required)")
-        wifi_layout = QVBoxLayout(wifi_group)
-        wifi_desc = QLabel(
-            "Connect your Y1 to a Wi-Fi network directly from your computer. "
-            "Requires a rooted device connected over USB with ADB enabled."
+        wifi_info = QLabel(
+            "Wireless ADB tools let Smart Drop and Fast Update run without a cable. "
+            "Connect your rooted Y1 over USB, then use the Wi-Fi settings to pair it."
         )
-        wifi_desc.setWordWrap(True)
-        wifi_layout.addWidget(wifi_desc)
-        wifi_btn_layout = QHBoxLayout()
-        wifi_btn = QPushButton("Connect to Wi-Fi via ADB…")
-        wifi_btn.clicked.connect(self.open_wifi_connect_dialog)
-        wifi_btn_layout.addWidget(wifi_btn)
-        wifi_btn_layout.addStretch()
-        wifi_layout.addLayout(wifi_btn_layout)
-        layout.addWidget(wifi_group)
+        wifi_info.setWordWrap(True)
+        layout.addWidget(wifi_info)
+        
+        open_wifi_btn = QPushButton("Y1 Wi-Fi Settings…")
+        open_wifi_btn.clicked.connect(lambda: self.open_wireless_wifi_dialog())
+        layout.addWidget(open_wifi_btn)
     
     def _on_detect_usb_drive(self):
         """Handle auto-detect USB drive button click"""
@@ -12167,10 +12205,6 @@ class FirmwareDownloaderGUI(QMainWindow):
             # Check driver status (now in background)
             driver_info = self.check_drivers_and_architecture()
             
-            if driver_info['is_arm64']:
-                silent_print("ARM64 Windows detected; skipping Browse Files shortcut.")
-                return
-            
             if not driver_info['has_mtk_driver'] and not driver_info['has_usbdk_driver']:
                 # No drivers: Show "Install MediaTek & UsbDk Drivers" button
                 driver_btn = QPushButton("🔧 Install MediaTek & UsbDk Drivers")
@@ -12179,22 +12213,16 @@ class FirmwareDownloaderGUI(QMainWindow):
                 self.driver_buttons_layout.addWidget(driver_btn)
                 
             elif driver_info['has_mtk_driver'] and not driver_info['has_usbdk_driver']:
-                # Only MTK driver: Show "Browse Files" button if not ARM64
-                if not driver_info['is_arm64']:
-                    install_zip_btn = QPushButton("📁 Browse Files")
-                    # Use native styling - no custom stylesheet for automatic theme adaptation
-                    # Use default cursor for native OS feel
-                    install_zip_btn.clicked.connect(self.browse_files)
-                    self.driver_buttons_layout.addWidget(install_zip_btn)
+                # Only MTK driver: Show "Browse Files" button
+                install_zip_btn = QPushButton("📁 Browse Files")
+                install_zip_btn.clicked.connect(self.browse_files)
+                self.driver_buttons_layout.addWidget(install_zip_btn)
                 
             else:
-                # Both drivers available: Show "Browse Files" button (but not on ARM64)
-                if not driver_info['is_arm64']:
-                    install_zip_btn = QPushButton("📁 Browse Files")
-                    # Use native styling - no custom stylesheet for automatic theme adaptation
-                    # Use default cursor for native OS feel
-                    install_zip_btn.clicked.connect(self.browse_files)
-                    self.driver_buttons_layout.addWidget(install_zip_btn)
+                # Both drivers available: Show "Browse Files" button
+                install_zip_btn = QPushButton("📁 Browse Files")
+                install_zip_btn.clicked.connect(self.browse_files)
+                self.driver_buttons_layout.addWidget(install_zip_btn)
                     
             silent_print("Driver-dependent UI updated in background")
             
@@ -16648,14 +16676,27 @@ class FirmwareDownloaderGUI(QMainWindow):
         if reply == QMessageBox.Cancel:
             return False, None, None
         
-        # Wait for USB drive detection (poll up to 30 seconds)
+        # Wait for USB or ADB detection (poll up to 30 seconds)
         self.status_label.setText("Waiting for Y1 USB drive...")
         QApplication.processEvents()
         
         max_attempts = 60  # 30 seconds (0.5 second intervals)
+        start_time = time.monotonic()
         for attempt in range(max_attempts):
             usb_drive = self._detect_usb_storage_drive()
             if usb_drive:
+                # Prefer ADB if it appears within the first ~4 seconds after dialog confirmation
+                elapsed = time.monotonic() - start_time
+                if elapsed <= 4.0:
+                    adb_path = self.find_adb_executable()
+                    if adb_path:
+                        env = self._build_adb_environment()
+                        status, device_id, _, _ = self.get_unified_adb_status(
+                            adb_path, env, blocking=True, force_refresh=True
+                        )
+                        if status != 'no_adb':
+                            self.status_label.setText("ADB connection detected")
+                            return True, "adb", None
                 self.status_label.setText(f"Y1 USB drive detected: {usb_drive}")
                 return True, "usb_storage", usb_drive
             
@@ -17731,9 +17772,10 @@ class FirmwareDownloaderGUI(QMainWindow):
                 "Install ADB Wi-Fi Reborn",
                 "This will download and install ADB Wi-Fi Reborn to your Y1 device.\n\n"
                 "After installation, you'll need to:\n"
-                "1. Open ADB Wi-Fi from Rockbox Apps menu\n"
-                "2. Grant Root permissions when prompted\n"
-                "3. Enable 'Run at Boot' in Settings\n\n"
+                "1. Open ADB Wi-Fi from the Rockbox Apps menu\n"
+                "2. Accept the Terms of Service if prompted\n"
+                "3. Enable 'Run at Boot' and grant root access in Settings\n"
+                "4. Connect it to Wi-Fi inside the app, then power-cycle your Y1 once\n\n"
                 "Continue with installation?",
                 QMessageBox.Yes | QMessageBox.No,
                 QMessageBox.Yes
@@ -17861,29 +17903,17 @@ class FirmwareDownloaderGUI(QMainWindow):
                     self.status_label.setText("ADB Wi-Fi Reborn installed successfully")
                     QApplication.processEvents()
                     
-                    # Show instructions
-                    success_msg = "ADB Wi-Fi Reborn has been installed successfully!\n\n"
-                    if config_pushed:
-                        success_msg += "✅ Configuration has been applied (Run at Boot enabled).\n\n"
-                    success_msg += "Next steps:\n\n"
-                    success_msg += "1. On your Y1 device, open:\n"
-                    success_msg += "   Rockbox Apps menu > ADB Wi-Fi\n\n"
-                    success_msg += "2. Grant Root permissions when prompted\n\n"
-                    if not config_pushed:
-                        success_msg += "3. In ADB Wi-Fi Settings:\n"
-                        success_msg += "   - Enable 'Run at Boot'\n"
-                        success_msg += "   - Note the IP address shown\n\n"
-                    else:
-                        success_msg += "3. Note the IP address shown in ADB Wi-Fi\n\n"
-                    success_msg += "4. Enter the IP address in the Wireless ADB settings above\n"
-                    success_msg += "   and click 'Connect'\n\n"
-                    success_msg += "Credit: ADB Wi-Fi Reborn by RYO Software"
-                    
                     QMessageBox.information(
                         self,
                         "Installation Complete",
-                        success_msg
+                        "ADB Wi-Fi Reborn is now on your Y1. We’ll guide you through the first-run steps next."
                     )
+                    
+                    # Launch the ADB Wi-Fi app to surface first-run prompts
+                    launched = self._launch_adb_wifi_app_main_activity(adb_path, target_device_id, env)
+                    
+                    # Show guided setup wizard
+                    self._show_adb_wifi_setup_wizard(adb_path, target_device_id, env, config_pushed, launched)
                     
                     # Hide progress bar after a delay
                     QTimer.singleShot(2000, lambda: self.progress_bar.setVisible(False))
@@ -20680,106 +20710,320 @@ class FirmwareDownloaderGUI(QMainWindow):
             # Start the next transfer
             QTimer.singleShot(500, lambda: self._transfer_files_via_usb(file_paths, usb_drive_path, fallback_try))
 
-    def open_wifi_connect_dialog(self):
-        """Display Wi-Fi connection dialog and allow connecting via ADB (root required)."""
+    def open_wifi_connect_dialog(
+        self,
+        adb_path_override=None,
+        device_id_override=None,
+        env_override=None,
+    ):
+        """Open the Wi-Fi picker for Y1 devices and configure wpa_supplicant via ADB."""
         from PySide6.QtWidgets import (
-            QDialog, QVBoxLayout, QLabel, QHBoxLayout,
-            QPushButton, QLineEdit, QMessageBox, QCheckBox
+            QDialog,
+            QVBoxLayout,
+            QLabel,
+            QListWidget,
+            QListWidgetItem,
+            QPushButton,
+            QLineEdit,
+            QHBoxLayout,
+            QMessageBox,
+            QCheckBox,
         )
-        ready, snapshot = self._ensure_adb_capability('root', "Connect to Wi-Fi via ADB")
-        if not ready:
-            return
-        adb_path = self.find_adb_executable()
-        if not adb_path:
-            QMessageBox.warning(self, "ADB Not Found", "ADB is required to configure Wi-Fi over USB.")
-            return
-        env = self._build_adb_environment()
-        device_id = snapshot.get('active_device_id') or snapshot.get('device_id')
+        
+        # Resolve ADB context
+        if adb_path_override and device_id_override and env_override:
+            adb_path = Path(adb_path_override)
+            device_id = device_id_override
+            env = env_override
+        else:
+            ready, snapshot = self._ensure_adb_capability("root", "Connect to Wi-Fi via ADB")
+            if not ready:
+                return
+            adb_path = self.find_adb_executable()
+            if not adb_path:
+                QMessageBox.warning(self, "ADB Not Found", "ADB is required to configure Wi-Fi over USB.")
+                return
+            env = self._build_adb_environment()
+            device_id = snapshot.get("active_device_id") or snapshot.get("device_id")
+        
         if not device_id:
-            QMessageBox.warning(self, "Device Not Connected", "No rooted ADB device detected.")
+            QMessageBox.warning(self, "Device Not Connected", "No rooted Y1 was detected over ADB.")
+            return
+        
+        if device_id != "0123456789ABCDEF":
+            QMessageBox.warning(
+                self,
+                "Unsupported Device",
+                "This Wi-Fi setup tool is designed for the Innioasis Y1. "
+                "Connect a Y1 over USB with root ADB enabled to continue.",
+            )
             return
         
         dialog = QDialog(self)
-        dialog.setWindowTitle("Connect Y1 to Wi-Fi (ADB Root)")
-        dialog.setMinimumWidth(420)
+        dialog.setWindowTitle("Connect Y1 to Wi-Fi")
+        dialog.setMinimumWidth(520)
         layout = QVBoxLayout(dialog)
         
-        info_label = QLabel(
-            "Enter the Wi-Fi network name (SSID) and password. Your Y1 must be connected over USB with root ADB access."
+        intro = QLabel(
+            "Pick your Wi-Fi network and Updater will configure the Y1 automatically. "
+            "We refresh the list every 10 seconds."
         )
-        info_label.setWordWrap(True)
-        layout.addWidget(info_label)
+        intro.setWordWrap(True)
+        layout.addWidget(intro)
         
-        ssid_label = QLabel("Wi-Fi network name (SSID):")
-        layout.addWidget(ssid_label)
-        ssid_input = QLineEdit()
-        ssid_input.setPlaceholderText("Exact network name (case sensitive)")
-        layout.addWidget(ssid_input)
-        
-        password_label = QLabel("Network password (leave blank for open networks):")
-        layout.addWidget(password_label)
-        password_input = QLineEdit()
-        password_input.setEchoMode(QLineEdit.Password)
-        layout.addWidget(password_input)
-        show_password_cb = QCheckBox("Show password")
-        show_password_cb.toggled.connect(
-            lambda checked: password_input.setEchoMode(QLineEdit.Normal if checked else QLineEdit.Password)
-        )
-        layout.addWidget(show_password_cb)
-        
-        status_label = QLabel("")
+        status_label = QLabel("Scanning for networks…")
         layout.addWidget(status_label)
         
+        network_list = QListWidget()
+        layout.addWidget(network_list)
+        
+        # Connection status indicator
+        connection_status = QLabel("Current Wi-Fi status: unknown")
+        layout.addWidget(connection_status)
+        
+        # Manual entry fields
+        ssid_row = QHBoxLayout()
+        ssid_label = QLabel("SSID:")
+        ssid_input = QLineEdit()
+        ssid_input.setPlaceholderText("Exact network name")
+        ssid_row.addWidget(ssid_label)
+        ssid_row.addWidget(ssid_input)
+        layout.addLayout(ssid_row)
+        
+        password_row = QHBoxLayout()
+        password_label = QLabel("Password:")
+        password_input = QLineEdit()
+        password_input.setEchoMode(QLineEdit.Password)
+        password_row.addWidget(password_label)
+        password_row.addWidget(password_input)
+        layout.addLayout(password_row)
+        
+        show_password = QCheckBox("Show password")
+        show_password.toggled.connect(
+            lambda checked: password_input.setEchoMode(QLineEdit.Normal if checked else QLineEdit.Password)
+        )
+        layout.addWidget(show_password)
+        
+        # Button row
         button_row = QHBoxLayout()
+        refresh_btn = QPushButton("Refresh")
+        settings_btn = QPushButton("Open Wi-Fi Settings on Y1")
         connect_btn = QPushButton("Connect")
-        cancel_btn = QPushButton("Cancel")
+        close_btn = QPushButton("Close")
+        button_row.addWidget(refresh_btn)
+        button_row.addWidget(settings_btn)
         button_row.addStretch()
+        button_row.addWidget(close_btn)
         button_row.addWidget(connect_btn)
-        button_row.addWidget(cancel_btn)
         layout.addLayout(button_row)
+        
+        # Track currently scheduled futures so we can clean them up
+        def _track_future(fut):
+            self._active_wifi_scan_futures.add(fut)
+            def _cleanup(_):
+                self._active_wifi_scan_futures.discard(fut)
+            fut.add_done_callback(_cleanup)
+            return fut
+        
+        def populate_networks(networks):
+            network_list.clear()
+            for net in networks:
+                ssid = net.get("ssid") or "(hidden network)"
+                signal = net.get("signal") or ""
+                display = f"{ssid}  {signal}"
+                item = QListWidgetItem(display)
+                item.setData(Qt.UserRole, net)
+                network_list.addItem(item)
+            status_label.setText(
+                "Select a network and click Connect."
+                if networks
+                else "No networks detected yet—check your router or try again."
+            )
+            refresh_btn.setEnabled(True)
+        
+        def schedule_status_update():
+            fut = _track_future(
+                self._wifi_scan_executor.submit(
+                    self._get_wifi_connection_snapshot,
+                    adb_path,
+                    device_id,
+                    env,
+                )
+            )
+            def finished(future):
+                snapshot = future.result()
+                def update_label():
+                    if snapshot:
+                        ssid = snapshot.get("ssid") or "not connected"
+                        state = snapshot.get("state") or "unknown"
+                        rssi = snapshot.get("rssi")
+                        detail = f"{state}"
+                        if rssi is not None:
+                            detail += f", RSSI {rssi} dBm"
+                        connection_status.setText(f"Current Wi-Fi status: {ssid} ({detail})")
+                    else:
+                        connection_status.setText("Current Wi-Fi status: unknown")
+                QTimer.singleShot(0, update_label)
+            fut.add_done_callback(finished)
+        
+        def refresh_networks(manual=False):
+            refresh_btn.setEnabled(False)
+            if manual:
+                status_label.setText("Scanning for networks…")
+            fut = _track_future(
+                self._wifi_scan_executor.submit(
+                    self._get_wifi_networks_via_adb,
+                    adb_path,
+                    device_id,
+                    env,
+                )
+            )
+            def finished(future):
+                networks = future.result()
+                def update():
+                    populate_networks(networks)
+                QTimer.singleShot(0, update)
+            fut.add_done_callback(finished)
+        
+        def on_selection_changed():
+            item = network_list.currentItem()
+            if item:
+                data = item.data(Qt.UserRole) or {}
+                ssid = data.get("ssid")
+                if ssid:
+                    ssid_input.setText(ssid)
+                    ssid_input.setCursorPosition(len(ssid))
+        network_list.itemSelectionChanged.connect(on_selection_changed)
         
         def attempt_connect():
             ssid = ssid_input.text().strip()
-            if not ssid:
-                QMessageBox.warning(dialog, "Missing SSID", "Please enter the exact Wi-Fi network name (SSID).")
-                return
             password = password_input.text()
-            status_label.setText("Sending Wi-Fi connection command via ADB…")
-            QApplication.setOverrideCursor(Qt.WaitCursor)
-            QApplication.processEvents()
-            try:
-                success, message = self._connect_wifi_network_via_adb(adb_path, device_id, env, ssid, password)
-            finally:
-                QApplication.restoreOverrideCursor()
-            if success:
-                status_label.setText("Wi-Fi connection command sent successfully.")
-                QMessageBox.information(dialog, "Wi-Fi", message or "Command sent successfully.")
-                dialog.accept()
+            if not ssid:
+                QMessageBox.warning(dialog, "Missing SSID", "Select a network or enter an SSID to continue.")
+                return
+            
+            selected_item = network_list.currentItem()
+            selected_data = selected_item.data(Qt.UserRole) if selected_item else {}
+            bssid = selected_data.get("bssid")
+            
+            connect_btn.setEnabled(False)
+            status_label.setText("Configuring Wi-Fi on your Y1…")
+            
+            fut = _track_future(
+                self._wifi_scan_executor.submit(
+                    self._configure_wifi_network_on_y1,
+                    adb_path,
+                    device_id,
+                    env,
+                    ssid,
+                    password,
+                    bssid,
+                )
+            )
+            
+            def finished(future):
+                success, message = future.result()
+                def update():
+                    connect_btn.setEnabled(True)
+                    if success:
+                        QMessageBox.information(dialog, "Wi-Fi", message or "Wi-Fi profile saved.")
+                        status_label.setText("Waiting for the Y1 to join Wi-Fi…")
+                        schedule_status_update()
+                    else:
+                        QMessageBox.warning(dialog, "Wi-Fi", message or "Unable to configure Wi-Fi.")
+                        status_label.setText("Try again or choose a different network.")
+                    refresh_networks()
+                QTimer.singleShot(0, update)
+            fut.add_done_callback(finished)
+        
+        def launch_wifi_settings():
+            ok, msg = self._launch_wifi_settings_on_y1(adb_path, device_id, env)
+            if ok:
+                status_label.setText("Opened Wi-Fi settings on your Y1. Connect there, then return to finish.")
             else:
-                status_label.setText("Connection attempt failed. Review the message and try again.")
-                QMessageBox.warning(dialog, "Wi-Fi Connection Failed", message or "Unknown error occurred.")
+                QMessageBox.warning(dialog, "Wi-Fi Settings", msg or "Unable to open Wi-Fi settings on the device.")
         
+        refresh_btn.clicked.connect(lambda: refresh_networks(manual=True))
+        settings_btn.clicked.connect(launch_wifi_settings)
         connect_btn.clicked.connect(attempt_connect)
-        cancel_btn.clicked.connect(dialog.reject)
+        close_btn.clicked.connect(dialog.reject)
         
-        ssid_input.setFocus()
+        # Timers to keep data fresh
+        refresh_timer = QTimer(dialog)
+        refresh_timer.setInterval(10000)
+        refresh_timer.timeout.connect(refresh_networks)
+        refresh_timer.start()
+        
+        status_timer = QTimer(dialog)
+        status_timer.setInterval(5000)
+        status_timer.timeout.connect(schedule_status_update)
+        status_timer.start()
+        
+        def cleanup():
+            refresh_timer.stop()
+            status_timer.stop()
+            for fut in list(self._active_wifi_scan_futures):
+                fut.cancel()
+        
+        dialog.finished.connect(cleanup)
+        
+        refresh_networks()
+        schedule_status_update()
         dialog.exec()
     
     def _get_wifi_networks_via_adb(self, adb_path, device_id, env):
-        """Retrieve Wi-Fi scan results via adb shell (root)."""
-        networks = []
+        """Retrieve Wi-Fi scan results via adb shell (root). Supports Android 4.2.2+."""
+        def _merge_network(result_map, entry):
+            if not entry:
+                return
+            ssid = (entry.get('ssid') or "").strip()
+            bssid = (entry.get('bssid') or "").strip().lower()
+            key = (ssid.lower(), bssid)
+            signal_value = _extract_signal_value(entry.get('signal') or entry.get('level'))
+            entry = dict(entry)
+            if signal_value > -200 and not entry.get('signal'):
+                entry['signal'] = f"{signal_value} dBm"
+            existing = result_map.get(key)
+            if existing is None or signal_value > _extract_signal_value(existing.get('signal')):
+                result_map[key] = entry
+            elif existing is not None:
+                # Preserve any metadata like flags
+                for meta_key in ('flags', 'frequency', 'channel'):
+                    if meta_key not in existing or not existing[meta_key]:
+                        existing[meta_key] = entry.get(meta_key)
+
+        result_map = {}
         adb_base = [str(adb_path), '-s', device_id, 'shell', 'su', '-c']
+
+        # Kick off a scan using the legacy broadcast (works on Android 4.2.2)
+        try:
+            subprocess.run(
+                [str(adb_path), '-s', device_id, 'shell', 'am', 'broadcast', '-a', 'android.net.wifi.SCAN_RESULTS'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+        except Exception as broadcast_error:
+            silent_print(f"Wi-Fi broadcast scan trigger failed: {broadcast_error}")
+
+        # Also try the cmd wifi start-scan call (no harm if unavailable)
         try:
             subprocess.run(
                 adb_base + ['cmd wifi start-scan'],
                 capture_output=True,
                 text=True,
-                timeout=10,
+                timeout=6,
                 env=env,
-                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
             )
-        except Exception as e:
-            silent_print(f"Wi-Fi start-scan error: {e}")
+        except Exception:
+            pass
+
+        time.sleep(3)
+
+        # Gather results from cmd wifi list-scan-results
         try:
             result = subprocess.run(
                 adb_base + ['cmd wifi list-scan-results'],
@@ -20787,36 +21031,1529 @@ class FirmwareDownloaderGUI(QMainWindow):
                 text=True,
                 timeout=10,
                 env=env,
-                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
             )
             if result.returncode == 0 and result.stdout:
-                networks = self._parse_cmd_wifi_scan(result.stdout)
-        except Exception as e:
-            silent_print(f"Wi-Fi list-scan-results error: {e}")
+                for entry in self._parse_cmd_wifi_scan(result.stdout):
+                    _merge_network(result_map, entry)
+        except Exception as cmd_error:
+            silent_print(f"Wi-Fi cmd wifi scan error (expected on Android <5.0): {cmd_error}")
+
+        # Parse dumpsys wifi, which is authoritative on Android 4.2.2
+        try:
+            dumpsys = subprocess.run(
+                [str(adb_path), '-s', device_id, 'shell', 'dumpsys', 'wifi'],
+                capture_output=True,
+                text=True,
+                timeout=12,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+            if dumpsys.returncode == 0 and dumpsys.stdout:
+                for entry in self._parse_dumpsys_wifi_scan(dumpsys.stdout):
+                    _merge_network(result_map, entry)
+        except Exception as dumpsys_error:
+            silent_print(f"Wi-Fi dumpsys scan error: {dumpsys_error}")
+
+        # Fallback to wpa_cli where available
+        try:
+            subprocess.run(
+                adb_base + ['wpa_cli -i wlan0 scan'],
+                capture_output=True,
+                text=True,
+                timeout=8,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+            time.sleep(1.5)
+            fallback = subprocess.run(
+                adb_base + ['wpa_cli -i wlan0 scan_results'],
+                capture_output=True,
+                text=True,
+                timeout=8,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+            if fallback.returncode == 0 and fallback.stdout:
+                for entry in self._parse_wpa_cli_scan(fallback.stdout):
+                    _merge_network(result_map, entry)
+        except Exception as wpa_error:
+            silent_print(f"Wi-Fi wpa_cli scan error: {wpa_error}")
+
+        networks = list(result_map.values())
+        networks.sort(key=lambda entry: (-_extract_signal_value(entry.get('signal')), (entry.get('ssid') or '').lower()))
+        return networks
+
+    def get_host_wifi_ssid(self):
+        """Return the SSID of the computer's current Wi-Fi connection if accessible."""
+        try:
+            system = platform.system()
+            if system == "Darwin":
+                # Discover Wi-Fi interface
+                list_ports = subprocess.run(
+                    ["networksetup", "-listallhardwareports"],
+                    capture_output=True,
+                    text=True,
+                    timeout=5,
+                )
+                if list_ports.returncode != 0 or not list_ports.stdout:
+                    return None
+                device_name = None
+                lines = list_ports.stdout.splitlines()
+                for idx, line in enumerate(lines):
+                    if line.strip() == "Hardware Port: Wi-Fi":
+                        # The following lines contain Device and Ethernet Address
+                        for needle in lines[idx + 1: idx + 4]:
+                            if needle.strip().startswith("Device:"):
+                                device_name = needle.split("Device:", 1)[1].strip()
+                                break
+                        if device_name:
+                            break
+                if not device_name:
+                    # Fall back to common defaults
+                    device_name = "en0"
+                airport = subprocess.run(
+                    ["networksetup", "-getairportnetwork", device_name],
+                    capture_output=True,
+                    text=True,
+                    timeout=5,
+                )
+                if airport.returncode == 0 and airport.stdout:
+                    if "Current Wi-Fi Network" in airport.stdout:
+                        return airport.stdout.split(":", 1)[1].strip() or None
+            elif system == "Windows":
+                netsh = subprocess.run(
+                    ["netsh", "wlan", "show", "interfaces"],
+                    capture_output=True,
+                    text=True,
+                    timeout=5,
+                    creationflags=subprocess.CREATE_NO_WINDOW if hasattr(subprocess, "CREATE_NO_WINDOW") else 0,
+                )
+                if netsh.returncode == 0 and netsh.stdout:
+                    connected = False
+                    ssid_line = None
+                    for line in netsh.stdout.splitlines():
+                        line = line.strip()
+                        if line.lower().startswith("state"):
+                            connected = "connected" in line.lower()
+                        if connected and line.lower().startswith("ssid"):
+                            # SSID : value
+                            parts = line.split(":", 1)
+                            if len(parts) == 2:
+                                ssid_line = parts[1].strip()
+                                break
+                    if connected and ssid_line:
+                        return ssid_line or None
+        except Exception as exc:
+            silent_print(f"Host Wi-Fi SSID detection failed: {exc}")
+        return None
+    
+    def _launch_adb_wifi_app_main_activity(self, adb_path, device_id, env):
+        """Launch ADB Wi-Fi Reborn on the device to surface first-run dialogs."""
+        try:
+            result = subprocess.run(
+                [
+                    str(adb_path),
+                    "-s",
+                    device_id,
+                    "shell",
+                    "monkey",
+                    "-p",
+                    "com.ryosoftware.adbw",
+                    "-c",
+                    "android.intent.category.LAUNCHER",
+                    "1",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+            launched = result.returncode == 0
+            if not launched:
+                silent_print(
+                    "ADB Wi-Fi Reborn launch returned non-zero code: "
+                    f"{result.returncode} :: {result.stdout or result.stderr}"
+                )
+            return launched
+        except Exception as exc:
+            silent_print(f"Failed to launch ADB Wi-Fi Reborn automatically: {exc}")
+            return False
+    
+    def _launch_wifi_settings_on_y1(self, adb_path, device_id, env):
+        """Open the standard Android Wi-Fi settings screen on the Y1."""
+        try:
+            result = subprocess.run(
+                [
+                    str(adb_path),
+                    "-s",
+                    device_id,
+                    "shell",
+                    "am",
+                    "start",
+                    "-a",
+                    "android.settings.WIFI_SETTINGS",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+            if result.returncode == 0:
+                return True, "Wi-Fi settings opened on the Y1."
+            message = result.stderr or result.stdout or "Unable to open Wi-Fi settings."
+            return False, message.strip()
+        except Exception as exc:
+            silent_print(f"Failed to open Wi-Fi settings: {exc}")
+            return False, str(exc)
+    
+    def _enable_wifi_radio_on_y1(self, adb_path, device_id, env):
+        """Enable the Wi-Fi radio on the Y1 via ADB."""
+        try:
+            result = subprocess.run(
+                [str(adb_path), "-s", device_id, "shell", "svc", "wifi", "enable"],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+            if result.returncode == 0:
+                return True, "Wi-Fi enabled."
+            message = result.stderr or result.stdout or "Unable to enable Wi-Fi."
+            return False, message.strip()
+        except Exception as exc:
+            silent_print(f"Failed to enable Wi-Fi radio: {exc}")
+            return False, str(exc)
+    
+    def _disable_wifi_radio_on_y1(self, adb_path, device_id, env):
+        """Disable the Wi-Fi radio on the Y1 via ADB."""
+        try:
+            result = subprocess.run(
+                [str(adb_path), "-s", device_id, "shell", "svc", "wifi", "disable"],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+            if result.returncode == 0:
+                return True, "Wi-Fi disabled."
+            message = result.stderr or result.stdout or "Unable to disable Wi-Fi."
+            return False, message.strip()
+        except Exception as exc:
+            silent_print(f"Failed to disable Wi-Fi radio: {exc}")
+            return False, str(exc)
+    
+    def _check_adb_wifi_reborn_installed(self, adb_path, device_id, env):
+        """Return True if ADB Wi-Fi Reborn is installed on the device."""
+        try:
+            result = subprocess.run(
+                [str(adb_path), "-s", device_id, "shell", "pm", "list", "packages", "com.ryosoftware.adbw"],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+            return result.returncode == 0 and "com.ryosoftware.adbw" in (result.stdout or "")
+        except Exception as exc:
+            silent_print(f"Failed to check ADB Wi-Fi package: {exc}")
+            return False
+    
+    class _WirelessWifiDialog(QDialog):
+        networks_ready = Signal(object)
+
+        def __init__(self, parent=None):
+            super().__init__(parent)
+
+    def open_wireless_wifi_dialog(self, adb_path_override=None, device_id_override=None, env_override=None):
+        """Launch the standalone Wireless Wi-Fi configuration dialog."""
+        from PySide6.QtWidgets import (
+            QDialog,
+            QVBoxLayout,
+            QLabel,
+            QListWidget,
+            QListWidgetItem,
+            QHBoxLayout,
+            QPushButton,
+            QLineEdit,
+            QMessageBox,
+            QCheckBox,
+            QDialogButtonBox,
+        )
         
-        if not networks:
+        dialog = self._WirelessWifiDialog(self)
+        dialog.setWindowTitle("Wireless ADB Wi-Fi on Y1")
+        dialog.setMinimumWidth(520)
+        layout = QVBoxLayout(dialog)
+        self._last_wifi_dialog = dialog
+        dialog._network_presence = getattr(dialog, "_network_presence", {})
+        dialog._last_snapshot_id = getattr(dialog, "_last_snapshot_id", 0)
+        dialog._last_emitted_snapshot = getattr(dialog, "_last_emitted_snapshot", 0)
+        
+        intro = QLabel(
+            "Turn on your Y1’s Wi-Fi to connect it to a network so Fast Update and Smart Drop can run wirelessly. "
+            "Keep the device connected over USB with root ADB while we configure it."
+        )
+        intro.setWordWrap(True)
+        layout.addWidget(intro)
+        
+        status_label = QLabel("")
+        status_label.setVisible(False)
+        layout.addWidget(status_label)
+        dialog.status_label = status_label
+        
+        wifi_toggle = QCheckBox("Enable Wi-Fi radio")
+        layout.addWidget(wifi_toggle)
+        dialog.wifi_toggle = wifi_toggle
+        dialog.wifi_toggle = wifi_toggle
+        
+        networks_subtitle = QLabel("Networks: scanning…")
+        networks_subtitle.setStyleSheet("font-size: 12px; color: #aaaaaa; margin: 4px 0;")
+        layout.addWidget(networks_subtitle)
+        dialog.networks_subtitle = networks_subtitle
+
+        network_list = QListWidget()
+        network_list.setMinimumHeight(200)
+        network_list.setAlternatingRowColors(True)
+        network_list.setSelectionMode(QListWidget.SingleSelection)
+        layout.addWidget(network_list)
+        dialog.network_list_widget = network_list
+        dialog.current_connected_identity = getattr(dialog, "current_connected_identity", None)
+        
+        wifi_controls_widget = QWidget()
+        wifi_controls_layout = QVBoxLayout(wifi_controls_widget)
+        wifi_controls_layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(wifi_controls_widget)
+        
+        manual_label = QLabel("Manual entry (optional):")
+        wifi_controls_layout.addWidget(manual_label)
+        
+        ssid_row_widget = QWidget()
+        ssid_row_layout = QHBoxLayout(ssid_row_widget)
+        ssid_row_layout.setContentsMargins(0, 0, 0, 0)
+        ssid_label = QLabel("SSID:")
+        ssid_input = QLineEdit()
+        ssid_input.setPlaceholderText("Exact network name")
+        ssid_row_layout.addWidget(ssid_label)
+        ssid_row_layout.addWidget(ssid_input)
+        wifi_controls_layout.addWidget(ssid_row_widget)
+        
+        password_row_widget = QWidget()
+        password_row_layout = QHBoxLayout(password_row_widget)
+        password_row_layout.setContentsMargins(0, 0, 0, 0)
+        password_label = QLabel("Password:")
+        password_input = QLineEdit()
+        password_input.setEchoMode(QLineEdit.Password)
+        password_row_layout.addWidget(password_label)
+        password_row_layout.addWidget(password_input)
+        wifi_controls_layout.addWidget(password_row_widget)
+        
+        show_password = QCheckBox("Show password")
+        show_password.toggled.connect(
+            lambda checked: password_input.setEchoMode(QLineEdit.Normal if checked else QLineEdit.Password)
+        )
+        wifi_controls_layout.addWidget(show_password)
+        
+        button_row = QHBoxLayout()
+        refresh_btn = QPushButton("Refresh Networks")
+        wifi_settings_btn = QPushButton("Manage Saved Networks")
+        connect_btn = QPushButton("Connect Y1 to Wi-Fi")
+        button_row.addWidget(refresh_btn)
+        button_row.addWidget(wifi_settings_btn)
+        button_row.addStretch()
+        button_row.addWidget(connect_btn)
+        wifi_controls_layout.addLayout(button_row)
+        dialog.refresh_button = refresh_btn
+        dialog.manage_networks_button = wifi_settings_btn
+        dialog.connect_button = connect_btn
+        dialog.refresh_button = refresh_btn
+        dialog.manage_networks_button = wifi_settings_btn
+        dialog.connect_button = connect_btn
+        
+        dialog.ssid_input = ssid_input
+        dialog.password_input = password_input
+        
+        buttons = QDialogButtonBox(QDialogButtonBox.Close)
+        buttons.rejected.connect(dialog.reject)
+        layout.addWidget(buttons)
+        
+        context_cache = {
+            'adb_path': Path(adb_path_override) if adb_path_override else None,
+            'device_id': device_id_override,
+            'env': env_override,
+        }
+        local_futures = set()
+        updating_toggle = False
+        last_selected_key = None
+
+        def prefill_host_ssid():
+            if ssid_input.text().strip():
+                return
+            host_ssid = self.get_host_wifi_ssid()
+            if host_ssid:
+                ssid_input.setText(host_ssid)
+                ssid_input.setCursorPosition(len(host_ssid))
+
+        def _network_identity(data):
+            """Return a stable key for a network entry to preserve selection across refreshes."""
+            if not data:
+                return None
+            group_key = (data.get("group_key") or "").strip()
+            if group_key:
+                return group_key
+            bssid = (data.get("bssid") or "").strip().lower()
+            if bssid:
+                return f"bssid:{bssid}"
+            ssid = (data.get("ssid") or "").strip()
+            if ssid:
+                freq = data.get("frequency") or data.get("channel") or ""
+                return f"ssid:{ssid.lower()}::{freq}"
+            signal = data.get("signal") or data.get("level")
+            frequency = data.get("frequency") or data.get("channel")
+            return f"hidden::{frequency}::{signal}"
+        
+        def set_wifi_controls_visible(visible):
+            network_list.setVisible(visible)
+            wifi_controls_widget.setVisible(visible)
+            if not visible:
+                refresh_btn.setEnabled(False)
+                wifi_settings_btn.setEnabled(False)
+                connect_btn.setEnabled(False)
+                dialog.networks_subtitle.setText("Wi-Fi radio off")
+            else:
+                wifi_controls_widget.setEnabled(True)
+                if dialog.current_connected_identity:
+                    dialog.networks_subtitle.setText("Connected to network")
+                else:
+                    dialog.networks_subtitle.setText("Networks: scanning…")
+        
+        def track_future(fut):
+            local_futures.add(fut)
+            def _cleanup(_):
+                local_futures.discard(fut)
+            fut.add_done_callback(_cleanup)
+            return fut
+        
+        dialog._usb_connected = getattr(dialog, "_usb_connected", False)
+
+        def set_controls_enabled(enabled):
+            wifi_toggle.setEnabled(enabled)
+            refresh_btn.setEnabled(enabled)
+            wifi_settings_btn.setEnabled(enabled)
+            connect_btn.setEnabled(enabled)
+            ssid_input.setEnabled(enabled)
+            password_input.setEnabled(enabled)
+            show_password.setEnabled(enabled)
+            network_list.setEnabled(enabled)
+            wifi_controls_widget.setEnabled(enabled)
+        
+        def ensure_wifi_context(show_dialog=True):
+            """Ensure we have a rooted USB ADB connection."""
+            
+            if all(context_cache.values()):
+                set_controls_enabled(True)
+                status_label.setText("Status: Ready—refresh to update.")
+                dialog._usb_connected = True
+                return True
+            
+            requirement = 'root'
+            ready, snapshot = self._ensure_adb_capability(requirement, "configure Y1 Wi-Fi")
+            if not ready:
+                status_label.setText("Status: Waiting for a rooted USB ADB connection.")
+                set_controls_enabled(False)
+                set_wifi_controls_visible(False)
+                if dialog._usb_connected:
+                    dialog._usb_connected = False
+                    QMessageBox.information(
+                        dialog,
+                        "USB Disconnected",
+                        "The USB ADB connection to your Y1 was lost. Reconnect the USB cable to continue configuring Wi-Fi."
+                    )
+                    dialog.reject()
+                return False
+            
+            adb_path = self.find_adb_executable()
+            if not adb_path:
+                if show_dialog:
+                    QMessageBox.warning(dialog, "ADB Not Found", "ADB is required to configure Wi-Fi.")
+                status_label.setText("Status: ADB executable not found.")
+                set_controls_enabled(False)
+                return False
+            env = self._build_adb_environment()
+            device_id = snapshot.get('active_device_id') or snapshot.get('device_id')
+            if not device_id:
+                status_label.setText("Status: Waiting for a rooted USB ADB connection.")
+                set_controls_enabled(False)
+                return False
+            if device_id != "0123456789ABCDEF":
+                if show_dialog:
+                    QMessageBox.warning(
+                        dialog,
+                        "Unsupported Device",
+                        "These tools are intended for the Innioasis Y1. Connect a Y1 over USB to continue."
+                    )
+                status_label.setText("Status: Unsupported device connected.")
+                set_controls_enabled(False)
+                return False
+            
+            context_cache['adb_path'] = Path(adb_path)
+            context_cache['env'] = env
+            context_cache['device_id'] = device_id
+            set_controls_enabled(True)
+            status_label.setText("Status: Ready—refresh to update.")
+            dialog._usb_connected = True
+            return True
+        
+        def populate_networks(networks):
+            nonlocal last_selected_key
+            dialog._last_snapshot_id += 1
+            current_snapshot = dialog._last_snapshot_id
+            # Filter out placeholder NVRAM warning networks that appear on some devices
+            filtered_networks = []
+            for net in networks:
+                ssid_val = (net.get("ssid") or "").strip()
+                if ssid_val.upper().startswith("NVRAM WARNING: ERR"):
+                    continue
+                filtered_networks.append(net)
+            networks = filtered_networks
+            
+            grouped = {}
+            presence_map = dialog._network_presence
+            for key in list(presence_map.keys()):
+                presence_map[key]["seen"] = False
+            hidden_counter = 0
+            for net in networks:
+                ssid_raw = (net.get("ssid") or "").strip()
+                bssid_raw = (net.get("bssid") or "").strip()
+                freq = net.get("frequency") or net.get("channel")
+                signal_val = _extract_signal_value(net.get("signal") or net.get("level"))
+                signal_text = f"{signal_val} dBm" if signal_val > -200 else (net.get("signal") or "").strip()
+                if ssid_raw:
+                    key = f"ssid:{ssid_raw.lower()}"
+                elif bssid_raw:
+                    key = f"bssid:{bssid_raw.lower()}"
+                else:
+                    key = f"hidden:{hidden_counter}"
+                    hidden_counter += 1
+                existing = grouped.get(key)
+                display_ssid = ssid_raw if ssid_raw else "(hidden network)"
+                entry = {
+                    'ssid': ssid_raw,
+                    'display_ssid': display_ssid,
+                    'bssid': bssid_raw,
+                    'frequency': freq,
+                    'signal_value': signal_val,
+                    'signal': signal_text,
+                    'flags': net.get('flags'),
+                    'group_key': key,
+                    'sources': [net],
+                }
+                meta = presence_map.setdefault(key, {
+                    "count": 0,
+                    "last_snapshot": current_snapshot,
+                    "seen": True,
+                    "data": dict(entry),
+                })
+                meta["seen"] = True
+                meta["last_snapshot"] = current_snapshot
+                if existing is None or signal_val > existing['signal_value']:
+                    if existing and 'sources' in existing:
+                        entry['sources'] = existing['sources'] + [net]
+                    grouped[key] = entry
+                    meta["data"] = dict(entry)
+                else:
+                    existing.setdefault('sources', []).append(net)
+            
+            aggregated_networks = list(grouped.values())
+            for key in list(presence_map.keys()):
+                if not presence_map[key].get("seen"):
+                    presence_map[key]["count"] += 1
+                else:
+                    presence_map[key]["count"] = 0
+                if presence_map[key].get("count", 0) >= 3:
+                    continue
+                if key not in grouped:
+                    cached_entry = presence_map[key].get("data")
+                    if cached_entry:
+                        aggregated_networks.append(dict(cached_entry))
+            aggregated_networks.sort(
+                key=lambda item: (-item.get('signal_value', -200), item.get('display_ssid', '').lower())
+            )
+            silent_print(f"populate_networks aggregated to {len(aggregated_networks)} unique entries")
+
+            selected_key = None
+            current_item = network_list.currentItem()
+            if current_item:
+                selected_key = _network_identity(current_item.data(Qt.UserRole) or {})
+            if not selected_key:
+                selected_key = last_selected_key
+            scroll_value = network_list.verticalScrollBar().value() if network_list.count() else 0
+
+            silent_print(f"populate_networks called with {len(networks)} networks")
+            network_list.setUpdatesEnabled(False)
+            network_list.clear()
+            newly_selected_item = None
+
+            connected_identity = getattr(dialog, "current_connected_identity", None)
+            for agg in aggregated_networks:
+                display_name = agg.get("display_ssid") or "(hidden network)"
+                signal_display = (agg.get("signal") or "").strip()
+                strength = agg.get("signal_value", -200)
+                if strength >= -50:
+                    strength_text = "Excellent"
+                elif strength >= -65:
+                    strength_text = "Good"
+                elif strength >= -75:
+                    strength_text = "Fair"
+                elif strength > -90:
+                    strength_text = "Weak"
+                else:
+                    strength_text = "Very weak"
+                flags = agg.get("flags") or ""
+                security = "Open"
+                if flags:
+                    upper_flags = flags.upper()
+                    if "WPA3" in upper_flags:
+                        security = "WPA3"
+                    elif "WPA2" in upper_flags and "WPA" in upper_flags:
+                        security = "WPA/WPA2"
+                    elif "WPA2" in upper_flags:
+                        security = "WPA2"
+                    elif "WPA" in upper_flags:
+                        security = "WPA"
+                    elif "WEP" in upper_flags:
+                        security = "WEP"
+                identity = _network_identity(agg)
+                is_connected = identity and identity == connected_identity
+                display_entry = dict(agg)
+                display_entry["security_label"] = security
+                display_entry["is_open"] = (security == "Open")
+                display_entry["signal_strength_text"] = strength_text
+                display_entry["connected"] = bool(is_connected)
+                parts = [
+                    display_name,
+                    f"Security: {security}",
+                    f"Signal: {strength_text}{f' ({signal_display})' if signal_display else ''}",
+                ]
+                if is_connected:
+                    parts.append("Status: Connected")
+                display = " · ".join(part for part in parts if part)
+                identity = _network_identity(agg)
+                item = QListWidgetItem(display)
+                item.setData(Qt.UserRole, display_entry)
+                network_list.addItem(item)
+
+                if is_connected:
+                    item.setSelected(True)
+                    network_list.setCurrentItem(item)
+                    newly_selected_item = item
+                    last_selected_key = identity
+                if selected_key and identity == selected_key:
+                    network_list.setCurrentItem(item)
+                    newly_selected_item = item
+
+            if not newly_selected_item and network_list.count() and selected_key is None and last_selected_key is None:
+                network_list.setCurrentRow(0)
+                newly_selected_item = network_list.currentItem()
+
+            network_list.setUpdatesEnabled(True)
+
+            if scroll_value and network_list.verticalScrollBar().maximum():
+                restored_value = min(scroll_value, network_list.verticalScrollBar().maximum())
+                network_list.verticalScrollBar().setValue(restored_value)
+
+            if aggregated_networks:
+                dialog.networks_subtitle.setText(f"{len(aggregated_networks)} available networks")
+            else:
+                dialog.networks_subtitle.setText("No networks detected")
+
+            refresh_btn.setEnabled(True)
+
+            if newly_selected_item:
+                last_selected_key = _network_identity(newly_selected_item.data(Qt.UserRole) or {})
+                post_selection()
+            elif not network_list.currentItem():
+                last_selected_key = None
+            silent_print(f"populate_networks completed: widget now has {network_list.count()} items")
+            dialog._network_presence = presence_map
+
+        dialog.networks_ready.connect(populate_networks)
+        
+        def sync_toggle(snapshot):
+            nonlocal updating_toggle
+            try:
+                updating_toggle = True
+                enabled = snapshot.get("wifi_enabled")
+                if enabled is None:
+                    enabled = False
+                wifi_toggle.setCheckState(Qt.Checked if enabled else Qt.Unchecked)
+                wifi_toggle.setText("Wi-Fi radio on" if enabled else "Wi-Fi radio off")
+                set_wifi_controls_visible(enabled)
+                if not enabled:
+                    network_list.clear()
+                    ssid_input.clear()
+                    password_input.clear()
+                    show_password.setChecked(False)
+                    refresh_btn.setEnabled(False)
+                    wifi_settings_btn.setEnabled(False)
+                    connect_btn.setEnabled(False)
+                    wifi_controls_widget.setEnabled(False)
+                    dialog.networks_subtitle.setText("Wi-Fi radio off")
+                else:
+                    wifi_controls_widget.setEnabled(True)
+                    set_controls_enabled(True)
+                    prefill_host_ssid()
+                    dialog.networks_subtitle.setText("Networks: scanning…")
+            finally:
+                updating_toggle = False
+        
+        def update_status(snapshot):
+            if snapshot:
+                if snapshot.get("wifi_enabled") is False:
+                    dialog.networks_subtitle.setText("Wi-Fi radio off")
+                    dialog.current_connected_identity = None
+                else:
+                    ssid = snapshot.get("ssid") or "not connected"
+                    state = snapshot.get("state") or "unknown"
+                    rssi = snapshot.get("rssi")
+                    detail = state
+                    if rssi is not None:
+                        detail += f", RSSI {rssi} dBm"
+                    dialog.networks_subtitle.setText(f"Connected to {ssid} ({detail})")
+                    identity = None
+                    bssid = snapshot.get("bssid")
+                    if bssid:
+                        identity = f"bssid:{bssid.lower()}"
+                    elif snapshot.get("ssid"):
+                        identity = f"ssid:{snapshot.get('ssid').lower()}"
+                    dialog.current_connected_identity = identity
+            else:
+                dialog.networks_subtitle.setText("Networks: scanning…")
+                dialog.current_connected_identity = None
+            sync_toggle(snapshot or {"wifi_enabled": False})
+        
+        def refresh_status(show_dialog=False):
+            if not ensure_wifi_context(show_dialog=show_dialog):
+                return
+            fut = track_future(
+                self._wifi_scan_executor.submit(
+                    self._get_wifi_connection_snapshot,
+                    context_cache['adb_path'],
+                    context_cache['device_id'],
+                    context_cache['env'],
+                )
+            )
+            def finished(future):
+                snapshot = future.result()
+                QTimer.singleShot(0, lambda: update_status(snapshot))
+            fut.add_done_callback(finished)
+        
+        def refresh_networks(manual=False):
+            silent_print(f"refresh_networks called (manual={manual})")
+            if not wifi_toggle.isChecked():
+                silent_print("Wi-Fi toggle is off; skipping network refresh.")
+                return
+            # Try to ensure context, but proceed with direct check if capability check is slow
+            context_ready = ensure_wifi_context(show_dialog=manual)
+            if not context_ready:
+                # Try direct ADB check as fallback
+                adb_path = self.find_adb_executable()
+                if adb_path:
+                    env = self._build_adb_environment()
+                    # Direct check for USB device
+                    try:
+                        result = subprocess.run(
+                            [str(adb_path), 'devices'],
+                            capture_output=True,
+                            text=True,
+                            timeout=3,
+                            env=env,
+                            creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                        )
+                        if '0123456789ABCDEF' in result.stdout:
+                            silent_print("Direct ADB fallback: USB device detected.")
+                            # Device found, populate context cache directly
+                            context_cache['adb_path'] = Path(adb_path)
+                            context_cache['env'] = env
+                            context_cache['device_id'] = "0123456789ABCDEF"
+                            context_ready = True
+                            # Enable controls
+                            wifi_toggle.setEnabled(True)
+                            refresh_btn.setEnabled(True)
+                            wifi_settings_btn.setEnabled(True)
+                            connect_btn.setEnabled(True)
+                            ssid_input.setEnabled(True)
+                            password_input.setEnabled(True)
+                            show_password.setEnabled(True)
+                            network_list.setEnabled(True)
+                            status_label.setText("Status: Scanning for networks…")
+                    except Exception as e:
+                        silent_print(f"Direct ADB check failed: {e}")
+                        pass
+            
+            if not context_ready:
+                status_label.setText("Status: Waiting for a rooted USB ADB connection.")
+                silent_print("Context not ready after fallback; aborting refresh.")
+                return
+            
+            refresh_btn.setEnabled(False)
+            if manual:
+                status_label.setText("Status: Scanning for networks…")
+            elif not manual and status_label.text() == "Status: Initializing…":
+                status_label.setText("Status: Scanning for networks…")
+            
+            fut = track_future(
+                self._wifi_scan_executor.submit(
+                    self._get_wifi_networks_via_adb,
+                    context_cache['adb_path'],
+                    context_cache['device_id'],
+                    context_cache['env'],
+                )
+            )
+            def finished(future):
+                try:
+                    networks = future.result()
+                    silent_print(f"Wi-Fi scan completed: found {len(networks)} networks")
+                    if networks:
+                        for net in networks[:3]:  # Log first 3 for debugging
+                            silent_print(f"  - {net.get('ssid', 'unknown')} ({net.get('signal', 'no signal')})")
+                    silent_print(f"Emitting networks_ready with {len(networks)} entries")
+                    dialog.networks_ready.emit(networks)
+                except Exception as e:
+                    silent_print(f"Error refreshing networks: {e}")
+                    import traceback
+                    silent_print(traceback.format_exc())
+                    QTimer.singleShot(0, lambda: status_label.setText(f"Status: Error scanning networks: {str(e)[:50]}"))
+            fut.add_done_callback(finished)
+        
+        def set_wifi_enabled(enabled):
+            nonlocal last_selected_key
+            if not ensure_wifi_context():
+                wifi_toggle.blockSignals(True)
+                wifi_toggle.setChecked(not enabled)
+                wifi_toggle.blockSignals(False)
+                return
+            if enabled:
+                ok, msg = self._enable_wifi_radio_on_y1(
+                    context_cache['adb_path'],
+                    context_cache['device_id'],
+                    context_cache['env'],
+                )
+                if not ok:
+                    QMessageBox.warning(dialog, "Wi-Fi", msg or "Unable to change Wi-Fi state on the Y1.")
+                    wifi_toggle.blockSignals(True)
+                    wifi_toggle.setChecked(False)
+                    wifi_toggle.blockSignals(False)
+                    return
+                set_wifi_controls_visible(True)
+                set_controls_enabled(True)
+                status_label.setText("Status: Scanning for networks…")
+                prefill_host_ssid()
+                refresh_status()
+                refresh_networks()
+            else:
+                ok, msg = self._disable_wifi_radio_on_y1(
+                    context_cache['adb_path'],
+                    context_cache['device_id'],
+                    context_cache['env'],
+                )
+                if not ok:
+                    QMessageBox.warning(dialog, "Wi-Fi", msg or "Unable to change Wi-Fi state on the Y1.")
+                    wifi_toggle.blockSignals(True)
+                    wifi_toggle.setChecked(True)
+                    wifi_toggle.blockSignals(False)
+                    return
+                last_selected_key = None
+                network_list.clear()
+                ssid_input.clear()
+                password_input.clear()
+                show_password.setChecked(False)
+                set_wifi_controls_visible(False)
+                status_label.setText("Status: Turn on your Y1's Wi-Fi to connect it to a network so Fast Update and Smart Drop can run wirelessly.")
+                refresh_btn.setEnabled(False)
+                wifi_settings_btn.setEnabled(False)
+                connect_btn.setEnabled(False)
+                ssid_input.setEnabled(False)
+                password_input.setEnabled(False)
+                show_password.setEnabled(False)
+                wifi_controls_widget.setEnabled(False)
+                refresh_status()
+        
+        def launch_settings():
+            if not ensure_wifi_context():
+                return
+            ok, msg = self._launch_wifi_settings_on_y1(
+                context_cache['adb_path'],
+                context_cache['device_id'],
+                context_cache['env'],
+            )
+            if ok:
+                QMessageBox.information(
+                    dialog,
+                    "Manage Saved Networks",
+                    "The Wi-Fi settings screen has been opened on your Y1. Use the device to manage saved networks, then return here when you’re ready."
+                )
+            else:
+                QMessageBox.warning(dialog, "Wi-Fi Settings", msg or "Unable to open Wi-Fi settings on the device.")
+        
+        def on_connect_clicked():
+            if not ensure_wifi_context():
+                return
+            ssid = ssid_input.text().strip()
+            password = password_input.text()
+            if not ssid:
+                item = network_list.currentItem()
+                if item:
+                    data = item.data(Qt.UserRole) or {}
+                    ssid = (data.get("ssid") or "").strip()
+                    ssid_input.setText(ssid)
+            if not ssid:
+                QMessageBox.warning(dialog, "Missing SSID", "Select a network or enter the SSID first.")
+                return
+            data = (network_list.currentItem().data(Qt.UserRole)
+                    if network_list.currentItem() else {}) or {}
+            bssid = data.get("bssid")
+            connect_btn.setEnabled(False)
+            status_label.setText("Status: Pushing Wi-Fi profile to your Y1…")
+            
+            fut = track_future(
+                self._wifi_scan_executor.submit(
+                    self._configure_wifi_network_on_y1,
+                    context_cache['adb_path'],
+                    context_cache['device_id'],
+                    context_cache['env'],
+                    ssid,
+                    password,
+                    bssid,
+                )
+            )
+            def finished(future):
+                success, message = future.result()
+                def after():
+                    connect_btn.setEnabled(True)
+                    refresh_status()
+                    refresh_networks()
+                    if success:
+                        snapshot = self._get_wifi_connection_snapshot(
+                            context_cache['adb_path'],
+                            context_cache['device_id'],
+                            context_cache['env'],
+                        )
+                        connected_ssid = (snapshot or {}).get("ssid")
+                        if snapshot and snapshot.get("state") == "COMPLETED" and connected_ssid == ssid:
+                            QMessageBox.information(
+                                dialog,
+                                "Wi-Fi Connected",
+                                f"The Y1 connected to \"{ssid}\" successfully."
+                            )
+                            self._post_wifi_connection_actions(context_cache, dialog)
+                        else:
+                            QMessageBox.information(
+                                dialog,
+                                "Wi-Fi Update",
+                                message or "Wi-Fi profile saved. If the device doesn't connect automatically, try again."
+                            )
+                    else:
+                        QMessageBox.warning(dialog, "Wi-Fi", message or "Unable to configure Wi-Fi on the Y1.")
+                        status_label.setText("Status: Try again after checking the device.")
+                QTimer.singleShot(0, after)
+            fut.add_done_callback(finished)
+        
+        def post_selection():
+            nonlocal last_selected_key
+            item = network_list.currentItem()
+            if item:
+                data = item.data(Qt.UserRole) or {}
+                last_selected_key = _network_identity(data)
+                ssid_val = data.get("ssid")
+                if ssid_val is not None:
+                    ssid_input.setText(ssid_val)
+                    ssid_input.setCursorPosition(len(ssid_val))
+                if data.get("is_open"):
+                    if password_input.text():
+                        password_input.clear()
+                        show_password.setChecked(False)
+            else:
+                last_selected_key = None
+        network_list.itemSelectionChanged.connect(post_selection)
+        
+        def on_toggle_changed(state):
+            nonlocal updating_toggle
+            if updating_toggle:
+                return
+            set_wifi_enabled(state == Qt.Checked)
+        wifi_toggle.stateChanged.connect(on_toggle_changed)
+        
+        refresh_btn.clicked.connect(lambda: refresh_networks(manual=True))
+        wifi_settings_btn.clicked.connect(launch_settings)
+        connect_btn.clicked.connect(on_connect_clicked)
+        
+        refresh_timer = QTimer(dialog)
+        refresh_timer.setInterval(10000)
+        refresh_timer.timeout.connect(lambda: refresh_networks(manual=False))
+        
+        status_timer = QTimer(dialog)
+        status_timer.setInterval(7000)
+        status_timer.timeout.connect(lambda: refresh_status(show_dialog=False))
+        
+        def toggle_timers(active):
+            if active:
+                refresh_timer.start()
+                status_timer.start()
+            else:
+                refresh_timer.stop()
+                status_timer.stop()
+                for fut in list(local_futures):
+                    fut.cancel()
+        
+        def cleanup():
+            toggle_timers(False)
+        dialog.finished.connect(lambda _: cleanup())
+        
+        toggle_timers(True)
+        
+        # Ensure Wi-Fi is enabled and populate lists immediately if possible
+        def initialize_dialog():
+            # Always try to refresh networks - the function will handle context checking
+            refresh_networks(manual=False)
+            # Also try to get status if context is available
+            if ensure_wifi_context(show_dialog=False):
+                snapshot = self._get_wifi_connection_snapshot(
+                    context_cache['adb_path'],
+                    context_cache['device_id'],
+                    context_cache['env'],
+                )
+                if snapshot:
+                    update_status(snapshot)
+                if snapshot and snapshot.get("wifi_enabled"):
+                    sync_toggle(snapshot)
+                else:
+                    set_wifi_enabled(True)
+            prefill_host_ssid()
+        
+        # Initialize dialog immediately - refresh_networks will handle device detection
+        QTimer.singleShot(200, initialize_dialog)
+        
+        # Schedule periodic status updates and network refreshes
+        QTimer.singleShot(500, lambda: refresh_status(show_dialog=False))
+        # Network refresh timer is already set up above (10 second interval)
+        
+        dialog.exec()
+    
+    def _post_wifi_connection_actions(self, context_cache, parent_dialog):
+        """After confirming Wi-Fi connectivity, ensure wireless ADB is ready."""
+        adb_path = context_cache.get('adb_path')
+        device_id = context_cache.get('device_id')
+        env = context_cache.get('env')
+        if not adb_path or not device_id or not env:
+            return
+        
+        # Check if wireless ADB connection already exists
+        try:
+            result = subprocess.run(
+                [str(adb_path), 'devices'],
+                capture_output=True,
+                text=True,
+                timeout=5,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+            y1_wifi_devices = []
+            for line in (result.stdout or "").splitlines():
+                if '\tdevice' in line:
+                    dev_id = line.split('\t')[0]
+                    if ':' in dev_id and self._is_y1_device_id(adb_path, dev_id, env):
+                        y1_wifi_devices.append(dev_id)
+            if y1_wifi_devices:
+                # Already connected over Wi-Fi ADB.
+                return
+        except Exception as exc:
+            silent_print(f"Unable to check wireless ADB devices: {exc}")
+        
+        # Verify ADB Wi-Fi Reborn installation
+        installed = self._check_adb_wifi_reborn_installed(adb_path, device_id, env)
+        if not installed:
+            choice = QMessageBox.question(
+                parent_dialog,
+                "Install ADB Wi-Fi Reborn",
+                "ADB Wi-Fi Reborn is required for wireless ADB.\n\n"
+                "Would you like to install it now?",
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.Yes
+            )
+            if choice == QMessageBox.Yes:
+                parent_dialog.accept()
+                self.install_adb_wifi_reborn()
+            return
+        
+        # Offer to run the guided setup so the app launches and requests root
+        choice = QMessageBox.question(
+            parent_dialog,
+            "Finish Wireless ADB Setup",
+            "ADB Wi-Fi Reborn is installed but not yet active.\n\n"
+            "Would you like to run the guided setup to enable wireless ADB now?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.Yes
+        )
+        if choice == QMessageBox.Yes:
+            parent_dialog.accept()
+            launched = self._launch_adb_wifi_app_main_activity(adb_path, device_id, env)
+            self._show_adb_wifi_setup_wizard(adb_path, device_id, env, config_pushed=False, app_launched=launched)
+    
+    def _show_adb_wifi_setup_wizard(self, adb_path, device_id, env, config_pushed, app_launched):
+        """Guide the user through post-install steps with a simple wizard."""
+        from PySide6.QtWidgets import (
+            QDialog,
+            QVBoxLayout,
+            QLabel,
+            QPushButton,
+            QHBoxLayout,
+            QStackedWidget,
+            QWidget,
+            QMessageBox,
+        )
+        
+        wizard = QDialog(self)
+        wizard.setWindowTitle("ADB Wi-Fi Guided Setup")
+        wizard.setMinimumWidth(460)
+        layout = QVBoxLayout(wizard)
+        
+        intro = QLabel(
+            "Follow these quick steps on your Y1 to finish enabling wireless ADB. "
+            "Use the Next button below—each screen explains what to do before you continue."
+        )
+        intro.setWordWrap(True)
+        layout.addWidget(intro)
+        
+        if not app_launched:
+            warning = QLabel(
+                "<b>Heads up:</b> We couldn’t auto-open the ADB Wi-Fi app. "
+                "Open it manually from the Rockbox Apps menu, then continue."
+            )
+        else:
+            warning = QLabel(
+                "The ADB Wi-Fi Reborn app should already be open on your Y1. "
+                "If you don’t see it, tap Rockbox Apps › ADB Wi-Fi. "
+                "Accept any prompts before proceeding."
+            )
+        warning.setWordWrap(True)
+        layout.addWidget(warning)
+        
+        stack = QStackedWidget()
+        layout.addWidget(stack)
+        
+        steps = [
+            {
+                "title": "Accept the Terms",
+                "body": (
+                    "On the Y1 screen, accept the Terms of Service in ADB Wi-Fi Reborn. "
+                    "This only appears the first time you open the app."
+                ),
+            },
+            {
+                "title": "Navigate to Settings",
+                "body": (
+                    "Tap the ADB Wi-Fi menu button and choose <b>Settings</b>. "
+                    "We’ll change two options there."
+                ),
+            },
+            {
+                "title": "Enable Root + Run at Boot",
+                "body": (
+                    "In Settings, enable <b>Run at Boot</b> and confirm the root permission request. "
+                    "This keeps wireless ADB available after restarts."
+                ),
+            },
+            {
+                "title": "Connect to Your Wi-Fi",
+                "body": (
+                    "Connect the Y1 to your home Wi-Fi so it can talk to Updater wirelessly. "
+                    "You can do this from the device, or click the button below to pick a network from your computer."
+                ),
+                "add_wifi_button": True,
+            },
+            {
+                "title": "Restart the Y1",
+                "body": (
+                    "Power the player off, wait a few seconds, then power it on. "
+                    "Wireless ADB will start automatically once it rejoins Wi-Fi."
+                ),
+            },
+        ]
+        
+        if config_pushed:
+            steps[2]["body"] = (
+                "In Settings you should see that <b>Run at Boot</b> is already enabled. "
+                "Confirm that root access stays granted—tap the option once if the toggle looks disabled."
+            )
+        
+        progress_label = QLabel()
+        layout.addWidget(progress_label)
+        
+        for step in steps:
+            page = QWidget()
+            page_layout = QVBoxLayout(page)
+            title = QLabel(f"<h3>{step['title']}</h3>")
+            body = QLabel(step["body"])
+            body.setWordWrap(True)
+            page_layout.addWidget(title)
+            page_layout.addWidget(body)
+            
+            if step.get("add_wifi_button"):
+                hint = QLabel(
+                    "We’ll auto-detect the connection once it succeeds. "
+                    "Use this if the device doesn’t have quick access to a keyboard."
+                )
+                hint.setWordWrap(True)
+                page_layout.addWidget(hint)
+                
+                wifi_btn = QPushButton("Open Wireless Wi-Fi Tools")
+                wifi_btn.clicked.connect(
+                    lambda: self.open_wireless_wifi_dialog(
+                        adb_path_override=adb_path,
+                        device_id_override=device_id,
+                        env_override=env,
+                    )
+                )
+                page_layout.addWidget(wifi_btn)
+                
+                settings_btn = QPushButton("Open Wi-Fi Settings on Y1")
+                def launch_settings():
+                    ok, msg = self._launch_wifi_settings_on_y1(adb_path, device_id, env)
+                    if ok:
+                        QMessageBox.information(
+                            wizard,
+                            "Wi-Fi Settings",
+                            "Wi-Fi settings launched on your Y1. Connect there, then return to continue."
+                        )
+                    else:
+                        QMessageBox.warning(
+                            wizard,
+                            "Wi-Fi Settings",
+                            msg or "Unable to open Wi-Fi settings on the Y1."
+                        )
+                settings_btn.clicked.connect(launch_settings)
+                page_layout.addWidget(settings_btn)
+            
+            page_layout.addStretch()
+            stack.addWidget(page)
+        
+        button_row = QHBoxLayout()
+        prev_btn = QPushButton("Previous")
+        next_btn = QPushButton("Next")
+        close_btn = QPushButton("Close")
+        button_row.addWidget(prev_btn)
+        button_row.addStretch()
+        button_row.addWidget(close_btn)
+        button_row.addWidget(next_btn)
+        layout.addLayout(button_row)
+        
+        def update_navigation():
+            idx = stack.currentIndex()
+            total = stack.count()
+            progress_label.setText(f"Step {idx + 1} of {total}")
+            prev_btn.setEnabled(idx > 0)
+            next_btn.setText("Finish" if idx == total - 1 else "Next")
+        
+        def go_prev():
+            idx = stack.currentIndex()
+            if idx > 0:
+                stack.setCurrentIndex(idx - 1)
+                update_navigation()
+        
+        def go_next():
+            idx = stack.currentIndex()
+            if idx < stack.count() - 1:
+                stack.setCurrentIndex(idx + 1)
+                update_navigation()
+            else:
+                wizard.accept()
+        
+        prev_btn.clicked.connect(go_prev)
+        next_btn.clicked.connect(go_next)
+        close_btn.clicked.connect(wizard.reject)
+        
+        stack.setCurrentIndex(0)
+        update_navigation()
+        wizard.exec()
+    
+    def _configure_wifi_network_on_y1(self, adb_path, device_id, env, ssid, password, bssid=None):
+        """Edit wpa_supplicant.conf on the Y1 to add/update a network profile."""
+        temp_dir = Path(tempfile.mkdtemp(prefix="y1-wifi-"))
+        remote_backup = "/sdcard/wpa_supplicant.conf.updater"
+        remote_new = "/sdcard/wpa_supplicant.conf.updater.new"
+        
+        try:
+            # 1. Backup current config to accessible storage
+            result = subprocess.run(
+                [str(adb_path), "-s", device_id, "shell", "su", "-c", f"cp /data/misc/wifi/wpa_supplicant.conf {remote_backup}"],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+            if result.returncode != 0:
+                message = result.stderr or result.stdout or "Unable to back up existing configuration."
+                return False, message.strip()
+            
+            # 2. Pull the file locally
+            local_path = temp_dir / "wpa_supplicant.conf"
+            result = subprocess.run(
+                [str(adb_path), "-s", device_id, "pull", remote_backup, str(local_path)],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+            if result.returncode != 0 or not local_path.exists():
+                message = result.stderr or result.stdout or "Unable to pull configuration from device."
+                return False, message.strip()
+            
+            content = local_path.read_text()
+            escaped_ssid = ssid.replace('"', r'\"')
+            escaped_password = password.replace('"', r'\"') if password else ""
+            
+            lines = content.splitlines()
+            cleaned_lines = []
+            inside_block = False
+            block_lines = []
+            skip_block = False
+            
+            for line in lines:
+                stripped = line.strip()
+                if stripped.startswith("network={"):
+                    inside_block = True
+                    skip_block = False
+                    block_lines = [line]
+                    continue
+                
+                if inside_block:
+                    block_lines.append(line)
+                    if stripped.startswith('ssid="'):
+                        existing_ssid = stripped.split('ssid="', 1)[1].rstrip('"')
+                        if existing_ssid == ssid:
+                            skip_block = True
+                    if stripped == "}":
+                        inside_block = False
+                        if not skip_block:
+                            cleaned_lines.extend(block_lines)
+                        block_lines = []
+                    continue
+                
+                cleaned_lines.append(line)
+            
+            if inside_block and block_lines and not skip_block:
+                cleaned_lines.extend(block_lines)
+            
+            # Ensure trailing newline
+            if cleaned_lines and cleaned_lines[-1].strip():
+                cleaned_lines.append("")
+            
+            # Assemble new block
+            new_block = ["network={", f'\tssid="{escaped_ssid}"']
+            if password:
+                new_block.append(f'\tpsk="{escaped_password}"')
+                new_block.append("\tkey_mgmt=WPA-PSK")
+            else:
+                new_block.append("\tkey_mgmt=NONE")
+            if bssid:
+                new_block.append(f'\tbssid={bssid.lower()}')
+            new_block.append("\tpriority=100")
+            new_block.append("\tdisabled=0")
+            new_block.append("}")
+            
+            cleaned_lines.extend(new_block)
+            cleaned_lines.append("")
+            
+            local_path.write_text("\n".join(cleaned_lines))
+            
+            # 3. Push modified file back
+            push_result = subprocess.run(
+                [str(adb_path), "-s", device_id, "push", str(local_path), remote_new],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+            if push_result.returncode != 0:
+                message = push_result.stderr or push_result.stdout or "Unable to push the updated configuration."
+                return False, message.strip()
+            
+            # 4. Move into place with correct permissions
+            apply_cmd = (
+                f"cp {remote_new} /data/misc/wifi/wpa_supplicant.conf && "
+                f"chmod 660 /data/misc/wifi/wpa_supplicant.conf && "
+                f"chown system:wifi /data/misc/wifi/wpa_supplicant.conf"
+            )
+            apply_result = subprocess.run(
+                [str(adb_path), "-s", device_id, "shell", "su", "-c", apply_cmd],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+            if apply_result.returncode != 0:
+                message = apply_result.stderr or apply_result.stdout or "Unable to apply Wi-Fi configuration."
+                return False, message.strip()
+            
+            # 5. Restart Wi-Fi so the changes take effect
+            subprocess.run(
+                [str(adb_path), "-s", device_id, "shell", "svc", "wifi", "disable"],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+            time.sleep(1.5)
+            subprocess.run(
+                [str(adb_path), "-s", device_id, "shell", "svc", "wifi", "enable"],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+            subprocess.run(
+                [str(adb_path), "-s", device_id, "shell", "am", "broadcast", "-a", "android.net.wifi.SCAN_RESULTS"],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+            time.sleep(2.0)
+
+            attempts = 3
+            connected = False
+            snapshot = {}
+            for attempt in range(attempts):
+                connected, snapshot = self._wait_for_wifi_connection(
+                    adb_path,
+                    device_id,
+                    env,
+                    ssid,
+                    timeout=15 if attempt == 0 else 20,
+                )
+                if connected:
+                    break
+                if attempt < attempts - 1:
+                    silent_print(f"Wi-Fi not yet connected to {ssid}; retrying (attempt {attempt + 2}/{attempts}).")
+                    subprocess.run(
+                        [str(adb_path), "-s", device_id, "shell", "svc", "wifi", "disable"],
+                        capture_output=True,
+                        text=True,
+                        timeout=10,
+                        env=env,
+                        creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+                    )
+                    time.sleep(1.5)
+                    subprocess.run(
+                        [str(adb_path), "-s", device_id, "shell", "svc", "wifi", "enable"],
+                        capture_output=True,
+                        text=True,
+                        timeout=10,
+                        env=env,
+                        creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+                    )
+                    subprocess.run(
+                        [str(adb_path), "-s", device_id, "shell", "am", "broadcast", "-a", "android.net.wifi.SCAN_RESULTS"],
+                        capture_output=True,
+                        text=True,
+                        timeout=10,
+                        env=env,
+                        creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+                    )
+                    time.sleep(2.0)
+
+            if connected:
+                return True, f'The Y1 connected to "{ssid}".'
+            return True, "Wi-Fi profile saved. Give the Y1 a moment to join the network."
+        except Exception as exc:
+            silent_print(f"Failed to configure Wi-Fi network: {exc}")
+            return False, f"Unexpected error configuring Wi-Fi: {exc}"
+        finally:
+            shutil.rmtree(temp_dir, ignore_errors=True)
+            # Clean up remote temp files
             try:
                 subprocess.run(
-                    adb_base + ['wpa_cli -i wlan0 scan'],
+                    [str(adb_path), "-s", device_id, "shell", "su", "-c", f"rm -f {remote_new}"],
                     capture_output=True,
                     text=True,
-                    timeout=10,
+                    timeout=5,
                     env=env,
-                    creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                    creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
                 )
-                fallback = subprocess.run(
-                    adb_base + ['wpa_cli -i wlan0 scan_results'],
-                    capture_output=True,
-                    text=True,
-                    timeout=10,
-                    env=env,
-                    creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
-                )
-                if fallback.returncode == 0 and fallback.stdout:
-                    networks = self._parse_wpa_cli_scan(fallback.stdout)
-            except Exception as e:
-                silent_print(f"Wi-Fi wpa_cli scan error: {e}")
-        return networks
+            except Exception:
+                pass
+    
+    def _wait_for_wifi_connection(self, adb_path, device_id, env, target_ssid, timeout=30):
+        """Poll dumpsys wifi until the specified SSID reports as connected."""
+        deadline = time.time() + max(timeout, 5)
+        last_snapshot = {}
+        while time.time() < deadline:
+            snapshot = self._get_wifi_connection_snapshot(adb_path, device_id, env)
+            last_snapshot = snapshot or {}
+            ssid = (last_snapshot.get("ssid") or "").strip()
+            state = (last_snapshot.get("state") or "").upper()
+            silent_print(f"Connection poll: state={state} ssid={ssid}")
+            if state == "COMPLETED" and ssid == target_ssid:
+                return True, last_snapshot
+            if state in {"DISCONNECTED", "INACTIVE"} and ssid and ssid != target_ssid:
+                break
+            time.sleep(2)
+        return False, last_snapshot
+    
+    def _get_wifi_connection_snapshot(self, adb_path, device_id, env):
+        """Return current Wi-Fi connection details from dumpsys wifi."""
+        try:
+            result = subprocess.run(
+                [str(adb_path), "-s", device_id, "shell", "dumpsys", "wifi"],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                env=env,
+                creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0,
+            )
+            if result.returncode != 0 or not result.stdout:
+                return {}
+            
+            state = None
+            ssid = None
+            bssid = None
+            rssi = None
+            wifi_enabled = None
+            for raw_line in result.stdout.splitlines():
+                line = raw_line.strip()
+                if line.startswith("Wi-Fi is "):
+                    wifi_enabled = "enabled" in line.lower()
+                if line.startswith("Supplicant state:"):
+                    state = line.split(":", 1)[1].strip()
+                elif line.startswith("SSID:"):
+                    value = line.split(":", 1)[1].strip()
+                    if value and value != "<unknown ssid>":
+                        ssid = value
+                elif line.startswith("BSSID:"):
+                    value = line.split(":", 1)[1].strip()
+                    if value and value != "00:00:00:00:00:00":
+                        bssid = value.lower()
+                elif "RSSI:" in line:
+                    try:
+                        rssi = int(line.split("RSSI:", 1)[1].split(",", 1)[0].strip())
+                    except Exception:
+                        continue
+            return {"state": state, "ssid": ssid, "bssid": bssid, "rssi": rssi, "wifi_enabled": wifi_enabled}
+        except Exception as exc:
+            silent_print(f"dumpsys wifi status read failed: {exc}")
+            return {}
     
     def _parse_cmd_wifi_scan(self, output):
         """Parse cmd wifi list-scan-results output."""
@@ -20867,6 +22604,37 @@ class FirmwareDownloaderGUI(QMainWindow):
             parts = line.split('\t')
             if len(parts) >= 5:
                 bssid, freq, level, flags, ssid = parts[:5]
+                networks.append({
+                    'ssid': ssid,
+                    'bssid': bssid,
+                    'frequency': freq,
+                    'signal': f"{level} dBm" if level else None,
+                    'flags': flags
+                })
+        return networks
+    
+    def _parse_dumpsys_wifi_scan(self, output):
+        """Parse the 'Latest scan results' section from dumpsys wifi."""
+        networks = []
+        in_section = False
+        for raw_line in output.splitlines():
+            line = raw_line.strip()
+            if not line:
+                continue
+            if line.lower().startswith("latest scan results"):
+                in_section = True
+                continue
+            if not in_section:
+                continue
+            # end of section
+            lower_line = line.lower()
+            if lower_line.startswith("locks ") or lower_line.startswith("wifiwatchdog"):
+                break
+            if line.startswith("BSSID"):
+                continue
+            match = re.match(r'([0-9A-Fa-f:]{17})\s+(\d+)\s+(-?\d+)\s+(\[[^\]]+\](?:\[[^\]]+\])*)\s+(.*)$', line)
+            if match:
+                bssid, freq, level, flags, ssid = match.groups()
                 networks.append({
                     'ssid': ssid,
                     'bssid': bssid,
