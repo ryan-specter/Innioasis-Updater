@@ -10855,185 +10855,241 @@ class FirmwareDownloaderGUI(QMainWindow):
 
     def populate_version_tab(self, layout, browser, preferred_version=None):
         """Populate the version tab with selector and release notes."""
-        self.ensure_release_catalog()
+        self._version_tab_layout = layout
+        self._version_tab_browser = browser
+        self._version_loading_label = None
+
+        # Preserve currently selected version when reloading the UI
+        existing_selection = None
+        if self.version_combo and self.version_combo.currentData():
+            existing_selection = self.version_combo.currentData().get('version')
+        if preferred_version is None:
+            preferred_version = existing_selection
+
+        # Clear prior widgets while preserving the release notes browser
+        self._clear_version_tab_layout(layout, browser)
+
+        current_app_version = (self.app_version or APP_VERSION).lstrip('vV')
+
         if not self.available_versions:
-            self.load_whats_new_release_notes(browser)
+            if not getattr(self, '_available_versions_fetch_in_progress', False):
+                self._available_versions_fetch_in_progress = True
+
+                def _fetch_versions():
+                    try:
+                        self.get_latest_github_version()
+                    finally:
+                        self._available_versions_fetch_in_progress = False
+                        QTimer.singleShot(0, lambda: self.populate_version_tab(layout, browser, preferred_version))
+
+                fetch_thread = threading.Thread(target=_fetch_versions, daemon=True)
+                fetch_thread.start()
+
+            loading_label = QLabel("Loading release list…")
+            loading_label.setWordWrap(True)
+            loading_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+            loading_label.setObjectName("version_loading_label")
+            layout.addWidget(loading_label)
+            layout.addWidget(browser)
+            self._version_loading_label = loading_label
             return
 
-        # 2025-11-09 21:41:00 UTC - original: Layout did not include an inline banner about the user's app version status.
-        if hasattr(self, '_update_notice_label') and self._update_notice_label:
-            try:
-                layout.removeWidget(self._update_notice_label)
-            except Exception:
-                pass
-            self._update_notice_label.deleteLater()
-            self._update_notice_label = None
-
+        # Inline notice about update status
         notice_label = QLabel()
         notice_label.setWordWrap(True)
         notice_label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         notice_label.setObjectName("update_notice_label")
-        # Don't set color here - _refresh_update_notice_label will set it based on theme
         notice_label.setStyleSheet("font-weight: 600; margin: 6px 4px; padding: 10px; border-radius: 7px;")
         layout.addWidget(notice_label)
         self._update_notice_label = notice_label
-        
-        # Trigger update check if not already done or in progress
+
         if not getattr(self, '_update_check_in_progress', False) and self._update_check_attempts < self._max_update_check_attempts:
             silent_print("populate_version_tab: Triggering update check")
             self.check_for_updates_and_show_button()
-        
-        # Refresh the notice label after a short delay to ensure update check completes
         QTimer.singleShot(500, self._refresh_update_notice_label)
         self._refresh_update_notice_label()
-        
-        if self.version_combo:
-            self.version_combo.deleteLater()
-            self.version_combo = None
-        if hasattr(self, 'version_download_btn') and self.version_download_btn:
-            try:
-                layout.removeWidget(self.version_download_btn)
-            except Exception:
-                pass
-            self.version_download_btn.deleteLater()
-            self.version_download_btn = None
-        if hasattr(self, 'show_older_releases_checkbox') and self.show_older_releases_checkbox:
-            try:
-                layout.removeWidget(self.show_older_releases_checkbox)
-            except Exception:
-                pass
-            self.show_older_releases_checkbox.deleteLater()
-            self.show_older_releases_checkbox = None
-        
-        # Initialize show_older_releases flag if not set
+
+        # Track whether older releases should be shown
         if not hasattr(self, 'show_older_releases'):
             self.show_older_releases = False
-        
-        # Check if app version is newer than latest available release
-        # If so, enable show_older_releases by default and make checkbox read-only
+
         app_version_newer_than_latest = False
+        latest_release_version = None
         if self.available_versions:
             latest_release_version = self.available_versions[0]['version'].lstrip('vV')
-            current_app_version = APP_VERSION.lstrip('vV')
             try:
                 if self.compare_versions(current_app_version, latest_release_version) > 0:
                     app_version_newer_than_latest = True
-                    self.show_older_releases = True  # Enable by default
-                    silent_print(f"App version {current_app_version} is newer than latest release {latest_release_version} - enabling 'Show older releases'")
+                    if not self.show_older_releases:
+                        silent_print(
+                            f"App version {current_app_version} is newer than latest release "
+                            f"{latest_release_version} - enabling 'Show older releases'"
+                        )
+                    self.show_older_releases = True
             except Exception as compare_error:
                 silent_print(f"Error comparing versions: {compare_error}")
-        
+
+        visible_versions = []
+        for entry in self.available_versions:
+            normalized_version = entry['version'].lstrip('vV')
+            try:
+                is_older = self.compare_versions(normalized_version, current_app_version) < 0
+            except Exception:
+                is_older = False
+            if not self.show_older_releases and is_older:
+                continue
+            visible_versions.append(entry)
+
+        if not visible_versions:
+            # If filters remove everything, force-show older releases
+            silent_print("No releases remained after filtering; showing all releases instead.")
+            visible_versions = list(self.available_versions)
+            self.show_older_releases = True
+            app_version_newer_than_latest = True
+
         selector_layout = QHBoxLayout()
         selector_layout.setContentsMargins(0, 0, 8, 6)
         selector_layout.setSpacing(8)
-        
+
         selector_label = QLabel("Select version:")
         selector_label.setStyleSheet("font-weight: 600;")
         selector_layout.addWidget(selector_label)
-        
+
         self.version_combo = QComboBox()
         self.version_combo.setMinimumWidth(220)
-        
-        # Filter versions based on show_older_releases checkbox
-        for entry in self.available_versions:
-            normalized_version = entry['version'].lstrip('vV')
-            if not self.show_older_releases and self.compare_versions(normalized_version, APP_VERSION) < 0:
-                continue
+
+        for entry in visible_versions:
             display = entry['version']
             commit_display = entry.get('commit')
+            normalized_version = entry['version'].lstrip('vV')
             if commit_display:
                 normalized_commit = commit_display.lstrip('vV')
-                normalized_version = entry['version'].lstrip('vV')
                 if normalized_commit and normalized_commit != normalized_version:
                     display += f" ({commit_display})"
             self.version_combo.addItem(display, entry)
-        
+
         selector_layout.addWidget(self.version_combo, 1)
         layout.addLayout(selector_layout)
-        
-        # Add checkbox for showing older releases
+
         checkbox_layout = QHBoxLayout()
         checkbox_layout.setContentsMargins(0, 0, 8, 6)
         checkbox_layout.setSpacing(8)
         checkbox_layout.addStretch()
-        
+
         self.show_older_releases_checkbox = QCheckBox("Show older releases")
         self.show_older_releases_checkbox.setChecked(self.show_older_releases)
-        # If app version is newer than latest, make checkbox read-only
         if app_version_newer_than_latest:
             self.show_older_releases_checkbox.setEnabled(False)
-            self.show_older_releases_checkbox.setToolTip("App version is newer than latest release - older releases are always shown")
+            self.show_older_releases_checkbox.setToolTip(
+                "This build is newer than what is available on GitHub – older releases are shown by default."
+            )
         else:
-            self.show_older_releases_checkbox.stateChanged.connect(lambda state: self._on_show_older_releases_changed(state, browser))
+            self.show_older_releases_checkbox.stateChanged.connect(
+                lambda state: self._on_show_older_releases_changed(state, browser)
+            )
         checkbox_layout.addWidget(self.show_older_releases_checkbox)
         layout.addLayout(checkbox_layout)
-        
-        self.version_combo.currentIndexChanged.connect(lambda _: self.on_version_selection_changed(browser))
-        
-        target_index = None
+
+        # Determine which release should be selected
+        target_index = 0
         normalized_preferred = preferred_version.lstrip('vV') if preferred_version else None
-        current_version = getattr(self, 'app_version', '') or ''
 
         if normalized_preferred:
-            filtered_versions = [entry for entry in self.available_versions if self.show_older_releases or self.compare_versions(entry['version'].lstrip('vV'), APP_VERSION) >= 0]
-            for idx, entry in enumerate(filtered_versions):
+            for idx, entry in enumerate(visible_versions):
                 if entry['version'].lstrip('vV') == normalized_preferred:
                     target_index = idx
                     break
-
-        if target_index is None:
-            filtered_versions = [entry for entry in self.available_versions if self.show_older_releases or self.compare_versions(entry['version'].lstrip('vV'), APP_VERSION) >= 0]
-            for idx, entry in enumerate(filtered_versions):
+        else:
+            for idx, entry in enumerate(visible_versions):
                 try:
-                    if self.compare_versions(entry['version'].lstrip('vV'), current_version) > 0:
+                    if self.compare_versions(entry['version'].lstrip('vV'), current_app_version) > 0:
                         target_index = idx
                         break
                 except Exception:
                     continue
 
-        if target_index is None and filtered_versions:
-            # Default to the latest release
-            target_index = 0
+        self.version_combo.setCurrentIndex(max(0, min(target_index, self.version_combo.count() - 1)))
+        self.version_combo.currentIndexChanged.connect(lambda _: self.on_version_selection_changed(browser))
 
-        if target_index is not None:
-            self.version_combo.setCurrentIndex(target_index)
-
-        self.on_version_selection_changed(browser)
+        # Action buttons
         action_layout = QHBoxLayout()
         action_layout.addStretch()
-        self.version_download_btn = QPushButton("Download Selected Version")
-        self.version_download_btn.setCursor(Qt.PointingHandCursor)
-        self.version_download_btn.clicked.connect(lambda: self.download_selected_version(self._active_settings_dialog))
-        action_layout.addWidget(self.version_download_btn)
+
+        self.version_run_once_btn = QPushButton("Run older version once")
+        self.version_run_once_btn.setCursor(Qt.PointingHandCursor)
+        self.version_run_once_btn.clicked.connect(self.run_selected_version_once)
+        self.version_run_once_btn.setVisible(False)
+        action_layout.addWidget(self.version_run_once_btn)
+
+        self.version_install_btn = QPushButton("Install selected version")
+        self.version_install_btn.setCursor(Qt.PointingHandCursor)
+        self.version_install_btn.clicked.connect(
+            lambda: self.download_selected_version(self._active_settings_dialog)
+        )
+        self.version_download_btn = self.version_install_btn  # Backward compatibility for legacy methods
+        action_layout.addWidget(self.version_install_btn)
+
         layout.addLayout(action_layout)
-        # Removed: _refresh_version_download_cta - version download button handled in settings dialog
+
+        self.version_action_message = QLabel()
+        self.version_action_message.setWordWrap(True)
+        self.version_action_message.setVisible(False)
+        self.version_action_message.setStyleSheet("color: palette(mid); margin: 4px 4px 0 4px;")
+        layout.addWidget(self.version_action_message)
+
+        # Re-attach the release notes browser at the end
+        layout.addWidget(browser)
+
+        # Update UI based on the current selection
+        self.on_version_selection_changed(browser)
+    
+    def _clear_version_tab_layout(self, layout, browser):
+        """Remove dynamic widgets from the Version tab while keeping the release notes browser instance."""
+        if not layout:
+            return
+        for index in reversed(range(layout.count())):
+            item = layout.takeAt(index)
+            if not item:
+                continue
+            widget = item.widget()
+            child_layout = item.layout()
+            if widget:
+                if widget is browser:
+                    widget.setParent(None)
+                else:
+                    widget.deleteLater()
+            elif child_layout:
+                self._delete_layout(child_layout)
+
+    def _delete_layout(self, layout):
+        """Recursively delete layouts and their widgets."""
+        if not layout:
+            return
+        while layout.count():
+            item = layout.takeAt(0)
+            if not item:
+                continue
+            widget = item.widget()
+            child_layout = item.layout()
+            if widget:
+                widget.deleteLater()
+            elif child_layout:
+                self._delete_layout(child_layout)
+        layout.deleteLater()
     
     def _on_show_older_releases_changed(self, state, browser):
-        """Handle changes to the 'Show older releases' checkbox"""
+        """Handle changes to the 'Show older releases' checkbox."""
         self.show_older_releases = (state == Qt.Checked)
-        # Refresh the version tab to update the combo box
-        if hasattr(self, '_active_settings_dialog') and self._active_settings_dialog:
-            # Find the version tab layout and repopulate it
-            for i in range(self._active_settings_dialog.layout().count()):
-                widget = self._active_settings_dialog.layout().itemAt(i).widget()
-                if isinstance(widget, QTabWidget):
-                    for j in range(widget.count()):
-                        if widget.tabText(j) == "Update Available / Version":
-                            # Get the current browser widget
-                            tab_widget = widget.widget(j)
-                            if tab_widget:
-                                # Clear the layout and repopulate
-                                layout = tab_widget.layout()
-                                if layout:
-                                    # Clear existing widgets except the browser
-                                    while layout.count():
-                                        item = layout.takeAt(0)
-                                        if item.widget() and item.widget() != browser:
-                                            item.widget().deleteLater()
-                                    # Repopulate with updated filter
-                                    self.populate_version_tab(layout, browser)
-                            break
-                    break
+        preferred_version = None
+        if self.version_combo and self.version_combo.currentData():
+            preferred_version = self.version_combo.currentData().get('version')
+        layout = getattr(self, '_version_tab_layout', None)
+        version_browser = getattr(self, '_version_tab_browser', None)
+        if layout and version_browser:
+            QTimer.singleShot(
+                0,
+                lambda: self.populate_version_tab(layout, version_browser, preferred_version)
+            )
 
     # 2025-11-09 21:41:00 UTC - original: Version tab checkbox toggles only changed state on save and the UI never refreshed inline.
     def _handle_update_notification_toggle(self, checked):
@@ -11148,21 +11204,102 @@ class FirmwareDownloaderGUI(QMainWindow):
             event.accept()
 
     def _refresh_version_download_cta(self):
-        """Update the Version tab download button label based on the current selection."""
-        button = getattr(self, 'version_download_btn', None)
-        if not button:
+        """Update Version tab call-to-action controls."""
+        self._update_version_action_state()
+
+    def _update_version_action_state(self):
+        """Synchronize action buttons and helper messaging for Version tab selections."""
+        run_btn = getattr(self, 'version_run_once_btn', None)
+        install_btn = getattr(self, 'version_install_btn', None)
+        message_label = getattr(self, 'version_action_message', None)
+
+        if not self.version_combo or self.version_combo.count() == 0:
+            if run_btn:
+                run_btn.setVisible(False)
+            if install_btn:
+                install_btn.setEnabled(False)
+                install_btn.setText("Install selected version")
+                install_btn.setToolTip("Select a release to install.")
+                install_btn.setDefault(False)
+                install_btn.setVisible(True)
+            if message_label:
+                message_label.clear()
+                message_label.setVisible(False)
             return
-        selected_version = None
-        if self.version_combo and self.version_combo.currentData():
-            selected_version = self.version_combo.currentData().get('version')
-        if selected_version:
-            button.setText(f"Download {selected_version}")
-        else:
-            button.setText("Download Selected Version")
-        if self.has_update_available():
-            button.setToolTip(f"Install Innioasis Updater {self._latest_app_version}")
-        else:
-            button.setToolTip("Download the selected Innioasis Updater release")
+
+        data = self.version_combo.currentData()
+        if not data:
+            if run_btn:
+                run_btn.setVisible(False)
+            if install_btn:
+                install_btn.setEnabled(False)
+                install_btn.setToolTip("Select a release to install.")
+                install_btn.setDefault(False)
+                install_btn.setVisible(True)
+            if message_label:
+                message_label.clear()
+                message_label.setVisible(False)
+            return
+
+        version = data.get('version', '')
+        normalized_version = version.lstrip('vV')
+        current_version = (self.app_version or APP_VERSION).lstrip('vV')
+        try:
+            comparison = self.compare_versions(normalized_version, current_version)
+        except Exception:
+            comparison = 0
+
+        is_older = comparison < 0
+        is_same = comparison == 0
+        is_windows = platform.system() == "Windows"
+
+        if run_btn:
+            run_btn.setVisible(is_older)
+            run_btn.setEnabled(is_older)
+            if is_older:
+                run_btn.setToolTip("Download this release and launch it once without replacing your installed version.")
+            else:
+                run_btn.setToolTip("")
+
+        if install_btn:
+            install_btn.setText("Install selected version")
+            tooltip = "Install the selected Innioasis Updater release."
+            if self.has_update_available() and data.get('version') and self._latest_app_version:
+                try:
+                    if self.compare_versions(data.get('version').lstrip('vV'), self._latest_app_version.lstrip('vV')) == 0:
+                        tooltip = f"Install Innioasis Updater {self._latest_app_version}."
+                except Exception:
+                    pass
+
+            if not is_windows and is_older:
+                install_btn.setEnabled(False)
+                install_btn.setToolTip("Older releases can only be run once on this platform.")
+                install_btn.setDefault(False)
+                install_btn.setVisible(False)
+            else:
+                install_btn.setEnabled(True)
+                install_btn.setToolTip(tooltip)
+                install_btn.setDefault(True)
+                install_btn.setVisible(True)
+
+        if message_label:
+            message_label.clear()
+            message_label.setVisible(False)
+            if is_older:
+                if is_windows:
+                    message_label.setText(
+                        "Rolling back will replace your current build. Use the Start Menu shortcut "
+                        "'Innioasis Updater (latest)' when you're ready to return to the newest release. "
+                        "Update notifications will continue to appear as newer builds ship."
+                    )
+                else:
+                    message_label.setText(
+                        "Older releases can only be run once on this platform to keep you from getting stranded."
+                    )
+                message_label.setVisible(True)
+            elif is_same:
+                message_label.setText("You're already running this release.")
+                message_label.setVisible(True)
 
     def _maybe_auto_download_latest(self, settings_dialog=None):
         """Automatically download the latest release when prompted by the update dialog."""
@@ -11251,8 +11388,10 @@ class FirmwareDownloaderGUI(QMainWindow):
     def on_version_selection_changed(self, browser):
         """Handle updates to release notes when the version selection changes."""
         if not self.version_combo:
+            self._update_version_action_state()
             return
         data = self.version_combo.currentData()
+        self._update_version_action_state()
         if not data:
             return
         release = data.get('release')
@@ -11295,6 +11434,152 @@ class FirmwareDownloaderGUI(QMainWindow):
         finally:
             QTimer.singleShot(250, self.close)
 
+    def run_selected_version_once(self):
+        """Download and launch the selected release without replacing the installed version."""
+        if getattr(self, '_run_once_in_progress', False):
+            return
+        if not self.version_combo or self.version_combo.count() == 0:
+            QMessageBox.information(self, "Run Older Version Once", "Select a release first.")
+            return
+        data = self.version_combo.currentData()
+        if not data:
+            QMessageBox.information(self, "Run Older Version Once", "Select a release first.")
+            return
+
+        version = data.get('version')
+        release = data.get('release')
+        if not release:
+            release = self._get_release_data(version)
+            if not release:
+                QMessageBox.warning(
+                    self,
+                    "Run Older Version Once",
+                    "Unable to locate release details for this version."
+                )
+                return
+
+        tag_name = release.get('tag_name') or version
+        if not tag_name:
+            QMessageBox.warning(
+                self,
+                "Run Older Version Once",
+                "The selected release does not include a tag name that can be downloaded."
+            )
+            return
+
+        commitish = release.get('target_commitish')
+        zipball_url = release.get('zipball_url')
+        ref_candidates = []
+        for ref in (tag_name, commitish):
+            if ref and ref not in ref_candidates:
+                ref_candidates.append(ref)
+        if zipball_url:
+            derived = zipball_url.rstrip('/').split('/')[-1]
+            if derived and derived not in ref_candidates:
+                ref_candidates.append(derived)
+
+        normalized_version = (version or tag_name).lstrip('vV') or tag_name
+        dest_path = Path.cwd() / f"firmware_downloader_{normalized_version}.py"
+
+        self._run_once_in_progress = True
+        progress = QProgressDialog("Downloading selected release…", None, 0, 0, self)
+        progress.setWindowTitle("Preparing run-once release")
+        progress.setWindowModality(Qt.WindowModal)
+        progress.setCancelButton(None)
+        progress.setMinimumDuration(0)
+        progress.show()
+
+        def finalize(error_message=None):
+            try:
+                progress.close()
+            except Exception:
+                pass
+            self._run_once_in_progress = False
+            if error_message:
+                try:
+                    if dest_path.exists():
+                        dest_path.unlink(missing_ok=True)
+                except Exception:
+                    pass
+                QMessageBox.warning(self, "Run Older Version Once", error_message)
+                return
+            try:
+                popen_kwargs = {
+                    "cwd": str(Path.cwd()),
+                    "stdout": subprocess.DEVNULL,
+                    "stderr": subprocess.DEVNULL,
+                    "stdin": subprocess.DEVNULL,
+                    "close_fds": True,
+                }
+                if platform.system() == "Windows":
+                    creation_flags = 0
+                    for flag_name in ("CREATE_NEW_PROCESS_GROUP", "DETACHED_PROCESS", "CREATE_NO_WINDOW"):
+                        if hasattr(subprocess, flag_name):
+                            creation_flags |= getattr(subprocess, flag_name)
+                    if creation_flags:
+                        popen_kwargs["creationflags"] = creation_flags
+                subprocess.Popen([sys.executable, str(dest_path)], **popen_kwargs)
+            except Exception as launch_error:
+                QMessageBox.warning(
+                    self,
+                    "Run Older Version Once",
+                    f"The downloaded release could not be launched:\n\n{launch_error}"
+                )
+                return
+
+            QMessageBox.information(
+                self,
+                "Run Older Version Once",
+                f"Innioasis Updater {version} is now running in a separate window. "
+                "This window will close so you can use that build."
+            )
+            self.close()
+            QTimer.singleShot(200, QApplication.instance().quit)
+
+        def worker():
+            error_message = None
+            try:
+                headers = {'Accept': 'application/vnd.github.raw'}
+                token = None
+                try:
+                    if hasattr(self, 'github_api') and getattr(self.github_api, 'tokens', None):
+                        token = self.github_api.get_next_token()
+                        if token:
+                            headers['Authorization'] = f'token {token}'
+                except Exception as token_error:
+                    silent_print(f"Warning: unable to obtain GitHub token for run-once download: {token_error}")
+
+                session = requests.Session()
+                success = False
+                owner = "y1-community"
+                repo = "Innioasis-Updater"
+
+                for ref in ref_candidates:
+                    if not ref:
+                        continue
+                    url = f"https://raw.githubusercontent.com/{owner}/{repo}/{ref}/firmware_downloader.py"
+                    try:
+                        response = session.get(url, headers=headers, timeout=30)
+                        if response.status_code == 200 and response.content:
+                            dest_path.write_bytes(response.content)
+                            success = True
+                            break
+                    except requests.RequestException as req_exc:
+                        silent_print(f"Run-once download attempt failed for ref {ref}: {req_exc}")
+                        continue
+
+                if not success:
+                    error_message = (
+                        "Unable to download firmware_downloader.py for this release. "
+                        "Try again later or check your network connection."
+                    )
+            except Exception as exc:
+                error_message = str(exc)
+            finally:
+                QTimer.singleShot(0, lambda: finalize(error_message))
+
+        threading.Thread(target=worker, daemon=True).start()
+
     def download_selected_version(self, settings_dialog=None):
         """Install the selected Innioasis Updater release directly from the GUI."""
         if not self.version_combo:
@@ -11311,6 +11596,23 @@ class FirmwareDownloaderGUI(QMainWindow):
             QMessageBox.warning(self, "Download Version", "Unable to determine release information.")
             return
 
+        normalized_version = version.lstrip('vV')
+        current_version = (self.app_version or APP_VERSION).lstrip('vV')
+        try:
+            comparison = self.compare_versions(normalized_version, current_version)
+        except Exception:
+            comparison = 0
+        is_older = comparison < 0
+        is_windows = platform.system() == "Windows"
+
+        if is_older and not is_windows:
+            QMessageBox.information(
+                self,
+                "Install Older Release",
+                "Older releases can only be run once on this platform. Use 'Run older version once' instead."
+            )
+            return
+
         tag_name = ""
         if release:
             tag_name = release.get('tag_name', "")
@@ -11323,6 +11625,24 @@ class FirmwareDownloaderGUI(QMainWindow):
             release = self._get_release_data(version)
             if not release:
                 QMessageBox.warning(self, "Download Version", "Unable to fetch release details for this version.")
+                return
+
+        if is_older and is_windows:
+            warning_text = (
+                "You're about to install an older release of Innioasis Updater.\n\n"
+                "After rolling back, use the Start Menu shortcut 'Innioasis Updater (latest)' "
+                "to return to the newest build when you're finished.\n\n"
+                "Update notifications for newer releases will continue to appear as usual.\n\n"
+                "Do you want to continue?"
+            )
+            reply = QMessageBox.warning(
+                self,
+                "Install Older Release",
+                warning_text,
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No
+            )
+            if reply != QMessageBox.Yes:
                 return
 
         if settings_dialog:
