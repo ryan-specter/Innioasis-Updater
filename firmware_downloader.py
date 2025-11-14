@@ -53,7 +53,7 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.9.1"
+APP_VERSION = "1.9.2"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/storage/sdcard0/.fastupdate"
 LEGACY_FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
@@ -281,37 +281,6 @@ CACHE_DURATION = 86400  # 24 hour cache duration for offline capability
 MAX_CONCURRENT_REQUESTS = 3
 REQUEST_TIMEOUT = 1  # Short timeout for non-blocking behavior
 TOKEN_VALIDATION_TIMEOUT = 2  # Short timeout for non-blocking token validation
-
-def _release_looks_prerelease(release):
-    """Return True if a release entry represents a pre-release/nightly build."""
-    try:
-        if not release:
-            return False
-        if isinstance(release, dict) and release.get('prerelease', False):
-            return True
-        tag = ''
-        if isinstance(release, dict):
-            tag = (release.get('tag_name') or release.get('name') or '')
-        else:
-            tag = str(getattr(release, 'tag_name', '') or getattr(release, 'name', ''))
-        tag = tag.lower()
-        if not tag:
-            return False
-        keywords = (
-            "nightly",
-            "alpha",
-            "beta",
-            "rc",
-            "release-candidate",
-            "pre-release",
-            "prerelease",
-            "preview"
-        )
-        return any(keyword in tag for keyword in keywords)
-    except Exception as exc:
-        silent_print(f'Failed to classify prerelease: {exc}')
-        return False
-
 
 def silent_print(*args, **kwargs):
     """Print function that respects silent mode - completely silent by default"""
@@ -2900,17 +2869,19 @@ class ProgressiveReleaseWorker(QThread):
         # Check pre-release filter
         # When unchecked: Show only stable builds (hide pre-releases and nightly)
         # When checked: Show only pre-releases (hide stable builds)
-        is_prerelease = _release_looks_prerelease(release)
-        is_stable = not is_prerelease
-
+        is_prerelease = release.get('prerelease', False)
+        is_nightly = 'nightly' in tag_name.lower()
+        is_stable = not is_prerelease and not is_nightly
+        
         if self.show_prereleases:
             # When checked: Show only pre-releases (hide stable builds)
             if is_stable:
                 return False
+            # Show pre-releases and nightly builds
             return True
         else:
-            # When unchecked: Show only stable builds
-            if is_prerelease:
+            # When unchecked: Show only stable builds (hide pre-releases and nightly)
+            if is_prerelease or is_nightly:
                 return False
             # Show stable builds only
             return True
@@ -10372,10 +10343,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         install_adb_wifi_btn.clicked.connect(lambda: self.install_adb_wifi_reborn())
         
         wifi_settings_shortcut = QPushButton("📶 Y1 Wi-Fi Settings")
-        wifi_settings_shortcut.setEnabled(False)
-        wifi_settings_shortcut.setToolTip("Connect your Y1 with the Wi-Fi helper over USB to use this feature.")
         wifi_settings_shortcut.clicked.connect(lambda: self.open_wireless_wifi_dialog())
-        self.wifi_settings_shortcut = wifi_settings_shortcut
         
         button_row = QHBoxLayout()
         button_row.addWidget(install_adb_wifi_btn)
@@ -10481,20 +10449,13 @@ class FirmwareDownloaderGUI(QMainWindow):
                             try:
                                 install_adb_wifi_btn.setEnabled(is_rooted)
                                 wifi_settings_shortcut.setEnabled(is_rooted)
-                                if hasattr(self, 'open_wifi_btn') and self.open_wifi_btn:
-                                    self.open_wifi_btn.setEnabled(is_rooted)
-                                tooltip_disabled = "Connect your Y1 with the Wi-Fi helper firmware over USB to use this feature."
                                 if not is_rooted:
                                     install_adb_wifi_btn.setToolTip("Wireless ADB setup requires root access on the Y1.")
-                                    wifi_settings_shortcut.setToolTip(tooltip_disabled)
-                                    if hasattr(self, 'open_wifi_btn') and self.open_wifi_btn:
-                                        self.open_wifi_btn.setToolTip(tooltip_disabled)
+                                    wifi_settings_shortcut.setToolTip("Wireless configuration requires root access on the Y1.")
                                     return
                                 else:
                                     install_adb_wifi_btn.setToolTip("")
                                     wifi_settings_shortcut.setToolTip("")
-                                    if hasattr(self, 'open_wifi_btn') and self.open_wifi_btn:
-                                        self.open_wifi_btn.setToolTip("")
                                     wifi_info.setText(
                                         "Your Y1 is connected over USB with root access. Use Y1 Wi-Fi Settings to configure wireless transfers."
                                     )
@@ -10753,10 +10714,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         layout.addWidget(wifi_info)
         
         open_wifi_btn = QPushButton("Y1 Wi-Fi Settings…")
-        open_wifi_btn.setEnabled(False)
-        open_wifi_btn.setToolTip("Connect your Y1 with the Wi-Fi helper firmware over USB to use this feature.")
         open_wifi_btn.clicked.connect(lambda: self.open_wireless_wifi_dialog())
-        self.open_wifi_btn = open_wifi_btn
         layout.addWidget(open_wifi_btn)
     
     def _on_detect_usb_drive(self):
@@ -13163,8 +13121,12 @@ class FirmwareDownloaderGUI(QMainWindow):
         self.populate_releases_list()
 
     def is_prerelease_build(self, release):
-        """Backward-compatible wrapper around enhanced pre-release detection."""
-        return self._is_prerelease_build(release)
+        """Check if a release is marked as pre-release using GitHub's official flag"""
+        if isinstance(release, dict):
+            # Use GitHub's official prerelease flag
+            # Default to False (show the release) if flag is missing for backward compatibility
+            return release.get('prerelease', False)
+        return False
 
     def populate_releases_list(self):
         """Populate the releases list - INSTANT with cache, background refresh for offline mode"""
@@ -13248,11 +13210,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             # Show cached releases immediately
             self._display_cached_releases(cached_releases, selected_repo, selected_type, show_prereleases, is_online=True)
             # Start background refresh in background (non-blocking)
-            QTimer.singleShot(100, lambda: self._start_background_refresh(
-                selected_repo,
-                selected_type,
-                self.show_prerelease_checkbox.isChecked() if hasattr(self, 'show_prerelease_checkbox') else False
-            ))
+            QTimer.singleShot(100, lambda: self._start_background_refresh(selected_repo, selected_type, show_prereleases))
             return
 
         # Offline mode OR no cache: show offline message
@@ -13272,11 +13230,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         # Start background fetch (non-blocking) - don't show loading item, keep offline message
         # The left panel will show automatically when releases are loaded
-        self._start_background_refresh(
-            selected_repo,
-            selected_type,
-            self.show_prerelease_checkbox.isChecked() if hasattr(self, 'show_prerelease_checkbox') else False
-        )
+        self._start_background_refresh(selected_repo, selected_type, show_prereleases)
         
     def _display_cached_releases(self, cached_releases, selected_repo, selected_type, show_prereleases, is_online=True):
         """Display cached releases instantly (online mode only)"""
@@ -13285,19 +13239,16 @@ class FirmwareDownloaderGUI(QMainWindow):
             self.all_releases_loaded = []
             
             # Check if any pre-releases exist in cached releases
-            has_prereleases = any(self._is_prerelease_build(release) for release in cached_releases)
+            has_prereleases = False
+            for release in cached_releases:
+                tag_name = release.get('tag_name', '')
+                if release.get('prerelease', False) or 'nightly' in tag_name.lower():
+                    has_prereleases = True
+                    break
             
             # Show/hide pre-release checkbox based on availability
             if hasattr(self, 'show_prerelease_checkbox'):
-                if has_prereleases:
-                    self.show_prerelease_checkbox.setVisible(True)
-                else:
-                    if self.show_prerelease_checkbox.isChecked():
-                        self.show_prerelease_checkbox.blockSignals(True)
-                        self.show_prerelease_checkbox.setChecked(False)
-                        self.show_prerelease_checkbox.blockSignals(False)
-                    self.show_prerelease_checkbox.setVisible(False)
-                    show_prereleases = False
+                self.show_prerelease_checkbox.setVisible(has_prereleases)
             
             # Filter and display cached releases (no limit)
             for release in cached_releases:
@@ -13318,8 +13269,11 @@ class FirmwareDownloaderGUI(QMainWindow):
                             continue
                     
                     # Check pre-release filter
-                    if not show_prereleases and self._is_prerelease_build(release):
-                        continue
+                    if not show_prereleases:
+                        if release.get('prerelease', False):
+                            continue
+                        if 'nightly' in tag_name.lower():
+                            continue
                     
                     # Add to list
                     self._add_release_to_list(release)
@@ -13431,21 +13385,6 @@ class FirmwareDownloaderGUI(QMainWindow):
         except Exception as e:
             silent_print(f"Error showing left panel: {e}")
         
-    def _is_prerelease_build(self, release):
-        """Backward-compatible hook for new prerelease detection helper."""
-        return _release_looks_prerelease(release)
-
-    def _ensure_prerelease_checkbox_available(self):
-        """Ensure the pre-release checkbox becomes visible when needed."""
-        try:
-            if not hasattr(self, 'show_prerelease_checkbox') or self.show_prerelease_checkbox is None:
-                return
-            if not self.show_prerelease_checkbox.isVisible():
-                self.show_prerelease_checkbox.setVisible(True)
-        except Exception as exc:
-            silent_print(f'Unable to update pre-release checkbox visibility: {exc}')
-
-
     def _start_background_refresh(self, selected_repo, selected_type, show_prereleases):
         """Start background refresh of releases (non-blocking)"""
         # Don't reset counters if we already have cached releases displayed
@@ -13697,10 +13636,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                 try:
                     software_name = release.get('software_name', 'Unknown')
                     display_text = f"{software_name} - {release['tag_name']}"
-
-                    if self._is_prerelease_build(release):
-                        self._ensure_prerelease_checkbox_available()
-
+                    
                     item = QListWidgetItem(display_text)
                     item.setData(Qt.UserRole, release)
                     self.package_list.addItem(item)
@@ -13888,7 +13824,10 @@ class FirmwareDownloaderGUI(QMainWindow):
                             )
                             
                             if has_update_zip:
-                                if self._is_prerelease_build(release):
+                                is_prerelease = release.get('prerelease', False)
+                                is_nightly = 'nightly' in release.get('tag_name', '').lower()
+                                
+                                if is_prerelease or is_nightly:
                                     has_prerelease_with_update_zip = True
                                     prerelease_software.add(repo)
                                 else:
@@ -14081,9 +14020,6 @@ class FirmwareDownloaderGUI(QMainWindow):
             release_with_software = release.copy()
             release_with_software['software_name'] = software_name
             release_with_software['repo_name'] = selected_repo
-
-            if self._is_prerelease_build(release_with_software):
-                self._ensure_prerelease_checkbox_available()
 
             item = QListWidgetItem(display_text)
             item.setData(Qt.UserRole, release_with_software)
@@ -21333,7 +21269,6 @@ class FirmwareDownloaderGUI(QMainWindow):
         def __init__(self, parent=None):
             super().__init__(parent)
 
-
     def open_wireless_wifi_dialog(self, adb_path_override=None, device_id_override=None, env_override=None):
         """Launch the standalone Wireless Wi-Fi configuration dialog."""
         from PySide6.QtWidgets import (
@@ -21349,36 +21284,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             QCheckBox,
             QDialogButtonBox,
         )
-
-        context_cache = {'adb_path': None, 'device_id': None, 'env': None}
-        if adb_path_override and device_id_override and env_override:
-            context_cache['adb_path'] = Path(adb_path_override)
-            context_cache['device_id'] = device_id_override
-            context_cache['env'] = env_override
-        else:
-            ready, snapshot = self._ensure_adb_capability('root', "configure Y1 Wi-Fi")
-            if not ready:
-                return
-            adb_path = self.find_adb_executable()
-            if not adb_path:
-                QMessageBox.warning(self, "ADB Not Found", "ADB is required to configure Wi-Fi on your Y1.")
-                return
-            env = self._build_adb_environment()
-            device_id = snapshot.get('active_device_id') or snapshot.get('device_id')
-            if not device_id:
-                QMessageBox.warning(self, "Device Not Connected", "Connect your Y1 with the Wi-Fi helper over USB to continue.")
-                return
-            if device_id != "0123456789ABCDEF":
-                QMessageBox.warning(
-                    self,
-                    "Unsupported Device",
-                    "These Wi-Fi tools are intended for the Innioasis Y1. Connect a Y1 over USB to continue."
-                )
-                return
-            context_cache['adb_path'] = Path(adb_path)
-            context_cache['device_id'] = device_id
-            context_cache['env'] = env
-
+        
         dialog = self._WirelessWifiDialog(self)
         dialog.setWindowTitle("Wireless ADB Wi-Fi on Y1")
         dialog.setMinimumWidth(520)
@@ -21387,34 +21293,28 @@ class FirmwareDownloaderGUI(QMainWindow):
         dialog._network_presence = getattr(dialog, "_network_presence", {})
         dialog._last_snapshot_id = getattr(dialog, "_last_snapshot_id", 0)
         dialog._last_emitted_snapshot = getattr(dialog, "_last_emitted_snapshot", 0)
-
+        
         intro = QLabel(
             "Turn on your Y1’s Wi-Fi to connect it to a network so Fast Update and Smart Drop can run wirelessly. "
-            "Keep the device connected over USB while we configure it."
+            "Keep the device connected over USB with root ADB while we configure it."
         )
         intro.setWordWrap(True)
         layout.addWidget(intro)
-
+        
         status_label = QLabel("")
         status_label.setVisible(False)
         layout.addWidget(status_label)
         dialog.status_label = status_label
-
-        refresh_btn = QPushButton("Refresh Networks")
-        refresh_btn.setToolTip("Scan your Y1 for nearby Wi-Fi networks")
-        refresh_btn.setEnabled(False)
-        layout.addWidget(refresh_btn)
-
+        
+        wifi_toggle = QCheckBox("Enable Wi-Fi radio")
+        layout.addWidget(wifi_toggle)
+        dialog.wifi_toggle = wifi_toggle
+        dialog.wifi_toggle = wifi_toggle
+        
         networks_subtitle = QLabel("Networks: scanning…")
         networks_subtitle.setStyleSheet("font-size: 12px; color: #aaaaaa; margin: 4px 0;")
         layout.addWidget(networks_subtitle)
         dialog.networks_subtitle = networks_subtitle
-
-        connected_status_label = QLabel("")
-        connected_status_label.setStyleSheet("font-size: 12px; color: #4c8ed9; margin: 0 0 6px 0;")
-        connected_status_label.setVisible(False)
-        layout.addWidget(connected_status_label)
-        dialog.connected_status_label = connected_status_label
 
         network_list = QListWidget()
         network_list.setMinimumHeight(200)
@@ -21423,15 +21323,15 @@ class FirmwareDownloaderGUI(QMainWindow):
         layout.addWidget(network_list)
         dialog.network_list_widget = network_list
         dialog.current_connected_identity = getattr(dialog, "current_connected_identity", None)
-
+        
         wifi_controls_widget = QWidget()
         wifi_controls_layout = QVBoxLayout(wifi_controls_widget)
         wifi_controls_layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(wifi_controls_widget)
-
-        manual_label = QLabel("Network Details:")
+        
+        manual_label = QLabel("Manual entry (optional):")
         wifi_controls_layout.addWidget(manual_label)
-
+        
         ssid_row_widget = QWidget()
         ssid_row_layout = QHBoxLayout(ssid_row_widget)
         ssid_row_layout.setContentsMargins(0, 0, 0, 0)
@@ -21441,7 +21341,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         ssid_row_layout.addWidget(ssid_label)
         ssid_row_layout.addWidget(ssid_input)
         wifi_controls_layout.addWidget(ssid_row_widget)
-
+        
         password_row_widget = QWidget()
         password_row_layout = QHBoxLayout(password_row_widget)
         password_row_layout.setContentsMargins(0, 0, 0, 0)
@@ -21451,16 +21351,18 @@ class FirmwareDownloaderGUI(QMainWindow):
         password_row_layout.addWidget(password_label)
         password_row_layout.addWidget(password_input)
         wifi_controls_layout.addWidget(password_row_widget)
-
+        
         show_password = QCheckBox("Show password")
         show_password.toggled.connect(
             lambda checked: password_input.setEchoMode(QLineEdit.Normal if checked else QLineEdit.Password)
         )
         wifi_controls_layout.addWidget(show_password)
-
+        
         button_row = QHBoxLayout()
+        refresh_btn = QPushButton("Refresh Networks")
         wifi_settings_btn = QPushButton("Manage Saved Networks")
         connect_btn = QPushButton("Connect Y1 to Wi-Fi")
+        button_row.addWidget(refresh_btn)
         button_row.addWidget(wifi_settings_btn)
         button_row.addStretch()
         button_row.addWidget(connect_btn)
@@ -21468,19 +21370,25 @@ class FirmwareDownloaderGUI(QMainWindow):
         dialog.refresh_button = refresh_btn
         dialog.manage_networks_button = wifi_settings_btn
         dialog.connect_button = connect_btn
-
+        dialog.refresh_button = refresh_btn
+        dialog.manage_networks_button = wifi_settings_btn
+        dialog.connect_button = connect_btn
+        
         dialog.ssid_input = ssid_input
         dialog.password_input = password_input
-
+        
         buttons = QDialogButtonBox(QDialogButtonBox.Close)
         buttons.rejected.connect(dialog.reject)
         layout.addWidget(buttons)
-
+        
+        context_cache = {
+            'adb_path': Path(adb_path_override) if adb_path_override else None,
+            'device_id': device_id_override,
+            'env': env_override,
+        }
         local_futures = set()
+        updating_toggle = False
         last_selected_key = None
-        dialog._wifi_enabled = False
-        dialog._wifi_state_known = False
-        dialog._context_ready = bool(all(context_cache.values()))
 
         def prefill_host_ssid():
             if ssid_input.text().strip():
@@ -21491,6 +21399,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                 ssid_input.setCursorPosition(len(host_ssid))
 
         def _network_identity(data):
+            """Return a stable key for a network entry to preserve selection across refreshes."""
             if not data:
                 return None
             group_key = (data.get("group_key") or "").strip()
@@ -21506,8 +21415,34 @@ class FirmwareDownloaderGUI(QMainWindow):
             signal = data.get("signal") or data.get("level")
             frequency = data.get("frequency") or data.get("channel")
             return f"hidden::{frequency}::{signal}"
+        
+        def set_wifi_controls_visible(visible):
+            network_list.setVisible(visible)
+            wifi_controls_widget.setVisible(visible)
+            if not visible:
+                refresh_btn.setEnabled(False)
+                wifi_settings_btn.setEnabled(False)
+                connect_btn.setEnabled(False)
+                dialog.networks_subtitle.setText("Wi-Fi radio off")
+            else:
+                wifi_controls_widget.setEnabled(True)
+                if dialog.current_connected_identity:
+                    dialog.networks_subtitle.setText("Connected to network")
+                else:
+                    dialog.networks_subtitle.setText("Networks: scanning…")
+        
+        def track_future(fut):
+            local_futures.add(fut)
+            def _cleanup(_):
+                local_futures.discard(fut)
+            fut.add_done_callback(_cleanup)
+            return fut
+        
+        dialog._usb_connected = getattr(dialog, "_usb_connected", False)
 
         def set_controls_enabled(enabled):
+            wifi_toggle.setEnabled(enabled)
+            refresh_btn.setEnabled(enabled)
             wifi_settings_btn.setEnabled(enabled)
             connect_btn.setEnabled(enabled)
             ssid_input.setEnabled(enabled)
@@ -21515,53 +21450,22 @@ class FirmwareDownloaderGUI(QMainWindow):
             show_password.setEnabled(enabled)
             network_list.setEnabled(enabled)
             wifi_controls_widget.setEnabled(enabled)
-
-        set_controls_enabled(False)
-
-        def set_wifi_controls_visible(visible):
-            network_list.setVisible(visible)
-            wifi_controls_widget.setEnabled(visible)
-            if not visible:
-                connect_btn.setEnabled(False)
-                ssid_input.setEnabled(False)
-                password_input.setEnabled(False)
-                show_password.setEnabled(False)
-                networks_subtitle.setText("Wi-Fi radio off")
-            else:
-                connect_btn.setEnabled(True)
-                ssid_input.setEnabled(True)
-                password_input.setEnabled(True)
-                show_password.setEnabled(True)
-                if dialog.current_connected_identity:
-                    networks_subtitle.setText("Connected to network")
-                else:
-                    networks_subtitle.setText("Networks: scanning…")
-
-        def track_future(fut):
-            local_futures.add(fut)
-            def _cleanup(_):
-                local_futures.discard(fut)
-            fut.add_done_callback(_cleanup)
-            return fut
-
-        dialog._usb_connected = getattr(dialog, "_usb_connected", False)
-
+        
         def ensure_wifi_context(show_dialog=True):
+            """Ensure we have a rooted USB ADB connection."""
+            
             if all(context_cache.values()):
-                dialog._context_ready = True
                 set_controls_enabled(True)
-                refresh_btn.setEnabled(True)
                 status_label.setText("Status: Ready—refresh to update.")
                 dialog._usb_connected = True
                 return True
-
-            ready, snapshot = self._ensure_adb_capability('root', "configure Y1 Wi-Fi")
+            
+            requirement = 'root'
+            ready, snapshot = self._ensure_adb_capability(requirement, "configure Y1 Wi-Fi")
             if not ready:
-                dialog._context_ready = False
-                refresh_btn.setEnabled(False)
+                status_label.setText("Status: Waiting for a rooted USB ADB connection.")
                 set_controls_enabled(False)
                 set_wifi_controls_visible(False)
-                status_label.setText("Status: Waiting for your Y1 with Wi-Fi helper over USB.")
                 if dialog._usb_connected:
                     dialog._usb_connected = False
                     QMessageBox.information(
@@ -21571,53 +21475,44 @@ class FirmwareDownloaderGUI(QMainWindow):
                     )
                     dialog.reject()
                 return False
-
+            
             adb_path = self.find_adb_executable()
             if not adb_path:
-                dialog._context_ready = False
-                refresh_btn.setEnabled(False)
-                set_controls_enabled(False)
                 if show_dialog:
                     QMessageBox.warning(dialog, "ADB Not Found", "ADB is required to configure Wi-Fi.")
+                status_label.setText("Status: ADB executable not found.")
+                set_controls_enabled(False)
                 return False
-
             env = self._build_adb_environment()
             device_id = snapshot.get('active_device_id') or snapshot.get('device_id')
             if not device_id:
-                dialog._context_ready = False
-                refresh_btn.setEnabled(False)
+                status_label.setText("Status: Waiting for a rooted USB ADB connection.")
                 set_controls_enabled(False)
-                status_label.setText("Status: Waiting for your Y1 with Wi-Fi helper over USB.")
                 return False
-
             if device_id != "0123456789ABCDEF":
-                dialog._context_ready = False
-                refresh_btn.setEnabled(False)
-                set_controls_enabled(False)
-                status_label.setText("Status: Unsupported device connected.")
                 if show_dialog:
                     QMessageBox.warning(
                         dialog,
                         "Unsupported Device",
                         "These tools are intended for the Innioasis Y1. Connect a Y1 over USB to continue."
                     )
+                status_label.setText("Status: Unsupported device connected.")
+                set_controls_enabled(False)
                 return False
-
+            
             context_cache['adb_path'] = Path(adb_path)
             context_cache['env'] = env
             context_cache['device_id'] = device_id
-            dialog._context_ready = True
             set_controls_enabled(True)
-            refresh_btn.setEnabled(True)
             status_label.setText("Status: Ready—refresh to update.")
             dialog._usb_connected = True
             return True
-
+        
         def populate_networks(networks):
             nonlocal last_selected_key
             dialog._last_snapshot_id += 1
             current_snapshot = dialog._last_snapshot_id
-
+            # Filter out placeholder NVRAM warning networks that appear on some devices
             filtered_networks = []
             for net in networks:
                 ssid_val = (net.get("ssid") or "").strip()
@@ -21625,7 +21520,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                     continue
                 filtered_networks.append(net)
             networks = filtered_networks
-
+            
             grouped = {}
             presence_map = dialog._network_presence
             for key in list(presence_map.keys()):
@@ -21672,7 +21567,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                     meta["data"] = dict(entry)
                 else:
                     existing.setdefault('sources', []).append(net)
-
+            
             aggregated_networks = list(grouped.values())
             for key in list(presence_map.keys()):
                 if not presence_map[key].get("seen"):
@@ -21685,10 +21580,10 @@ class FirmwareDownloaderGUI(QMainWindow):
                     cached_entry = presence_map[key].get("data")
                     if cached_entry:
                         aggregated_networks.append(dict(cached_entry))
-
             aggregated_networks.sort(
                 key=lambda item: (-item.get('signal_value', -200), item.get('display_ssid', '').lower())
             )
+            silent_print(f"populate_networks aggregated to {len(aggregated_networks)} unique entries")
 
             selected_key = None
             current_item = network_list.currentItem()
@@ -21698,21 +21593,10 @@ class FirmwareDownloaderGUI(QMainWindow):
                 selected_key = last_selected_key
             scroll_value = network_list.verticalScrollBar().value() if network_list.count() else 0
 
+            silent_print(f"populate_networks called with {len(networks)} networks")
             network_list.setUpdatesEnabled(False)
             network_list.clear()
             newly_selected_item = None
-
-            if not aggregated_networks:
-                placeholder = QListWidgetItem("No networks found")
-                placeholder.setData(Qt.UserRole, {"placeholder": True})
-                network_list.addItem(placeholder)
-                dialog.networks_subtitle.setText("0 available networks")
-                status_label.setText("Status: No Wi-Fi networks detected. Move your Y1 closer to the router and refresh.")
-                refresh_btn.setEnabled(True)
-                network_list.setUpdatesEnabled(True)
-                last_selected_key = None
-                dialog._network_presence = presence_map
-                return
 
             connected_identity = getattr(dialog, "current_connected_identity", None)
             for agg in aggregated_networks:
@@ -21758,6 +21642,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                 if is_connected:
                     parts.append("Status: Connected")
                 display = " · ".join(part for part in parts if part)
+                identity = _network_identity(agg)
                 item = QListWidgetItem(display)
                 item.setData(Qt.UserRole, display_entry)
                 network_list.addItem(item)
@@ -21776,10 +21661,16 @@ class FirmwareDownloaderGUI(QMainWindow):
                 newly_selected_item = network_list.currentItem()
 
             network_list.setUpdatesEnabled(True)
-            if scroll_value and network_list.verticalScrollBar().maximum():
-                network_list.verticalScrollBar().setValue(min(scroll_value, network_list.verticalScrollBar().maximum()))
 
-            dialog.networks_subtitle.setText(f"{len(aggregated_networks)} available networks")
+            if scroll_value and network_list.verticalScrollBar().maximum():
+                restored_value = min(scroll_value, network_list.verticalScrollBar().maximum())
+                network_list.verticalScrollBar().setValue(restored_value)
+
+            if aggregated_networks:
+                dialog.networks_subtitle.setText(f"{len(aggregated_networks)} available networks")
+            else:
+                dialog.networks_subtitle.setText("No networks detected")
+
             refresh_btn.setEnabled(True)
 
             if newly_selected_item:
@@ -21787,43 +21678,52 @@ class FirmwareDownloaderGUI(QMainWindow):
                 post_selection()
             elif not network_list.currentItem():
                 last_selected_key = None
+            silent_print(f"populate_networks completed: widget now has {network_list.count()} items")
             dialog._network_presence = presence_map
 
-        def apply_wifi_state(enabled):
-            nonlocal last_selected_key
-            enabled = bool(enabled)
-            dialog._wifi_enabled = enabled
-            dialog._wifi_state_known = True
-            if not enabled:
-                network_list.setVisible(False)
-                last_selected_key = None
-                network_list.clear()
-                ssid_input.clear()
-                password_input.clear()
-                show_password.setChecked(False)
-                status_label.setText("Status: Y1 Wi-Fi appears to be off. Turn Wi-Fi on from the device, then refresh.")
-                dialog.networks_subtitle.setText("Wi-Fi radio off")
-                connected_status_label.setVisible(False)
-                connected_status_label.setText("")
-            else:
-                network_list.setVisible(True)
-                wifi_controls_widget.setEnabled(True)
-                if dialog.current_connected_identity:
-                    dialog.networks_subtitle.setText("Connected to network")
+        dialog.networks_ready.connect(populate_networks)
+        
+        def sync_toggle(snapshot):
+            nonlocal updating_toggle
+            try:
+                updating_toggle = True
+                enabled = snapshot.get("wifi_enabled")
+                if enabled is None:
+                    enabled = False
+                wifi_toggle.setCheckState(Qt.Checked if enabled else Qt.Unchecked)
+                wifi_toggle.setText("Wi-Fi radio on" if enabled else "Wi-Fi radio off")
+                set_wifi_controls_visible(enabled)
+                if not enabled:
+                    network_list.clear()
+                    ssid_input.clear()
+                    password_input.clear()
+                    show_password.setChecked(False)
+                    refresh_btn.setEnabled(False)
+                    wifi_settings_btn.setEnabled(False)
+                    connect_btn.setEnabled(False)
+                    wifi_controls_widget.setEnabled(False)
+                    dialog.networks_subtitle.setText("Wi-Fi radio off")
                 else:
+                    wifi_controls_widget.setEnabled(True)
+                    set_controls_enabled(True)
+                    prefill_host_ssid()
                     dialog.networks_subtitle.setText("Networks: scanning…")
-
+            finally:
+                updating_toggle = False
+        
         def update_status(snapshot):
             if snapshot:
-                wifi_enabled = snapshot.get("wifi_enabled")
-                apply_wifi_state(wifi_enabled)
-                if wifi_enabled:
+                if snapshot.get("wifi_enabled") is False:
+                    dialog.networks_subtitle.setText("Wi-Fi radio off")
+                    dialog.current_connected_identity = None
+                else:
                     ssid = snapshot.get("ssid") or "not connected"
                     state = snapshot.get("state") or "unknown"
                     rssi = snapshot.get("rssi")
                     detail = state
                     if rssi is not None:
                         detail += f", RSSI {rssi} dBm"
+                    dialog.networks_subtitle.setText(f"Connected to {ssid} ({detail})")
                     identity = None
                     bssid = snapshot.get("bssid")
                     if bssid:
@@ -21831,22 +21731,11 @@ class FirmwareDownloaderGUI(QMainWindow):
                     elif snapshot.get("ssid"):
                         identity = f"ssid:{snapshot.get('ssid').lower()}"
                     dialog.current_connected_identity = identity
-                    connected_status_label.setVisible(True)
-                    state_upper = (snapshot.get("state") or "").upper()
-                    if state_upper == "COMPLETED" and snapshot.get("ssid"):
-                        connected_status_label.setText(f'Currently connected: "{ssid}" ({detail})')
-                    else:
-                        connected_status_label.setText(f"Currently connected: not connected ({state})")
-                else:
-                    dialog.current_connected_identity = None
-                    connected_status_label.setVisible(True)
-                    connected_status_label.setText("Currently connected: not connected")
             else:
+                dialog.networks_subtitle.setText("Networks: scanning…")
                 dialog.current_connected_identity = None
-                apply_wifi_state(False)
-                connected_status_label.setVisible(False)
-                connected_status_label.setText("")
-
+            sync_toggle(snapshot or {"wifi_enabled": False})
+        
         def refresh_status(show_dialog=False):
             if not ensure_wifi_context(show_dialog=show_dialog):
                 return
@@ -21862,35 +21751,61 @@ class FirmwareDownloaderGUI(QMainWindow):
                 snapshot = future.result()
                 QTimer.singleShot(0, lambda: update_status(snapshot))
             fut.add_done_callback(finished)
-
+        
         def refresh_networks(manual=False):
             silent_print(f"refresh_networks called (manual={manual})")
+            if not wifi_toggle.isChecked():
+                silent_print("Wi-Fi toggle is off; skipping network refresh.")
+                return
+            # Try to ensure context, but proceed with direct check if capability check is slow
             context_ready = ensure_wifi_context(show_dialog=manual)
             if not context_ready:
+                # Try direct ADB check as fallback
+                adb_path = self.find_adb_executable()
+                if adb_path:
+                    env = self._build_adb_environment()
+                    # Direct check for USB device
+                    try:
+                        result = subprocess.run(
+                            [str(adb_path), 'devices'],
+                            capture_output=True,
+                            text=True,
+                            timeout=3,
+                            env=env,
+                            creationflags=subprocess.CREATE_NO_WINDOW if platform.system() == "Windows" else 0
+                        )
+                        if '0123456789ABCDEF' in result.stdout:
+                            silent_print("Direct ADB fallback: USB device detected.")
+                            # Device found, populate context cache directly
+                            context_cache['adb_path'] = Path(adb_path)
+                            context_cache['env'] = env
+                            context_cache['device_id'] = "0123456789ABCDEF"
+                            context_ready = True
+                            # Enable controls
+                            wifi_toggle.setEnabled(True)
+                            refresh_btn.setEnabled(True)
+                            wifi_settings_btn.setEnabled(True)
+                            connect_btn.setEnabled(True)
+                            ssid_input.setEnabled(True)
+                            password_input.setEnabled(True)
+                            show_password.setEnabled(True)
+                            network_list.setEnabled(True)
+                            status_label.setText("Status: Scanning for networks…")
+                    except Exception as e:
+                        silent_print(f"Direct ADB check failed: {e}")
+                        pass
+            
+            if not context_ready:
+                status_label.setText("Status: Waiting for a rooted USB ADB connection.")
+                silent_print("Context not ready after fallback; aborting refresh.")
                 return
-            if dialog._wifi_state_known and not dialog._wifi_enabled and not manual:
-                status_label.setText("Status: Y1 Wi-Fi appears to be off. Turn Wi-Fi on from the device, then refresh.")
-                dialog.networks_subtitle.setText("Wi-Fi radio off")
-                refresh_btn.setEnabled(True)
-                return
-
+            
             refresh_btn.setEnabled(False)
             if manual:
-                dialog._wifi_state_known = False
-                try:
-                    ok, msg = self._enable_wifi_radio_on_y1(
-                        context_cache['adb_path'],
-                        context_cache['device_id'],
-                        context_cache['env'],
-                    )
-                    if not ok:
-                        silent_print(f"Unable to ensure Wi-Fi enabled before scan: {msg}")
-                except Exception as exc:
-                    silent_print(f"Error enabling Wi-Fi before scan: {exc}")
                 status_label.setText("Status: Scanning for networks…")
-            elif status_label.text() == "Status: Initializing…":
+            elif not manual and status_label.text() == "Status: Initializing…":
                 status_label.setText("Status: Scanning for networks…")
-
+            
             fut = track_future(
                 self._wifi_scan_executor.submit(
                     self._get_wifi_networks_via_adb,
@@ -21903,16 +21818,71 @@ class FirmwareDownloaderGUI(QMainWindow):
                 try:
                     networks = future.result()
                     silent_print(f"Wi-Fi scan completed: found {len(networks)} networks")
+                    if networks:
+                        for net in networks[:3]:  # Log first 3 for debugging
+                            silent_print(f"  - {net.get('ssid', 'unknown')} ({net.get('signal', 'no signal')})")
+                    silent_print(f"Emitting networks_ready with {len(networks)} entries")
                     dialog.networks_ready.emit(networks)
-                except Exception as exc:
-                    silent_print(f"Error refreshing networks: {exc}")
+                except Exception as e:
+                    silent_print(f"Error refreshing networks: {e}")
                     import traceback
                     silent_print(traceback.format_exc())
-                    QTimer.singleShot(0, lambda: status_label.setText(f"Status: Error scanning networks: {str(exc)[:50]}"))
-                finally:
-                    QTimer.singleShot(0, lambda: refresh_btn.setEnabled(True))
+                    QTimer.singleShot(0, lambda: status_label.setText(f"Status: Error scanning networks: {str(e)[:50]}"))
             fut.add_done_callback(finished)
-
+        
+        def set_wifi_enabled(enabled):
+            nonlocal last_selected_key
+            if not ensure_wifi_context():
+                wifi_toggle.blockSignals(True)
+                wifi_toggle.setChecked(not enabled)
+                wifi_toggle.blockSignals(False)
+                return
+            if enabled:
+                ok, msg = self._enable_wifi_radio_on_y1(
+                    context_cache['adb_path'],
+                    context_cache['device_id'],
+                    context_cache['env'],
+                )
+                if not ok:
+                    QMessageBox.warning(dialog, "Wi-Fi", msg or "Unable to change Wi-Fi state on the Y1.")
+                    wifi_toggle.blockSignals(True)
+                    wifi_toggle.setChecked(False)
+                    wifi_toggle.blockSignals(False)
+                    return
+                set_wifi_controls_visible(True)
+                set_controls_enabled(True)
+                status_label.setText("Status: Scanning for networks…")
+                prefill_host_ssid()
+                refresh_status()
+                refresh_networks()
+            else:
+                ok, msg = self._disable_wifi_radio_on_y1(
+                    context_cache['adb_path'],
+                    context_cache['device_id'],
+                    context_cache['env'],
+                )
+                if not ok:
+                    QMessageBox.warning(dialog, "Wi-Fi", msg or "Unable to change Wi-Fi state on the Y1.")
+                    wifi_toggle.blockSignals(True)
+                    wifi_toggle.setChecked(True)
+                    wifi_toggle.blockSignals(False)
+                    return
+                last_selected_key = None
+                network_list.clear()
+                ssid_input.clear()
+                password_input.clear()
+                show_password.setChecked(False)
+                set_wifi_controls_visible(False)
+                status_label.setText("Status: Turn on your Y1's Wi-Fi to connect it to a network so Fast Update and Smart Drop can run wirelessly.")
+                refresh_btn.setEnabled(False)
+                wifi_settings_btn.setEnabled(False)
+                connect_btn.setEnabled(False)
+                ssid_input.setEnabled(False)
+                password_input.setEnabled(False)
+                show_password.setEnabled(False)
+                wifi_controls_widget.setEnabled(False)
+                refresh_status()
+        
         def launch_settings():
             if not ensure_wifi_context():
                 return
@@ -21929,7 +21899,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                 )
             else:
                 QMessageBox.warning(dialog, "Wi-Fi Settings", msg or "Unable to open Wi-Fi settings on the device.")
-
+        
         def on_connect_clicked():
             if not ensure_wifi_context():
                 return
@@ -21944,11 +21914,12 @@ class FirmwareDownloaderGUI(QMainWindow):
             if not ssid:
                 QMessageBox.warning(dialog, "Missing SSID", "Select a network or enter the SSID first.")
                 return
-            data = (network_list.currentItem().data(Qt.UserRole) if network_list.currentItem() else {}) or {}
+            data = (network_list.currentItem().data(Qt.UserRole)
+                    if network_list.currentItem() else {}) or {}
             bssid = data.get("bssid")
             connect_btn.setEnabled(False)
             status_label.setText("Status: Pushing Wi-Fi profile to your Y1…")
-
+            
             fut = track_future(
                 self._wifi_scan_executor.submit(
                     self._configure_wifi_network_on_y1,
@@ -21967,68 +21938,68 @@ class FirmwareDownloaderGUI(QMainWindow):
                     refresh_status()
                     refresh_networks()
                     if success:
-                        settings_ok, settings_msg = self._launch_wifi_settings_on_y1(
-                            context_cache['adb_path'],
-                            context_cache['device_id'],
-                            context_cache['env'],
-                        )
                         snapshot = self._get_wifi_connection_snapshot(
                             context_cache['adb_path'],
                             context_cache['device_id'],
                             context_cache['env'],
                         )
                         connected_ssid = (snapshot or {}).get("ssid")
-                        info_text = ""
                         if snapshot and snapshot.get("state") == "COMPLETED" and connected_ssid == ssid:
-                            info_text = f'The Y1 connected to "{ssid}" successfully.'
+                            QMessageBox.information(
+                                dialog,
+                                "Wi-Fi Connected",
+                                f"The Y1 connected to \"{ssid}\" successfully."
+                            )
                             self._post_wifi_connection_actions(context_cache, dialog)
                         else:
-                            info_text = message or "Wi-Fi profile saved. If the device doesn't connect automatically, try again."
-                        if settings_ok:
-                            info_text += "\n\nWe opened the Y1's Wi-Fi settings so you can finish connecting on the player."
-                        else:
-                            info_text += f"\n\n{settings_msg or 'Open Wi-Fi settings on the Y1 to choose the network and connect.'}"
-                        QMessageBox.information(dialog, "Wi-Fi Profile Sent", info_text)
-                        dialog.accept()
+                            QMessageBox.information(
+                                dialog,
+                                "Wi-Fi Update",
+                                message or "Wi-Fi profile saved. If the device doesn't connect automatically, try again."
+                            )
                     else:
                         QMessageBox.warning(dialog, "Wi-Fi", message or "Unable to configure Wi-Fi on the Y1.")
                         status_label.setText("Status: Try again after checking the device.")
                 QTimer.singleShot(0, after)
             fut.add_done_callback(finished)
-
+        
         def post_selection():
             nonlocal last_selected_key
             item = network_list.currentItem()
             if item:
                 data = item.data(Qt.UserRole) or {}
-                if data.get("placeholder"):
-                    network_list.clearSelection()
-                    last_selected_key = None
-                    return
                 last_selected_key = _network_identity(data)
                 ssid_val = data.get("ssid")
                 if ssid_val is not None:
                     ssid_input.setText(ssid_val)
                     ssid_input.setCursorPosition(len(ssid_val))
-                if data.get("is_open") and password_input.text():
-                    password_input.clear()
-                    show_password.setChecked(False)
+                if data.get("is_open"):
+                    if password_input.text():
+                        password_input.clear()
+                        show_password.setChecked(False)
             else:
                 last_selected_key = None
         network_list.itemSelectionChanged.connect(post_selection)
-
+        
+        def on_toggle_changed(state):
+            nonlocal updating_toggle
+            if updating_toggle:
+                return
+            set_wifi_enabled(state == Qt.Checked)
+        wifi_toggle.stateChanged.connect(on_toggle_changed)
+        
         refresh_btn.clicked.connect(lambda: refresh_networks(manual=True))
         wifi_settings_btn.clicked.connect(launch_settings)
         connect_btn.clicked.connect(on_connect_clicked)
-
+        
         refresh_timer = QTimer(dialog)
         refresh_timer.setInterval(10000)
         refresh_timer.timeout.connect(lambda: refresh_networks(manual=False))
-
+        
         status_timer = QTimer(dialog)
         status_timer.setInterval(7000)
         status_timer.timeout.connect(lambda: refresh_status(show_dialog=False))
-
+        
         def toggle_timers(active):
             if active:
                 refresh_timer.start()
@@ -22038,16 +22009,19 @@ class FirmwareDownloaderGUI(QMainWindow):
                 status_timer.stop()
                 for fut in list(local_futures):
                     fut.cancel()
-
+        
         def cleanup():
             toggle_timers(False)
         dialog.finished.connect(lambda _: cleanup())
-
+        
         toggle_timers(True)
-
+        
+        # Ensure Wi-Fi is enabled and populate lists immediately if possible
         def initialize_dialog():
-            context_ready = ensure_wifi_context(show_dialog=False)
-            if context_ready:
+            # Always try to refresh networks - the function will handle context checking
+            refresh_networks(manual=False)
+            # Also try to get status if context is available
+            if ensure_wifi_context(show_dialog=False):
                 snapshot = self._get_wifi_connection_snapshot(
                     context_cache['adb_path'],
                     context_cache['device_id'],
@@ -22055,18 +22029,21 @@ class FirmwareDownloaderGUI(QMainWindow):
                 )
                 if snapshot:
                     update_status(snapshot)
+                if snapshot and snapshot.get("wifi_enabled"):
+                    sync_toggle(snapshot)
                 else:
-                    apply_wifi_state(dialog._wifi_enabled)
-            else:
-                apply_wifi_state(False)
-            refresh_networks(manual=False)
+                    set_wifi_enabled(True)
             prefill_host_ssid()
-
+        
+        # Initialize dialog immediately - refresh_networks will handle device detection
         QTimer.singleShot(200, initialize_dialog)
+        
+        # Schedule periodic status updates and network refreshes
         QTimer.singleShot(500, lambda: refresh_status(show_dialog=False))
-
+        # Network refresh timer is already set up above (10 second interval)
+        
         dialog.exec()
-
+    
     def _post_wifi_connection_actions(self, context_cache, parent_dialog):
         """After confirming Wi-Fi connectivity, ensure wireless ADB is ready."""
         adb_path = context_cache.get('adb_path')
@@ -25813,7 +25790,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                 <body style='font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Helvetica, Arial, sans-serif; line-height: 1.6; padding: 10px; color: {text_color} !important;'>"""
                 notes_html += f"<h2 style='margin-top: 0; color: {text_color} !important;'>{safe_release_name}</h2>"
                 
-    # 2025-11-09 22:10:00 UTC - original: The full release body rendered, including preface text above the Changes section.
+# 2025-11-09 22:10:00 UTC - original: The full release body rendered, including preface text above the Changes section.
                 filtered_notes = str(release_notes)
                 try:
                     raw_lines = filtered_notes.splitlines()
@@ -26372,60 +26349,60 @@ class FirmwareDownloaderGUI(QMainWindow):
                     # macOS: Open Terminal.app with MTK command and activate venv
                     venv_path = Path.home() / "Library/Application Support/Innioasis Updater/venv"
                     script_content = f"""#!/bin/bash
-    # Set terminal title
-    echo -ne "\\033]0;Innioasis Recovery\\007"
+# Set terminal title
+echo -ne "\\033]0;Innioasis Recovery\\007"
 
-    cd '{current_dir}'
+cd '{current_dir}'
 
-    # Activate virtual environment if it exists
-    if [ -f "{venv_path}/bin/activate" ]; then
+# Activate virtual environment if it exists
+if [ -f "{venv_path}/bin/activate" ]; then
     source "{venv_path}/bin/activate"
     echo "Virtual environment activated"
-    fi
+fi
 
-    echo "=========================================="
-    echo "  Innioasis Recovery Firmware Install"
-    echo "=========================================="
-    echo ""
-    echo "This terminal window will now run the necessary command needed to install your chosen firmware with MTKclient (mtk.py)"
-    echo ""
-    echo "Thank you to u/wa-a-melyn from r/innioasis for documenting this process in an accessible way."
-    echo ""
-    echo "IMPORTANT INSTRUCTIONS:"
-    echo "1. Make sure your Y1 device is disconnected from the USB port"
-    echo "2. Put your device into Download Mode (Use paperclip to power off)"
-    echo "3. Then after pressing Enter..."
-    echo "4. Connect your Y1 to the computer by USB"
-    echo "5. Wait for the process to complete - this may take several minutes"
-    echo "6. Your device will restart automatically when finished"
-    echo ""
-    echo ""
-    echo "Press Enter to start the installation process..."
-    read -n 1
-    echo ""
-    echo "Starting Innioasis Recovery Firmware Install..."
-    echo "python3 mtk.py w uboot,bootimg,recovery,android,usrdata lk.bin,boot.img,recovery.img,system.img,userdata.img
-    "
-    echo ""
+echo "=========================================="
+echo "  Innioasis Recovery Firmware Install"
+echo "=========================================="
+echo ""
+echo "This terminal window will now run the necessary command needed to install your chosen firmware with MTKclient (mtk.py)"
+echo ""
+echo "Thank you to u/wa-a-melyn from r/innioasis for documenting this process in an accessible way."
+echo ""
+echo "IMPORTANT INSTRUCTIONS:"
+echo "1. Make sure your Y1 device is disconnected from the USB port"
+echo "2. Put your device into Download Mode (Use paperclip to power off)"
+echo "3. Then after pressing Enter..."
+echo "4. Connect your Y1 to the computer by USB"
+echo "5. Wait for the process to complete - this may take several minutes"
+echo "6. Your device will restart automatically when finished"
+echo ""
+echo ""
+echo "Press Enter to start the installation process..."
+read -n 1
+echo ""
+echo "Starting Innioasis Recovery Firmware Install..."
+echo "python3 mtk.py w uboot,bootimg,recovery,android,usrdata lk.bin,boot.img,recovery.img,system.img,userdata.img
+"
+echo ""
 
-    # Run MTK command with python3 (same as used in regular installation)
-    python3 mtk.py w uboot,bootimg,recovery,android,usrdata lk.bin,boot.img,recovery.img,system.img,userdata.img
+# Run MTK command with python3 (same as used in regular installation)
+python3 mtk.py w uboot,bootimg,recovery,android,usrdata lk.bin,boot.img,recovery.img,system.img,userdata.img
 
-    echo ""
-    echo "=========================================="
-    echo "MTK command completed."
-    echo ""
-    if [ $? -eq 0 ]; then
+echo ""
+echo "=========================================="
+echo "MTK command completed."
+echo ""
+if [ $? -eq 0 ]; then
     echo "✓ Installation appears to have completed successfully!"
     echo "Your device should restart automatically."
-    else
+else
     echo "⚠ Installation may have encountered issues."
     echo "Please check the output above for error messages."
-    fi
-    echo ""
-    echo "Press any key to close this terminal..."
-    read -n 1
-    """
+fi
+echo ""
+echo "Press any key to close this terminal..."
+read -n 1
+"""
                     # Create temporary script
                     script_path = current_dir / "mtk_recovery.sh"
                     with open(script_path, 'w') as f:
@@ -27171,6 +27148,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print(f"Error showing try again dialog: {e}")
             # Fallback to reverting to startup state
             self.revert_to_startup_state()
+
 if __name__ == "__main__":
     try:
         # Parse command line arguments
