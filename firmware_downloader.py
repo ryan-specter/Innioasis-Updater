@@ -582,7 +582,7 @@ def cleanup_extracted_files():
     return
 
 def cleanup_firmware_files():
-    """Clean up extracted firmware files (logo.bin, logo.bin,lk.bin, boot.img, etc.)"""
+    """Clean up extracted firmware files (logo.bin,lk.bin, boot.img, etc.)"""
     try:
         firmware_files = ["logo.bin", "lk.bin", "boot.img", "recovery.img", "system.img", "userdata.img"]
         cleaned_count = 0
@@ -2114,7 +2114,7 @@ class MTKWorker(QThread):
     def run(self):
         cmd = [
             sys.executable, "mtk.py", "w",
-            "logo,logo,logo,logo,logo,logo,logo,uboot,bootimg,recovery,android,usrdata",
+            "logo,uboot,bootimg,recovery,android,usrdata",
             "logo.bin,lk.bin,boot.img,recovery.img,system.img,userdata.img"
         ]
 
@@ -26314,7 +26314,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                     return
                 
                 # Construct the MTK command (same as used in regular installation)
-                mtk_command = f"cd '{current_dir}' && python3 mtk.py w logo,logo,logo,logo,logo,logo,logo,uboot,bootimg,recovery,android,usrdata logo.bin,lk.bin,boot.img,recovery.img,system.img,userdata.img"
+                mtk_command = f"cd '{current_dir}' && python3 mtk.py w logo,uboot,bootimg,recovery,android,usrdata logo.bin,lk.bin,boot.img,recovery.img,system.img,userdata.img"
                 
                 if platform.system() == "Linux":
                     # Linux: Open terminal with MTK command in separate window
@@ -26381,12 +26381,12 @@ echo "Press Enter to start the installation process..."
 read -n 1
 echo ""
 echo "Starting Innioasis Recovery Firmware Install..."
-echo "python3 mtk.py w logo,logo,logo,logo,logo,logo,logo,uboot,bootimg,recovery,android,usrdata logo.bin,lk.bin,boot.img,recovery.img,system.img,userdata.img
+echo "python3 mtk.py w logo,uboot,bootimg,recovery,android,usrdata logo.bin,lk.bin,boot.img,recovery.img,system.img,userdata.img
 "
 echo ""
 
 # Run MTK command with python3 (same as used in regular installation)
-python3 mtk.py w logo,logo,logo,logo,logo,logo,logo,uboot,bootimg,recovery,android,usrdata logo.bin,lk.bin,boot.img,recovery.img,system.img,userdata.img
+python3 mtk.py w logo,uboot,bootimg,recovery,android,usrdata logo.bin,lk.bin,boot.img,recovery.img,system.img,userdata.img
 
 echo ""
 echo "=========================================="
