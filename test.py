@@ -53,7 +53,7 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.9.2"
+APP_VERSION = "1.9.3"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/storage/sdcard0/.fastupdate"
 LEGACY_FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
@@ -582,9 +582,9 @@ def cleanup_extracted_files():
     return
 
 def cleanup_firmware_files():
-    """Clean up extracted firmware files (lk.bin, boot.img, etc.)"""
+    """Clean up extracted firmware files (logo.bin,lk.bin, boot.img, etc.)"""
     try:
-        firmware_files = ["lk.bin", "boot.img", "recovery.img", "system.img", "userdata.img"]
+        firmware_files = ["logo.bin", "lk.bin", "boot.img", "recovery.img", "system.img", "userdata.img"]
         cleaned_count = 0
         
         for file_name in firmware_files:
@@ -2114,8 +2114,8 @@ class MTKWorker(QThread):
     def run(self):
         cmd = [
             sys.executable, "mtk.py", "w",
-            "uboot,bootimg,recovery,android,usrdata",
-            "lk.bin,boot.img,recovery.img,system.img,userdata.img"
+            "logo,uboot,bootimg,recovery,android,usrdata",
+            "logo.bin,lk.bin,boot.img,recovery.img,system.img,userdata.img"
         ]
 
         try:
@@ -26314,7 +26314,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                     return
                 
                 # Construct the MTK command (same as used in regular installation)
-                mtk_command = f"cd '{current_dir}' && python3 mtk.py w uboot,bootimg,recovery,android,usrdata lk.bin,boot.img,recovery.img,system.img,userdata.img"
+                mtk_command = f"cd '{current_dir}' && python3 mtk.py w logo,uboot,bootimg,recovery,android,usrdata logo.bin,lk.bin,boot.img,recovery.img,system.img,userdata.img"
                 
                 if platform.system() == "Linux":
                     # Linux: Open terminal with MTK command in separate window
@@ -26381,12 +26381,12 @@ echo "Press Enter to start the installation process..."
 read -n 1
 echo ""
 echo "Starting Innioasis Recovery Firmware Install..."
-echo "python3 mtk.py w uboot,bootimg,recovery,android,usrdata lk.bin,boot.img,recovery.img,system.img,userdata.img
+echo "python3 mtk.py w logo,uboot,bootimg,recovery,android,usrdata logo.bin,lk.bin,boot.img,recovery.img,system.img,userdata.img
 "
 echo ""
 
 # Run MTK command with python3 (same as used in regular installation)
-python3 mtk.py w uboot,bootimg,recovery,android,usrdata lk.bin,boot.img,recovery.img,system.img,userdata.img
+python3 mtk.py w logo,uboot,bootimg,recovery,android,usrdata logo.bin,lk.bin,boot.img,recovery.img,system.img,userdata.img
 
 echo ""
 echo "=========================================="
