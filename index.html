@@ -2310,7 +2310,11 @@
             
             // Extract only the numbers after the last dash
             if (cleanVersion.includes('-')) {
-                const lastPart = cleanVersion.split('-').pop();
+                let lastPart = cleanVersion.split('-').pop();
+                // Strip "v" prefix if present (e.g., "v0.3" -> "0.3")
+                if (lastPart.toLowerCase().startsWith('v') && lastPart.length > 1) {
+                    lastPart = lastPart.substring(1);
+                }
                 // Check if the last part contains only numbers (and possibly dots)
                 if (/^[\d.]+$/.test(lastPart)) {
                     cleanVersion = lastPart;
@@ -2324,8 +2328,9 @@
             for (let i = 0; i < parts.length; i++) {
                 const part = parts[i];
                 
-                // Skip if it's the version number part
-                if (/^[\d.]+$/.test(part)) {
+                // Skip if it's the version number part (with or without "v" prefix)
+                let partToCheck = part.toLowerCase().startsWith('v') && part.length > 1 ? part.substring(1) : part;
+                if (/^[\d.]+$/.test(partToCheck)) {
                     continue;
                 }
                 
@@ -2334,8 +2339,8 @@
                     continue;
                 }
                 
-                // Skip "Type", "B", and "Base" as they are used for device type filtering, not display
-                if (part === 'type' || part === 'b' || part === 'base') {
+                // Skip "Type", "B", "Base", and "Stable" as they are used for device type filtering, not display
+                if (part === 'type' || part === 'b' || part === 'base' || part.toLowerCase() === 'stable') {
                     continue;
                 }
                 
@@ -3106,9 +3111,15 @@
                                 
                                 // Check if this is a prerelease/nightly/beta
                                 const tagLower = release.tag_name.toLowerCase();
-                                const isPrerelease = release.prerelease || release.draft || 
+                                // Releases with "stable" in tag name are always treated as stable
+                                let isPrerelease = false;
+                                if (tagLower.includes('stable')) {
+                                    isPrerelease = false;  // Always stable
+                                } else {
+                                    isPrerelease = release.prerelease || release.draft || 
                                                    tagLower.includes('nightly') || 
                                                    tagLower.includes('beta');
+                                }
                                 
                                 // Only add to display list if checkbox allows it
                                 if (currentFilters.showPrereleases || !isPrerelease) {
@@ -3181,6 +3192,12 @@
                             asset.name && asset.name.toLowerCase() === 'update.zip'
                         );
                         
+                        // Override prerelease flag if "stable" is in tag name
+                        let isPrerelease = release.prerelease || false;
+                        if (release.tag_name && release.tag_name.toLowerCase().includes('stable')) {
+                            isPrerelease = false;
+                        }
+                        
                         return {
                             tag_name: release.tag_name,
                             name: release.name || release.tag_name,
@@ -3188,7 +3205,7 @@
                             published_at: release.published_at,
                             html_url: release.html_url,
                             assets: release.assets || [],
-                            prerelease: release.prerelease || false,
+                            prerelease: isPrerelease,  // Overridden if "stable" in tag
                             draft: release.draft || false,
                             download_count: romZipAsset ? romZipAsset.download_count : 0,
                             total_downloads: release.assets.reduce((sum, asset) => sum + (asset.download_count || 0), 0),
@@ -3209,12 +3226,39 @@
                 container.innerHTML = '<p style="text-align: center; color: #6c757d;">No releases found</p>';
                 // Still check for prereleases even if filtered list is empty
                 if (allReleasesBeforeFilter && allReleasesBeforeFilter.length > 0) {
-                    const hasPreleases = allReleasesBeforeFilter.some(release => {
+                    // Check if we should auto-enable pre-releases (only pre-releases available)
+                    let hasStable = false;
+                    let hasPrerelease = false;
+                    
+                    allReleasesBeforeFilter.forEach(release => {
                         const tagLower = release.tag_name.toLowerCase();
-                        return release.prerelease || release.draft || 
-                               tagLower.includes('nightly') || 
-                               tagLower.includes('beta');
+                        // Releases with "stable" in tag are always treated as stable
+                        if (tagLower.includes('stable')) {
+                            hasStable = true;
+                        } else {
+                            const isPrerelease = release.prerelease || release.draft || 
+                                                 tagLower.includes('nightly') || 
+                                                 tagLower.includes('beta');
+                            if (isPrerelease) {
+                                hasPrerelease = true;
+                            } else {
+                                hasStable = true;
+                            }
+                        }
                     });
+                    
+                    const hasPreleases = hasPrerelease;
+                    
+                    // Auto-enable pre-releases if only pre-releases are available
+                    if (hasPrerelease && !hasStable && !currentFilters.showPrereleases) {
+                        currentFilters.showPrereleases = true;
+                        document.getElementById('showPrereleases').checked = true;
+                        userPrefersPrereleases = true;
+                        // Reload with pre-releases enabled
+                        loadFirmwareList();
+                        return;
+                    }
+                    
                     updatePrereleaseToggle(hasPreleases);
                 } else {
                     updatePrereleaseToggle(false);
@@ -3327,12 +3371,38 @@
             // Check if any releases are prereleases/nightly/beta and show checkbox if needed
             // Use unfiltered list if provided, otherwise use displayed list
             const releasesToCheck = allReleasesBeforeFilter || releases;
-            const hasPreleases = releasesToCheck.some(release => {
+            let hasStable = false;
+            let hasPrerelease = false;
+            
+            releasesToCheck.forEach(release => {
                 const tagLower = release.tag_name.toLowerCase();
-                return release.prerelease || release.draft || 
-                       tagLower.includes('nightly') || 
-                       tagLower.includes('beta');
+                // Releases with "stable" in tag are always treated as stable
+                if (tagLower.includes('stable')) {
+                    hasStable = true;
+                } else {
+                    const isPrerelease = release.prerelease || release.draft || 
+                                       tagLower.includes('nightly') || 
+                                       tagLower.includes('beta');
+                    if (isPrerelease) {
+                        hasPrerelease = true;
+                    } else {
+                        hasStable = true;
+                    }
+                }
             });
+            
+            const hasPreleases = hasPrerelease;
+            
+            // Auto-enable pre-releases if only pre-releases are available and checkbox is unchecked
+            if (hasPrerelease && !hasStable && !currentFilters.showPrereleases) {
+                currentFilters.showPrereleases = true;
+                document.getElementById('showPrereleases').checked = true;
+                userPrefersPrereleases = true;
+                // Reload with pre-releases enabled
+                loadFirmwareList();
+                return;
+            }
+            
             updatePrereleaseToggle(hasPreleases);
             
             // Add touch handling for scrolling text and check if scrolling is actually needed
