@@ -53,7 +53,7 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.9.3"
+APP_VERSION = "1.9.3.1"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/storage/sdcard0/.fastupdate"
 LEGACY_FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
@@ -93,7 +93,7 @@ def parse_version_designations(version_name):
     adjectives = ['compatible', 'aware', 'supported', 'enabled', 'disabled', 'ready', 'optimized', 'enhanced']
     
     # Define parts to exclude from parsing and display
-    excluded_parts = ['type', 'b', 'base']
+    excluded_parts = ['type', 'b', 'base', 'stable']
     
     # Extract only the part after the last dash (this is the actual version number)
     import re
@@ -105,6 +105,9 @@ def parse_version_designations(version_name):
     # Extract only the numbers after the last dash
     if '-' in clean_version:
         last_part = clean_version.split('-')[-1]
+        # Strip "v" prefix if present (e.g., "v0.3" -> "0.3")
+        if last_part.lower().startswith('v'):
+            last_part = last_part[1:]
         # Check if the last part contains only numbers (and possibly dots)
         if re.match(r'^[\d.]+$', last_part):
             clean_version = last_part
@@ -114,8 +117,10 @@ def parse_version_designations(version_name):
     parts = version_name.split('-')
     
     for i, part in enumerate(parts):
-        # Skip if it's the version number part
-        if re.match(r'^[\d.]+$', part):
+        # Skip if it's the version number part (with or without "v" prefix)
+        # Strip "v" prefix if present before checking
+        part_to_check = part[1:] if part.lower().startswith('v') and len(part) > 1 else part
+        if re.match(r'^[\d.]+$', part_to_check):
             continue
             
         # Skip if it's a hex string
@@ -1620,6 +1625,9 @@ class GitHubAPI:
                     for release in releases_data:
                         tag_name = release.get('tag_name', 'Unknown')
                         is_prerelease = release.get('prerelease', False)
+                        # Override: Releases with "stable" in tag name are always treated as stable
+                        if 'stable' in tag_name.lower():
+                            is_prerelease = False
                         assets = release.get('assets', [])
                         silent_print(f"Processing release: {tag_name} (prerelease={is_prerelease}) with {len(assets)} assets")
 
@@ -1641,7 +1649,7 @@ class GitHubAPI:
                                 'asset_name': zip_asset['name'],
                                 'asset_size': zip_asset.get('size', 0),
                                 'assets': release.get('assets', []),  # Include full assets array for update.zip detection
-                                'prerelease': is_prerelease  # GitHub's official pre-release flag
+                                'prerelease': is_prerelease  # GitHub's official pre-release flag (overridden if "stable" in tag)
                             })
                             silent_print(f"Added release {tag_name} (prerelease={is_prerelease}) with zip asset")
                         else:
@@ -1670,6 +1678,11 @@ class GitHubAPI:
                     releases = []
                     
                     for release in releases_data:
+                        tag_name = release.get('tag_name', '')
+                        is_prerelease = release.get('prerelease', False)
+                        # Override: Releases with "stable" in tag name are always treated as stable
+                        if 'stable' in tag_name.lower():
+                            is_prerelease = False
                         assets = release.get('assets', [])
                         zip_asset = None
                         for asset in assets:
@@ -1679,7 +1692,7 @@ class GitHubAPI:
                         
                         if zip_asset:
                             releases.append({
-                                'tag_name': release.get('tag_name', ''),
+                                'tag_name': tag_name,
                                 'name': release.get('name', ''),
                                 'body': release.get('body', ''),
                                 'published_at': release.get('published_at', ''),
@@ -1687,7 +1700,7 @@ class GitHubAPI:
                                 'asset_name': zip_asset['name'],
                                 'asset_size': zip_asset.get('size', 0),
                                 'assets': release.get('assets', []),  # Include full assets array for update.zip detection
-                                'prerelease': release.get('prerelease', False)  # GitHub's official pre-release flag
+                                'prerelease': is_prerelease  # GitHub's official pre-release flag (overridden if "stable" in tag)
                             })
                     
                     if releases:
@@ -1713,6 +1726,11 @@ class GitHubAPI:
                 releases = []
 
                 for release in releases_data:
+                    tag_name = release.get('tag_name', '')
+                    is_prerelease = release.get('prerelease', False)
+                    # Override: Releases with "stable" in tag name are always treated as stable
+                    if 'stable' in tag_name.lower():
+                        is_prerelease = False
                     assets = release.get('assets', [])
 
                     # Find any zip asset (more flexible than just rom.zip)
@@ -1724,7 +1742,7 @@ class GitHubAPI:
 
                     if zip_asset:  # Include releases with any zip file
                         releases.append({
-                            'tag_name': release.get('tag_name', ''),
+                            'tag_name': tag_name,
                             'name': release.get('name', ''),
                             'body': release.get('body', ''),
                             'published_at': release.get('published_at', ''),
@@ -1732,7 +1750,7 @@ class GitHubAPI:
                             'asset_name': zip_asset['name'],
                             'asset_size': zip_asset.get('size', 0),
                             'assets': release.get('assets', []),  # Include full assets array for update.zip detection
-                            'prerelease': release.get('prerelease', False)  # GitHub's official pre-release flag
+                            'prerelease': is_prerelease  # GitHub's official pre-release flag (overridden if "stable" in tag)
                         })
 
                 silent_print(f"Unauthenticated: Returning {len(releases)} releases with zip assets")
@@ -1769,6 +1787,11 @@ class GitHubAPI:
         if repo in self.releases_cache:
             cache_time, releases = self.releases_cache[repo]
             if time.time() - cache_time < self.cache_duration:
+                # Apply "stable" override to cached releases (in case they were cached before the fix)
+                for release in releases:
+                    tag_name = release.get('tag_name', '')
+                    if 'stable' in tag_name.lower():
+                        release['prerelease'] = False
                 silent_print(f"Using in-memory cached releases for {repo} (age: {time.time() - cache_time:.0f}s)")
                 return releases
             else:
@@ -1784,6 +1807,11 @@ class GitHubAPI:
                 cache_time = cache_data.get('timestamp', 0)
                 if time.time() - cache_time < self.cache_duration:
                     releases = cache_data.get('releases', [])
+                    # Apply "stable" override to cached releases (in case they were cached before the fix)
+                    for release in releases:
+                        tag_name = release.get('tag_name', '')
+                        if 'stable' in tag_name.lower():
+                            release['prerelease'] = False
                     silent_print(f"Using disk cached releases for {repo} (age: {time.time() - cache_time:.0f}s, OFFLINE MODE)")
                     # Load into memory cache for faster subsequent access
                     self.releases_cache[repo] = (cache_time, releases)
@@ -2795,9 +2823,15 @@ class ProgressiveReleaseWorker(QThread):
                 if not zip_asset:
                     continue  # Skip releases without rom.zip
                 
+                # Override prerelease flag if "stable" is in tag name
+                tag_name = release_data.get('tag_name', '')
+                is_prerelease = release_data.get('prerelease', False)
+                if 'stable' in tag_name.lower():
+                    is_prerelease = False
+                
                 # Build release object
                 release = {
-                    'tag_name': release_data.get('tag_name', ''),
+                    'tag_name': tag_name,
                     'name': release_data.get('name', ''),
                     'body': release_data.get('body', ''),
                     'published_at': release_data.get('published_at', ''),
@@ -2805,7 +2839,7 @@ class ProgressiveReleaseWorker(QThread):
                     'asset_name': zip_asset['name'],
                     'asset_size': zip_asset.get('size', 0),
                     'assets': release_data.get('assets', []),
-                    'prerelease': release_data.get('prerelease', False)
+                    'prerelease': is_prerelease  # Overridden if "stable" in tag
                 }
                 
                 all_releases.append(release)
@@ -2871,6 +2905,11 @@ class ProgressiveReleaseWorker(QThread):
         # When checked: Show only pre-releases (hide stable builds)
         is_prerelease = release.get('prerelease', False)
         is_nightly = 'nightly' in tag_name.lower()
+        # Releases with "stable" in tag name are always treated as stable, regardless of GitHub flag
+        has_stable_in_tag = 'stable' in tag_name.lower()
+        # If tag contains "stable", override GitHub's pre-release flag and treat as stable
+        if has_stable_in_tag:
+            is_prerelease = False
         is_stable = not is_prerelease and not is_nightly
         
         if self.show_prereleases:
@@ -13128,6 +13167,66 @@ class FirmwareDownloaderGUI(QMainWindow):
             return release.get('prerelease', False)
         return False
 
+    def _check_and_auto_enable_prereleases(self, all_releases, selected_type):
+        """
+        Check if we should automatically enable pre-releases when only pre-releases are available.
+        Returns True if pre-releases were auto-enabled, False otherwise.
+        """
+        try:
+            # Don't auto-enable if checkbox is already checked
+            if not hasattr(self, 'show_prerelease_checkbox') or self.show_prerelease_checkbox.isChecked():
+                return False
+            
+            # Check if there are any stable releases available
+            has_stable = False
+            has_prerelease = False
+            
+            for release in all_releases:
+                try:
+                    tag_name = release.get('tag_name', '')
+                    
+                    # Skip excluded releases
+                    if 'base' in tag_name.lower():
+                        continue
+                    
+                    # Check type filter
+                    has_type_b = 'type-b' in tag_name.lower()
+                    if selected_type == 'B':
+                        if not has_type_b:
+                            continue
+                    else:
+                        if has_type_b:
+                            continue
+                    
+                    # Check if it's a pre-release or nightly
+                    is_prerelease = release.get('prerelease', False)
+                    is_nightly = 'nightly' in tag_name.lower()
+                    # Releases with "stable" in tag name are always treated as stable
+                    has_stable_in_tag = 'stable' in tag_name.lower()
+                    if has_stable_in_tag:
+                        is_prerelease = False
+                    
+                    if is_prerelease or is_nightly:
+                        has_prerelease = True
+                    else:
+                        has_stable = True
+                except:
+                    continue
+            
+            # If there are pre-releases but no stable releases, auto-enable pre-releases
+            if has_prerelease and not has_stable:
+                silent_print(f"Auto-enabling pre-releases: only pre-releases available for selected option")
+                self.show_prerelease_checkbox.blockSignals(True)
+                self.show_prerelease_checkbox.setChecked(True)
+                self.show_prerelease_checkbox.setVisible(True)
+                self.show_prerelease_checkbox.blockSignals(False)
+                return True
+            
+            return False
+        except Exception as e:
+            silent_print(f"Error checking auto-enable pre-releases: {e}")
+            return False
+
     def populate_releases_list(self):
         """Populate the releases list - INSTANT with cache, background refresh for offline mode"""
         self.package_list.clear()
@@ -13207,7 +13306,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         if cached_releases and has_tokens and is_online:
             # Online mode: show cached releases instantly for fast startup
             silent_print(f"Using {len(cached_releases)} cached releases (INSTANT, ONLINE MODE)")
-            # Show cached releases immediately
+            # Show cached releases immediately (will auto-enable pre-releases if needed)
             self._display_cached_releases(cached_releases, selected_repo, selected_type, show_prereleases, is_online=True)
             # Start background refresh in background (non-blocking)
             QTimer.singleShot(100, lambda: self._start_background_refresh(selected_repo, selected_type, show_prereleases))
@@ -13242,13 +13341,27 @@ class FirmwareDownloaderGUI(QMainWindow):
             has_prereleases = False
             for release in cached_releases:
                 tag_name = release.get('tag_name', '')
-                if release.get('prerelease', False) or 'nightly' in tag_name.lower():
+                # Check if it's a pre-release or nightly (accounting for "stable" override)
+                is_prerelease = release.get('prerelease', False)
+                if 'stable' in tag_name.lower():
+                    is_prerelease = False
+                if is_prerelease or 'nightly' in tag_name.lower():
                     has_prereleases = True
                     break
             
             # Show/hide pre-release checkbox based on availability
             if hasattr(self, 'show_prerelease_checkbox'):
                 self.show_prerelease_checkbox.setVisible(has_prereleases)
+            
+            # Check if we should auto-enable pre-releases BEFORE filtering
+            # This ensures we enable it immediately if only pre-releases are available
+            if not show_prereleases and not (hasattr(self, '_auto_enabling_prereleases') and self._auto_enabling_prereleases):
+                auto_enabled = self._check_and_auto_enable_prereleases(cached_releases, selected_type)
+                if auto_enabled:
+                    # Update show_prereleases to reflect the auto-enabled state
+                    show_prereleases = True
+                    # Mark that we're auto-enabling to prevent recursion
+                    self._auto_enabling_prereleases = True
             
             # Filter and display cached releases (no limit)
             for release in cached_releases:
@@ -13270,7 +13383,12 @@ class FirmwareDownloaderGUI(QMainWindow):
                     
                     # Check pre-release filter
                     if not show_prereleases:
-                        if release.get('prerelease', False):
+                        # Releases with "stable" in tag are always treated as stable
+                        has_stable_in_tag = 'stable' in tag_name.lower()
+                        is_prerelease = release.get('prerelease', False)
+                        if has_stable_in_tag:
+                            is_prerelease = False
+                        if is_prerelease:
                             continue
                         if 'nightly' in tag_name.lower():
                             continue
@@ -13285,6 +13403,23 @@ class FirmwareDownloaderGUI(QMainWindow):
                     continue
             
             # No "View Older Releases" link needed - no limit on releases
+            
+            # Clear auto-enabling flag if we successfully displayed releases
+            if self.releases_loaded_count > 0:
+                self._auto_enabling_prereleases = False
+            
+            # If we have cached releases but none match filters, show filter message
+            # Otherwise show connection message (no releases loaded at all)
+            if self.releases_loaded_count == 0:
+                # We have cached releases available, but filters excluded them all
+                if cached_releases and len(cached_releases) > 0:
+                    self._show_no_filter_results_message()
+                else:
+                    # No releases loaded at all - connection/server issue
+                    has_tokens = hasattr(self.github_api, 'tokens') and len(self.github_api.tokens) > 0
+                    self._show_offline_message(has_tokens)
+                self.download_btn.setEnabled(False)
+                return
             
             # Select first item
             if self.package_list.count() > 0:
@@ -13335,7 +13470,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             silent_print(f"Error showing initial offline state: {e}")
     
     def _show_offline_message(self, has_tokens):
-        """Show offline message and hide left panel when no releases are available"""
+        """Show offline message when unable to load firmware listings (connection/server issue)"""
         try:
             # Hide left panel
             if hasattr(self, 'left_panel'):
@@ -13349,7 +13484,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                 # Check if online
                 online_message = ""
                 if has_tokens:
-                    online_message = f"<p style='color: {text_color} !important; margin-top: 10px;'>If you are online, something else may be blocking the connection to the online firmware directory.</p>"
+                    online_message = f"<p style='color: {text_color} !important; margin-top: 10px;'>Unable to connect to the online firmware directory. Please check your internet connection or try again later.</p>"
                 
                 message_html = f"""
                 <html>
@@ -13361,7 +13496,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                     </style>
                 </head>
                 <body style='font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Helvetica, Arial, sans-serif; line-height: 1.6; padding: 20px; text-align: center; color: {text_color} !important;'>
-                    <p style='font-size: 16px; color: {text_color} !important; margin-bottom: 15px;'>Please select <strong style="color: {text_color} !important;">Browse Files</strong> to begin, or go online to view the latest updates for your player.</p>
+                    <p style='font-size: 16px; color: {text_color} !important; margin-bottom: 15px;'>Please select <strong style="color: {text_color} !important;">Browse Files</strong> to begin, or wait for a connection to the online firmware directory.</p>
                     {online_message}
                 </body>
                 </html>
@@ -13376,6 +13511,45 @@ class FirmwareDownloaderGUI(QMainWindow):
                     self.output_group.setTitle("Getting Ready:")
         except Exception as e:
             silent_print(f"Error showing offline message: {e}")
+    
+    def _show_no_filter_results_message(self):
+        """Show message when releases were loaded but filters found no matching results"""
+        try:
+            # Hide left panel
+            if hasattr(self, 'left_panel'):
+                self.left_panel.setVisible(False)
+            
+            # Show no results message in release notes area
+            if hasattr(self, 'release_notes_browser'):
+                # Get theme-aware text color
+                text_color = self._get_text_color_for_theme()
+                
+                message_html = f"""
+                <html>
+                <head>
+                    <style>
+                        body, div, p, strong {{
+                            color: {text_color} !important;
+                        }}
+                    </style>
+                </head>
+                <body style='font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Helvetica, Arial, sans-serif; line-height: 1.6; padding: 20px; text-align: center; color: {text_color} !important;'>
+                    <p style='font-size: 16px; color: {text_color} !important; margin-bottom: 15px;'>No releases match your current filter settings.</p>
+                    <p style='font-size: 14px; color: {text_color} !important; margin-top: 10px;'>Try adjusting your device type selection or enable "Show pre-release builds" if available.</p>
+                    <p style='font-size: 14px; color: {text_color} !important; margin-top: 10px;'>If this issue persists, there may be a connection problem or issue with the release server.</p>
+                </body>
+                </html>
+                """
+                self.release_notes_browser.setHtml(message_html)
+            
+            # Switch to release notes view
+            if hasattr(self, 'image_notes_stack'):
+                self.image_notes_stack.setCurrentIndex(1)
+                # Update title
+                if hasattr(self, 'output_group'):
+                    self.output_group.setTitle("Getting Ready:")
+        except Exception as e:
+            silent_print(f"Error showing no filter results message: {e}")
     
     def _show_left_panel(self):
         """Show left panel when releases are available"""
@@ -13919,12 +14093,32 @@ class FirmwareDownloaderGUI(QMainWindow):
                             QTimer.singleShot(50, continue_processing)
                 QTimer.singleShot(50, continue_processing)
             
-            # If no releases were loaded, show offline message
+            # Check if we should auto-enable pre-releases (only pre-releases available)
+            if self.releases_loaded_count == 0 and all_releases and not (hasattr(self, '_auto_enabling_prereleases') and self._auto_enabling_prereleases):
+                selected_type = self.device_type_combo.currentData()
+                auto_enabled = self._check_and_auto_enable_prereleases(all_releases, selected_type)
+                if auto_enabled:
+                    # Checkbox is now enabled, re-run populate to apply the filter
+                    # Use QTimer to avoid recursion issues
+                    self._auto_enabling_prereleases = True
+                    def refresh_with_prereleases():
+                        self._auto_enabling_prereleases = False
+                        self.populate_releases_list()
+                    QTimer.singleShot(0, refresh_with_prereleases)
+                    return
+            
+            # If we have releases loaded but none match filters, show filter message
+            # Otherwise show connection message (no releases loaded at all)
             if self.releases_loaded_count == 0:
-                # Check if we have tokens (might be online)
-                has_tokens = hasattr(self.github_api, 'tokens') and len(self.github_api.tokens) > 0
-                self._show_offline_message(has_tokens)
-                # Disable download button when offline
+                # Check if releases were actually loaded (even if filtered out)
+                if all_releases and len(all_releases) > 0:
+                    # Releases were loaded but filters excluded them all
+                    self._show_no_filter_results_message()
+                else:
+                    # No releases loaded at all - connection/server issue
+                    has_tokens = hasattr(self.github_api, 'tokens') and len(self.github_api.tokens) > 0
+                    self._show_offline_message(has_tokens)
+                # Disable download button
                 self.download_btn.setEnabled(False)
                 return
             
