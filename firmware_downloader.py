@@ -53,7 +53,7 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.9.3.2"
+APP_VERSION = "1.9.3.3"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/storage/sdcard0/.fastupdate"
 LEGACY_FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
@@ -165,9 +165,9 @@ def parse_version_designations(version_name):
             if i + 2 < len(parts) and parts[i + 2] in adjectives:
                 # Check for adjective after "ipod-theme"
                 adjective = parts[i + 2]
-                designations.append(f'240p iPod / 360p Y1 Themes {adjective.title()}')
+                designations.append(f'iPod Classic Rockbox Theme {adjective.title()}')
             else:
-                designations.append('240p iPod themes / 360p Y1 Themes')
+                designations.append('240p iPod Classic Rockbox Themes')
         elif part == 'theme' and i > 0 and parts[i - 1] == 'ipod':
             # Skip this as it's handled above
             continue
