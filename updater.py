@@ -53,7 +53,7 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.9.3.3"
+APP_VERSION = "1.9.3.4"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/storage/sdcard0/.fastupdate"
 LEGACY_FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
@@ -7677,7 +7677,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         
         # Add Toolkit button for all platforms - using native styling
         seasonal_emoji = get_seasonal_emoji_random()
-        toolkit_text = f"Toolkit{seasonal_emoji}" if seasonal_emoji else "Toolkit"
+        toolkit_text = f"Y1 Themes + Tools{seasonal_emoji}" if seasonal_emoji else "Y1 Themes + Tools"
         self.toolkit_btn = QPushButton(toolkit_text)
         # Use native styling - no custom stylesheet for automatic theme adaptation
         # Use default cursor for native OS feel
