@@ -53,7 +53,7 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.9.3.5"
+APP_VERSION = "1.9.3.6"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/storage/sdcard0/.fastupdate"
 LEGACY_FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
@@ -95,22 +95,36 @@ def parse_version_designations(version_name):
     # Define parts to exclude from parsing and display
     excluded_parts = ['type', 'b', 'base', 'stable']
     
-    # Extract only the part after the last dash (this is the actual version number)
+    # Extract version number - look for version patterns anywhere in the tag name
     import re
     # First remove long hex strings at the end (like -13057e75dc29a1a7!)
     clean_version = re.sub(r'-[a-f0-9]{16,}!?$', '', version_name)
     # Remove any remaining trailing dashes or exclamation marks
     clean_version = clean_version.rstrip('-!')
     
-    # Extract only the numbers after the last dash
-    if '-' in clean_version:
+    # Initialize extracted_version to None - we'll set it when we find a valid version
+    extracted_version = None
+    
+    # First, try to find a version pattern anywhere in the tag (e.g., "v0.3", "v1.2.3")
+    # This handles cases like "Stable-v0.3-ipod-theme-compatible" where version is in the middle
+    version_pattern = re.search(r'\bv([\d.]+)\b', clean_version, re.IGNORECASE)
+    if version_pattern:
+        extracted_version = version_pattern.group(1)  # Extract just the numbers (without "v")
+    
+    # Fallback: Also check the last part after the last dash (original behavior)
+    # This handles cases where version is at the end like "some-tag-v0.3"
+    if not extracted_version and '-' in clean_version:
         last_part = clean_version.split('-')[-1]
         # Strip "v" prefix if present (e.g., "v0.3" -> "0.3")
         if last_part.lower().startswith('v'):
             last_part = last_part[1:]
         # Check if the last part contains only numbers (and possibly dots)
         if re.match(r'^[\d.]+$', last_part):
-            clean_version = last_part
+            extracted_version = last_part
+    
+    # Use extracted version if found, otherwise keep the cleaned tag name
+    if extracted_version:
+        clean_version = extracted_version
     
     # Parse designations from the original version name
     # Split by dashes and process each part
@@ -1606,11 +1620,12 @@ class GitHubAPI:
         cached_releases = self.get_cached_releases(repo)
         if cached_releases:
             silent_print(f"Using {len(cached_releases)} cached releases for {repo} (instant load)")
-            return cached_releases[:30]  # Limit cached results to 30 most recent
+            return cached_releases[:100]  # Limit cached results to 100 most recent to include stable releases
         
-        # Fetch more releases (30) to ensure Stable releases are included even if older than Nightly builds
-        # Then we'll filter to top 10 non-pre-release for display
-        url = f"https://api.github.com/repos/{repo}/releases?per_page=30"
+        # Fetch more releases (100) to ensure Stable releases are included even if older than Nightly builds
+        # This is important because if the first 30 releases are all pre-releases, stable releases won't be shown
+        # Then we'll filter to show only the appropriate releases based on user's pre-release filter preference
+        url = f"https://api.github.com/repos/{repo}/releases?per_page=100"
 
         # Try authenticated requests with available tokens
         if self.tokens:
@@ -2768,7 +2783,8 @@ class ProgressiveReleaseWorker(QThread):
                 return
             
             # Fetch releases from GitHub API progressively
-            url = f"https://api.github.com/repos/{self.repo}/releases?per_page=30"
+            # Fetch 100 releases to ensure stable releases are included even if they're older than pre-releases
+            url = f"https://api.github.com/repos/{self.repo}/releases?per_page=100"
             
             # Try authenticated request
             response = None
@@ -6227,7 +6243,7 @@ class FirmwareDownloaderGUI(QMainWindow):
             )
 
         html = (
-            f'<a href="https://ko-fi.com/team-slide" '
+            f'<a href="https://ryanspecter.uk" '
             f'style="color: {text_color}; text-decoration: none;">{formatted_message}</a>'
         )
         self.creator_label.setText(html)
@@ -13156,6 +13172,26 @@ class FirmwareDownloaderGUI(QMainWindow):
 
     def on_prerelease_filter_changed(self):
         """Handle pre-release filter checkbox change"""
+        # Mark that user manually changed the filter - don't auto-enable
+        self._user_manually_changed_filter = True
+        # Force a fresh fetch to get more releases (100 instead of cached 30)
+        # This ensures stable releases are included even if they're older
+        if hasattr(self, 'github_api'):
+            selected_repo = self.firmware_combo.currentData()
+            if selected_repo:
+                # Clear in-memory cache for this repo to force fresh fetch with 100 releases
+                if hasattr(self.github_api, 'releases_cache') and selected_repo in self.github_api.releases_cache:
+                    del self.github_api.releases_cache[selected_repo]
+                    silent_print(f"Cleared in-memory cache for {selected_repo}")
+                # Also clear disk cache
+                if hasattr(self.github_api, 'releases_cache_dir'):
+                    cache_file = self.github_api.releases_cache_dir / f"{selected_repo.replace('/', '_')}.json"
+                    if cache_file.exists():
+                        try:
+                            cache_file.unlink()
+                            silent_print(f"Cleared disk cache for {selected_repo} to force fresh fetch with 100 releases")
+                        except Exception as e:
+                            silent_print(f"Error clearing cache: {e}")
         # Refresh the releases list with the new filter setting
         self.populate_releases_list()
 
@@ -13180,6 +13216,8 @@ class FirmwareDownloaderGUI(QMainWindow):
             # Check if there are any stable releases available
             has_stable = False
             has_prerelease = False
+            stable_releases_found = []
+            prerelease_releases_found = []
             
             for release in all_releases:
                 try:
@@ -13205,26 +13243,41 @@ class FirmwareDownloaderGUI(QMainWindow):
                     has_stable_in_tag = 'stable' in tag_name.lower()
                     if has_stable_in_tag:
                         is_prerelease = False
-                    
-                    if is_prerelease or is_nightly:
-                        has_prerelease = True
-                    else:
                         has_stable = True
+                        stable_releases_found.append(tag_name)
+                    elif is_prerelease or is_nightly:
+                        has_prerelease = True
+                        prerelease_releases_found.append(tag_name)
+                    else:
+                        # Not explicitly stable, not pre-release, not nightly - treat as stable
+                        has_stable = True
+                        stable_releases_found.append(tag_name)
                 except:
                     continue
             
-            # If there are pre-releases but no stable releases, auto-enable pre-releases
+            # Only auto-enable if there are pre-releases AND NO stable releases
             if has_prerelease and not has_stable:
                 silent_print(f"Auto-enabling pre-releases: only pre-releases available for selected option")
+                silent_print(f"  Found {len(prerelease_releases_found)} pre-release(s): {prerelease_releases_found[:3]}")
+                silent_print(f"  Found {len(stable_releases_found)} stable release(s): {stable_releases_found[:3]}")
                 self.show_prerelease_checkbox.blockSignals(True)
                 self.show_prerelease_checkbox.setChecked(True)
                 self.show_prerelease_checkbox.setVisible(True)
                 self.show_prerelease_checkbox.blockSignals(False)
                 return True
+            elif has_stable:
+                # There ARE stable releases - don't auto-enable
+                silent_print(f"Not auto-enabling pre-releases: found {len(stable_releases_found)} stable release(s) available")
+                silent_print(f"  Stable releases: {stable_releases_found[:5]}")
+                if has_prerelease:
+                    silent_print(f"  Also found {len(prerelease_releases_found)} pre-release(s), but stable releases exist")
+                return False
             
             return False
         except Exception as e:
             silent_print(f"Error checking auto-enable pre-releases: {e}")
+            import traceback
+            traceback.print_exc()
             return False
 
     def populate_releases_list(self):
@@ -13294,6 +13347,12 @@ class FirmwareDownloaderGUI(QMainWindow):
         selected_type = self.device_type_combo.currentData()
         show_prereleases = self.show_prerelease_checkbox.isChecked()
         
+        # Clear the list when filter changes to ensure fresh display
+        # (Note: _display_cached_releases also clears, but we clear here too for background refresh case)
+        if not hasattr(self, '_last_show_prereleases') or self._last_show_prereleases != show_prereleases:
+            self.package_list.clear()
+        self._last_show_prereleases = show_prereleases
+        
         # Check if we have tokens available (indicates online mode is expected)
         has_tokens = hasattr(self.github_api, 'tokens') and len(self.github_api.tokens) > 0
         
@@ -13334,6 +13393,8 @@ class FirmwareDownloaderGUI(QMainWindow):
     def _display_cached_releases(self, cached_releases, selected_repo, selected_type, show_prereleases, is_online=True):
         """Display cached releases instantly (online mode only)"""
         try:
+            # Clear the list first to ensure we start fresh with the new filter
+            self.package_list.clear()
             self.releases_loaded_count = 0
             self.all_releases_loaded = []
             
@@ -13355,13 +13416,21 @@ class FirmwareDownloaderGUI(QMainWindow):
             
             # Check if we should auto-enable pre-releases BEFORE filtering
             # This ensures we enable it immediately if only pre-releases are available
+            # BUT: Don't auto-enable if user manually changed the filter (they want to see stable releases)
             if not show_prereleases and not (hasattr(self, '_auto_enabling_prereleases') and self._auto_enabling_prereleases):
-                auto_enabled = self._check_and_auto_enable_prereleases(cached_releases, selected_type)
-                if auto_enabled:
-                    # Update show_prereleases to reflect the auto-enabled state
-                    show_prereleases = True
-                    # Mark that we're auto-enabling to prevent recursion
-                    self._auto_enabling_prereleases = True
+                # Only auto-enable on initial load, not when user manually unchecks the box
+                if not (hasattr(self, '_user_manually_changed_filter') and self._user_manually_changed_filter):
+                    auto_enabled = self._check_and_auto_enable_prereleases(cached_releases, selected_type)
+                    if auto_enabled:
+                        # Update show_prereleases to reflect the auto-enabled state
+                        show_prereleases = True
+                        # Mark that we're auto-enabling to prevent recursion
+                        self._auto_enabling_prereleases = True
+                else:
+                    # User manually changed filter - don't auto-enable, let them see what they want
+                    silent_print("User manually changed filter - not auto-enabling pre-releases")
+                    # Reset the flag after using it
+                    self._user_manually_changed_filter = False
             
             # Filter and display cached releases (no limit)
             for release in cached_releases:
@@ -14094,18 +14163,25 @@ class FirmwareDownloaderGUI(QMainWindow):
                 QTimer.singleShot(50, continue_processing)
             
             # Check if we should auto-enable pre-releases (only pre-releases available)
-            if self.releases_loaded_count == 0 and all_releases and not (hasattr(self, '_auto_enabling_prereleases') and self._auto_enabling_prereleases):
-                selected_type = self.device_type_combo.currentData()
-                auto_enabled = self._check_and_auto_enable_prereleases(all_releases, selected_type)
-                if auto_enabled:
-                    # Checkbox is now enabled, re-run populate to apply the filter
-                    # Use QTimer to avoid recursion issues
-                    self._auto_enabling_prereleases = True
-                    def refresh_with_prereleases():
-                        self._auto_enabling_prereleases = False
-                        self.populate_releases_list()
-                    QTimer.singleShot(0, refresh_with_prereleases)
-                    return
+            # Only check if no releases were displayed AND we have releases loaded
+            # This means the filter excluded everything, so check if it's because only pre-releases exist
+            if self.releases_loaded_count == 0 and all_releases and len(all_releases) > 0 and not (hasattr(self, '_auto_enabling_prereleases') and self._auto_enabling_prereleases):
+                # Don't auto-enable if user manually changed the filter
+                if not (hasattr(self, '_user_manually_changed_filter') and self._user_manually_changed_filter):
+                    selected_type = self.device_type_combo.currentData()
+                    auto_enabled = self._check_and_auto_enable_prereleases(all_releases, selected_type)
+                    if auto_enabled:
+                        # Checkbox is now enabled, re-run populate to apply the filter
+                        # Use QTimer to avoid recursion issues
+                        self._auto_enabling_prereleases = True
+                        def refresh_with_prereleases():
+                            self._auto_enabling_prereleases = False
+                            self.populate_releases_list()
+                        QTimer.singleShot(0, refresh_with_prereleases)
+                        return
+                else:
+                    # User manually changed filter - reset the flag
+                    self._user_manually_changed_filter = False
             
             # If we have releases loaded but none match filters, show filter message
             # Otherwise show connection message (no releases loaded at all)
@@ -15798,7 +15874,7 @@ class FirmwareDownloaderGUI(QMainWindow):
     def open_coffee_link(self):
         """Open the Buy Us Coffee link in the default browser"""
         import webbrowser
-        webbrowser.open("https://ko-fi.com/teamslide")
+        webbrowser.open("https://ryanspecter.uk")
 
     def open_reddit_link(self):
         """Open the r/innioasis subreddit in the default browser"""
