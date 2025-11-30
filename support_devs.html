@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Development of Innioasis Updater and Y1 Projects</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #0f172a;
+            --bg-panel: #111c33;
+            --bg-panel-alt: #12203b;
+            --bg-highlight: #1f2d4d;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5f5;
+            --accent: #3b82f6;
+            --accent-alt: #8b5cf6;
+            --success: #22c55e;
+            --warning: #facc15;
+            --border: rgba(148, 163, 184, 0.25);
+            --shadow: 0 30px 60px rgba(15, 23, 42, 0.45);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(140deg, #070b16, #0f172a 45%, #172546 85%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        a {
+            color: var(--accent);
+        }
+
+        a:hover,
+        a:focus {
+            color: #60a5fa;
+        }
+
+        header,
+        main,
+        footer {
+            width: min(1100px, 92vw);
+            margin: 0 auto;
+        }
+
+        header {
+            padding: 72px 0 40px;
+            text-align: center;
+        }
+
+        .top-strip {
+            background: rgba(59, 130, 246, 0.18);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            border-radius: 0 0 18px 18px;
+            margin: 0 auto 20px;
+            padding: 14px 20px;
+            width: min(1100px, 92vw);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .top-strip a {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 18px;
+            border-radius: 999px;
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .badge::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        h1 {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            margin-top: 22px;
+            margin-bottom: 16px;
+        }
+
+        h1 em {
+            font-style: normal;
+            color: var(--accent);
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1 em::after {
+            content: '';
+            position: absolute;
+            left: -3px;
+            right: -3px;
+            bottom: 1px;
+            height: 0.4em;
+            background: #ffffff;
+            border-radius: 3px;
+            transform: rotate(-1deg) skewX(-2deg);
+            z-index: -1;
+            opacity: 0.95;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+        }
+
+        .intro {
+            margin: 0 auto;
+            max-width: 720px;
+            color: var(--text-secondary);
+        }
+
+        .callouts {
+            display: grid;
+            gap: 16px;
+            margin-top: 36px;
+            text-align: left;
+        }
+
+        .callout {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.12));
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            border-radius: 18px;
+            padding: 20px 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .callout strong {
+            color: #e0eaff;
+        }
+
+        main {
+            display: grid;
+            gap: 32px;
+            padding-bottom: 72px;
+        }
+
+        section {
+            background: var(--bg-panel);
+            border-radius: 24px;
+            padding: clamp(28px, 3vw, 40px);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        section h2 {
+            font-size: clamp(1.8rem, 3vw, 2.2rem);
+            margin-bottom: 20px;
+        }
+
+        section h3 {
+            font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+            margin-bottom: 16px;
+        }
+
+        p + p {
+            margin-top: 12px;
+        }
+
+        ul,
+        ol {
+            margin-top: 16px;
+            margin-left: 20px;
+            color: var(--text-secondary);
+        }
+
+        li + li {
+            margin-top: 10px;
+        }
+
+        .symptom-list {
+            display: grid;
+            gap: 12px;
+            margin-top: 24px;
+            list-style: none;
+        }
+
+        .symptom-list li {
+            background: var(--bg-panel-alt);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 14px 16px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .symptom-list li::before {
+            content: "•";
+            font-size: 26px;
+            line-height: 1;
+            color: var(--accent);
+            margin-top: -2px;
+        }
+
+        .cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 24px;
+            padding: 15px 26px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-alt));
+            color: white;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-decoration: none;
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.35);
+        }
+
+        .cta:hover {
+            transform: translateY(-1px);
+        }
+
+        .step-grid {
+            display: grid;
+            gap: 18px;
+            margin-top: 24px;
+        }
+
+        .step-card {
+            background: var(--bg-panel-alt);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 18px 20px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .step-label {
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            color: var(--accent);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        figure {
+            margin: 28px 0 0;
+            border-radius: 18px;
+            overflow: hidden;
+            background: var(--bg-highlight);
+            border: 1px solid var(--border);
+        }
+
+        figure img {
+            width: 100%;
+            display: block;
+        }
+
+        figcaption {
+            padding: 16px 18px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            background: rgba(15, 23, 42, 0.65);
+        }
+
+        .note {
+            margin-top: 20px;
+            padding: 16px 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(94, 234, 212, 0.35);
+            background: rgba(13, 148, 136, 0.12);
+            color: #ccfbf1;
+        }
+
+        .warning-note {
+            border-color: rgba(250, 204, 21, 0.35);
+            background: rgba(250, 204, 21, 0.16);
+            color: #fef9c3;
+        }
+
+        .features-list {
+            display: grid;
+            gap: 12px;
+            list-style: none;
+            margin: 24px 0 0;
+        }
+
+        .features-list li {
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: var(--bg-panel-alt);
+            border: 1px solid var(--border);
+        }
+
+        footer {
+            padding: 32px 0 48px;
+            text-align: center;
+            color: rgba(148, 163, 184, 0.8);
+        }
+
+        @media (min-width: 860px) {
+            .two-column {
+                display: grid;
+                grid-template-columns: 1.05fr 0.95fr;
+                gap: 28px;
+                align-items: center;
+            }
+        }
+
+        code {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+        }
+
+        code:hover {
+            background: rgba(59, 130, 246, 0.2) !important;
+        }
+
+        @media (max-width: 720px) {
+            header {
+                padding-top: 56px;
+            }
+
+            section {
+                padding: 24px 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="top-strip">
+            <p>Join the <a href="https://www.github.com/y1-community">y1-community</a> on GitHub to help build and maintain these projects. Code, themes, docs—every contribution counts!</p>
+        </div>
+        <span class="badge">Community-Driven Development · Ryan Specter & Team Slide</span>
+        <h1><em>You</em> make the Y1, the Y1.</h1>
+        <p class="intro">
+            Everything's free and open source—and the best way to help is by jumping into the <a href="https://www.github.com/y1-community">y1-community GitHub organization</a> and getting your hands dirty with code, themes, or documentation.
+        </p>
+        <div class="callouts">
+            <div class="callout">
+                <strong>Every contribution makes a difference:</strong> Whether you're submitting code, adding themes to the directory, fixing typos in docs, reporting bugs, reviewing pull requests, maintaining the webpages, or creating tutorials and videos—every bit helps. The <a href="https://www.github.com/y1-community">y1-community</a> repos are where the magic happens.
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="contributions">
+            <h2>Get Involved: Code, Themes & More</h2>
+            <p>Here's the thing: the best way to help is by actually helping. (Groundbreaking, we know.) The <a href="https://www.github.com/y1-community">y1-community GitHub organization</a> is where all the action happens—and you're invited to join in.</p>
+            
+            <div class="step-grid" style="margin-top: 24px;">
+                <article class="step-card">
+                    <span class="step-label">Code</span>
+                    <h3>Contribute Code</h3>
+                    <p>Help improve Innioasis Updater and other Y1 projects by submitting pull requests, reporting bugs, or improving documentation. Every fix, feature, or typo correction makes a difference.</p>
+                    <a class="cta" href="https://www.github.com/y1-community" style="margin-top: 12px; font-size: 0.95rem; padding: 12px 22px;">
+                        Explore y1-community →
+                    </a>
+                </article>
+                <article class="step-card">
+                    <span class="step-label">Themes</span>
+                    <h3>Maintain the Themes Directory</h3>
+                    <p>The <a href="https://themes.innioasis.app">Themes directory</a> at themes.innioasis.app is entirely community-maintained. Found a cool theme? Made your own? Fork the repo, add your theme, update themes.json, and submit a PR. Simple as that.</p>
+                    <a class="cta" href="https://github.com/y1-community/InnioasisY1Themes" style="margin-top: 12px; font-size: 0.95rem; padding: 12px 22px;">
+                        Themes Repository →
+                    </a>
+                </article>
+                <article class="step-card">
+                    <span class="step-label">Rockbox</span>
+                    <h3>Support Rockbox Y1 Development</h3>
+                    <p>If you wish to support Rockbox development on Y1, code contributions and user feedback are accepted by the developer <a href="https://www.reddit.com/u/After-Acanthaceae547">u/After-Acanthaceae547</a>.</p>
+                    <a class="cta" href="https://github.com/rockbox-y1/rockbox" style="margin-top: 12px; font-size: 0.95rem; padding: 12px 22px;">
+                        Rockbox Y1 Repository →
+                    </a>
+                    <p style="margin-top: 12px; font-size: 0.9rem; color: var(--text-secondary);">
+                        u/After-Acanthaceae547 is independent of Team Slide and also works on the project in their spare time. Perhaps say thanks for the hard work if you bump into each other on <a href="https://www.reddit.com/r/Innioasis">r/Innioasis</a> :)
+                    </p>
+                </article>
+            </div>
+
+            <div class="two-column" style="margin-top: 28px;">
+                <div>
+                    <h3>How to Contribute Code</h3>
+                    <ul>
+                        <li>Report bugs and issues you encounter</li>
+                        <li>Submit pull requests with fixes or enhancements</li>
+                        <li>Improve documentation and help guides</li>
+                        <li>Review and test pull requests from other contributors</li>
+                        <li>Suggest new features or improvements</li>
+                    </ul>
+                    <h3 style="margin-top: 24px;">Documentation & Tutorials</h3>
+                    <p>Documenting the projects and tools with tutorials and videos is another useful way to contribute to Y1 development projects. Whether you're writing step-by-step guides, creating video walkthroughs, or improving existing documentation, your efforts help make these tools more accessible to everyone.</p>
+                </div>
+                <div>
+                    <h3>How to Add Themes</h3>
+                    <p>The <a href="https://themes.innioasis.app">Themes directory</a> is open for community contributions. You can add your own themes or ones you've found on the internet for archival purposes.</p>
+                    <ol style="margin-top: 12px;">
+                        <li><strong>Fork the GitHub Repository:</strong> Visit <a href="https://github.com/y1-community/InnioasisY1Themes">github.com/y1-community/InnioasisY1Themes</a> and fork it. This creates a copy you can work on.</li>
+                        <li><strong>Upload the theme folder:</strong> Upload the new theme's folder to the main directory of your forked repository.</li>
+                        <li><strong>Update themes.json:</strong> Open <code>themes.json</code> in your forked repository and copy and paste a theme block (starting with <code>{"</code> and ending with <code>},</code>) where your theme needs to go alphabetically. If it's the last item in the list, don't include the trailing comma.</li>
+                        <li><strong>Commit changes:</strong> Commit your changes to the file, then go back to your repository.</li>
+                        <li><strong>Make a pull request:</strong> This sends your changes back to the original repository for review by the <a href="https://github.com/y1-community">Y1-Community</a> GitHub organization. Once approved, themes appear on <a href="https://themes.innioasis.app">themes.innioasis.app</a>.</li>
+                    </ol>
+                    <p class="note" style="margin-top: 16px;">
+                        <strong>Trusted contributors:</strong> Trusted individuals with direct access to the Y1-Community GitHub organization can skip the forking process and directly list new themes or update existing ones. This allows themes to appear on the website super fast, especially with reviewers from different time zones.
+                    </p>
+                    <p class="note" style="margin-top: 12px;">
+                        <strong>Cataloging themes:</strong> When adding themes found on Reddit or elsewhere, it's good practice to leave a comment where you found the theme to let the creator know it's been listed. This helps folks discover themes they're looking for and ensures creators get appropriate credit. If a user asks for their theme to be removed, we must oblige.
+                    </p>
+                </div>
+            </div>
+            
+            <div style="margin-top: 24px; padding: 16px; background: var(--bg-panel-alt); border-radius: 14px; border: 1px solid var(--border);">
+                <h3 style="margin-bottom: 10px; color: var(--accent); font-size: 1rem;">How to Report Bugs and Issues</h3>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px;">
+                    <a href="https://github.com/y1-community/Innioasis-Updater/issues" style="padding: 8px 14px; background: var(--bg-highlight); border-radius: 8px; border: 1px solid var(--border); text-decoration: none; color: var(--text-primary); font-size: 0.85rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(59, 130, 246, 0.2)'" onmouseout="this.style.background='var(--bg-highlight)'">Issues</a>
+                    <a href="https://github.com/y1-community/Innioasis-Updater/discussions" style="padding: 8px 14px; background: var(--bg-highlight); border-radius: 8px; border: 1px solid var(--border); text-decoration: none; color: var(--text-primary); font-size: 0.85rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(59, 130, 246, 0.2)'" onmouseout="this.style.background='var(--bg-highlight)'">Discussions</a>
+                    <a href="https://github.com/rockbox-y1/rockbox/issues" style="padding: 8px 14px; background: var(--bg-highlight); border-radius: 8px; border: 1px solid var(--border); text-decoration: none; color: var(--text-primary); font-size: 0.85rem; transition: background 0.2s;" onmouseover="this.style.background='rgba(59, 130, 246, 0.2)'" onmouseout="this.style.background='var(--bg-highlight)'">Rockbox Issues</a>
+                </div>
+            </div>
+            
+            <p class="note" style="margin-top: 24px;">
+                Before submitting code or themes, please check existing issues and pull requests to avoid duplicate work. Follow the project's contribution guidelines and coding standards.
+            </p>
+        </section>
+
+        <section id="who-builds">
+            <h2>Who Builds These Tools?</h2>
+            <p><a href="https://innioasis.app/installguide.html">Innioasis Updater</a>, the <a href="https://themes.innioasis.app">Theme Directory</a>, the <a href="https://innioasis.app/firmware.html">Web Firmware Directory</a>, and other Y1 tools are built by <a href="https://ko-fi.com/teamslide">Ryan Specter</a> of <a href="https://www.innioasis.com/pages/download">Team Slide</a>, along with contributors like the Rockbox-Y1 developer <a href="https://www.reddit.com/u/After-Acanthaceae547">u/After-Acanthaceae547</a> and <a href="https://www.reddit.com/r/Innioasis">r/Innioasis</a>' vibrant community of users, tinkers, theme creators, and modders.</p>
+        </section>
+
+        <section id="donations">
+            <h2>Help Cover Running Costs & Developer Time</h2>
+            <p>If you want to chip in financially to help cover running costs (hosting, domains, developer memberships) and support the spare time developers put into these projects:</p>
+            
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px;">
+                <a class="cta" href="https://ko-fi.com/teamslide" style="flex: 1; min-width: 80px; text-align: center; font-size: 0.85rem; padding: 8px 12px;">
+                    Ko-fi
+                </a>
+                <a class="cta" href="https://patreon.com/TeamSlide" style="flex: 1; min-width: 80px; text-align: center; font-size: 0.85rem; padding: 8px 12px;">
+                    Patreon
+                </a>
+                <a class="cta" href="https://revolut.me/rspecter" style="flex: 1; min-width: 80px; text-align: center; font-size: 0.85rem; padding: 8px 12px;">
+                    Revolut
+                </a>
+                <a class="cta" href="https://paypal.me/respectyarn" style="flex: 1; min-width: 80px; text-align: center; font-size: 0.85rem; padding: 8px 12px;">
+                    PayPal
+                </a>
+            </div>
+
+            <div style="margin-top: 16px; padding: 14px; background: var(--bg-panel-alt); border-radius: 12px; border: 1px solid var(--border);">
+                <div style="display: grid; gap: 10px; grid-template-columns: 1fr 1fr;">
+                    <div style="padding: 10px; background: var(--bg-highlight); border-radius: 8px; border: 1px solid var(--border);">
+                        <strong style="color: var(--accent); display: block; margin-bottom: 4px; font-size: 0.8rem;">Bitcoin</strong>
+                        <code id="btc-address" style="display: block; padding: 6px; background: rgba(0, 0, 0, 0.3); border-radius: 4px; font-size: 0.75rem; word-break: break-all; color: var(--text-primary); cursor: pointer;" onclick="copyToClipboard('bc1q9vsjqjr6pjuc3vrgverx0v9ydst8s82ck4kpue', 'btc-address')" title="Click to copy">bc1q9vsjqjr6pjuc3vrgverx0v9ydst8s82ck4kpue</code>
+                    </div>
+                    <div style="padding: 10px; background: var(--bg-highlight); border-radius: 8px; border: 1px solid var(--border);">
+                        <strong style="color: var(--accent); display: block; margin-bottom: 4px; font-size: 0.8rem;">Ethereum</strong>
+                        <code id="eth-address" style="display: block; padding: 6px; background: rgba(0, 0, 0, 0.3); border-radius: 4px; font-size: 0.75rem; word-break: break-all; color: var(--text-primary); cursor: pointer;" onclick="copyToClipboard('0x3eec22630ca9fd77D22d362bF6C50dE29D3B84c4', 'eth-address')" title="Click to copy">0x3eec22630ca9fd77D22d362bF6C50dE29D3B84c4</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="callout" style="margin-top: 24px;">
+                <strong>Transparency in fund allocation:</strong> There will be transparency in how funds are allocated, with clear reporting on how financial contributions are used to support project goals, including running costs (hosting, domains, infrastructure) and continued development of new features for the community.
+            </div>
+        </section>
+
+        <section id="community">
+            <h2>Community Support</h2>
+            <p>You don't need to be a developer to help. Community engagement is invaluable for project growth and sustainability.</p>
+            <ul class="features-list">
+                <li><strong>Share your experience:</strong> Help other users by sharing tips, troubleshooting solutions, and use cases in community forums and discussions.</li>
+                <li><strong>Report issues:</strong> Detailed bug reports with steps to reproduce help developers fix problems faster and improve the tools for everyone.</li>
+                <li><strong>Provide feedback:</strong> Share your thoughts on features, user experience, and what you'd like to see in future releases.</li>
+                <li><strong>Spread the word:</strong> Tell others about Innioasis Updater and Y1 projects if you find them useful. Growing the user base helps sustain development.</li>
+                <li><strong>Test new releases:</strong> Early testing of beta releases and providing feedback helps catch issues before they reach all users.</li>
+            </ul>
+        </section>
+
+        <section id="projects">
+            <h2>Supported Projects</h2>
+            <p>Your support helps maintain and improve multiple Y1-related projects:</p>
+            <ul class="symptom-list">
+                <li><strong>Innioasis Updater</strong> — The main tool for managing Y1 device updates, firmware, themes, and utilities.</li>
+                <li><strong>Remote Control (formerly Y1 Helper)</strong> — Legacy tool functionality now integrated into Innioasis Updater, including remote control and device management.</li>
+                <li><strong>Rockbox Integration</strong> — Fast Update system and theme management for Rockbox on Y1 devices.</li>
+                <li><strong>Smart Drop</strong> — Intelligent file transfer system for themes, music, firmware, and custom apps.</li>
+                <li><strong>Documentation & Guides</strong> — Comprehensive installation guides, troubleshooting resources, and community support materials.</li>
+            </ul>
+            <p class="note">
+                All projects are open source and available on GitHub. Your support helps ensure they remain actively maintained and continue to evolve with user needs.
+            </p>
+        </section>
+
+        <section id="recognition">
+            <h2>Recognition & Transparency</h2>
+            <p>We believe in transparency and recognizing contributions. There will be transparency in how funds are allocated, with clear reporting on how financial contributions are used to support project goals. Code contributions are publicly recognized through GitHub commit history and release notes.</p>
+            <p>All projects maintain open development processes, and major decisions are made with community input. Your support, in any form, helps shape the future of these tools.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p><em>Thank you for considering support. Every contribution, whether code or community engagement, helps ensure these tools continue to improve and remain available to all Y1 users.</em></p>
+        <p>Developed by <a href="https://ko-fi.com/teamslide">Ryan Specter</a> in collaboration with <a href="https://www.innioasis.com/pages/download">Team Slide</a> and the <a href="https://github.com/y1-community">Y1 Community</a>.</p>
+        <p>This support page is open source—view or contribute to it on <a href="https://github.com/y1-community/Innioasis-Updater/blob/main/support_devs.html">GitHub</a>.</p>
+        <p>© Innioasis Updater · Support Development of Y1 Projects</p>
+    </footer>
+
+    <script>
+        function copyToClipboard(text, elementId) {
+            navigator.clipboard.writeText(text).then(function() {
+                const element = document.getElementById(elementId);
+                const originalBg = element.style.background;
+                element.style.background = 'rgba(34, 197, 94, 0.3)';
+                element.textContent = 'Copied! ' + text;
+                setTimeout(function() {
+                    element.style.background = originalBg;
+                    element.textContent = text;
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Failed to copy: ', err);
+                alert('Failed to copy to clipboard. Please copy manually: ' + text);
+            });
+        }
+    </script>
+</body>
+</html>
+
+
