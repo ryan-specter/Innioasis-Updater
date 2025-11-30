@@ -53,7 +53,7 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.9.3.4"
+APP_VERSION = "1.9.3.5"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/storage/sdcard0/.fastupdate"
 LEGACY_FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
@@ -3138,7 +3138,7 @@ class ReleaseInstallWorker(QThread):
             normalized_tag = self._normalize_tag()
             zip_url = self.release_data.get('zipball_url')
             if not zip_url and normalized_tag:
-                zip_url = f"https://github.com/y1-community/Innioasis-Updater/archive/refs/tags/{normalized_tag}.zip"
+                zip_url = f"https://github.com/ryan-specter/Innioasis-Updater/archive/refs/tags/{normalized_tag}.zip"
 
             zip_path = temp_dir / "release.zip"
             extracted_dir = None
@@ -10660,7 +10660,7 @@ class FirmwareDownloaderGUI(QMainWindow):
                     headers['Authorization'] = f'token {token}'
             possible_tags = [f"v{version}", version, f"V{version}"]
             response = requests.get(
-                "https://api.github.com/repos/y1-community/Innioasis-Updater/releases",
+                "https://api.github.com/repos/ryan-specter/Innioasis-Updater/releases",
                 headers=headers,
                 timeout=10
             )
@@ -15261,7 +15261,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         if reply == QMessageBox.Ok:
             # Open the GitHub releases page in the default browser
             import webbrowser
-            releases_url = "https://github.com/y1-community/Innioasis-Updater/releases/latest"
+            releases_url = "https://github.com/ryan-specter/Innioasis-Updater/releases/latest"
             webbrowser.open(releases_url)
             self.status_label.setText("GitHub releases page opened - please reinstall Innioasis Updater")
         else:
@@ -27045,7 +27045,7 @@ read -n 1
                     headers['Authorization'] = f'token {token}'
             
             response = requests.get(
-                'https://api.github.com/repos/y1-community/Innioasis-Updater/releases',
+                'https://api.github.com/repos/ryan-specter/Innioasis-Updater/releases',
                 headers=headers,
                 timeout=4
             )
