@@ -53,7 +53,7 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.9.3.6"
+APP_VERSION = "1.9.4"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/storage/sdcard0/.fastupdate"
 LEGACY_FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
@@ -179,9 +179,9 @@ def parse_version_designations(version_name):
             if i + 2 < len(parts) and parts[i + 2] in adjectives:
                 # Check for adjective after "ipod-theme"
                 adjective = parts[i + 2]
-                designations.append(f'iPod Classic Rockbox Theme {adjective.title()}')
+                designations.append(f'iPod Classic/Video Rockbox Theme {adjective.title()}')
             else:
-                designations.append('240p iPod Classic Rockbox Themes')
+                designations.append('iPod Classic/Video (240p) Rockbox Themes')
         elif part == 'theme' and i > 0 and parts[i - 1] == 'ipod':
             # Skip this as it's handled above
             continue
@@ -9525,22 +9525,22 @@ class FirmwareDownloaderGUI(QMainWindow):
             QMessageBox.error(self, "Error", f"Failed to open Original Y1 Menu Themes: {e}")
     
     def open_240p_rockbox_themes(self):
-        """Open 240p Rockbox Themes in browser"""
+        """Open iPod Classic/Video (240p) Rockbox Themes in browser"""
         try:
             import webbrowser
             webbrowser.open("https://themes.rockbox.org/index.php?target=ipodvideo")
-            self.status_label.setText("Opened 240p Rockbox Themes in browser")
+            self.status_label.setText("Opened iPod Classic/Video (240p) Rockbox Themes in browser")
         except Exception as e:
-            QMessageBox.error(self, "Error", f"Failed to open 240p Rockbox Themes: {e}")
+            QMessageBox.error(self, "Error", f"Failed to open iPod Classic/Video (240p) Rockbox Themes: {e}")
     
     def open_360p_rockbox_themes(self):
-        """Open 360p Rockbox Themes in browser"""
+        """Open Y1 (360p) Rockbox Themes in browser"""
         try:
             import webbrowser
             webbrowser.open("https://www.github.com/rockbox-y1/themes/releases/latest")
-            self.status_label.setText("Opened 360p Rockbox Themes in browser")
+            self.status_label.setText("Opened Y1 (360p) Rockbox Themes in browser")
         except Exception as e:
-            QMessageBox.error(self, "Error", f"Failed to open 360p Rockbox Themes: {e}")
+            QMessageBox.error(self, "Error", f"Failed to open Y1 (360p) Rockbox Themes: {e}")
     
     def launch_storage_management_tool(self):
         """Launch the storage management tool"""
@@ -11519,15 +11519,15 @@ class FirmwareDownloaderGUI(QMainWindow):
                 y1_menu_themes_btn.clicked.connect(self.open_original_y1_menu_themes)
                 y1_tools_layout.addWidget(y1_menu_themes_btn)
                 
-                # 240p Rockbox Themes button
-                rockbox_240p_themes_btn = QPushButton("240p Rockbox Themes")
-                rockbox_240p_themes_btn.setToolTip("Open 240p Rockbox Themes in browser")
+                # iPod Classic/Video (240p) Rockbox Themes button
+                rockbox_240p_themes_btn = QPushButton("iPod Classic/Video (240p) Rockbox Themes")
+                rockbox_240p_themes_btn.setToolTip("Open iPod Classic/Video (240p) Rockbox Themes in browser")
                 rockbox_240p_themes_btn.clicked.connect(self.open_240p_rockbox_themes)
                 y1_tools_layout.addWidget(rockbox_240p_themes_btn)
                 
-                # 360p Rockbox Themes button
-                rockbox_360p_themes_btn = QPushButton("360p Rockbox Themes")
-                rockbox_360p_themes_btn.setToolTip("Open 360p Rockbox Themes in browser")
+                # Y1 (360p) Rockbox Themes button
+                rockbox_360p_themes_btn = QPushButton("Y1 (360p) Rockbox Themes")
+                rockbox_360p_themes_btn.setToolTip("Open Y1 (360p) Rockbox Themes in browser")
                 rockbox_360p_themes_btn.clicked.connect(self.open_360p_rockbox_themes)
                 y1_tools_layout.addWidget(rockbox_360p_themes_btn)
             
