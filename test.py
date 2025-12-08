@@ -53,7 +53,7 @@ if platform.system() == "Darwin":
 # Global silent mode flag - controls terminal output
 SILENT_MODE = True
 
-APP_VERSION = "1.9.4"
+APP_VERSION = "1.9.4.1"
 UPDATE_SCRIPT_PATH = "/data/data/update/update.sh"
 FASTUPDATE_MARKER_PATH = "/storage/sdcard0/.fastupdate"
 LEGACY_FASTUPDATE_MARKER_PATH = "/data/data/update/.fastupdate"
@@ -9519,7 +9519,7 @@ class FirmwareDownloaderGUI(QMainWindow):
         """Open Original Y1 Menu Themes in browser"""
         try:
             import webbrowser
-            webbrowser.open("https://themes.innioasis.app")
+            webbrowser.open("https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://themes.innioasis.app/&ved=2ahUKEwjZpuSEsK6RAxU9VkEAHd4OJOg4HhAWegQIEBAB&usg=AOvVaw29pOeGbaRIkVSHZ_mmWzv2")
             self.status_label.setText("Opened Original Y1 Menu Themes in browser")
         except Exception as e:
             QMessageBox.error(self, "Error", f"Failed to open Original Y1 Menu Themes: {e}")
