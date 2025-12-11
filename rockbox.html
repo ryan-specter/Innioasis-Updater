@@ -4,53 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Innioasis Y1 Rockbox Builds - Download Open Source Firmware</title>
+    <title>Innioasis Y1 Rockbox and Firmware Updates - Download Manufacturer & Rockbox Firmware</title>
 
     <!-- SEO Meta Tags -->
     <meta name="description"
-        content="Download Rockbox firmware builds for Innioasis Y1. Choose 360p optimized or 240p compatibility builds. Free, open-source music player firmware with advanced features.">
+        content="Download manufacturer and Rockbox firmware for the Innioasis Y1 music player. Compatible with Innioasis Updater, SP Flash Tool, and MTKclient on Windows, Mac, and Linux. Easy firmware installation and updates.">
     <meta name="keywords"
-        content="Innioasis Y1 Rockbox, Rockbox firmware download, Y1 Rockbox builds, open source firmware, 360p Rockbox, 240p Rockbox, Y1 custom firmware, Rockbox installation, music player firmware">
+        content="Innioasis Y1, Y1 firmware, Rockbox firmware, Innioasis firmware, Y1 updates, firmware download, Innioasis Updater, SP Flash Tool, MTKclient, Y1 music player, firmware installation, Windows, Mac, Linux, Y1 ROM, update.zip, rom.zip">
     <meta name="author" content="Innioasis Community">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://innioasis.app/rockbox.html">
-    <meta property="og:title" content="Innioasis Y1 Rockbox Builds - Open Source Firmware">
+    <meta property="og:url" content="https://innioasis.app/">
+    <meta property="og:title" content="Innioasis Y1 Rockbox and Firmware Updates">
     <meta property="og:description"
-        content="Download Rockbox firmware builds for Innioasis Y1. Choose 360p optimized or 240p compatibility builds with advanced features.">
+        content="Download manufacturer and Rockbox firmware for the Innioasis Y1 music player. Compatible with Innioasis Updater, SP Flash Tool, and MTKclient.">
     <meta property="og:image" content="https://innioasis.app/mtkclient/gui/images/icon.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://innioasis.app/rockbox.html">
-    <meta property="twitter:title" content="Innioasis Y1 Rockbox Builds">
+    <meta property="twitter:url" content="https://innioasis.app/">
+    <meta property="twitter:title" content="Innioasis Y1 Firmware Updates">
     <meta property="twitter:description"
-        content="Download free, open-source Rockbox firmware builds for Innioasis Y1 music player with advanced features.">
+        content="Download manufacturer and Rockbox firmware for the Innioasis Y1 music player. Compatible with Innioasis Updater, SP Flash Tool, and MTKclient.">
     <meta property="twitter:image" content="https://innioasis.app/mtkclient/gui/images/icon.png">
 
     <!-- Additional SEO -->
-    <link rel="canonical" href="https://innioasis.app/rockbox.html">
+    <link rel="canonical" href="https://innioasis.app/">
     <meta name="theme-color" content="#007aff">
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Rockbox for Innioasis Y1",
-      "applicationCategory": "MultimediaApplication",
-      "operatingSystem": "Rockbox",
-      "description": "Open-source Rockbox firmware builds for Innioasis Y1 music player with customizable features, themes, and advanced playback options.",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      },
-      "softwareVersion": "Latest Nightly",
-      "downloadUrl": "https://innioasis.app/rockbox.html",
-      "license": "https://www.gnu.org/licenses/gpl-2.0.html"
+      "@type": "WebSite",
+      "name": "Innioasis Y1 Firmware Hub",
+      "url": "https://innioasis.app/",
+      "description": "Official firmware downloads and tools for Innioasis Y1 music player",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://innioasis.app/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
     }
     </script>
 
@@ -495,6 +491,36 @@
             box-shadow: 0 8px 32px var(--shadow-primary);
             backdrop-filter: blur(20px);
             border: 1px solid var(--border-secondary);
+        }
+
+        .prerelease-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: normal;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .prerelease-toggle.ready {
+            opacity: 1;
+        }
+
+        .prerelease-toggle.disabled {
+            cursor: not-allowed;
+            opacity: 0.55;
+        }
+
+        .prerelease-toggle input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .prerelease-toggle.disabled input {
+            cursor: not-allowed;
         }
 
         .filters {
@@ -1911,7 +1937,7 @@
                 <div class="logo-separator"></div>
                 <div class="logo-wrapper">
                     <span class="collaboration-text">In Collaboration With</span>
-                    <a href="https://www.innioasis.com" target="_blank" rel="noopener noreferrer"
+                    <a href="https://innioasis.com" target="_blank" rel="noopener noreferrer"
                         class="innioasis-logo-link">
                         <img src="https://www.innioasis.com/cdn/shop/files/innioasis_540x.jpg?v=1666165346"
                             alt="Innioasis" class="innioasis-logo">
@@ -1919,7 +1945,7 @@
                 </div>
             </div>
             <div class="header-text">
-                <h1>Y1 Firmware Updates</h1>
+                <h1>Y1 Rockbox and Firmware Updates</h1>
                 <p>Download manufacturer and Rockbox firmware for Innioasis Y1</p>
                 <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 4px;">
                     Compatible with <a href="https://innioasis.app/installguide.html" target="_blank"
@@ -1987,10 +2013,9 @@
                 <div
                     style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
                     <h3 id="availableSoftwareTitle" style="margin: 0;">Available System Software</h3>
-                    <label id="prereleasesFilterContainer"
-                        style="display: none; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; font-weight: normal;">
-                        <input type="checkbox" id="showPrereleases" style="width: 18px; height: 18px; cursor: pointer;">
-                        <span>Include nightly/beta builds</span>
+                    <label id="prereleasesFilterContainer" class="prerelease-toggle disabled">
+                        <input type="checkbox" id="showPrereleases">
+                        <span id="prereleasesLabelText">Include nightly/beta builds</span>
                     </label>
                 </div>
                 <div id="firmwareContainer">
@@ -2004,10 +2029,9 @@
             <div class="info-box">
                 <h2>Good to know:</h2>
                 <p style="margin-bottom: 12px;">
-                    This is the home for every Rockbox build available for your Y1 music player. Pick between the crisp
-                    <strong>360p Y1-optimised build</strong> with bespoke UI polish, or the <strong>240p compatibility
-                        build</strong> that keeps classic Rockbox theming alive. Every download comes straight from
-                    GitHub and is free to grab.
+                    This is where you'll find all the firmware updates for your Y1 music player — whether you want the
+                    original manufacturer software or custom Rockbox builds. Everything's free to download and comes
+                    straight from GitHub.
                 </p>
                 <p style="margin-bottom: 12px;">
                     <strong>New to this?</strong> If you're using <strong>Windows</strong> or <strong>Mac</strong>, just
@@ -2053,23 +2077,20 @@
             <div class="info-box">
                 <h2>Customise your Player:</h2>
                 <p style="margin-bottom: 16px;">
-                    We ship two Rockbox builds for the Y1. The <strong>240p compatibility build</strong> lets you run
-                    the legendary Rockbox themes made for the iPod Classic and Video, while the <strong>360p
-                        Y1-optimised build</strong> unlocks sharper layouts and exclusive creations like
-                    <em>Snowoasis</em> by <a href="https://www.reddit.com/user/CarlosPixel_/" target="_blank"
-                        rel="noopener noreferrer">u/CarlosPixel_</a>. Use the links below to grab matching themes.
+                    Make your Y1 truly yours with custom themes! Choose from a variety of options depending on your
+                    firmware and resolution.
                 </p>
 
                 <div class="theme-button-container">
                     <button class="theme-button" onclick="toggleThemeInstructions('y1-theme')">
                         <span class="theme-button-title">🎨 Y1 Themes Directory</span>
-                        <span class="theme-button-description">360p Y1-optimised themes, including exclusives like
-                            Snowoasis</span>
+                        <span class="theme-button-description">Works on all ROMs apart from 1.76 Type B Firmwares</span>
                     </button>
                     <div class="theme-install-instructions" id="y1-theme-instructions">
                         <p style="margin-bottom: 8px;"><strong>📂 How to install:</strong> Copy the folder inside the
                             .zip into the Themes folder on your Y1.</p>
-                        <a href="https://themes.innioasis.app" target="_blank" rel="noopener noreferrer"
+                        <a href="https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://themes.innioasis.app/&ved=2ahUKEwiLut7ita6RAxVnVkEAHeS2KXk4HhAWegQIEBAB&usg=AOvVaw29pOeGbaRIkVSHZ_mmWzv2"
+                            target="_blank" rel="noopener noreferrer"
                             style="display: inline-block; padding: 8px 16px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease;">Get
                             Themes Here →</a>
                     </div>
@@ -2078,8 +2099,7 @@
                 <div class="theme-button-container">
                     <button class="theme-button" onclick="toggleThemeInstructions('rockbox-240p')">
                         <span class="theme-button-title">🎵 Rockbox 240p Themes</span>
-                        <span class="theme-button-description">Run classic iPod Classic/Video themes via the 240p
-                            compatibility build</span>
+                        <span class="theme-button-description">iPod Classic/Video themes — compatible with Y1</span>
                     </button>
                     <div class="theme-install-instructions" id="rockbox-240p-instructions">
                         <p style="margin-bottom: 8px;"><strong>📂 How to install:</strong> Copy the contents of the
@@ -2095,8 +2115,8 @@
                 <div class="theme-button-container">
                     <button class="theme-button" onclick="toggleThemeInstructions('rockbox-360p')">
                         <span class="theme-button-title">✨ 360p Rockbox Themes</span>
-                        <span class="theme-button-description">Latest high-resolution theme pack for the 360p
-                            Y1-optimised build</span>
+                        <span class="theme-button-description">High-resolution themes made for the Y1's 360p
+                            display</span>
                     </button>
                     <div class="theme-install-instructions" id="rockbox-360p-instructions">
                         <p style="margin-bottom: 8px;"><strong>📂 How to install:</strong> Copy the contents of the
@@ -2321,10 +2341,11 @@
         let packages = [];
         let currentFilters = {
             deviceType: 'A',
-            deviceModel: '',
-            software: '',
+            deviceModel: 'Y1',
+            software: 'Original Software',
             showPrereleases: false
         };
+        let userPrefersPrereleases = false;
 
         // Function to toggle theme installation instructions (accordion style)
         function toggleThemeInstructions(themeId) {
@@ -2395,19 +2416,39 @@
             // Define adjectives that can modify their nearest neighbor
             const adjectives = ['compatible', 'aware', 'supported', 'enabled', 'disabled', 'ready', 'optimized', 'enhanced'];
 
-            // Extract only the part after the last dash (this is the actual version number)
+            // Extract version number - look for version patterns anywhere in the tag name
             // First remove long hex strings at the end (like -13057e75dc29a1a7!)
             let cleanVersion = versionName.replace(/-[a-f0-9]{16,}!?$/, '');
             // Remove any remaining trailing dashes or exclamation marks
             cleanVersion = cleanVersion.replace(/[-!]+$/, '');
 
-            // Extract only the numbers after the last dash
-            if (cleanVersion.includes('-')) {
-                const lastPart = cleanVersion.split('-').pop();
+            // Initialize extractedVersion to null - we'll set it when we find a valid version
+            let extractedVersion = null;
+
+            // First, try to find a version pattern anywhere in the tag (e.g., "v0.3", "v1.2.3")
+            // This handles cases like "Stable-v0.3-ipod-theme-compatible" where version is in the middle
+            const versionPattern = cleanVersion.match(/\bv([\d.]+)\b/i);
+            if (versionPattern) {
+                extractedVersion = versionPattern[1]; // Extract just the numbers (without "v")
+            }
+
+            // Fallback: Also check the last part after the last dash (original behavior)
+            // This handles cases where version is at the end like "some-tag-v0.3"
+            if (!extractedVersion && cleanVersion.includes('-')) {
+                let lastPart = cleanVersion.split('-').pop();
+                // Strip "v" prefix if present (e.g., "v0.3" -> "0.3")
+                if (lastPart.toLowerCase().startsWith('v')) {
+                    lastPart = lastPart.substring(1);
+                }
                 // Check if the last part contains only numbers (and possibly dots)
                 if (/^[\d.]+$/.test(lastPart)) {
-                    cleanVersion = lastPart;
+                    extractedVersion = lastPart;
                 }
+            }
+
+            // Use extracted version if found, otherwise keep the cleaned tag name
+            if (extractedVersion) {
+                cleanVersion = extractedVersion;
             }
 
             // Parse designations from the original version name
@@ -2427,8 +2468,8 @@
                     continue;
                 }
 
-                // Skip "Type", "B", and "Base" as they are used for device type filtering, not display
-                if (part === 'type' || part === 'b' || part === 'base') {
+                // Skip "Type", "B", "Base", and "Stable" as they are used for device type filtering or stability indication, not display
+                if (part === 'type' || part === 'b' || part === 'base' || part === 'stable') {
                     continue;
                 }
 
@@ -2864,6 +2905,7 @@
                 filterFirmware();
             });
             document.getElementById('showPrereleases').addEventListener('change', function () {
+                userPrefersPrereleases = this.checked;
                 filterFirmware();
             });
         }
@@ -3022,7 +3064,6 @@
             const deviceModels = [...new Set(packages.map(p => p.device).filter(m => m))];
 
             combo.innerHTML = '<option value="">All Models</option>';
-            let defaultModel = '';
             deviceModels.sort().forEach(model => {
                 const option = document.createElement('option');
                 option.value = model;
@@ -3030,17 +3071,9 @@
                 // Set Y1 as default
                 if (model && model.toLowerCase().includes('y1')) {
                     option.selected = true;
-                    defaultModel = model;
                 }
                 combo.appendChild(option);
             });
-
-            if (defaultModel) {
-                combo.value = defaultModel;
-                currentFilters.deviceModel = defaultModel;
-            } else {
-                currentFilters.deviceModel = combo.value;
-            }
 
             // Show/hide Type selector based on selected model
             updateTypeFilterVisibility();
@@ -3070,29 +3103,18 @@
             });
 
             const softwareNames = [...new Set(filteredPackages.map(p => p.name).filter(n => n))];
-            const filteredNames = softwareNames.filter(name => !name.toLowerCase().includes('original'));
-            const availableNames = filteredNames.length ? filteredNames : softwareNames;
-            const preferredName = availableNames.find(name => name.toLowerCase().includes('rockbox')) || availableNames[0] || '';
 
             combo.innerHTML = '';
-            availableNames.sort().forEach(name => {
+            softwareNames.sort().forEach(name => {
                 const option = document.createElement('option');
                 option.value = name;
                 option.textContent = name;
-                if (preferredName && name === preferredName) {
+                // Set Original as default
+                if (name && name.toLowerCase().includes('original')) {
                     option.selected = true;
                 }
                 combo.appendChild(option);
             });
-
-            if (preferredName) {
-                combo.value = preferredName;
-                currentFilters.software = preferredName;
-            } else {
-                currentFilters.software = combo.value;
-            }
-
-            updateAvailableSoftwareTitle();
         }
 
         function releaseMatchesTypeFilter(tagName, selectedType) {
@@ -3120,6 +3142,90 @@
             currentFilters.showPrereleases = document.getElementById('showPrereleases').checked;
 
             loadFirmwareList();
+        }
+
+        function updatePrereleaseToggle(hasPrereleases, allReleases = null) {
+            const container = document.getElementById('prereleasesFilterContainer');
+            const checkbox = document.getElementById('showPrereleases');
+            const labelText = document.getElementById('prereleasesLabelText');
+
+            if (!container || !checkbox || !labelText) {
+                return;
+            }
+
+            const wasShowingPrereleases = currentFilters.showPrereleases;
+
+            container.classList.add('ready');
+            container.classList.toggle('disabled', !hasPrereleases);
+            checkbox.disabled = !hasPrereleases;
+
+            // Check if there are any stable releases available
+            // Only auto-enable pre-releases if there are NO stable releases
+            let hasStable = false;
+            if (allReleases && allReleases.length > 0) {
+                hasStable = allReleases.some(release => {
+                    const tagLower = release.tag_name.toLowerCase();
+                    // Skip excluded releases
+                    if (tagLower.includes('base')) {
+                        return false;
+                    }
+                    // Check type filter
+                    const hasTypeB = tagLower.includes('type-b') || tagLower.includes('-b-');
+                    if (currentFilters.deviceType === 'B' && !hasTypeB) {
+                        return false;
+                    }
+                    if (currentFilters.deviceType === 'A' && hasTypeB) {
+                        return false;
+                    }
+                    // Check if it's a pre-release or nightly
+                    const hasStableInTag = tagLower.includes('stable');
+                    let isPrerelease = release.prerelease || release.draft ||
+                        tagLower.includes('nightly') ||
+                        tagLower.includes('beta');
+                    // Releases with "stable" in tag name are always treated as stable
+                    if (hasStableInTag) {
+                        isPrerelease = false;
+                    }
+                    // If it's not a pre-release and not nightly, it's stable
+                    return !isPrerelease;
+                });
+            }
+
+            if (hasPrereleases) {
+                // Only auto-enable if there are NO stable releases
+                // Don't auto-enable if user manually changed the filter (tracked via userPrefersPrereleases)
+                const shouldAutoEnable = !hasStable && !wasShowingPrereleases;
+
+                if (shouldAutoEnable) {
+                    console.log('Auto-enabling pre-releases: only pre-releases available for selected option');
+                    checkbox.checked = true;
+                    currentFilters.showPrereleases = true;
+                    userPrefersPrereleases = true;
+                } else if (hasStable) {
+                    // There ARE stable releases - don't auto-enable, use user preference
+                    console.log('Not auto-enabling pre-releases: found stable releases available');
+                    checkbox.checked = userPrefersPrereleases;
+                    currentFilters.showPrereleases = userPrefersPrereleases;
+                } else {
+                    // User preference
+                    checkbox.checked = userPrefersPrereleases;
+                    currentFilters.showPrereleases = userPrefersPrereleases;
+                }
+
+                labelText.textContent = 'Include nightly/beta builds';
+                if (currentFilters.showPrereleases && !wasShowingPrereleases) {
+                    filterFirmware();
+                    return;
+                }
+            } else {
+                checkbox.checked = false;
+                labelText.textContent = 'No prerelease builds for this selection';
+                currentFilters.showPrereleases = false;
+                if (wasShowingPrereleases) {
+                    filterFirmware();
+                    return;
+                }
+            }
         }
 
         async function loadFirmwareList() {
@@ -3184,9 +3290,15 @@
 
                                 // Check if this is a prerelease/nightly/beta
                                 const tagLower = release.tag_name.toLowerCase();
-                                const isPrerelease = release.prerelease || release.draft ||
+                                // Releases with "stable" in tag name are always treated as stable, regardless of GitHub flag
+                                const hasStableInTag = tagLower.includes('stable');
+                                let isPrerelease = release.prerelease || release.draft ||
                                     tagLower.includes('nightly') ||
                                     tagLower.includes('beta');
+                                // If tag contains "stable", override GitHub's pre-release flag and treat as stable
+                                if (hasStableInTag) {
+                                    isPrerelease = false;
+                                }
 
                                 // Only add to display list if checkbox allows it
                                 if (currentFilters.showPrereleases || !isPrerelease) {
@@ -3220,14 +3332,16 @@
 
         async function getReleases(repo) {
             try {
+                // Fetch 100 releases to ensure stable releases are included even if they're older than pre-releases
+                // This is important because if the first 30 releases are all pre-releases, stable releases won't be shown
                 // Try unauthenticated API call first
-                let response = await fetch(`https://api.github.com/repos/${repo}/releases`);
+                let response = await fetch(`https://api.github.com/repos/${repo}/releases?per_page=100`);
 
                 // If rate limited and we have tokens, try with authentication
                 if (response.status === 403 && apiTokens.length > 0) {
                     console.log(`Rate limited for ${repo}, trying with authentication...`);
                     const randomToken = apiTokens[Math.floor(Math.random() * apiTokens.length)];
-                    response = await fetch(`https://api.github.com/repos/${repo}/releases`, {
+                    response = await fetch(`https://api.github.com/repos/${repo}/releases?per_page=100`, {
                         headers: {
                             'Authorization': `token ${randomToken}`,
                             'Accept': 'application/vnd.github.v3+json'
@@ -3259,6 +3373,15 @@
                             asset.name && asset.name.toLowerCase() === 'update.zip'
                         );
 
+                        // Override: Releases with "stable" in tag name are always treated as stable
+                        const tagLower = release.tag_name.toLowerCase();
+                        const hasStableInTag = tagLower.includes('stable');
+                        let isPrerelease = release.prerelease || false;
+                        // If tag contains "stable", override GitHub's pre-release flag and treat as stable
+                        if (hasStableInTag) {
+                            isPrerelease = false;
+                        }
+
                         return {
                             tag_name: release.tag_name,
                             name: release.name || release.tag_name,
@@ -3266,7 +3389,7 @@
                             published_at: release.published_at,
                             html_url: release.html_url,
                             assets: release.assets || [],
-                            prerelease: release.prerelease || false,
+                            prerelease: isPrerelease, // Overridden if "stable" in tag
                             draft: release.draft || false,
                             download_count: romZipAsset ? romZipAsset.download_count : 0,
                             total_downloads: release.assets.reduce((sum, asset) => sum + (asset.download_count || 0), 0),
@@ -3289,16 +3412,20 @@
                 if (allReleasesBeforeFilter && allReleasesBeforeFilter.length > 0) {
                     const hasPreleases = allReleasesBeforeFilter.some(release => {
                         const tagLower = release.tag_name.toLowerCase();
-                        return release.prerelease || release.draft ||
+                        // Releases with "stable" in tag name are always treated as stable
+                        const hasStableInTag = tagLower.includes('stable');
+                        let isPrerelease = release.prerelease || release.draft ||
                             tagLower.includes('nightly') ||
                             tagLower.includes('beta');
+                        // If tag contains "stable", override GitHub's pre-release flag and treat as stable
+                        if (hasStableInTag) {
+                            isPrerelease = false;
+                        }
+                        return isPrerelease;
                     });
-                    const prereleasesContainer = document.getElementById('prereleasesFilterContainer');
-                    if (hasPreleases) {
-                        prereleasesContainer.style.display = 'flex';
-                    } else {
-                        prereleasesContainer.style.display = 'none';
-                    }
+                    updatePrereleaseToggle(hasPreleases, allReleasesBeforeFilter);
+                } else {
+                    updatePrereleaseToggle(false);
                 }
                 return;
             }
@@ -3387,7 +3514,7 @@
                             </div>
                             <div style="text-align: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border-secondary);">
                                 <a href="https://innioasis.app/installguide.html" target="_blank" class="get-updater-link" onclick="event.stopPropagation()">
-                                    💡 First time? Get started with <span class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</span>
+                                    💡 Install automatically with <span class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</span>
                                 </a>
                                 <div class="methods-separator">
                                     <span>Other Methods</span>
@@ -3410,17 +3537,18 @@
             const releasesToCheck = allReleasesBeforeFilter || releases;
             const hasPreleases = releasesToCheck.some(release => {
                 const tagLower = release.tag_name.toLowerCase();
-                return release.prerelease || release.draft ||
+                // Releases with "stable" in tag name are always treated as stable
+                const hasStableInTag = tagLower.includes('stable');
+                let isPrerelease = release.prerelease || release.draft ||
                     tagLower.includes('nightly') ||
                     tagLower.includes('beta');
+                // If tag contains "stable", override GitHub's pre-release flag and treat as stable
+                if (hasStableInTag) {
+                    isPrerelease = false;
+                }
+                return isPrerelease;
             });
-
-            const prereleasesContainer = document.getElementById('prereleasesFilterContainer');
-            if (hasPreleases) {
-                prereleasesContainer.style.display = 'flex';
-            } else {
-                prereleasesContainer.style.display = 'none';
-            }
+            updatePrereleaseToggle(hasPreleases, releasesToCheck);
 
             // Add touch handling for scrolling text and check if scrolling is actually needed
             setTimeout(() => {
@@ -3944,6 +4072,362 @@
             }
         }
     </script>
+
+    <!-- Neomorphic Floating Support Us Toolbar - Horizontal Pills with Expandable Donate -->
+    <div id="support-toolbar-container">
+        <style>
+            #support-toolbar {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                z-index: 10000;
+                display: flex;
+                gap: 10px;
+                align-items: center;
+                font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                background: #f0f0f3;
+                padding: 8px 12px;
+                border-radius: 50px;
+                box-shadow:
+                    8px 8px 16px rgba(163, 177, 198, 0.6),
+                    -8px -8px 16px rgba(255, 255, 255, 0.5);
+                transition: all 0.3s ease;
+                flex-wrap: wrap;
+                max-width: calc(100vw - 40px);
+            }
+
+            .support-toolbar-btn {
+                background: #f0f0f3;
+                border: none;
+                border-radius: 25px;
+                padding: 10px 18px;
+                cursor: pointer;
+                font-size: 13px;
+                font-weight: 600;
+                color: #2d2d2d;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                box-shadow:
+                    4px 4px 8px rgba(163, 177, 198, 0.6),
+                    -4px -4px 8px rgba(255, 255, 255, 0.5);
+                transition: all 0.3s ease;
+                white-space: nowrap;
+            }
+
+            .support-toolbar-btn:hover {
+                box-shadow:
+                    2px 2px 4px rgba(163, 177, 198, 0.6),
+                    -2px -2px 4px rgba(255, 255, 255, 0.5);
+                transform: translateY(-1px);
+            }
+
+            .support-toolbar-btn:active {
+                box-shadow:
+                    inset 2px 2px 4px rgba(163, 177, 198, 0.6),
+                    inset -2px -2px 4px rgba(255, 255, 255, 0.5);
+                transform: translateY(0);
+            }
+
+            .support-toolbar-btn.primary {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                box-shadow:
+                    4px 4px 8px rgba(102, 126, 234, 0.4),
+                    -4px -4px 8px rgba(118, 75, 162, 0.3);
+            }
+
+            .support-toolbar-btn.primary:hover {
+                box-shadow:
+                    2px 2px 4px rgba(102, 126, 234, 0.4),
+                    -2px -2px 4px rgba(118, 75, 162, 0.3);
+            }
+
+            .support-toolbar-icon {
+                font-size: 16px;
+                display: inline-block;
+                line-height: 1;
+            }
+
+            #donate-options {
+                display: none;
+                gap: 10px;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+
+            #donate-options.expanded {
+                display: flex;
+            }
+
+            .crypto-address {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                padding: 8px 12px;
+                background: #f0f0f3;
+                border-radius: 12px;
+                box-shadow:
+                    2px 2px 4px rgba(163, 177, 198, 0.6),
+                    -2px -2px 4px rgba(255, 255, 255, 0.5);
+                min-width: 140px;
+            }
+
+            .crypto-label {
+                font-size: 11px;
+                font-weight: 700;
+                color: #667eea;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .crypto-copy-hint {
+                font-size: 9px;
+                font-weight: 400;
+                color: #86868b;
+                text-transform: none;
+                letter-spacing: 0;
+            }
+
+            .crypto-code {
+                font-size: 10px;
+                font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+                color: #2d2d2d;
+                word-break: break-all;
+                cursor: pointer;
+                padding: 4px 6px;
+                background: rgba(0, 0, 0, 0.05);
+                border-radius: 6px;
+                transition: all 0.2s ease;
+            }
+
+            .crypto-code:hover {
+                background: rgba(0, 0, 0, 0.1);
+            }
+
+            .crypto-code.copied {
+                background: rgba(34, 197, 94, 0.2);
+                color: #22c55e;
+            }
+
+            @media (max-width: 768px) {
+                #support-toolbar {
+                    bottom: 15px;
+                    right: 15px;
+                    left: 15px;
+                    justify-content: center;
+                    padding: 6px 10px;
+                    gap: 8px;
+                    border-radius: 25px;
+                }
+
+                .support-toolbar-btn {
+                    padding: 8px 14px;
+                    font-size: 12px;
+                }
+
+                .support-toolbar-icon {
+                    font-size: 16px;
+                }
+
+                .crypto-address {
+                    min-width: 120px;
+                    padding: 6px 10px;
+                }
+
+                .crypto-code {
+                    font-size: 9px;
+                }
+            }
+
+            /* Dark mode support */
+            @media (prefers-color-scheme: dark) {
+                #support-toolbar {
+                    background: #2d2d2d;
+                    box-shadow:
+                        8px 8px 16px rgba(0, 0, 0, 0.4),
+                        -8px -8px 16px rgba(60, 60, 60, 0.3);
+                }
+
+                .support-toolbar-btn {
+                    background: #2d2d2d;
+                    color: #e0e0e0;
+                    box-shadow:
+                        4px 4px 8px rgba(0, 0, 0, 0.4),
+                        -4px -4px 8px rgba(60, 60, 60, 0.3);
+                }
+
+                .support-toolbar-btn:hover {
+                    box-shadow:
+                        2px 2px 4px rgba(0, 0, 0, 0.4),
+                        -2px -2px 4px rgba(60, 60, 60, 0.3);
+                }
+
+                .support-toolbar-btn:active {
+                    box-shadow:
+                        inset 2px 2px 4px rgba(0, 0, 0, 0.4),
+                        inset -2px -2px 4px rgba(60, 60, 60, 0.3);
+                }
+
+                .crypto-address {
+                    background: #2d2d2d;
+                    box-shadow:
+                        2px 2px 4px rgba(0, 0, 0, 0.4),
+                        -2px -2px 4px rgba(60, 60, 60, 0.3);
+                }
+
+                .crypto-code {
+                    color: #e0e0e0;
+                    background: rgba(255, 255, 255, 0.05);
+                }
+
+                .crypto-code:hover {
+                    background: rgba(255, 255, 255, 0.1);
+                }
+
+                .crypto-copy-hint {
+                    color: #a0a0a0;
+                }
+            }
+
+            body[data-theme="dark"] #support-toolbar {
+                background: #2d2d2d;
+                box-shadow:
+                    8px 8px 16px rgba(0, 0, 0, 0.4),
+                    -8px -8px 16px rgba(60, 60, 60, 0.3);
+            }
+
+            body[data-theme="dark"] .support-toolbar-btn {
+                background: #2d2d2d;
+                color: #e0e0e0;
+                box-shadow:
+                    4px 4px 8px rgba(0, 0, 0, 0.4),
+                    -4px -4px 8px rgba(60, 60, 60, 0.3);
+            }
+
+            body[data-theme="dark"] .support-toolbar-btn:hover {
+                box-shadow:
+                    2px 2px 4px rgba(0, 0, 0, 0.4),
+                    -2px -2px 4px rgba(60, 60, 60, 0.3);
+            }
+
+            body[data-theme="dark"] .support-toolbar-btn:active {
+                box-shadow:
+                    inset 2px 2px 4px rgba(0, 0, 0, 0.4),
+                    inset -2px -2px 4px rgba(60, 60, 60, 0.3);
+            }
+
+            body[data-theme="dark"] .crypto-address {
+                background: #2d2d2d;
+                box-shadow:
+                    2px 2px 4px rgba(0, 0, 0, 0.4),
+                    -2px -2px 4px rgba(60, 60, 60, 0.3);
+            }
+
+            body[data-theme="dark"] .crypto-code {
+                color: #e0e0e0;
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            body[data-theme="dark"] .crypto-code:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+            body[data-theme="dark"] .crypto-copy-hint {
+                color: #a0a0a0;
+            }
+        </style>
+        <div id="support-toolbar">
+            <a href="http://innioasis.app/support_devs.html" class="support-toolbar-btn primary" target="_blank"
+                rel="noopener noreferrer">
+                <span class="support-toolbar-icon">💙</span>
+                <span>Support Development</span>
+            </a>
+            <button id="donate-toggle" class="support-toolbar-btn" type="button">
+                <span class="support-toolbar-icon">💳</span>
+                <span>Donate</span>
+            </button>
+            <div id="donate-options">
+                <a href="https://revolut.me/rspecter" class="support-toolbar-btn" target="_blank"
+                    rel="noopener noreferrer">
+                    <span class="support-toolbar-icon">💸</span>
+                    <span>Revolut</span>
+                </a>
+                <a href="https://ko-fi.com/teamslide" class="support-toolbar-btn" target="_blank"
+                    rel="noopener noreferrer">
+                    <span class="support-toolbar-icon">☕</span>
+                    <span>Ko-fi</span>
+                </a>
+                <a href="https://paypal.me/respectyarn" class="support-toolbar-btn" target="_blank"
+                    rel="noopener noreferrer">
+                    <span class="support-toolbar-icon">💳</span>
+                    <span>PayPal</span>
+                </a>
+                <div class="crypto-address">
+                    <span class="crypto-label">
+                        Bitcoin
+                        <span class="crypto-copy-hint">(click to copy)</span>
+                    </span>
+                    <code class="crypto-code" id="btc-address"
+                        onclick="copyCryptoAddress('bc1q9vsjqjr6pjuc3vrgverx0v9ydst8s82ck4kpue', 'btc-address')"
+                        title="Click to copy">bc1q9vsjqjr6pjuc3vrgverx0v9ydst8s82ck4kpue</code>
+                </div>
+                <div class="crypto-address">
+                    <span class="crypto-label">
+                        Ethereum
+                        <span class="crypto-copy-hint">(click to copy)</span>
+                    </span>
+                    <code class="crypto-code" id="eth-address"
+                        onclick="copyCryptoAddress('0x3eec22630ca9fd77D22d362bF6C50dE29D3B84c4', 'eth-address')"
+                        title="Click to copy">0x3eec22630ca9fd77D22d362bF6C50dE29D3B84c4</code>
+                </div>
+            </div>
+        </div>
+        <script>
+            (function () {
+                const donateToggle = document.getElementById('donate-toggle');
+                const donateOptions = document.getElementById('donate-options');
+
+                if (donateToggle && donateOptions) {
+                    donateToggle.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        donateOptions.classList.toggle('expanded');
+                    });
+
+                    // Close when clicking outside
+                    document.addEventListener('click', function (e) {
+                        if (!e.target.closest('#support-toolbar-container')) {
+                            donateOptions.classList.remove('expanded');
+                        }
+                    });
+
+                    function copyCryptoAddress(address, elementId) {
+                        navigator.clipboard.writeText(address).then(function () {
+                            const element = document.getElementById(elementId);
+                            const originalText = element.textContent;
+                            element.textContent = 'Copied!';
+                            element.classList.add('copied');
+                            setTimeout(function () {
+                                element.textContent = originalText;
+                                element.classList.remove('copied');
+                            }, 2000);
+                        }).catch(function (err) {
+                            console.error('Failed to copy: ', err);
+                            alert('Failed to copy to clipboard. Please copy manually: ' + address);
+                        });
+                    }
+
+                    // Make copyCryptoAddress available globally
+                    window.copyCryptoAddress = copyCryptoAddress;
+                }
+            })();
+        </script>
+    </div>
 </body>
 
 </html>
