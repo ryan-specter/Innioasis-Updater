@@ -1,34 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Innioasis Y1 Rockbox and Firmware Updates - Download Manufacturer & Rockbox Firmware</title>
-    
+
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Download manufacturer and Rockbox firmware for the Innioasis Y1 music player. Compatible with Innioasis Updater, SP Flash Tool, and MTKclient on Windows, Mac, and Linux. Easy firmware installation and updates.">
-    <meta name="keywords" content="Innioasis Y1, Y1 firmware, Rockbox firmware, Innioasis firmware, Y1 updates, firmware download, Innioasis Updater, SP Flash Tool, MTKclient, Y1 music player, firmware installation, Windows, Mac, Linux, Y1 ROM, update.zip, rom.zip">
-    <meta name="author" content="Y1 Community">
+    <meta name="description"
+        content="Download manufacturer and Rockbox firmware for the Innioasis Y1 music player. Compatible with Innioasis Updater, SP Flash Tool, and MTKclient on Windows, Mac, and Linux. Easy firmware installation and updates.">
+    <meta name="keywords"
+        content="Innioasis Y1, Y1 firmware, Rockbox firmware, Innioasis firmware, Y1 updates, firmware download, Innioasis Updater, SP Flash Tool, MTKclient, Y1 music player, firmware installation, Windows, Mac, Linux, Y1 ROM, update.zip, rom.zip">
+    <meta name="author" content="Innioasis Community">
     <meta name="robots" content="index, follow">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://innioasis.app/firmware.html">
+    <meta property="og:url" content="https://innioasis.app/">
     <meta property="og:title" content="Innioasis Y1 Rockbox and Firmware Updates">
-    <meta property="og:description" content="Download manufacturer and Rockbox firmware for the Innioasis Y1 music player. Compatible with Innioasis Updater, SP Flash Tool, and MTKclient.">
+    <meta property="og:description"
+        content="Download manufacturer and Rockbox firmware for the Innioasis Y1 music player. Compatible with Innioasis Updater, SP Flash Tool, and MTKclient.">
     <meta property="og:image" content="https://innioasis.app/mtkclient/gui/images/icon.png">
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://innioasis.app/firmware.html">
+    <meta property="twitter:url" content="https://innioasis.app/">
     <meta property="twitter:title" content="Innioasis Y1 Firmware Updates">
-    <meta property="twitter:description" content="Download manufacturer and Rockbox firmware for the Innioasis Y1 music player. Compatible with Innioasis Updater, SP Flash Tool, and MTKclient.">
+    <meta property="twitter:description"
+        content="Download manufacturer and Rockbox firmware for the Innioasis Y1 music player. Compatible with Innioasis Updater, SP Flash Tool, and MTKclient.">
     <meta property="twitter:image" content="https://innioasis.app/mtkclient/gui/images/icon.png">
-    
+
     <!-- Additional SEO -->
-    <link rel="canonical" href="https://innioasis.app/firmware.html">
+    <link rel="canonical" href="https://innioasis.app/">
     <meta name="theme-color" content="#007aff">
-    
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Innioasis Y1 Firmware Hub",
+      "url": "https://innioasis.app/",
+      "description": "Official firmware downloads and tools for Innioasis Y1 music player",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://innioasis.app/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
     <style>
         * {
             margin: 0;
@@ -596,7 +617,7 @@
 
         .firmware-item:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             border-color: #667eea;
         }
 
@@ -637,7 +658,7 @@
             background: #007aff;
             color: white;
         }
-        
+
         .version-pill.ipod-theme::before {
             content: "✅ ";
             margin-right: 4px;
@@ -740,12 +761,15 @@
             0% {
                 transform: translateX(0);
             }
+
             20% {
                 transform: translateX(0);
             }
+
             80% {
                 transform: translateX(calc(-100% + 200px));
             }
+
             100% {
                 transform: translateX(calc(-100% + 200px));
             }
@@ -1202,7 +1226,7 @@
             color: var(--accent-warning);
             opacity: 1;
         }
-        
+
 
         .progress-bar {
             width: 100%;
@@ -1232,8 +1256,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .footer {
@@ -1270,7 +1299,7 @@
             background: white;
             padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             z-index: 2000;
             max-width: 500px;
             width: 90%;
@@ -1345,7 +1374,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             z-index: 1999;
             display: none;
         }
@@ -1402,7 +1431,7 @@
         }
 
         @media (max-width: 768px) {
-            
+
             .container {
                 padding: 10px;
             }
@@ -1411,7 +1440,7 @@
                 grid-template-columns: 1fr;
                 padding: 0 10px;
             }
-            
+
             .header {
                 flex-direction: column;
                 gap: 15px;
@@ -1420,7 +1449,7 @@
             .header-logos {
                 gap: 12px;
             }
-            
+
             .header-icon {
                 width: 60px;
                 height: 60px;
@@ -1429,54 +1458,58 @@
             .innioasis-logo {
                 height: 32px;
             }
-            
+
             .logo-separator {
                 height: 32px;
             }
-            
+
             .header h1 {
                 font-size: 1.8rem;
             }
-            
+
             .main-content {
                 padding: 20px;
             }
-            
+
             .filters {
                 grid-template-columns: 1fr;
                 gap: 12px;
             }
-            
+
             .firmware-details {
                 grid-template-columns: 1fr;
             }
-            
+
             /* Mobile-specific scrolling text improvements */
             .detail-value.scroll-text {
-                animation-duration: 6s; /* Faster on mobile */
-                touch-action: pan-x; /* Allow horizontal scrolling on touch */
-                max-width: 150px; /* Smaller max width on mobile */
+                animation-duration: 6s;
+                /* Faster on mobile */
+                touch-action: pan-x;
+                /* Allow horizontal scrolling on touch */
+                max-width: 150px;
+                /* Smaller max width on mobile */
             }
-            
+
             .detail-item {
-                max-width: 180px; /* Smaller max width on mobile */
+                max-width: 180px;
+                /* Smaller max width on mobile */
             }
-            
+
         }
-        
+
         @media (max-width: 480px) {
             .header h1 {
                 font-size: 1.5rem;
             }
-            
+
             .header p {
                 font-size: 0.9rem;
             }
-            
+
             .container {
                 padding: 8px;
             }
-            
+
             .main-content {
                 padding: 15px;
             }
@@ -1770,7 +1803,9 @@
             color: #333;
         }
 
-        .release-notes h1, .release-notes h2, .release-notes h3 {
+        .release-notes h1,
+        .release-notes h2,
+        .release-notes h3 {
             color: #2c3e50;
             margin-top: 20px;
             margin-bottom: 10px;
@@ -1869,25 +1904,28 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Driver Info Modal -->
     <div class="info-modal" id="driverInfoModal">
         <div class="info-modal-content">
             <button class="info-modal-close" onclick="closeDriverInfo()">×</button>
             <h3>📥 MediaTek Driver Installation Info</h3>
-            <p>When installing the MediaTek driver, you may see a dialog asking about removing the "origin driver". Here's what to do:</p>
-            
+            <p>When installing the MediaTek driver, you may see a dialog asking about removing the "origin driver".
+                Here's what to do:</p>
+
             <div class="highlight">
-                <strong>Important:</strong> If the installer asks "Remove origin driver?", click <strong>Yes</strong>. This is normal and helps ensure the driver works properly with your Y1 device.
+                <strong>Important:</strong> If the installer asks "Remove origin driver?", click <strong>Yes</strong>.
+                This is normal and helps ensure the driver works properly with your Y1 device.
             </div>
-            
+
             <p>This step is necessary because:</p>
             <ul>
                 <li>It removes any conflicting drivers that might interfere</li>
                 <li>It ensures the MediaTek driver has full control over USB communication</li>
                 <li>It prevents driver conflicts that could cause connection issues</li>
             </ul>
-            
+
             <p>After installation, restart your computer as prompted to complete the setup.</p>
         </div>
     </div>
@@ -1899,8 +1937,10 @@
                 <div class="logo-separator"></div>
                 <div class="logo-wrapper">
                     <span class="collaboration-text">In Collaboration With</span>
-                    <a href="https://innioasis.com" target="_blank" rel="noopener noreferrer" class="innioasis-logo-link">
-                        <img src="https://www.innioasis.com/cdn/shop/files/innioasis_540x.jpg?v=1666165346" alt="Innioasis" class="innioasis-logo">
+                    <a href="https://innioasis.com" target="_blank" rel="noopener noreferrer"
+                        class="innioasis-logo-link">
+                        <img src="https://www.innioasis.com/cdn/shop/files/innioasis_540x.jpg?v=1666165346"
+                            alt="Innioasis" class="innioasis-logo">
                     </a>
                 </div>
             </div>
@@ -1908,15 +1948,23 @@
                 <h1>Y1 Rockbox and Firmware Updates</h1>
                 <p>Download manufacturer and Rockbox firmware for Innioasis Y1</p>
                 <p style="font-size: 0.85rem; opacity: 0.8; margin-top: 4px;">
-                    Compatible with <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a>, <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="tool-link">SP Flash Tool</a>, and <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" class="tool-link">MTKclient</a> on Windows, Mac, and Linux
+                    Compatible with <a href="https://innioasis.app/installguide.html" target="_blank"
+                        class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a>, <a
+                        href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="tool-link">SP
+                        Flash Tool</a>, and <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank"
+                        class="tool-link">MTKclient</a> on Windows, Mac, and Linux
                 </p>
             </div>
             <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-end;">
-                <button class="get-started-btn" onclick="window.open('https://innioasis.app/installguide.html', '_blank')">
+                <button class="get-started-btn"
+                    onclick="window.open('https://innioasis.app/installguide.html', '_blank')">
                     <img src="mtkclient/gui/images/icon.png" alt="Innioasis">
                     <div class="btn-text-wrapper">
                         <span>Get Updater</span>
-                        <span class="btn-subtitle">(incl <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="tool-link">SP Flash Tool</a> & <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" class="tool-link">MTKClient</a>)</span>
+                        <span class="btn-subtitle">(incl <a href="https://github.com/rockbox-y1/rockbox#spflash-tool"
+                                target="_blank" class="tool-link">SP Flash Tool</a> & <a
+                                href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank"
+                                class="tool-link">MTKClient</a>)</span>
                     </div>
                 </button>
                 <!-- Theme toggle hidden but still functional in background -->
@@ -1929,8 +1977,10 @@
 
         <div class="main-content">
 
-            <div style="background: var(--bg-secondary); border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; font-size: 0.9rem; color: var(--text-secondary);">
-                Simplify music transfers and updates with <strong>Smart Drop</strong> and <strong>⚡ Fast Drop</strong> in Updater 1.8.2. Coming soon.
+            <div
+                style="background: var(--bg-secondary); border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; font-size: 0.9rem; color: var(--text-secondary);">
+                Simplify music transfers and updates with <strong>Smart Drop</strong> and <strong>⚡ Fast Drop</strong>
+                in Updater 1.8.2. Coming soon.
             </div>
 
             <div class="filters">
@@ -1939,28 +1989,29 @@
                     <select id="deviceType">
                     </select>
                 </div>
-                
+
                 <div class="filter-group">
                     <label for="deviceModel">Device Model</label>
                     <select id="deviceModel">
                         <option value="">All Models</option>
                     </select>
                 </div>
-                
+
                 <div class="filter-group">
                     <label for="software">Software</label>
                     <select id="software">
                     </select>
                 </div>
             </div>
-            
+
 
             <div class="status" id="status">
                 Ready to download system software
             </div>
 
             <div class="firmware-list">
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
+                <div
+                    style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;">
                     <h3 id="availableSoftwareTitle" style="margin: 0;">Available System Software</h3>
                     <label id="prereleasesFilterContainer" class="prerelease-toggle disabled">
                         <input type="checkbox" id="showPrereleases">
@@ -1978,32 +2029,56 @@
             <div class="info-box">
                 <h2>Good to know:</h2>
                 <p style="margin-bottom: 12px;">
-                    This is where you'll find all the firmware updates for your Y1 music player — whether you want the original manufacturer software or custom Rockbox builds. Everything's free to download and comes straight from GitHub.
+                    This is where you'll find all the firmware updates for your Y1 music player — whether you want the
+                    original manufacturer software or custom Rockbox builds. Everything's free to download and comes
+                    straight from GitHub.
                 </p>
                 <p style="margin-bottom: 12px;">
-                    <strong>New to this?</strong> If you're using <strong>Windows</strong> or <strong>Mac</strong>, just grab <strong><a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a></strong> and you're good to go. 
-                    It's a simple app that walks you through everything, and it comes with all the tools you need already built in — no hunting around for extra downloads.
+                    <strong>New to this?</strong> If you're using <strong>Windows</strong> or <strong>Mac</strong>, just
+                    grab <strong><a href="https://innioasis.app/installguide.html" target="_blank"
+                            class="updater-with-icon"><img src="mtkclient/gui/images/icon.png"
+                                alt="">Updater</a></strong> and you're good to go.
+                    It's a simple app that walks you through everything, and it comes with all the tools you need
+                    already built in — no hunting around for extra downloads.
                 </p>
                 <h2>Methods and troubleshooting:</h2>
                 <p style="margin-bottom: 12px;">
-                    <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a> automatically lists the latest updates to the Y1 and Rockbox and guides you through its installation, but <strong>alternatively</strong> you can use <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="tool-link">SP Flash Tool</a> or <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" class="tool-link">MTKClient</a> (both are installed automatically by <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a> in <span class="tooltip">Toolkit<span class="tooltiptext">Access <a href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="tool-link" style="color: #adb5bd;">SP Flash Tool</a> and <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" class="tool-link" style="color: #adb5bd;">MTKClient</a> by clicking Toolkit in the Updater app (Windows/Mac) or from the Windows Start Menu. There's also a Troubleshooting folder which provides a helpful folder to place the contents of a rom.zip in and click a shortcut to run SP Flash Tool or MTKClient to install or troubleshoot automatically.</span></span>).
+                    <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img
+                            src="mtkclient/gui/images/icon.png" alt="">Updater</a> automatically lists the latest
+                    updates to the Y1 and Rockbox and guides you through its installation, but
+                    <strong>alternatively</strong> you can use <a
+                        href="https://github.com/rockbox-y1/rockbox#spflash-tool" target="_blank" class="tool-link">SP
+                        Flash Tool</a> or <a href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank"
+                        class="tool-link">MTKClient</a> (both are installed automatically by <a
+                        href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img
+                            src="mtkclient/gui/images/icon.png" alt="">Updater</a> in <span class="tooltip">Toolkit<span
+                            class="tooltiptext">Access <a href="https://github.com/rockbox-y1/rockbox#spflash-tool"
+                                target="_blank" class="tool-link" style="color: #adb5bd;">SP Flash Tool</a> and <a
+                                href="https://github.com/rockbox-y1/rockbox#mtkclient" target="_blank" class="tool-link"
+                                style="color: #adb5bd;">MTKClient</a> by clicking Toolkit in the Updater app
+                            (Windows/Mac) or from the Windows Start Menu. There's also a Troubleshooting folder which
+                            provides a helpful folder to place the contents of a rom.zip in and click a shortcut to run
+                            SP Flash Tool or MTKClient to install or troubleshoot automatically.</span></span>).
                 </p>
                 <p style="margin-bottom: 12px;">
                     <strong>What you'll download:</strong>
                 </p>
                 <ul style="margin-left: 20px; margin-bottom: 12px;">
                     <li><strong>rom.zip</strong> — The full package for fresh installs or if you need to start over</li>
-                    <li><strong>update.zip</strong> — Quick updates if you're already running Rockbox (just copy it to your .rockbox folder)</li>
+                    <li><strong>update.zip</strong> — Quick updates if you're already running Rockbox (just copy it to
+                        your .rockbox folder)</li>
                 </ul>
                 <p>
-                    Whether you're fixing something, trying new features, or just keeping your Y1 up to date — we've got you covered.
+                    Whether you're fixing something, trying new features, or just keeping your Y1 up to date — we've got
+                    you covered.
                 </p>
             </div>
 
             <div class="info-box">
                 <h2>Customise your Player:</h2>
                 <p style="margin-bottom: 16px;">
-                    Make your Y1 truly yours with custom themes! Choose from a variety of options depending on your firmware and resolution.
+                    Make your Y1 truly yours with custom themes! Choose from a variety of options depending on your
+                    firmware and resolution.
                 </p>
 
                 <div class="theme-button-container">
@@ -2012,8 +2087,12 @@
                         <span class="theme-button-description">Works on all ROMs apart from 1.76 Type B Firmwares</span>
                     </button>
                     <div class="theme-install-instructions" id="y1-theme-instructions">
-                        <p style="margin-bottom: 8px;"><strong>📂 How to install:</strong> Copy the folder inside the .zip into the Themes folder on your Y1.</p>
-                        <a href="https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://themes.innioasis.app/&ved=2ahUKEwiLut7ita6RAxVnVkEAHeS2KXk4HhAWegQIEBAB&usg=AOvVaw29pOeGbaRIkVSHZ_mmWzv2" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 16px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease;">Get Themes Here →</a>
+                        <p style="margin-bottom: 8px;"><strong>📂 How to install:</strong> Copy the folder inside the
+                            .zip into the Themes folder on your Y1.</p>
+                        <a href="https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://themes.innioasis.app/&ved=2ahUKEwiLut7ita6RAxVnVkEAHeS2KXk4HhAWegQIEBAB&usg=AOvVaw29pOeGbaRIkVSHZ_mmWzv2"
+                            target="_blank" rel="noopener noreferrer"
+                            style="display: inline-block; padding: 8px 16px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease;">Get
+                            Themes Here →</a>
                     </div>
                 </div>
 
@@ -2023,33 +2102,49 @@
                         <span class="theme-button-description">iPod Classic/Video themes — compatible with Y1</span>
                     </button>
                     <div class="theme-install-instructions" id="rockbox-240p-instructions">
-                        <p style="margin-bottom: 8px;"><strong>📂 How to install:</strong> Copy the contents of the .rockbox folder from the zip into your Y1's .rockbox folder via USB, overwriting files if asked.</p>
-                        <a href="https://themes.rockbox.org/index.php?target=ipodvideo" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 16px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease;">Get Themes Here →</a>
+                        <p style="margin-bottom: 8px;"><strong>📂 How to install:</strong> Copy the contents of the
+                            .rockbox folder from the zip into your Y1's .rockbox folder via USB, overwriting files if
+                            asked.</p>
+                        <a href="https://themes.rockbox.org/index.php?target=ipodvideo" target="_blank"
+                            rel="noopener noreferrer"
+                            style="display: inline-block; padding: 8px 16px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease;">Get
+                            Themes Here →</a>
                     </div>
                 </div>
 
                 <div class="theme-button-container">
                     <button class="theme-button" onclick="toggleThemeInstructions('rockbox-360p')">
                         <span class="theme-button-title">✨ 360p Rockbox Themes</span>
-                        <span class="theme-button-description">High-resolution themes made for the Y1's 360p display</span>
+                        <span class="theme-button-description">High-resolution themes made for the Y1's 360p
+                            display</span>
                     </button>
                     <div class="theme-install-instructions" id="rockbox-360p-instructions">
-                        <p style="margin-bottom: 8px;"><strong>📂 How to install:</strong> Copy the contents of the .rockbox folder from the zip into your Y1's .rockbox folder via USB, overwriting files if asked.</p>
-                        <a href="https://github.com/rockbox-y1/themes/releases/latest" target="_blank" rel="noopener noreferrer" style="display: inline-block; padding: 8px 16px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease;">Get Themes Here →</a>
+                        <p style="margin-bottom: 8px;"><strong>📂 How to install:</strong> Copy the contents of the
+                            .rockbox folder from the zip into your Y1's .rockbox folder via USB, overwriting files if
+                            asked.</p>
+                        <a href="https://github.com/rockbox-y1/themes/releases/latest" target="_blank"
+                            rel="noopener noreferrer"
+                            style="display: inline-block; padding: 8px 16px; background: #6c757d; color: white; text-decoration: none; border-radius: 6px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s ease;">Get
+                            Themes Here →</a>
                     </div>
                 </div>
 
                 <p style="margin-top: 16px; font-size: 0.85rem; opacity: 0.85;">
-                    💡 <strong>Tip:</strong> All these theme directories can also be found in the Toolkit included with <strong><a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a></strong>.
+                    💡 <strong>Tip:</strong> All these theme directories can also be found in the Toolkit included with
+                    <strong><a href="https://innioasis.app/installguide.html" target="_blank"
+                            class="updater-with-icon"><img src="mtkclient/gui/images/icon.png"
+                                alt="">Updater</a></strong>.
                 </p>
             </div>
         </div>
 
         <div class="footer">
-            <p><a href="https://ko-fi.com/teamslide" target="_blank" style="color: inherit; text-decoration: none;">Made with 🩵 by Y1 users, <u><i>for</i></u> Y1 users</a> | 
-               <a href="https://innioasis.app" target="_blank">Innioasis App</a> | 
-               <a href="https://innioasis.app" target="_blank">Slidia</a> | 
-               <a href="https://reddit.com/r/innioasis" target="_blank">r/Innioasis</a></p>
+            <p><a href="https://ko-fi.com/teamslide" target="_blank" style="color: inherit; text-decoration: none;">Made
+                    with 🩵 by Y1 users, <u><i>for</i></u> Y1 users</a> |
+                <a href="https://innioasis.app" target="_blank">Innioasis App</a> |
+                <a href="https://innioasis.app" target="_blank">Slidia</a> |
+                <a href="https://reddit.com/r/innioasis" target="_blank">r/Innioasis</a>
+            </p>
             <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.7;">🍪 Cookies not used by this site</p>
         </div>
     </div>
@@ -2057,52 +2152,56 @@
 
     <!-- Platform-specific dialogs -->
     <div class="dialog-overlay" id="dialogOverlay"></div>
-    
+
     <!-- Windows Dialog -->
     <div class="platform-dialog" id="windowsDialog">
         <h3>🪟 Windows Installation</h3>
-        
+
         <!-- Step 1: Getting Started -->
         <div class="windows-step" id="windowsStep1">
             <div class="step-content">
                 <h4>Getting Started</h4>
-                <p>Before we can install the updater, you'll need two drivers so your computer can talk to your Y1 properly:</p>
-                
+                <p>Before we can install the updater, you'll need two drivers so your computer can talk to your Y1
+                    properly:</p>
+
                 <div class="checklist">
                     <div class="checklist-item">
                         <div class="checklist-content">
                             <h5>📥 MediaTek Driver</h5>
                             <p>This helps your computer recognize your Y1 device</p>
                             <div class="checklist-actions">
-                                <button class="btn btn-primary" onclick="downloadDriver('mtk')">Download MediaTek Driver</button>
-                                <button class="info-btn" onclick="showDriverInfo()" title="Important installation info">Help</button>
-                                <a href="#" onclick="markDriverComplete(); return false;" class="skip-link">Already done this</a>
+                                <button class="btn btn-primary" onclick="downloadDriver('mtk')">Download MediaTek
+                                    Driver</button>
+                                <button class="info-btn" onclick="showDriverInfo()"
+                                    title="Important installation info">Help</button>
+                                <a href="#" onclick="markDriverComplete(); return false;" class="skip-link">Already done
+                                    this</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="step-actions">
                     <button class="btn btn-primary" onclick="nextWindowsStep()">Next →</button>
                     <button class="btn btn-secondary" onclick="closeDialog()">Close</button>
                 </div>
             </div>
         </div>
-        
+
         <!-- Step 2: Install & Run -->
         <div class="windows-step" id="windowsStep2" style="display: none;">
             <div class="step-content">
                 <h4>Install & Run</h4>
                 <p>Now let's get the actual updater app:</p>
                 <button class="btn btn-primary" onclick="downloadWindows()">📥 Download Windows Installer</button>
-                
+
                 <div class="step-actions">
                     <button class="btn btn-secondary" onclick="prevWindowsStep()">← Back</button>
                     <button class="btn btn-primary" onclick="nextWindowsStep()">Next →</button>
                 </div>
             </div>
         </div>
-        
+
         <!-- Step 3: Final Steps -->
         <div class="windows-step" id="windowsStep3" style="display: none;">
             <div class="step-content">
@@ -2110,13 +2209,16 @@
                 <p>Here's what to do next:</p>
                 <ol>
                     <li>Install the MediaTek driver you downloaded</li>
-                    <li>Install <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a></li>
+                    <li>Install <a href="https://innioasis.app/installguide.html" target="_blank"
+                            class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a></li>
                     <li><strong>Restart your computer</strong></li>
-                    <li>Launch <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a> from the Start Menu</li>
+                    <li>Launch <a href="https://innioasis.app/installguide.html" target="_blank"
+                            class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a> from
+                        the Start Menu</li>
                 </ol>
-                
+
                 <p><strong>Important:</strong> Don't skip the restart - it makes sure everything works properly!</p>
-                
+
                 <div class="step-actions">
                     <button class="btn btn-secondary" onclick="prevWindowsStep()">← Back</button>
                     <button class="btn btn-primary" onclick="closeDialog()">Finish</button>
@@ -2128,35 +2230,39 @@
     <!-- macOS Dialog -->
     <div class="platform-dialog" id="macDialog">
         <h3>🍎 macOS Installation</h3>
-        
+
         <!-- Step 1: Prerequisites -->
         <div class="mac-step" id="macStep1">
             <div class="step-content">
                 <h4>Prerequisites</h4>
-                <p>Before installing <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a>, you'll need <a href="https://github.com/Homebrew/brew/releases/latest" target="_blank" class="homebrew-link">Homebrew</a> package manager on your Mac.</p>
+                <p>Before installing <a href="https://innioasis.app/installguide.html" target="_blank"
+                        class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a>, you'll
+                    need <a href="https://github.com/Homebrew/brew/releases/latest" target="_blank"
+                        class="homebrew-link">Homebrew</a> package manager on your Mac.</p>
                 <p>Homebrew helps manage dependencies and ensures everything works smoothly.</p>
-                
+
                 <div class="step-actions">
                     <button class="btn btn-primary" onclick="nextMacStep()">Next →</button>
                     <button class="btn btn-secondary" onclick="closeDialog()">Close</button>
                 </div>
             </div>
         </div>
-        
+
         <!-- Step 2: Download -->
         <div class="mac-step" id="macStep2" style="display: none;">
             <div class="step-content">
-                <h4>Download <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a></h4>
+                <h4>Download <a href="https://innioasis.app/installguide.html" target="_blank"
+                        class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a></h4>
                 <p>Click the button below to download the macOS app package (.dmg file):</p>
                 <button class="btn btn-primary" onclick="downloadMacDMG()">📥 Download for Mac</button>
-                
+
                 <div class="step-actions">
                     <button class="btn btn-secondary" onclick="prevMacStep()">← Back</button>
                     <button class="btn btn-primary" onclick="nextMacStep()">Next →</button>
                 </div>
             </div>
         </div>
-        
+
         <!-- Step 3: Installation -->
         <div class="mac-step" id="macStep3" style="display: none;">
             <div class="step-content">
@@ -2164,19 +2270,22 @@
                 <p>After downloading:</p>
                 <ol>
                     <li>Double-click the .dmg file</li>
-                    <li>Drag <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a> to your Applications folder</li>
+                    <li>Drag <a href="https://innioasis.app/installguide.html" target="_blank"
+                            class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a> to
+                        your Applications folder</li>
                     <li>Launch the app from Applications</li>
                 </ol>
-                
-                <p><strong>Note:</strong> You may need to <a href="#" id="appleGuideLink" target="_blank" class="apple-guide-link">allow apps from unknown developers</a> in System Preferences.</p>
-                
+
+                <p><strong>Note:</strong> You may need to <a href="#" id="appleGuideLink" target="_blank"
+                        class="apple-guide-link">allow apps from unknown developers</a> in System Preferences.</p>
+
                 <div class="step-actions">
                     <button class="btn btn-secondary" onclick="prevMacStep()">← Back</button>
                     <button class="btn btn-primary" onclick="closeDialog()">Finish</button>
                 </div>
             </div>
         </div>
-        
+
         <!-- Alternative Install Method Link -->
         <div class="alternative-install">
             <a href="#" onclick="showMacTerminalInstall(); return false;" class="alternative-link">
@@ -2188,7 +2297,8 @@
     <!-- Linux Dialog -->
     <div class="platform-dialog" id="linuxDialog">
         <h3>🐧 Linux Installation</h3>
-        <p>Ubuntu is recommended for the best experience, but other distributions should work as well. Follow the instructions in the new tab to set up the required dependencies.</p>
+        <p>Ubuntu is recommended for the best experience, but other distributions should work as well. Follow the
+            instructions in the new tab to set up the required dependencies.</p>
         <button class="btn" onclick="openLinuxInstructions()">Open Instructions</button>
         <button class="btn btn-secondary" onclick="closeDialog()">Close</button>
     </div>
@@ -2196,7 +2306,10 @@
     <!-- ChromeOS/FydeOS Dialog -->
     <div class="platform-dialog" id="chromeosDialog">
         <h3>🖥️ ChromeOS/FydeOS</h3>
-        <p>You MAY be able to run <a href="https://innioasis.app/installguide.html" target="_blank" class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a> in Linux mode, but we have not tested this configuration. Follow the Linux instructions in the new tab and try running it in your Linux environment.</p>
+        <p>You MAY be able to run <a href="https://innioasis.app/installguide.html" target="_blank"
+                class="updater-with-icon"><img src="mtkclient/gui/images/icon.png" alt="">Updater</a> in Linux mode, but
+            we have not tested this configuration. Follow the Linux instructions in the new tab and try running it in
+            your Linux environment.</p>
         <p><em>Note: This is experimental and may not work as expected.</em></p>
         <button class="btn" onclick="openLinuxInstructions()">View Linux Instructions</button>
         <button class="btn btn-secondary" onclick="closeDialog()">Close</button>
@@ -2205,7 +2318,8 @@
     <!-- Windows ARM64 Dialog -->
     <div class="platform-dialog" id="windowsArmDialog">
         <h3>🪟 Windows ARM64</h3>
-        <p>For Windows ARM64 users, more advanced users may be able to run the Linux version using Python, Libusb, android-platform-tools, USBIPD-win and WSLg. Ubuntu is recommended.</p>
+        <p>For Windows ARM64 users, more advanced users may be able to run the Linux version using Python, Libusb,
+            android-platform-tools, USBIPD-win and WSLg. Ubuntu is recommended.</p>
         <button class="btn" onclick="openLinuxInstructions()">View Linux Instructions</button>
         <button class="btn btn-secondary" onclick="closeDialog()">Close</button>
     </div>
@@ -2237,14 +2351,14 @@
         function toggleThemeInstructions(themeId) {
             const clickedInstructions = document.getElementById(themeId + '-instructions');
             const allInstructions = document.querySelectorAll('.theme-install-instructions');
-            
+
             // Close all other instructions
             allInstructions.forEach(instructions => {
                 if (instructions.id !== themeId + '-instructions') {
                     instructions.classList.remove('expanded');
                 }
             });
-            
+
             // Toggle the clicked one
             if (clickedInstructions) {
                 clickedInstructions.classList.toggle('expanded');
@@ -2252,9 +2366,9 @@
         }
 
         // Function to toggle tooltip visibility on click/touch (using event delegation for dynamic content)
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Use event delegation for dynamically added tooltips
-            document.body.addEventListener('click', function(e) {
+            document.body.addEventListener('click', function (e) {
                 // Check if we clicked on a link inside a tooltip
                 const linkInTooltip = e.target.closest('.tooltiptext a');
                 if (linkInTooltip) {
@@ -2262,7 +2376,7 @@
                     e.stopPropagation(); // Prevent tooltip from closing
                     return;
                 }
-                
+
                 // Check if we clicked inside a tooltip text area (but not on a link)
                 const insideTooltipText = e.target.closest('.tooltiptext');
                 if (insideTooltipText) {
@@ -2270,20 +2384,20 @@
                     e.stopPropagation();
                     return;
                 }
-                
+
                 const tooltipElement = e.target.closest('.tooltip');
-                
+
                 if (tooltipElement) {
                     e.preventDefault();
                     e.stopPropagation();
-                    
+
                     // Close all other tooltips
                     document.querySelectorAll('.tooltip.active').forEach(t => {
                         if (t !== tooltipElement) {
                             t.classList.remove('active');
                         }
                     });
-                    
+
                     // Toggle this tooltip
                     tooltipElement.classList.toggle('active');
                 } else {
@@ -2298,26 +2412,26 @@
         // Function to parse version names and extract designations with flexible adjective handling
         function parseVersionDesignations(versionName) {
             const designations = [];
-            
+
             // Define adjectives that can modify their nearest neighbor
             const adjectives = ['compatible', 'aware', 'supported', 'enabled', 'disabled', 'ready', 'optimized', 'enhanced'];
-            
+
             // Extract version number - look for version patterns anywhere in the tag name
             // First remove long hex strings at the end (like -13057e75dc29a1a7!)
             let cleanVersion = versionName.replace(/-[a-f0-9]{16,}!?$/, '');
             // Remove any remaining trailing dashes or exclamation marks
             cleanVersion = cleanVersion.replace(/[-!]+$/, '');
-            
+
             // Initialize extractedVersion to null - we'll set it when we find a valid version
             let extractedVersion = null;
-            
+
             // First, try to find a version pattern anywhere in the tag (e.g., "v0.3", "v1.2.3")
             // This handles cases like "Stable-v0.3-ipod-theme-compatible" where version is in the middle
             const versionPattern = cleanVersion.match(/\bv([\d.]+)\b/i);
             if (versionPattern) {
                 extractedVersion = versionPattern[1]; // Extract just the numbers (without "v")
             }
-            
+
             // Fallback: Also check the last part after the last dash (original behavior)
             // This handles cases where version is at the end like "some-tag-v0.3"
             if (!extractedVersion && cleanVersion.includes('-')) {
@@ -2331,34 +2445,34 @@
                     extractedVersion = lastPart;
                 }
             }
-            
+
             // Use extracted version if found, otherwise keep the cleaned tag name
             if (extractedVersion) {
                 cleanVersion = extractedVersion;
             }
-            
+
             // Parse designations from the original version name
             // Split by dashes and process each part
             const parts = versionName.split('-');
-            
+
             for (let i = 0; i < parts.length; i++) {
                 const part = parts[i];
-                
+
                 // Skip if it's the version number part
                 if (/^[\d.]+$/.test(part)) {
                     continue;
                 }
-                
+
                 // Skip if it's a hex string
                 if (/^[a-f0-9]{16,}!?$/.test(part)) {
                     continue;
                 }
-                
+
                 // Skip "Type", "B", "Base", and "Stable" as they are used for device type filtering or stability indication, not display
                 if (part === 'type' || part === 'b' || part === 'base' || part === 'stable') {
                     continue;
                 }
-                
+
                 // Handle special cases first
                 if (part === 'nightly') {
                     designations.push({
@@ -2469,7 +2583,7 @@
                     }
                 }
             }
-            
+
             return {
                 cleanVersion: cleanVersion.trim(),
                 designations: designations
@@ -2482,18 +2596,18 @@
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const yesterday = new Date(today);
             yesterday.setDate(yesterday.getDate() - 1);
-            
+
             const dateOnly = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
             const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
             const yesterdayOnly = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate());
-            
+
             if (dateOnly.getTime() === todayOnly.getTime()) {
                 return "Today";
             } else if (dateOnly.getTime() === yesterdayOnly.getTime()) {
                 return "Yesterday";
             } else {
                 const daysDiff = Math.floor((todayOnly - dateOnly) / (1000 * 60 * 60 * 24));
-                
+
                 if (daysDiff <= 7) {
                     // Within the last week - show day name
                     return dateObj.toLocaleDateString('en-US', { weekday: 'long' });
@@ -2510,7 +2624,7 @@
         // Function to get display version - either version number or published date
         function getDisplayVersion(versionInfo, publishedDate) {
             const versionText = versionInfo.cleanVersion;
-            
+
             // If version is longer than 8 characters, use published date instead
             if (versionText.length > 8) {
                 if (publishedDate) {
@@ -2524,21 +2638,21 @@
                     return "Unknown Date";
                 }
             }
-            
+
             return versionText;
         }
-        
+
 
         // Initialize the app
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             loadData();
             setupEventListeners();
             updateAvailableSoftwareTitle(); // Set initial title
             detectUserOS();
             checkSavedTheme();
-            
+
             // Close driver info modal when clicking outside
-            document.getElementById('driverInfoModal').addEventListener('click', function(e) {
+            document.getElementById('driverInfoModal').addEventListener('click', function (e) {
                 if (e.target === this) {
                     closeDriverInfo();
                 }
@@ -2550,7 +2664,7 @@
             const userAgent = navigator.userAgent;
             let os = 'Windows';
             let isArm64 = false;
-            
+
             if (userAgent.includes('Mac')) {
                 os = 'macOS';
             } else if (userAgent.includes('Linux')) {
@@ -2558,12 +2672,12 @@
             } else if (userAgent.includes('CrOS') || userAgent.includes('FydeOS')) {
                 os = 'ChromeOS/FydeOS';
             }
-            
+
             // Check for Windows ARM64
             if (userAgent.includes('Windows') && (userAgent.includes('ARM64') || userAgent.includes('ARM'))) {
                 isArm64 = true;
             }
-            
+
             // Store platform info globally
             window.userPlatform = { os, isArm64 };
         }
@@ -2573,7 +2687,7 @@
         // Platform-specific download functions
         function downloadForPlatform() {
             const platform = window.userPlatform;
-            
+
             if (platform.isArm64) {
                 showDialog('windowsArmDialog');
             } else if (platform.os === 'Windows') {
@@ -2590,7 +2704,7 @@
         function downloadWindows() {
             // Download Windows installer
             const url = 'https://github.com/y1-community/Innioasis-Updater/releases/latest/download/Innioasis.Updater.-.Windows.exe';
-            
+
             // For Safari, open in new tab, for other browsers use download attribute
             if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
                 window.open(url, '_blank');
@@ -2604,12 +2718,12 @@
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                
+
                 setTimeout(() => {
                     alert('🎉 Download started! The Windows installer is downloading to your Downloads folder.');
                 }, 1000);
             }
-            
+
             // Auto-advance to next step after a short delay
             setTimeout(() => {
                 nextWindowsStep();
@@ -2642,7 +2756,7 @@
                 checklistItem.style.textDecoration = 'line-through';
                 checklistItem.querySelector('.checklist-actions').innerHTML = '<span style="color: #28a745; font-weight: bold;">✓ Completed</span>';
             }
-            
+
             // Auto-advance to next step after a short delay
             setTimeout(() => {
                 nextWindowsStep();
@@ -2654,7 +2768,7 @@
             if (driverType === 'mtk') {
                 const url = 'https://innioasis.app/driverinstall.exe';
                 const filename = 'driver_mtk.exe';
-                
+
                 // For Safari, open in new tab, for other browsers use download attribute
                 if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
                     window.open(url, '_blank');
@@ -2668,7 +2782,7 @@
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
-                    
+
                     setTimeout(() => {
                         alert(`🎉 Download started! The MediaTek driver is downloading to your Downloads folder.`);
                     }, 1000);
@@ -2682,7 +2796,7 @@
 
         function copyMacCommand() {
             const command = '/bin/bash -c "$(curl -fsSL https://mac.innioasis.app)"';
-            
+
             if (navigator.clipboard && window.isSecureContext) {
                 // Use modern clipboard API
                 navigator.clipboard.writeText(command).then(() => {
@@ -2705,14 +2819,14 @@
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
-            
+
             try {
                 document.execCommand('copy');
                 showCopySuccess();
             } catch (err) {
                 console.error('Fallback: Oops, unable to copy', err);
             }
-            
+
             document.body.removeChild(textArea);
         }
 
@@ -2721,7 +2835,7 @@
             const originalText = copyBtn.textContent;
             copyBtn.textContent = '✅ Copied!';
             copyBtn.style.background = 'var(--accent-success)';
-            
+
             setTimeout(() => {
                 copyBtn.textContent = originalText;
                 copyBtn.style.background = 'var(--accent-primary)';
@@ -2735,12 +2849,12 @@
         function showDialog(dialogId) {
             document.getElementById('dialogOverlay').classList.add('show');
             document.getElementById(dialogId).classList.add('show');
-            
+
             // Update Apple guide link if showing macOS dialog
             if (dialogId === 'macDialog') {
                 updateAppleGuideLink();
             }
-            
+
             // Initialize Windows steps if showing Windows dialog
             if (dialogId === 'windowsDialog') {
                 // Hide all steps except first
@@ -2759,7 +2873,7 @@
         }
 
         // Close dialog when clicking overlay
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('dialogOverlay').addEventListener('click', closeDialog);
             checkSavedTheme();
         });
@@ -2767,7 +2881,7 @@
         function updateAvailableSoftwareTitle() {
             const softwareSelect = document.getElementById('software');
             const titleElement = document.getElementById('availableSoftwareTitle');
-            
+
             if (softwareSelect.value) {
                 const selectedText = softwareSelect.options[softwareSelect.selectedIndex].text;
                 titleElement.textContent = selectedText;
@@ -2777,20 +2891,20 @@
         }
 
         function setupEventListeners() {
-            document.getElementById('deviceType').addEventListener('change', function() {
+            document.getElementById('deviceType').addEventListener('change', function () {
                 populateSoftwareCombo();
                 filterFirmware();
             });
-            document.getElementById('deviceModel').addEventListener('change', function() {
-                    updateTypeFilterVisibility();
-                    populateSoftwareCombo();
-                    filterFirmware();
+            document.getElementById('deviceModel').addEventListener('change', function () {
+                updateTypeFilterVisibility();
+                populateSoftwareCombo();
+                filterFirmware();
             });
-            document.getElementById('software').addEventListener('change', function() {
+            document.getElementById('software').addEventListener('change', function () {
                 updateAvailableSoftwareTitle();
                 filterFirmware();
             });
-            document.getElementById('showPrereleases').addEventListener('change', function() {
+            document.getElementById('showPrereleases').addEventListener('change', function () {
                 userPrefersPrereleases = this.checked;
                 filterFirmware();
             });
@@ -2798,7 +2912,7 @@
 
         // Load config.ini tokens for API fallback
         let apiTokens = [];
-        
+
         async function loadConfigTokens() {
             try {
                 const response = await fetch('config.ini');
@@ -2806,11 +2920,11 @@
                     console.warn('Could not load config.ini, using unauthenticated API calls only');
                     return [];
                 }
-                
+
                 const configText = await response.text();
                 const tokens = [];
                 const lines = configText.split('\n');
-                
+
                 for (const line of lines) {
                     const trimmed = line.trim();
                     if (trimmed.startsWith('key_') && trimmed.includes('=')) {
@@ -2820,7 +2934,7 @@
                         }
                     }
                 }
-                
+
                 console.log(`Loaded ${tokens.length} API tokens from config.ini`);
                 return tokens;
             } catch (error) {
@@ -2832,36 +2946,36 @@
         async function loadData() {
             try {
                 setStatus('Loading configuration and manifest data...', 'loading');
-                
+
                 // Load API tokens first
                 apiTokens = await loadConfigTokens();
-                
+
                 // Load manifest data
                 const manifestResponse = await fetch('./slidia_manifest.xml');
                 if (!manifestResponse.ok) {
                     throw new Error('Failed to load manifest');
                 }
-                
+
                 const manifestText = await manifestResponse.text();
                 packages = parseManifest(manifestText);
-                
+
                 if (packages.length === 0) {
                     throw new Error('No packages found in manifest');
                 }
-                
+
                 console.log(`Loaded ${packages.length} software packages`);
-                
+
                 // Populate filters
                 populateDeviceTypeCombo();
                 populateDeviceModelCombo();
                 populateSoftwareCombo();
-                
+
                 // Apply default selections
                 const deviceTypeSelect = document.getElementById('deviceType');
                 const deviceModelSelect = document.getElementById('deviceModel');
                 const softwareSelect = document.getElementById('software');
                 const prereleaseCheckbox = document.getElementById('showPrereleases');
-                
+
                 if (deviceTypeSelect) {
                     deviceTypeSelect.value = currentFilters.deviceType || 'A';
                 }
@@ -2874,35 +2988,35 @@
                 if (prereleaseCheckbox) {
                     prereleaseCheckbox.checked = currentFilters.showPrereleases;
                 }
-                
+
                 updateTypeFilterVisibility();
                 updateAvailableSoftwareTitle();
-                
+
                 // Apply default filters and load firmware
                 filterFirmware();
-                
+
                 // Load initial firmware list
                 await loadFirmwareList();
-                
+
                 setStatus('Ready to download firmware');
-                
+
             } catch (error) {
                 console.error('Error loading data:', error);
                 setStatus(`Error loading data: ${error.message}`, 'error');
             }
         }
 
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
         function parseManifest(xmlText) {
             const parser = new DOMParser();
             const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
             const packageElements = xmlDoc.getElementsByTagName('package');
-            
+
             const packages = [];
             for (let pkg of packageElements) {
                 // Skip packages that have a device_type specified in the manifest
@@ -2912,7 +3026,7 @@
                     console.log(`Skipping package with manifest device_type: ${pkg.getAttribute('name')} (device_type=${manifestDeviceType})`);
                     continue;
                 }
-                
+
                 packages.push({
                     name: pkg.getAttribute('name') || 'Unknown',
                     device_type: '',  // Device type will be determined from release tags, not manifest
@@ -2923,22 +3037,22 @@
                     handler: pkg.getAttribute('handler') || ''
                 });
             }
-            
+
             return packages;
         }
 
         function populateDeviceTypeCombo() {
             const combo = document.getElementById('deviceType');
-            
+
             // Always populate with Type A and Type B since we determine this from release tags
             combo.innerHTML = '';
-            
+
             const typeA = document.createElement('option');
             typeA.value = 'A';
             typeA.textContent = 'Type A';
             typeA.selected = true;  // Set Type A as default
             combo.appendChild(typeA);
-            
+
             const typeB = document.createElement('option');
             typeB.value = 'B';
             typeB.textContent = 'Type B';
@@ -2948,7 +3062,7 @@
         function populateDeviceModelCombo() {
             const combo = document.getElementById('deviceModel');
             const deviceModels = [...new Set(packages.map(p => p.device).filter(m => m))];
-            
+
             combo.innerHTML = '<option value="">All Models</option>';
             deviceModels.sort().forEach(model => {
                 const option = document.createElement('option');
@@ -2960,15 +3074,15 @@
                 }
                 combo.appendChild(option);
             });
-            
+
             // Show/hide Type selector based on selected model
             updateTypeFilterVisibility();
         }
-        
+
         function updateTypeFilterVisibility() {
             const selectedModel = document.getElementById('deviceModel').value;
             const typeFilterGroup = document.getElementById('deviceType').closest('.filter-group');
-            
+
             // Only show Type selector when Y1 is selected
             if (selectedModel && selectedModel.toLowerCase().includes('y1')) {
                 typeFilterGroup.style.display = '';
@@ -2980,16 +3094,16 @@
         function populateSoftwareCombo() {
             const combo = document.getElementById('software');
             const selectedModel = document.getElementById('deviceModel').value;
-            
+
             // Get filtered software names based on model selection only
             // Type filtering happens at the release level now
             const filteredPackages = packages.filter(package => {
                 const modelMatch = !selectedModel || package.device === selectedModel;
                 return modelMatch;
             });
-            
+
             const softwareNames = [...new Set(filteredPackages.map(p => p.name).filter(n => n))];
-            
+
             combo.innerHTML = '';
             softwareNames.sort().forEach(name => {
                 const option = document.createElement('option');
@@ -3009,9 +3123,9 @@
             if (!selectedType) {
                 return true;
             }
-            
+
             const hasTypeB = tagName.toLowerCase().includes('type-b') || tagName.toLowerCase().includes('-b-');
-            
+
             if (selectedType === 'B') {
                 // Type B filter: only show releases with 'type-b' or '-b-' in tag
                 return hasTypeB;
@@ -3020,13 +3134,13 @@
                 return !hasTypeB;
             }
         }
-        
+
         function filterFirmware() {
             currentFilters.deviceType = document.getElementById('deviceType').value;
             currentFilters.deviceModel = document.getElementById('deviceModel').value;
             currentFilters.software = document.getElementById('software').value;
             currentFilters.showPrereleases = document.getElementById('showPrereleases').checked;
-            
+
             loadFirmwareList();
         }
 
@@ -3065,9 +3179,9 @@
                     }
                     // Check if it's a pre-release or nightly
                     const hasStableInTag = tagLower.includes('stable');
-                    let isPrerelease = release.prerelease || release.draft || 
-                                       tagLower.includes('nightly') || 
-                                       tagLower.includes('beta');
+                    let isPrerelease = release.prerelease || release.draft ||
+                        tagLower.includes('nightly') ||
+                        tagLower.includes('beta');
                     // Releases with "stable" in tag name are always treated as stable
                     if (hasStableInTag) {
                         isPrerelease = false;
@@ -3081,7 +3195,7 @@
                 // Only auto-enable if there are NO stable releases
                 // Don't auto-enable if user manually changed the filter (tracked via userPrefersPrereleases)
                 const shouldAutoEnable = !hasStable && !wasShowingPrereleases;
-                
+
                 if (shouldAutoEnable) {
                     console.log('Auto-enabling pre-releases: only pre-releases available for selected option');
                     checkbox.checked = true;
@@ -3097,7 +3211,7 @@
                     checkbox.checked = userPrefersPrereleases;
                     currentFilters.showPrereleases = userPrefersPrereleases;
                 }
-                
+
                 labelText.textContent = 'Include nightly/beta builds';
                 if (currentFilters.showPrereleases && !wasShowingPrereleases) {
                     filterFirmware();
@@ -3117,24 +3231,24 @@
         async function loadFirmwareList() {
             try {
                 setStatus('Loading firmware releases...', 'loading');
-                
+
                 const container = document.getElementById('firmwareContainer');
                 container.innerHTML = '<div class="loading-spinner"></div> Loading...';
-                
+
                 // Get filtered packages (without type filter, since type comes from release tags now)
                 const filteredPackages = packages.filter(pkg => {
                     const modelMatch = !currentFilters.deviceModel || pkg.device === currentFilters.deviceModel;
                     const softwareMatch = !currentFilters.software || pkg.name === currentFilters.software;
-                    
+
                     return modelMatch && softwareMatch;
                 });
-                
+
                 if (filteredPackages.length === 0) {
                     container.innerHTML = '<p style="text-align: center; color: #6c757d;">No firmware found matching the selected filters</p>';
                     setStatus('No firmware found');
                     return;
                 }
-                
+
                 // Group packages by repo to minimize API calls
                 const repoGroups = {};
                 filteredPackages.forEach(pkg => {
@@ -3143,11 +3257,11 @@
                     }
                     repoGroups[pkg.repo].push(pkg);
                 });
-                
+
                 // Load releases for each unique repo (batch requests)
                 const allReleases = [];
                 const allReleasesBeforeFilter = [];  // Track all releases before filtering for prerelease detection
-                
+
                 const repoPromises = Object.keys(repoGroups).map(async (repo) => {
                     try {
                         const releases = await getReleases(repo);
@@ -3156,36 +3270,36 @@
                             if (!releaseMatchesTypeFilter(release.tag_name, currentFilters.deviceType)) {
                                 return; // Skip this release if it doesn't match type filter
                             }
-                            
+
                             // Add metadata for all packages that use this repo
                             repoGroups[repo].forEach(pkg => {
                                 // Determine device type from tag name
-                                const hasTypeB = release.tag_name.toLowerCase().includes('type-b') || 
-                                                release.tag_name.toLowerCase().includes('-b-');
+                                const hasTypeB = release.tag_name.toLowerCase().includes('type-b') ||
+                                    release.tag_name.toLowerCase().includes('-b-');
                                 const deviceType = hasTypeB ? 'B' : 'A';
-                                
+
                                 const releaseWithMetadata = {
                                     ...release,
                                     software_name: pkg.name,
                                     device_type: deviceType,
                                     device_model: pkg.device
                                 };
-                                
+
                                 // Add to all releases (for prerelease detection)
                                 allReleasesBeforeFilter.push(releaseWithMetadata);
-                                
+
                                 // Check if this is a prerelease/nightly/beta
                                 const tagLower = release.tag_name.toLowerCase();
                                 // Releases with "stable" in tag name are always treated as stable, regardless of GitHub flag
                                 const hasStableInTag = tagLower.includes('stable');
-                                let isPrerelease = release.prerelease || release.draft || 
-                                                   tagLower.includes('nightly') || 
-                                                   tagLower.includes('beta');
+                                let isPrerelease = release.prerelease || release.draft ||
+                                    tagLower.includes('nightly') ||
+                                    tagLower.includes('beta');
                                 // If tag contains "stable", override GitHub's pre-release flag and treat as stable
                                 if (hasStableInTag) {
                                     isPrerelease = false;
                                 }
-                                
+
                                 // Only add to display list if checkbox allows it
                                 if (currentFilters.showPrereleases || !isPrerelease) {
                                     allReleases.push(releaseWithMetadata);
@@ -3196,22 +3310,22 @@
                         console.warn(`Failed to load releases for ${repo}:`, error);
                     }
                 });
-                
+
                 // Wait for all repo requests to complete
                 await Promise.all(repoPromises);
-                
+
                 // Sort releases by date (newest first)
                 allReleases.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
                 allReleasesBeforeFilter.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
-                
+
                 // Display releases (also checks for prereleases to show/hide checkbox)
                 displayFirmwareList(allReleases, allReleasesBeforeFilter);
                 setStatus(`Loaded ${allReleases.length} firmware releases`);
-                
+
             } catch (error) {
                 console.error('Error loading firmware list:', error);
                 setStatus(`Error loading firmware: ${error.message}`, 'error');
-                document.getElementById('firmwareContainer').innerHTML = 
+                document.getElementById('firmwareContainer').innerHTML =
                     '<p style="text-align: center; color: #c0392b;">Failed to load firmware list</p>';
             }
         }
@@ -3222,7 +3336,7 @@
                 // This is important because if the first 30 releases are all pre-releases, stable releases won't be shown
                 // Try unauthenticated API call first
                 let response = await fetch(`https://api.github.com/repos/${repo}/releases?per_page=100`);
-                
+
                 // If rate limited and we have tokens, try with authentication
                 if (response.status === 403 && apiTokens.length > 0) {
                     console.log(`Rate limited for ${repo}, trying with authentication...`);
@@ -3234,31 +3348,31 @@
                         }
                     });
                 }
-                
+
                 if (!response.ok) {
                     throw new Error(`GitHub API error: ${response.status}`);
                 }
-                
+
                 const releases = await response.json();
                 return releases
                     .filter(release => {
                         // Only include releases that have a rom.zip file
-                        const hasRomZip = release.assets && release.assets.some(asset => 
+                        const hasRomZip = release.assets && release.assets.some(asset =>
                             asset.name && asset.name.toLowerCase() === 'rom.zip'
                         );
                         return hasRomZip;
                     })
                     .map(release => {
                         // Find the rom.zip asset and get its download count
-                        const romZipAsset = release.assets.find(asset => 
+                        const romZipAsset = release.assets.find(asset =>
                             asset.name && asset.name.toLowerCase() === 'rom.zip'
                         );
-                        
+
                         // Find the update.zip asset if it exists
                         const updateZipAsset = release.assets.find(asset =>
                             asset.name && asset.name.toLowerCase() === 'update.zip'
                         );
-                        
+
                         // Override: Releases with "stable" in tag name are always treated as stable
                         const tagLower = release.tag_name.toLowerCase();
                         const hasStableInTag = tagLower.includes('stable');
@@ -3267,7 +3381,7 @@
                         if (hasStableInTag) {
                             isPrerelease = false;
                         }
-                        
+
                         return {
                             tag_name: release.tag_name,
                             name: release.name || release.tag_name,
@@ -3291,7 +3405,7 @@
 
         function displayFirmwareList(releases, allReleasesBeforeFilter = null) {
             const container = document.getElementById('firmwareContainer');
-            
+
             if (releases.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: #6c757d;">No releases found</p>';
                 // Still check for prereleases even if filtered list is empty
@@ -3300,9 +3414,9 @@
                         const tagLower = release.tag_name.toLowerCase();
                         // Releases with "stable" in tag name are always treated as stable
                         const hasStableInTag = tagLower.includes('stable');
-                        let isPrerelease = release.prerelease || release.draft || 
-                                           tagLower.includes('nightly') || 
-                                           tagLower.includes('beta');
+                        let isPrerelease = release.prerelease || release.draft ||
+                            tagLower.includes('nightly') ||
+                            tagLower.includes('beta');
                         // If tag contains "stable", override GitHub's pre-release flag and treat as stable
                         if (hasStableInTag) {
                             isPrerelease = false;
@@ -3315,13 +3429,13 @@
                 }
                 return;
             }
-            
+
             container.innerHTML = releases.map(release => {
                 // Parse version designations
                 const versionInfo = parseVersionDesignations(release.tag_name);
                 const displayVersion = getDisplayVersion(versionInfo, release.published_at);
                 const versionNeedsScrolling = displayVersion.length > 25;
-                
+
                 // Format download counts
                 const formatDownloadCount = (count) => {
                     if (count >= 1000000) {
@@ -3331,36 +3445,36 @@
                     }
                     return count.toString();
                 };
-                
+
                 // Generate pills HTML
-                const fastUpdatePill = release.has_update_zip ? 
+                const fastUpdatePill = release.has_update_zip ?
                     `<span class="fast-update-pill tooltip">⚡️ Fast Update<span class="tooltiptext" style="color: #fff;">Fast Updates can be installed without resetting your device's Bluetooth and Android settings. Install from <strong style="color: #ffd700;">Innioasis Updater</strong> (recommended for ease of use), this Firmware Directory website, or the GitHub release page.</span></span>` : '';
-                
-                const pillsHTML = versionInfo.designations.length > 0 || fastUpdatePill ? 
+
+                const pillsHTML = versionInfo.designations.length > 0 || fastUpdatePill ?
                     `<div class="version-pills">
                         ${fastUpdatePill}
-                        ${versionInfo.designations.map(designation => 
-                            `<span class="version-pill ${designation.type}">${designation.text}</span>`
-                        ).join('')}
+                        ${versionInfo.designations.map(designation =>
+                        `<span class="version-pill ${designation.type}">${designation.text}</span>`
+                    ).join('')}
                     </div>` : '';
-                
+
                 // Add prerelease/draft indicator if applicable
-                const prereleaseHTML = (release.prerelease || release.draft) ? 
+                const prereleaseHTML = (release.prerelease || release.draft) ?
                     `<span class="version-pill warning" style="background-color: #ff9500; color: white;">${release.draft ? 'Draft' : 'Prerelease'}</span>` : '';
-                
+
                 // Add software name detail
                 const softwareHTML = `<div class="detail-item">
                     <div class="detail-label">Software</div>
                     <div class="detail-value">${release.software_name}</div>
                 </div>`;
-                
+
                 // Only show released date if we're using version number as title
-                const releasedDateHTML = versionInfo.cleanVersion.length <= 8 ? 
+                const releasedDateHTML = versionInfo.cleanVersion.length <= 8 ?
                     `<div class="detail-item">
                         <div class="detail-label">Released</div>
                         <div class="detail-value">${formatDate(release.published_at)}</div>
                     </div>` : '';
-                
+
                 return `
                     <div class="firmware-item" onclick="selectFirmware(this, '${release.software_name}')" data-release-body="${encodeURIComponent(release.body)}" data-release-name="${release.name || release.tag_name}">
                         <div class="firmware-name">${displayVersion}</div>
@@ -3417,7 +3531,7 @@
                     </div>
                 `;
             }).join('');
-            
+
             // Check if any releases are prereleases/nightly/beta and show checkbox if needed
             // Use unfiltered list if provided, otherwise use displayed list
             const releasesToCheck = allReleasesBeforeFilter || releases;
@@ -3425,9 +3539,9 @@
                 const tagLower = release.tag_name.toLowerCase();
                 // Releases with "stable" in tag name are always treated as stable
                 const hasStableInTag = tagLower.includes('stable');
-                let isPrerelease = release.prerelease || release.draft || 
-                                   tagLower.includes('nightly') || 
-                                   tagLower.includes('beta');
+                let isPrerelease = release.prerelease || release.draft ||
+                    tagLower.includes('nightly') ||
+                    tagLower.includes('beta');
                 // If tag contains "stable", override GitHub's pre-release flag and treat as stable
                 if (hasStableInTag) {
                     isPrerelease = false;
@@ -3435,7 +3549,7 @@
                 return isPrerelease;
             });
             updatePrereleaseToggle(hasPreleases, releasesToCheck);
-            
+
             // Add touch handling for scrolling text and check if scrolling is actually needed
             setTimeout(() => {
                 document.querySelectorAll('.firmware-item').forEach(item => {
@@ -3450,7 +3564,7 @@
             document.querySelectorAll('.firmware-item').forEach(item => {
                 item.classList.remove('selected');
             });
-            
+
             // Add selection to clicked item
             element.classList.add('selected');
         }
@@ -3459,11 +3573,11 @@
         function handleScrollingTextTouch(element) {
             const scrollTexts = element.querySelectorAll('.scroll-text');
             scrollTexts.forEach(textElement => {
-                textElement.addEventListener('touchstart', function() {
+                textElement.addEventListener('touchstart', function () {
                     this.style.animationPlayState = 'paused';
                 });
-                
-                textElement.addEventListener('touchend', function() {
+
+                textElement.addEventListener('touchend', function () {
                     setTimeout(() => {
                         this.style.animationPlayState = 'running';
                     }, 1000);
@@ -3492,10 +3606,10 @@
                 if (hasScrollClass) {
                     textElement.classList.remove('scroll-text');
                     textElement.style.whiteSpace = 'nowrap';
-                    
+
                     const naturalWidth = textElement.scrollWidth;
                     const containerWidth = textElement.offsetWidth;
-                    
+
                     // Only add scrolling if text is actually wider than container
                     if (naturalWidth > containerWidth + 10) { // 10px buffer
                         textElement.classList.add('scroll-text');
@@ -3511,14 +3625,14 @@
 
         function goToInnioasisApp(event) {
             event.stopPropagation();
-            
+
             // Direct users to the install guide for automatic installation
             window.open('https://innioasis.app', '_blank');
         }
 
         function goToGitHubRelease(releaseUrl, event) {
             event.stopPropagation();
-            
+
             // Open the specific release page on GitHub in a new tab
             window.open(releaseUrl, '_blank');
         }
@@ -3526,7 +3640,7 @@
         function showBrowserInstallInstructions(event) {
             event.preventDefault();
             event.stopPropagation();
-            
+
             const instructions = `
                 <div style="text-align: left; line-height: 1.8; position: relative;">
                     <button onclick="this.closest('.modal-overlay').remove()" style="position: absolute; top: -8px; right: -8px; background: #6c757d; color: white; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;">×</button>
@@ -3550,39 +3664,39 @@
                     </div>
                 </div>
             `;
-            
+
             // Create a modal-like display
             const modal = document.createElement('div');
             modal.className = 'modal-overlay';
             modal.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 10000; padding: 20px;';
             modal.onclick = () => modal.remove();
-            
+
             const content = document.createElement('div');
             content.style.cssText = 'background: white; border-radius: 12px; padding: 24px; max-width: 600px; max-height: 80vh; overflow-y: auto; box-shadow: 0 8px 32px rgba(0,0,0,0.3); position: relative;';
             content.onclick = (e) => e.stopPropagation();
             content.innerHTML = instructions;
-            
+
             modal.appendChild(content);
             document.body.appendChild(modal);
         }
 
         function showReleaseNotes(tagName, htmlUrl, event) {
             event.stopPropagation();
-            
+
             // Find the firmware item that was clicked
             const firmwareItem = event.target.closest('.firmware-item');
             if (!firmwareItem) {
                 console.error('Could not find firmware item');
                 return;
             }
-            
+
             // Get release body from data attribute
             const releaseBody = decodeURIComponent(firmwareItem.dataset.releaseBody || '');
             const releaseName = firmwareItem.dataset.releaseName || tagName;
-            
+
             // Check if notes are already shown for this item
             let notesContainer = firmwareItem.querySelector('.release-notes-container');
-            
+
             if (notesContainer) {
                 // Toggle visibility
                 if (notesContainer.style.display === 'none') {
@@ -3601,10 +3715,10 @@
                 notesContainer.style.border = '1px solid var(--border-primary)';
                 notesContainer.style.maxHeight = '400px';
                 notesContainer.style.overflowY = 'auto';
-                
+
                 // Parse markdown to basic HTML
                 const notesHTML = releaseBody ? parseMarkdownToHTML(releaseBody) : '<p style="color: #6c757d; font-style: italic;">No release notes available</p>';
-                
+
                 notesContainer.innerHTML = `
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid var(--border-primary); padding-bottom: 10px;">
                         <h4 style="margin: 0; color: var(--text-primary);">What's New in ${releaseName}</h4>
@@ -3617,7 +3731,7 @@
                         ${notesHTML}
                     </div>
                 `;
-                
+
                 firmwareItem.appendChild(notesContainer);
             }
         }
@@ -3625,36 +3739,36 @@
         function parseMarkdownToHTML(markdown) {
             // Simple markdown parser for basic formatting
             let html = markdown;
-            
+
             // Convert headers
             html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
             html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
             html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
-            
+
             // Convert bold
             html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            
+
             // Convert italic
             html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-            
+
             // Convert code blocks
             html = html.replace(/```(.*?)```/gs, '<pre style="background: var(--bg-tertiary); padding: 10px; border-radius: 4px; overflow-x: auto;"><code>$1</code></pre>');
-            
+
             // Convert inline code
             html = html.replace(/`(.*?)`/g, '<code style="background: var(--bg-tertiary); padding: 2px 6px; border-radius: 3px;">$1</code>');
-            
+
             // Convert links
             html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" style="color: var(--accent-primary); text-decoration: none;">$1</a>');
-            
+
             // Convert line breaks to paragraphs
             html = html.split('\n\n').map(para => para.trim() ? `<p style="margin-bottom: 12px;">${para.replace(/\n/g, '<br>')}</p>` : '').join('');
-            
+
             return html;
         }
 
         function downloadRomZip(romZipUrl, event) {
             event.stopPropagation();
-            
+
             // Create download link
             const link = document.createElement('a');
             link.href = romZipUrl;
@@ -3662,7 +3776,7 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            
+
             // Show brief success message
             setTimeout(() => {
                 setStatus('rom.zip download started! Use with Updater, SP Flash Tool, or MTKClient.', 'success');
@@ -3671,11 +3785,11 @@
 
         function downloadUpdateZip(updateZipUrl, event) {
             event.stopPropagation();
-            
+
             // Get the currently selected software name from the dropdown
             const softwareSelect = document.getElementById('software');
             const softwareName = softwareSelect.options[softwareSelect.selectedIndex]?.text || 'this firmware';
-            
+
             // Create download link
             const link = document.createElement('a');
             link.href = updateZipUrl;
@@ -3683,18 +3797,18 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            
+
             // Show instructions after download starts
             setTimeout(() => {
                 alert('⚠️ IMPORTANT - PLEASE READ:\n\n' +
-                      'If this is the FIRST TIME you install ' + softwareName + ' on your Y1, if you don\'t see the Firmware Update option in Main Menu > System, you\'ll need to use a tool like Updater (+ SP Flash Tool or MTKClient) to do this update the first time.\n\n' +
-                      '━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
-                      '📥 Installation Instructions:\n\n' +
-                      '1. Connect your Y1 in USB Mode and copy update.zip to .rockbox/update.zip\n\n' +
-                      '2. Safely disconnect your Y1\n\n' +
-                      '3. Go to Main Menu > System and click Firmware Update\n\n' +
-                      '4. The update process will now run in the background and automatically restart the device once it is done');
-                
+                    'If this is the FIRST TIME you install ' + softwareName + ' on your Y1, if you don\'t see the Firmware Update option in Main Menu > System, you\'ll need to use a tool like Updater (+ SP Flash Tool or MTKClient) to do this update the first time.\n\n' +
+                    '━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+                    '📥 Installation Instructions:\n\n' +
+                    '1. Connect your Y1 in USB Mode and copy update.zip to .rockbox/update.zip\n\n' +
+                    '2. Safely disconnect your Y1\n\n' +
+                    '3. Go to Main Menu > System and click Firmware Update\n\n' +
+                    '4. The update process will now run in the background and automatically restart the device once it is done');
+
                 setStatus('update.zip download started! Check your Downloads folder.', 'success');
             }, 500);
         }
@@ -3719,13 +3833,13 @@
         }
 
         // Handle errors gracefully
-        window.addEventListener('error', function(e) {
+        window.addEventListener('error', function (e) {
             console.error('Global error:', e.error);
             setStatus('An unexpected error occurred', 'error');
         });
 
         // Handle unhandled promise rejections
-        window.addEventListener('unhandledrejection', function(e) {
+        window.addEventListener('unhandledrejection', function (e) {
             console.error('Unhandled promise rejection:', e.reason);
             setStatus('Network or API error occurred', 'error');
         });
@@ -3734,7 +3848,7 @@
         function downloadMacDMG() {
             // Download macOS DMG installer
             const url = 'https://github.com/y1-community/Innioasis-Updater/releases/latest/download/Innioasis.Updater.for.Mac.dmg';
-            
+
             // For Safari, open in new tab, for other browsers use download attribute
             if (navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
                 window.open(url, '_blank');
@@ -3748,12 +3862,12 @@
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                
+
                 setTimeout(() => {
                     alert('🎉 Download started! The DMG file is downloading to your Downloads folder.');
                 }, 1000);
             }
-            
+
             // Auto-advance to next step after a short delay
             setTimeout(() => {
                 nextMacStep();
@@ -3798,7 +3912,7 @@
             // Get macOS version and update the Apple guide link
             const userAgent = navigator.userAgent;
             let macVersion = '14.0'; // Default to macOS 14
-            
+
             if (userAgent.includes('Mac OS X 10_15')) {
                 macVersion = '10.15'; // macOS Catalina
             } else if (userAgent.includes('Mac OS X 11_')) {
@@ -3812,7 +3926,7 @@
             } else if (userAgent.includes('Mac OS X 15_')) {
                 macVersion = '15.0'; // macOS Sequoia
             }
-            
+
             const appleGuideLink = document.getElementById('appleGuideLink');
             if (appleGuideLink) {
                 appleGuideLink.href = `https://support.apple.com/en-gb/guide/mac-help/mh40616/${macVersion}/mac/${macVersion}`;
@@ -3832,7 +3946,7 @@
                 <button class="btn" onclick="copyMacCommand()">📋 Copy Command</button>
                 <button class="btn btn-secondary" onclick="closeTerminalDialog()">Close</button>
             `;
-            
+
             document.body.appendChild(terminalDialog);
             document.getElementById('dialogOverlay').classList.add('show');
         }
@@ -3896,7 +4010,7 @@
             const icon = themeToggle.querySelector('.icon');
             const text = themeToggle.querySelector('span:not(.icon)');
             const currentTheme = localStorage.getItem('theme') || 'auto';
-            
+
             let newTheme;
             if (currentTheme === 'auto') {
                 newTheme = 'light';
@@ -3905,7 +4019,7 @@
             } else {
                 newTheme = 'auto';
             }
-            
+
             localStorage.setItem('theme', newTheme);
             applyTheme(newTheme);
         }
@@ -3916,7 +4030,7 @@
             const themeToggle = document.querySelector('.theme-toggle');
             const icon = themeToggle.querySelector('.icon');
             const text = themeToggle.querySelector('span:not(.icon)');
-            
+
             if (theme === 'auto') {
                 // Check system preference
                 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -3943,7 +4057,7 @@
         function checkSavedTheme() {
             const savedTheme = localStorage.getItem('theme') || 'auto';
             applyTheme(savedTheme);
-            
+
             // Listen for system theme changes when in auto mode
             if (savedTheme === 'auto') {
                 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
@@ -3974,7 +4088,7 @@
                 background: #f0f0f3;
                 padding: 8px 12px;
                 border-radius: 50px;
-                box-shadow: 
+                box-shadow:
                     8px 8px 16px rgba(163, 177, 198, 0.6),
                     -8px -8px 16px rgba(255, 255, 255, 0.5);
                 transition: all 0.3s ease;
@@ -3995,7 +4109,7 @@
                 display: flex;
                 align-items: center;
                 gap: 8px;
-                box-shadow: 
+                box-shadow:
                     4px 4px 8px rgba(163, 177, 198, 0.6),
                     -4px -4px 8px rgba(255, 255, 255, 0.5);
                 transition: all 0.3s ease;
@@ -4003,14 +4117,14 @@
             }
 
             .support-toolbar-btn:hover {
-                box-shadow: 
+                box-shadow:
                     2px 2px 4px rgba(163, 177, 198, 0.6),
                     -2px -2px 4px rgba(255, 255, 255, 0.5);
                 transform: translateY(-1px);
             }
 
             .support-toolbar-btn:active {
-                box-shadow: 
+                box-shadow:
                     inset 2px 2px 4px rgba(163, 177, 198, 0.6),
                     inset -2px -2px 4px rgba(255, 255, 255, 0.5);
                 transform: translateY(0);
@@ -4019,13 +4133,13 @@
             .support-toolbar-btn.primary {
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                 color: white;
-                box-shadow: 
+                box-shadow:
                     4px 4px 8px rgba(102, 126, 234, 0.4),
                     -4px -4px 8px rgba(118, 75, 162, 0.3);
             }
 
             .support-toolbar-btn.primary:hover {
-                box-shadow: 
+                box-shadow:
                     2px 2px 4px rgba(102, 126, 234, 0.4),
                     -2px -2px 4px rgba(118, 75, 162, 0.3);
             }
@@ -4054,7 +4168,7 @@
                 padding: 8px 12px;
                 background: #f0f0f3;
                 border-radius: 12px;
-                box-shadow: 
+                box-shadow:
                     2px 2px 4px rgba(163, 177, 198, 0.6),
                     -2px -2px 4px rgba(255, 255, 255, 0.5);
                 min-width: 140px;
@@ -4134,7 +4248,7 @@
             @media (prefers-color-scheme: dark) {
                 #support-toolbar {
                     background: #2d2d2d;
-                    box-shadow: 
+                    box-shadow:
                         8px 8px 16px rgba(0, 0, 0, 0.4),
                         -8px -8px 16px rgba(60, 60, 60, 0.3);
                 }
@@ -4142,26 +4256,26 @@
                 .support-toolbar-btn {
                     background: #2d2d2d;
                     color: #e0e0e0;
-                    box-shadow: 
+                    box-shadow:
                         4px 4px 8px rgba(0, 0, 0, 0.4),
                         -4px -4px 8px rgba(60, 60, 60, 0.3);
                 }
 
                 .support-toolbar-btn:hover {
-                    box-shadow: 
+                    box-shadow:
                         2px 2px 4px rgba(0, 0, 0, 0.4),
                         -2px -2px 4px rgba(60, 60, 60, 0.3);
                 }
 
                 .support-toolbar-btn:active {
-                    box-shadow: 
+                    box-shadow:
                         inset 2px 2px 4px rgba(0, 0, 0, 0.4),
                         inset -2px -2px 4px rgba(60, 60, 60, 0.3);
                 }
 
                 .crypto-address {
                     background: #2d2d2d;
-                    box-shadow: 
+                    box-shadow:
                         2px 2px 4px rgba(0, 0, 0, 0.4),
                         -2px -2px 4px rgba(60, 60, 60, 0.3);
                 }
@@ -4182,7 +4296,7 @@
 
             body[data-theme="dark"] #support-toolbar {
                 background: #2d2d2d;
-                box-shadow: 
+                box-shadow:
                     8px 8px 16px rgba(0, 0, 0, 0.4),
                     -8px -8px 16px rgba(60, 60, 60, 0.3);
             }
@@ -4190,26 +4304,26 @@
             body[data-theme="dark"] .support-toolbar-btn {
                 background: #2d2d2d;
                 color: #e0e0e0;
-                box-shadow: 
+                box-shadow:
                     4px 4px 8px rgba(0, 0, 0, 0.4),
                     -4px -4px 8px rgba(60, 60, 60, 0.3);
             }
 
             body[data-theme="dark"] .support-toolbar-btn:hover {
-                box-shadow: 
+                box-shadow:
                     2px 2px 4px rgba(0, 0, 0, 0.4),
                     -2px -2px 4px rgba(60, 60, 60, 0.3);
             }
 
             body[data-theme="dark"] .support-toolbar-btn:active {
-                box-shadow: 
+                box-shadow:
                     inset 2px 2px 4px rgba(0, 0, 0, 0.4),
                     inset -2px -2px 4px rgba(60, 60, 60, 0.3);
             }
 
             body[data-theme="dark"] .crypto-address {
                 background: #2d2d2d;
-                box-shadow: 
+                box-shadow:
                     2px 2px 4px rgba(0, 0, 0, 0.4),
                     -2px -2px 4px rgba(60, 60, 60, 0.3);
             }
@@ -4228,7 +4342,8 @@
             }
         </style>
         <div id="support-toolbar">
-            <a href="http://innioasis.app/support_devs.html" class="support-toolbar-btn primary" target="_blank" rel="noopener noreferrer">
+            <a href="http://innioasis.app/support_devs.html" class="support-toolbar-btn primary" target="_blank"
+                rel="noopener noreferrer">
                 <span class="support-toolbar-icon">💙</span>
                 <span>Support Development</span>
             </a>
@@ -4237,15 +4352,18 @@
                 <span>Donate</span>
             </button>
             <div id="donate-options">
-                <a href="https://revolut.me/rspecter" class="support-toolbar-btn" target="_blank" rel="noopener noreferrer">
+                <a href="https://revolut.me/rspecter" class="support-toolbar-btn" target="_blank"
+                    rel="noopener noreferrer">
                     <span class="support-toolbar-icon">💸</span>
                     <span>Revolut</span>
                 </a>
-                <a href="https://ko-fi.com/teamslide" class="support-toolbar-btn" target="_blank" rel="noopener noreferrer">
+                <a href="https://ko-fi.com/teamslide" class="support-toolbar-btn" target="_blank"
+                    rel="noopener noreferrer">
                     <span class="support-toolbar-icon">☕</span>
                     <span>Ko-fi</span>
                 </a>
-                <a href="https://paypal.me/respectyarn" class="support-toolbar-btn" target="_blank" rel="noopener noreferrer">
+                <a href="https://paypal.me/respectyarn" class="support-toolbar-btn" target="_blank"
+                    rel="noopener noreferrer">
                     <span class="support-toolbar-icon">💳</span>
                     <span>PayPal</span>
                 </a>
@@ -4254,47 +4372,51 @@
                         Bitcoin
                         <span class="crypto-copy-hint">(click to copy)</span>
                     </span>
-                    <code class="crypto-code" id="btc-address" onclick="copyCryptoAddress('bc1q9vsjqjr6pjuc3vrgverx0v9ydst8s82ck4kpue', 'btc-address')" title="Click to copy">bc1q9vsjqjr6pjuc3vrgverx0v9ydst8s82ck4kpue</code>
+                    <code class="crypto-code" id="btc-address"
+                        onclick="copyCryptoAddress('bc1q9vsjqjr6pjuc3vrgverx0v9ydst8s82ck4kpue', 'btc-address')"
+                        title="Click to copy">bc1q9vsjqjr6pjuc3vrgverx0v9ydst8s82ck4kpue</code>
                 </div>
                 <div class="crypto-address">
                     <span class="crypto-label">
                         Ethereum
                         <span class="crypto-copy-hint">(click to copy)</span>
                     </span>
-                    <code class="crypto-code" id="eth-address" onclick="copyCryptoAddress('0x3eec22630ca9fd77D22d362bF6C50dE29D3B84c4', 'eth-address')" title="Click to copy">0x3eec22630ca9fd77D22d362bF6C50dE29D3B84c4</code>
+                    <code class="crypto-code" id="eth-address"
+                        onclick="copyCryptoAddress('0x3eec22630ca9fd77D22d362bF6C50dE29D3B84c4', 'eth-address')"
+                        title="Click to copy">0x3eec22630ca9fd77D22d362bF6C50dE29D3B84c4</code>
                 </div>
             </div>
         </div>
         <script>
-            (function() {
+            (function () {
                 const donateToggle = document.getElementById('donate-toggle');
                 const donateOptions = document.getElementById('donate-options');
-                
+
                 if (donateToggle && donateOptions) {
-                    donateToggle.addEventListener('click', function(e) {
+                    donateToggle.addEventListener('click', function (e) {
                         e.preventDefault();
                         e.stopPropagation();
                         donateOptions.classList.toggle('expanded');
                     });
 
                     // Close when clicking outside
-                    document.addEventListener('click', function(e) {
+                    document.addEventListener('click', function (e) {
                         if (!e.target.closest('#support-toolbar-container')) {
                             donateOptions.classList.remove('expanded');
                         }
                     });
 
                     function copyCryptoAddress(address, elementId) {
-                        navigator.clipboard.writeText(address).then(function() {
+                        navigator.clipboard.writeText(address).then(function () {
                             const element = document.getElementById(elementId);
                             const originalText = element.textContent;
                             element.textContent = 'Copied!';
                             element.classList.add('copied');
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 element.textContent = originalText;
                                 element.classList.remove('copied');
                             }, 2000);
-                        }).catch(function(err) {
+                        }).catch(function (err) {
                             console.error('Failed to copy: ', err);
                             alert('Failed to copy to clipboard. Please copy manually: ' + address);
                         });
@@ -4307,4 +4429,5 @@
         </script>
     </div>
 </body>
+
 </html>

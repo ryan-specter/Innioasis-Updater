@@ -1,0 +1,11 @@
+# Robots.txt for innioasis.app
+# Allow all search engines to crawl all content
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://innioasis.app/sitemap.xml
+
+# Crawl-delay (optional - adjust if server load is a concern)
+# Crawl-delay: 1
