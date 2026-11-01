@@ -29,10 +29,15 @@
 
   <!-- Example 1: Non-persistent advisory (can be dismissed without returning at next app run) -->
   <notice id="2026-10-25-firmware-advisory" persistent="false" severity="info" from="2026-10-25" until="2026-12-31" models="Y1,Y2">
-    <title>Announcements in Updater CE</title>
-    <content>You'll get important alerts about issues reported by the community here.</content>
+    <title>Testing Notices in Updater CE</title>
+    <content>You'll get important alerts about device safety issues reported by the community here, such as when devices are being bricked by certain firmware .</content>
     <link>https://innioasis.app</link>
   </notice>
 
+    <notice id="2026-10-25-firmware-advisory" persistent="false" severity="info" from="2026-10-25" until="2026-12-31" models="Y1,Y2">
+    <title>Bricking issue fixed for Rockbox-Y1.</title>
+    <content>Rockbox-Y1 0.5 is now compatible with Y1s sold after April 2026.</content>
+    <link>https://innioasis.app</link>
+  </notice>
 
 </notices>
