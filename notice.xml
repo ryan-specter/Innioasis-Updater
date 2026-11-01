@@ -34,10 +34,5 @@
     <link>https://innioasis.app</link>
   </notice>
 
-  <!-- Example 2: Persistent critical notice (returns on every app launch until expired/removed) -->
-  <notice id="2026-10-20-battery-check" persistent="true" severity="warning" from="2026-10-20" until="2026-11-30">
-    <title>Charge Battery Before Flashing</title>
-    <content>Please ensure your device is charged to at least 50% battery before initiating firmware installation.</content>
-  </notice>
 
 </notices>
