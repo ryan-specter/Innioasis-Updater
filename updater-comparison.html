@@ -3,53 +3,127 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Which updater should you use? · Innioasis Updater CE</title>
-  <meta name="description" content="A plain-English guide to choosing Innioasis Updater CE for community firmware or the manufacturer’s Updater for an official package you already have.">
+  <title>Which tool should I use? Updater CE vs Universal Flash Tool - Innioasis Updater CE</title>
+  <meta name="description" content="A comprehensive comparison between Innioasis Updater CE and the manufacturer Universal Flash Tool (Shared Flash Tool). Discover why creators recommend Innioasis Updater CE.">
+  <meta name="keywords" content="Which tool should I use, Innioasis Updater CE, Innioasis Universal Flash Tool, Shared Flash Tool, Innioasis flashing tool, Rockbox install, Intel Mac support, Timmkoo updater, Software Updates, Custom Firmware downloads">
   <link rel="canonical" href="https://innioasis.app/updater-comparison.html">
   <link rel="icon" href="y1_illustration.png">
-  <link rel="stylesheet" href="site-theme.css?v=20260803">
-  <link rel="stylesheet" href="lumen.css?v=20260823">
-  <link rel="stylesheet" href="site-pages.css?v=20260818">
-  <link rel="stylesheet" href="site-toolbar.css?v=20260901">
-  <script src="site-init.js?v=20260803" defer></script>
+  <link rel="stylesheet" href="site-theme.css?v=20261019d">
+  <link rel="stylesheet" href="lumen.css?v=20261019d">
+  <link rel="stylesheet" href="site-pages.css?v=20261019d">
+  <link rel="stylesheet" href="site-toolbar.css?v=20261019d">
+  <script src="site-init.js?v=20261019d" defer></script>
 </head>
 <body class="site-themes-app">
   <a class="lumen-skip-link" href="#main">Skip to content</a>
   <div id="nav-root"></div>
   <main id="main" class="lumen-guide">
     <header>
-      <p class="lumen-kicker">A simple guide</p>
-      <h1>Pick the updater that fits the job.</h1>
-      <p class="lead">Most people looking for Rockbox or another community project should start with Updater CE. This page keeps the distinction clear without putting it in the way of getting started.</p>
+      <p class="lumen-kicker">Comparison &amp; Technical Guide</p>
+      <h1>Which tool should I use?</h1>
+      <p class="lead">Discover why community creators recommend Innioasis Updater CE: it is built alongside official software and custom software developers, updates without erasing your music and settings, alerts you when new updates arrive, and runs easily on Windows, Linux, and all Macs.</p>
       <div class="lumen-actions">
         <a class="lumen-button lumen-button--primary" href="guide.html#platform">Get Updater CE</a>
-        <a class="lumen-button" href="firmware.html">Browse software</a>
+        <a class="lumen-button" href="firmware.html">Browse Software &amp; Firmware</a>
       </div>
     </header>
 
     <section class="lumen-guide-section" aria-labelledby="ce-title">
       <p class="lumen-kicker">The community route</p>
-      <h2 id="ce-title">Innioasis Updater CE</h2>
-      <p>CE is the original community-made, donation-supported utility for Innioasis Y1 and Y2 players. It loads official firmware from Innioasis and the latest custom releases from the Community Firmware Archive directly in the app.</p>
-      <p>Choose CE for Rockbox, JJ Launcher, Inniclassic, Solar, Y2Player, Koensayr, and similar projects. The app shows the releases that are available for your model, so you do not have to hunt through download links or piece together an old tutorial.</p>
+      <h2 id="ce-title">Innioasis Updater CE (Community Edition)</h2>
+      <p><strong>Innioasis Updater CE</strong> (Community Edition) is the tool community creators recommend first. Born out of an early partnership with Innioasis and built alongside the makers of custom software for Innioasis and Timmkoo devices, it makes updating, customizing, and recovering your player effortless—without ever putting your music or settings at risk.</p>
+      <ul style="margin: 12px 0 16px 20px; line-height: 1.6;">
+        <li><strong>Updates without wiping internal media or settings:</strong> Updater CE updates your player without wiping internal storage. Your settings, paired Bluetooth audio devices (headphones and speakers), and onboard music and videos are safely preserved. (Media stored on microSD cards is not affected by either tool.)</li>
+        <li><strong>Active update notifications:</strong> The app actively notifies you right on your computer when new software updates, features, or stability releases become available for your player.</li>
+        <li><strong>Built alongside custom software developers:</strong> Created hand-in-hand with the developers behind Rockbox, Better-Y, Solar, JJ Launcher, Inniclassic, Y2Player, and original factory software, ensuring smooth compatibility and ongoing project support.</li>
+        <li><strong>Broad support for older and more types of computers:</strong> Works reliably across older and modern machines alike - supporting Intel x86_64 Macs and Apple Silicon Macs (macOS 10.15+), Linux (official AppImage for Intel/AMD), and Windows (Windows 10/11 x64 and experimental ARM64).</li>
+        <li><strong>Self-explanatory interactive prompts:</strong> Guides you through every step directly on screen with visual cues (when to power off, when to plug in USB, and when flashing is complete). No external video manuals or PDF guides needed.</li>
+      </ul>
     </section>
 
     <section class="lumen-guide-section" aria-labelledby="manufacturer-title">
-      <p class="lumen-kicker">The manual route</p>
-      <h2 id="manufacturer-title">Innioasis Updater</h2>
-      <p>The manufacturer-provided tool is for manually flashing an official firmware package that you already have, usually supplied as a <code>.zip</code> or <code>.rar</code> file.</p>
-      <p>If you are looking for community firmware, CE is usually the simpler choice. If you have been given a specific official package and need to flash that exact file manually, the manufacturer’s tool is the relevant route.</p>
+      <p class="lumen-kicker">The manufacturer factory utility</p>
+      <h2 id="manufacturer-title">Innioasis Universal Flashing Tool / Shared Flash Tool</h2>
+      <p>The manufacturer provides the <strong>Universal Flash Tool</strong> (also branded on innioasis.com as the <strong>Innioasis Shared Flash Tool</strong>). It was created strictly for offline manual installations of factory stock software packages and was not designed in collaboration with custom software creators.</p>
+      <ul style="margin: 12px 0 16px 20px; line-height: 1.6;">
+        <li><strong>Wipes internal storage:</strong> Flashing with the shared/universal flash tool wipes internal storage on devices completely. This means having to reconnect Bluetooth audio devices, re-configure all your preferences, and replace your music and videos after every update. (Media on microSD cards is unaffected by either tool.)</li>
+        <li><strong>No update notifications:</strong> An offline-only flasher with no mechanism to alert you when new updates or improvements are released for your player.</li>
+        <li><strong>Not built with custom project creators:</strong> Designed only for official raw ROM archives; community firmware projects are unsupported.</li>
+        <li><strong>Restricted computer compatibility:</strong> The Mac build only runs on Apple Silicon (ARM64) Macs running macOS 15 or later, leaving Intel Mac users with no working tool. It also offers no Linux build and no ARM64 Windows version.</li>
+        <li><strong>High complexity:</strong> Offers no in-app workflow assistance or interactive cues. Because it is confusing for novice users, the manufacturer requires users to consult external video guides and multi-page PDF manuals just to connect and flash.</li>
+      </ul>
+    </section>
+
+    <section class="lumen-guide-section" aria-labelledby="comparison-table-title">
+      <h2 id="comparison-table-title">Feature Comparison</h2>
+      <div style="overflow-x: auto; margin: 16px 0;">
+        <table class="lumen-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.92rem;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--lumen-line-strong, rgba(255,255,255,0.2));">
+              <th style="padding: 10px 14px;">Feature</th>
+              <th style="padding: 10px 14px; color: var(--lumen-accent, #6366f1);">Innioasis Updater CE</th>
+              <th style="padding: 10px 14px; color: var(--lumen-muted, #94a3b8);">Universal / Shared Flash Tool</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--lumen-line, rgba(255,255,255,0.1));">
+              <td style="padding: 10px 14px; font-weight: 600;">Internal storage &amp; settings</td>
+              <td style="padding: 10px 14px; color: #10b981; font-weight: 600;">Updates without wiping; preserves Bluetooth pairings, settings, &amp; onboard music/videos</td>
+              <td style="padding: 10px 14px; color: #ef4444;">Wipes internal storage; requires reconnecting Bluetooth audio &amp; replacing media</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--lumen-line, rgba(255,255,255,0.1));">
+              <td style="padding: 10px 14px; font-weight: 600;">microSD storage</td>
+              <td style="padding: 10px 14px;">Preserved (unaffected)</td>
+              <td style="padding: 10px 14px;">Preserved (unaffected)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--lumen-line, rgba(255,255,255,0.1));">
+              <td style="padding: 10px 14px; font-weight: 600;">Update notifications</td>
+              <td style="padding: 10px 14px;">Yes, actively notifies you in-app when updates are available</td>
+              <td style="padding: 10px 14px;">No notifications</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--lumen-line, rgba(255,255,255,0.1));">
+              <td style="padding: 10px 14px; font-weight: 600;">Developer collaboration</td>
+              <td style="padding: 10px 14px;">Built with original software &amp; alongside custom project developers</td>
+              <td style="padding: 10px 14px;">Factory utility only; no custom software developer collaboration</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--lumen-line, rgba(255,255,255,0.1));">
+              <td style="padding: 10px 14px; font-weight: 600;">Computer support</td>
+              <td style="padding: 10px 14px;">Older &amp; modern machines: Intel &amp; Apple Silicon Macs, Linux, Windows</td>
+              <td style="padding: 10px 14px;">Restricted: Apple Silicon macOS 15+ only (no Intel Macs), Windows x64 only (no Linux)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--lumen-line, rgba(255,255,255,0.1));">
+              <td style="padding: 10px 14px; font-weight: 600;">Ease of use</td>
+              <td style="padding: 10px 14px;">Step-by-step in-app guidance; self-explaining</td>
+              <td style="padding: 10px 14px;">Complex manual process requiring video and PDF manuals</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px 14px; font-weight: 600;">Software catalogue</td>
+              <td style="padding: 10px 14px;">Original Software + Rockbox, Better-Y, Solar, Reborn, Rondo</td>
+              <td style="padding: 10px 14px;">Offline factory stock packages only</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <section class="lumen-guide-section" aria-labelledby="tutorials-title">
-      <h2 id="tutorials-title">What do the tutorials use?</h2>
-      <p>Many community walkthroughs demonstrate the CE workflow, including <a href="https://www.tiktok.com/@catsteal3r/video/7572687586867612942" target="_blank" rel="noopener noreferrer">Catsteal3r’s TikTok</a> and <a href="https://www.youtube.com/watch?v=3d2cATPt8Nk&amp;t=477" target="_blank" rel="noopener noreferrer">Dammit Jeff’s “How To Actually Quit Spotify” video</a>.</p>
-      <div class="lumen-actions"><a class="lumen-button lumen-button--primary" href="guide.html">Read the CE guide</a><a class="lumen-button" href="firmware-faq.html">Help me choose software</a></div>
+      <h2 id="tutorials-title">Why do creators recommend Innioasis Updater CE?</h2>
+      <p>When community creators and reviewers - including <a href="https://www.tiktok.com/@catsteal3r/video/7572687586867612942" target="_blank" rel="noopener noreferrer">Catsteal3r on TikTok</a>, <a href="https://www.youtube.com/watch?v=3d2cATPt8Nk&amp;t=477" target="_blank" rel="noopener noreferrer">Dammit Jeff on YouTube</a>, Daniel T. Gaming, and doitall - guide viewers through installing software on Innioasis and Timmkoo players, they consistently recommend <strong>Innioasis Updater CE</strong>. Here is why:</p>
+      <ul style="margin: 12px 0 16px 20px; line-height: 1.6;">
+        <li><strong>Built with original software &amp; custom developers:</strong> It is built with the original software and developed alongside, in collaboration with, and with the developers in mind of custom software projects for Innioasis and Timmkoo devices (Rockbox, Better-Y, Solar, JJ Launcher, Inniclassic, Y2Player, Koensayr).</li>
+        <li><strong>No wiping of device media &amp; settings:</strong> Updating with Updater CE preserves your internal storage. Your paired Bluetooth audio devices, personalized sound settings, and onboard music and videos stay intact. In contrast, the shared/universal flash tool from Innioasis wipes internal storage on devices, which means having to reconnect Bluetooth audio devices and replace music and videos after updates. (Media stored on microSD cards is not affected by either tool.)</li>
+        <li><strong>Active update alerts:</strong> The app actively notifies you right on your computer as soon as new updates or bug fixes become available for your player.</li>
+        <li><strong>Support for older &amp; more types of computers:</strong> Creators want their tutorials to work seamlessly for every viewer regardless of setup. Updater CE supports older and newer PCs alike - including Intel Macs, Apple Silicon Macs, Linux distributions, and Windows.</li>
+      </ul>
+      <div class="lumen-actions">
+        <a class="lumen-button lumen-button--primary" href="guide.html">Read the CE Installation Guide</a>
+        <a class="lumen-button" href="firmware-faq.html">Help me choose software</a>
+      </div>
     </section>
   </main>
   <div id="footer-root"></div>
   <div id="support-toolbar-slot"></div>
-  <script src="nav.js?v=20260822" defer></script>
+  <script src="nav.js?v=20261019d" defer></script>
   <script src="site-i18n.js?v=20260830" defer></script>
 </body>
 </html>

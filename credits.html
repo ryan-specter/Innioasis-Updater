@@ -391,7 +391,7 @@
         </div>
       </div>
 
-      <p id="unified-dev-intro"><strong>Hey! I'm Ryan, the developer behind <a href="https://innioasis.app" style="color: inherit; text-decoration: underline;" target="_blank" rel="noopener noreferrer">Innioasis Updater CE</a>, the <a href="https://innioasis.app/firmware.html" style="color: inherit; text-decoration: underline;" target="_blank" rel="noopener noreferrer">Community Firmware Archive</a> for Y1 and Y2, and the <a href="https://themes.innioasis.app" style="color: inherit; text-decoration: underline;" target="_blank" rel="noopener noreferrer">Themes Gallery</a>.</strong> I pay for these hobby projects out of my own pocket with my own money to keep them free and accessible for everyone. Server hosting, firmware archive storage, domain renewals, and ongoing maintenance cost around <strong>$200</strong> each month, so any support you can share helps take the weight off and keeps the project thriving for the community!</p>
+      <p id="unified-dev-intro"><strong>Hey! I'm Ryan, the developer behind <a href="https://innioasis.app" style="color: inherit; text-decoration: underline;" target="_blank" rel="noopener noreferrer">Innioasis Updater CE</a>, the <a href="https://innioasis.app/firmware.html" style="color: inherit; text-decoration: underline;" target="_blank" rel="noopener noreferrer">Innioasis Firmware Archive</a> for Y1 and Y2, and the <a href="https://themes.innioasis.app" style="color: inherit; text-decoration: underline;" target="_blank" rel="noopener noreferrer">Themes Gallery</a>.</strong> I pay for these hobby projects out of my own pocket with my own money to keep them free and accessible for everyone. Server hosting, firmware archive storage, domain renewals, and ongoing maintenance cost around <strong>$200</strong> each month, so any support you can share helps take the weight off and keeps the project thriving for the community!</p>
 
       <div class="donation-method-intro">
         <p class="lumen-kicker">Choose your way to help</p>
@@ -562,15 +562,15 @@
       var r = Math.random();
       if (r < 0.40) {
         var familyChoices = [
-          "<strong>Hey! I'm Ryan, the developer behind Innioasis Updater CE, the Community Firmware Archive for Y1 and Y2, and the Themes Gallery.</strong> I pay for server hosting, firmware archive storage, and domain renewals out of my own pocket to keep everything free and open for the community.<br><br>Monthly upkeep comes to around $200. Any support you give not only keeps these resources alive for the next owner, but also directly helps my partner and me raise our family together. Thank you so much!",
-          "<strong>Hey there, I'm Ryan.</strong> I build and maintain Innioasis Updater CE, the Themes Gallery, and our firmware archives as hobby projects. I cover all our running costs—server bandwidth, storage, and domain renewals—with my own money so everyone has free access.<br><br>Your donations help cover our $200 monthly upkeep and directly support my partner and me as we raise our young family. Every contribution makes a real difference to us."
+          "<strong>Hey! I'm Ryan, the developer behind Innioasis Updater CE, the Innioasis Firmware Archive for Y1 and Y2, and the Themes Gallery.</strong> I pay for server hosting, firmware archive storage, and domain renewals out of my own pocket to keep everything free and open for the community.<br><br>Monthly upkeep comes to around $200. Any support you give not only keeps these resources alive for the next owner, but also directly helps my partner and me raise our family together. Thank you so much!",
+          "<strong>Hey there, I'm Ryan.</strong> I build and maintain Innioasis Updater CE, the Themes Gallery, and our firmware archives as hobby projects. I cover all our running costs - server bandwidth, storage, and domain renewals - with my own money so everyone has free access.<br><br>Your donations help cover our $200 monthly upkeep and directly support my partner and me as we raise our young family. Every contribution makes a real difference to us."
         ];
         devIntro.innerHTML = familyChoices[Math.floor(Math.random() * familyChoices.length)];
       } else {
         var standardChoices = [
-          "<strong>Hey! I'm Ryan, the developer behind Innioasis Updater CE, the Community Firmware Archive for Y1 and Y2, and the Themes Gallery.</strong> I pay for our server hosting, firmware archive storage, and domain renewals out of my own pocket with my own money to keep them free and accessible for everyone.<br><br>Keeping everything running costs around $200 each month, so any support you can share helps take the weight off and keeps the project thriving for the community.",
+          "<strong>Hey! I'm Ryan, the developer behind Innioasis Updater CE, the Innioasis Firmware Archive for Y1 and Y2, and the Themes Gallery.</strong> I pay for our server hosting, firmware archive storage, and domain renewals out of my own pocket with my own money to keep them free and accessible for everyone.<br><br>Keeping everything running costs around $200 each month, so any support you can share helps take the weight off and keeps the project thriving for the community.",
           "<strong>Hey, I'm Ryan.</strong> I created Innioasis Updater CE and the Firmware Archive to ensure our devices always have access to working software, custom ROMs, and themes without paywalls or ads. I pay for the servers and domain costs myself each month.<br><br>If you've found the software useful, chipping in helps cover our monthly costs and keeps these archives preserved for everyone.",
-          "<strong>Hey! I'm Ryan, and I maintain Innioasis Updater CE, the Community Firmware Archive, and the Themes Gallery for the community.</strong> I fund the server infrastructure and maintenance out of my own pocket because I love this community and want to keep all tools accessible to everyone.<br><br>Monthly running costs come to about $200. Any contribution you make goes directly toward keeping these services online and maintained."
+          "<strong>Hey! I'm Ryan, and I maintain Innioasis Updater CE, the Innioasis Firmware Archive, and the Themes Gallery for the community.</strong> I fund the server infrastructure and maintenance out of my own pocket because I love this community and want to keep all tools accessible to everyone.<br><br>Monthly running costs come to about $200. Any contribution you make goes directly toward keeping these services online and maintained."
         ];
         devIntro.innerHTML = standardChoices[Math.floor(Math.random() * standardChoices.length)];
       }
@@ -646,8 +646,8 @@
 
     function isAnonymous(n) {
       if (!n) return true;
-      var low = n.toLowerCase().trim();
-      return low === "supporter" || low === "someone" || low === "anonymous" || low === "anon" || low.indexOf("supporter") === 0;
+      var low = String(n).toLowerCase().trim();
+      return !low || low === "supporter" || low === "someone" || low === "anonymous" || low === "anon" || low === "unknown" || low === "null" || low.indexOf("supporter") === 0 || low.indexOf("anonymous") === 0;
     }
 
     function isInnioasisCorporate(n) {
@@ -656,14 +656,17 @@
       return low === "innioasis" || low.indexOf("innioasis") === 0;
     }
 
-    function cleanSupporterName(name) {
-      var clean = String(name || "").trim();
-      clean = clean.replace(/^(?:(?:regular|top)\s+(?:supporters?|contributors?)\s*:?[\s-]*)+/i, "");
-      return clean || "Supporter";
+    function cleanSupporterName(name, isTop) {
+      var raw = String(name || "").trim();
+      var clean = raw.replace(/^(?:(?:regular|top)\s+(?:supporters?|contributors?)\s*:?[\s-]*)+/i, "").trim();
+      if (isAnonymous(clean)) {
+        return isTop ? "A top supporter" : "A supporter";
+      }
+      return clean || (isTop ? "A top supporter" : "A supporter");
     }
 
     function contributorLabel(name, top) {
-      var cleanName = cleanSupporterName(name);
+      var cleanName = cleanSupporterName(name, top);
       var label = top ? "Top Supporter" : "Supporter";
       return /(?:\band\b|[+&])/i.test(cleanName) ? label + "s" : label;
     }
@@ -1110,7 +1113,7 @@
         var isGoalMet = (curMonthRaised >= MONTHLY_TARGET);
         var goalBarText = isGoalMet
           ? "We rely on your donations to keep running. Donate now"
-          : "You've helped us cover $" + raisedStr + " of our $" + targetStr + " costs for this month. All donations are appreciated.";
+          : "You've helped us raise $" + raisedStr + " of our $" + targetStr + " goal this month. All donations are appreciated.";
 
         var goalBarHTML = 
           '<div style="width: 100%; display: flex; flex-direction: column; gap: 4px; align-items: center;">' +
@@ -1169,7 +1172,7 @@
             return;
           }
 
-          var sH = isAn ? "Someone" : '<a href="' + tUrl + '" target="_blank" rel="noopener noreferrer"><strong>' + rawN + '</strong></a>';
+          var sH = isAn ? (isReg ? "<strong>A top supporter</strong>" : "<strong>A supporter</strong>") : '<a href="' + tUrl + '" target="_blank" rel="noopener noreferrer"><strong>' + rawN + '</strong></a>';
 
           var aH = '<a href="' + tUrl + '" target="_blank" rel="noopener noreferrer"><strong>' + aStr + '</strong></a>';
           var mH = '<a href="' + mUrl + '" target="_blank" rel="noopener noreferrer"><strong>' + item.method + '</strong></a>';
@@ -1264,7 +1267,7 @@
         });
 
         allItems.push({
-          name: "Community Firmware Archive",
+          name: "Innioasis Firmware Archive",
           url: "https://innioasis.app/firmware.html",
           amountFormatted: perProjectStr,
           desc: "Preserving and archiving all stock, legacy, and custom ROM firmware packages on high-bandwidth edge mirrors. Maintained by Ryan Specter.",

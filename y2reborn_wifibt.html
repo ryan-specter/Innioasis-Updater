@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wi-Fi, Bluetooth &amp; FM Radio Setup Guide for Reborn (Y2Linux / Y2Reborn) - Innioasis Firmware Archive</title>
+  <meta name="description" content="Complete post-install guide for Reborn (Y2Linux / Y2Reborn) on Innioasis Y2. Download system.img, set up Internal Storage, enable Wi-Fi and Bluetooth, and pair wireless headphones.">
+  <meta name="keywords" content="Y2Reborn Wi-Fi setup, Y2Linux Bluetooth guide, Innioasis Y2 radio firmware, system.img download, Y2Reborn post install, MediaTek radio firmware, OpenMTP macOS, Innioasis Updater CE, Software Updates, Custom Firmware downloads">
+  <link rel="canonical" href="https://innioasis.app/y2reborn_wifibt.html">
+  <link rel="icon" href="y1_illustration.png">
+  <link rel="stylesheet" href="site-theme.css?v=20261019d">
+  <link rel="stylesheet" href="lumen.css?v=20261019d">
+  <link rel="stylesheet" href="site-pages.css?v=20261019d">
+  <link rel="stylesheet" href="site-toolbar.css?v=20261019d">
+  <script src="site-init.js?v=20261019d" defer></script>
+</head>
+<body class="site-themes-app">
+  <a class="lumen-skip-link" href="#main">Skip to content</a>
+  <div id="nav-root"></div>
+  <main id="main" class="lumen-guide">
+    <header>
+      <p class="lumen-kicker">Innioasis Y2 · Reborn Post-Install</p>
+      <h1>Setting up Wi-Fi, Bluetooth &amp; FM Radio on Y2Reborn</h1>
+      <p class="lead">After flashing Reborn (Y2Linux / Y2Reborn) onto your Innioasis Y2 with Updater CE, follow this quick one-time setup to activate your Wi-Fi, Bluetooth headphone pairing, and FM radio using <code>system.img</code>.</p>
+      <div class="lumen-actions">
+        <a class="lumen-button lumen-button--primary" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/system.img" download>Download system.img (860 MB)</a>
+        <a class="lumen-button" href="guides/reborn-y2linux-y2.html">Install Guide</a>
+        <a class="lumen-button" href="reborn-y2linux-benefits.html">Why Y2Reborn?</a>
+      </div>
+    </header>
+
+    <section class="lumen-guide-section" aria-labelledby="why-radio-fw">
+      <h2 id="why-radio-fw">Why does Reborn need system.img?</h2>
+      <div class="lumen-callout">
+        <p>The MediaTek processor in the Innioasis Y2 uses five proprietary firmware modules for wireless hardware: the Wi-Fi RAM microcode, two Bluetooth patch files, the radio calibration modem image, and chip configuration defaults.</p>
+        <p style="margin-top: 8px;">Because these files are proprietary MediaTek software, open-source Y2Linux release images cannot distribute them directly. Instead, they are extracted straight from the official Innioasis Original Software image (<code>system.img</code>, v3.2.0 FM). You only copy this file to the player once: Reborn validates the SHA-256 hashes, extracts the small wireless modules into its permanent data storage, and deletes the large file to leave all your storage free for music.</p>
+      </div>
+    </section>
+
+    <section class="lumen-guide-section" aria-labelledby="step-by-step">
+      <h2 id="step-by-step">Step-by-Step Setup Guide</h2>
+      <ol class="lumen-steps">
+        <li>
+          <strong>Step 1: Download system.img</strong>
+          <p>Download the official verified Original Software <code>system.img</code> file to your computer. This file is from the v3.2.0 FM package that Reborn expects.</p>
+          <div style="margin: 12px 0;">
+            <a class="lumen-button lumen-button--primary" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/system.img" download>
+              <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" style="margin-right: 6px;" aria-hidden="true"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+              Download system.img (Direct GitHub Release)
+            </a>
+            <small style="display: block; margin-top: 6px; color: var(--lumen-muted, #94a3b8);">Mirror copy also available on the community Ko-fi blog. File size is approximately 860 MB unpacked.</small>
+          </div>
+        </li>
+
+        <li>
+          <strong>Step 2: First boot &amp; storage initialization</strong>
+          <p>Unplug the Y2 from your computer after flashing with Updater CE and turn it on with the Power button. On its first boot, the player will display <em>Setting up storage</em> for a few moments as it converts the storage partition into a 5.4 GB ext4 Internal Storage partition for your music library.</p>
+          <p style="margin-top: 6px;">Once the player boots into the Reborn home screen, <strong>restart the player once</strong> (hold Power to power off, then press Power again to turn it back on). This one-time restart ensures Internal Storage is granted its full usable disk space.</p>
+        </li>
+
+        <li>
+          <strong>Step 3: Connect to your computer via USB (MTP)</strong>
+          <p>Connect your powered-on Y2 to your computer using a USB data cable. The player connects using MTP (Media Transfer Protocol) and appears as <strong>Internal Storage</strong> (along with your microSD card if inserted).</p>
+          <div class="lumen-callout" style="border-left-color: #38bdf8; margin: 10px 0;">
+            <strong>Important note for macOS users:</strong>
+            <p style="margin-top: 4px;">macOS does not natively support MTP file transfers in Finder. To browse and copy files to your Y2's Internal Storage partition on a Mac, you will need a free MTP application such as <a href="https://openmtp.ganeshrvel.com/" target="_blank" rel="noopener noreferrer"><strong>OpenMTP</strong></a> (recommended open-source tool) or <strong>Android File Transfer</strong>. Once open, the player's internal storage folders will show up immediately.</p>
+            <p style="margin-top: 4px;">On Windows and Linux, the player mounts automatically in File Explorer or your file manager without any extra software needed.</p>
+          </div>
+        </li>
+
+        <li>
+          <strong>Step 4: Copy system.img into the Firmware folder</strong>
+          <p>Open <strong>Internal Storage</strong> on the player. Look for a folder named <strong><code>Firmware</code></strong>. If the folder does not exist yet, simply create a new folder named <code>Firmware</code> in the root of Internal Storage.</p>
+          <p style="margin-top: 6px;">Copy (do not move) your downloaded <strong><code>system.img</code></strong> file into that <code>Firmware</code> folder. (You can also copy it into a folder named <code>Firmware</code> on your microSD card if preferred).</p>
+        </li>
+
+        <li>
+          <strong>Step 5: Automatic radio firmware activation</strong>
+          <p>Wait approximately 10 to 20 seconds. The Y2 detects <code>system.img</code> automatically, reads the five MediaTek radio firmware modules, verifies each one against its cryptographic SHA-256 hash, and saves them to permanent system storage.</p>
+          <p style="margin-top: 6px;">Once complete, Reborn displays <em>Wi-Fi and Bluetooth are ready</em>! The temporary <code>system.img</code> file and the <code>Firmware</code> folder are automatically deleted from your player to restore your storage space.</p>
+        </li>
+
+        <li>
+          <strong>Step 6: Connect to Wi-Fi &amp; pair Bluetooth headphones</strong>
+          <ul style="margin: 8px 0 0 20px; line-height: 1.6;">
+            <li><strong>Wi-Fi:</strong> Go to <strong>Settings &rarr; System &rarr; Network &rarr; Wi-Fi</strong>, choose your 2.4 GHz wireless network SSID, enter your password using the clickwheel keyboard, and confirm.</li>
+            <li><strong>Bluetooth:</strong> Put your Bluetooth headphones or earbuds into pairing mode. On the Y2, go to <strong>Settings &rarr; Bluetooth</strong>, press the center button to scan, select your headphones, and press connect.</li>
+            <li><strong>FM Radio:</strong> Plug in wired 3.5mm headphones to act as an antenna and open FM Radio.</li>
+          </ul>
+        </li>
+
+        <li>
+          <strong>Step 7: Automatic over-the-air (OTA) updates</strong>
+          <p>From this point onward, every future Y2Linux / Reborn update downloads and installs directly over Wi-Fi without needing a computer: simply navigate to <strong>Settings &rarr; System &rarr; Software Update &rarr; Check for Updates &rarr; Update Now</strong>. Your radio firmware is safely preserved across every update!</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="lumen-guide-section" aria-labelledby="helpfulness-section" style="border-top: 1px solid var(--lumen-line, rgba(255, 255, 255, 0.12)); padding-top: 24px;">
+      <h2 id="helpfulness-section">Was this guide helpful?</h2>
+      <div id="guide-feedback-wrap" style="background: var(--lumen-panel-soft, rgba(255, 255, 255, 0.04)); border: 1px solid var(--lumen-line, rgba(255, 255, 255, 0.1)); border-radius: 12px; padding: 18px 20px;">
+        <p id="guide-feedback-prompt" style="margin: 0 0 12px; font-weight: 600; font-size: 0.96rem;">Did you find this post-install setup guide helpful?</p>
+        <div id="guide-feedback-actions" style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button type="button" id="guide-feedback-yes" class="lumen-button lumen-button--primary" style="cursor: pointer;">
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="currentColor" style="margin-right: 6px;" aria-hidden="true"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"/></svg>
+            Yes, it helped!
+          </button>
+          <a href="https://discord.gg/zHrT2zrcek" target="_blank" rel="noopener noreferrer" class="lumen-button" style="cursor: pointer;">
+            Need help on Discord
+          </a>
+        </div>
+        <div id="guide-feedback-thankyou" hidden style="margin-top: 12px; color: #10b981; font-weight: 600;">
+          Thank you for your feedback! Enjoy your wireless listening on Y2Reborn.
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="footer-root"></div>
+  <div id="support-toolbar-slot"></div>
+  <script src="nav.js?v=20261019d" defer></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var yesBtn = document.getElementById("guide-feedback-yes");
+      var actions = document.getElementById("guide-feedback-actions");
+      var prompt = document.getElementById("guide-feedback-prompt");
+      var thankyou = document.getElementById("guide-feedback-thankyou");
+
+      if (yesBtn) {
+        yesBtn.addEventListener("click", function () {
+          if (actions) actions.style.display = "none";
+          if (prompt) prompt.textContent = "Glad this guide helped you get set up!";
+          if (thankyou) thankyou.hidden = false;
+
+          // Check if user has donations disabled
+          var donationsDisabled = false;
+          try {
+            if (typeof window.isY1DonationsDisabled === "function" && window.isY1DonationsDisabled()) {
+              donationsDisabled = true;
+            }
+            var u = new URL(window.location.href);
+            if (u.searchParams.get("donations") === "false") {
+              donationsDisabled = true;
+            }
+          } catch (_) {}
+
+          if (!donationsDisabled) {
+            setTimeout(function () {
+              if (typeof window.openY1DonatePanel === "function") {
+                window.openY1DonatePanel();
+              } else {
+                var donateBtn = document.querySelector("[data-donate-open]");
+                if (donateBtn) donateBtn.click();
+              }
+            }, 600);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

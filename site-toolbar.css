@@ -11,7 +11,7 @@ body.site-themes-app .site-footer a {
     color: var(--site-muted, #9aa3b5);
 }
 
-/* Standard buttons — no per-theme skinning */
+/* Standard buttons  -  no per-theme skinning */
 body.site-themes-app .btn,
 body.site-themes-app .btn.btn-secondary,
 body.site-themes-app .rckbox-btn {
@@ -114,7 +114,7 @@ body.site-themes-app .theme-card-buttons {
     width: 100%;
 }
 
-/* Theme card header row — status + edit/report/remove */
+/* Theme card header row  -  status + edit/report/remove */
 .theme-card-top {
     display: flex;
     align-items: center;
@@ -195,7 +195,7 @@ body.site-themes-app .theme-card-buttons {
     z-index: 3;
 }
 
-/* —— Unified bottom dock —— */
+/*  -  -  Unified bottom dock  -  -  */
 body.y1-toolbar-thank-you-open { overflow: hidden; }
 
 .y1-toolbar-thank-you-overlay[hidden] { display: none !important; }
@@ -401,7 +401,7 @@ body.y1-toolbar-thank-you-controls-hidden .y1-toolbar-thank-you-close {
     margin-top: 2px;
 }
 
-/* De-emphasised free option link — sits below the paid buttons */
+/* De-emphasised free option link  -  sits below the paid buttons */
 .y1-donate-alt-link {
     margin: 8px 0 0;
     font-size: 0.78rem;
@@ -537,6 +537,28 @@ body.y1-toolbar-thank-you-controls-hidden .y1-toolbar-thank-you-close {
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.12);
     overflow: hidden;
+}
+
+.y1-dock-secondary-bar-wrap[hidden] {
+    display: none !important;
+}
+
+.y1-dock-text-desktop {
+    display: inline;
+}
+
+.y1-dock-text-mobile {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .y1-dock-text-desktop {
+        display: none !important;
+    }
+
+    .y1-dock-text-mobile {
+        display: inline !important;
+    }
 }
 
 .y1-dock-secondary-bar-fill {
@@ -801,7 +823,7 @@ body.y1-donate-panel-open .y1-dock-goal-layer {
     height: 16px;
 }
 
-/* Donate panel — follows the active Lumen theme */
+/* Donate panel  -  follows the active Lumen theme */
 .y1-donate-panel[hidden] { display: none !important; }
 .y1-donate-panel {
     display: none;
@@ -935,7 +957,7 @@ body.y1-donate-panel-open .y1-dock-goal-layer {
     line-height: 1.45;
 }
 
-/* Privacy notice panel — follows the active Lumen theme like the donate panel */
+/* Privacy notice panel  -  follows the active Lumen theme like the donate panel */
 .y1-privacy-panel[hidden] { display: none !important; }
 .y1-privacy-panel {
     display: none;
@@ -1112,7 +1134,7 @@ body.y1-donate-panel-open .y1-dock-goal-layer {
     display: none !important;
 }
 
-/* EU consent banner — fixed bottom bar, shown on visits until decided */
+/* EU consent banner  -  fixed bottom bar, shown on visits until decided */
 .y1-consent-banner {
     position: fixed;
     left: 50%;
@@ -1351,7 +1373,7 @@ body.site-dock-mode:has(#y1-site-dock-privacy-slot #y1-privacy-settings-btn) > #
 }
 
 /* High contrast: solid borders, strong hover fills, and a track that stays
-   visible on the black panel — accessibility over the decorative wash. */
+   visible on the black panel  -  accessibility over the decorative wash. */
 :root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-dock-link:hover,
 :root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-donate-close:hover,
 :root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-consent-btn:hover {
@@ -1433,7 +1455,7 @@ body.site-dock-mode:has(#y1-site-dock-privacy-slot #y1-privacy-settings-btn) > #
     border: 0;
 }
 
-/* —— Developer Message & Donation Goals System —— */
+/*  -  -  Developer Message & Donation Goals System  -  -  */
 .y1-developer-card {
     display: flex;
     align-items: center;

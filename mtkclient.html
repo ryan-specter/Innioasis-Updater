@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MTKClient &amp; Low-Level Recovery Guide - Innioasis &amp; Timmkoo</title>
+  <meta name="description" content="Low-level MediaTek recovery, bootloader unbrick instructions, and driver diagnostics for Innioasis and Timmkoo players using MTKClient and SP Flash Tool.">
+  <link rel="canonical" href="https://innioasis.app/mtkclient.html">
+  <link rel="icon" href="y1_illustration.png">
+  <link rel="stylesheet" href="site-theme.css?v=20261019d">
+  <link rel="stylesheet" href="lumen.css?v=20261019d">
+  <link rel="stylesheet" href="site-pages.css?v=20261019d">
+  <link rel="stylesheet" href="site-toolbar.css?v=20261019d">
+  <script src="site-init.js?v=20261019d" defer></script>
+</head>
+<body class="site-themes-app">
+  <a class="lumen-skip-link" href="#main">Skip to content</a>
+  <div id="nav-root"></div>
+  <main id="main" class="lumen-guide">
+    <header>
+      <p class="lumen-kicker">Advanced Diagnostics · MediaTek</p>
+      <h1>MTKClient &amp; Unbrick Diagnostics</h1>
+      <p class="lead">MTKClient is the underlying open-source MediaTek flashing engine used by Innioasis Updater CE. If a player becomes unresponsive or fails standard flashing, use these recovery diagnostics.</p>
+      <div class="lumen-actions">
+        <a class="lumen-button lumen-button--primary" href="troubleshooting.html">General Troubleshooting</a>
+        <a class="lumen-button" href="drivers.html">Driver Setup Notes</a>
+      </div>
+    </header>
+
+    <section class="lumen-guide-section" aria-labelledby="brom-title">
+      <h2 id="brom-title">Understanding BootROM (BROM) Mode</h2>
+      <p>When powered completely down, the MediaTek MT6572 / MT6580 processor listens on the USB bus for a handshake packet before loading the primary bootloader. If a corrupted flash occurs, BROM mode allows a full recovery rewrite.</p>
+    </section>
+  </main>
+  <div id="footer-root"></div>
+  <div id="support-toolbar-slot"></div>
+  <script src="nav.js?v=20261019d" defer></script>
+</body>
+</html>

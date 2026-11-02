@@ -5,7 +5,7 @@
     /* Resilient self-contained bottom dock layout */
   #support-toolbar-container {
     position: fixed !important;
-    bottom: 18px !important;
+    bottom: 0 !important;
     left: 0 !important;
     right: 0 !important;
     z-index: 10000 !important;
@@ -16,28 +16,62 @@
   }
   #support-toolbar-container .y1-site-dock-wrap {
     pointer-events: auto !important;
-    margin: 0 auto !important;
-    max-width: min(96vw, 1040px) !important;
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    transform: none !important;
+    z-index: 10001 !important;
     box-sizing: border-box !important;
     transition: bottom 0.25s ease, margin-bottom 0.25s ease !important;
   }
   #support-toolbar-container .y1-consent-banner {
     pointer-events: auto !important;
+    position: fixed !important;
+    left: 50% !important;
+    bottom: calc(52px + env(safe-area-inset-bottom, 0px)) !important;
+    transform: translateX(-50%) !important;
     z-index: 10005 !important;
+    width: min(760px, calc(100vw - 20px)) !important;
+    box-sizing: border-box !important;
+  }
+  #support-toolbar-container .y1-consent-banner[hidden] {
+    display: none !important;
+  }
+  #support-toolbar-container .y1-consent-banner:not([hidden]) {
+    display: flex !important;
   }
   #support-toolbar-container .y1-consent-banner * {
     pointer-events: auto !important;
   }
   body.y1-consent-banner-open #support-toolbar-container .y1-site-dock-wrap {
-    bottom: calc(118px + env(safe-area-inset-bottom, 0px)) !important;
-    margin-bottom: calc(105px + env(safe-area-inset-bottom, 0px)) !important;
+    bottom: 0 !important;
+    margin-bottom: 0 !important;
     z-index: 10001 !important;
   }
   @media (max-width: 768px) {
-    body.y1-consent-banner-open #support-toolbar-container .y1-site-dock-wrap {
-      bottom: calc(185px + env(safe-area-inset-bottom, 0px)) !important;
-      margin-bottom: calc(170px + env(safe-area-inset-bottom, 0px)) !important;
+    #support-toolbar-container .y1-consent-banner {
+      bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
     }
+    body.y1-consent-banner-open #support-toolbar-container .y1-site-dock-wrap {
+      bottom: 0 !important;
+      margin-bottom: 0 !important;
+    }
+  }
+  .y1-dock-backdrop {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 10000 !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    pointer-events: auto !important;
+  }
+  .y1-dock-backdrop[hidden] {
+    display: none !important;
   }
   #support-toolbar-container .y1-site-dock-bar {
     display: flex !important;
@@ -45,12 +79,18 @@
     align-items: stretch !important;
     justify-content: center !important;
     gap: 2px !important;
-    padding: 8px 14px 6px !important;
-    border-radius: 999px !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    padding: 4px 16px max(4px, env(safe-area-inset-bottom, 4px)) 16px !important;
+    border-radius: 0 !important;
+    border: none !important;
+    border-top: 1px solid var(--lumen-line-strong, rgba(255, 255, 255, 0.16)) !important;
     background: var(--lumen-panel, var(--site-bg-elevated, #12141c)) !important;
-    border: 1px solid var(--lumen-line-strong, rgba(255, 255, 255, 0.22)) !important;
-    box-shadow: 0 4px 22px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 0 -2px 14px rgba(0, 0, 0, 0.25) !important;
     box-sizing: border-box !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
   }
   #support-toolbar-container .y1-dock-buttons-layer {
     display: flex !important;
@@ -85,14 +125,58 @@
     box-sizing: border-box !important;
   }
   #support-toolbar-container .y1-dock-secondary-goal-view[hidden],
-  #support-toolbar-container .y1-dock-secondary-ticker-view[hidden] {
+  #support-toolbar-container .y1-dock-secondary-ticker-view[hidden],
+  #support-toolbar-container .y1-dock-secondary-bar-wrap[hidden] {
     display: none !important;
+  }
+  #support-toolbar-container .y1-dock-text-desktop {
+    display: inline !important;
+  }
+  #support-toolbar-container .y1-dock-text-mobile {
+    display: none !important;
+  }
+  @media (max-width: 600px) {
+    #support-toolbar-container .y1-dock-text-desktop {
+      display: none !important;
+    }
+    #support-toolbar-container .y1-dock-text-mobile {
+      display: inline !important;
+    }
   }
   /* Remove contributor stream box and goal bar on donation popup modal */
   #support-toolbar-container .y1-contributor-stream-box,
   .y1-donate-panel .y1-contributor-stream-box,
   #y1-contributor-stream-box {
     display: none !important;
+  }
+  #support-toolbar-container .y1-donate-panel,
+  #support-toolbar-container .y1-privacy-panel,
+  .y1-donate-panel,
+  .y1-privacy-panel {
+    position: fixed !important;
+    left: 50% !important;
+    top: 12px !important;
+    bottom: auto !important;
+    transform: translateX(-50%) !important;
+    width: min(94vw, 520px) !important;
+    max-width: calc(100vw - 20px) !important;
+    max-height: calc(100vh - 96px) !important;
+    max-height: calc(100dvh - 96px) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    z-index: 10006 !important;
+    box-sizing: border-box !important;
+  }
+  @media (min-height: 740px) {
+    #support-toolbar-container .y1-donate-panel,
+    #support-toolbar-container .y1-privacy-panel,
+    .y1-donate-panel,
+    .y1-privacy-panel {
+      top: 50% !important;
+      transform: translate(-50%, calc(-50% - 35px)) !important;
+      max-height: calc(100vh - 130px) !important;
+      max-height: calc(100dvh - 130px) !important;
+    }
   }
   #support-toolbar-container .y1-contributor-stream-box {
     box-sizing: border-box;
@@ -108,7 +192,8 @@
   }
   /* The appeal is a permanent second toolbar line, never an idle takeover. */
   #support-toolbar-container .y1-site-dock-wrap.is-idle {
-    width: min(96vw, 1040px) !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
   }
   #support-toolbar-container .y1-site-dock-bar.is-idle .y1-dock-buttons-layer,
   #support-toolbar-container .y1-site-dock-bar.is-idle .y1-dock-secondary-line {
@@ -228,7 +313,7 @@
   <div class="y1-consent-banner" id="y1-consent-banner" role="region" aria-live="polite" aria-label="Privacy choices" hidden>
     <div class="y1-consent-banner-copy">
       <p class="y1-consent-banner-title"><strong>No cookies. No fingerprinting.</strong></p>
-      <p class="y1-consent-banner-text">Innioasis.app — the site for Updater Community Edition — does not use cookies or browser fingerprinting. We remember your site theme and text size, and only the preferences you allow.</p>
+      <p class="y1-consent-banner-text">Innioasis.app  -  the site for Updater Community Edition  -  does not use cookies or browser fingerprinting. We remember your site theme and text size, and only the preferences you allow.</p>
     </div>
     <div class="y1-consent-banner-actions">
       <button type="button" class="y1-consent-btn y1-consent-btn--accept" data-consent-accept>Accept all</button>
@@ -251,7 +336,7 @@
         <button class="y1-donate-close" type="button" data-donate-close aria-label="Close donation options" style="position: static; flex-shrink: 0; margin-left: 8px;">×</button>
       </div>
 
-      <p class="y1-donate-panel-intro" id="y1-donate-panel-intro" style="margin-top: 4px;">Hey! I'm Ryan, the developer behind <a href="https://innioasis.app" style="color: inherit; text-decoration: underline;">Innioasis Updater</a>, the <a href="https://innioasis.app/firmware.html" style="color: inherit; text-decoration: underline;">Community Firmware Archive</a>, and the <a href="https://themes.innioasis.app" style="color: inherit; text-decoration: underline;">Themes Gallery</a>. I pay for these hobby projects out of my own pocket with my own money to keep them free and accessible for everyone. Server hosting, firmware archive storage, domain renewals, and ongoing maintenance cost around $200 each month, so any support you can give is truly appreciated to help cover running costs!</p>
+      <p class="y1-donate-panel-intro" id="y1-donate-panel-intro" style="margin-top: 4px;">Hey! I'm Ryan, the developer behind <a href="https://innioasis.app" style="color: inherit; text-decoration: underline;">Innioasis Updater</a>, the <a href="https://innioasis.app/firmware.html" style="color: inherit; text-decoration: underline;">Innioasis Firmware Archive</a>, and the <a href="https://themes.innioasis.app" style="color: inherit; text-decoration: underline;">Themes Gallery</a>. I pay for these hobby projects out of my own pocket with my own money to keep them free and accessible for everyone. Server hosting, firmware archive storage, domain renewals, and ongoing maintenance cost around $200 each month, so any support you can give is truly appreciated to help cover running costs!</p>
 
       <!-- Quick Method Buttons -->
       <div class="y1-donate-grid">
@@ -315,7 +400,7 @@
         <button class="y1-donate-close" type="button" data-privacy-close aria-label="Close privacy notice">×</button>
       </div>
       <div class="y1-privacy-body">
-        <p><strong data-i18n-skip>Innioasis.app — the site for Updater Community Edition — does not use cookies and does not do any browser fingerprinting.</strong> There are no trackers, no analytics beacons, and no third-party ads.</p>
+        <p><strong data-i18n-skip>Innioasis.app  -  the site for Updater Community Edition  -  does not use cookies and does not do any browser fingerprinting.</strong> There are no trackers, no analytics beacons, and no third-party ads.</p>
         <div class="y1-privacy-options" aria-label="What the site may remember">
           <label class="y1-privacy-option">
             <span class="y1-privacy-option-label"><strong>Remember my "was this useful?" answers</strong><small>Asked on the guide pages.</small></span>
@@ -326,7 +411,7 @@
             <input type="checkbox" class="y1-privacy-toggle" data-privacy-nightly>
           </label>
         </div>
-        <p class="y1-privacy-note">Your site theme and text size are always remembered — they are the look and readability you chose. Links to GitHub, YouTube, Discord, Ko-fi, PayPal, Revolut, and Patreon open those sites' own pages, which have their own policies.</p>
+        <p class="y1-privacy-note">Your site theme and text size are always remembered  -  they are the look and readability you chose. Links to GitHub, YouTube, Discord, Ko-fi, PayPal, Revolut, and Patreon open those sites' own pages, which have their own policies.</p>
       </div>
       <div class="y1-privacy-actions">
         <button type="button" class="y1-privacy-save" data-privacy-save>Save choices</button>
@@ -336,6 +421,8 @@
     <nav class="y1-site-dock-bar" id="y1-site-dock-bar" aria-label="Site shortcuts">
       <!-- Shortcut layer remains visible above the permanent donation line. -->
       <div class="y1-dock-buttons-layer" id="y1-dock-buttons-layer">
+        <a class="y1-dock-link" href="https://reddit.com/r/innioasis" target="_blank" rel="noopener noreferrer"><svg class="y1-dock-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>Reddit</a>
+        <span class="y1-dock-sep" aria-hidden="true">·</span>
         <a class="y1-dock-link" href="https://discord.gg/zHrT2zrcek" target="_blank" rel="noopener noreferrer"><svg class="y1-dock-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M20.32 4.37a19.8 19.8 0 0 0-4.89-1.52.07.07 0 0 0-.08.04c-.21.38-.44.87-.6 1.25a18.3 18.3 0 0 0-5.5 0 12.6 12.6 0 0 0-.61-1.25.08.08 0 0 0-.08-.04 19.7 19.7 0 0 0-4.88 1.52.07.07 0 0 0-.04.03C.53 9.05-.32 13.58.1 18.06c0 .02.01.04.03.05a19.9 19.9 0 0 0 6 3.03.08.08 0 0 0 .08-.03c.46-.63.87-1.3 1.22-2a.08.08 0 0 0-.04-.11 13 13 0 0 1-1.86-.89.08.08 0 0 1-.01-.13c.12-.09.25-.19.36-.29a.07.07 0 0 1 .08-.01c3.9 1.8 8.13 1.8 11.99 0a.07.07 0 0 1 .08.01c.12.1.24.2.37.29a.08.08 0 0 1 0 .13 12.5 12.5 0 0 1-1.87.88.08.08 0 0 0-.04.12c.36.7.77 1.37 1.22 2a.08.08 0 0 0 .08.03 19.8 19.8 0 0 0 6.02-3.03.08.08 0 0 0 .03-.05c.5-5.18-.84-9.68-3.55-13.66a.06.06 0 0 0-.03-.03zM8.02 15.33c-1.18 0-2.16-1.08-2.16-2.42 0-1.33.96-2.42 2.16-2.42 1.21 0 2.18 1.1 2.16 2.42 0 1.34-.96 2.42-2.16 2.42zm7.97 0c-1.18 0-2.15-1.08-2.15-2.42 0-1.33.95-2.42 2.15-2.42 1.22 0 2.18 1.1 2.16 2.42 0 1.34-.94 2.42-2.16 2.42z"/></svg>Discord</a>
         <span class="y1-dock-sep" aria-hidden="true">·</span>
         <button class="y1-dock-link y1-donate-trigger" type="button" data-donate-open aria-expanded="false" aria-controls="y1-donate-panel"><svg class="y1-dock-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>Donate</button>
@@ -349,13 +436,18 @@
           <button class="y1-dock-link y1-font-btn y1-font-btn--reset" type="button" data-font-reset aria-label="Reset text size">A</button>
           <button class="y1-dock-link y1-font-btn y1-font-btn--large" type="button" data-font-up aria-label="Larger text">A+</button>
         </span>
+        <span class="y1-dock-sep" aria-hidden="true">·</span>
+        <button class="y1-dock-link y1-dock-close-btn" type="button" data-dock-close aria-label="Close bottom toolbar" title="Close toolbar" style="font-size: 1.25rem; line-height: 1; padding: 0 5px; cursor: pointer; background: transparent; border: none; color: inherit; opacity: 0.72; transition: opacity 0.15s ease;">&times;</button>
         <span class="y1-font-live" id="y1-font-live" aria-live="polite"></span>
       </div>
       <!-- The donation appeal is always a calm, readable second line below the shortcuts. -->
-      <div class="y1-dock-secondary-line" id="y1-dock-secondary-line" aria-label="Monthly support goal and community contributions — click to support" role="button" tabindex="0">
+      <div class="y1-dock-secondary-line" id="y1-dock-secondary-line" aria-label="Monthly support goal and community contributions - click to support" role="button" tabindex="0">
         <div class="y1-dock-secondary-goal-view" id="y1-dock-secondary-goal-view">
-          <span class="y1-dock-secondary-text" id="y1-dock-secondary-text">You've helped us cover $0 of $200 costs for this month.</span>
-          <div class="y1-dock-secondary-bar-wrap" aria-hidden="true"><div class="y1-dock-secondary-bar-fill" id="y1-dock-secondary-bar-fill"></div></div>
+          <span class="y1-dock-secondary-text" id="y1-dock-secondary-text">
+            <span class="y1-dock-text-desktop">You've helped us raise $0 of our $200 goal this month.</span>
+            <span class="y1-dock-text-mobile">$0 of $200 raised this month</span>
+          </span>
+          <div class="y1-dock-secondary-bar-wrap" id="y1-dock-secondary-bar-wrap" aria-hidden="true"><div class="y1-dock-secondary-bar-fill" id="y1-dock-secondary-bar-fill"></div></div>
         </div>
         <div class="y1-dock-secondary-ticker-view" id="y1-dock-secondary-ticker-view" hidden>
           <span class="y1-dock-secondary-ticker" id="y1-dock-secondary-ticker-text">Loading supporters...</span>
@@ -369,7 +461,7 @@
           <div class="y1-dock-goal-bar-wrap" aria-hidden="true">
             <div class="y1-dock-goal-bar-fill" id="y1-dock-idle-bar-fill"></div>
           </div>
-          <span class="y1-dock-goal-text" id="y1-dock-idle-goal-text">You've helped us cover $0 of $200 costs for this month.</span>
+          <span class="y1-dock-goal-text" id="y1-dock-idle-goal-text">You've helped us raise $0 of $200 for this month.</span>
         </div>
         <div class="y1-dock-idle-ticker-view" id="y1-dock-idle-ticker-view" aria-live="polite" hidden>
           <span class="y1-dock-idle-ticker" id="y1-dock-idle-ticker-text">Loading...</span>
@@ -586,21 +678,13 @@
   }
 
   function getRotatingAppealCopy() {
-    var r = Math.random();
-    if (r < 0.40) {
-      var familyChoices = [
-        "Hey! I'm Ryan, the developer behind <a href=\"https://innioasis.app\" style=\"color: inherit; text-decoration: underline;\">Innioasis Updater</a>, the <a href=\"https://innioasis.app/firmware.html\" style=\"color: inherit; text-decoration: underline;\">Community Firmware Archive</a>, and the <a href=\"https://themes.innioasis.app\" style=\"color: inherit; text-decoration: underline;\">Themes Gallery</a>. I pay for server hosting, firmware archive storage, and domain renewals out of my own pocket to keep everything free and open for the community.<br><br>Monthly upkeep comes to around $200. Any support you give not only keeps these resources alive for the next owner, but also directly helps my partner and me raise our family together. Thank you so much!",
-        "Hey there, I'm Ryan. I build and maintain <a href=\"https://innioasis.app\" style=\"color: inherit; text-decoration: underline;\">Innioasis Updater</a>, the Themes Gallery, and our firmware archives as hobby projects. I cover all our running costs—server bandwidth, storage, and domain renewals—with my own money so everyone has free access.<br><br>Your donations help cover our $200 monthly upkeep and directly support my partner and me as we raise our young family. Every contribution makes a real difference to us."
-      ];
-      return familyChoices[Math.floor(Math.random() * familyChoices.length)];
-    } else {
-      var standardChoices = [
-        "Hey! I'm Ryan, the developer behind <a href=\"https://innioasis.app\" style=\"color: inherit; text-decoration: underline;\">Innioasis Updater</a>, the <a href=\"https://innioasis.app/firmware.html\" style=\"color: inherit; text-decoration: underline;\">Community Firmware Archive</a>, and the <a href=\"https://themes.innioasis.app\" style=\"color: inherit; text-decoration: underline;\">Themes Gallery</a>. I pay for our server hosting, firmware archive storage, and domain renewals out of my own pocket with my own money to keep them free and accessible for everyone.<br><br>Keeping everything online costs around $200 each month, so any support you can share helps take the weight off and keeps the project thriving for the community.",
-        "Hey, I'm Ryan. I created <a href=\"https://innioasis.app\" style=\"color: inherit; text-decoration: underline;\">Innioasis Updater</a> and the Firmware Archive to ensure our devices always have access to working software, custom ROMs, and themes without paywalls or ads. I pay for the servers and domain costs myself each month.<br><br>If you've found the software useful, chipping in helps cover our monthly costs and keeps these archives preserved for everyone.",
-        "Hey! I'm Ryan, and I maintain <a href=\"https://innioasis.app\" style=\"color: inherit; text-decoration: underline;\">Innioasis Updater</a>, the Community Firmware Archive, and the Themes Gallery for the community. I fund the server infrastructure and maintenance out of my own pocket because I love this community and want to keep all tools accessible to everyone.<br><br>Monthly running costs come to about $200. Any contribution you make goes directly toward keeping these services online and maintained."
-      ];
-      return standardChoices[Math.floor(Math.random() * standardChoices.length)];
-    }
+    var appealChoices = [
+      "Hey! I'm Ryan, the developer behind <a href=\"https://innioasis.app\" style=\"color: inherit; text-decoration: underline;\">Innioasis Updater</a>, the <a href=\"https://innioasis.app/firmware.html\" style=\"color: inherit; text-decoration: underline;\">Innioasis Firmware Archive</a>, and the <a href=\"https://themes.innioasis.app\" style=\"color: inherit; text-decoration: underline;\">Themes Gallery</a>. I pay for our server hosting, high-speed firmware mirror bandwidth, and domain renewals out of my own pocket so everything remains 100% free and open for the community.<br><br>Monthly running costs come to around $200. Over 90% of our infrastructure is funded by small community contributions of $3 to $5. If this software saved your device or helped you enjoy your player today, chipping in the price of a coffee makes an enormous difference!",
+      "Hey there, I'm Ryan. I build and maintain <a href=\"https://innioasis.app\" style=\"color: inherit; text-decoration: underline;\">Innioasis Updater</a>, the Themes Gallery, and our firmware archives as independent community tools. We have zero ads, no paywalls, and no sponsored trackers - just pure community software.<br><br>Server hosting and archive storage cost around $200 each month. Your donations cover our upkeep directly and help my partner and me as we raise our young family. Every contribution, big or small, keeps these resources preserved for the next owner.",
+      "Did Updater CE or the Firmware Archive help unbrick your device or install custom software today? Official manufacturer links frequently go down, but our community archive preserves every firmware, restore package, and theme forever.<br><br>It takes around $200 a month to host these multi-gigabyte downloads and tools without paywalls. If just 1 in 50 visitors chipped in the price of a single coffee, our servers would be fully funded all year round. Thank you for supporting open audio!",
+      "Hey! I'm Ryan, and I maintain <a href=\"https://innioasis.app\" style=\"color: inherit; text-decoration: underline;\">Innioasis Updater</a>, the Firmware Archive, and the Themes Gallery. I cover our server bills out of my own pocket because I believe everyone deserves free, reliable access to their device's software.<br><br>Any donation you share directly funds fast, unthrottled download mirrors and ongoing development for new Innioasis and Timmkoo firmware builds."
+    ];
+    return appealChoices[Math.floor(Math.random() * appealChoices.length)];
   }
 
   function setPanel(panel, button, value, closeButton) {
@@ -611,6 +695,9 @@
     panel.hidden = !value;
     panel.classList.toggle("is-open", value);
     panel.classList.toggle("y1-privacy-panel--open", value && panel === privacyPanel);
+    if (value) {
+      panel.scrollTop = 0;
+    }
     // Keep the modal's donor stream as the only donation display while it is
     // open; the dock appeal is hidden until the modal closes.
     document.body.classList.toggle("y1-donate-panel-open", value && panel === donatePanel);
@@ -624,7 +711,7 @@
     banner.hidden = !value;
     banner.setAttribute("aria-hidden", value ? "false" : "true");
     document.body.classList.toggle("y1-consent-banner-open", !!value);
-    if (backdrop) backdrop.hidden = !(value || !donatePanel.hidden || !privacyPanel.hidden);
+    syncBackdrop();
   }
 
   function prefillToggles() {
@@ -819,7 +906,23 @@
 
   if (!hasDecided()) setBanner(true);
 
-  /* ————— Permanent second-line donation appeal ————— */
+  var dockCloseBtn = document.querySelector("[data-dock-close]");
+  if (dockCloseBtn) {
+    dockCloseBtn.addEventListener("click", function (e) {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      var container = document.getElementById("support-toolbar-container");
+      if (container) container.style.display = "none";
+      try { sessionStorage.setItem("y1-dock-dismissed", "1"); } catch (_) {}
+    });
+  }
+  try {
+    if (sessionStorage.getItem("y1-dock-dismissed") === "1") {
+      var dismissedContainer = document.getElementById("support-toolbar-container");
+      if (dismissedContainer) dismissedContainer.style.display = "none";
+    }
+  } catch (_) {}
+
+  /* - - - - - Permanent second-line donation appeal - - - - - */
   (function () {
     var secondaryLine = document.getElementById("y1-dock-secondary-line");
     var secondaryText = document.getElementById("y1-dock-secondary-text");
@@ -855,21 +958,110 @@
       if (donationLineInterval) clearInterval(donationLineInterval);
       var donorLines = Array.isArray(tickerHtml) ? tickerHtml.filter(Boolean) : (tickerHtml ? [tickerHtml] : []);
       var raisedLabel = (raised % 1 === 0) ? raised.toFixed(0) : raised.toFixed(2);
-      var goalLine = (raised >= target)
-        ? "We rely on your donations to keep running. Donate now"
-        : "Help us raise our running costs for the month · You've helped us cover $" + raisedLabel + " of $" + target.toFixed(0) + " costs for this month.";
-      var annualLine = "If everyone visiting today donated, we'd be able to run for a year";
-      var states = [{ type: "goal", html: goalLine }, { type: "ticker", html: annualLine }];
-      var appealIndex = 1;
+      var remaining = Math.max(0, target - raised);
+      var remLabel = (remaining % 1 === 0) ? remaining.toFixed(0) : remaining.toFixed(2);
+      var secondaryBarWrap = document.getElementById("y1-dock-secondary-bar-wrap") || (secondaryBarFill ? secondaryBarFill.parentElement : null);
+
+      function makeGoalState(phraseObj) {
+        return {
+          type: "goal",
+          desktop: phraseObj.desktop,
+          mobile: phraseObj.mobile,
+          isTarget: Boolean(phraseObj.isTarget)
+        };
+      }
+
+      var targetPhrase = (raised >= target)
+        ? {
+            desktop: "Monthly target reached ($" + raisedLabel + " of $" + target.toFixed(0) + ")! Thank you!",
+            mobile: "Monthly target reached ($" + raisedLabel + " raised)!",
+            isTarget: true
+          }
+        : {
+            desktop: "You've helped us raise $" + raisedLabel + " of our $" + target.toFixed(0) + " goal this month",
+            mobile: "$" + raisedLabel + " of $" + target.toFixed(0) + " raised this month",
+            isTarget: true
+          };
+
+      var generalPhrases = (raised >= target)
+        ? [
+            targetPhrase,
+            {
+              desktop: "100% community powered with zero ads or tracking  -  thank you to our supporters!",
+              mobile: "100% community powered with zero ads  -  thank you!",
+              isTarget: false
+            },
+            {
+              desktop: "Every extra coffee funds future tool mirrors and development.",
+              mobile: "Extra donations fund future mirrors & development",
+              isTarget: false
+            }
+          ]
+        : [
+            targetPhrase,
+            {
+              desktop: "Only $" + remLabel + " more needed to reach our $" + target.toFixed(0) + " monthly goal.",
+              mobile: "Only $" + remLabel + " needed to reach $" + target.toFixed(0) + " goal",
+              isTarget: true
+            },
+            {
+              desktop: "Over 90% of our hosting and tools are funded by small community gifts of $3 to $5.",
+              mobile: "90% of hosting is funded by small $3–$5 gifts",
+              isTarget: false
+            },
+            {
+              desktop: "Saved your player with a free firmware download? Consider buying us a coffee.",
+              mobile: "Saved your player? Buy us a coffee to keep us online",
+              isTarget: false
+            },
+            {
+              desktop: "Less than the price of a single coffee keeps our download servers online this month.",
+              mobile: "A single coffee keeps our servers online this month",
+              isTarget: false
+            },
+            {
+              desktop: "100% community powered with zero ads, tracking, or paywalls  -  chip in $3 to support development.",
+              mobile: "Zero ads or paywalls  -  chip in $3 to support us",
+              isTarget: false
+            },
+            {
+              desktop: "7 community members supported the project this week  -  join them to keep downloads free for everyone.",
+              mobile: "7 members supported us this week  -  join them",
+              isTarget: false
+            },
+            {
+              desktop: "If just 1 in 50 visitors bought us a coffee, our servers would be fully funded all year round.",
+              mobile: "If 1 in 50 visitors bought a coffee, we'd be funded",
+              isTarget: false
+            }
+          ];
+
+      // Shuffle rotating phrases for varied psychological triggers
+      var rotatingPhrases = generalPhrases.slice();
+      for (var pi = rotatingPhrases.length - 1; pi > 0; pi--) {
+        var pj = Math.floor(Math.random() * (pi + 1));
+        var pTmp = rotatingPhrases[pi];
+        rotatingPhrases[pi] = rotatingPhrases[pj];
+        rotatingPhrases[pj] = pTmp;
+      }
+
+      var states = [];
+      var phraseIdx = 0;
+      function nextPhrase() {
+        var p = rotatingPhrases[phraseIdx % rotatingPhrases.length];
+        phraseIdx++;
+        return makeGoalState(p);
+      }
+
+      states.push(makeGoalState(targetPhrase));
       donorLines.forEach(function (line, index) {
-        if (index && index % 2 === 0) {
-          states.push(appealIndex % 2 === 1 ? { type: "ticker", html: annualLine } : { type: "goal", html: goalLine });
-          appealIndex += 1;
+        if (index > 0 && index % 2 === 0) {
+          states.push(nextPhrase());
         }
         states.push({ type: "ticker", html: line });
       });
       if (donorLines.length < 2) {
-        states.push({ type: "ticker", html: annualLine });
+        states.push(nextPhrase());
       }
       if (states.length) {
         var stateIndex = 0;
@@ -880,7 +1072,23 @@
           if (secondaryTickerEl) secondaryTickerEl.style.opacity = "0";
           setTimeout(function () {
             if (showingGoal) {
-              if (secondaryText) secondaryText.textContent = state.html;
+              if (secondaryText) {
+                if (state.desktop && state.mobile) {
+                  secondaryText.innerHTML = '<span class="y1-dock-text-desktop">' + state.desktop + '</span>' +
+                                            '<span class="y1-dock-text-mobile">' + state.mobile + '</span>';
+                } else {
+                  secondaryText.textContent = state.desktop || state.html || "";
+                }
+              }
+              if (secondaryBarWrap) {
+                if (state.isTarget) {
+                  secondaryBarWrap.hidden = false;
+                  secondaryBarWrap.style.display = "";
+                } else {
+                  secondaryBarWrap.hidden = true;
+                  secondaryBarWrap.style.display = "none";
+                }
+              }
               if (secondaryGoalView) {
                 secondaryGoalView.hidden = false;
                 secondaryGoalView.style.display = "";
@@ -912,7 +1120,7 @@
 
   })();
 
-  /* ————— Donors CSV Data & Monthly Goal Engine ————— */
+  /*  -  -  -  -  -  Donors CSV Data & Monthly Goal Engine  -  -  -  -  -  */
   var METHOD_URLS = {
     "ko-fi": "https://ko-fi.com/teamslide",
     "kofi": "https://ko-fi.com/teamslide",
@@ -993,18 +1201,21 @@
 
   function isAnonymous(n) {
     if (!n) return true;
-    var low = n.toLowerCase().trim();
-    return low === "supporter" || low === "someone" || low === "anonymous" || low === "anon" || low.indexOf("supporter") === 0 || low.indexOf("anonymous") === 0;
+    var low = String(n).toLowerCase().trim();
+    return !low || low === "supporter" || low === "someone" || low === "anonymous" || low === "anon" || low === "unknown" || low === "null" || low.indexOf("supporter") === 0 || low.indexOf("anonymous") === 0;
   }
 
-  function cleanSupporterName(name) {
-    var clean = String(name || "").trim();
-    clean = clean.replace(/^(?:(?:regular|top)\s+(?:supporters?|contributors?)\s*:?[\s-]*)+/i, "");
-    return clean || "Supporter";
+  function cleanSupporterName(name, isTop) {
+    var raw = String(name || "").trim();
+    var clean = raw.replace(/^(?:(?:regular|top)\s+(?:supporters?|contributors?)\s*:?[\s-]*)+/i, "").trim();
+    if (isAnonymous(clean)) {
+      return isTop ? "A top supporter" : "A supporter";
+    }
+    return clean || (isTop ? "A top supporter" : "A supporter");
   }
 
   function contributorLabel(name, top) {
-    var cleanName = cleanSupporterName(name);
+    var cleanName = cleanSupporterName(name, top);
     var label = top ? "Top Supporter" : "Supporter";
     return /(?:\band\b|[+&])/i.test(cleanName) ? label + "s" : label;
   }
@@ -1042,8 +1253,9 @@
   }
 
   function buildCreditHTML(item, isRegular, totalAmt, methodCount, isRegularDonor) {
-    var rawName = cleanSupporterName(item.name || "Supporter");
-    var isAnon = isAnonymous(rawName);
+    var isTop = Boolean(isRegular || isRegularDonor);
+    var rawName = cleanSupporterName(item.name || "Supporter", isTop);
+    var isAnon = isAnonymous(item.name);
     var amt = (isRegular && totalAmt !== undefined) ? totalAmt : (item.amount || 0);
     var isOutgoing = (amt < 0);
     var absAmt = Math.abs(amt);
@@ -1077,7 +1289,7 @@
 
     var supporterHTML;
     if (isAnon) {
-      supporterHTML = "Someone";
+      supporterHTML = isTop ? "<strong>A top supporter</strong>" : "<strong>A supporter</strong>";
     } else {
       supporterHTML = '<a href="' + targetUrl + '" target="_blank" rel="noopener noreferrer"><strong>' + rawName + '</strong></a>';
     }
@@ -1146,7 +1358,7 @@
     var isGoalMet = (currentMonthTotal >= MONTHLY_TARGET);
     var goalMsg = isGoalMet
       ? "We rely on your donations to keep running. Donate now"
-      : "You've helped us cover $" + curAmtStr + " of our $" + MONTHLY_TARGET.toFixed(0) + " costs for this month. All donations are appreciated.";
+      : "You've helped us raise $" + curAmtStr + " of our $" + MONTHLY_TARGET.toFixed(0) + " goal this month. All donations are appreciated.";
     if (titleEl) titleEl.textContent = "Monthly Running Costs";
     if (statsEl) statsEl.textContent = goalMsg;
     if (raisedBar) raisedBar.style.width = raisedPct + "%";
@@ -1238,7 +1450,7 @@
     var isTickerGoalMet = (currentMonthTotal >= target);
     var tickerGoalMsg = isTickerGoalMet
       ? "We rely on your donations to keep running. Donate now"
-      : "You've helped us cover $" + curAmtStr + " of our $" + target.toFixed(0) + " costs for this month. All donations are appreciated";
+      : "You've helped us raise $" + curAmtStr + " of our $" + target.toFixed(0) + " goal this month.";
     var goalItem = {
       html: '<span class="y1-dock-ticker-badge y1-dock-ticker-badge--goal">Goal</span>' +
             '<div class="y1-dock-mini-bar" title="' + Math.round(raisedPct) + '% covered" style="display: inline-block; width: 50px; height: 6px; background: rgba(156,163,175,0.2); border: 1px solid rgba(156,163,175,0.35); border-radius: 4px; overflow: hidden; vertical-align: middle; margin-right: 6px;">' +

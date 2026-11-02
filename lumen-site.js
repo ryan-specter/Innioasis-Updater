@@ -34,10 +34,13 @@
        (rom_240p.zip, rom_360p.zip) with the same Type A/B split, mirroring how
        the Updater app treats any rom*.zip as a Y1 package. */
     function packageNamesFor(item) {
-        var name = item.packageName.toLowerCase();
-        var names = [name];
+        var name = (item.packageName || "").toLowerCase();
+        var names = name ? [name] : [];
         if (name === "rom.zip") {
             names.push("rom_type_b.zip", "rom_240p.zip", "rom_240p_type_b.zip", "rom_360p.zip", "rom_360p_type_b.zip");
+        }
+        if (item.repo && item.repo.toLowerCase().indexOf("y2linux") !== -1) {
+            names.push("first-install.zip", "y2linux");
         }
         return names;
     }
@@ -47,9 +50,14 @@
     function matchingReleases(releaseList, item) {
         if (!Array.isArray(releaseList) || !releaseList.length) return [];
         var names = packageNamesFor(item);
+        var isDedicatedRepo = item.repo && item.repo.toLowerCase() !== "y1-community/y1-stock-rom";
         return releaseList.filter(function (release) {
-            return zipAssets(release).some(function (asset) {
-                return names.indexOf(asset.name.toLowerCase()) !== -1;
+            var zips = zipAssets(release);
+            if (!zips.length) return false;
+            if (isDedicatedRepo) return true;
+            return zips.some(function (asset) {
+                var an = (asset.name || "").toLowerCase();
+                return names.some(function (n) { return an === n || an.indexOf(n) !== -1; });
             });
         });
     }
@@ -999,6 +1007,19 @@
            #y1 / #y2 hash anchors still work for older links. */
         var searchParams = new URLSearchParams(window.location.search);
         var modelParam = (searchParams.get("model") || "").toUpperCase();
+        var viewParam = (searchParams.get("view") || "software").toLowerCase();
+        var heroKicker = document.querySelector("#main > header .lumen-kicker");
+        var heroH1 = document.querySelector("#main > header h1");
+        var heroLead = document.querySelector("#main > header .lead");
+        if (viewParam === "firmware") {
+            if (heroKicker) heroKicker.textContent = "Innioasis & Timmkoo Firmware Downloads";
+            if (heroH1) heroH1.textContent = "Software Updates and Firmware";
+            if (heroLead) heroLead.textContent = "Browse verified Original Software and community custom firmwares for the Innioasis Y1, Y2, and Timmkoo players. Download standalone packages or install directly with Updater CE.";
+        } else {
+            if (heroKicker) heroKicker.textContent = "Innioasis Software Updates & Downloads";
+            if (heroH1) heroH1.textContent = "Software Updates and Firmware";
+            if (heroLead) heroLead.textContent = "Browse verified Original Software and community custom firmwares for the Innioasis Y1, Y2, and Timmkoo players. Download standalone packages or install directly with Updater CE.";
+        }
         /* Nightly / pre-release filter, mirroring the Updater app's
            "Show nightly builds" checkbox. Off by default: stable releases
            only. Tick it to see preview, nightly, and RC builds. The URL
@@ -1152,17 +1173,48 @@
             return '<details class="lumen-release-details"><summary>Release details and zip</summary><p><strong>' + escapeHtml(release.name || release.tag_name || "Public release") + '</strong>' + (release.published_at ? ' · ' + escapeHtml(release.published_at.slice(0, 10)) : '') + '</p><ul>' + assetLinks + '</ul></details>';
         }
 
+        function resolveFirmwareIcon(release, item) {
+            if (release && Array.isArray(release.assets)) {
+                var updaterAsset = release.assets.find(function (a) {
+                    return a.name && /^updater\.(png|webp|jpe?g|svg)$/i.test(a.name.trim());
+                });
+                if (updaterAsset && updaterAsset.browser_download_url) {
+                    return '<span class="lumen-firmware-icon-box" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#141721;border:1px solid rgba(255,255,255,0.14);box-shadow:0 1px 4px rgba(0,0,0,0.3);overflow:hidden;flex-shrink:0;"><img src="' + escapeHtml(updaterAsset.browser_download_url) + '" width="28" height="28" style="width:28px;height:28px;object-fit:cover;display:block;" alt="" aria-hidden="true"></span>';
+                }
+            }
+            if (item && item.icon) {
+                return '<span class="lumen-firmware-icon-box" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#141721;border:1px solid rgba(255,255,255,0.14);box-shadow:0 1px 4px rgba(0,0,0,0.3);overflow:hidden;flex-shrink:0;"><img src="' + escapeHtml(item.icon) + '" width="28" height="28" style="width:28px;height:28px;object-fit:cover;display:block;" alt="" aria-hidden="true"></span>';
+            }
+            return '<span class="lumen-firmware-icon-box" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#141721;border:1px solid rgba(255,255,255,0.14);box-shadow:0 1px 4px rgba(0,0,0,0.3);color:var(--lumen-accent,#6366f1);flex-shrink:0;"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></span>';
+        }
+
+        function extractReleaseVersion(release, item) {
+            if (!release) return item ? item.name : "Public release";
+            var name = (release.name || "").trim();
+            var tag = (release.tag_name || "").trim();
+            if (name) {
+                var endMatch = name.match(/(?:^|\s)(v?\d+\.\d+(?:\.\d+)?(?:-[a-zA-Z0-9.]+)?)$/i);
+                if (endMatch && endMatch[1]) return endMatch[1];
+                var startMatch = name.match(/^(v?\d+\.\d+(?:\.\d+)?(?:-[a-zA-Z0-9.]+)?)(?:\s|$)/i);
+                if (startMatch && startMatch[1]) return startMatch[1];
+                var anyMatch = name.match(/(?:^|\s)(v?\d+\.\d+(?:\.\d+)?(?:-[a-zA-Z0-9.]+)?)(?:\s|$)/i);
+                if (anyMatch && anyMatch[1]) return anyMatch[1];
+            }
+            return tag ? displayVersion(tag) : (name || "Public release");
+        }
+
         function releaseRows(release, item, state) {
-            /* The Release column label. When the feed is unavailable the
-               Software name stands in, bold, so the row still names the
-               project the user is looking at instead of an error string. */
-            var versionText = release ? displayVersion(release.tag_name || release.name || "Public release")
+            /* The Release column label with icon and semver detection. */
+            var iconHtml = resolveFirmwareIcon(release, item);
+            var versionLabel = release ? extractReleaseVersion(release, item)
                 : state === "failed" ? item.name
                 : state === "empty" ? "No public releases"
                 : state === "nomatch" ? "No release with " + item.packageName
                 : state === "filtered-stable" ? "No stable release yet"
                 : "Checking public releases";
-            var versionHtml = (state === "failed" && !release) ? "<strong>" + escapeHtml(versionText) + "</strong>" : escapeHtml(versionText);
+            var versionHtml = (state === "failed" && !release)
+                ? "<strong>" + escapeHtml(versionLabel) + "</strong>"
+                : '<span class="lumen-version-pill" style="font-weight:700;font-size:0.95rem;">' + escapeHtml(versionLabel) + '</span>';
             var hint = release ? '' : state === "filtered-stable" ? '<span class="lumen-muted-inline">Tick the nightly-builds option to see previews</span>' : '';
             var guideUrl = 'guide.html?model=' + encodeURIComponent(item.model) + '&software=' + encodeURIComponent(item.slug);
             var updater = '<a class="lumen-updater-button lumen-updater-button--table" href="' + guideUrl + '" aria-label="Get ' + escapeHtml(item.name) + ' for ' + escapeHtml(item.model) + ' on Innioasis Updater"><img src="mtkclient/gui/images/icon.png" width="28" height="28" alt=""><span><strong>Get it on Updater</strong><small>with guided install</small></span></a>';
@@ -1202,7 +1254,7 @@
                 ? 'https://github.com/' + item.repo + '/releases/tag/' + encodeURIComponent(release.tag_name)
                 : 'https://github.com/' + item.repo + '/releases';
             return '<tr>' +
-                '<td>' + versionHtml + (release && release.published_at ? '<br><span class="lumen-meta">' + escapeHtml(release.published_at.slice(0, 10)) + '</span>' : '') + '</td>' +
+                '<td><div style="display:flex;align-items:center;gap:10px;">' + iconHtml + '<div>' + versionHtml + (release && release.published_at ? '<br><span class="lumen-meta">' + escapeHtml(release.published_at.slice(0, 10)) + '</span>' : '') + '</div></div></td>' +
                 /* The package is not shown: the Release details expander lists
                    the rom zips this release is packaged in. */
                 '<td><div class="lumen-actions">' + updater + zipBtn + hint + '</div>' + releaseDetails(release, item) + '</td>' +
@@ -1379,8 +1431,9 @@
                 return '<a class="lumen-button lumen-button--model" href="firmware.html?model=' + encodeURIComponent(item.model) + '&software=' + encodeURIComponent(item.slug) + '" aria-label="' + escapeHtml(item.model) + ' releases">' + escapeHtml(item.model) + '</a>';
             }).join(" ");
             var benefitLink = first.benefits ? '<a class="lumen-benefit-link" href="' + escapeHtml(first.benefits) + '">Why ' + escapeHtml(group.name) + '?</a>' : '';
+            var guideHref = first.seoPage || first.guide || ('guide.html?model=' + encodeURIComponent(first.model) + '&software=' + encodeURIComponent(first.slug));
             return "<tr>" +
-                '<td><a class="lumen-project-link" href="' + escapeHtml(first.seoPage || first.guide) + '"><strong>' + escapeHtml(group.name) + "</strong></a>" + (benefitLink ? '<br>' + benefitLink : '') + "</td>" +
+                '<td><a class="lumen-project-link" href="' + escapeHtml(guideHref) + '"><strong>' + escapeHtml(group.name) + "</strong></a>" + (benefitLink ? '<br>' + benefitLink : '') + "</td>" +
                 "<td>" + releaseButtons + "</td>" +
                 "</tr>";
         }).join("");
@@ -1426,6 +1479,36 @@
                 li.textContent = text;
                 list.appendChild(li);
             });
+            if (item.post_install) {
+                var postLi = document.createElement("li");
+                postLi.setAttribute("data-post-install-step", "1");
+                postLi.setAttribute("data-slug", item.slug);
+                var titleText = "Complete post-install setup";
+                var descText = "Some features on your player require post-install setup. Follow along with our post-install guide to finish setting up your player.";
+                var buttonText = "Post-Install Setup Guide \u2192";
+                if (item.slug === "reborn-y2linux-y2" || /reborn|y2linux/i.test(item.name)) {
+                    titleText = "Complete final setup for Wi-Fi, FM radio & Bluetooth";
+                    descText = "There are some final setup steps needed to get Wi-Fi, FM radio, and Bluetooth working on your Y2 using system.img. Follow along with our post-install guide to finish setting up your player.";
+                } else if (item.slug === "rondo-y1" || /rondo/i.test(item.name)) {
+                    titleText = "Complete post-install setup";
+                    descText = "Follow along with the setup guide to complete post-install setup on your Y1.";
+                    buttonText = "View Guide";
+                }
+                postLi.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;width:100%;">' +
+                    '<div style="flex:1 1 240px;min-width:0;">' +
+                    '<strong>' + escapeHtml(titleText) + '</strong>' +
+                    '<p style="margin:4px 0 0;">' + escapeHtml(descText) + '</p>' +
+                    '</div>' +
+                    '<div style="flex-shrink:0;">' +
+                    '<a class="lumen-button lumen-button--primary" href="' + escapeHtml(item.post_install) + '" data-post-install-link data-slug="' + escapeHtml(item.slug || '') + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(buttonText) + '</a>' +
+                    '</div>' +
+                    '</div>';
+                list.appendChild(postLi);
+            }
+        }
+        var postInstallEl = section.querySelector("[data-personalised-post-install]");
+        if (postInstallEl) {
+            postInstallEl.remove();
         }
         var note = section.querySelector("[data-personalised-note]");
         if (note) note.textContent = restoring
@@ -1547,20 +1630,158 @@
         });
     }
 
+    function initGuidePostInstall() {
+        if (!Array.isArray(window.INNIOASIS_FIRMWARE_CATALOG)) return;
+        var catalog = window.INNIOASIS_FIRMWARE_CATALOG;
+
+        document.querySelectorAll("[data-post-install-link]").forEach(function (link) {
+            var slug = link.getAttribute("data-slug");
+            if (!slug) {
+                var parentStep = link.closest("[data-post-install-step]");
+                if (parentStep) slug = parentStep.getAttribute("data-slug");
+            }
+            if (slug) {
+                var item = catalog.find(function (entry) { return entry.slug === slug; });
+                if (item && item.post_install) {
+                    link.href = item.post_install;
+                }
+            }
+        });
+
+        var stepsList = document.querySelector(".lumen-guide .lumen-steps:not([data-personalised-steps])");
+        if (stepsList) {
+            var currentPath = window.location.pathname;
+            var matchedItem = catalog.find(function (entry) {
+                if (entry.guide && (currentPath.endsWith(entry.guide) || currentPath.endsWith("/" + entry.guide.replace(/^guides\//, "")))) {
+                    return true;
+                }
+                if (entry.seoPage && currentPath.endsWith(entry.seoPage)) {
+                    return true;
+                }
+                return false;
+            });
+            if (!matchedItem) {
+                var ctaLink = document.querySelector('a[href*="software="]');
+                if (ctaLink) {
+                    var match = ctaLink.href.match(/software=([^&]+)/);
+                    if (match) {
+                        var slug = decodeURIComponent(match[1]);
+                        matchedItem = catalog.find(function (entry) { return entry.slug === slug; });
+                    }
+                }
+            }
+            if (matchedItem && matchedItem.post_install) {
+                var existingStep = stepsList.querySelector("[data-post-install-step]");
+                if (!existingStep) {
+                    var postLi = document.createElement("li");
+                    postLi.setAttribute("data-post-install-step", "1");
+                    postLi.setAttribute("data-slug", matchedItem.slug);
+                    var titleText = "Complete post-install setup";
+                    var descText = "Some features on your player require post-install setup. Follow along with our post-install guide to finish setting up your player.";
+                    var buttonText = "Post-Install Setup Guide \u2192";
+                    if (matchedItem.slug === "reborn-y2linux-y2" || /reborn|y2linux/i.test(matchedItem.name)) {
+                        titleText = "Complete final setup for Wi-Fi, FM radio & Bluetooth";
+                        descText = "There are some final setup steps needed to get Wi-Fi, FM radio, and Bluetooth working on your Y2 using system.img. Follow along with our post-install guide to finish setting up your player.";
+                    } else if (matchedItem.slug === "rondo-y1" || /rondo/i.test(matchedItem.name)) {
+                        titleText = "Complete post-install setup";
+                        descText = "Follow along with the setup guide to complete post-install setup on your Y1.";
+                        buttonText = "View Guide";
+                    }
+                    postLi.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;width:100%;">' +
+                        '<div style="flex:1 1 240px;min-width:0;">' +
+                        '<strong>' + escapeHtml(titleText) + '</strong>' +
+                        '<p style="margin:4px 0 0;">' + escapeHtml(descText) + '</p>' +
+                        '</div>' +
+                        '<div style="flex-shrink:0;">' +
+                        '<a class="lumen-button lumen-button--primary" href="' + escapeHtml(matchedItem.post_install) + '" data-post-install-link data-slug="' + escapeHtml(matchedItem.slug) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(buttonText) + '</a>' +
+                        '</div>' +
+                        '</div>';
+                    stepsList.appendChild(postLi);
+                } else {
+                    var existingLink = existingStep.querySelector("a[data-post-install-link]");
+                    if (existingLink && matchedItem.post_install) {
+                        existingLink.href = matchedItem.post_install;
+                    }
+                }
+            }
+        }
+    }
+
+    function loadAndMergeManifest() {
+        var manifestPath = "slidia_manifest.xml";
+        if (window.location.pathname.indexOf("/guides/") !== -1 || window.location.pathname.indexOf("/guides") !== -1) {
+            manifestPath = "../slidia_manifest.xml";
+        }
+        return fetch(manifestPath, { cache: "no-cache" })
+            .then(function (res) {
+                if (!res.ok) throw new Error("HTTP " + res.status);
+                return res.text();
+            })
+            .then(function (xmlText) {
+                var parser = new DOMParser();
+                var doc = parser.parseFromString(xmlText, "application/xml");
+                if (doc.querySelector("parsererror")) return;
+                var packages = doc.querySelectorAll("package");
+                if (!packages.length || !Array.isArray(window.INNIOASIS_FIRMWARE_CATALOG)) return;
+                var catalog = window.INNIOASIS_FIRMWARE_CATALOG;
+                packages.forEach(function (pkg) {
+                    var name = (pkg.getAttribute("name") || "").trim();
+                    var repo = (pkg.getAttribute("repo") || "").trim();
+                    var device = (pkg.getAttribute("device") || "").toUpperCase().trim();
+                    var icon = (pkg.getAttribute("icon") || "").trim();
+                    var postInstall = (pkg.getAttribute("post_install") || "").trim();
+                    var handler = pkg.getAttribute("handler") || "";
+                    if (!name || /please update/i.test(name)) return;
+                    if (handler && handler !== "Custom Firmware") return;
+
+                    var match = catalog.find(function (item) {
+                        return (item.repo && repo && item.repo.toLowerCase() === repo.toLowerCase() && item.model === device) ||
+                               (item.name.toLowerCase() === name.toLowerCase() && item.model === device);
+                    });
+                    if (match) {
+                        if (icon && !match.icon) match.icon = icon;
+                        if (postInstall) match.post_install = postInstall;
+                    } else if (name && device) {
+                        var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+                        catalog.push({
+                            name: name,
+                            model: device,
+                            slug: slug + "-" + device.toLowerCase(),
+                            repo: repo,
+                            icon: icon,
+                            post_install: postInstall,
+                            packageName: "rom.zip",
+                            description: "Community firmware package for the " + device + "."
+                        });
+                    }
+                });
+                initHomeFirmware();
+            })
+            .catch(function () {});
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll("[data-lumen-carousel]").forEach(initCarousel);
         document.querySelectorAll("[data-lumen-feedback]").forEach(initFeedback);
-        initHomeFirmware();
-        initPersonalisedGuide();
-        initSoftwareGuideLinks();
         initPlatformReveal();
         initCopyButtons();
         initDownloadConfirm();
         initEdgeKeepHelp();
         initLumenTips();
-        /* The release directory is authenticated against GitHub rate limits
-           with tokens from config.ini, so load those, then init directory. */
-        loadGithubTokens().then(function () {
+
+        loadAndMergeManifest().then(function () {
+            initHomeFirmware();
+            initPersonalisedGuide();
+            initGuidePostInstall();
+            initSoftwareGuideLinks();
+            return loadGithubTokens();
+        }).catch(function () {
+            initHomeFirmware();
+            initPersonalisedGuide();
+            initGuidePostInstall();
+            initSoftwareGuideLinks();
+            return loadGithubTokens();
+        }).then(function () {
             initFirmwareDirectory();
         }).catch(function () {
             initFirmwareDirectory();

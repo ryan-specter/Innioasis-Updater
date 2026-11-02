@@ -20,11 +20,37 @@ window.INNIOASIS_FIRMWARE_CATALOG = [
         "description": "The stock Software path for restoring an Innioasis Y2."
     },
     {
+        "slug": "reborn-y2linux-y2",
+        "name": "Reborn (Y2Linux)",
+        "model": "Y2",
+        "repo": "schulzcode/y2linux",
+        "packageName": "rom_y2.zip",
+        "benefits": "reborn-y2linux-benefits.html",
+        "guide": "guides/reborn-y2linux-y2.html",
+        "seoPage": "reborn-y2linux-y2-software.html",
+        "post_install": "https://innioasis.app/y2reborn_wifibt.html",
+        "description": "Debian-based Linux with a fast clickwheel interface for the Innioasis Y2."
+    },
+    {
+        "slug": "rondo-y1",
+        "name": "Rondo",
+        "model": "Y1",
+        "repo": "y1-community/y1-ata-rom",
+        "packageName": "rom.zip",
+        "benefits": "rondo-benefits.html",
+        "guide": "guides/rondo-y1.html",
+        "seoPage": "rondo-y1-software.html",
+        "icon": "https://innioasis.app/assets/rondo_icon.jpg",
+        "post_install": "https://jarvissax.github.io/rondo/",
+        "description": "A lightweight, custom audio operating system for the Innioasis Y1."
+    },
+    {
         "slug": "rockbox-y1",
         "name": "Rockbox",
         "model": "Y1",
         "repo": "rockbox-y1/rockbox",
         "packageName": "rom.zip",
+        "icon": "https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png",
         "benefits": "rockbox-benefits.html",
         "guide": "guides/rockbox-y1.html",
         "seoPage": "rockbox-y1-software.html",
@@ -36,6 +62,7 @@ window.INNIOASIS_FIRMWARE_CATALOG = [
         "model": "Y2",
         "repo": "spycemagic/y2-rockbox",
         "packageName": "rom_y2.zip",
+        "icon": "https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png",
         "benefits": "rockbox-benefits.html",
         "guide": "guides/rockbox-y2.html",
         "seoPage": "rockbox-y2-software.html",
@@ -47,6 +74,7 @@ window.INNIOASIS_FIRMWARE_CATALOG = [
         "model": "Y1",
         "repo": "thesolarproject/solar",
         "packageName": "rom.zip",
+        "icon": "https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png",
         "benefits": "solar-benefits.html",
         "guide": "guides/solar-y1.html",
         "seoPage": "solar-y1-software.html",
@@ -58,6 +86,7 @@ window.INNIOASIS_FIRMWARE_CATALOG = [
         "model": "Y2",
         "repo": "thesolarproject/solar",
         "packageName": "rom_y2.zip",
+        "icon": "https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png",
         "benefits": "solar-benefits.html",
         "guide": "guides/solar-y2.html",
         "seoPage": "solar-y2-software.html",
@@ -124,6 +153,7 @@ window.INNIOASIS_FIRMWARE_CATALOG = [
         "model": "Y1",
         "repo": "ryan-specter/koensayr-auto",
         "packageName": "rom.zip",
+        "icon": "https://avatars.githubusercontent.com/u/10089013?v=4",
         "benefits": "koensayr-benefits.html",
         "guide": "guides/koensayr-y1.html",
         "seoPage": "koensayr-y1-software.html",
@@ -135,6 +165,7 @@ window.INNIOASIS_FIRMWARE_CATALOG = [
         "model": "Y1",
         "repo": "Leska1337/better-Y",
         "packageName": "rom.zip",
+        "icon": "https://github.com/Leska1337/better-Y/raw/main/screenshots/plus_logo.png",
         "benefits": "better-y-benefits.html",
         "guide": "guides/better-y-y1.html",
         "seoPage": "better-y-y1-software.html",
@@ -173,6 +204,44 @@ window.INNIOASIS_FIRMWARE_CATALOG = [
 ];
 
 window.INNIOASIS_HARDCODED_RELEASES = {
+  "schulzcode/y2linux": [
+    {
+      "tag_name": "baseline-207",
+      "name": "Y2Linux 1.0 Beta 9.2.16",
+      "published_at": "2026-11-02T00:02:35Z",
+      "prerelease": false,
+      "assets": [
+        {
+          "name": "Y2Linux-1.0.0-beta.9.2.16-first-install.zip",
+          "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-207/Y2Linux-1.0.0-beta.9.2.16-first-install.zip"
+        }
+      ]
+    },
+    {
+      "tag_name": "baseline-206",
+      "name": "Y2Linux 1.0 Beta 9.2.15",
+      "published_at": "2026-11-01T19:06:40Z",
+      "prerelease": false,
+      "assets": [
+        {
+          "name": "Y2Linux-1.0.0-beta.9.2.15-first-install.zip",
+          "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-206/Y2Linux-1.0.0-beta.9.2.15-first-install.zip"
+        }
+      ]
+    },
+    {
+      "tag_name": "baseline-205",
+      "name": "Y2Linux 1.0 Beta 9.2.14",
+      "published_at": "2026-11-01T18:35:12Z",
+      "prerelease": false,
+      "assets": [
+        {
+          "name": "Y2Linux-1.0.0-beta.9.2.14-first-install.zip",
+          "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-205/Y2Linux-1.0.0-beta.9.2.14-first-install.zip"
+        }
+      ]
+    }
+  ],
   "y1-community/y1-stock-rom": [
     {
       "tag_name": "3.2.1",

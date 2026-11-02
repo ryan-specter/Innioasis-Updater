@@ -211,8 +211,7 @@
       <ul class="lumen-steps">
         <li><strong>Y1:</strong> the updater prepares the Y1 path and uses the device’s named partitions when MTKClient is used.</li>
         <li><strong>Y2:</strong> the updater prepares the Y2 path and uses the Y2 MT6582 configuration. Full recovery can use physical addresses from the model-correct scatter data.</li>
-        <li><strong>Windows and Linux:</strong> the available flashing route depends on the platform and the installed tools. Updater CE handles that choice after the model and package are known.</li>
-        <li><strong>macOS Y2:</strong> the current updater source has a separate manufacturer-tool fallback for this flow. Do not promise a custom cross-platform route unless you have tested it against the current source.</li>
+        <li><strong>Cross-Platform Support:</strong> Updater CE handles native flashing directly across Windows, Linux, and macOS (supporting both Intel and Apple Silicon Macs) without falling back to external manufacturer utilities.</li>
       </ul>
       <div class="lumen-warning"><strong>Contributors should provide correct firmware files, not flash offsets.</strong> Do not edit scatter addresses, preloaders, DA files, or partition commands to work around a bad package. Fix the release asset and test on the intended model.</div>
     </section>

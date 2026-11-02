@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Community Notices &amp; Safety Announcements - Innioasis &amp; Timmkoo</title>
+  <meta name="description" content="Official community bulletins, device safety notices, and firmware alerts for Innioasis and Timmkoo players.">
+  <meta name="keywords" content="Innioasis notices, Timmkoo firmware alerts, device safety notice, Updater CE announcements">
+  <link rel="canonical" href="https://innioasis.app/notices.html">
+  <link rel="icon" href="y1_illustration.png">
+  <link rel="stylesheet" href="site-theme.css?v=20261019d">
+  <link rel="stylesheet" href="lumen.css?v=20261019d">
+  <link rel="stylesheet" href="site-pages.css?v=20261019d">
+  <link rel="stylesheet" href="site-toolbar.css?v=20261019d">
+  <script src="site-init.js?v=20261019d" defer></script>
+</head>
+<body class="site-themes-app">
+  <a class="lumen-skip-link" href="#main">Skip to content</a>
+  <div id="nav-root"></div>
+  <main id="main" class="lumen-guide">
+    <header>
+      <p class="lumen-kicker">Community Bulletin · notices.xml</p>
+      <h1>Notices &amp; Announcements</h1>
+      <p class="lead">Important firmware updates, hardware compatibility notes, and announcements shared across Innioasis Updater CE, the Community Firmware Archive, and Themes Gallery.</p>
+      <div class="lumen-actions">
+        <a class="lumen-button lumen-button--primary" href="guide.html">Get Updater CE</a>
+        <a class="lumen-button" href="firmware.html">Browse Software Downloads</a>
+        <a class="lumen-button" href="https://themes.innioasis.app/">Themes Gallery</a>
+      </div>
+    </header>
+
+    <section class="lumen-guide-section" id="notices-feed" aria-live="polite">
+      <div id="notices-list">Loading community notices...</div>
+    </section>
+  </main>
+  <div id="footer-root"></div>
+  <div id="support-toolbar-slot"></div>
+  <script src="nav.js?v=20261019d" defer></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch("/notice.xml", { cache: "no-cache" })
+        .then(function(r) { return r.text(); })
+        .then(function(xmlText) {
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(xmlText, "application/xml");
+          var nodes = doc.querySelectorAll("notice");
+          var container = document.getElementById("notices-list");
+          if (!container) return;
+          if (!nodes.length) {
+            container.innerHTML = "<p>No active notices at this time.</p>";
+            return;
+          }
+          var html = '<div class="lumen-grid">';
+          nodes.forEach(function (n) {
+            var title = (n.querySelector("title") && n.querySelector("title").textContent) || "";
+            var summary = (n.querySelector("summary") && n.querySelector("summary").textContent) || "";
+            var link = (n.querySelector("link") && n.querySelector("link").textContent) || "";
+            var date = n.getAttribute("date") || "";
+            var type = (n.getAttribute("type") || "INFO").toUpperCase();
+            var models = n.getAttribute("models") || "";
+            var isAll = !models || /^(all|all\s+models|\*)$/i.test(models.trim());
+            html += '<article class="lumen-card">' +
+              '<small>' + type + (date ? ' · ' + date : '') + (!isAll && models ? ' · ' + models : '') + '</small>' +
+              '<h3>' + title + '</h3>' +
+              '<p>' + summary + '</p>' +
+              (link ? '<div class="lumen-actions"><a class="lumen-button" href="' + link + '">Read more</a></div>' : '') +
+              '</article>';
+          });
+          html += '</div>';
+          container.innerHTML = html;
+        })
+        .catch(function () {
+          var container = document.getElementById("notices-list");
+          if (container) container.innerHTML = "<p>Could not load notices feed.</p>";
+        });
+    });
+  </script>
+</body>
+</html>
