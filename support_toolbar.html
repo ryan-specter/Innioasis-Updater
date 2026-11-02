@@ -570,33 +570,36 @@
 
   function isReceivedCommunityDonation(donation) {
     var amount = Number(donation && donation.amount);
-    var name = cleanSupporterName(donation && donation.name).toLowerCase();
+    var name = String((donation && donation.name) || "").toLowerCase().trim();
     return isFinite(amount) && amount > 0 && name !== "innioasis" && name.indexOf("innioasis") !== 0;
   }
 
   function renderToolbarThankYou(donations) {
     var groups = {};
-    var anonymousCount = 0;
+    var anonymousSeen = 0;
     // Thank You is exclusively for money received by this project. Keep the
     // outgoing-project ledger out before grouping so recipients can never be
     // turned into positive-looking credit entries by a later formatter.
     donations.filter(isReceivedCommunityDonation).forEach(function (donation) {
-      var name = cleanSupporterName(donation.name);
-      var lowerName = name.toLowerCase();
-      if (isAnonymous(name)) {
-        anonymousCount += 1;
+      var rawName = String((donation && donation.name) || "").trim();
+      if (isAnonymous(rawName)) {
+        // Each anonymous gift is a different person: its own entry and amount,
+        // never one merged supporter total.
+        anonymousSeen += 1;
+        groups["__anonymous_" + anonymousSeen] = {
+          name: cleanSupporterName(rawName),
+          total: donation.amount,
+          count: 1
+        };
         return;
       }
-      var key = lowerName;
-      if (!groups[key]) groups[key] = { name: name, total: 0, count: 0 };
+      var key = rawName.toLowerCase();
+      if (!groups[key]) groups[key] = { name: cleanSupporterName(rawName), total: 0, count: 0 };
       groups[key].total += donation.amount;
       groups[key].count += 1;
     });
     thankYouEntries = Object.keys(groups).map(function (key) { return groups[key]; });
     thankYouEntries.sort(function (a, b) { return b.total - a.total || a.name.localeCompare(b.name); });
-    if (anonymousCount) {
-      thankYouEntries.push({ name: "Anonymous supporters", amountLabel: anonymousCount + (anonymousCount === 1 ? " contribution" : " contributions") });
-    }
     if (thankYouOverlay && !thankYouOverlay.hidden) startToolbarThankYouCycle();
   }
 
@@ -1180,7 +1183,9 @@
       }
       cols.push(cur.trim());
       if (!cols[0] && !cols[1]) continue;
-      var name = cleanSupporterName(cols[0] || "Supporter");
+      // Keep the ledger's own name; display cleaning happens at render time so
+      // anonymous rows stay recognisable as separate people here.
+      var name = (cols[0] || "").trim();
       // Keep the minus sign: negative rows are project expenditure, not money raised.
       var amt = parseFloat((cols[1] || "0").replace(/[$£€\s,]/g, "")) || 0;
       var dateStr = cols[2] || "";
@@ -1199,10 +1204,14 @@
     return records;
   }
 
+  // Anonymous rows represent different people who gave without a name. Treat
+  // every label the feed can carry (including the display label) as anonymous
+  // so those people are never merged into a single supporter.
+  var ANONYMOUS_SUPPORTER_NAMES = { "": true, "supporter": true, "supporters": true, "a supporter": true, "top supporter": true, "a top supporter": true, "someone": true, "anonymous": true, "anon": true, "none": true, "n/a": true, "unknown": true, "null": true };
   function isAnonymous(n) {
-    if (!n) return true;
-    var low = String(n).toLowerCase().trim();
-    return !low || low === "supporter" || low === "someone" || low === "anonymous" || low === "anon" || low === "unknown" || low === "null" || low.indexOf("supporter") === 0 || low.indexOf("anonymous") === 0;
+    var low = String(n == null ? "" : n).toLowerCase().replace(/\s+/g, " ").trim();
+    if (ANONYMOUS_SUPPORTER_NAMES[low]) return true;
+    return low.indexOf("supporter") === 0 || low.indexOf("anonymous") === 0 || low.indexOf("someone") === 0;
   }
 
   function cleanSupporterName(name, isTop) {
@@ -1393,9 +1402,8 @@
       // project payments must never reach the credit formatter.
       if (!isReceivedCommunityDonation(item)) return;
       // Skip already summarised Top Supporters from the ticker.
-      var cleanItemName = cleanSupporterName(item.name);
-      var isAnon = isAnonymous(cleanItemName);
-      var key = cleanItemName.toLowerCase();
+      var isAnon = isAnonymous(item.name);
+      var key = String(item.name || "").toLowerCase().trim();
       if (!isAnon && topSupporterKeys[key]) return;
       rawDonorLines.push(buildCreditHTML(item, false, 0, 1, false));
     });

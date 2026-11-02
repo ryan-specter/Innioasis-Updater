@@ -631,7 +631,9 @@
           // Preserve negative values: they represent project expenditure.
           var amt = parseFloat(parts[1].replace(/[$£€\s,]/g, "")) || 0;
           results.push({
-            name: cleanSupporterName(parts[0]),
+            // Keep the name as the ledger wrote it. Display cleaning happens at
+            // render time so anonymity is still recognisable here.
+            name: (parts[0] || "").trim(),
             amount: amt,
             dateStr: parts[2],
             dt: parseDate(parts[2]),
@@ -644,10 +646,14 @@
       return results;
     }
 
+    // Anonymous rows represent different people who gave without a name. Treat
+    // every label the feed can carry (including the display label) as anonymous
+    // so those people are never merged into a single supporter.
+    var ANONYMOUS_SUPPORTER_NAMES = { "": true, "supporter": true, "supporters": true, "a supporter": true, "top supporter": true, "a top supporter": true, "someone": true, "anonymous": true, "anon": true, "none": true, "n/a": true, "unknown": true, "null": true };
     function isAnonymous(n) {
-      if (!n) return true;
-      var low = String(n).toLowerCase().trim();
-      return !low || low === "supporter" || low === "someone" || low === "anonymous" || low === "anon" || low === "unknown" || low === "null" || low.indexOf("supporter") === 0 || low.indexOf("anonymous") === 0;
+      var low = String(n == null ? "" : n).toLowerCase().replace(/\s+/g, " ").trim();
+      if (ANONYMOUS_SUPPORTER_NAMES[low]) return true;
+      return low.indexOf("supporter") === 0 || low.indexOf("anonymous") === 0 || low.indexOf("someone") === 0;
     }
 
     function isInnioasisCorporate(n) {
@@ -783,16 +789,24 @@
 
     function renderDonorCredits(donations) {
       var groups = {};
-      var anonymousCount = 0;
+      var anonymousSeen = 0;
       donations.forEach(function (d) {
         var name = (d.name || "").trim();
         if (d.amount <= 0 || isInnioasisCorporate(name)) return;
         if (isAnonymous(name)) {
-          anonymousCount += 1;
+          // Each anonymous gift is a different person: keep its own entry and
+          // amount instead of folding them into one supporter total.
+          anonymousSeen += 1;
+          groups["__anonymous_" + anonymousSeen] = {
+            name: cleanSupporterName(name),
+            total: d.amount,
+            count: 1,
+            latestDt: d.dt
+          };
           return;
         }
         var key = name.toLowerCase();
-        if (!groups[key]) groups[key] = { name: name, total: 0, count: 0, latestDt: null };
+        if (!groups[key]) groups[key] = { name: cleanSupporterName(name), total: 0, count: 0, latestDt: null };
         groups[key].total += d.amount;
         groups[key].count += 1;
         if (!groups[key].latestDt || (d.dt && d.dt > groups[key].latestDt)) groups[key].latestDt = d.dt;
@@ -800,20 +814,17 @@
 
       var topKeys = {};
       getTopSupporterGroups(donations).forEach(function (group) { topKeys[group.name.toLowerCase()] = true; });
-      var allEntries = Object.keys(groups).map(function (key) { return groups[key]; });
-      var topEntries = allEntries.filter(function (entry) { return topKeys[entry.name.toLowerCase()]; });
-      var otherEntries = allEntries.filter(function (entry) { return !topKeys[entry.name.toLowerCase()]; });
+      var topEntries = [];
+      var otherEntries = [];
+      Object.keys(groups).forEach(function (key) {
+        if (key.indexOf("__anonymous_") !== 0 && topKeys[key]) topEntries.push(groups[key]);
+        else otherEntries.push(groups[key]);
+      });
       topEntries.sort(function (a, b) { return b.total - a.total || a.name.localeCompare(b.name); });
       otherEntries.sort(function (a, b) {
         return (b.latestDt ? b.latestDt.getTime() : 0) - (a.latestDt ? a.latestDt.getTime() : 0);
       });
       donorCreditsEntries = topEntries.concat(otherEntries);
-      if (anonymousCount) {
-        donorCreditsEntries.push({
-          name: "Anonymous supporters",
-          amountLabel: anonymousCount + (anonymousCount === 1 ? " contribution" : " contributions")
-        });
-      }
 
       var overlay = document.getElementById("donor-credits-overlay");
       if (overlay && !overlay.hidden) startDonorCreditsCycle();
@@ -1147,8 +1158,8 @@
           var rawN = cleanSupporterName(item.name);
           var isOut = false;
           var isCorp = item.amount > 0 && isInnioasisCorporate(rawN);
-          var isAn = isAnonymous(rawN);
-          var isReg = !isAn && !isCorp && !!topSupporterKeys[rawN.toLowerCase()];
+          var isAn = isAnonymous(item.name);
+          var isReg = !isAn && !isCorp && !!topSupporterKeys[String(item.name || "").toLowerCase().trim()];
           var absVal = Math.abs(item.amount);
           var aStr = "$" + (absVal % 1 === 0 ? absVal.toFixed(0) : absVal.toFixed(2));
           var tP = item.dt ? " · " + getRel(item.dt) : "";
@@ -1172,7 +1183,9 @@
             return;
           }
 
-          var sH = isAn ? (isReg ? "<strong>A top supporter</strong>" : "<strong>A supporter</strong>") : '<a href="' + tUrl + '" target="_blank" rel="noopener noreferrer"><strong>' + rawN + '</strong></a>';
+          // Anonymous rows are always single, unnamed contributors: never a
+          // returning supporter, so they never carry a Top Supporter label.
+          var sH = isAn ? "<strong>A supporter</strong>" : '<a href="' + tUrl + '" target="_blank" rel="noopener noreferrer"><strong>' + rawN + '</strong></a>';
 
           var aH = '<a href="' + tUrl + '" target="_blank" rel="noopener noreferrer"><strong>' + aStr + '</strong></a>';
           var mH = '<a href="' + mUrl + '" target="_blank" rel="noopener noreferrer"><strong>' + item.method + '</strong></a>';
@@ -1364,7 +1377,7 @@
           var anonEntries = []; // anonymous get their own separate rows
 
           communityDonations.forEach(function (d) {
-            var rawName = (d.name || "Supporter").trim();
+            var rawName = (d.name || "").trim();
             var isAnon = isAnonymous(rawName);
             if (isAnon) {
               anonEntries.push(d);
@@ -1373,7 +1386,7 @@
             var key = rawName.toLowerCase();
             if (!mergedMap[key]) {
               mergedMap[key] = {
-                name: rawName,
+                name: cleanSupporterName(rawName),
                 total: 0,
                 count: 0,
                 methods: [],
@@ -1555,7 +1568,7 @@
             var absAmt = Math.abs(d.amount);
             var amtStr = "$" + (absAmt % 1 === 0 ? absAmt.toFixed(0) : absAmt.toFixed(2));
             var nameCol = '<div class="donor-cell">' +
-              '<div class="donor-name-line"><span style="color: var(--lumen-muted, #9aa3b5);">Someone</span></div>';
+              '<div class="donor-name-line"><span style="color: var(--lumen-muted, #9aa3b5);">A supporter</span></div>';
             if (d.message && d.message.trim()) {
               var cleanAnonMsg = d.message.trim().replace(/^note\s*[:\-–—]?\s*/i, "").replace(/</g, "&lt;").replace(/>/g, "&gt;");
               var marqueeClass = cleanAnonMsg.length > 60 ? " donor-bubble-marquee" : "";
