@@ -8,6 +8,7 @@
 <package name="Reborn (Y2Linux)" repo="schulzcode/y2linux" device="Y2" url="https://github.com/schulzcode/y2linux" type="img" post_install="https://innioasis.app/y2reborn_wifibt.html" handler="Custom Firmware" />
 <package name="Rockbox" repo="rockbox-y1/rockbox" device="Y1" url="https://github.com/rockbox-y1/rockbox" type="img" icon="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" handler="Custom Firmware" /> 
 <package name="Rockbox" repo="spycemagic/y2-rockbox" device="Y2" url="https://github.com/spycemagic/y2-rockbox" icon="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" type="img" handler="Custom Firmware" /> 
+<package name="Rondo" repo="y1-community/y1-ata-rom" device="Y1" url="https://github.com/y1-community/y1-ata-rom" post_install="https://jarvissax.github.io/rondo/" info_repo="jarvissax/rondo" icon="https://innioasis.app/assets/rondo_icon.jpg" type="img" handler="Custom Firmware" />
 <package name="Koensayr" repo="ryan-specter/koensayr-auto" device="Y1" url="https://github.com/ryan-specter/koensayr-auto" type="img" icon="https://avatars.githubusercontent.com/u/10089013?v=4" derivative="y1-community/y1-stock-rom" handler="Custom Firmware" />
 <package name="JJ Launcher" repo="ismileblue/y1_launcher" device="Y1" url="https://github.com/ismileblue/y1_launcher" type="img" handler="Custom Firmware" />
 <package name="JJ Launcher" repo="ismileblue/y1_launcher" device="Y2" url="https://github.com/ismileblue/y1_launcher" type="img" handler="Custom Firmware" />
@@ -17,7 +18,6 @@
 <package name="Y2Player" repo="schulzcode/Y2Player" device="Y2" url="https://github.com/schulzcode/Y2Player" type="img" handler="Custom Firmware" />
 <package name="Better-Y" repo="Leska1337/better-Y" device="Y1" url="https://github.com/Leska1337/better-Y" type="img" icon="https://github.com/Leska1337/better-Y/raw/main/screenshots/plus_logo.png" derivative="y1-community/y1-stock-rom" handler="Custom Firmware" />
 <package name="Android 4.2 (Dev)" repo="y1-community/y1-ata-rom" device="Y1" url="https://github.com/y1-community/y1-ata-rom" type="img" handler="Custom Firmware" />
-<package name="Rondo" repo="y1-community/y1-ata-rom" device="Y1" url="https://github.com/y1-community/y1-ata-rom" post_install="https://jarvissax.github.io/rondo/" info_repo="jarvissax/rondo" type="img" handler="Custom Firmware" />
 <package name="Android 4.4 (Dev)" repo="y1-community/y2-ata-rom" device="Y2" url="https://github.com/y1-community/y2-ata-rom" type="img" handler="Custom Firmware" />
 <package name="Linux for Y1 (Dev)" repo="y1-community/y1-linux-rom" device="Y1" url="https://github.com/y1-community/y1-linux-rom" type="img" handler="Custom Firmware" />
 <package name="Solar" repo="thesolarproject/solar" device="Y1" url="https://github.com/thesolarproject/solar" type="img" icon="https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png" handler="Custom Firmware" />
