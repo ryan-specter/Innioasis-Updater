@@ -18,6 +18,7 @@
 <package name="Y2Player" repo="schulzcode/Y2Player" device="Y2" url="https://github.com/schulzcode/Y2Player" type="img" handler="Custom Firmware" />
 <package name="Better-Y" repo="Leska1337/better-Y" device="Y1" url="https://github.com/Leska1337/better-Y" type="img" icon="https://github.com/Leska1337/better-Y/raw/main/screenshots/plus_logo.png" derivative="y1-community/y1-stock-rom" handler="Custom Firmware" />
 <package name="Android 4.2 (Dev)" repo="y1-community/y1-ata-rom" device="Y1" url="https://github.com/y1-community/y1-ata-rom" type="img" handler="Custom Firmware" />
+<package name="Rondo" repo="y1-community/y1-ata-rom" device="Y1" url="https://github.com/y1-community/y1-ata-rom" post_install="https://www.reddit.com/r/innioasis/comments/1xkx36i/rondo_an_opensource_y1_launcher_that_streams/" type="img" handler="Custom Firmware" />
 <package name="Android 4.4 (Dev)" repo="y1-community/y2-ata-rom" device="Y2" url="https://github.com/y1-community/y2-ata-rom" type="img" handler="Custom Firmware" />
 <package name="Y2Reborn (Y2Linux)" repo="schulzcode/y2linux" device="Y2" url="https://github.com/schulzcode/y2linux" type="img" post_install="https://innioasis.app/y2reborn_wifibt.html" handler="Custom Firmware" />
 <package name="Linux for Y1 (Dev)" repo="y1-community/y1-linux-rom" device="Y1" url="https://github.com/y1-community/y1-linux-rom" type="img" handler="Custom Firmware" />
