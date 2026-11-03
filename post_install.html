@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="lumen.css?v=20261105hero">
   <link rel="stylesheet" href="site-pages.css?v=20260818">
   <link rel="stylesheet" href="site-toolbar.css?v=20261105dockclose">
-  <link rel="stylesheet" href="docs-viewer.css?v=20261103icons">
+  <link rel="stylesheet" href="docs-viewer.css?v=20261112cites">
   <script src="site-init.js?v=20260803" defer></script>
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Innioasis Updater">
@@ -170,7 +170,21 @@
 
         var sourceNote = document.getElementById("doc-source");
         if (sourceNote) {
-          sourceNote.textContent = "Instructions published by the project, shown here word for word.";
+          var repo = state.repo || "";
+          if (repo) {
+            var repoUrl = "https://github.com/" + repo;
+            var pulls = "https://github.com/y1-community/Innioasis-Updater/pulls?q=" +
+              encodeURIComponent("is:pr author:" + String(repo).split("/")[0]);
+            sourceNote.innerHTML = 'Instructions published by the <a href="' + escapeHtml(repoUrl) +
+              '" rel="noopener">' + escapeHtml(repo) + '</a> project, shown here word for word ' +
+              '<a class="lumen-cite" href="' + escapeHtml(repoUrl) + '" rel="noopener" title="Project repository">[1]</a>' +
+              (state.tag ? ' <a class="lumen-cite" href="' +
+                escapeHtml(repoUrl + "/releases/tag/" + encodeURIComponent(state.tag)) +
+                '" rel="noopener" title="Release">[2]</a>' : "") +
+              ' <a class="lumen-cite" href="' + escapeHtml(pulls) + '" rel="noopener" title="Catalogue pull requests">[3]</a>';
+          } else {
+            sourceNote.textContent = "Instructions published by the project, shown here word for word.";
+          }
           sourceNote.hidden = false;
         }
       }

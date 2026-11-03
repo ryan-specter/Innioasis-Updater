@@ -648,8 +648,6 @@
         return portableIndexCache[repo];
     }
 
-    var portableAssetProbeCache = {};
-
     function githubReleaseAssetParts(url) {
         var match = /^https:\/\/github\.com\/([^/]+)\/([^/]+)\/releases\/download\/([^/]+)\/([^/?#]+)/i.exec(String(url || ""));
         if (!match) return null;
@@ -664,39 +662,36 @@
         }
     }
 
-    async function probePortableAsset(assetUrl, filename) {
-        var proxy = downloadProxyUrl();
-        var proxyHref = proxy ? downloadHref(assetUrl, filename) : "";
-        if (proxyHref) {
-            var cached = portableAssetProbeCache[proxyHref];
-            if (cached !== undefined) return cached;
-            try {
-                var res = await fetch(proxyHref, { method: "HEAD", cache: "no-store" });
-                if (res.ok) {
-                    var proxied = { exists: true, proxied: true };
-                    portableAssetProbeCache[proxyHref] = proxied;
-                    return proxied;
-                }
-            } catch (_) {}
-        }
+    var mirrorReleaseCache = {};
 
+    /* The mirror's own GitHub release is the only proof that a portable
+       package can actually be fetched: the tag must exist there and it must
+       list the exact asset the index promised. Anything less and the caller
+       keeps the original project download URL. */
+    function fetchMirrorRelease(repo, tag) {
+        if (!repo || !tag) return Promise.resolve(null);
+        var key = String(repo).toLowerCase() + "|" + String(tag).toLowerCase();
+        if (!mirrorReleaseCache[key]) {
+            mirrorReleaseCache[key] = fetchGithubApi(
+                "https://api.github.com/repos/" + repo + "/releases/tags/" + encodeURIComponent(tag)
+            ).then(function (res) {
+                if (!res.ok) return null;
+                return res.json();
+            }).catch(function () { return null; });
+        }
+        return mirrorReleaseCache[key];
+    }
+
+    async function verifiedMirrorAssetUrl(assetUrl) {
         var parts = githubReleaseAssetParts(assetUrl);
         if (!parts) return null;
-        try {
-            var apiRes = await fetchGithubApi("https://api.github.com/repos/" + parts.repo + "/releases/tags/" + encodeURIComponent(parts.tag));
-            if (apiRes.ok) {
-                var release = await apiRes.json();
-                var found = Array.isArray(release.assets) && release.assets.some(function (asset) {
-                    return asset && String(asset.name) === parts.name;
-                });
-                if (found) {
-                    var direct = { exists: true, proxied: false };
-                    if (proxyHref) portableAssetProbeCache[proxyHref] = direct;
-                    return direct;
-                }
-            }
-        } catch (_) {}
-        return null;
+        var release = await fetchMirrorRelease(parts.repo, parts.tag);
+        if (!release || !Array.isArray(release.assets)) return null;
+        var published = release.assets.find(function (asset) {
+            return asset && String(asset.name) === parts.name;
+        });
+        if (!published || !published.browser_download_url) return null;
+        return { url: published.browser_download_url, size: Number(published.size) || 0 };
     }
 
     function findPortableAsset(index, tag, sourceAsset, platformKey) {
@@ -719,6 +714,10 @@
         }) || null;
     }
 
+    /* Only return a mirror URL when that mirror release exists for this tag
+       and holds the package built for this firmware file on this OS/arch.
+       Every other case returns null so the caller downloads from the project
+       that publishes the firmware. */
     async function resolvePortableZip(mirrors, releaseTag, sourceAsset) {
         var repos = parsePortableZips(mirrors);
         if (!repos.length || !releaseTag || !sourceAsset) return null;
@@ -728,18 +727,18 @@
         for (var i = 0; i < repos.length; i++) {
             var index = await fetchPortableIndex(repos[i]);
             var asset = findPortableAsset(index, releaseTag, sourceAsset, key);
-            if (!asset) continue;
-            var url = /^https:\/\/github\.com\//i.test(String(asset.url || ""))
-                ? asset.url
+            if (!asset || !asset.name) continue;
+            var candidate = /^https:\/\/github\.com\//i.test(String(asset.url || ""))
+                ? String(asset.url)
                 : portableDownloadUrl(repos[i], releaseTag, asset.name);
-            var probe = await probePortableAsset(url, asset.name);
-            if (!probe || !probe.exists) continue;
+            var verified = await verifiedMirrorAssetUrl(candidate);
+            if (!verified) continue;
             return {
-                url: url,
+                url: verified.url,
                 name: asset.name,
                 platform: key,
                 repo: repos[i],
-                proxied: Boolean(probe.proxied)
+                proxied: Boolean(downloadProxyUrl())
             };
         }
         return null;
