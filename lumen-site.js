@@ -106,6 +106,45 @@
         return !!release.prerelease || label.indexOf("nightly") !== -1;
     }
 
+    /* Rockbox Y1 keeps a pre-0.5 archive: the stable v0.4 and v0.3 builds
+       predate the current 0.5 package layout, so the directory treats them
+       as legacy builds and only lists them when the visitor ticks the
+       nightly-builds checkbox, exactly like a nightly or preview build. */
+    var ROCKBOX_Y1_FLOOR = [0, 5];
+
+    function isRockboxY1Item(item) {
+        if (!item || String(item.model || "").toUpperCase() !== "Y1") return false;
+        return item.slug === "rockbox-y1" || String(item.repo || "").toLowerCase() === "rockbox-y1/rockbox";
+    }
+
+    /* Numeric version tuple from a release name or tag, or null when the
+       release carries nothing comparable (a nightly hash, say). The name
+       wins because old Rockbox releases use GitHub's numeric release id as
+       the tag; a bare number that large is an id, not a version. */
+    function releaseVersionTuple(release) {
+        if (!release) return null;
+        var sources = [release.name, release.tag_name];
+        for (var i = 0; i < sources.length; i += 1) {
+            var version = displayVersion(sources[i]);
+            if (!version || !/^\d+(\.\d+)*$/.test(version)) continue;
+            var tuple = version.split(".").map(function (part) { return Number(part); });
+            if (!(tuple[0] >= 1000)) return tuple;
+        }
+        return null;
+    }
+
+    /* True when a release's version sorts below the 0.5 floor. A missing
+       version is not judged legacy: only releases that state one. */
+    function isPreHalfRelease(release) {
+        var version = releaseVersionTuple(release);
+        if (!version) return false;
+        for (var i = 0; i < ROCKBOX_Y1_FLOOR.length; i += 1) {
+            var part = i < version.length ? version[i] : 0;
+            if (part !== ROCKBOX_Y1_FLOOR[i]) return part < ROCKBOX_Y1_FLOOR[i];
+        }
+        return false;
+    }
+
     /* Clean display version for a release, mirroring the Updater app's
        parse_version_designations: a YYYYMMDD-HHMM timestamp in the tag
        wins, then a v-prefixed dotted number anywhere in the tag, then a
@@ -299,6 +338,13 @@
     }
 
     function initCarousel(root) {
+        /* The Cristian Plaza walkthrough is Spanish: only Spanish readers see
+           it, and it is never part of an English reader's slide order. */
+        if (preferredLanguage() !== "es") {
+            root.querySelectorAll("[data-video-lang='es']").forEach(function (slide) {
+                if (slide.parentNode) slide.parentNode.removeChild(slide);
+            });
+        }
         var slides = Array.from(root.querySelectorAll(".lumen-carousel-slide"));
         var stage = root.querySelector(".lumen-carousel-stage");
         var previous = root.querySelector("[data-carousel-previous]");
@@ -641,8 +687,6 @@
         return portableIndexCache[repo];
     }
 
-    var portableAssetProbeCache = {};
-
     function githubReleaseAssetParts(url) {
         var match = /^https:\/\/github\.com\/([^/]+)\/([^/]+)\/releases\/download\/([^/]+)\/([^/?#]+)/i.exec(String(url || ""));
         if (!match) return null;
@@ -657,39 +701,40 @@
         }
     }
 
-    async function probePortableAsset(assetUrl, filename) {
-        var proxy = downloadProxyUrl();
-        var proxyHref = proxy ? downloadHref(assetUrl, filename) : "";
-        if (proxyHref) {
-            var cached = portableAssetProbeCache[proxyHref];
-            if (cached !== undefined) return cached;
-            try {
-                var res = await fetch(proxyHref, { method: "HEAD", cache: "no-store" });
-                if (res.ok) {
-                    var proxied = { exists: true, proxied: true };
-                    portableAssetProbeCache[proxyHref] = proxied;
-                    return proxied;
-                }
-            } catch (_) {}
-        }
+    var mirrorReleaseCache = {};
 
+    /* The mirror's own GitHub release is the only proof that a portable
+       package can actually be fetched: the tag must exist there and it must
+       list the exact asset the index promised. Anything less and the caller
+       keeps the original project download URL. */
+    function fetchMirrorRelease(repo, tag) {
+        if (!repo || !tag) return Promise.resolve(null);
+        var key = String(repo).toLowerCase() + "|" + String(tag).toLowerCase();
+        if (!mirrorReleaseCache[key]) {
+            mirrorReleaseCache[key] = fetchGithubApi(
+                "https://api.github.com/repos/" + repo + "/releases/tags/" + encodeURIComponent(tag)
+            ).then(function (res) {
+                if (!res.ok) return null;
+                return res.json();
+            }).catch(function () { return null; });
+        }
+        return mirrorReleaseCache[key];
+    }
+
+    async function verifiedMirrorAssetUrl(assetUrl) {
         var parts = githubReleaseAssetParts(assetUrl);
         if (!parts) return null;
-        try {
-            var apiRes = await fetchGithubApi("https://api.github.com/repos/" + parts.repo + "/releases/tags/" + encodeURIComponent(parts.tag));
-            if (apiRes.ok) {
-                var release = await apiRes.json();
-                var found = Array.isArray(release.assets) && release.assets.some(function (asset) {
-                    return asset && String(asset.name) === parts.name;
-                });
-                if (found) {
-                    var direct = { exists: true, proxied: false };
-                    if (proxyHref) portableAssetProbeCache[proxyHref] = direct;
-                    return direct;
-                }
-            }
-        } catch (_) {}
-        return null;
+        var release = await fetchMirrorRelease(parts.repo, parts.tag);
+        if (!release || !Array.isArray(release.assets)) return null;
+        var published = release.assets.find(function (asset) {
+            return asset && String(asset.name) === parts.name;
+        });
+        if (!published || !published.browser_download_url) return null;
+        /* An asset can be listed while still empty (a placeholder the mirror
+           fills later). Handing that over as rom.zip is the empty download
+           readers reported, so treat it as "not available". */
+        if (!(Number(published.size) > 0)) return null;
+        return { url: published.browser_download_url, size: Number(published.size) || 0 };
     }
 
     function findPortableAsset(index, tag, sourceAsset, platformKey) {
@@ -712,6 +757,10 @@
         }) || null;
     }
 
+    /* Only return a mirror URL when that mirror release exists for this tag
+       and holds the package built for this firmware file on this OS/arch.
+       Every other case returns null so the caller downloads from the project
+       that publishes the firmware. */
     async function resolvePortableZip(mirrors, releaseTag, sourceAsset) {
         var repos = parsePortableZips(mirrors);
         if (!repos.length || !releaseTag || !sourceAsset) return null;
@@ -721,123 +770,22 @@
         for (var i = 0; i < repos.length; i++) {
             var index = await fetchPortableIndex(repos[i]);
             var asset = findPortableAsset(index, releaseTag, sourceAsset, key);
-            if (!asset) continue;
-            var url = /^https:\/\/github\.com\//i.test(String(asset.url || ""))
-                ? asset.url
+            if (!asset || !asset.name) continue;
+            var candidate = /^https:\/\/github\.com\//i.test(String(asset.url || ""))
+                ? String(asset.url)
                 : portableDownloadUrl(repos[i], releaseTag, asset.name);
-            var probe = await probePortableAsset(url, asset.name);
-            if (!probe || !probe.exists) continue;
+            var verified = await verifiedMirrorAssetUrl(candidate);
+            if (!verified) continue;
+            var proxiedHref = await proxyHrefIfUsable(verified.url, sourceAsset);
             return {
-                url: url,
+                url: verified.url,
                 name: asset.name,
                 platform: key,
                 repo: repos[i],
-                proxied: Boolean(probe.proxied)
+                proxied: proxiedHref !== verified.url
             };
         }
         return null;
-    }
-
-    var cachedUpdaterNeoAssets = null;
-    async function fetchUpdaterNeoAssets() {
-        if (cachedUpdaterNeoAssets !== null) return cachedUpdaterNeoAssets;
-        var assets = [];
-        var seenNames = {};
-
-        function addAsset(a) {
-            if (a && a.name && !seenNames[a.name]) {
-                seenNames[a.name] = true;
-                assets.push(a);
-            }
-        }
-
-        // If running locally, check for local test assets first
-        if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-            try {
-                var localRes = await fetch("/api/local-portable-assets");
-                if (localRes.ok) {
-                    var localAssets = await localRes.json();
-                    if (Array.isArray(localAssets)) {
-                        localAssets.forEach(addAsset);
-                    }
-                }
-            } catch (_) {}
-        }
-
-        // Query GitHub API for latest release
-        var url = "https://api.github.com/repos/y1-community/updater-ce-neo/releases/latest";
-        try {
-            var res = await fetchGithubApi(url);
-            if (res.ok) {
-                var data = await res.json();
-                if (Array.isArray(data.assets)) data.assets.forEach(addAsset);
-            }
-        } catch (_) {}
-
-        // Also query recent releases to pick up platform assets uploaded across releases
-        try {
-            var allUrl = "https://api.github.com/repos/y1-community/updater-ce-neo/releases?per_page=10";
-            var allRes = await fetchGithubApi(allUrl);
-            if (allRes.ok) {
-                var list = await allRes.json();
-                if (Array.isArray(list)) {
-                    list.forEach(function (rel) {
-                        if (Array.isArray(rel.assets)) rel.assets.forEach(addAsset);
-                    });
-                }
-            }
-        } catch (_) {}
-
-        cachedUpdaterNeoAssets = assets;
-        return cachedUpdaterNeoAssets;
-    }
-
-    function findMatchingPortableAsset(assets, platform) {
-        if (!assets || !assets.length) return null;
-        var osPattern = platform.os;
-        var arch = platform.arch;
-
-        if (osPattern === "macos") {
-            return assets.find(function (a) {
-                var n = (a.name || "").toLowerCase();
-                if (!n.endsWith(".zip")) return false;
-                if (n.includes("mac") || n.includes("darwin") || n.includes("osx")) {
-                    if (arch === "arm64" && (n.includes("arm64") || n.includes("aarch64") || n.includes("apple-silicon") || n.includes("m1"))) return true;
-                    if (arch === "x86-64" && (n.includes("x86") || n.includes("intel"))) return true;
-                    if (!n.includes("arm64") && !n.includes("aarch64") && !n.includes("x86") && !n.includes("intel")) return true;
-                }
-                return false;
-            }) || null;
-        }
-
-        return assets.find(function (a) {
-            var n = (a.name || "").toLowerCase();
-            if (!n.endsWith(".zip")) return false;
-            var norm = n.replace(/[-_.]/g, "");
-            if (!norm.includes(osPattern)) return false;
-            if (!norm.includes("updater") && !norm.includes("portable")) return false;
-
-            if (arch === "arm64") {
-                return norm.includes("arm64") || norm.includes("aarch64");
-            } else if (arch === "riscv") {
-                return norm.includes("riscv");
-            } else {
-                return !norm.includes("arm64") && !norm.includes("aarch64") && !norm.includes("riscv");
-            }
-        }) || null;
-    }
-
-    function saveAsFile(blob, filename) {
-        var url = URL.createObjectURL(blob);
-        var a = document.createElement("a");
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(function () {
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }, 1000);
     }
 
     function downloadProxyUrl() {
@@ -856,40 +804,28 @@
             "&filename=" + encodeURIComponent(filename || "firmware.zip");
     }
 
-    async function streamDownload(url, onChunk) {
-        var tryUrls = [];
-        if (url.startsWith("/")) {
-            tryUrls.push(url);
-        } else {
-            if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-                tryUrls.push("/download-proxy?url=" + encodeURIComponent(url));
-            }
-            tryUrls.push(url);
-        }
+    var proxyProbeCache = {};
 
-        var lastError = null;
-        for (var i = 0; i < tryUrls.length; i++) {
+    /* The meta tag only records where a proxy is meant to live. Until that
+       Worker is deployed the site answers the path itself, so a same-origin
+       download link saves the 404 page under the firmware's name instead of
+       the asset. Ask the proxy for this file's headers first and keep the
+       direct release URL unless it really serves it. */
+    async function proxyHrefIfUsable(assetUrl, filename) {
+        var proxy = downloadProxyUrl();
+        if (!proxy) return assetUrl;
+        var href = downloadHref(assetUrl, filename);
+        if (proxyProbeCache[href] === undefined) {
+            var usable = false;
             try {
-                var res = await fetch(tryUrls[i]);
-                if (res.ok && res.body && typeof res.body.getReader === "function") {
-                    var totalBytes = Number(res.headers.get("content-length")) || 0;
-                    var reader = res.body.getReader();
-                    var chunks = [];
-                    var loaded = 0;
-                    while (true) {
-                        var chunk = await reader.read();
-                        if (chunk.done) break;
-                        chunks.push(chunk.value);
-                        loaded += chunk.value.length;
-                        onChunk(loaded, totalBytes);
-                    }
-                    return new Blob(chunks);
-                }
-            } catch (e) {
-                lastError = e;
+                var res = await fetch(href, { method: "HEAD", cache: "no-store" });
+                usable = Boolean(res.ok);
+            } catch (_) {
+                usable = false;
             }
+            proxyProbeCache[href] = usable;
         }
-        throw lastError || new Error("Failed to download file");
+        return proxyProbeCache[href] ? href : assetUrl;
     }
 
     var downloadInProgress = false;
@@ -1034,7 +970,6 @@
         }
 
         try {
-            var platform = await getFullPlatform();
             var portableZip = await resolvePortableZip(portableZips, releaseTag, zipName);
             if (portableZip) {
                 clearIntroTimers();
@@ -1053,177 +988,27 @@
                 }, 1000);
                 return;
             }
-            var neoAssets = await fetchUpdaterNeoAssets();
-            var matchingTool = findMatchingPortableAsset(neoAssets, platform);
-
-            var romBlob = null;
-            var toolBlob = null;
-
-            if (matchingTool && window.JSZip) {
-                var romLoaded = 0;
-                var toolLoaded = 0;
-                var romTotal = 0;
-                var toolTotal = 0;
-
-                romBlob = await streamDownload(zipUrl, function (loaded, total) {
-                    romLoaded = loaded;
-                    romTotal = total;
-                    totalBytesLoaded = romLoaded + toolLoaded;
-                    var pct = Math.round((romLoaded / (romTotal || romLoaded || 1)) * 49);
-                    updateProgress(pct);
-                });
-
-                toolBlob = await streamDownload(matchingTool.browser_download_url, function (loaded, total) {
-                    toolLoaded = loaded;
-                    toolTotal = total;
-                    totalBytesLoaded = romLoaded + toolLoaded;
-                    var pct = 49 + Math.round((toolLoaded / (toolTotal || toolLoaded || 1)) * 49);
-                    updateProgress(Math.min(98, pct));
-                });
-            } else {
-                romBlob = await streamDownload(zipUrl, function (loaded, total) {
-                    totalBytesLoaded = loaded;
-                    var pct = total > 0 ? Math.round((loaded / total) * 98) : 49;
-                    updateProgress(pct);
-                });
-            }
-
-            await introPromise;
-            startFinishingStage();
-
-            if (matchingTool && window.JSZip && toolBlob) {
-                if (platform.os === "windows" || platform.os === "linux") {
-                    var toolZip = await window.JSZip.loadAsync(toolBlob);
-                    var romZip = await window.JSZip.loadAsync(romBlob);
-
-                    var spPrefix = "";
-                    var spEntry = Object.keys(toolZip.files).find(function (f) {
-                        return /(^|\/)SP_Flash_Tool\//i.test(f);
-                    });
-                    if (spEntry) {
-                        var m = spEntry.match(/(.*?SP_Flash_Tool\/)/i);
-                        if (m) spPrefix = m[1];
-                    } else {
-                        spPrefix = "SP_Flash_Tool/";
-                    }
-
-                    var scatterFileName = "";
-                    var scatterPath = "";
-                    Object.keys(romZip.files).forEach(function (f) {
-                        if (!romZip.files[f].dir && /_scatter(\.txt)?$/i.test(f)) {
-                            scatterPath = f;
-                            scatterFileName = f.split("/").pop();
-                        }
-                    });
-                    if (!scatterFileName) {
-                        Object.keys(romZip.files).forEach(function (f) {
-                            if (!romZip.files[f].dir && /scatter.*\.txt$/i.test(f)) {
-                                scatterPath = f;
-                                scatterFileName = f.split("/").pop();
-                            }
-                        });
-                    }
-                    if (!scatterFileName) scatterFileName = "*_Android_scatter.txt";
-
-                    var romScatterDir = "";
-                    if (scatterPath && scatterPath.indexOf("/") !== -1) {
-                        romScatterDir = scatterPath.substring(0, scatterPath.lastIndexOf("/") + 1);
-                    }
-
-                    var romKeys = Object.keys(romZip.files);
-                    for (var r = 0; r < romKeys.length; r++) {
-                        var rKey = romKeys[r];
-                        var rObj = romZip.files[rKey];
-                        if (rObj.dir) continue;
-                        if (/history\.ini$/i.test(rKey)) continue;
-
-                        if (romScatterDir) {
-                            if (!rKey.startsWith(romScatterDir)) continue;
-                            var rel = rKey.substring(romScatterDir.length);
-                            if (rel.indexOf("/") !== -1) continue; // no subfolders
-                        } else {
-                            if (rKey.indexOf("/") !== -1) continue; // no subfolders
-                        }
-
-                        var targetName = rKey.split("/").pop();
-                        var rData = await rObj.async("uint8array");
-                        toolZip.file(spPrefix + targetName, rData);
-                    }
-
-                    var customHistoryIni =
-                        "[LastDAFilePath]\r\n" +
-                        "lastDir=MTK_AllInOne_DA.bin\r\n\r\n" +
-                        "[RecentOpenFile]\r\n" +
-                        "lastDir=\r\n" +
-                        "scatterHistory=" + scatterFileName + "\r\n" +
-                        "authHistory=@Invalid()\r\n";
-                    toolZip.file(spPrefix + "history.ini", customHistoryIni);
-
-                    var finalBlob = await toolZip.generateAsync({ type: "blob" });
-                    saveAsFile(finalBlob, zipName);
-                } else if (platform.os === "macos") {
-                    var macToolZip = await window.JSZip.loadAsync(toolBlob);
-                    var macOutZip = new window.JSZip();
-
-                    var macKeys = Object.keys(macToolZip.files);
-                    var appBase = "";
-                    for (var mk = 0; mk < macKeys.length; mk++) {
-                        var k = macKeys[mk];
-                        var idx = k.indexOf("Updater CE.app");
-                        if (idx !== -1) {
-                            appBase = k.substring(0, idx);
-                            break;
-                        }
-                    }
-                    if (!appBase) {
-                        for (var mk = 0; mk < macKeys.length; mk++) {
-                            var k = macKeys[mk];
-                            var idx = k.indexOf(".app");
-                            if (idx !== -1) {
-                                var slashBefore = k.lastIndexOf("/", idx);
-                                appBase = slashBefore !== -1 ? k.substring(0, slashBefore + 1) : "";
-                                break;
-                            }
-                        }
-                    }
-
-                    for (var mk = 0; mk < macKeys.length; mk++) {
-                        var mKey = macKeys[mk];
-                        var mObj = macToolZip.files[mKey];
-                        if (appBase ? mKey.startsWith(appBase) : (mKey.indexOf("Updater CE.app") !== -1 || mKey.indexOf(".app") !== -1)) {
-                            var targetPath = appBase ? mKey.substring(appBase.length) : mKey;
-                            if (mObj.dir) {
-                                macOutZip.folder(targetPath);
-                            } else {
-                                var mData = await mObj.async("uint8array");
-                                macOutZip.file(targetPath, mData);
-                            }
-                        }
-                    }
-
-                    var romBuffer = await romBlob.arrayBuffer();
-                    macOutZip.file(zipName, romBuffer);
-
-                    var macReadme =
-                        "Innioasis Updater CE & Firmware Bundle\n" +
-                        "=====================================\n\n" +
-                        "Quick Start Guide for macOS:\n" +
-                        "1. Drag \"Updater CE.app\" into your Applications folder.\n" +
-                        "2. If macOS prevents opening the app:\n" +
-                        "   Go to System Settings > Privacy & Security, scroll down to the Security section, and click \"Open Anyway\" (or \"Run Anyway\").\n" +
-                        "3. Launch Updater CE from Applications, and select the included \"" + zipName + "\" firmware file when prompted.\n";
-                    macOutZip.file("README.txt", macReadme);
-
-                    var macFinalBlob = await macOutZip.generateAsync({ type: "blob" });
-                    saveAsFile(macFinalBlob, zipName);
-                } else {
-                    saveAsFile(romBlob, zipName);
-                }
-            } else {
-                saveAsFile(romBlob, zipName);
-            }
-
-            markCompleted();
+            /* No mirror package exists for this firmware on this system, so
+               the reader gets the project's own release asset exactly as the
+               project published it. Nothing is assembled in the browser: a
+               bundle built here is saved under the firmware's own name, and
+               whenever one of its fetches was blocked the file arrived with
+               no firmware inside. A direct download can never do that. */
+            clearIntroTimers();
+            var directHref = await proxyHrefIfUsable(zipUrl, zipName);
+            if (bar) bar.style.width = "100%";
+            if (label) label.textContent = "Starting direct download\u2026";
+            if (metrics) metrics.textContent = "";
+            var directLink = document.createElement("a");
+            directLink.href = directHref;
+            directLink.download = zipName;
+            directLink.rel = "noopener";
+            document.body.appendChild(directLink);
+            directLink.click();
+            setTimeout(function () {
+                if (directLink.parentNode) directLink.parentNode.removeChild(directLink);
+                markCompleted();
+            }, 1000);
         } catch (err) {
             clearFinishTimers();
             console.warn("Stream download encountered an issue, falling back to direct browser download:", err);
@@ -1292,6 +1077,26 @@
             try { storedNightly = localStorage.getItem("innioasis-show-nightly") === "1"; } catch (_) {}
         }
         var showNightly = (searchParams.get("nightly") || "") === "1" ? true : storedNightly;
+        /* The checkbox copy follows the project. Rockbox on the Y1 keeps its
+           pre-0.5 builds behind the same switch as the nightlies, so name
+           both there; every other project only has nightlies to reveal. */
+        var nightlyCopy = nightly && nightly.parentNode ? nightly.parentNode.querySelector("span") : null;
+        var nightlyHelp = document.getElementById("nightly-help");
+        var nightlyCopyFor = {
+            generic: {
+                label: "Show nightly builds",
+                help: "Show preview and nightly builds alongside stable releases."
+            },
+            rockboxY1: {
+                label: "Show pre-0.5 Rockbox / nightly builds",
+                help: "Rockbox Y1 builds older than 0.5 and nightly builds are hidden by default. Tick to include them."
+            }
+        };
+        function syncNightlyCopy() {
+            var copy = isRockboxY1Item(matchingItems()[0] || null) ? nightlyCopyFor.rockboxY1 : nightlyCopyFor.generic;
+            if (nightlyCopy && nightlyCopy.textContent !== copy.label) nightlyCopy.textContent = copy.label;
+            if (nightlyHelp && nightlyHelp.textContent !== copy.help) nightlyHelp.textContent = copy.help;
+        }
         if (nightly) {
             nightly.checked = showNightly;
             nightly.addEventListener("change", function () {
@@ -1422,7 +1227,14 @@
         function visibleReleases(item) {
             var all = releasesForItem(item);
             if (!all) return null;
-            if (!showNightly) all = all.filter(function (release) { return !isNightly(release); });
+            if (!showNightly) {
+                var rockboxY1 = isRockboxY1Item(item);
+                all = all.filter(function (release) {
+                    if (isNightly(release)) return false;
+                    if (rockboxY1 && isPreHalfRelease(release)) return false;
+                    return true;
+                });
+            }
             if (!all.length) return null;
             /* Newest version first: timestamp/semver order with the published
                date as tiebreaker, mirroring the Updater app. GitHub's own
@@ -1523,7 +1335,12 @@
             var versionHtml = (state === "failed" && !release)
                 ? "<strong>" + escapeHtml(versionLabel) + "</strong>"
                 : '<span class="lumen-version-pill" style="font-weight:700;font-size:0.95rem;">' + escapeHtml(versionLabel) + '</span>';
-            var hint = release ? '' : state === "filtered-stable" ? '<span class="lumen-muted-inline">Tick the nightly-builds option to see previews</span>' : '';
+            /* The empty state names the same option the filterbar does, so
+               Rockbox on the Y1 points at its pre-0.5 builds too. */
+            var filteredHint = isRockboxY1Item(item)
+                ? 'Tick the pre-0.5 Rockbox / nightly-builds option to see older builds'
+                : 'Tick the nightly-builds option to see previews';
+            var hint = release ? '' : state === "filtered-stable" ? '<span class="lumen-muted-inline">' + filteredHint + '</span>' : '';
             var guideUrl = 'guide.html?model=' + encodeURIComponent(item.model) + '&software=' + encodeURIComponent(item.slug);
             var updater = '<a class="lumen-updater-button lumen-updater-button--table" href="' + guideUrl + '" aria-label="Get ' + escapeHtml(item.name) + ' for ' + escapeHtml(item.model) + ' on Innioasis Updater"><img src="mtkclient/gui/images/icon.png" width="28" height="28" alt=""><span><strong>Get it on Updater</strong><small>with guided install</small></span></a>';
 
@@ -1596,6 +1413,8 @@
                 }
             });
             table.innerHTML = rows.join("");
+            /* The checkbox label follows the project that is on screen. */
+            syncNightlyCopy();
             /* Model, type, software and release are all known here: hand them
                to the notice card so it can re-rank and surface what applies. */
             syncNoticeContext();

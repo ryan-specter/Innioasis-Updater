@@ -842,7 +842,7 @@ HEAD = """<!doctype html>
   <link rel="stylesheet" href="{up}lumen.css?v=20261105hero">
   <link rel="stylesheet" href="{up}site-pages.css?v=20260818">
   <link rel="stylesheet" href="{up}site-toolbar.css?v=20261105dockclose">
-  <link rel="stylesheet" href="{up}docs-viewer.css?v=20261103icons">
+  <link rel="stylesheet" href="{up}docs-viewer.css?v=20261112cites">
   <script src="{up}site-init.js?v=20260803" defer></script>
 </head>
 <body class="site-themes-app">
@@ -853,6 +853,7 @@ HEAD = """<!doctype html>
 FOOT = """<div id="footer-root"></div><div id="support-toolbar-slot"></div>
 <script src="{up}firmware-catalog.js?v=20260803" defer></script>
 <script src="{up}docs-viewer.js?v=20261107silo" defer></script>
+<script src="{up}portable-zip-links.js?v=20261103direct" defer></script>
 <script src="{up}nav.js?v=20261103brand" defer></script>
 <script src="{up}site-i18n.js?v=20260830" defer></script>
 </body></html>
@@ -920,6 +921,39 @@ def release_icon_html(item: dict, release: dict) -> str:
     return '<img class="lumen-release-icon" src="%s" alt="" loading="lazy">' % esc(src)
 
 
+def source_citations(item: dict, tag: str = "") -> str:
+    """Quiet numbered references to the project that publishes the firmware.
+
+    [1] the project repository, [2] the exact release, [3] the catalogue pull
+    requests that project has opened. They sit in the small print so readers
+    who need them can follow them while the page stays about the firmware.
+    """
+    repo = str(item.get("repo") or "").strip()
+    if "/" not in repo:
+        return ""
+    owner = repo.split("/")[0]
+    repo_url = "https://github.com/" + repo
+    parts = [
+        '<p class="lumen-doc-sources">Published by the '
+        '<a href="%s" rel="noopener">%s</a> project '
+        '<a class="lumen-cite" href="%s" rel="noopener" title="Project repository">[1]</a>'
+        % (esc(repo_url), esc(repo), esc(repo_url))
+    ]
+    if tag:
+        parts.append(
+            ' <a class="lumen-cite" href="%s/releases/tag/%s" rel="noopener" title="Release">[2]</a>'
+            % (esc(repo_url), esc(urllib.parse.quote(str(tag), safe="")))
+        )
+    pulls = "https://github.com/y1-community/Innioasis-Updater/pulls?q=" + urllib.parse.quote(
+        "is:pr author:%s" % owner, safe=""
+    )
+    parts.append(
+        ' <a class="lumen-cite" href="%s" rel="noopener" title="Catalogue pull requests">[3]</a></p>'
+        % esc(pulls)
+    )
+    return "".join(parts)
+
+
 def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list[dict]) -> str:
     up = "../../"
     name = item.get("name") or item.get("slug")
@@ -942,6 +976,13 @@ def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list
         meta_bits.append('<span class="lumen-release-pill lumen-release-pill--prerelease">Preview build</span>')
     if release.get("draft"):
         meta_bits.append('<span class="lumen-release-pill lumen-release-pill--prerelease">Draft</span>')
+
+    repo_slug = str(item.get("repo") or "")
+    if "/" in repo_slug:
+        meta_bits.append(
+            '<a class="lumen-release-repo" href="https://github.com/%s" rel="noopener">%s</a>'
+            % (esc(repo_slug), esc(repo_slug))
+        )
 
     icon_html = release_icon_html(item, release)
 
@@ -1012,6 +1053,7 @@ def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list
         "Install it with Updater CE, or download it from the firmware directory.</p>"
         % esc(name)
     )
+    main.append(source_citations(item, tag))
     main.append("</main>")
 
     return page({
@@ -1135,12 +1177,12 @@ def post_install_page(item: dict, source: dict, markdown: str, release_tags: lis
         '<a class="lumen-button" href="%s">Install guide</a>'
         "</div></header>"
         '<article class="lumen-doc-body">%s</article>'
-        '<p class="lumen-doc-footer-note">These are %s\'s own instructions, shown here word for word.</p></main>'
+        '<p class="lumen-doc-footer-note">These are %s\'s own instructions, shown here word for word.</p>%s</main>'
         % (
             up, esc(model), esc(item["slug"]), esc(name), (" · " + esc(model)) if model else "",
             esc(title), esc(item.get("description") or "The steps the project asks you to finish after the firmware is installed."),
             up, esc(model), esc(item["slug"]),
-            esc(guide_href(item, up)), body, esc(name),
+            esc(guide_href(item, up)), body, esc(name), source_citations(item, latest),
         )
     )
     return page({

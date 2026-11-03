@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="lumen.css?v=20261105hero">
   <link rel="stylesheet" href="site-pages.css?v=20260818">
   <link rel="stylesheet" href="site-toolbar.css?v=20261105dockclose">
-  <link rel="stylesheet" href="docs-viewer.css?v=20261103icons">
+  <link rel="stylesheet" href="docs-viewer.css?v=20261112cites">
   <script src="site-init.js?v=20260803" defer></script>
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Innioasis Updater">
@@ -39,6 +39,7 @@
       </div>
       <p class="lumen-lead" id="release-lead">What changed in this release, and how to install it.</p>
       <div class="lumen-release-tag-row" id="release-meta"></div>
+      <p class="lumen-doc-source" id="release-source" hidden></p>
       <div class="lumen-doc-actions" id="release-actions">
         <a class="lumen-button lumen-button--primary" id="release-updater" href="guide.html">Get it in Updater CE</a>
         <a class="lumen-button" id="release-directory" href="firmware.html">Firmware Downloads</a>
@@ -56,6 +57,7 @@
   <div id="support-toolbar-slot"></div>
   <script src="firmware-catalog.js?v=20261107notes" defer></script>
   <script src="docs-viewer.js?v=20261107silo" defer></script>
+<script src="portable-zip-links.js?v=20261103direct" defer></script>
   <script src="nav.js?v=20261105copyleft" defer></script>
   <script src="site-i18n.js?v=20260830" defer></script>
   <script>
@@ -105,6 +107,31 @@
         var name = release.name || "";
         var match = name.match(/(?:^|\s)(v?\d+\.\d+(?:\.\d+)?(?:-[a-zA-Z0-9.]+)?)(?:\s|$)/);
         return match ? match[1] : (release.tag_name || state.tag || "");
+      }
+
+      /* Quiet source links: who publishes this firmware, plus numbered
+         references (repository, release, catalogue pull requests). */
+      function setSource(release) {
+        var node = el("release-source");
+        if (!node) return;
+        if (!state.repo) { node.hidden = true; node.innerHTML = ""; return; }
+        var repoUrl = "https://github.com/" + state.repo;
+        var owner = String(state.repo).split("/")[0];
+        var tag = (release && release.tag_name) || state.tag || "";
+        var html = 'Published by the <a href="' + escapeHtml(repoUrl) + '" rel="noopener">' +
+          escapeHtml(state.repo) + '</a> project ' +
+          '<a class="lumen-cite" href="' + escapeHtml(repoUrl) + '" rel="noopener" title="Project repository">[1]</a>';
+        if (tag) {
+          html += ' <a class="lumen-cite" href="' +
+            escapeHtml(repoUrl + "/releases/tag/" + encodeURIComponent(tag)) +
+            '" rel="noopener" title="Release">[2]</a>';
+        }
+        html += ' <a class="lumen-cite" href="' +
+          escapeHtml("https://github.com/y1-community/Innioasis-Updater/pulls?q=" +
+            encodeURIComponent("is:pr author:" + owner)) +
+          '" rel="noopener" title="Catalogue pull requests">[3]</a>';
+        node.innerHTML = html;
+        node.hidden = false;
       }
 
       function setMeta(release) {
@@ -266,6 +293,7 @@
 
         setIcon(item, release);
         setMeta(release);
+        setSource(release);
         setActions(release);
         renderRelated(release, releases);
 
@@ -351,6 +379,8 @@
         if (lead) lead.textContent = "Pick a project to read the notes for its released builds.";
         var body = el("release-body");
         var action = el("release-source-placeholder");
+        var source = el("release-source");
+        if (source) { source.hidden = true; source.innerHTML = ""; }
         var items = (window.INNIOASIS_FIRMWARE_CATALOG || []).slice().sort(function (a, b) {
           return String(a.model || "").localeCompare(String(b.model || "")) ||
             String(a.name || "").localeCompare(String(b.name || ""));
