@@ -299,6 +299,13 @@
     }
 
     function initCarousel(root) {
+        /* The Cristian Plaza walkthrough is Spanish: only Spanish readers see
+           it, and it is never part of an English reader's slide order. */
+        if (preferredLanguage() !== "es") {
+            root.querySelectorAll("[data-video-lang='es']").forEach(function (slide) {
+                if (slide.parentNode) slide.parentNode.removeChild(slide);
+            });
+        }
         var slides = Array.from(root.querySelectorAll(".lumen-carousel-slide"));
         var stage = root.querySelector(".lumen-carousel-stage");
         var previous = root.querySelector("[data-carousel-previous]");
