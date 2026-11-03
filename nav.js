@@ -83,17 +83,29 @@
   }, true);
 
 
+  /* Which section of the site this page belongs to. The header brand, the
+     home link and the footer follow it, so every page group has to be listed
+     here: a page missing from the list used to inherit the Firmware Archive
+     brand and pick up its site name in the tab title. */
   function detectPersona() {
     var path = (window.location.pathname || "").toLowerCase();
     if (
       path === "/" ||
-      path.endsWith("/index.html") ||
+      path === "/index.html" ||
       path.endsWith("/guide.html") ||
       path.endsWith("/installguide.html") ||
       path.endsWith("/troubleshooting.html") ||
       path.endsWith("/credits.html") ||
       path.endsWith("/support_devs.html") ||
-      path.endsWith("/updater-comparison.html")
+      path.endsWith("/special-thanks.html") ||
+      path.endsWith("/updater-comparison.html") ||
+      path.endsWith("/notices.html") ||
+      path.indexOf("/notices/") !== -1 ||
+      path.endsWith("/post_install.html") ||
+      path.indexOf("/post-install/") !== -1 ||
+      path.endsWith("/theme_downloader.html") ||
+      path.endsWith("/404.html") ||
+      /embed|integration-snippet/.test(path)
     ) {
       return "updater";
     }
@@ -112,7 +124,10 @@
     return href;
   }
 
-  var isThemesSite = (window.location.hostname === "themes.innioasis.app") || (window.location.port === "8081") || !!document.querySelector(".gallery-topbar");
+  /* The gallery is the only site that renders a gallery topbar. The old
+     port-number guess branded the Updater as "Themes Gallery" whenever it
+     was previewed on the gallery's development port. */
+  var isThemesSite = (window.location.hostname === "themes.innioasis.app") || !!document.querySelector(".gallery-topbar");
 
   function decorateMainSiteHref(path) {
     if (!path) return path;
@@ -125,6 +140,12 @@
     return decorateCrossDomainHref(path);
   }
 
+  /* One site, one name: every page on innioasis.app ends its title with this,
+     whatever section it sits in. The section names (Updater CE, Firmware
+     Archive, Themes Gallery) live in the header, not in the page title. */
+  var SITE_BRAND = "Innioasis Updater";
+  var ANY_BRAND = /\bInnioasis (Updater|Firmware Downloads|Firmware Archive|Software Updates)\b/i;
+
   var persona = detectPersona();
   var isFirmwarePersona = persona === "firmware";
   var activeTitle = isThemesSite ? "Themes Gallery" : (isFirmwarePersona ? "Firmware Archive" : "Updater CE");
@@ -132,7 +153,7 @@
 
   (function updateDocumentTitle() {
     var path = (window.location.pathname || "").toLowerCase();
-    var t = document.title || "";
+    var t = (document.title || "").trim();
     if (isThemesSite) {
       if (path === "" || path === "/" || path.endsWith("/index.html")) {
         document.title = "Innioasis Themes Gallery - Y1 and Y2 Rockbox themes";
@@ -144,15 +165,14 @@
       }
       return;
     }
-    if (isFirmwarePersona) {
-      if (t.indexOf("Innioasis Firmware Downloads") === -1) {
-        var base = t.replace(/\s+[|·-]\s+Innioasis [^|·-]*$/, "").trim();
-        document.title = (base || t) + " - Innioasis Firmware Downloads";
-      }
-    } else if (t.indexOf("Innioasis Updater") === -1) {
-      var uBase = t.replace(/\s+[|·-]\s+Innioasis [^|·-]*$/, "").trim();
-      document.title = (uBase || t) + " - Innioasis Updater";
+    if (!t) {
+      document.title = SITE_BRAND;
+      return;
     }
+    /* A page that already names the site keeps its title. Appending a second
+       name is what produced titles like "... - Innioasis Firmware Downloads". */
+    if (ANY_BRAND.test(t)) return;
+    document.title = t + " - " + SITE_BRAND;
   })();
 
   var allSwitcherItems = [

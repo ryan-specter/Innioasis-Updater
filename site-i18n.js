@@ -367,7 +367,7 @@
         [/Afterlife Edition/, "Community Edition"],
         [/^Install (.+) on your (Y1|Y2)$/, "Flash $1 on your $2"],
         [/^Install (.+) on your (Y1|Y2)\.$/, "Flash $1 on your $2."],
-        [/^Install (.+) on your (Y1|Y2) \| Innioasis Updater$/, "Flash $1 on your $2 | Innioasis Updater"],
+        [/^Install (.+) on your (Y1|Y2) [-|] Innioasis Updater$/, "Flash $1 on your $2 | Innioasis Updater"],
         [/^Restore Original Software on your (Y1|Y2)$/, "Back to stock on your $1"],
         [/^Restore Original Software on your (Y1|Y2)\.$/, "Back to stock on your $1."],
         [/^Restore Original Software on your (Y1|Y2) \| Innioasis Updater$/, "Back to stock on your $1 | Innioasis Updater"],
