@@ -264,6 +264,58 @@
             });
     }
 
+    /* The visitor's language. YouTube picks a matching dubbed or
+       multi-language audio track when the creator has published one, and
+       plays the original audio when there is none. */
+    function preferredLanguage() {
+        var raw = (navigator.languages && navigator.languages[0]) || navigator.language || "en";
+        var short = String(raw).toLowerCase().split("-")[0];
+        return short || "en";
+    }
+
+    function withPlayerLanguage(src, lang) {
+        if (!src || src.indexOf("youtube") === -1) return src;
+        var url;
+        try {
+            url = new URL(src, window.location.href);
+        } catch (error) {
+            return src;
+        }
+        url.searchParams.set("hl", lang);
+        url.searchParams.set("cc_lang_pref", lang);
+        return url.toString();
+    }
+
+    /* Spanish visitors get the Spanish walkthrough in the featured slot;
+       everyone else meets it as the final slide of the carousel. */
+    function applyEmbedLanguage() {
+        var lang = preferredLanguage();
+        var spanish = lang === "es";
+        document.querySelectorAll("iframe[src*='youtube']").forEach(function (frame) {
+            var base = frame.getAttribute("data-embed-src") || frame.getAttribute("src");
+            if (!base) return;
+            frame.setAttribute("data-embed-src", base);
+            frame.setAttribute("src", withPlayerLanguage(base, lang));
+        });
+        var featured = document.querySelector("[data-featured-video]");
+        if (featured && spanish) {
+            featured.setAttribute("src", withPlayerLanguage("https://www.youtube-nocookie.com/embed/cdp5mpLhGkI?rel=0&start=305", lang));
+            featured.setAttribute("title", "Cristian Plaza: instalación de Rockbox en el Innioasis Y1 (en español)");
+        }
+        var caption = document.querySelector("[data-featured-caption]");
+        if (caption) {
+            caption.innerHTML = spanish
+                ? 'Vídeo de <a href="https://www.youtube.com/@CristianPlaza" target="_blank" rel="noopener noreferrer">Cristian Plaza</a>, en español, empezando por la instalación.'
+                : 'Video by <a href="https://www.youtube.com/watch?v=Jzo8LNJNE5I" target="_blank" rel="noopener noreferrer">Frawgeeys</a>. Installing Rockbox on the Y1 with Updater CE.';
+        }
+        if (spanish) {
+            /* It is already the featured video; do not show it twice. */
+            document.querySelectorAll("[data-video-lang='es']").forEach(function (slide) {
+                if (slide.parentNode) slide.parentNode.removeChild(slide);
+            });
+        }
+    }
+
     function initCarousel(root) {
         var slides = Array.from(root.querySelectorAll(".lumen-carousel-slide"));
         var stage = root.querySelector(".lumen-carousel-stage");
@@ -297,6 +349,14 @@
                 if (macFirst > 0) rotating.unshift(rotating.splice(macFirst, 1)[0]);
             }
             slides = fixed.concat(rotating);
+            /* A slide marked as last always closes the carousel: the Spanish
+               walkthrough is the final pick for non-Spanish visitors. */
+            var tail = slides.filter(function (slide) {
+                return slide.getAttribute("data-carousel-last") === "true";
+            });
+            if (tail.length) {
+                slides = slides.filter(function (slide) { return tail.indexOf(slide) === -1; }).concat(tail);
+            }
             slides.forEach(function (slide, index) {
                 slide.setAttribute("aria-label", "Video " + (index + 1) + " of " + slides.length);
                 slide.setAttribute("aria-roledescription", "slide");
@@ -2151,6 +2211,9 @@
         /* Start the docs viewer early: guide pages rewrite their post-install
            links to it as soon as the manifest is merged. */
         ensureDocsViewer();
+        /* Before the carousel caches each iframe src, so the player language
+           sticks when a slide is shown again. */
+        applyEmbedLanguage();
         document.querySelectorAll("[data-lumen-carousel]").forEach(initCarousel);
         document.querySelectorAll("[data-lumen-feedback]").forEach(initFeedback);
         initPlatformReveal();
