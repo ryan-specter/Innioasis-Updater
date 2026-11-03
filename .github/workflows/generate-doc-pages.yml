@@ -1,0 +1,67 @@
+name: Generate release notes and post-install pages
+
+# Every firmware release listed in slidia_manifest.xml gets a static page, old
+# and new: its release notes, our portable download buttons, the Updater CE
+# install guide, and the project's post-install Markdown. The pages are the
+# crawlable equivalents of release_notes.html and post_install.html.
+
+on:
+  push:
+    paths:
+      - slidia_manifest.xml
+      - firmware-catalog.js
+      - docs-viewer.js
+      - scripts/generate_doc_pages.py
+      - .github/workflows/generate-doc-pages.yml
+  # A release published in any listed project can ask for a rebuild.
+  repository_dispatch:
+    types: [firmware-release]
+  workflow_dispatch:
+    inputs:
+      refresh:
+        description: "Ignore the cached GitHub responses"
+        type: boolean
+        default: false
+  schedule:
+    - cron: "23 3 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: generate-doc-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Cache GitHub responses
+        uses: actions/cache@v4
+        with:
+          path: .cache/doc-pages
+          key: doc-pages-${{ github.run_id }}
+          restore-keys: doc-pages-
+
+      - name: Render release notes and post-install pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/generate_doc_pages.py ${{ inputs.refresh && '--refresh' || '' }}
+
+      - name: Commit regenerated pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add release-notes post-install sitemap.xml
+          if git diff --cached --quiet; then
+            echo "No release or post-install changes."
+          else
+            git commit -m "Regenerate static release notes and post-install pages"
+            git push
+          fi

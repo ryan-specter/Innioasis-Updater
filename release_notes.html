@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Firmware release notes - Innioasis Updater</title>
+  <meta name="description" content="Release notes for community firmware on Innioasis Y1 and Y2 players, with portable downloads and one-click install through Innioasis Updater CE.">
+  <link rel="canonical" href="https://innioasis.app/release_notes.html">
+  <link rel="icon" href="y1_illustration.png">
+  <link rel="stylesheet" href="site-theme.css?v=20260803">
+  <link rel="stylesheet" href="lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="site-pages.css?v=20260818">
+  <link rel="stylesheet" href="site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="docs-viewer.css?v=20261103docs">
+  <script src="site-init.js?v=20260803" defer></script>
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Firmware release notes - Innioasis Updater">
+  <meta property="og:description" content="Release notes for community firmware on Innioasis Y1 and Y2 players, with portable downloads and one-click install through Innioasis Updater CE.">
+  <meta property="og:url" content="https://innioasis.app/release_notes.html">
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body class="site-themes-app">
+  <a class="lumen-skip-link" href="#main">Skip to content</a>
+  <div id="nav-root"></div>
+  <main id="main" class="lumen-guide lumen-doc-page lumen-release-page">
+    <p class="lumen-doc-back" id="release-back"><a href="firmware.html">← Firmware Downloads</a></p>
+
+    <header class="lumen-doc-head">
+      <div class="lumen-release-head">
+        <img class="lumen-release-icon" id="release-icon" alt="" hidden>
+        <div class="lumen-release-titles">
+          <p class="lumen-kicker" id="release-kicker">Firmware release</p>
+          <h1 id="release-title">Release notes</h1>
+        </div>
+      </div>
+      <p class="lumen-lead" id="release-lead">What changed in this release, and where to download it.</p>
+      <div class="lumen-release-tag-row" id="release-meta"></div>
+      <div class="lumen-doc-actions" id="release-actions">
+        <a class="lumen-button lumen-button--primary" id="release-downloads-link" href="#release-downloads">Download this release</a>
+        <a class="lumen-button" id="release-directory" href="firmware.html">Firmware Downloads</a>
+      </div>
+    </header>
+
+    <section class="lumen-release-downloads" id="release-downloads" hidden>
+      <h2>Download &amp; install</h2>
+      <div id="release-download-rows"></div>
+      <div class="lumen-actions" style="margin-top:14px;">
+        <a class="lumen-button lumen-button--primary" id="release-updater" href="guide.html" hidden>Get it in Updater CE</a>
+        <span class="lumen-doc-see-more" id="release-mirror-note" hidden>Repackaged portable builds are served from the community mirror.</span>
+      </div>
+    </section>
+
+    <article class="lumen-doc-body" id="release-body" aria-live="polite">
+      <p class="lumen-doc-status" id="release-status">Loading release notes…</p>
+    </article>
+
+    <section class="lumen-doc-related" id="release-related" hidden></section>
+    <p class="lumen-doc-footer-note" id="release-note" hidden></p>
+  </main>
+  <div id="footer-root"></div>
+  <div id="support-toolbar-slot"></div>
+  <script src="firmware-catalog.js?v=20260803" defer></script>
+  <script src="docs-viewer.js?v=20261103saveas" defer></script>
+  <script src="nav.js?v=20261105copyleft" defer></script>
+  <script src="site-i18n.js?v=20260830" defer></script>
+  <script>
+    /* Release notes reader.
+
+       This replaces the bare "View on GitHub" jump with a page in our own
+       styling: the release's Markdown body rendered verbatim, our portable
+       download buttons (mirror packages first, the project's own assets as a
+       fallback) and the "Get it in Updater CE" guided install. The notes are
+       shown here, so nothing sends the reader to another site.
+
+       Reached from the firmware directory rows, from install guides, and from
+       post_install.html. scripts/generate_doc_pages.py writes static versions
+       of the same page for every release, old and new. */
+    (function () {
+      "use strict";
+
+      /* docs-viewer.js is deferred; resolve it once the page is ready. */
+      var D = null;
+      var state = {};
+
+      function el(id) { return document.getElementById(id); }
+
+      function escapeHtml(value) {
+        return String(value == null ? "" : value).replace(/[&<>"']/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+        });
+      }
+
+      function catalogItem() {
+        var catalog = window.INNIOASIS_FIRMWARE_CATALOG || [];
+        if (state.software) {
+          var bySlug = catalog.find(function (entry) { return entry.slug === state.software; });
+          if (bySlug) return bySlug;
+        }
+        if (state.repo) {
+          return catalog.find(function (entry) {
+            return entry.repo && entry.repo.toLowerCase() === state.repo.toLowerCase() &&
+              (!state.model || entry.model === state.model);
+          }) || null;
+        }
+        return null;
+      }
+
+      function versionOf(release) {
+        if (!release) return state.tag || "";
+        var name = release.name || "";
+        var match = name.match(/(?:^|\s)(v?\d+\.\d+(?:\.\d+)?(?:-[a-zA-Z0-9.]+)?)(?:\s|$)/);
+        return match ? match[1] : (release.tag_name || state.tag || "");
+      }
+
+      function setMeta(release) {
+        var meta = el("release-meta");
+        if (!meta) return;
+        var bits = [];
+        if (release && release.tag_name) bits.push('<span class="lumen-release-pill">' + escapeHtml(release.tag_name) + "</span>");
+        if (state.model) bits.push("<span>" + escapeHtml(state.model) + "</span>");
+        if (release && release.published_at) bits.push("<span>" + escapeHtml(D.formatDate(release.published_at)) + "</span>");
+        if (release && release.prerelease) bits.push('<span class="lumen-release-pill lumen-release-pill--prerelease">Preview build</span>');
+        if (release && release.draft) bits.push('<span class="lumen-release-pill lumen-release-pill--prerelease">Draft</span>');
+        if (state.mirrorCount) bits.push('<span class="lumen-release-pill lumen-release-pill--mirror">Portable mirror</span>');
+        meta.innerHTML = bits.join("");
+      }
+
+      function assetRows(release, mirrorAssets) {
+        var rows = [];
+        var saveAs = D.mirrorDownloadName(release, state.item);
+        mirrorAssets.forEach(function (entry) {
+          var asset = entry.asset;
+          rows.push({
+            name: saveAs,
+            url: asset.browser_download_url,
+            size: asset.size,
+            note: "Portable package · repackaged by the community mirror",
+            primary: true,
+            saveAs: saveAs
+          });
+        });
+        var assets = (release && release.assets) || [];
+        assets.forEach(function (asset) {
+          var name = String(asset.name || "");
+          if (!/\.(zip|img|apk|dmg|deb|AppImage|tar\.gz|7z)$/i.test(name)) return;
+          if (rows.some(function (row) { return row.name === name; })) return;
+          var lower = name.toLowerCase();
+          var note = "Project release asset";
+          if (/^rom/.test(lower)) note = "Firmware package for Updater CE and manual flashing";
+          else if (/\.apk$/.test(lower)) note = "Android app package";
+          else if (/mac|darwin|osx/.test(lower)) note = "macOS build";
+          else if (/linux|appimage|\.deb$/.test(lower)) note = "Linux build";
+          else if (/win|\.exe/.test(lower)) note = "Windows build";
+          rows.push({ name: name, url: asset.browser_download_url, size: asset.size, note: note, primary: false });
+        });
+        return rows;
+      }
+
+      function renderDownloads(release, mirrorAssets) {
+        var section = el("release-downloads");
+        var container = el("release-download-rows");
+        if (!section || !container) return;
+        var rows = assetRows(release, mirrorAssets);
+        if (!rows.length) {
+          container.innerHTML = '<p class="lumen-doc-status">This release does not publish downloadable files. ' +
+            "Use the Updater CE guide below to install it.</p>";
+          section.hidden = false;
+          return;
+        }
+        container.innerHTML = rows.map(function (row) {
+          return '<div class="lumen-download-row">' +
+            '<div class="lumen-download-row-main">' +
+            '<span class="lumen-download-name">' + escapeHtml(row.name) + "</span>" +
+            '<span class="lumen-download-note">' + escapeHtml(row.note) +
+            (row.size ? " · " + escapeHtml(D.formatBytes(row.size)) : "") + "</span>" +
+            "</div>" +
+            '<a class="lumen-download-cta' + (row.primary ? " lumen-download-cta--primary" : "") + '" href="' +
+            escapeHtml(row.url) + '" rel="noopener noreferrer"' +
+            (row.saveAs
+              ? ' download="' + escapeHtml(row.saveAs) + '" data-save-as="' + escapeHtml(row.saveAs) + '"'
+              : " download") + '>' +
+            (row.primary ? "Download portable ZIP" : "Download") + "</a>" +
+            "</div>";
+        }).join("");
+        section.hidden = false;
+        var note = el("release-mirror-note");
+        if (note) note.hidden = !mirrorAssets.length;
+      }
+
+      function setActions(release) {
+        var guideUrl = state.model
+          ? "guide.html?model=" + encodeURIComponent(state.model) +
+            (state.software ? "&software=" + encodeURIComponent(state.software) : "")
+          : "guide.html";
+        var updater = el("release-updater");
+        if (updater) {
+          updater.href = guideUrl;
+          updater.hidden = false;
+          updater.textContent = state.name ? "Get " + state.name + " in Updater CE" : "Get it in Updater CE";
+        }
+        var directory = el("release-directory");
+        if (directory) {
+          directory.href = state.model
+            ? "firmware.html?model=" + encodeURIComponent(state.model) +
+              (state.software ? "&software=" + encodeURIComponent(state.software) : "")
+            : "firmware.html";
+        }
+        var downloadsLink = el("release-downloads-link");
+        if (downloadsLink) downloadsLink.hidden = !el("release-downloads") || el("release-downloads").hidden;
+      }
+
+      function setIcon(item, release) {
+        var icon = el("release-icon");
+        if (!icon) return;
+        var src = (item && item.icon) || "";
+        if (!src && release && release.author && release.author.avatar_url) src = release.author.avatar_url;
+        if (!src && state.repo) src = "https://avatars.githubusercontent.com/" + state.repo.split("/")[0];
+        if (!src) return;
+        icon.src = src;
+        icon.alt = "";
+        icon.hidden = false;
+        icon.addEventListener("error", function () { icon.hidden = true; });
+      }
+
+      function relatedItem(html) { return '<li>' + html + "</li>"; }
+
+      function renderRelated(release, releases) {
+        var section = el("release-related");
+        if (!section) return;
+        var cards = [];
+        var item = state.item;
+
+        if (item && item.post_install) {
+          var link = D.postInstallHref(item.post_install, {
+            software: item.slug || state.software,
+            model: item.model || state.model,
+            repo: item.repo || state.repo,
+            name: item.name || state.name
+          });
+          cards.push(relatedItem(
+            '<a href="' + escapeHtml(link) + '"><strong>Post-install setup</strong>' +
+            "<small>The steps to finish after this firmware is installed</small></a>"
+          ));
+        }
+        if (item && (item.guide || item.seoPage)) {
+          cards.push(relatedItem(
+            '<a href="' + escapeHtml(item.guide || item.seoPage) + '"><strong>Install guide</strong>' +
+            "<small>Step-by-step install for " + escapeHtml(item.name || state.name || "this firmware") + "</small></a>"
+          ));
+        }
+
+        var others = (releases || []).filter(function (entry) {
+          return !release || entry.id !== release.id;
+        }).slice(0, 8);
+        others.forEach(function (entry) {
+          var href = D.releaseNotesHref({
+            repo: state.repo,
+            tag: entry.tag_name || "",
+            model: state.model,
+            software: state.software,
+            name: state.name
+          });
+          cards.push(relatedItem(
+            '<a href="' + escapeHtml(href) + '"><strong>' + escapeHtml(entry.name || entry.tag_name || "Release") + "</strong>" +
+            "<small>" + escapeHtml(entry.tag_name || "") +
+            (entry.published_at ? " · " + escapeHtml(D.formatDate(entry.published_at)) : "") + "</small></a>"
+          ));
+        });
+
+        if (!cards.length) return;
+        section.hidden = false;
+        section.innerHTML = "<h2>Also useful</h2><ul class=\"lumen-doc-related-list\">" + cards.join("") + "</ul>";
+      }
+
+      function showError(message, release) {
+        var body = el("release-body");
+        if (body) {
+          body.innerHTML =
+            '<div class="lumen-doc-status lumen-doc-error"><p><strong>' + escapeHtml(message) + "</strong></p>" +
+            '<p class="lumen-actions">' +
+            '<a class="lumen-button" href="firmware.html">Back to Firmware Downloads</a></p></div>';
+        }
+        setActions(release || null);
+        var note = el("release-note");
+        if (note) {
+          note.textContent = "The notes could not be fetched just now. Try again in a moment, or open the firmware list.";
+          note.hidden = false;
+        }
+      }
+
+      function renderRelease(release, releases, mirrorAssets) {
+        var item = state.item;
+        var label = state.name || (item && item.name) || state.repo;
+        var version = versionOf(release);
+        var title = (release && release.name) ? release.name : (label + " " + version).trim();
+
+        state.tag = (release && release.tag_name) || state.tag;
+        state.mirrorCount = mirrorAssets.length;
+
+        var titleEl = el("release-title");
+        if (titleEl) titleEl.textContent = title;
+        var kicker = el("release-kicker");
+        if (kicker) {
+          kicker.textContent = "Firmware release notes · " + label + (state.model ? " · " + state.model : "");
+        }
+        var lead = el("release-lead");
+        if (lead) {
+          lead.textContent = (item && item.description) ||
+            "What changed in this release, and where to download it.";
+        }
+        document.title = title + " - Innioasis Updater";
+
+        setIcon(item, release);
+        setMeta(release);
+        renderDownloads(release, mirrorAssets);
+        setActions(release);
+        renderRelated(release, releases);
+
+        var body = el("release-body");
+        if (body) {
+          var ctx = {};
+          if (state.repo && state.tag) {
+            ctx.repo = state.repo;
+            ctx.ref = state.tag;
+            ctx.dirBlob = "https://github.com/" + state.repo + "/blob/" + state.tag + "/";
+            ctx.dirRaw = "https://raw.githubusercontent.com/" + state.repo + "/" + state.tag + "/";
+          }
+          body.innerHTML = D.markdownToHtml(D.releaseBody(release), ctx);
+        }
+
+        if (state.software && state.tag) {
+          var canonical = document.querySelector('link[rel="canonical"]');
+          if (canonical) {
+            canonical.href = "https://innioasis.app/" + D.staticReleasePath(state.software, state.tag);
+          }
+        }
+      }
+
+      function pickRelease(releases) {
+        if (!releases || !releases.length) return null;
+        if (state.tag) {
+          var wanted = state.tag.toLowerCase();
+          var exact = releases.find(function (entry) {
+            return String(entry.tag_name || "").toLowerCase() === wanted ||
+              String(entry.name || "").toLowerCase() === wanted;
+          });
+          /* A specific release was asked for: never quietly show a different
+             one in its place. */
+          return exact || null;
+        }
+        var names = [];
+        if (state.item) {
+          names.push(String(state.item.packageName || "").toLowerCase());
+          if (state.model === "Y2") names.push("rom_y2.zip");
+          if (state.model === "Y1") names.push("rom.zip", "rom_type_b.zip");
+        }
+        var matched = releases.find(function (entry) {
+          return (entry.assets || []).some(function (asset) {
+            return names.indexOf(String(asset.name || "").toLowerCase()) !== -1;
+          });
+        });
+        return matched || releases[0];
+      }
+
+      /* Generated pages already carry these notes, the download buttons and
+         the Updater guide, and they never hit a rate-limited API. When one
+         exists for this release, prefer it. */
+      function useGeneratedPage(done) {
+        if (!state.software || !state.tag) { done(); return; }
+        var path = D.staticReleasePath(state.software, state.tag);
+        D.headOk(path).then(function (exists) {
+          if (exists) {
+            window.location.replace(path);
+            return;
+          }
+          done();
+        });
+      }
+
+      function load() {
+        D = window.InnioasisDocs;
+        if (!D) {
+          var status = document.getElementById("release-status");
+          if (status) {
+            status.innerHTML = 'The release notes viewer could not start. ' +
+              '<a href="firmware.html">Back to Firmware Downloads</a>';
+          }
+          return;
+        }
+        state.repo = D.queryParam("repo");
+        state.tag = D.queryParam("tag");
+        state.model = D.queryParam("model").toUpperCase();
+        state.software = D.queryParam("software");
+        state.name = D.queryParam("name");
+        state.item = catalogItem();
+
+        if (!state.repo && state.item) state.repo = state.item.repo || "";
+        if (!state.model && state.item) state.model = state.item.model || "";
+        if (!state.name && state.item) state.name = state.item.name || "";
+        if (!state.software && state.item) state.software = state.item.slug || "";
+
+        var back = el("release-back");
+        if (back) {
+          back.innerHTML = '<a href="' + escapeHtml(state.model
+            ? "firmware.html?model=" + encodeURIComponent(state.model) +
+              (state.software ? "&software=" + encodeURIComponent(state.software) : "")
+            : "firmware.html") + '">← Firmware Downloads</a>';
+        }
+
+        if (!state.repo) {
+          document.title = "Firmware release notes - Innioasis Updater";
+          showError("No firmware project was given for this page.");
+          return;
+        }
+
+        useGeneratedPage(function () { loadLive(); });
+      }
+
+      function loadLive() {
+        /* A tag lookup can fail on a rename or a rate-limited API; fall back
+           to the release list and match there before giving up. */
+        var releasesRequest = state.tag
+          ? D.fetchRelease(state.repo, state.tag).then(function (release) { return [release]; })
+              .catch(function () { return D.fetchReleases(state.repo, 1); })
+          : D.fetchReleases(state.repo, 1);
+
+        Promise.all([
+          releasesRequest,
+          state.tag ? D.fetchMirrorAssets(state.repo, state.tag) : Promise.resolve([]),
+          state.tag ? Promise.resolve([]) : D.fetchReleases(state.repo, 1)
+        ]).then(function (results) {
+          var releases = results[0] || [];
+          var mirrorAssets = results[1] || [];
+          var release = pickRelease(releases);
+          if (!release) {
+            showError("This project has no public releases yet.");
+            return;
+          }
+          /* With no tag in the URL the page is the project's latest release,
+             so the mirror lookup has to wait until we know the tag. */
+          if (!state.tag) {
+            state.tag = release.tag_name || "";
+            D.fetchMirrorAssets(state.repo, state.tag).then(function (assets) {
+              renderRelease(release, releases, assets);
+            });
+            return;
+          }
+          renderRelease(release, releases, mirrorAssets);
+        }).catch(function (error) {
+          if (window.console && console.warn) console.warn("release notes failed", error);
+          showError("The release notes for this version could not be loaded.");
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", load);
+      } else {
+        load();
+      }
+    })();
+  </script>
+</body>
+</html>

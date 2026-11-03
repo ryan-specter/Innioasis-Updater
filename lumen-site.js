@@ -1309,15 +1309,18 @@
             /* The GitHub link goes straight to this release's own page when
                a release is shown; loading and empty-state rows fall back to
                the project's release list. */
-            var githubUrl = release && release.tag_name
-                ? 'https://github.com/' + item.repo + '/releases/tag/' + encodeURIComponent(release.tag_name)
-                : 'https://github.com/' + item.repo + '/releases';
+            /* The reader goes to our own release-notes page: the same notes,
+               our portable download buttons and the Updater CE guide, all
+               served from this site. */
+            var releaseNotesUrl = docsReleaseNotesHref(item, release && release.tag_name ? release.tag_name : "") ||
+                ('https://github.com/' + item.repo + '/releases');
             return '<tr data-release-tag="' + escapeHtml(release && (release.tag_name || release.name) || "") + '">' +
                 '<td><div style="display:flex;align-items:center;gap:10px;">' + iconHtml + '<div>' + versionHtml + (release && release.published_at ? '<br><span class="lumen-meta">' + escapeHtml(release.published_at.slice(0, 10)) + '</span>' : '') + '</div></div></td>' +
                 /* The package is not shown: the Release details expander lists
                    the rom zips this release is packaged in. */
                 '<td><div class="lumen-actions">' + updater + zipBtn + hint + '</div>' + releaseDetails(release, item, typeForItem(item)) + '</td>' +
-                '<td><a class="lumen-github-link" href="' + githubUrl + '" target="_blank" rel="noopener noreferrer" aria-label="Open ' + escapeHtml(release && release.tag_name ? release.tag_name : item.name) + ' on GitHub"><svg viewBox="0 0 16 16" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a></td>' +
+                '<td><a class="lumen-github-link" href="' + releaseNotesUrl + '" aria-label="Read the release notes for ' + escapeHtml(release && release.tag_name ? release.tag_name : item.name) + '">' +
+                '<svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h6l3 3v11H6z"/><path d="M12 3v3h3"/><path d="M8.5 10h5M8.5 13h5"/></svg></a></td>' +
                 '</tr>';
         }
 
@@ -1585,7 +1588,7 @@
                 li.textContent = text;
                 list.appendChild(li);
             });
-            if (item.post_install) {
+            if (item.post_install || item.post_install2) {
                 var postLi = document.createElement("li");
                 postLi.setAttribute("data-post-install-step", "1");
                 postLi.setAttribute("data-slug", item.slug);
@@ -1605,8 +1608,9 @@
                     '<strong>' + escapeHtml(titleText) + '</strong>' +
                     '<p style="margin:4px 0 0;">' + escapeHtml(descText) + '</p>' +
                     '</div>' +
-                    '<div style="flex-shrink:0;">' +
-                    '<a class="lumen-button lumen-button--primary" href="' + escapeHtml(item.post_install) + '" data-post-install-link data-slug="' + escapeHtml(item.slug || '') + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(buttonText) + '</a>' +
+                    '<div style="flex-shrink:0;display:flex;gap:8px;flex-wrap:wrap;">' +
+                    '<a class="lumen-button lumen-button--primary" href="' + escapeHtml(docsPostInstallHref(item.post_install, item)) + '" data-post-install-link data-slug="' + escapeHtml(item.slug || '') + '">' + escapeHtml(buttonText) + '</a>' +
+                    (docsReleaseNotesHref(item) ? '<a class="lumen-button" href="' + escapeHtml(docsReleaseNotesHref(item)) + '">Release notes</a>' : '') +
                     '</div>' +
                     '</div>';
                 list.appendChild(postLi);
@@ -1736,6 +1740,53 @@
         });
     }
 
+    /* ------------------------------------------------------------------
+       Docs reader. A firmware's post_install can point at a Markdown file
+       in the project's own repository; those open in post_install.html (our
+       own styled page) instead of a bare file view. The viewer is loaded on
+       demand so every guide page gets it without its own script tag. */
+    var docsViewerPromise = null;
+    function ensureDocsViewer() {
+        if (window.InnioasisDocs) return Promise.resolve(window.InnioasisDocs);
+        if (docsViewerPromise) return docsViewerPromise;
+        docsViewerPromise = new Promise(function (resolve) {
+            var path = window.location.pathname || "";
+            var prefix = /\/guides\/|\/notices\/|\/Troubleshooting\//.test(path) ? "../" : "";
+            var script = document.createElement("script");
+            script.src = prefix + "docs-viewer.js?v=20261103saveas";
+            script.async = true;
+            script.onload = function () { resolve(window.InnioasisDocs || null); };
+            script.onerror = function () { resolve(null); };
+            document.head.appendChild(script);
+        });
+        return docsViewerPromise;
+    }
+    function docsPostInstallHref(value, item) {
+        var D = window.InnioasisDocs;
+        if (!D || typeof D.postInstallHref !== "function") return value || "";
+        /* post_install2 is the page a project shows visitors who keep donation
+           appeals on; without it this is the ordinary post_install value. */
+        var target = typeof D.postInstallTarget === "function" ? D.postInstallTarget(item, value) : (value || "");
+        if (!target) return "";
+        return D.postInstallHref(target, {
+            software: item && item.slug ? item.slug : "",
+            model: item && item.model ? item.model : "",
+            repo: item && item.repo ? item.repo : "",
+            name: item && item.name ? item.name : ""
+        });
+    }
+    function docsReleaseNotesHref(item, tag) {
+        var D = window.InnioasisDocs;
+        if (!D || typeof D.releaseNotesHref !== "function" || !item || !item.repo) return "";
+        return D.releaseNotesHref({
+            repo: item.repo,
+            model: item.model || "",
+            software: item.slug || "",
+            name: item.name || "",
+            tag: tag || ""
+        });
+    }
+
     function initGuidePostInstall() {
         if (!Array.isArray(window.INNIOASIS_FIRMWARE_CATALOG)) return;
         var catalog = window.INNIOASIS_FIRMWARE_CATALOG;
@@ -1749,7 +1800,7 @@
             if (slug) {
                 var item = catalog.find(function (entry) { return entry.slug === slug; });
                 if (item && item.post_install) {
-                    link.href = item.post_install;
+                    link.href = docsPostInstallHref(item.post_install, item);
                 }
             }
         });
@@ -1776,7 +1827,7 @@
                     }
                 }
             }
-            if (matchedItem && matchedItem.post_install) {
+            if (matchedItem && (matchedItem.post_install || matchedItem.post_install2)) {
                 var existingStep = stepsList.querySelector("[data-post-install-step]");
                 if (!existingStep) {
                     var postLi = document.createElement("li");
@@ -1798,15 +1849,16 @@
                         '<strong>' + escapeHtml(titleText) + '</strong>' +
                         '<p style="margin:4px 0 0;">' + escapeHtml(descText) + '</p>' +
                         '</div>' +
-                        '<div style="flex-shrink:0;">' +
-                        '<a class="lumen-button lumen-button--primary" href="' + escapeHtml(matchedItem.post_install) + '" data-post-install-link data-slug="' + escapeHtml(matchedItem.slug) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(buttonText) + '</a>' +
+                        '<div style="flex-shrink:0;display:flex;gap:8px;flex-wrap:wrap;">' +
+                        '<a class="lumen-button lumen-button--primary" href="' + escapeHtml(docsPostInstallHref(matchedItem.post_install, matchedItem)) + '" data-post-install-link data-slug="' + escapeHtml(matchedItem.slug) + '">' + escapeHtml(buttonText) + '</a>' +
+                        (docsReleaseNotesHref(matchedItem) ? '<a class="lumen-button" href="' + escapeHtml(docsReleaseNotesHref(matchedItem)) + '">Release notes</a>' : '') +
                         '</div>' +
                         '</div>';
                     stepsList.appendChild(postLi);
                 } else {
                     var existingLink = existingStep.querySelector("a[data-post-install-link]");
-                    if (existingLink && matchedItem.post_install) {
-                        existingLink.href = matchedItem.post_install;
+                    if (existingLink && (matchedItem.post_install || matchedItem.post_install2)) {
+                        existingLink.href = docsPostInstallHref(matchedItem.post_install, matchedItem);
                     }
                 }
             }
@@ -1836,6 +1888,7 @@
                     var device = (pkg.getAttribute("device") || "").toUpperCase().trim();
                     var icon = (pkg.getAttribute("icon") || "").trim();
                     var postInstall = (pkg.getAttribute("post_install") || "").trim();
+                    var postInstall2 = (pkg.getAttribute("post_install2") || "").trim();
                     var handler = pkg.getAttribute("handler") || "";
                     if (!name || /please update/i.test(name)) return;
                     if (handler && handler !== "Custom Firmware") return;
@@ -1846,7 +1899,12 @@
                     });
                     if (match) {
                         if (icon && !match.icon) match.icon = icon;
+                        /* The manifest is what Updater CE actually reads, so its
+                           repository wins: it is the one whose releases the
+                           firmware list and release pages must show. */
+                        if (repo) match.repo = repo;
                         if (postInstall) match.post_install = postInstall;
+                        if (postInstall2) match.post_install2 = postInstall2;
                     } else if (name && device) {
                         var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
                         catalog.push({
@@ -1856,6 +1914,7 @@
                             repo: repo,
                             icon: icon,
                             post_install: postInstall,
+                            post_install2: postInstall2,
                             packageName: "rom.zip",
                             description: "Community firmware package for the " + device + "."
                         });
@@ -1867,6 +1926,9 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
+        /* Start the docs viewer early: guide pages rewrite their post-install
+           links to it as soon as the manifest is merged. */
+        ensureDocsViewer();
         document.querySelectorAll("[data-lumen-carousel]").forEach(initCarousel);
         document.querySelectorAll("[data-lumen-feedback]").forEach(initFeedback);
         initPlatformReveal();

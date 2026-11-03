@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Post-install setup - Innioasis Updater</title>
+  <meta name="description" content="Post-install setup instructions for community firmware on Innioasis Y1 and Y2 players, presented in the Innioasis site style.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post_install.html">
+  <link rel="icon" href="y1_illustration.png">
+  <link rel="stylesheet" href="site-theme.css?v=20260803">
+  <link rel="stylesheet" href="lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="site-pages.css?v=20260818">
+  <link rel="stylesheet" href="site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="docs-viewer.css?v=20261103docs">
+  <script src="site-init.js?v=20260803" defer></script>
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Post-install setup - Innioasis Updater">
+  <meta property="og:description" content="Post-install setup instructions for community firmware on Innioasis Y1 and Y2 players.">
+  <meta property="og:url" content="https://innioasis.app/post_install.html">
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body class="site-themes-app">
+  <a class="lumen-skip-link" href="#main">Skip to content</a>
+  <div id="nav-root"></div>
+  <main id="main" class="lumen-guide lumen-doc-page">
+    <p class="lumen-doc-back" id="doc-back"><a href="firmware.html">← Firmware Downloads</a></p>
+    <header class="lumen-doc-head">
+      <p class="lumen-kicker" id="doc-kicker">Post-install setup</p>
+      <h1 id="doc-title">Post-install instructions</h1>
+      <p class="lumen-lead" id="doc-lead">The steps the project asks you to finish after the firmware is installed.</p>
+      <p class="lumen-doc-source" id="doc-source" hidden></p>
+      <div class="lumen-doc-actions" id="doc-actions">
+        <a class="lumen-button lumen-button--primary" id="doc-downloads" href="firmware.html">Firmware Downloads →</a>
+        <a class="lumen-button" id="doc-guide" href="guide.html" hidden>Install guide</a>
+        <a class="lumen-doc-see-more" id="doc-source-link" href="#" target="_blank" rel="noopener noreferrer" hidden>See the original source ↗</a>
+      </div>
+    </header>
+    <article class="lumen-doc-body" id="doc-body" aria-live="polite">
+      <p class="lumen-doc-status" id="doc-status">Loading the post-install instructions…</p>
+    </article>
+    <section class="lumen-doc-related" id="doc-related" hidden></section>
+    <p class="lumen-doc-footer-note" id="doc-note" hidden></p>
+  </main>
+  <div id="footer-root"></div>
+  <div id="support-toolbar-slot"></div>
+  <script src="firmware-catalog.js?v=20260803" defer></script>
+  <script src="docs-viewer.js?v=20261103saveas" defer></script>
+  <script src="nav.js?v=20261105copyleft" defer></script>
+  <script src="site-i18n.js?v=20260830" defer></script>
+  <script>
+    /* Post-install reader.
+
+       A firmware's post_install attribute can point at a Markdown file on
+       GitHub (Rondo's docs/install.md is the first one). Instead of handing
+       the reader off to GitHub, the Markdown is fetched, rendered verbatim and
+       dressed in the site's styling, with the theme and the visitor's donation
+       preference already applied by site-init.js / nav.js.
+
+       There is deliberately no "get Updater CE" pitch here: people reach this
+       page from the last step of an install guide, so they already have it. */
+    (function () {
+      "use strict";
+
+      /* docs-viewer.js is deferred, so it is not on the window yet while this
+         block is parsed: look it up when the page is ready instead. */
+      var D = null;
+
+      function text(id, value) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        if (value === null || value === undefined || value === "") { el.hidden = true; return; }
+        el.textContent = value;
+        el.hidden = false;
+      }
+
+      function params() {
+        return {
+          url: D.queryParam("url"),
+          software: D.queryParam("software"),
+          model: D.queryParam("model").toUpperCase(),
+          repo: D.queryParam("repo"),
+          tag: D.queryParam("tag"),
+          name: D.queryParam("name"),
+          anchor: D.queryParam("anchor")
+        };
+      }
+
+      function catalogItem(state) {
+        var catalog = window.INNIOASIS_FIRMWARE_CATALOG || [];
+        if (!state.software) return null;
+        return catalog.find(function (entry) { return entry.slug === state.software; }) || null;
+      }
+
+      /* The manifest is the source of truth for post_install, and it can name
+         a project the catalog has not caught up with. Merge the one package
+         we need rather than pulling the whole catalogue in. */
+      function mergeManifest(state) {
+        if (!state.software && !state.repo) return Promise.resolve(null);
+        return fetch("slidia_manifest.xml", { cache: "no-cache" })
+          .then(function (res) { return res.ok ? res.text() : ""; })
+          .then(function (xml) {
+            if (!xml) return null;
+            var doc = new DOMParser().parseFromString(xml, "application/xml");
+            if (doc.querySelector("parsererror")) return null;
+            var packages = Array.prototype.slice.call(doc.querySelectorAll("package"));
+            var wanted = packages.find(function (pkg) {
+              var repo = (pkg.getAttribute("repo") || "").trim();
+              var device = (pkg.getAttribute("device") || "").toUpperCase().trim();
+              var name = (pkg.getAttribute("name") || "").trim();
+              if (state.repo && repo.toLowerCase() === state.repo.toLowerCase()) return true;
+              if (state.model && device !== state.model) return false;
+              return state.software && name && slugify(name) + "-" + device.toLowerCase() === state.software;
+            }) || null;
+            if (!wanted) return null;
+            var postInstall = (wanted.getAttribute("post_install") || "").trim();
+            var postInstall2 = (wanted.getAttribute("post_install2") || "").trim();
+            if (!state.url) state.url = D.postInstallTarget({ post_install: postInstall, post_install2: postInstall2 });
+            return {
+              name: (wanted.getAttribute("name") || "").trim(),
+              repo: (wanted.getAttribute("repo") || "").trim(),
+              model: (wanted.getAttribute("device") || "").toUpperCase().trim(),
+              post_install: postInstall,
+              post_install2: postInstall2
+            };
+          })
+          .catch(function () { return null; });
+      }
+
+      function slugify(value) {
+        return String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+      }
+
+      function setActions(state, item, source) {
+        var downloads = document.getElementById("doc-downloads");
+        if (downloads) {
+          if (state.repo && state.tag) {
+            downloads.href = D.releaseNotesHref({
+              repo: state.repo,
+              tag: state.tag,
+              model: state.model,
+              software: state.software,
+              name: state.name || (item && item.name) || ""
+            });
+          } else if (state.model) {
+            var query = "firmware.html?model=" + encodeURIComponent(state.model);
+            if (state.software) query += "&software=" + encodeURIComponent(state.software);
+            downloads.href = query;
+          } else {
+            downloads.href = "firmware.html";
+          }
+        }
+
+        var guide = document.getElementById("doc-guide");
+        if (guide) {
+          if (state.model && state.software) {
+            guide.href = "guide.html?model=" + encodeURIComponent(state.model) +
+              "&software=" + encodeURIComponent(state.software);
+            guide.hidden = false;
+          } else {
+            guide.hidden = true;
+          }
+        }
+
+        var sourceLink = document.getElementById("doc-source-link");
+        if (sourceLink) {
+          if (source && source.blobUrl) {
+            sourceLink.href = source.blobUrl + (source.anchor || "");
+            sourceLink.textContent = "See the original instructions ↗";
+            sourceLink.hidden = false;
+          } else {
+            sourceLink.hidden = true;
+          }
+        }
+
+        var sourceNote = document.getElementById("doc-source");
+        if (sourceNote) {
+          var file = source.path || source.fileLabel || "";
+          sourceNote.innerHTML = "Instructions published by the project" +
+            (file ? " · <code>" + escapeHtml(file) + "</code>" : "");
+          sourceNote.hidden = false;
+        }
+      }
+
+      function escapeHtml(value) {
+        return String(value == null ? "" : value).replace(/[&<>"']/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+        });
+      }
+
+      function firstHeading(markdown) {
+        var match = String(markdown || "").match(/^\s{0,3}#\s+(.+)$/m);
+        return match ? match[1].replace(/[`*_]/g, "").trim() : "";
+      }
+
+      function jumpToAnchor(anchor) {
+        if (!anchor) return;
+        var target = null;
+        try {
+          target = document.getElementById(anchor) ||
+            document.querySelector('[id="' + (window.CSS && CSS.escape ? CSS.escape(anchor) : anchor) + '"]');
+        } catch (_) {}
+        if (!target) {
+          var body = document.getElementById("doc-body") || document.getElementById("main");
+          if (!body) return;
+          var wanted = anchor.replace(/^#/, "").toLowerCase();
+          var heading = Array.prototype.slice.call(body.querySelectorAll("h1,h2,h3,h4,h5,h6")).find(function (h) {
+            return h.textContent.trim().toLowerCase().replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-") === wanted;
+          });
+          target = heading || null;
+        }
+        if (!target) return;
+        var top = target.getBoundingClientRect().top + (window.pageYOffset || 0) - 96;
+        window.scrollTo(0, top > 0 ? top : 0);
+      }
+
+      function renderError(state, source, error) {
+        var body = document.getElementById("doc-body");
+        if (!body) return;
+        var openUrl = source ? source.blobUrl + (source.anchor || "") : (state.url || "https://innioasis.app/firmware.html");
+        body.innerHTML =
+          '<div class="lumen-doc-status lumen-doc-error">' +
+          "<p><strong>These instructions could not be loaded here.</strong> The project's file may have moved, or the browser could not reach it.</p>" +
+          '<p class="lumen-actions"><a class="lumen-button lumen-button--primary" href="' + escapeHtml(openUrl) +
+          '" target="_blank" rel="noopener noreferrer">Open the original instructions</a>' +
+          '<a class="lumen-button" href="firmware.html">Back to Firmware Downloads</a></p>' +
+          "</div>";
+        if (window.console && console.warn) console.warn("post-install fetch failed", error);
+      }
+
+      function mount(state, item, manifestItem, source) {
+        D.loadMarkdown(state.url).then(function (result) {
+          var markdown = result.markdown;
+          var ctx = result.source;
+          var body = document.getElementById("doc-body");
+          var heading = firstHeading(markdown);
+          var label = state.name || (item && item.name) || (manifestItem && manifestItem.name) || "your player";
+
+          var title = heading || ("Post-install setup for " + label);
+          text("doc-title", title);
+          text("doc-kicker", "Post-install setup · " + label + (state.model ? " · " + state.model : ""));
+          text("doc-lead", item && item.description
+            ? item.description
+            : "The steps the project asks you to finish after the firmware is installed.");
+
+          document.title = title + " - Innioasis Updater";
+
+          if (body) {
+            body.innerHTML = "<h1>" + escapeHtml(title) + "</h1>" + D.markdownToHtml(markdown, ctx);
+            /* The document's own opening heading is already the page title. */
+            var duplicate = body.querySelector("h1");
+            if (duplicate && duplicate.nextElementSibling && heading &&
+                (duplicate.textContent.trim().toLowerCase() === heading.toLowerCase())) {
+              duplicate.remove();
+            }
+          }
+
+          setActions(state, item, ctx);
+          jumpToAnchor(state.anchor || (ctx && ctx.anchor ? ctx.anchor.replace(/^#/, "") : ""));
+
+          var related = document.getElementById("doc-related");
+          if (related && state.repo && state.tag) {
+            related.hidden = false;
+            related.innerHTML =
+              "<h2>About this release</h2>" +
+              '<ul class="lumen-doc-related-list"><li>' +
+              '<a href="' + escapeHtml(D.releaseNotesHref({
+                repo: state.repo, tag: state.tag, model: state.model,
+                software: state.software, name: state.name
+              })) + '">' +
+              "<strong>Release notes for " + escapeHtml(state.tag) + "</strong>" +
+              "<small>Version details and downloads for this firmware</small></a></li></ul>";
+          }
+
+          var note = document.getElementById("doc-note");
+          if (note) {
+            note.textContent = "These are " + label + "'s own instructions, shown word for word. " +
+              "Links inside them open the project's own pages.";
+            note.hidden = false;
+          }
+        }).catch(function (error) {
+          /* The generator writes a static copy of every importable guide. If
+             this browser cannot reach GitHub, that copy is still readable. */
+          var fallback = state.software ? "post-install/" + state.software + ".html" : "";
+          if (fallback) {
+            D.headOk(fallback).then(function (exists) {
+              if (exists) { window.location.replace(fallback); return; }
+              renderError(state, source, error);
+              setActions(state, item, source);
+            });
+            return;
+          }
+          renderError(state, source, error);
+          setActions(state, item, source);
+        });
+      }
+
+      function init() {
+        D = window.InnioasisDocs;
+        if (!D) {
+          var status = document.getElementById("doc-status");
+          if (status) {
+            status.innerHTML = 'The document viewer could not start. ' +
+              '<a href="firmware.html">Back to Firmware Downloads</a>';
+          }
+          return;
+        }
+        var state = params();
+        var item = catalogItem(state);
+        if (!state.name && item) state.name = item.name;
+        if (!state.repo && item) state.repo = item.repo || "";
+        if (!state.model && item) state.model = item.model || "";
+        if (!state.url && item) state.url = D.postInstallTarget(item) || item.post_install || "";
+
+        if (!state.url) {
+          mergeManifest(state).then(function (manifestItem) {
+            if (!state.url) {
+              text("doc-status", "No post-install document is linked for this software.");
+              var body = document.getElementById("doc-body");
+              if (body) {
+                body.innerHTML = '<div class="lumen-doc-status">This software does not publish separate post-install instructions. ' +
+                  '<a href="firmware.html">Go to Firmware Downloads</a> to check its release notes instead.</div>';
+              }
+              return;
+            }
+            start(state, item, manifestItem);
+          });
+          return;
+        }
+        start(state, item, null);
+      }
+
+      function start(state, item, manifestItem) {
+        var source = D.parseSource(state.url);
+        if (!source) {
+          /* Not Markdown: the project's page, a PDF, a forum post. Open it the
+             way a normal link would. */
+          window.location.replace(state.url);
+          return;
+        }
+        mount(state, item, manifestItem, source);
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>

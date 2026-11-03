@@ -1,0 +1,464 @@
+/* Imported docs: post-install guides and release notes.
+   Third-party Markdown is rendered verbatim, then dressed in the site's own
+   look. Everything reads its colour from the lumen tokens so the theme
+   switcher (light, dark, high contrast, 2077) applies without extra rules. */
+
+.lumen-doc-page {
+  max-width: 760px;
+}
+
+.lumen-doc-page .lumen-doc-back {
+  margin: 0 0 18px;
+  font-size: .9rem;
+}
+
+.lumen-doc-back a {
+  color: var(--lumen-accent, #6366f1);
+  text-decoration: none;
+}
+
+.lumen-doc-head {
+  margin-bottom: 6px;
+}
+
+.lumen-doc-head h1 {
+  margin: 6px 0 10px;
+}
+
+.lumen-doc-head .lumen-lead {
+  color: var(--lumen-muted, #94a3b8);
+  line-height: 1.65;
+  margin: 0 0 14px;
+}
+
+.lumen-doc-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 18px 0 6px;
+}
+
+/* The small "See More" escape hatch. Kept deliberately quiet: the page is
+   the reading experience, the original is the provenance link. */
+.lumen-doc-see-more {
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--lumen-muted, #94a3b8);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.lumen-doc-see-more:hover,
+.lumen-doc-see-more:focus-visible {
+  color: var(--lumen-accent, #6366f1);
+  text-decoration: underline;
+}
+
+.lumen-doc-source {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 4px;
+  font-size: .78rem;
+  color: var(--lumen-muted, #94a3b8);
+}
+
+.lumen-doc-source code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .92em;
+  background: rgba(255, 255, 255, .08);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+:root[data-lumen-theme="light"] .lumen-doc-source code,
+:root[data-lumen-theme="light"] .lumen-doc-body code {
+  background: rgba(15, 23, 42, .07);
+}
+
+@media (prefers-color-scheme: light) {
+  :root[data-lumen-theme="auto"] .lumen-doc-source code,
+  :root[data-lumen-theme="auto"] .lumen-doc-body code {
+    background: rgba(15, 23, 42, .07);
+  }
+}
+
+/* ---- The document body ---- */
+
+.lumen-doc-body {
+  margin-top: 20px;
+  line-height: 1.75;
+  color: var(--lumen-text, #e7ecf5);
+  overflow-wrap: anywhere;
+}
+
+.lumen-doc-body > :first-child { margin-top: 0; }
+.lumen-doc-body > :last-child { margin-bottom: 0; }
+
+.lumen-doc-body h1,
+.lumen-doc-body h2,
+.lumen-doc-body h3,
+.lumen-doc-body h4,
+.lumen-doc-body h5,
+.lumen-doc-body h6 {
+  margin: 30px 0 10px;
+  line-height: 1.25;
+  scroll-margin-top: 96px;
+  color: var(--lumen-text, #f8fafc);
+}
+
+.lumen-doc-body h1 { font-size: 1.55rem; }
+.lumen-doc-body h2 { font-size: 1.3rem; }
+.lumen-doc-body h3 { font-size: 1.1rem; }
+.lumen-doc-body h4,
+.lumen-doc-body h5,
+.lumen-doc-body h6 { font-size: 1rem; }
+
+.lumen-doc-body p { margin: 0 0 15px; }
+
+.lumen-doc-body ul,
+.lumen-doc-body ol {
+  margin: 0 0 15px;
+  padding-left: 24px;
+}
+
+.lumen-doc-body li { margin: 5px 0; }
+.lumen-doc-body li > ul,
+.lumen-doc-body li > ol { margin: 5px 0; }
+
+.lumen-doc-body a {
+  color: var(--lumen-accent, #6366f1);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.lumen-doc-body strong { color: var(--lumen-text, #f1f5f9); }
+
+.lumen-doc-body img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 18px 0;
+  border-radius: 10px;
+  border: 1px solid var(--lumen-line, rgba(255, 255, 255, .12));
+  background: var(--lumen-panel-soft, rgba(255, 255, 255, .04));
+}
+
+/* Badges are tiny inline images; they must not become block figures. */
+.lumen-doc-body p > a > img,
+.lumen-doc-body p > img {
+  display: inline-block;
+  margin: 4px 4px 4px 0;
+  border: 0;
+  background: none;
+  vertical-align: middle;
+}
+
+.lumen-doc-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .92em;
+  background: rgba(255, 255, 255, .08);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.lumen-doc-body pre {
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid var(--lumen-line, rgba(255, 255, 255, .1));
+  padding: 13px 15px;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin: 0 0 15px;
+  line-height: 1.55;
+}
+
+.lumen-doc-body pre code {
+  background: none;
+  padding: 0;
+  font-size: .88rem;
+}
+
+.lumen-doc-body blockquote {
+  margin: 0 0 15px;
+  padding: 4px 0 4px 15px;
+  border-left: 3px solid var(--lumen-line-strong, rgba(255, 255, 255, .22));
+  color: var(--lumen-muted, #94a3b8);
+}
+
+.lumen-doc-body blockquote p:last-child { margin-bottom: 0; }
+
+.lumen-doc-body hr {
+  border: none;
+  border-top: 1px solid var(--lumen-line, rgba(255, 255, 255, .12));
+  margin: 26px 0;
+}
+
+.lumen-doc-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 18px;
+  font-size: .92rem;
+  display: block;
+  overflow-x: auto;
+}
+
+.lumen-doc-body thead th {
+  text-align: left;
+  font-weight: 700;
+  color: var(--lumen-text, #f8fafc);
+  background: var(--lumen-panel-soft, rgba(255, 255, 255, .05));
+}
+
+.lumen-doc-body th,
+.lumen-doc-body td {
+  border: 1px solid var(--lumen-line, rgba(255, 255, 255, .14));
+  padding: 8px 11px;
+  vertical-align: top;
+}
+
+.lumen-doc-body tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, .02);
+}
+
+:root[data-lumen-theme="light"] .lumen-doc-body tbody tr:nth-child(even) {
+  background: rgba(15, 23, 42, .03);
+}
+
+.lumen-doc-body input[type="checkbox"] {
+  margin-right: 6px;
+  accent-color: var(--lumen-accent, #6366f1);
+}
+
+.lumen-doc-body details {
+  margin: 0 0 15px;
+  padding: 10px 14px;
+  border: 1px solid var(--lumen-line, rgba(255, 255, 255, .12));
+  border-radius: 10px;
+}
+
+.lumen-doc-body summary { cursor: pointer; font-weight: 700; }
+
+.lumen-doc-body kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .82em;
+  border: 1px solid var(--lumen-line-strong, rgba(255, 255, 255, .2));
+  border-bottom-width: 2px;
+  border-radius: 5px;
+  padding: 1px 5px;
+}
+
+.lumen-doc-body video,
+.lumen-doc-body iframe {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+/* GitHub's own heading permalink anchors add noise in a mirrored doc. */
+.lumen-doc-body .anchor,
+.lumen-doc-body a.anchor { display: none; }
+
+/* ---- Release notes chrome ---- */
+
+.lumen-release-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.lumen-release-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  border: 1px solid var(--lumen-line, rgba(255, 255, 255, .14));
+  background: var(--lumen-panel-soft, rgba(255, 255, 255, .05));
+  object-fit: contain;
+  padding: 3px;
+}
+
+.lumen-release-titles { flex: 1 1 260px; min-width: 0; }
+
+.lumen-release-tag-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 10px;
+  font-size: .8rem;
+  color: var(--lumen-muted, #94a3b8);
+}
+
+.lumen-release-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  border: 1px solid var(--lumen-line-strong, rgba(255, 255, 255, .2));
+  color: var(--lumen-text, #f8fafc);
+} 
+
+.lumen-release-pill--prerelease {
+  border-color: #f59e0b;
+  color: #fbbf24;
+}
+
+.lumen-release-pill--mirror {
+  border-color: rgba(56, 189, 248, .5);
+  color: #38bdf8;
+}
+
+/* Download panel: the reason someone opened a release page. */
+.lumen-release-downloads {
+  margin: 20px 0 8px;
+  padding: 14px 16px;
+  border: 1px solid var(--lumen-line, rgba(255, 255, 255, .12));
+  border-radius: 12px;
+  background: var(--lumen-panel-soft, rgba(255, 255, 255, .04));
+}
+
+.lumen-release-downloads h2 {
+  margin: 0 0 10px;
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--lumen-muted, #94a3b8);
+}
+
+.lumen-download-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 9px 0;
+  border-top: 1px solid var(--lumen-line, rgba(255, 255, 255, .08));
+}
+
+.lumen-download-row:first-of-type { border-top: 0; }
+
+.lumen-download-row-main { min-width: 0; }
+
+.lumen-download-name {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .86rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.lumen-download-note {
+  display: block;
+  font-size: .76rem;
+  color: var(--lumen-muted, #94a3b8);
+  margin-top: 2px;
+}
+
+.lumen-download-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  border-radius: 999px;
+  font-size: .82rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid var(--lumen-line-strong, rgba(255, 255, 255, .2));
+  color: var(--lumen-text, #f8fafc);
+  background: transparent;
+  white-space: nowrap;
+}
+
+.lumen-download-cta:hover {
+  border-color: var(--lumen-accent, #6366f1);
+  color: var(--lumen-accent, #6366f1);
+}
+
+.lumen-download-cta--primary {
+  background: var(--lumen-accent, #6366f1);
+  border-color: var(--lumen-accent, #6366f1);
+  color: var(--lumen-ink, #0b0d12);
+}
+
+.lumen-download-cta--primary:hover {
+  color: var(--lumen-ink, #0b0d12);
+  filter: brightness(1.08);
+}
+
+/* Related cards under the notes: post-install setup and neighbouring
+   releases. Same card language as notices and the guide pages. */
+.lumen-doc-related {
+  margin-top: 34px;
+  padding-top: 22px;
+  border-top: 1px solid var(--lumen-line, rgba(255, 255, 255, .12));
+}
+
+.lumen-doc-related h2 {
+  font-size: .8rem;
+  font-weight: 800;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--lumen-muted, #94a3b8);
+  margin: 0 0 12px;
+}
+
+.lumen-doc-related-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lumen-doc-related-list a {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--lumen-line, rgba(255, 255, 255, .1));
+  text-decoration: none;
+  color: var(--lumen-text, #e7ecf5);
+}
+
+.lumen-doc-related-list a:hover {
+  border-color: var(--lumen-accent, #6366f1);
+}
+
+.lumen-doc-related-list small {
+  color: var(--lumen-muted, #94a3b8);
+  font-size: .76rem;
+}
+
+.lumen-doc-status {
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px dashed var(--lumen-line-strong, rgba(255, 255, 255, .2));
+  color: var(--lumen-muted, #94a3b8);
+  font-size: .9rem;
+}
+
+.lumen-doc-status a { color: var(--lumen-accent, #6366f1); }
+
+.lumen-doc-error {
+  border-style: solid;
+  border-color: rgba(239, 68, 68, .45);
+}
+
+.lumen-doc-footer-note {
+  margin-top: 26px;
+  font-size: .78rem;
+  color: var(--lumen-muted, #94a3b8);
+}
+
+@media (max-width: 620px) {
+  .lumen-doc-body { font-size: .97rem; }
+  .lumen-release-icon { width: 38px; height: 38px; }
+}
