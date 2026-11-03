@@ -555,9 +555,9 @@ img.lumen-shot { display: block; width: auto; max-width: min(100%, 640px); heigh
 .lumen-donate-close:hover { color: var(--lumen-text); }
 .lumen-muted-inline { color: var(--lumen-faint); font-size: .82rem; }
 .lumen-download-link { color: var(--lumen-accent); font-size: .82rem; white-space: nowrap; }
-.lumen-github-link { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid var(--lumen-line-strong); border-radius: var(--lumen-pill); color: var(--lumen-muted); transition: transform .18s var(--lumen-ease), border-color .18s var(--lumen-ease), background .18s var(--lumen-ease), color .18s var(--lumen-ease); }
-.lumen-github-link:hover { transform: translateY(-1px); border-color: var(--lumen-accent); background: var(--lumen-accent-wash); color: var(--lumen-paper); }
-:root[data-lumen-theme="high-contrast"] .lumen-github-link { color: var(--lumen-paper); border-color: var(--lumen-paper); }
+.lumen-release-notes-link { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 1px solid var(--lumen-line-strong); border-radius: var(--lumen-pill); color: var(--lumen-muted); transition: transform .18s var(--lumen-ease), border-color .18s var(--lumen-ease), background .18s var(--lumen-ease), color .18s var(--lumen-ease); }
+.lumen-release-notes-link:hover { transform: translateY(-1px); border-color: var(--lumen-accent); background: var(--lumen-accent-wash); color: var(--lumen-paper); }
+:root[data-lumen-theme="high-contrast"] .lumen-release-notes-link { color: var(--lumen-paper); border-color: var(--lumen-paper); }
 .lumen-release-details { margin-top: .6rem; font-size: .82rem; }
 .lumen-release-details summary { color: var(--lumen-muted); cursor: pointer; }
 .lumen-release-details p { margin: .45rem 0; }
