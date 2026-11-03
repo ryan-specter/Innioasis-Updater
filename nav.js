@@ -112,9 +112,10 @@
     return href;
   }
 
+  var isThemesSite = (window.location.hostname === "themes.innioasis.app") || (window.location.port === "8081");
+
   function decorateMainSiteHref(path) {
     if (!path) return path;
-    var isThemesSite = (window.location.hostname === "themes.innioasis.app") || (window.location.port === "8081");
     if (isThemesSite) {
       var base = (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
         ? (window.location.protocol + "//" + window.location.hostname + ":8080")
@@ -133,13 +134,13 @@
     var path = (window.location.pathname || "").toLowerCase();
     var t = document.title || "";
     if (path.endsWith("/firmware.html")) {
-      document.title = "Innioasis and Timmkoo Software Updates and Custom Firmware - Community Firmware Archive";
+      document.title = "Innioasis and Timmkoo Software Updates and Custom Firmware - Innioasis Firmware Archive";
       return;
     }
     if (isFirmwarePersona) {
       if (t.indexOf("Firmware Archive") === -1) {
         var base = t.split(/\s+[|·-]\s+(?:Innioasis|Community)/)[0].trim();
-        document.title = (base || t) + " - Firmware Archive";
+        document.title = (base || t) + " - Innioasis Firmware Archive";
       }
     } else {
       if (t.indexOf("Updater CE") === -1) {
@@ -321,12 +322,32 @@
       /* The header collapses into the hamburger only when nav.js decides the
          inline links no longer fit, so links are never squeezed out of the bar. */
       '.nav-container.nav-compact { position: relative !important; }' +
-      '.nav-container.nav-compact .nav-links { display: none !important; position: absolute; top: calc(100% + 6px); right: 0; left: auto; flex-direction: column !important; align-items: stretch !important; gap: .1rem !important; min-width: 234px; width: max-content; max-width: min(320px, calc(100vw - 2rem)); margin: 0 !important; padding: .45rem !important; border: 1px solid var(--lumen-line-strong, rgba(255,255,255,0.18)); border-radius: 14px; background: var(--lumen-panel, #12141c); box-shadow: 0 18px 50px rgba(0,0,0,0.55); z-index: 10002; }' +
+      '.nav-container.nav-compact .nav-links { display: none !important; position: fixed; top: 72px; right: 12px; left: auto; margin: 0 !important; padding: .5rem !important; list-style: none; flex-flow: row wrap !important; align-items: stretch !important; align-content: flex-start !important; gap: .15rem !important; width: min(300px, calc(100vw - 1.5rem)); max-height: min(72vh, 520px); overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; border: 1px solid var(--lumen-line-strong, rgba(255,255,255,0.18)); border-radius: 14px; background: var(--lumen-panel, #12141c); box-shadow: 0 18px 50px rgba(0,0,0,0.55); z-index: 10002; box-sizing: border-box; }' +
       '.nav-container.nav-compact .nav-links.active { display: flex !important; }' +
-      '.nav-container.nav-compact .nav-links li { width: 100%; }' +
-      '.nav-container.nav-compact .nav-links a { display: flex !important; width: 100%; align-items: center; justify-content: flex-start !important; padding: .55rem .7rem !important; border-radius: 9px; white-space: nowrap; }' +
-      '.nav-container.nav-compact .nav-links a:hover { background: rgba(255,255,255,0.06) !important; }' +
-      '.nav-container.nav-compact .hamburger { display: flex !important; }';
+      '.nav-container.nav-compact .nav-links li { flex: 1 0 100%; width: 100%; margin: 0 !important; padding: 0 !important; list-style: none; }' +
+      '.nav-container.nav-compact .nav-links a { display: flex !important; width: 100%; min-height: 0 !important; height: auto !important; align-items: center; justify-content: flex-start !important; padding: .7rem .8rem !important; border-radius: 10px; white-space: nowrap; font-size: .92rem; line-height: 1.3; }' +
+      '.nav-container.nav-compact .nav-links a:hover, .nav-container.nav-compact .nav-links a:focus-visible { background: rgba(255,255,255,0.07) !important; }' +
+      '.nav-container.nav-compact .nav-links .lumen-nav-install-cta { justify-content: center !important; padding: .75rem 1rem !important; }' +
+      /* The two social icons share one row instead of taking a row each. */
+      '.nav-container.nav-compact .nav-links li:has(> .lumen-nav-social-btn) { flex: 0 0 auto; width: auto; }' +
+      '.nav-container.nav-compact .nav-links a.lumen-nav-social-btn { width: 44px !important; min-height: 44px !important; justify-content: center !important; padding: 0 !important; }' +
+      /* The icon is three stacked bars; switching it on must not line them up. */
+      '.nav-container.nav-compact .hamburger { display: inline-flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 4px !important; }' +
+      '.nav-container.nav-compact .hamburger span { width: 20px !important; height: 2px !important; margin: 0 !important; border-radius: 2px; transition: transform .2s ease, opacity .15s ease; }' +
+      '.nav-container.nav-compact .hamburger.is-active span:nth-child(1) { transform: translateY(6px) rotate(45deg); }' +
+      '.nav-container.nav-compact .hamburger.is-active span:nth-child(2) { opacity: 0; }' +
+      '.nav-container.nav-compact .hamburger.is-active span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }' +
+      /* A phone header must fit its own width: the brand gives way, the theme
+         select stops claiming a wide box, and the menu button stays reachable. */
+      '@media (max-width: 640px) {' +
+      '  #nav-root .nav-container { padding: .5rem .7rem !important; gap: .45rem !important; }' +
+      '  #nav-root .nav-container .lumen-brand-switcher-wrap { flex: 1 1 auto !important; min-width: 0 !important; }' +
+      '  #nav-root .nav-container .lumen-brand-bar { min-width: 0 !important; }' +
+      '  #nav-root .nav-container .lumen-brand-title { font-size: .95rem !important; min-width: 0 !important; overflow: hidden !important; text-overflow: ellipsis !important; white-space: nowrap !important; }' +
+      '  #nav-root .nav-container .nav-tools { gap: .3rem !important; flex: 0 0 auto !important; }' +
+      '  #nav-root .nav-container .lumen-theme-control { min-width: 0 !important; }' +
+      '  #nav-root .nav-container .lumen-theme-control select { max-width: 84px !important; padding-left: .4rem !important; }' +
+      '}';
     document.head.appendChild(style);
   })();
 
@@ -359,7 +380,7 @@
       '<div class="lumen-notices-tray" id="lumen-notices-tray" hidden role="region" aria-label="Community notices">' +
       '<div class="lumen-notices-tray-header">' +
       '<strong>Community Notices</strong>' +
-      '<a href="/notices.html" class="lumen-notices-all-link">All notices &rarr;</a>' +
+      '<a href="' + escapeHtml(decorateMainSiteHref("/notices.html")) + '" class="lumen-notices-all-link">All notices &rarr;</a>' +
       '</div>' +
       '<div class="lumen-notices-tray-body" id="lumen-notices-tray-body">' +
       '<p class="lumen-notices-empty">Loading notices...</p>' +
@@ -386,7 +407,10 @@
   var switcherTray = document.getElementById("lumen-site-switcher-tray");
   function setSwitcherOpen(open) {
     if (!switcherToggle || !switcherTray) return;
-    if (open) setNoticesOpen(false);
+    if (open) {
+      setNoticesOpen(false);
+      setMenuOpen(false);
+    }
     switcherTray.hidden = !open;
     switcherToggle.setAttribute("aria-expanded", open ? "true" : "false");
   }
@@ -445,7 +469,10 @@
 
   function setNoticesOpen(open) {
     if (!noticesBtn || !noticesTray) return;
-    if (open) setSwitcherOpen(false);
+    if (open) {
+      setSwitcherOpen(false);
+      setMenuOpen(false);
+    }
     noticesTray.hidden = !open;
     noticesBtn.setAttribute("aria-expanded", open ? "true" : "false");
     if (open) {
@@ -479,6 +506,112 @@
     });
   }
 
+  /* Minimal, safe Markdown for a notice's <full_content>: images, headings, lists,
+     quotes, fenced code, rules, bold, italic, inline code and https links/images.
+     The text is escaped before anything is added, so a notice can never
+     inject markup or script into the page. */
+  function renderNoticeMarkdown(source) {
+    var text = String(source == null ? "" : source).replace(/\r\n?/g, "\n").trim();
+    if (!text) return "";
+    function esc(s) {
+      return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    }
+    function inline(s) {
+      var out = esc(s);
+      out = out.replace(/`([^`]+)`/g, "<code>$1</code>");
+      out = out.replace(/!\[([^\]]*)\]\((https?:\/\/[^\s)]+)\)/g, function (m, alt, src) {
+      return '<img src="' + src + '" alt="' + alt + '" loading="lazy" decoding="async" class="notice-image">';
+    });
+    out = out.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+      out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+      out = out.replace(/__([^_]+)__/g, "<strong>$1</strong>");
+      out = out.replace(/(^|[\s(])\*([^*\n]+)\*/g, "$1<em>$2</em>");
+      out = out.replace(/(^|[\s(])_([^_\n]+)_/g, "$1<em>$2</em>");
+      return out;
+    }
+    var lines = text.split("\n");
+    var html = [];
+    var para = [];
+    var i = 0;
+    function flush() {
+      if (!para.length) return;
+      html.push("<p>" + para.map(inline).join("<br>") + "</p>");
+      para = [];
+    }
+    while (i < lines.length) {
+      var line = lines[i];
+      if (/^\s*```/.test(line)) {
+        flush();
+        var code = [];
+        i += 1;
+        while (i < lines.length && !/^\s*```/.test(lines[i])) { code.push(lines[i]); i += 1; }
+        i += 1;
+        html.push("<pre><code>" + esc(code.join("\n")) + "</code></pre>");
+        continue;
+      }
+      if (!line.trim()) { flush(); i += 1; continue; }
+      var heading = line.match(/^(#{1,6})\s+(.*)$/);
+      if (heading) {
+        flush();
+        var level = Math.min(6, heading[1].length + 1);
+        html.push("<h" + level + ">" + inline(heading[2]) + "</h" + level + ">");
+        i += 1;
+        continue;
+      }
+      if (/^\s*(-{3,}|\*{3,}|_{3,})\s*$/.test(line)) { flush(); html.push("<hr>"); i += 1; continue; }
+      if (/^\s*>\s?/.test(line)) {
+        flush();
+        var quote = [];
+        while (i < lines.length && /^\s*>\s?/.test(lines[i])) { quote.push(lines[i].replace(/^\s*>\s?/, "")); i += 1; }
+        html.push("<blockquote>" + quote.map(inline).join("<br>") + "</blockquote>");
+        continue;
+      }
+      if (/^\s*([-*+]|\d+[.)])\s+/.test(line)) {
+        flush();
+        var ordered = /^\s*\d+[.)]\s+/.test(line);
+        var items = [];
+        while (i < lines.length && /^\s*([-*+]|\d+[.)])\s+/.test(lines[i])) {
+          items.push(lines[i].replace(/^\s*([-*+]|\d+[.)])\s+/, ""));
+          i += 1;
+        }
+        var tag = ordered ? "ol" : "ul";
+        html.push("<" + tag + ">" + items.map(function (item) { return "<li>" + inline(item) + "</li>"; }).join("") + "</" + tag + ">");
+        continue;
+      }
+      para.push(line);
+      i += 1;
+    }
+    flush();
+    return html.join("\n");
+  }
+
+  /* Every notice has its own page, so "read more" never dumps the visitor on
+     the site root. A notice whose <url>/<link> is just the bare site is
+     treated as having no destination. */
+  function noticeIsBareSiteUrl(raw) {
+    if (!raw) return true;
+    try {
+      var url = new URL(raw, window.location.origin);
+      if (!/(^|\.)innioasis\.app$/i.test(url.hostname)) return false;
+      return !url.pathname.replace(/\//g, "") && !url.search && !url.hash;
+    } catch (_) {
+      return true;
+    }
+  }
+
+  function noticeDetailHref(id) {
+    var path = "/notices.html?notice=" + encodeURIComponent(String(id || ""));
+    try {
+      if (typeof decorateMainSiteHref === "function") return decorateMainSiteHref(path);
+    } catch (_) {}
+    return path;
+  }
+
+  window.y1NoticeMarkdown = renderNoticeMarkdown;
+  window.y1NoticeIsBareUrl = noticeIsBareSiteUrl;
+  window.y1NoticeDetailHref = noticeDetailHref;
+
   function parseNoticesXml(xmlText) {
     if (!xmlText || !xmlText.trim()) return [];
     try {
@@ -489,14 +622,19 @@
       var nodes = doc.querySelectorAll("notice");
       var list = [];
       nodes.forEach(function (n) {
+        var textOf = function (tag) {
+          var el = n.querySelector(tag);
+          return el && el.textContent ? el.textContent.trim() : "";
+        };
         list.push({
           id: n.getAttribute("id") || "",
-          type: n.getAttribute("type") || "info",
-          date: n.getAttribute("date") || "",
+          type: n.getAttribute("type") || n.getAttribute("severity") || "info",
+          date: n.getAttribute("date") || n.getAttribute("from") || "",
           models: n.getAttribute("models") || "",
-          title: (n.querySelector("title") && n.querySelector("title").textContent) || "",
-          summary: (n.querySelector("summary") && n.querySelector("summary").textContent) || "",
-          link: (n.querySelector("link") && n.querySelector("link").textContent) || ""
+          title: textOf("title"),
+          summary: textOf("summary") || textOf("content") || textOf("body"),
+          link: textOf("url") || textOf("link"),
+          fullContent: textOf("full_content") || textOf("content") || textOf("body")
         });
       });
       return list;
@@ -508,11 +646,11 @@
   var noticesLoaded = false;
   function loadCommunityNotices() {
     if (noticesLoaded || !noticesBody) return;
+    /* One feed only: /notice.xml. The plural spelling used to sit in this
+       list as a fallback, so a stray plural feed could silently win. */
     var candidates = [
       "/notice.xml",
-      "/notices.xml",
       "notice.xml",
-      "notices.xml",
       "https://innioasis.app/notice.xml"
     ];
     var idx = 0;
@@ -554,8 +692,11 @@
             var modelsBadge = (!isAllModels && rawModels)
               ? '<span class="lumen-notice-models">' + escapeHtml(rawModels) + '</span>'
               : '';
-            var linkHtml = item.link
-              ? '<a class="lumen-notice-link" href="' + escapeHtml(item.link) + '">Learn more &rarr;</a>'
+            /* The tray opens the notice itself. A notice that only points at
+               the bare site has no page of its own to send anyone to. */
+            var detailHref = item.id ? noticeDetailHref(item.id) : "";
+            var linkHtml = detailHref
+              ? '<a class="lumen-notice-link" href="' + escapeHtml(detailHref) + '">Read more &rarr;</a>'
               : '';
             return (
               '<article class="lumen-notice-card lumen-notice-card--' + escapeHtml(item.type) + '">' +
@@ -638,16 +779,51 @@
   var hamburger = document.getElementById("hamburger");
   function setMenuOpen(open) {
     if (!menu || !hamburger) return;
+    if (open) {
+      /* Only one header tray is ever open at a time. */
+      setSwitcherOpen(false);
+      setNoticesOpen(false);
+    }
     menu.classList.toggle("active", open);
+    if (open) positionCompactMenu();
     hamburger.classList.toggle("is-active", open);
     hamburger.setAttribute("aria-expanded", open ? "true" : "false");
     hamburger.setAttribute("aria-label", open ? "Close navigation menu" : "Open navigation menu");
   }
   if (hamburger) {
-    hamburger.addEventListener("click", function () {
+    hamburger.addEventListener("click", function (event) {
+      event.stopPropagation();
       setMenuOpen(!menu.classList.contains("active"));
     });
   }
+  /* A menu that only closes by tapping a link feels stuck: close it on an
+     outside click or Escape too, like the other header trays. */
+  document.addEventListener("click", function (event) {
+    if (!menu || !menu.classList.contains("active")) return;
+    var target = event.target;
+    if (target && target.closest && (target.closest("#navLinks") || target.closest("#hamburger"))) return;
+    setMenuOpen(false);
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key !== "Escape") return;
+    if (menu && menu.classList.contains("active")) setMenuOpen(false);
+  });
+  /* The panel is fixed to the viewport and placed from the button's real
+     rectangle, so a header wider than the screen cannot drag it off the edge. */
+  function positionCompactMenu() {
+    if (!menu || !hamburger) return;
+    if (!navShell || !navShell.classList.contains("nav-compact")) return;
+    var rect = hamburger.getBoundingClientRect();
+    var top = Math.round(rect.bottom + 8);
+    menu.style.position = "fixed";
+    menu.style.top = top + "px";
+    menu.style.left = "auto";
+    menu.style.right = Math.max(12, Math.round(window.innerWidth - rect.right)) + "px";
+    menu.style.maxHeight = Math.max(180, Math.round(window.innerHeight - top - 16)) + "px";
+  }
+  window.addEventListener("resize", function () {
+    if (menu && menu.classList.contains("active")) positionCompactMenu();
+  });
   if (menu) {
     menu.querySelectorAll("a").forEach(function (link) {
       link.addEventListener("click", function () {
@@ -726,6 +902,17 @@
 
   /* Footer Injection */
   var footerRoot = document.getElementById("footer-root");
+  if (!footerRoot && document.body && !document.querySelector("footer")) {
+    /* Pages that forget the mount point still get a footer. */
+    footerRoot = document.createElement("div");
+    footerRoot.id = "footer-root";
+    var toolbarSlot = document.getElementById("support-toolbar-slot");
+    if (toolbarSlot && toolbarSlot.parentNode === document.body) {
+      document.body.insertBefore(footerRoot, toolbarSlot);
+    } else {
+      document.body.appendChild(footerRoot);
+    }
+  }
   if (footerRoot) {
     footerRoot.innerHTML =
       '<footer class="site-footer ' + (isFirmwarePersona ? "site-footer--firmware" : "site-footer--updater") + '">' +
@@ -754,6 +941,7 @@
       '<a href="' + escapeHtml(decorateMainSiteHref("/credits.html")) + '">Community Credits</a>' +
       '</div>' +
       '</div>' +
+      '<div class="footer-credit">Site created by <a href="https://ko-fi.com/teamslide" target="_blank" rel="noopener noreferrer">Ryan Specter</a> with the <a href="' + escapeHtml(decorateMainSiteHref("/credits.html")) + '">Innioasis Community</a>.</div>' +
       '<div class="footer-bottom">Copyleft - Innioasis users and contributors, for the community.</div>' +
       '</footer>';
   }

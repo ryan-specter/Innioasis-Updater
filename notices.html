@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Community Notices &amp; Safety Announcements - Innioasis &amp; Timmkoo</title>
   <meta name="description" content="Official community bulletins, device safety notices, and firmware alerts for Innioasis and Timmkoo players.">
@@ -13,13 +15,30 @@
   <link rel="stylesheet" href="site-pages.css?v=20261019d">
   <link rel="stylesheet" href="site-toolbar.css?v=20261019d">
   <script src="site-init.js?v=20261019d" defer></script>
+  <style>
+    .lumen-notice-view { max-width: 760px; }
+    .lumen-notice-back { margin: 0 0 18px; font-size: .9rem; }
+    .lumen-notice-back a { color: var(--lumen-accent, #6366f1); text-decoration: none; }
+    .lumen-notice-body { margin-top: 8px; line-height: 1.7; color: var(--lumen-text, #e7ecf5); }
+    .lumen-notice-body h2, .lumen-notice-body h3 { margin: 26px 0 8px; line-height: 1.25; }
+    .lumen-notice-body p { margin: 0 0 14px; }
+    .lumen-notice-body ul, .lumen-notice-body ol { margin: 0 0 14px; padding-left: 22px; }
+    .lumen-notice-body li { margin: 4px 0; }
+    .lumen-notice-body a { color: var(--lumen-accent, #6366f1); text-decoration: underline; }
+    .lumen-notice-body img { display: block; max-width: 100%; height: auto; margin: 16px 0; border-radius: 10px; border: 1px solid var(--lumen-line, rgba(255,255,255,.12)); }
+    .lumen-notice-body code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em; background: rgba(255,255,255,.08); padding: 1px 5px; border-radius: 4px; }
+    .lumen-notice-body pre { background: rgba(255,255,255,.06); padding: 12px 14px; border-radius: 10px; overflow-x: auto; }
+    .lumen-notice-body pre code { background: none; padding: 0; }
+    .lumen-notice-body blockquote { margin: 0 0 14px; padding: 4px 0 4px 14px; border-left: 3px solid var(--lumen-line-strong, rgba(255,255,255,.22)); color: var(--lumen-muted, #94a3b8); }
+    .lumen-notice-body hr { border: none; border-top: 1px solid var(--lumen-line, rgba(255,255,255,.12)); margin: 22px 0; }
+  </style>
 </head>
 <body class="site-themes-app">
   <a class="lumen-skip-link" href="#main">Skip to content</a>
   <div id="nav-root"></div>
   <main id="main" class="lumen-guide">
     <header>
-      <p class="lumen-kicker">Community Bulletin · notices.xml</p>
+      <p class="lumen-kicker">Community Bulletin · notice.xml</p>
       <h1>Notices &amp; Announcements</h1>
       <p class="lead">Important firmware updates, hardware compatibility notes, and announcements shared across Innioasis Updater CE, the Community Firmware Archive, and Themes Gallery.</p>
       <div class="lumen-actions">
@@ -35,44 +54,130 @@
   </main>
   <div id="footer-root"></div>
   <div id="support-toolbar-slot"></div>
-  <script src="nav.js?v=20261103donations" defer></script>
+  <script src="nav.js?v=20261105noticemarkdown" defer></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      fetch("/notice.xml", { cache: "no-cache" })
-        .then(function(r) { return r.text(); })
-        .then(function(xmlText) {
-          var parser = new DOMParser();
-          var doc = parser.parseFromString(xmlText, "application/xml");
-          var nodes = doc.querySelectorAll("notice");
-          var container = document.getElementById("notices-list");
-          if (!container) return;
-          if (!nodes.length) {
-            container.innerHTML = "<p>No active notices at this time.</p>";
-            return;
-          }
-          var html = '<div class="lumen-grid">';
-          nodes.forEach(function (n) {
-            var title = (n.querySelector("title") && n.querySelector("title").textContent) || "";
-            var summary = (n.querySelector("summary") && n.querySelector("summary").textContent) || "";
-            var link = (n.querySelector("link") && n.querySelector("link").textContent) || "";
-            var date = n.getAttribute("date") || "";
-            var type = (n.getAttribute("type") || "INFO").toUpperCase();
-            var models = n.getAttribute("models") || "";
-            var isAll = !models || /^(all|all\s+models|\*)$/i.test(models.trim());
-            html += '<article class="lumen-card">' +
-              '<small>' + type + (date ? ' · ' + date : '') + (!isAll && models ? ' · ' + models : '') + '</small>' +
-              '<h3>' + title + '</h3>' +
-              '<p>' + summary + '</p>' +
-              (link ? '<div class="lumen-actions"><a class="lumen-button" href="' + link + '">Read more</a></div>' : '') +
-              '</article>';
-          });
-          html += '</div>';
-          container.innerHTML = html;
-        })
-        .catch(function () {
-          var container = document.getElementById("notices-list");
-          if (container) container.innerHTML = "<p>Could not load notices feed.</p>";
+      var listEl = document.getElementById("notices-list");
+      if (!listEl) return;
+
+      function escapeHtml(value) {
+        return String(value == null ? "" : value).replace(/[&<>"']/g, function (c) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
         });
+      }
+      function markdownToHtml(source) {
+        if (typeof window.y1NoticeMarkdown === "function") return window.y1NoticeMarkdown(source);
+        return "<p>" + escapeHtml(source).replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>") + "</p>";
+      }
+      function detailHref(id) { return "notices.html?notice=" + encodeURIComponent(id); }
+      function isBareSiteUrl(raw) {
+        if (typeof window.y1NoticeIsBareUrl === "function") return window.y1NoticeIsBareUrl(raw);
+        if (!raw) return true;
+        try {
+          var url = new URL(raw, window.location.href);
+          return !url.pathname.replace(/\//g, "") && !url.search && !url.hash;
+        } catch (_) { return true; }
+      }
+      function textOf(node, tag) {
+        var el = node.querySelector(tag);
+        return el && el.textContent ? el.textContent.trim() : "";
+      }
+      function parseFeed(xmlText) {
+        var doc = new DOMParser().parseFromString(xmlText, "application/xml");
+        if (doc.querySelector("parsererror")) return [];
+        var out = [];
+        doc.querySelectorAll("notice").forEach(function (n) {
+          var id = n.getAttribute("id") || "";
+          if (!id) return;
+          var from = n.getAttribute("from") || n.getAttribute("date") || "";
+          out.push({
+            id: id,
+            type: n.getAttribute("type") || n.getAttribute("severity") || "info",
+            from: from.slice(0, 10),
+            models: n.getAttribute("models") || "",
+            title: textOf(n, "title"),
+            summary: textOf(n, "content") || textOf(n, "body") || textOf(n, "summary"),
+            full: textOf(n, "full_content") || textOf(n, "content") || textOf(n, "body"),
+            url: textOf(n, "url") || textOf(n, "link")
+          });
+        });
+        return out;
+      }
+      function modelsLabel(models) {
+        var raw = (models || "").trim();
+        if (!raw || /^(all|all\s+models|\*)$/i.test(raw)) return "";
+        return raw;
+      }
+      function metaLine(notice) {
+        var bits = [String(notice.type || "info").toUpperCase()];
+        if (notice.from) bits.push(notice.from);
+        var models = modelsLabel(notice.models);
+        if (models) bits.push(models);
+        return bits.join(" · ");
+      }
+      function renderList(notices, message) {
+        var html = message ? '<p class="lumen-meta">' + escapeHtml(message) + "</p>" : "";
+        html += '<div class="lumen-grid">';
+        notices.forEach(function (notice) {
+          html += '<article class="lumen-card">' +
+            "<small>" + escapeHtml(metaLine(notice)) + "</small>" +
+            "<h3>" + escapeHtml(notice.title) + "</h3>" +
+            "<p>" + escapeHtml(notice.summary) + "</p>" +
+            '<div class="lumen-actions"><a class="lumen-button" href="' + escapeHtml(detailHref(notice.id)) + '">Read more</a></div>' +
+            "</article>";
+        });
+        html += "</div>";
+        listEl.innerHTML = html;
+      }
+      function renderNotice(notice) {
+        document.title = notice.title + " - Innioasis Notices";
+        var pageLink = isBareSiteUrl(notice.url)
+          ? ""
+          : '<div class="lumen-actions"><a class="lumen-button lumen-button--primary" href="' + escapeHtml(notice.url) + '" rel="noopener">Open the linked page</a></div>';
+        listEl.innerHTML =
+          '<p class="lumen-notice-back"><a href="notices.html">← All notices</a></p>' +
+          '<article class="lumen-notice-view">' +
+          '<p class="lumen-kicker">' + escapeHtml(metaLine(notice)) + "</p>" +
+          "<h1>" + escapeHtml(notice.title) + "</h1>" +
+          (notice.summary && notice.summary !== notice.full ? '<p class="lead">' + escapeHtml(notice.summary) + "</p>" : "") +
+          '<div class="lumen-notice-body">' + markdownToHtml(notice.full) + "</div>" +
+          pageLink +
+          "</article>";
+      }
+      function wantedId() {
+        try {
+          var id = new URLSearchParams(window.location.search).get("notice");
+          if (id) return id;
+        } catch (_) {}
+        var hash = (window.location.hash || "").replace(/^#/, "");
+        return hash.indexOf("notice-") === 0 ? hash.slice(7) : "";
+      }
+      var candidates = ["notice.xml", "/notice.xml", "https://innioasis.app/notice.xml"];
+      function load(index) {
+        if (index >= candidates.length) {
+          listEl.innerHTML = "<p>Could not load notices feed.</p>";
+          return;
+        }
+        fetch(candidates[index], { cache: "no-cache" })
+          .then(function (res) {
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            return res.text();
+          })
+          .then(function (xmlText) {
+            var notices = parseFeed(xmlText);
+            if (!notices.length) throw new Error("empty feed");
+            var wanted = wantedId();
+            if (wanted) {
+              var found = notices.filter(function (n) { return n.id === wanted; })[0];
+              if (found) { renderNotice(found); return; }
+              renderList(notices, "That notice is no longer published. Here is everything that is current.");
+              return;
+            }
+            renderList(notices, "");
+          })
+          .catch(function () { load(index + 1); });
+      }
+      load(0);
     });
   </script>
 </body>
