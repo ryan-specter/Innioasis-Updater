@@ -171,7 +171,12 @@
         var asset = release.assets.find(function (entry) {
             return entry && String(entry.name) === parts.name;
         });
-        return asset && asset.browser_download_url ? asset.browser_download_url : "";
+        if (!asset || !asset.browser_download_url) return "";
+        /* A listed asset can still be an empty placeholder while the mirror
+           uploads it. An empty rom.zip is worse than the project's own
+           release, so keep the original download unless there is payload. */
+        if (!(Number(asset.size) > 0)) return "";
+        return asset.browser_download_url;
     }
 
     async function resolve(href) {

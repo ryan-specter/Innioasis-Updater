@@ -853,7 +853,7 @@ HEAD = """<!doctype html>
 FOOT = """<div id="footer-root"></div><div id="support-toolbar-slot"></div>
 <script src="{up}firmware-catalog.js?v=20260803" defer></script>
 <script src="{up}docs-viewer.js?v=20261107silo" defer></script>
-<script src="{up}portable-zip-links.js?v=20261112links" defer></script>
+<script src="{up}portable-zip-links.js?v=20261103direct" defer></script>
 <script src="{up}nav.js?v=20261103brand" defer></script>
 <script src="{up}site-i18n.js?v=20260830" defer></script>
 </body></html>
