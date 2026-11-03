@@ -598,31 +598,53 @@
 
     var portableAssetProbeCache = {};
 
-    async function portableAssetExists(assetUrl, filename) {
-        var proxy = downloadProxyUrl();
-        if (!proxy) return false;
-        var href = downloadHref(assetUrl, filename);
-        if (portableAssetProbeCache[href] !== undefined) return portableAssetProbeCache[href];
-        var exists = false;
+    function githubReleaseAssetParts(url) {
+        var match = /^https:\/\/github\.com\/([^/]+)\/([^/]+)\/releases\/download\/([^/]+)\/([^/?#]+)/i.exec(String(url || ""));
+        if (!match) return null;
         try {
-            var res = await fetch(href, { method: "HEAD", cache: "no-store" });
-            exists = res.ok;
-            if (!exists) {
-                var ranged = await fetch(href, {
-                    method: "GET",
-                    cache: "no-store",
-                    headers: { Range: "bytes=0-0" }
+            return {
+                repo: match[1] + "/" + match[2],
+                tag: decodeURIComponent(match[3]),
+                name: decodeURIComponent(match[4])
+            };
+        } catch (_) {
+            return null;
+        }
+    }
+
+    async function probePortableAsset(assetUrl, filename) {
+        var proxy = downloadProxyUrl();
+        var proxyHref = proxy ? downloadHref(assetUrl, filename) : "";
+        if (proxyHref) {
+            var cached = portableAssetProbeCache[proxyHref];
+            if (cached !== undefined) return cached;
+            try {
+                var res = await fetch(proxyHref, { method: "HEAD", cache: "no-store" });
+                if (res.ok) {
+                    var proxied = { exists: true, proxied: true };
+                    portableAssetProbeCache[proxyHref] = proxied;
+                    return proxied;
+                }
+            } catch (_) {}
+        }
+
+        var parts = githubReleaseAssetParts(assetUrl);
+        if (!parts) return null;
+        try {
+            var apiRes = await fetchGithubApi("https://api.github.com/repos/" + parts.repo + "/releases/tags/" + encodeURIComponent(parts.tag));
+            if (apiRes.ok) {
+                var release = await apiRes.json();
+                var found = Array.isArray(release.assets) && release.assets.some(function (asset) {
+                    return asset && String(asset.name) === parts.name;
                 });
-                exists = ranged.ok || ranged.status === 206;
-                if (ranged.body && ranged.body.cancel) {
-                    try { ranged.body.cancel(); } catch (_) {}
+                if (found) {
+                    var direct = { exists: true, proxied: false };
+                    if (proxyHref) portableAssetProbeCache[proxyHref] = direct;
+                    return direct;
                 }
             }
-        } catch (_) {
-            exists = false;
-        }
-        portableAssetProbeCache[href] = exists;
-        return exists;
+        } catch (_) {}
+        return null;
     }
 
     function findPortableAsset(index, tag, sourceAsset, platformKey) {
@@ -658,8 +680,15 @@
             var url = /^https:\/\/github\.com\//i.test(String(asset.url || ""))
                 ? asset.url
                 : portableDownloadUrl(repos[i], releaseTag, asset.name);
-            if (!await portableAssetExists(url, asset.name)) continue;
-            return { url: url, name: asset.name, platform: key, repo: repos[i] };
+            var probe = await probePortableAsset(url, asset.name);
+            if (!probe || !probe.exists) continue;
+            return {
+                url: url,
+                name: asset.name,
+                platform: key,
+                repo: repos[i],
+                proxied: Boolean(probe.proxied)
+            };
         }
         return null;
     }
@@ -968,7 +997,7 @@
                 if (label) label.textContent = "Starting portable package download…";
                 if (metrics) metrics.textContent = "";
                 var portableLink = document.createElement("a");
-                portableLink.href = downloadHref(portableZip.url, zipName);
+                portableLink.href = portableZip.proxied ? downloadHref(portableZip.url, zipName) : portableZip.url;
                 portableLink.download = zipName;
                 portableLink.rel = "noopener";
                 document.body.appendChild(portableLink);
@@ -1373,7 +1402,7 @@
                     var entry = MODEL_ZIPS.find(function (candidate) { return candidate.name === aName; });
                     var label = entry ? entry.label : (assetType ? item.model + " · Type " + assetType : item.model + " package");
                     var title = entry ? entry.title : ("For " + item.model + " players" + (assetType ? " · Type " + assetType : ""));
-                    links.push('<li><a class="lumen-download-link" href="' + escapeHtml(downloadHref(asset.browser_download_url, asset.name)) + '" download="' + escapeHtml(asset.name) + '" title="' + escapeHtml(title) + '">' + escapeHtml(asset.name) + ' <span class="lumen-meta">' + escapeHtml(label) + '</span></a></li>');
+                    links.push('<li><a class="lumen-download-link" href="' + escapeHtml(asset.browser_download_url) + '" download="' + escapeHtml(asset.name) + '" title="' + escapeHtml(title) + '">' + escapeHtml(asset.name) + ' <span class="lumen-meta">' + escapeHtml(label) + '</span></a></li>');
                 }
             });
             var assetLinks = links.length ? links.join("") : '<li>No ZIP asset was found in this release.</li>';

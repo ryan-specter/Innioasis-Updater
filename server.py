@@ -109,9 +109,30 @@ class CleanURLHandler(http.server.SimpleHTTPRequestHandler):
 
     def do_HEAD(self):
         if self.path.startswith("/download-proxy?"):
-            self.do_GET()
-        else:
-            super().do_HEAD()
+            from urllib.parse import urlparse, parse_qs
+            import urllib.request
+            qs = parse_qs(urlparse(self.path).query)
+            target = qs.get("url", [None])[0]
+            if target and (target.startswith("https://github.com/") or target.startswith("https://objects.githubusercontent.com/") or target.startswith("https://release-assets.githubusercontent.com/") or target.startswith("https://raw.githubusercontent.com/")):
+                try:
+                    req = urllib.request.Request(target, method="HEAD", headers={"User-Agent": "Mozilla/5.0 (Innioasis-Updater-Local)"})
+                    with urllib.request.urlopen(req, timeout=30) as resp:
+                        self.send_response(200)
+                        self.send_header("Access-Control-Allow-Origin", "*")
+                        self.send_header("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS")
+                        self.send_header("Access-Control-Allow-Headers", "*")
+                        self.send_header("Content-Type", resp.headers.get("Content-Type", "application/octet-stream"))
+                        cl = resp.headers.get("Content-Length")
+                        if cl:
+                            self.send_header("Content-Length", cl)
+                        self.end_headers()
+                        return
+                except Exception as e:
+                    self.send_error(502, f"Proxy error: {e}")
+                    return
+            self.send_error(400, "Invalid target URL")
+            return
+        super().do_HEAD()
 
     def do_OPTIONS(self):
         self.send_response(200)
