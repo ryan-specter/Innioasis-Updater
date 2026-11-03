@@ -6,3 +6,4 @@ __pycache__/
 *.tmp.py
 *.log
 .DS_Store
+notices.html

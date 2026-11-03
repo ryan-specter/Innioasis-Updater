@@ -549,6 +549,153 @@
         return p;
     }
 
+    var portableIndexCache = {};
+
+    function normalizePortableRepo(value) {
+        var text = String(value || "").trim();
+        text = text.replace(/^https?:\/\/(www\.)?github\.com\//i, "").replace(/\.git$/i, "").replace(/\/+$/, "");
+        if (text.indexOf("/") === -1 || text.indexOf("/") !== text.lastIndexOf("/")) return "";
+        var parts = text.split("/");
+        return parts[0] && parts[1] ? text : "";
+    }
+
+    function parsePortableZips(value) {
+        var raw = Array.isArray(value) ? value : String(value || "").split(/[\s,]+/);
+        var seen = {};
+        var repos = [];
+        raw.forEach(function (entry) {
+            var repo = normalizePortableRepo(entry);
+            var key = repo.toLowerCase();
+            if (repo && !seen[key]) {
+                seen[key] = true;
+                repos.push(repo);
+            }
+        });
+        return repos;
+    }
+
+    function portablePlatformKey(platform) {
+        if (!platform) return "";
+        if (platform.os === "macos") return "macos";
+        if (platform.os !== "windows" && platform.os !== "linux") return "";
+        if (platform.arch && platform.arch !== "x86-64" && platform.arch !== "arm64") return "";
+        return platform.os + (platform.arch === "arm64" ? "-arm64" : "");
+    }
+
+    function portableDownloadUrl(repo, tag, name) {
+        return "https://github.com/" + repo + "/releases/download/" +
+            encodeURIComponent(String(tag)) + "/" + encodeURIComponent(String(name));
+    }
+
+    function fetchPortableIndex(repo) {
+        if (!portableIndexCache[repo]) {
+            portableIndexCache[repo] = fetch("https://raw.githubusercontent.com/" + repo + "/main/index.json", { cache: "no-store" })
+                .then(function (res) {
+                    if (!res.ok) throw new Error("HTTP " + res.status);
+                    return res.json();
+                })
+                .catch(function () { return null; });
+        }
+        return portableIndexCache[repo];
+    }
+
+    var portableAssetProbeCache = {};
+
+    function githubReleaseAssetParts(url) {
+        var match = /^https:\/\/github\.com\/([^/]+)\/([^/]+)\/releases\/download\/([^/]+)\/([^/?#]+)/i.exec(String(url || ""));
+        if (!match) return null;
+        try {
+            return {
+                repo: match[1] + "/" + match[2],
+                tag: decodeURIComponent(match[3]),
+                name: decodeURIComponent(match[4])
+            };
+        } catch (_) {
+            return null;
+        }
+    }
+
+    async function probePortableAsset(assetUrl, filename) {
+        var proxy = downloadProxyUrl();
+        var proxyHref = proxy ? downloadHref(assetUrl, filename) : "";
+        if (proxyHref) {
+            var cached = portableAssetProbeCache[proxyHref];
+            if (cached !== undefined) return cached;
+            try {
+                var res = await fetch(proxyHref, { method: "HEAD", cache: "no-store" });
+                if (res.ok) {
+                    var proxied = { exists: true, proxied: true };
+                    portableAssetProbeCache[proxyHref] = proxied;
+                    return proxied;
+                }
+            } catch (_) {}
+        }
+
+        var parts = githubReleaseAssetParts(assetUrl);
+        if (!parts) return null;
+        try {
+            var apiRes = await fetchGithubApi("https://api.github.com/repos/" + parts.repo + "/releases/tags/" + encodeURIComponent(parts.tag));
+            if (apiRes.ok) {
+                var release = await apiRes.json();
+                var found = Array.isArray(release.assets) && release.assets.some(function (asset) {
+                    return asset && String(asset.name) === parts.name;
+                });
+                if (found) {
+                    var direct = { exists: true, proxied: false };
+                    if (proxyHref) portableAssetProbeCache[proxyHref] = direct;
+                    return direct;
+                }
+            }
+        } catch (_) {}
+        return null;
+    }
+
+    function findPortableAsset(index, tag, sourceAsset, platformKey) {
+        if (!index || Number(index.schema) !== 1 || !Array.isArray(index.releases)) return null;
+        var release = index.releases.find(function (candidate) {
+            return candidate && String(candidate.tag || "") === String(tag);
+        });
+        if (!release || !Array.isArray(release.assets)) return null;
+        var base = String(sourceAsset).replace(/\.zip$/i, "");
+        var suffix = platformKey === "macos" ? "-macos.zip" :
+            platformKey === "windows" ? "-windows.zip" :
+            platformKey === "windows-arm64" ? "-windows-arm64.zip" :
+            platformKey === "linux" ? "-linux.zip" :
+            platformKey === "linux-arm64" ? "-linux-arm64.zip" : "";
+        return release.assets.find(function (asset) {
+            if (!asset || !asset.name || String(asset.platform || "") !== platformKey) return false;
+            var declared = String(asset.source_asset || "");
+            if (declared) return declared === String(sourceAsset);
+            return Boolean(suffix) && String(asset.name || "") === base + suffix;
+        }) || null;
+    }
+
+    async function resolvePortableZip(mirrors, releaseTag, sourceAsset) {
+        var repos = parsePortableZips(mirrors);
+        if (!repos.length || !releaseTag || !sourceAsset) return null;
+        var platform = await getFullPlatform();
+        var key = portablePlatformKey(platform);
+        if (!key) return null;
+        for (var i = 0; i < repos.length; i++) {
+            var index = await fetchPortableIndex(repos[i]);
+            var asset = findPortableAsset(index, releaseTag, sourceAsset, key);
+            if (!asset) continue;
+            var url = /^https:\/\/github\.com\//i.test(String(asset.url || ""))
+                ? asset.url
+                : portableDownloadUrl(repos[i], releaseTag, asset.name);
+            var probe = await probePortableAsset(url, asset.name);
+            if (!probe || !probe.exists) continue;
+            return {
+                url: url,
+                name: asset.name,
+                platform: key,
+                repo: repos[i],
+                proxied: Boolean(probe.proxied)
+            };
+        }
+        return null;
+    }
+
     var cachedUpdaterNeoAssets = null;
     async function fetchUpdaterNeoAssets() {
         if (cachedUpdaterNeoAssets !== null) return cachedUpdaterNeoAssets;
@@ -651,6 +798,22 @@
         }, 1000);
     }
 
+    function downloadProxyUrl() {
+        var meta = document.querySelector('meta[name="innioasis-download-proxy"]');
+        var value = meta ? (meta.getAttribute("content") || "").trim() : "";
+        if (value) return value;
+        if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") return "/download-proxy";
+        return "";
+    }
+
+    function downloadHref(assetUrl, filename) {
+        var proxy = downloadProxyUrl();
+        if (!proxy) return assetUrl;
+        return proxy + (proxy.indexOf("?") === -1 ? "?" : "&") +
+            "url=" + encodeURIComponent(assetUrl) +
+            "&filename=" + encodeURIComponent(filename || "firmware.zip");
+    }
+
     async function streamDownload(url, onChunk) {
         var tryUrls = [];
         if (url.startsWith("/")) {
@@ -689,7 +852,7 @@
 
     var downloadInProgress = false;
 
-    async function startSmartZipDownload(zipUrl, zipName, itemName, itemModel, releaseTag) {
+    async function startSmartZipDownload(zipUrl, zipName, itemName, itemModel, releaseTag, portableZips) {
         if (downloadInProgress) return;
         downloadInProgress = true;
 
@@ -830,6 +993,24 @@
 
         try {
             var platform = await getFullPlatform();
+            var portableZip = await resolvePortableZip(portableZips, releaseTag, zipName);
+            if (portableZip) {
+                clearIntroTimers();
+                if (bar) bar.style.width = "100%";
+                if (label) label.textContent = "Starting portable package download…";
+                if (metrics) metrics.textContent = "";
+                var portableLink = document.createElement("a");
+                portableLink.href = portableZip.proxied ? downloadHref(portableZip.url, zipName) : portableZip.url;
+                portableLink.download = zipName;
+                portableLink.rel = "noopener";
+                document.body.appendChild(portableLink);
+                portableLink.click();
+                setTimeout(function () {
+                    if (portableLink.parentNode) portableLink.parentNode.removeChild(portableLink);
+                    markCompleted();
+                }, 1000);
+                return;
+            }
             var neoAssets = await fetchUpdaterNeoAssets();
             var matchingTool = findMatchingPortableAsset(neoAssets, platform);
 
@@ -1227,7 +1408,7 @@
                     var entry = MODEL_ZIPS.find(function (candidate) { return candidate.name === aName; });
                     var label = entry ? entry.label : (assetType ? item.model + " · Type " + assetType : item.model + " package");
                     var title = entry ? entry.title : ("For " + item.model + " players" + (assetType ? " · Type " + assetType : ""));
-                    links.push('<li><a class="lumen-download-link" href="' + escapeHtml(asset.browser_download_url) + '" download title="' + escapeHtml(title) + '">' + escapeHtml(asset.name) + ' <span class="lumen-meta">' + escapeHtml(label) + '</span></a></li>');
+                    links.push('<li><a class="lumen-download-link" href="' + escapeHtml(asset.browser_download_url) + '" download="' + escapeHtml(asset.name) + '" title="' + escapeHtml(title) + '">' + escapeHtml(asset.name) + ' <span class="lumen-meta">' + escapeHtml(label) + '</span></a></li>');
                 }
             });
             var assetLinks = links.length ? links.join("") : '<li>No ZIP asset was found in this release.</li>';
@@ -1327,7 +1508,7 @@
                     }) || (rowType ? null : assets[0]);
                 }
                 if (primaryAsset) {
-                    zipBtn = ' <button type="button" class="lumen-zip-download-button lumen-zip-download-button--table" data-zip-url="' + escapeHtml(primaryAsset.browser_download_url) + '" data-zip-name="' + escapeHtml(primaryAsset.name) + '" data-release-tag="' + escapeHtml(release.tag_name || release.name || "release") + '" data-item-name="' + escapeHtml(item.name) + '" data-item-model="' + escapeHtml(item.model) + '" aria-label="Download standalone ' + escapeHtml(primaryAsset.name) + ' ZIP package">' +
+                    zipBtn = ' <button type="button" class="lumen-zip-download-button lumen-zip-download-button--table" data-zip-url="' + escapeHtml(primaryAsset.browser_download_url) + '" data-zip-name="' + escapeHtml(primaryAsset.name) + '" data-release-tag="' + escapeHtml(release.tag_name || release.name || "release") + '" data-item-name="' + escapeHtml(item.name) + '" data-item-model="' + escapeHtml(item.model) + '" data-portable-zips="' + escapeHtml(item.portable_zips || "") + '" aria-label="Download standalone ' + escapeHtml(primaryAsset.name) + ' ZIP package">' +
                         '<svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16h12M10 3v9m0 0l-3.5-3.5M10 12l3.5-3.5"/></svg>' +
                         '<span><strong>Download ZIP</strong><small>standalone package</small></span>' +
                         '</button>';
@@ -1336,21 +1517,15 @@
 
             /* The Software name is not shown here: the software filter above
                already sets the project, so every row belongs to it. */
-            /* The GitHub link goes straight to this release's own page when
-               a release is shown; loading and empty-state rows fall back to
-               the project's release list. */
-            /* The reader goes to our own release-notes page: the same notes,
-               our portable download buttons and the Updater CE guide, all
-               served from this site. */
+            /* The reader goes to our own release-notes page. Never fall back
+               to a source-host URL when a release tag is missing. */
             var releaseNotesUrl = docsReleaseNotesHref(item, release && release.tag_name ? release.tag_name : "") ||
-                ('https://github.com/' + item.repo + '/releases');
-            return '<tr data-release-tag="' + escapeHtml(release && (release.tag_name || release.name) || "") + '">' +
+                "release-notes/index.html";            return '<tr data-release-tag="' + escapeHtml(release && (release.tag_name || release.name) || "") + '">' +
                 '<td><div style="display:flex;align-items:center;gap:10px;">' + iconHtml + '<div>' + versionHtml + (release && release.published_at ? '<br><span class="lumen-meta">' + escapeHtml(release.published_at.slice(0, 10)) + '</span>' : '') + '</div></div></td>' +
                 /* The package is not shown: the Release details expander lists
                    the rom zips this release is packaged in. */
                 '<td><div class="lumen-actions">' + updater + zipBtn + hint + '</div>' + releaseDetails(release, item, typeForItem(item)) + '</td>' +
-                '<td><a class="lumen-github-link" href="' + releaseNotesUrl + '" aria-label="Read the release notes for ' + escapeHtml(release && release.tag_name ? release.tag_name : item.name) + '">' +
-                '<svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h6l3 3v11H6z"/><path d="M12 3v3h3"/><path d="M8.5 10h5M8.5 13h5"/></svg></a></td>' +
+                '<td><a class="lumen-release-notes-link" href="' + releaseNotesUrl + '" aria-label="Read the release notes for ' + escapeHtml(release && release.tag_name ? release.tag_name : item.name) + '">' +                '<svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h6l3 3v11H6z"/><path d="M12 3v3h3"/><path d="M8.5 10h5M8.5 13h5"/></svg></a></td>' +
                 '</tr>';
         }
 
@@ -1518,7 +1693,18 @@
             var itemName = btn.getAttribute("data-item-name") || "Software";
             var itemModel = btn.getAttribute("data-item-model") || "Y1";
             var releaseTag = btn.getAttribute("data-release-tag") || "release";
-            startSmartZipDownload(zipUrl, zipName, itemName, itemModel, releaseTag);
+            var portableZips = btn.getAttribute("data-portable-zips") || "";
+            startSmartZipDownload(zipUrl, zipName, itemName, itemModel, releaseTag, portableZips);
+        });
+
+        /* Opening a release's details means the visitor is reading about that
+           exact version, so version-targeted notices apply from then on. */
+        table.addEventListener("click", function (event) {
+            var summary = event.target.closest ? event.target.closest(".lumen-release-details > summary") : null;
+            if (!summary) return;
+            var row = summary.closest("tr");
+            var tag = row ? row.getAttribute("data-release-tag") : "";
+            if (tag) syncNoticeContext(tag);
         });
 
         /* Opening a release's details means the visitor is reading about that
@@ -1774,8 +1960,7 @@
        Docs reader. A firmware's post_install can point at a Markdown file
        in the project's own repository; those open in post_install.html (our
        own styled page) instead of a bare file view. The viewer is loaded on
-       demand so every guide page gets it without its own script tag. */
-    var docsViewerPromise = null;
+       demand so every guide page gets it without its own script tag. */    var docsViewerPromise = null;
     function ensureDocsViewer() {
         if (window.InnioasisDocs) return Promise.resolve(window.InnioasisDocs);
         if (docsViewerPromise) return docsViewerPromise;
@@ -1783,8 +1968,7 @@
             var path = window.location.pathname || "";
             var prefix = /\/guides\/|\/notices\/|\/Troubleshooting\//.test(path) ? "../" : "";
             var script = document.createElement("script");
-            script.src = prefix + "docs-viewer.js?v=20261104tokens";
-            script.async = true;
+            script.src = prefix + "docs-viewer.js?v=20261107silo";            script.async = true;
             script.onload = function () { resolve(window.InnioasisDocs || null); };
             script.onerror = function () { resolve(null); };
             document.head.appendChild(script);
@@ -1798,24 +1982,27 @@
            appeals on; without it this is the ordinary post_install value. */
         var target = typeof D.postInstallTarget === "function" ? D.postInstallTarget(item, value) : (value || "");
         if (!target) return "";
-        return D.postInstallHref(target, {
-            software: item && item.slug ? item.slug : "",
+        return D.postInstallHref(target, {            software: item && item.slug ? item.slug : "",
             model: item && item.model ? item.model : "",
             repo: item && item.repo ? item.repo : "",
             name: item && item.name ? item.name : ""
         });
     }
-    function docsReleaseNotesHref(item, tag) {
+    function siteReleaseNotesHref(item, tag) {
+        if (!item || !item.slug || !tag) return "release-notes/index.html";
+        var path = window.location.pathname || "";
+        var prefix = /\/guides\/|\/notices\/|\/Troubleshooting\//.test(path) ? "../" : "";
         var D = window.InnioasisDocs;
-        if (!D || typeof D.releaseNotesHref !== "function" || !item || !item.repo) return "";
-        return D.releaseNotesHref({
-            repo: item.repo,
-            model: item.model || "",
-            software: item.slug || "",
-            name: item.name || "",
-            tag: tag || ""
-        });
+        if (D && typeof D.staticReleasePath === "function") {
+            var staticPath = D.staticReleasePath(item.slug, tag);
+            if (staticPath) return prefix + staticPath;
+        }
+        var tagSlug = String(tag || "").toLowerCase().replace(/[^a-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "");
+        return prefix + "release-notes/" + encodeURIComponent(item.slug) + "/" + encodeURIComponent(tagSlug || "release") + ".html";
     }
+
+    function docsReleaseNotesHref(item, tag) {
+        return siteReleaseNotesHref(item, tag);    }
 
     function initGuidePostInstall() {
         if (!Array.isArray(window.INNIOASIS_FIRMWARE_CATALOG)) return;
@@ -1887,8 +2074,7 @@
                     stepsList.appendChild(postLi);
                 } else {
                     var existingLink = existingStep.querySelector("a[data-post-install-link]");
-                    if (existingLink && (matchedItem.post_install || matchedItem.post_install2)) {
-                        existingLink.href = docsPostInstallHref(matchedItem.post_install, matchedItem);
+                    if (existingLink && (matchedItem.post_install || matchedItem.post_install2)) {                        existingLink.href = docsPostInstallHref(matchedItem.post_install, matchedItem);
                     }
                 }
             }
@@ -1919,7 +2105,7 @@
                     var icon = (pkg.getAttribute("icon") || "").trim();
                     var postInstall = (pkg.getAttribute("post_install") || "").trim();
                     var postInstall2 = (pkg.getAttribute("post_install2") || "").trim();
-                    var handler = pkg.getAttribute("handler") || "";
+                    var portableZips = (pkg.getAttribute("portable_zips") || "").trim();                    var handler = pkg.getAttribute("handler") || "";
                     if (!name || /please update/i.test(name)) return;
                     if (handler && handler !== "Custom Firmware") return;
 
@@ -1935,7 +2121,7 @@
                         if (repo) match.repo = repo;
                         if (postInstall) match.post_install = postInstall;
                         if (postInstall2) match.post_install2 = postInstall2;
-                    } else if (name && device) {
+                        if (portableZips) match.portable_zips = portableZips;                    } else if (name && device) {
                         var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
                         catalog.push({
                             name: name,
@@ -1945,7 +2131,7 @@
                             icon: icon,
                             post_install: postInstall,
                             post_install2: postInstall2,
-                            packageName: "rom.zip",
+                            portable_zips: portableZips,                            packageName: "rom.zip",
                             description: "Community firmware package for the " + device + "."
                         });
                     }
