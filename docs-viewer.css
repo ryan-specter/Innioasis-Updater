@@ -290,6 +290,18 @@
   padding: 3px;
 }
 
+.lumen-release-icon--generic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: var(--lumen-accent, #6366f1);
+}
+
+.lumen-release-icon--generic[hidden] { display: none; }
+
+.lumen-release-icon--generic svg { display: block; }
+
 .lumen-release-titles { flex: 1 1 260px; min-width: 0; }
 
 .lumen-release-tag-row {

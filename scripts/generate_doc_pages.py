@@ -842,7 +842,7 @@ HEAD = """<!doctype html>
   <link rel="stylesheet" href="{up}lumen.css?v=20261105hero">
   <link rel="stylesheet" href="{up}site-pages.css?v=20260818">
   <link rel="stylesheet" href="{up}site-toolbar.css?v=20261105dockclose">
-  <link rel="stylesheet" href="{up}docs-viewer.css?v=20261103tables">
+  <link rel="stylesheet" href="{up}docs-viewer.css?v=20261103icons">
   <script src="{up}site-init.js?v=20260803" defer></script>
 </head>
 <body class="site-themes-app">
@@ -892,6 +892,34 @@ def guide_href(item: dict, up: str) -> str:
     )
 
 
+COG_SVG = '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>'
+
+UPDATER_ICON_RE = re.compile(r"^updater\.(png|webp|jpe?g|svg)$", re.I)
+
+# The squircle the site falls back to when a project ships no icon: never a
+# developer avatar.
+GENERIC_RELEASE_ICON = (
+    '<span class="lumen-release-icon lumen-release-icon--generic" aria-hidden="true">'
+    + COG_SVG + "</span>"
+)
+
+
+def release_icon_html(item: dict, release: dict) -> str:
+    """Release-shipped updater.* icon, then the manifest/catalog icon, then
+    the generic cog squircle."""
+    src = ""
+    for asset in (release or {}).get("assets") or []:
+        if UPDATER_ICON_RE.match(str(asset.get("name") or "").strip()):
+            src = asset.get("browser_download_url") or ""
+            if src:
+                break
+    if not src:
+        src = (item or {}).get("icon") or ""
+    if not src:
+        return GENERIC_RELEASE_ICON
+    return '<img class="lumen-release-icon" src="%s" alt="" loading="lazy">' % esc(src)
+
+
 def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list[dict]) -> str:
     up = "../../"
     name = item.get("name") or item.get("slug")
@@ -915,10 +943,7 @@ def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list
     if release.get("draft"):
         meta_bits.append('<span class="lumen-release-pill lumen-release-pill--prerelease">Draft</span>')
 
-    icon = item.get("icon") or ""
-    icon_html = (
-        '<img class="lumen-release-icon" src="%s" alt="" loading="lazy">' % esc(icon) if icon else ""
-    )
+    icon_html = release_icon_html(item, release)
 
     body_ctx = {"repo": item.get("repo", ""), "ref": tag,
                 "raw_dir": "https://raw.githubusercontent.com/%s/%s/" % (item.get("repo", ""), tag),

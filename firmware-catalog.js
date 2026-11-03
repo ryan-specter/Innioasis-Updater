@@ -153,7 +153,6 @@ window.INNIOASIS_FIRMWARE_CATALOG = [
         "model": "Y1",
         "repo": "ryan-specter/koensayr-auto",
         "packageName": "rom.zip",
-        "icon": "https://avatars.githubusercontent.com/u/10089013?v=4",
         "benefits": "koensayr-benefits.html",
         "guide": "guides/koensayr-y1.html",
         "seoPage": "koensayr-y1-software.html",
