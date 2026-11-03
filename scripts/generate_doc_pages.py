@@ -842,7 +842,7 @@ HEAD = """<!doctype html>
   <link rel="stylesheet" href="{up}lumen.css?v=20261105hero">
   <link rel="stylesheet" href="{up}site-pages.css?v=20260818">
   <link rel="stylesheet" href="{up}site-toolbar.css?v=20261105dockclose">
-  <link rel="stylesheet" href="{up}docs-viewer.css?v=20261103docs">
+  <link rel="stylesheet" href="{up}docs-viewer.css?v=20261103tables">
   <script src="{up}site-init.js?v=20260803" defer></script>
 </head>
 <body class="site-themes-app">

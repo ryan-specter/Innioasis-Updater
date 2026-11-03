@@ -210,6 +210,34 @@
   background: rgba(15, 23, 42, .03);
 }
 
+/* GitHub release bodies build screenshot grids out of borderless tables whose
+   cells carry `width: 1px`. Handled as data tables those cells collapse to
+   that hint and the captions wrap one character per line, so tables with
+   images and no header row are laid out as responsive figure grids instead. */
+.lumen-doc-body table:not(:has(thead)):has(td img) {
+  display: table;
+  /* The bodies set width:auto inline; the grid still needs to fit the card. */
+  width: 100% !important;
+  max-width: 100%;
+  table-layout: fixed;
+  border: 0;
+}
+
+.lumen-doc-body table:not(:has(thead)):has(td img) td,
+.lumen-doc-body table:not(:has(thead)):has(td img) th {
+  border: 0;
+  width: auto !important;
+  padding: 0 10px 10px 0;
+  vertical-align: top;
+}
+
+.lumen-doc-body table:not(:has(thead)):has(td img) img {
+  /* GitHub writes max-width:none on these screenshots inline; the width
+     attribute on the tag still sets the intended size. */
+  max-width: 100% !important;
+  height: auto;
+}
+
 .lumen-doc-body input[type="checkbox"] {
   margin-right: 6px;
   accent-color: var(--lumen-accent, #6366f1);
