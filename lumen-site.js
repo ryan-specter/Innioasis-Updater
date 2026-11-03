@@ -19,25 +19,48 @@
        Y1 Type B devices shipped with an earlier version. Y2 devices use
        rom_y2.zip. Release details offer these for manual download. */
     var MODEL_ZIPS = [
-        { name: "rom.zip", label: "Y1 · Type A", title: "For Y1 players that shipped with software 2.0.0 or later" },
-        { name: "rom_type_b.zip", label: "Y1 · Type B", title: "For Y1 players that shipped with an earlier software version" },
-        { name: "rom_240p.zip", label: "Y1 · Type A · 240p", title: "240p build for Y1 players that shipped with software 2.0.0 or later" },
-        { name: "rom_240p_type_b.zip", label: "Y1 · Type B · 240p", title: "240p build for Y1 players that shipped with an earlier software version" },
-        { name: "rom_360p.zip", label: "Y1 · Type A · 360p", title: "360p build for Y1 players that shipped with software 2.0.0 or later" },
-        { name: "rom_360p_type_b.zip", label: "Y1 · Type B · 360p", title: "360p build for Y1 players that shipped with an earlier software version" },
-        { name: "rom_y2.zip", label: "Y2", title: "For Y2 players" }
+        { name: "rom.zip", label: "Y1 · Type A", type: "A", title: "For Y1 players that shipped with software 2.0.0 or later" },
+        { name: "rom_type_a.zip", label: "Y1 · Type A", type: "A", title: "For Y1 players that shipped with software 2.0.0 or later" },
+        { name: "rom_y1_type_a.zip", label: "Y1 · Type A", type: "A", title: "For Y1 players that shipped with software 2.0.0 or later" },
+        { name: "rom_type_b.zip", label: "Y1 · Type B", type: "B", title: "For Y1 players that shipped with an earlier software version" },
+        { name: "rom_y1_type_b.zip", label: "Y1 · Type B", type: "B", title: "For Y1 players that shipped with an earlier software version" },
+        { name: "rom_240p.zip", label: "Y1 · Type A · 240p", type: "A", title: "240p build for Y1 players that shipped with software 2.0.0 or later" },
+        { name: "rom_240p_type_b.zip", label: "Y1 · Type B · 240p", type: "B", title: "240p build for Y1 players that shipped with an earlier software version" },
+        { name: "rom_360p.zip", label: "Y1 · Type A · 360p", type: "A", title: "360p build for Y1 players that shipped with software 2.0.0 or later" },
+        { name: "rom_360p_type_b.zip", label: "Y1 · Type B · 360p", type: "B", title: "360p build for Y1 players that shipped with an earlier software version" },
+        { name: "rom_y2.zip", label: "Y2", type: "", title: "For Y2 players" }
     ];
 
-    /* The packages a release may ship for an item. Y1 releases can use
-       rom.zip (Type A) or rom_type_b.zip (Type B); Y2 releases use rom_y2.zip.
-       Rockbox-style Y1 releases split the package by screen resolution
-       (rom_240p.zip, rom_360p.zip) with the same Type A/B split, mirroring how
-       the Updater app treats any rom*.zip as a Y1 package. */
-    function packageNamesFor(item) {
+    /* The hardware type a package belongs to. Y1 shipped in two revisions:
+       Type A (software 2.0.0 or later) and Type B (earlier). The ROMs are not
+       interchangeable, so anything offered to a player has to match the type
+       of that player. "" means the package carries no type of its own, which
+       covers Y2 packages, Linux installers and plain update bundles. */
+    function zipType(name) {
+        var n = String(name || "").toLowerCase();
+        if (/type[_-]?b/.test(n)) return "B";
+        if (/type[_-]?a/.test(n)) return "A";
+        if (/^rom(?:[_-](?:240p|360p))?\.zip$/.test(n)) return "A";
+        return "";
+    }
+
+    /* The packages a release may ship for an item, narrowed to the selected
+       hardware type. Y1 releases can use rom.zip (Type A), rom_type_b.zip
+       (Type B), or the 240p/360p split of either; Rockbox-style Y1 releases
+       ship only the resolution split. Y2 releases use rom_y2.zip and have no
+       type, mirroring how the Updater app treats any rom*.zip as a Y1
+       package. Passing no type keeps every variant, which is what the
+       homepage table and older callers expect. */
+    function packageNamesFor(item, type) {
         var name = (item.packageName || "").toLowerCase();
+        var wanted = String(type || "").toUpperCase();
         var names = name ? [name] : [];
         if (name === "rom.zip") {
-            names.push("rom_type_b.zip", "rom_240p.zip", "rom_240p_type_b.zip", "rom_360p.zip", "rom_360p_type_b.zip");
+            var typeA = ["rom.zip", "rom_type_a.zip", "rom_y1_type_a.zip", "rom_240p.zip", "rom_360p.zip"];
+            var typeB = ["rom_type_b.zip", "rom_y1_type_b.zip", "rom_240p_type_b.zip", "rom_360p_type_b.zip"];
+            if (wanted === "A") names = typeA.slice();
+            else if (wanted === "B") names = typeB.slice();
+            else names = typeA.concat(typeB);
         }
         if (item.repo && item.repo.toLowerCase().indexOf("y2linux") !== -1) {
             names.push("first-install.zip", "y2linux");
@@ -47,13 +70,22 @@
 
     /* Releases that actually carry an item's model package. Shared repos
        hold releases for both models, so model matching happens per item. */
-    function matchingReleases(releaseList, item) {
+    function matchingReleases(releaseList, item, type) {
         if (!Array.isArray(releaseList) || !releaseList.length) return [];
-        var names = packageNamesFor(item);
+        var names = packageNamesFor(item, type);
+        var wanted = String(type || "").toUpperCase();
         var isDedicatedRepo = item.repo && item.repo.toLowerCase() !== "y1-community/y1-stock-rom";
         return releaseList.filter(function (release) {
             var zips = zipAssets(release);
             if (!zips.length) return false;
+            /* A player must never be offered a release whose packages only fit
+               the other hardware revision: that ROM will not boot. Only
+               type-tagged packages are judged this way, so Y2 and Linux
+               installer releases keep the package-name rules below. */
+            if (wanted) {
+                var typed = zips.filter(function (asset) { return zipType(asset.name) !== ""; });
+                if (typed.length && !typed.some(function (asset) { return zipType(asset.name) === wanted; })) return false;
+            }
             if (isDedicatedRepo) return true;
             return zips.some(function (asset) {
                 var an = (asset.name || "").toLowerCase();
@@ -988,6 +1020,8 @@
         var table = document.getElementById("lumen-firmware-table");
         if (!table || !Array.isArray(window.INNIOASIS_FIRMWARE_CATALOG)) return;
         var model = document.getElementById("lumen-model-filter");
+        var typeSelect = document.getElementById("lumen-type-filter");
+        var typeField = document.getElementById("lumen-type-field");
         var software = document.getElementById("lumen-software-filter");
         var status = document.getElementById("lumen-release-status");
         var y2Switch = document.querySelector("[data-y2-switch]");
@@ -1007,6 +1041,7 @@
            #y1 / #y2 hash anchors still work for older links. */
         var searchParams = new URLSearchParams(window.location.search);
         var modelParam = (searchParams.get("model") || "").toUpperCase();
+        var typeParam = (searchParams.get("type") || "").toUpperCase();
         var viewParam = (searchParams.get("view") || "software").toLowerCase();
         var heroKicker = document.querySelector("#main > header .lumen-kicker");
         var heroH1 = document.querySelector("#main > header h1");
@@ -1067,6 +1102,22 @@
         }
         fillModelFilter();
 
+        /* Y1 shipped in two hardware revisions, and the ROMs are not
+           interchangeable, so the app asks for the type alongside the model.
+           Here the same choice narrows the release list and the packages
+           offered for download. Type A is the default because a bare
+           rom.zip is a Type A package, matching the app. */
+        if (typeSelect && (typeParam === "A" || typeParam === "B")) typeSelect.value = typeParam;
+        function typeForItem(item) {
+            if (!item || String(item.model || "").toUpperCase() !== "Y1") return "";
+            return typeSelect && typeSelect.value ? typeSelect.value.toUpperCase() : "A";
+        }
+        function syncTypeField() {
+            if (!typeField) return;
+            typeField.hidden = !(model && model.value === "Y1");
+        }
+        syncTypeField();
+
         var availableModels = Array.from(new Set(catalog.map(function (item) { return item.model; }).concat(["Y1", "Y2"])));
         var hashModel = (window.location.hash || "").slice(1).toUpperCase();
         var wantedModel = (availableModels.indexOf(modelParam) !== -1) ? modelParam : ((availableModels.indexOf(hashModel) !== -1) ? hashModel : "");
@@ -1079,7 +1130,7 @@
         if (softwareParam && model) {
             var paramItem = catalog.find(function (item) { return item.slug === softwareParam; });
             if (paramItem) {
-                if (!wantedModel) model.value = paramItem.model;
+                if (!wantedModel) { model.value = paramItem.model; syncTypeField(); }
                 if (filterSection && !wantedModel) window.setTimeout(function () { filterSection.scrollIntoView({ block: "start" }); }, 0);
             }
         }
@@ -1097,6 +1148,7 @@
                 event.preventDefault();
                 if (model) {
                     model.value = "Y2";
+                    syncTypeField();
                     fillSoftwareFilter();
                     render();
                     refreshLive();
@@ -1130,7 +1182,7 @@
         function releasesForItem(item) {
             var repoReleases = releases[item.repo];
             if (!Array.isArray(repoReleases) || !repoReleases.length) return null;
-            var matching = matchingReleases(repoReleases, item);
+            var matching = matchingReleases(repoReleases, item, typeForItem(item));
             return matching.length ? matching : null;
         }
 
@@ -1155,17 +1207,20 @@
         /* Release details list only the zips that belong to the selected
            item's model, so a combined release never offers a rom_y2.zip
            under the Y1 row or a rom.zip under the Y2 row. */
-        function releaseDetails(release, item) {
+        function releaseDetails(release, item, type) {
             if (!release) return '';
-            var names = packageNamesFor(item);
+            var names = packageNamesFor(item, type);
             var assets = zipAssets(release);
             var links = [];
             assets.forEach(function (asset) {
                 var aName = (asset.name || "").toLowerCase();
+                var assetType = zipType(aName);
+                /* Never offer the other hardware revision's ROM. */
+                if (type && assetType && assetType !== type) return;
                 if (names.indexOf(aName) !== -1 || aName === (item.packageName || "").toLowerCase() || aName.indexOf(item.model.toLowerCase()) !== -1) {
                     var entry = MODEL_ZIPS.find(function (candidate) { return candidate.name === aName; });
-                    var label = entry ? entry.label : (item.model + " package");
-                    var title = entry ? entry.title : ("For " + item.model + " players");
+                    var label = entry ? entry.label : (assetType ? item.model + " · Type " + assetType : item.model + " package");
+                    var title = entry ? entry.title : ("For " + item.model + " players" + (assetType ? " · Type " + assetType : ""));
                     links.push('<li><a class="lumen-download-link" href="' + escapeHtml(asset.browser_download_url) + '" download title="' + escapeHtml(title) + '">' + escapeHtml(asset.name) + ' <span class="lumen-meta">' + escapeHtml(label) + '</span></a></li>');
                 }
             });
@@ -1221,11 +1276,13 @@
 
             var zipBtn = '';
             if (release) {
-                var names = packageNamesFor(item);
+                var rowType = typeForItem(item);
+                var names = packageNamesFor(item, rowType);
                 var assets = zipAssets(release);
                 var primaryAsset = null;
                 for (var z = 0; z < MODEL_ZIPS.length; z++) {
                     var entry = MODEL_ZIPS[z];
+                    if (rowType && entry.type && entry.type !== rowType) continue;
                     if (names.indexOf(entry.name) !== -1) {
                         var found = assets.find(function (a) { return a.name && a.name.toLowerCase() === entry.name; });
                         if (found) { primaryAsset = found; break; }
@@ -1234,8 +1291,10 @@
                 if (!primaryAsset && assets.length) {
                     primaryAsset = assets.find(function (a) {
                         var an = (a.name || "").toLowerCase();
+                        var assetType = zipType(an);
+                        if (rowType && assetType && assetType !== rowType) return false;
                         return names.indexOf(an) !== -1 || an === (item.packageName || "").toLowerCase() || an.indexOf(item.model.toLowerCase()) !== -1;
-                    }) || assets[0];
+                    }) || (rowType ? null : assets[0]);
                 }
                 if (primaryAsset) {
                     zipBtn = ' <button type="button" class="lumen-zip-download-button lumen-zip-download-button--table" data-zip-url="' + escapeHtml(primaryAsset.browser_download_url) + '" data-zip-name="' + escapeHtml(primaryAsset.name) + '" data-release-tag="' + escapeHtml(release.tag_name || release.name || "release") + '" data-item-name="' + escapeHtml(item.name) + '" data-item-model="' + escapeHtml(item.model) + '" aria-label="Download standalone ' + escapeHtml(primaryAsset.name) + ' ZIP package">' +
@@ -1257,7 +1316,7 @@
                 '<td><div style="display:flex;align-items:center;gap:10px;">' + iconHtml + '<div>' + versionHtml + (release && release.published_at ? '<br><span class="lumen-meta">' + escapeHtml(release.published_at.slice(0, 10)) + '</span>' : '') + '</div></div></td>' +
                 /* The package is not shown: the Release details expander lists
                    the rom zips this release is packaged in. */
-                '<td><div class="lumen-actions">' + updater + zipBtn + hint + '</div>' + releaseDetails(release, item) + '</td>' +
+                '<td><div class="lumen-actions">' + updater + zipBtn + hint + '</div>' + releaseDetails(release, item, typeForItem(item)) + '</td>' +
                 '<td><a class="lumen-github-link" href="' + githubUrl + '" target="_blank" rel="noopener noreferrer" aria-label="Open ' + escapeHtml(release && release.tag_name ? release.tag_name : item.name) + ' on GitHub"><svg viewBox="0 0 16 16" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a></td>' +
                 '</tr>';
         }
@@ -1375,6 +1434,8 @@
             else params.delete("model");
             if (software && software.value) params.set("software", software.value);
             else params.delete("software");
+            if (typeSelect && model && model.value === "Y1") params.set("type", typeSelect.value);
+            else params.delete("type");
             if (showNightly) params.set("nightly", "1");
             else params.delete("nightly");
             var qs = params.toString();
@@ -1393,7 +1454,8 @@
             startSmartZipDownload(zipUrl, zipName, itemName, itemModel, releaseTag);
         });
 
-        if (model) model.addEventListener("change", function () { fillSoftwareFilter(); render(); refreshLive(); syncUrl(); });
+        if (model) model.addEventListener("change", function () { syncTypeField(); fillSoftwareFilter(); render(); refreshLive(); syncUrl(); });
+        if (typeSelect) typeSelect.addEventListener("change", function () { render(); refreshLive(); syncUrl(); });
         /* A new Software choice has its own repos to fetch (shared model repos
            are no longer pre-loaded), so the live feed refreshes here too. */
         if (software) software.addEventListener("change", function () { render(); refreshLive(); syncUrl(); });

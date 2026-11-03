@@ -307,6 +307,34 @@
   @media (max-width: 430px) {
     #support-toolbar-container .y1-donate-grid { grid-template-columns: 1fr; }
   }
+
+  /* A visitor who turned donation appeals off (?donations=false or "Don't
+     show donation appeals again") gets no ask, no funding goal line, and no
+     donor names in the dock or its panels. */
+  html.y1-donations-off #y1-dock-secondary-line,
+  html.y1-donations-off #y1-dock-goal-layer,
+  html.y1-donations-off .y1-donate-trigger,
+  html.y1-donations-off #y1-donate-panel,
+  html.y1-donations-off .y1-contributor-stream-box,
+  html.y1-donations-off [data-toolbar-thank-you-open],
+  html.y1-donations-off #y1-toolbar-thank-you-overlay {
+    display: none !important;
+  }
+  #support-toolbar-container .y1-donate-optout {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 16px 0 0;
+    font-size: .82rem;
+    color: var(--lumen-muted, #9aa3b5);
+    cursor: pointer;
+  }
+  #support-toolbar-container .y1-donate-optout input {
+    width: 15px;
+    height: 15px;
+    accent-color: #10b981;
+    cursor: pointer;
+  }
 </style>
 <div id="support-toolbar-container">
   <div class="y1-dock-backdrop" data-dock-backdrop hidden></div>
@@ -388,6 +416,7 @@
 
 
 
+      <label class="y1-donate-optout"><input type="checkbox" data-donations-optout><span>Don\'t show donation appeals again</span></label>
       <p class="y1-donate-smallprint" style="margin-top: 14px;">Support Updater and the Themes Gallery through Ko-fi, PayPal, Revolut, or Patreon. <a href="credits.html" style="color: inherit; text-decoration: underline;">View our full public donor ledger &amp; money raised for community projects →</a></p>
     </div>
 
@@ -410,6 +439,10 @@
             <span class="y1-privacy-option-label"><strong>Remember my nightly-builds choice</strong><small>Used on the software directory.</small></span>
             <input type="checkbox" class="y1-privacy-toggle" data-privacy-nightly>
           </label>
+          <label class="y1-privacy-option">
+            <span class="y1-privacy-option-label"><strong>Show donation appeals and the funding goal</strong><small>Turn this off to hide every request for support.</small></span>
+            <input type="checkbox" class="y1-privacy-toggle" data-privacy-donations>
+          </label>
         </div>
         <p class="y1-privacy-note">Your site theme and text size are always remembered  -  they are the look and readability you chose. Links to GitHub, YouTube, Discord, Ko-fi, PayPal, Revolut, and Patreon open those sites' own pages, which have their own policies.</p>
       </div>
@@ -424,9 +457,9 @@
         <a class="y1-dock-link" href="https://reddit.com/r/innioasis" target="_blank" rel="noopener noreferrer"><svg class="y1-dock-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>Reddit</a>
         <span class="y1-dock-sep" aria-hidden="true">·</span>
         <a class="y1-dock-link" href="https://discord.gg/zHrT2zrcek" target="_blank" rel="noopener noreferrer"><svg class="y1-dock-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M20.32 4.37a19.8 19.8 0 0 0-4.89-1.52.07.07 0 0 0-.08.04c-.21.38-.44.87-.6 1.25a18.3 18.3 0 0 0-5.5 0 12.6 12.6 0 0 0-.61-1.25.08.08 0 0 0-.08-.04 19.7 19.7 0 0 0-4.88 1.52.07.07 0 0 0-.04.03C.53 9.05-.32 13.58.1 18.06c0 .02.01.04.03.05a19.9 19.9 0 0 0 6 3.03.08.08 0 0 0 .08-.03c.46-.63.87-1.3 1.22-2a.08.08 0 0 0-.04-.11 13 13 0 0 1-1.86-.89.08.08 0 0 1-.01-.13c.12-.09.25-.19.36-.29a.07.07 0 0 1 .08-.01c3.9 1.8 8.13 1.8 11.99 0a.07.07 0 0 1 .08.01c.12.1.24.2.37.29a.08.08 0 0 1 0 .13 12.5 12.5 0 0 1-1.87.88.08.08 0 0 0-.04.12c.36.7.77 1.37 1.22 2a.08.08 0 0 0 .08.03 19.8 19.8 0 0 0 6.02-3.03.08.08 0 0 0 .03-.05c.5-5.18-.84-9.68-3.55-13.66a.06.06 0 0 0-.03-.03zM8.02 15.33c-1.18 0-2.16-1.08-2.16-2.42 0-1.33.96-2.42 2.16-2.42 1.21 0 2.18 1.1 2.16 2.42 0 1.34-.96 2.42-2.16 2.42zm7.97 0c-1.18 0-2.15-1.08-2.15-2.42 0-1.33.95-2.42 2.15-2.42 1.22 0 2.18 1.1 2.16 2.42 0 1.34-.94 2.42-2.16 2.42z"/></svg>Discord</a>
-        <span class="y1-dock-sep" aria-hidden="true">·</span>
+        <span class="y1-dock-sep" aria-hidden="true" data-donations-appeal>·</span>
         <button class="y1-dock-link y1-donate-trigger" type="button" data-donate-open aria-expanded="false" aria-controls="y1-donate-panel"><svg class="y1-dock-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>Donate</button>
-        <span class="y1-dock-sep" aria-hidden="true">·</span>
+        <span class="y1-dock-sep" aria-hidden="true" data-donations-appeal>·</span>
         <button class="y1-dock-link y1-privacy-trigger" type="button" data-privacy-open aria-expanded="false" aria-controls="y1-privacy-panel"><svg class="y1-dock-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>Privacy</button>
         <span class="y1-dock-sep" aria-hidden="true">·</span>
         <button class="y1-dock-link y1-thank-you-trigger" type="button" data-toolbar-thank-you-open aria-expanded="false" aria-controls="y1-toolbar-thank-you-overlay">Thank You</button>
@@ -487,6 +520,12 @@
 (function () {
   "use strict";
   var consent = window.INNIOASIS_PRIVACY;
+
+  // Donation appeals can be turned off by a link (?donations=false) or
+  // by the visitor, who then sees no ask, no goal line and no donors.
+  function donationsOff() {
+    return typeof window.isY1DonationsDisabled === "function" ? window.isY1DonationsDisabled() : false;
+  }
   var donatePanel = document.getElementById("y1-donate-panel");
   var donateOpen = document.querySelector("[data-donate-open]");
   var donateClose = document.querySelector("[data-donate-close]");
@@ -497,6 +536,8 @@
   var banner = document.getElementById("y1-consent-banner");
   var feedbackToggle = document.querySelector("[data-privacy-feedback]");
   var nightlyToggle = document.querySelector("[data-privacy-nightly]");
+  var donationsToggle = document.querySelector("[data-privacy-donations]");
+  var donationsOptOut = document.querySelector("[data-donations-optout]");
   var privacySave = document.querySelector("[data-privacy-save]");
   var cryptoToggle = document.querySelector("[data-crypto-toggle]");
   var cryptoGrid = document.getElementById("y1-crypto-panel");
@@ -691,6 +732,7 @@
   }
 
   function setPanel(panel, button, value, closeButton) {
+    if (value && panel === donatePanel && donationsOff()) return;
     if (value && panel === donatePanel) {
       var introEl = document.getElementById("y1-donate-panel-intro");
       if (introEl) introEl.innerHTML = getRotatingAppealCopy();
@@ -721,9 +763,13 @@
     var prefs = (consent && consent.read) ? consent.read() : null;
     if (feedbackToggle) feedbackToggle.checked = prefs ? prefs.feedback : false;
     if (nightlyToggle) nightlyToggle.checked = prefs ? prefs.nightly : false;
+    if (donationsToggle) donationsToggle.checked = !donationsOff();
   }
 
   function saveFromPanel() {
+    if (donationsToggle && typeof window.setY1DonationsDisabled === "function") {
+      window.setY1DonationsDisabled(!donationsToggle.checked);
+    }
     if (consent && consent.save) {
       consent.save({
         feedback: feedbackToggle ? feedbackToggle.checked : true,
@@ -815,6 +861,14 @@
     setPanel(privacyPanel, privacyOpen, opening, privacyClose);
   });
   if (donateClose) donateClose.addEventListener("click", function () { setPanel(donatePanel, donateOpen, false); });
+  if (donationsOptOut) {
+    donationsOptOut.addEventListener("change", function () {
+      if (!donationsOptOut.checked) return;
+      if (typeof window.setY1DonationsDisabled === "function") window.setY1DonationsDisabled(true);
+      else document.documentElement.classList.add("y1-donations-off");
+      setPanel(donatePanel, donateOpen, false);
+    });
+  }
   if (privacyClose) privacyClose.addEventListener("click", function () {
     setPanel(privacyPanel, privacyOpen, false);
     if (!hasDecided()) setBanner(true);

@@ -28,10 +28,11 @@
 <notices updated="2026-10-25">
 
   <!-- Example 1: Non-persistent advisory (can be dismissed without returning at next app run) -->
-    <notice id="2026-10-31-firmware-advisory" persistent="false" severity="info" from="2026-10-31" until="2026-12-31" models="Y1,Y2">
-    <title>Bricking issue fixed for Rockbox-Y1.</title>
-    <content>Rockbox-Y1 0.5 is now compatible with Y1s sold after April 2026.</content>
-    <link>https://innioasis.app</link>
+    <notice id="2026-11-03-rockbox-y2-warn" persistent="false" severity="warning" from="2026-11-03" until="2026-12-31" models="Y2">
+    <title>Users having issues with Rockbox for Y2.</title>
+    <content>Rockbox 360p themes not working and music not reading from MicroSD.</content>
+
+
   
   <notice id="2026-10-25-firmware-advisory" persistent="false" severity="info" from="2026-10-25" until="2026-12-31" models="Y1,Y2">
     <title>About Notices in Updater CE</title>

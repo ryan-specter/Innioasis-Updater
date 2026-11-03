@@ -1,6 +1,73 @@
 (function () {
   "use strict";
 
+  /* Donation appeals. A link can turn every request for support off with
+     ?donations=false, and the donation panel's "Don't show donation appeals
+     again" box stores the same choice. The choice is remembered per site, so
+     the site switcher and footer links pass the flag on to the other
+     Innioasis sites (different origins keep their own copy). ?donations=true
+     turns the appeals back on. */
+  var DONATIONS_KEY = "innioasis-donations-off";
+
+  function donationsParam() {
+    try {
+      var raw = new URLSearchParams(window.location.search).get("donations");
+      if (raw === null) return null;
+      var value = String(raw).trim().toLowerCase();
+      if (value === "false" || value === "0" || value === "no" || value === "off") return false;
+      if (value === "true" || value === "1" || value === "yes" || value === "on") return true;
+    } catch (_) {}
+    return null;
+  }
+
+  function donationsStored() {
+    try { return window.localStorage.getItem(DONATIONS_KEY) === "1"; } catch (_) {}
+    return false;
+  }
+
+  function isY1DonationsDisabled() {
+    if (donationsParam() === false) return true;
+    return donationsStored();
+  }
+
+  var DONATIONS_CSS =
+    "html.y1-donations-off [data-donations-appeal]," +
+    "html.y1-donations-off .y1-contributor-stream-box { display: none !important; }";
+
+  function applyDonationsState() {
+    var root = document.documentElement;
+    if (!root) return;
+    root.classList.toggle("y1-donations-off", isY1DonationsDisabled());
+    if (document.getElementById("y1-donations-css")) return;
+    var style = document.createElement("style");
+    style.id = "y1-donations-css";
+    style.textContent = DONATIONS_CSS;
+    (document.head || root).appendChild(style);
+  }
+
+  window.isY1DonationsDisabled = isY1DonationsDisabled;
+  window.setY1DonationsDisabled = function (disabled) {
+    try {
+      if (disabled) window.localStorage.setItem(DONATIONS_KEY, "1");
+      else window.localStorage.removeItem(DONATIONS_KEY);
+    } catch (_) {}
+    applyDonationsState();
+    try {
+      window.dispatchEvent(new CustomEvent("y1-donations-change", { detail: { disabled: !!disabled } }));
+    } catch (_) {}
+  };
+
+  (function rememberDonationChoiceFromUrl() {
+    var fromUrl = donationsParam();
+    if (fromUrl === null) return;
+    try {
+      if (fromUrl) window.localStorage.removeItem(DONATIONS_KEY);
+      else window.localStorage.setItem(DONATIONS_KEY, "1");
+    } catch (_) {}
+  })();
+
+  applyDonationsState();
+
   function detectPersona() {
     var path = (window.location.pathname || "").toLowerCase();
     if (
@@ -668,7 +735,7 @@
       '<a href="https://discord.gg/zHrT2zrcek" target="_blank" rel="noopener noreferrer">Discord Server</a>' +
       '<a href="https://reddit.com/r/innioasis" target="_blank" rel="noopener noreferrer">r/innioasis on Reddit</a>' +
       '<a href="https://github.com/y1-community/Innioasis-Updater" target="_blank" rel="noopener noreferrer">Updater CE Source Code</a>' +
-      '<a href="' + escapeHtml(decorateMainSiteHref("/credits.html#donate")) + '">Support Independent Community Projects</a>' +
+      '<a href="' + escapeHtml(decorateMainSiteHref("/credits.html#donate")) + '" data-donations-appeal>Support Independent Community Projects</a>' +
       '<a href="' + escapeHtml(decorateMainSiteHref("/credits.html")) + '">Community Credits</a>' +
       '</div>' +
       '</div>' +
