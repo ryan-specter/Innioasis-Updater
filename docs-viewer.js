@@ -428,9 +428,17 @@
   /** Link to our release-notes reader for a repository release. */
   function releaseNotesHref(meta) {
     var info = meta || {};
+    var repo = String(info.repo || "");
+    var parts = repo.split("/");
+    var author = info.author || parts[0] || "";
+    var project = info.project || parts[1] || "";
+    var version = info.version || info.tag || "";
     return buildHref("release_notes.html", {
-      repo: info.repo || "",
-      tag: info.tag || "",
+      author: author,
+      project: project,
+      version: version,
+      repo: repo,
+      tag: version,
       model: info.model || "",
       software: info.software || "",
       name: info.name || ""

@@ -466,15 +466,27 @@ RELEASE_LINK_RE = re.compile(
 COMPARE_LINK_RE = re.compile(r"^https?://(?:www\.)?github\.com/([^/]+/[^/]+)/compare/", re.I)
 
 
+def parser_release_query(repo: str, tag: str = "", software: str = "") -> str:
+    """Query for the release-notes parser: author, project and version."""
+    repo = repo or ""
+    author, _, project = repo.partition("/")
+    params = {}
+    if author:
+        params["author"] = author
+    if project:
+        params["project"] = project
+    if tag:
+        params["version"] = tag
+    if software:
+        params["software"] = software
+    return urllib.parse.urlencode(params)
+
+
 def release_notes_href(repo: str, tag: str = "") -> str:
     """The release-notes parser page; static copies are sitemap-only."""
-    params = {"repo": repo}
     slug = SLUG_BY_REPO.get((repo or "").lower(), "")
-    if slug:
-        params["software"] = slug
-    if tag:
-        params["tag"] = tag
-    return SITE + "/release_notes.html?" + urllib.parse.urlencode(params)
+    query = parser_release_query(repo, tag, slug)
+    return SITE + "/release_notes.html" + ("?" + query if query else "")
 
 
 def resolve_link(href: str, ctx: dict | None) -> str:
@@ -938,10 +950,9 @@ def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list
         if sibling.get("tag_name") == release.get("tag_name"):
             continue
         related.append(
-            '<li><a href="%srelease_notes.html?software=%s&amp;tag=%s"><strong>%s</strong><small>%s%s</small></a></li>'
+            '<li><a href="%srelease_notes.html?%s"><strong>%s</strong><small>%s%s</small></a></li>'
             % (
-                up, esc(item["slug"]),
-                esc(urllib.parse.quote(str(sibling.get("tag_name") or ""), safe="")),
+                up, esc(parser_release_query(item.get("repo") or "", str(sibling.get("tag_name") or ""), item["slug"])),
                 esc(sibling.get("name") or sibling.get("tag_name") or "Release"),
                 esc(sibling.get("tag_name") or ""),
                 (" · " + esc(str(sibling.get("published_at") or "")[:10])) if sibling.get("published_at") else "",
@@ -995,11 +1006,13 @@ def software_index_page(item: dict, releases: list[dict]) -> str:
         tag = str(release.get("tag_name") or "")
         cards.append(
             '<article class="lumen-card"><small>%s%s</small>'
-            '<h3><a href="../../release_notes.html?software=%s&amp;tag=%s">%s</a></h3><p>%s</p></article>'
+            '<h3><a href="../../release_notes.html?author=%s&amp;project=%s&amp;version=%s">%s</a></h3><p>%s</p></article>'
             % (
                 esc(str(release.get("published_at") or "")[:10]),
                 " · Preview" if release.get("prerelease") else "",
-                esc(item["slug"]), esc(urllib.parse.quote(str(tag or ""), safe="")),
+                esc(str(item.get("repo") or "").partition("/")[0]),
+                esc(str(item.get("repo") or "").partition("/")[2]),
+                esc(urllib.parse.quote(str(tag or ""), safe="")),
                 esc(release.get("name") or tag or "Release"),
                 esc(one_line(release.get("body") or "", 150) or "No notes published."),
             )
@@ -1031,14 +1044,14 @@ def master_index_page(software: list[dict], release_counts: dict[str, int], post
         count = release_counts.get(item["slug"], 0)
         cards.append(
             '<article class="lumen-card"><small>%s%s</small>'
-            '<h3><a href="../release_notes.html?software=%s">%s</a></h3><p>%s</p>'
-            '<div class="lumen-actions"><a class="lumen-button" href="../release_notes.html?software=%s">%s release%s</a></div></article>'
+            '<h3><a href="../release_notes.html?%s">%s</a></h3><p>%s</p>'
+            '<div class="lumen-actions"><a class="lumen-button" href="../release_notes.html?%s">%s release%s</a></div></article>'
             % (
                 esc(item.get("model", "")),
                 " · " + esc(item.get("name", "")) if item.get("name") else "",
-                esc(item["slug"]), esc(item.get("name") or item["slug"]),
+                esc(parser_release_query(item.get("repo") or "", "", item["slug"])), esc(item.get("name") or item["slug"]),
                 esc(item.get("description") or ""),
-                esc(item["slug"]), count, "" if count == 1 else "s",
+                esc(parser_release_query(item.get("repo") or "", "", item["slug"])), count, "" if count == 1 else "s",
             )
         )
     post_cards = []

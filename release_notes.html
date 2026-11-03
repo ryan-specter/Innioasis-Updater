@@ -343,7 +343,11 @@
           return;
         }
         body.innerHTML = '<ul class="lumen-doc-related-list">' + items.map(function (item) {
-          return '<li><a href="release_notes.html?software=' + encodeURIComponent(item.slug || "") + '">' +
+          var repoParts = String(item.repo || "").split("/");
+          var query = "software=" + encodeURIComponent(item.slug || "") +
+            (repoParts[0] ? "&author=" + encodeURIComponent(repoParts[0]) : "") +
+            (repoParts[1] ? "&project=" + encodeURIComponent(repoParts[1]) : "");
+          return '<li><a href="release_notes.html?' + query + '">' +
             '<strong>' + escapeHtml(item.name || item.slug || "") + '</strong>' +
             '<small>' + escapeHtml([item.model || "", item.description || ""].filter(Boolean).join(" · ")) +
             '</small></a></li>';
@@ -360,12 +364,20 @@
           }
           return;
         }
-        state.repo = D.queryParam("repo");
-        state.tag = D.queryParam("tag");
+        /* A link may carry the manifest's repo broken into author and project,
+           with the release tag as version; take either shape. */
+        state.author = D.queryParam("author");
+        state.project = D.queryParam("project");
+        state.version = D.queryParam("version") || D.queryParam("tag");
+        state.repo = D.queryParam("repo") ||
+          (state.author && state.project ? state.author + "/" + state.project : "");
+        state.tag = state.version;
         state.model = D.queryParam("model").toUpperCase();
         state.software = D.queryParam("software");
         state.name = D.queryParam("name");
         state.item = catalogItem();
+        if (!state.name && state.item) state.name = state.item.name || "";
+        if (!state.name) state.name = state.project || "";
 
         if (!state.repo && state.item) state.repo = state.item.repo || "";
         if (!state.model && state.item) state.model = state.item.model || "";
