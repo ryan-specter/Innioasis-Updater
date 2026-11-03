@@ -287,7 +287,7 @@ body.site-themes-app code { padding: .1em .3em; border-radius: 4px; background: 
 .lumen-carousel-credit a:hover, .lumen-carousel-credit a:focus-visible { color: var(--lumen-accent); border-bottom-style: solid; border-color: var(--lumen-accent); outline: none; }
 
 .lumen-directory { width: min(var(--lumen-max), calc(100% - 2rem)); margin: 0 auto; padding: var(--lumen-space-8) 0 calc(var(--lumen-space-8) + 4rem); }
-.lumen-directory-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, .7fr); gap: var(--lumen-space-7); align-items: end; padding-bottom: var(--lumen-space-7); border-bottom: 1px solid var(--lumen-line); }
+.lumen-directory-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, .7fr); gap: var(--lumen-space-7); align-items: start; padding-bottom: var(--lumen-space-7); border-bottom: 1px solid var(--lumen-line); }
 .lumen-directory h1 { margin: 0; max-width: 10ch; font-family: var(--lumen-display); font-weight: 400; font-size: calc(clamp(3rem, 7vw, 6.5rem) * var(--lumen-font-scale, 1)); line-height: .9; letter-spacing: -.055em; }
 .lumen-directory-hero p { margin: 0; color: var(--lumen-muted); line-height: 1.6; }
 .lumen-filterbar { display: flex; flex-wrap: wrap; gap: .7rem; align-items: end; padding: var(--lumen-space-5) 0; }
