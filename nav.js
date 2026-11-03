@@ -112,7 +112,7 @@
     return href;
   }
 
-  var isThemesSite = (window.location.hostname === "themes.innioasis.app") || (window.location.port === "8081");
+  var isThemesSite = (window.location.hostname === "themes.innioasis.app") || (window.location.port === "8081") || (document.body && document.body.classList.contains("site-themes-app")) || !!document.querySelector(".gallery-topbar");
 
   function decorateMainSiteHref(path) {
     if (!path) return path;
@@ -127,12 +127,23 @@
 
   var persona = detectPersona();
   var isFirmwarePersona = persona === "firmware";
-  var activeTitle = isFirmwarePersona ? "Firmware Archive" : "Updater CE";
+  var activeTitle = isThemesSite ? "Themes Gallery" : (isFirmwarePersona ? "Firmware Archive" : "Updater CE");
   var activeHomeHref = isFirmwarePersona ? "/firmware.html" : "/";
 
   (function updateDocumentTitle() {
     var path = (window.location.pathname || "").toLowerCase();
     var t = document.title || "";
+    if (isThemesSite) {
+      if (path === "" || path === "/" || path.endsWith("/index.html")) {
+        document.title = "Y1 and Y2 themes - Innioasis Themes Gallery";
+        return;
+      }
+      if (t.indexOf("Themes Gallery") === -1) {
+        var themeBase = t.split(/\s+[|\u00b7-]\s+Innioasis/)[0].trim();
+        document.title = (themeBase || t) + " - Innioasis Themes Gallery";
+      }
+      return;
+    }
     if (path.endsWith("/firmware.html")) {
       document.title = "Innioasis and Timmkoo Software Updates and Custom Firmware - Innioasis Firmware Archive";
       return;
