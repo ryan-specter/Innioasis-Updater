@@ -67,6 +67,21 @@
   })();
 
   applyDonationsState();
+  /* The other Innioasis site is a different origin and cannot read this
+     site's remembered choice, so links to it carry the flag along. This
+     covers menu, footer, and in-page links, including ones added later. */
+  document.addEventListener("click", function (event) {
+    if (!isY1DonationsDisabled()) return;
+    var link = event.target && event.target.closest ? event.target.closest("a[href]") : null;
+    if (!link) return;
+    var url;
+    try { url = new URL(link.getAttribute("href"), window.location.origin); } catch (_) { return; }
+    if (url.origin === window.location.origin) return;
+    if (!/(^|\.)innioasis\.app$/i.test(url.hostname)) return;
+    url.searchParams.set("donations", "false");
+    link.href = url.toString();
+  }, true);
+
 
   function detectPersona() {
     var path = (window.location.pathname || "").toLowerCase();
