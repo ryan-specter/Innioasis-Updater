@@ -5,7 +5,7 @@
   <meta name="author" content="Ryan Specter &amp; Innioasis Community">
   <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Community Notices &amp; Safety Announcements - Innioasis &amp; Timmkoo</title>
+  <title>Community Notices &amp; Safety Announcements - Innioasis Updater</title>
   <meta name="description" content="Official community bulletins, device safety notices, and firmware alerts for Innioasis and Timmkoo players.">
   <meta name="keywords" content="Innioasis notices, Timmkoo firmware alerts, device safety notice, Updater CE announcements">
   <link rel="canonical" href="https://innioasis.app/notices.html">
@@ -68,7 +68,7 @@
         if (typeof window.y1NoticeMarkdown === "function") return window.y1NoticeMarkdown(source);
         return "<p>" + escapeHtml(source).replace(/\n{2,}/g, "</p><p>").replace(/\n/g, "<br>") + "</p>";
       }
-      function detailHref(id) { return "notices.html?notice=" + encodeURIComponent(id); }
+      function detailHref(id) { return "notices/" + encodeURIComponent(id) + ".html"; }
       function isBareSiteUrl(raw) {
         if (typeof window.y1NoticeIsBareUrl === "function") return window.y1NoticeIsBareUrl(raw);
         if (!raw) return true;
