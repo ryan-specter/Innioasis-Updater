@@ -274,17 +274,8 @@
             note.hidden = false;
           }
         }).catch(function (error) {
-          /* The generator writes a static copy of every importable guide. If
-             this browser cannot reach GitHub, that copy is still readable. */
-          var fallback = state.software ? "post-install/" + state.software + ".html" : "";
-          if (fallback) {
-            D.headOk(fallback).then(function (exists) {
-              if (exists) { window.location.replace(fallback); return; }
-              renderError(state, source, error);
-              setActions(state, item, source);
-            });
-            return;
-          }
+          /* The parser is the reader: a fetch failure is reported here rather
+             than handing the reader to a generated copy. */
           renderError(state, source, error);
           setActions(state, item, source);
         });

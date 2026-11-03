@@ -1520,7 +1520,7 @@
             /* The reader goes to our own release-notes page. Never fall back
                to a source-host URL when a release tag is missing. */
             var releaseNotesUrl = docsReleaseNotesHref(item, release && release.tag_name ? release.tag_name : "") ||
-                "release-notes/index.html";            return '<tr data-release-tag="' + escapeHtml(release && (release.tag_name || release.name) || "") + '">' +
+                siteReleaseNotesHref(item, "");            return '<tr data-release-tag="' + escapeHtml(release && (release.tag_name || release.name) || "") + '">' +
                 '<td><div style="display:flex;align-items:center;gap:10px;">' + iconHtml + '<div>' + versionHtml + (release && release.published_at ? '<br><span class="lumen-meta">' + escapeHtml(release.published_at.slice(0, 10)) + '</span>' : '') + '</div></div></td>' +
                 /* The package is not shown: the Release details expander lists
                    the rom zips this release is packaged in. */
@@ -1989,16 +1989,22 @@
         });
     }
     function siteReleaseNotesHref(item, tag) {
-        if (!item || !item.slug || !tag) return "release-notes/index.html";
+        if (!item || !item.slug) return "release_notes.html";
         var path = window.location.pathname || "";
         var prefix = /\/guides\/|\/notices\/|\/Troubleshooting\//.test(path) ? "../" : "";
         var D = window.InnioasisDocs;
-        if (D && typeof D.staticReleasePath === "function") {
-            var staticPath = D.staticReleasePath(item.slug, tag);
-            if (staticPath) return prefix + staticPath;
+        /* Always the parser page: the generated copies are for search engines
+           and are never linked from the site. */
+        if (D && typeof D.releaseNotesHref === "function") {
+            return prefix + D.releaseNotesHref({
+                repo: item.repo || "", tag: tag || "", model: item.model || "",
+                software: item.slug, name: item.name || ""
+            });
         }
-        var tagSlug = String(tag || "").toLowerCase().replace(/[^a-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "");
-        return prefix + "release-notes/" + encodeURIComponent(item.slug) + "/" + encodeURIComponent(tagSlug || "release") + ".html";
+        var query = "software=" + encodeURIComponent(item.slug) +
+            (item.repo ? "&repo=" + encodeURIComponent(item.repo) : "") +
+            (tag ? "&tag=" + encodeURIComponent(tag) : "");
+        return prefix + "release_notes.html?" + query;
     }
 
     function docsReleaseNotesHref(item, tag) {

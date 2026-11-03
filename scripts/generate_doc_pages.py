@@ -467,13 +467,14 @@ COMPARE_LINK_RE = re.compile(r"^https?://(?:www\.)?github\.com/([^/]+/[^/]+)/com
 
 
 def release_notes_href(repo: str, tag: str = "") -> str:
-    """Our own page for a project's releases."""
+    """The release-notes parser page; static copies are sitemap-only."""
+    params = {"repo": repo}
     slug = SLUG_BY_REPO.get((repo or "").lower(), "")
-    if slug and tag:
-        return "%s/release-notes/%s/%s.html" % (SITE, slug, tag_slug(tag))
     if slug:
-        return "%s/release-notes/%s/index.html" % (SITE, slug)
-    return SITE + "/release-notes/index.html"
+        params["software"] = slug
+    if tag:
+        params["tag"] = tag
+    return SITE + "/release_notes.html?" + urllib.parse.urlencode(params)
 
 
 def resolve_link(href: str, ctx: dict | None) -> str:
@@ -920,7 +921,7 @@ def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list
     source = parse_source(post_install)
     if source:
         related.append(
-            '<li><a href="%spost-install/%s.html" data-post-install-link data-slug="%s"%s>'
+            '<li><a href="%spost_install.html?software=%s" data-post-install-link data-slug="%s"%s>'
             "<strong>Post-install setup</strong>"
             "<small>The steps to finish after this firmware is installed</small></a></li>"
             % (
@@ -937,9 +938,10 @@ def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list
         if sibling.get("tag_name") == release.get("tag_name"):
             continue
         related.append(
-            '<li><a href="%s.html"><strong>%s</strong><small>%s%s</small></a></li>'
+            '<li><a href="%srelease_notes.html?software=%s&amp;tag=%s"><strong>%s</strong><small>%s%s</small></a></li>'
             % (
-                esc(tag_slug(sibling.get("tag_name") or "")),
+                up, esc(item["slug"]),
+                esc(urllib.parse.quote(str(sibling.get("tag_name") or ""), safe="")),
                 esc(sibling.get("name") or sibling.get("tag_name") or "Release"),
                 esc(sibling.get("tag_name") or ""),
                 (" · " + esc(str(sibling.get("published_at") or "")[:10])) if sibling.get("published_at") else "",
@@ -993,11 +995,11 @@ def software_index_page(item: dict, releases: list[dict]) -> str:
         tag = str(release.get("tag_name") or "")
         cards.append(
             '<article class="lumen-card"><small>%s%s</small>'
-            '<h3><a href="%s.html">%s</a></h3><p>%s</p></article>'
+            '<h3><a href="../../release_notes.html?software=%s&amp;tag=%s">%s</a></h3><p>%s</p></article>'
             % (
                 esc(str(release.get("published_at") or "")[:10]),
                 " · Preview" if release.get("prerelease") else "",
-                esc(tag_slug(tag)),
+                esc(item["slug"]), esc(urllib.parse.quote(str(tag or ""), safe="")),
                 esc(release.get("name") or tag or "Release"),
                 esc(one_line(release.get("body") or "", 150) or "No notes published."),
             )
@@ -1029,8 +1031,8 @@ def master_index_page(software: list[dict], release_counts: dict[str, int], post
         count = release_counts.get(item["slug"], 0)
         cards.append(
             '<article class="lumen-card"><small>%s%s</small>'
-            '<h3><a href="%s/index.html">%s</a></h3><p>%s</p>'
-            '<div class="lumen-actions"><a class="lumen-button" href="%s/index.html">%s release%s</a></div></article>'
+            '<h3><a href="../release_notes.html?software=%s">%s</a></h3><p>%s</p>'
+            '<div class="lumen-actions"><a class="lumen-button" href="../release_notes.html?software=%s">%s release%s</a></div></article>'
             % (
                 esc(item.get("model", "")),
                 " · " + esc(item.get("name", "")) if item.get("name") else "",
@@ -1042,7 +1044,7 @@ def master_index_page(software: list[dict], release_counts: dict[str, int], post
     post_cards = []
     for item, source in post_install_items:
         post_cards.append(
-            '<article class="lumen-card"><small>%s</small><h3><a href="%s.html">%s post-install</a></h3>'
+            '<article class="lumen-card"><small>%s</small><h3><a href="../post_install.html?software=%s">%s post-install</a></h3>'
             '<p>Setup steps published by the project, shown here in the site style.</p></article>'
             % (esc(item.get("model", "")), esc(item["slug"]), esc(item.get("name") or item["slug"]))
         )
@@ -1053,9 +1055,9 @@ def master_index_page(software: list[dict], release_counts: dict[str, int], post
         '<p class="lead">Release notes for every published build in the Innioasis Updater catalogue, '
         "with portable ZIP downloads and a one-click install guide. These pages mirror what Updater CE shows.</p>"
         '<div class="lumen-actions"><a class="lumen-button lumen-button--primary" href="%sfirmware.html">Firmware Downloads</a>'
-        '<a class="lumen-button" href="%spost-install/index.html">Post-install guides</a></div></header>'
+        '</div></header>'
         '<section class="lumen-guide-section"><div class="lumen-grid">%s</div></section>'
-        % (up, up, "".join(cards) or '<p class="lumen-doc-status">No software is listed yet.</p>')
+        % (up, "".join(cards) or '<p class="lumen-doc-status">No software is listed yet.</p>')
     )
     if post_cards:
         main += (
@@ -1091,7 +1093,7 @@ def post_install_page(item: dict, source: dict, markdown: str, release_tags: lis
         '<p class="lumen-lead">%s</p>'
         '<p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p>'
         '<div class="lumen-doc-actions">'
-        '<a class="lumen-button lumen-button--primary" href="%srelease-notes/%s/%s.html">Firmware Downloads →</a>'
+        '<a class="lumen-button lumen-button--primary" href="%sfirmware.html?model=%s&amp;software=%s">Firmware Downloads →</a>'
         '<a class="lumen-button" href="%s">Install guide</a>'
         "</div></header>"
         '<article class="lumen-doc-body">%s</article>'
@@ -1099,7 +1101,7 @@ def post_install_page(item: dict, source: dict, markdown: str, release_tags: lis
         % (
             up, esc(model), esc(item["slug"]), esc(name), (" · " + esc(model)) if model else "",
             esc(title), esc(item.get("description") or "The steps the project asks you to finish after the firmware is installed."),
-            up, esc(item["slug"]), esc(tag_slug(latest)),
+            up, esc(model), esc(item["slug"]),
             esc(guide_href(item, up)), body, esc(name),
         )
     )
@@ -1119,9 +1121,9 @@ def post_install_index_page(entries: list[dict]) -> str:
         '<p class="lead">Setup steps published by each project, imported here and shown in the site style. '
         "Finish these before you rely on the player.</p>"
         '<div class="lumen-actions"><a class="lumen-button lumen-button--primary" href="%sfirmware.html">Firmware Downloads</a>'
-        '<a class="lumen-button" href="%srelease-notes/index.html">Release notes</a></div></header>'
+        '</div></header>'
         '<section class="lumen-guide-section"><div class="lumen-grid">%s</div></section></main>'
-        % (up, up, cards)
+        % (up, cards)
     )
     return page({
         "title": "Post-install guides - %s" % BRAND,
@@ -1213,7 +1215,7 @@ def build(refresh: bool = False) -> None:
         sitemap_urls.append("%s/post-install/%s.html" % (SITE, slug))
         post_install_items.append((item, source))
         post_install_cards.append(
-            '<article class="lumen-card"><small>%s</small><h3><a href="%s.html">%s post-install</a></h3>'
+            '<article class="lumen-card"><small>%s</small><h3><a href="../post_install.html?software=%s">%s post-install</a></h3>'
             '<p>%s</p></article>'
             % (esc(item.get("model", "")), esc(slug), esc(item.get("name") or slug),
                esc(one_line(markdown, 150) or "Setup steps published by the project."))

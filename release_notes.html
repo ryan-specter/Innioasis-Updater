@@ -286,11 +286,11 @@
           }
         }
 
-        if (state.software && state.tag) {
-          var canonical = document.querySelector('link[rel="canonical"]');
-          if (canonical) {
-            canonical.href = "https://innioasis.app/" + D.staticReleasePath(state.software, state.tag);
-          }
+        /* This parser page is what the site links to; the generated copies
+           keep their own canonical URLs for search engines. */
+        var canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical && (state.software || state.repo)) {
+          canonical.href = "https://innioasis.app/release_notes.html";
         }
       }
 
@@ -320,19 +320,34 @@
         return matched || releases[0];
       }
 
-      /* Generated pages already carry these notes, the install buttons and
-         the Updater guide, and they never hit a rate-limited API. When one
-         exists for this release, prefer it. */
-      function useGeneratedPage(done) {
-        if (!state.software || !state.tag) { done(); return; }
-        var path = D.staticReleasePath(state.software, state.tag);
-        D.headOk(path).then(function (exists) {
-          if (exists) {
-            window.location.replace(path);
-            return;
-          }
-          done();
+      /* A visit with no project is the site's own release-notes index: the
+         catalogue listed here, never a link to a generated static page. */
+      function showDirectory() {
+        document.title = "Firmware release notes - Innioasis Updater";
+        var titleEl = el("release-title");
+        if (titleEl) titleEl.textContent = "Firmware release notes";
+        var kicker = el("release-kicker");
+        if (kicker) kicker.textContent = "Firmware release notes";
+        var lead = el("release-lead");
+        if (lead) lead.textContent = "Pick a project to read the notes for its released builds.";
+        var body = el("release-body");
+        var action = el("release-source-placeholder");
+        var items = (window.INNIOASIS_FIRMWARE_CATALOG || []).slice().sort(function (a, b) {
+          return String(a.model || "").localeCompare(String(b.model || "")) ||
+            String(a.name || "").localeCompare(String(b.name || ""));
         });
+        if (!body) return;
+        if (!items.length) {
+          body.innerHTML = '<p class="lumen-doc-status">No software is listed yet. ' +
+            'Check <a href="firmware.html">Firmware Downloads</a>.</p>';
+          return;
+        }
+        body.innerHTML = '<ul class="lumen-doc-related-list">' + items.map(function (item) {
+          return '<li><a href="release_notes.html?software=' + encodeURIComponent(item.slug || "") + '">' +
+            '<strong>' + escapeHtml(item.name || item.slug || "") + '</strong>' +
+            '<small>' + escapeHtml([item.model || "", item.description || ""].filter(Boolean).join(" · ")) +
+            '</small></a></li>';
+        }).join("") + '</ul>';
       }
 
       function load() {
@@ -366,12 +381,11 @@
         }
 
         if (!state.repo) {
-          document.title = "Firmware release notes - Innioasis Updater";
-          showError("No firmware project was given for this page.");
+          showDirectory();
           return;
         }
 
-        useGeneratedPage(function () { loadLive(); });
+        loadLive();
       }
 
       function loadLive() {

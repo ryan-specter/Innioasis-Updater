@@ -277,11 +277,15 @@
         break;
       }
     }
-    if (entry && entry.slug && tag) {
-      return siteUrl("release-notes/" + entry.slug + "/" + tagSlug(tag) + ".html");
+    /* The parser reads any release on demand; static copies are generated for
+       search engines and are never a link target. */
+    if (entry) {
+      return siteUrl(releaseNotesHref({
+        repo: repo, tag: tag, software: entry.slug,
+        model: entry.model || "", name: entry.name || ""
+      }));
     }
-    if (entry && entry.slug) return siteUrl("release-notes/" + entry.slug + "/index.html");
-    return siteUrl("release-notes/index.html");
+    return siteUrl(releaseNotesHref({ repo: repo, tag: tag }));
   }
 
   /* ------------------------------------------------------------------ *
