@@ -111,7 +111,7 @@ HEAD = """<!doctype html>
 
 FOOT = """<div id="footer-root"></div><div id="support-toolbar-slot"></div>
 <script src="{up}firmware-catalog.js?v=20260803" defer></script>
-<script src="{up}nav.js?v=20261105copyleft" defer></script>
+<script src="{up}nav.js?v=20261103brand" defer></script>
 <script src="{up}lumen-site.js?v=20260817" defer></script>
 <script src="{up}site-i18n.js?v=20260830" defer></script>
 </body></html>
@@ -119,6 +119,9 @@ FOOT = """<div id="footer-root"></div><div id="support-toolbar-slot"></div>
 
 
 def window(n):
+    """Name every target a notice was written for, in the same order the
+    website and the app show them. These pages are the unfiltered view, so a
+    reader must be able to tell who a notice was addressed to."""
     parts = []
     if n.get("from"):
         parts.append("From " + n.get("from"))
@@ -126,6 +129,14 @@ def window(n):
         parts.append("until " + n.get("until"))
     if n.get("models"):
         parts.append("Models: " + n.get("models"))
+    if n.get("device_type"):
+        parts.append("Type " + n.get("device_type"))
+    if n.get("firmware_repo"):
+        repos = [repo.strip().split("/")[-1] for repo in n.get("firmware_repo").split(",") if repo.strip()]
+        if repos:
+            parts.append("Software: " + ", ".join(repos))
+    if n.get("firmware_version"):
+        parts.append("Version " + n.get("firmware_version"))
     return " · ".join(parts)
 
 

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>v1.1.0 - Now Playing sub-menus, star ratings, On-The-Go, Main Menu cleanup - Innioasis Updater</title>
+  <meta name="description" content="Focused on getting closer to the real iPod Classic experience — especially a proper depth to the Now Playing screen, plus a cleanup pass on the Main Menu and some visual consistenc">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/release-notes/inniclassic-y1/v1.1.0.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="v1.1.0 - Now Playing sub-menus, star ratings, On-The-Go, Main Menu cleanup - Innioasis Updater">
+  <meta property="og:description" content="Focused on getting closer to the real iPod Classic experience — especially a proper depth to the Now Playing screen, plus a cleanup pass on the Main Menu and some visual consistenc">
+  <meta property="og:url" content="https://innioasis.app/release-notes/inniclassic-y1/v1.1.0.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="v1.1.0 - Now Playing sub-menus, star ratings, On-The-Go, Main Menu cleanup - Innioasis Updater">
+  <meta name="twitter:description" content="Focused on getting closer to the real iPod Classic experience — especially a proper depth to the Now Playing screen, plus a cleanup pass on the Main Menu and some visual consistenc">
+  <link rel="icon" href="../../y1_illustration.png">
+  <link rel="stylesheet" href="../../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../../docs-viewer.css?v=20261103docs">
+  <script src="../../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page lumen-release-page"><p class="lumen-doc-back"><a href="../../firmware.html?model=Y1&amp;software=inniclassic-y1">← Firmware Downloads</a></p><header class="lumen-doc-head"><div class="lumen-release-head"><div class="lumen-release-titles"><p class="lumen-kicker">Firmware release notes · Inniclassic · Y1</p><h1>v1.1.0 - Now Playing sub-menus, star ratings, On-The-Go, Main Menu cleanup</h1></div></div><p class="lumen-lead">A classic-style Y1 Software.</p><div class="lumen-release-tag-row"><span class="lumen-release-pill">v1.1.0</span><span>Y1</span><span>2026-07-23</span></div><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../../guide.html?model=Y1&amp;software=inniclassic-y1">Get it in Updater CE</a><a class="lumen-button" href="../../firmware.html?model=Y1&amp;software=inniclassic-y1">Firmware Downloads</a></div></header><article class="lumen-doc-body lumen-release-body"><p>Focused on getting closer to the real iPod Classic experience — especially a proper depth to the Now Playing screen, plus a cleanup pass on the Main Menu and some visual consistency fixes.</p>
+<h3 id="added">Added</h3>
+<ul><li><strong>Now Playing sub-menus</strong>: a center-click on the Now Playing screen now cycles through four states, exactly like a real iPod Classic — Progress bar → Seek (scrub bar with a diamond thumb, wheel jumps the track ±5s) → Shuffle &amp; Repeat (quick toggle, wheel cycles each) → Rating (wheel sets 1-5 stars) → back to Progress. The wheel reverts to volume control outside of these states, same as on a real device.</li><li><strong>Star ratings</strong>: rate any track 1-5 stars from the Now Playing Rating state above; shown as ★★★☆☆ under the track counter.</li><li><strong>On-The-Go playlist</strong>: the classic always-available instant playlist. Reachable as a one-tap &quot;Add to On-The-Go&quot; action from the Now Playing hold-menu, or as a pinned entry in the full Add to Playlist dialog.</li><li><strong>Now Playing hold-menu</strong>: long-press Center on Now Playing for Add to On-The-Go, Browse Album, Browse Artist, and Cancel — matching the real iPod&#x27;s menu, plus a Toggle Visualizer entry for this fork&#x27;s bonus spectrum/lyrics view.</li><li><strong>Composers</strong> grouping in the Music menu, alongside the existing Artists/Albums/Genres/Years grouping.</li><li><strong>Fast-scroll letter jump</strong>: spin the wheel quickly through an alphabetized list (Artists/Albums/Songs/Genres/Composers/Search) to jump straight to the next first-letter group, with an on-screen letter overlay while jumping — tuned so it triggers reliably without being overly twitchy on a quick spin.</li><li>Status bar now shows the current screen&#x27;s name (Music/Now Playing/Settings/etc.) instead of a clock, matching the real iPod&#x27;s title bar.</li></ul>
+<h3 id="changed">Changed</h3>
+<ul><li><strong>Main Menu cleanup</strong>: Cover Flow, Audiobooks, Folders, Years, Recently Added, and My Favorites have moved out of the Main Menu and into the Music menu where they belong on a real iPod. Main Menu is back down to Now Playing, Music, Music Quiz, Podcasts, Bluetooth, Wi-Fi, Settings, and Web Server.</li><li>The Main Menu&#x27;s split-view album cover now genuinely fills the entire remaining screen edge-to-edge (computed from the real screen size) instead of a fixed-size box, so it bleeds above the status bar the same way the Music menu&#x27;s cover panel already did.</li></ul>
+<h3 id="fixed">Fixed</h3>
+<ul><li>Menu text size was inconsistent between screens: Music-menu-style rows (Artists/Albums/Composers/Songs/Settings) were sized in <code>sp</code> while the Main Menu&#x27;s buttons were sized in raw pixels — same nominal number, different unit, so they never quite matched. Everything now renders at the exact same size.</li></ul>
+<p>Full changelog: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FFabianZettl%2Fjj-launcher-classic%2Fblob%2Fmaster%2FCHANGELOG.md">CHANGELOG.md</a></p>
+<blockquote><p>[!WARNING] If you have an older version installed, uninstall it first (<code>adb uninstall com.themoon.y1</code> or <code>adb shell pm uninstall --user 0 com.themoon.y1</code>) before installing this APK — see the README&#x27;s Installation section for the full mandatory step-by-step (including replacing the stock JJ Launcher).</p></blockquote></article><section class="lumen-doc-related"><h2>Also useful</h2><ul class="lumen-doc-related-list"><li><a href="../../guides/inniclassic-y1.html"><strong>Install guide</strong><small>Step-by-step install for Inniclassic</small></a></li><li><a href="v1.4.5.html"><strong>InniClassic 1.4.5</strong><small>v1.4.5 · 2026-09-29</small></a></li><li><a href="v1.4.4.html"><strong>InniClassic 1.4.4</strong><small>v1.4.4 · 2026-09-29</small></a></li><li><a href="v1.4.3.html"><strong>InniClassic 1.4.3</strong><small>v1.4.3 · 2026-09-22</small></a></li><li><a href="v1.4.2.html"><strong>InniClassic 1.4.2</strong><small>v1.4.2 · 2026-09-02</small></a></li><li><a href="v1.4.1.html"><strong>InniClassic 1.4.1</strong><small>v1.4.1 · 2026-08-28</small></a></li><li><a href="v1.3.2.html"><strong>InniClassic 1.3.2</strong><small>v1.3.2 · 2026-08-19</small></a></li><li><a href="v1.3.1.html"><strong>InniClassic 1.3.1</strong><small>v1.3.1 · 2026-08-03</small></a></li><li><a href="v1.3.0.html"><strong>InniClassic 1.3.0</strong><small>v1.3.0 · 2026-07-29</small></a></li></ul></section><p class="lumen-doc-footer-note">Notes as published by the Inniclassic project. Install it with Updater CE, or download it from the firmware directory.</p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../../firmware-catalog.js?v=20260803" defer></script>
+<script src="../../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../../nav.js?v=20261103brand" defer></script>
+<script src="../../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

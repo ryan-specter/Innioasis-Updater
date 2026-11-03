@@ -6455,7 +6455,8 @@ class ConfigDownloader:
                     'device': pkg_data.get('device', ''),
                     'url': pkg_data.get('url', ''),
                     'type': pkg_data.get('type', ''),
-                    'handler': pkg_data.get('handler', '')
+                    'handler': pkg_data.get('handler', ''),
+                    'post_install': pkg_data.get('post_install', '')
                 }
                 packages.append(package_info)
                 silent_print(f"Parsed package: {package_info['name']} -> {package_info['repo']}")
@@ -6475,7 +6476,8 @@ class ConfigDownloader:
                     'device': pkg_data.get('device', ''),
                     'url': pkg_data.get('url', ''),
                     'type': pkg_data.get('type', ''),
-                    'handler': pkg_data.get('handler', '')
+                    'handler': pkg_data.get('handler', ''),
+                    'post_install': pkg_data.get('post_install', '')
                 }
                 packages.append(package_info)
                 silent_print(f"Parsed package (fallback): {package_info['name']} -> {package_info['repo']}")
@@ -6508,6 +6510,56 @@ class ConfigDownloader:
 import time
 import random
 from collections import defaultdict
+
+POST_INSTALL_VIEWER_URL = "https://innioasis.app/post_install.html"
+RELEASE_NOTES_VIEWER_URL = "https://innioasis.app/release_notes.html"
+_MARKDOWN_SOURCE_RE = re.compile(r"\.(md|markdown|mdown|mkd|mdx)(?:$|[#?])", re.I)
+
+
+def build_post_install_viewer_url(post_install_url, software_name="", model="", repo="", tag=""):
+    """Point a manifest post_install at the site's reader when it is Markdown.
+
+    The reader downloads the document (GitHub blob/raw, a gist, or any .md URL),
+    renders it verbatim and dresses it in the community site's styling and the
+    visitor's own theme and donation choices. Anything that is not Markdown -
+    a project's own HTML guide - is returned untouched and opens as a normal
+    browser link, exactly as before.
+    """
+    from urllib.parse import urlencode
+
+    url = (post_install_url or "").strip()
+    if not url or not _MARKDOWN_SOURCE_RE.search(url):
+        return url
+    params = [("url", url)]
+    if software_name:
+        params.append(("name", software_name))
+    if model:
+        params.append(("model", model))
+    if repo:
+        params.append(("repo", repo))
+    if tag:
+        params.append(("tag", tag))
+    return POST_INSTALL_VIEWER_URL + "?" + urlencode(params)
+
+
+def build_release_notes_viewer_url(repo, tag="", model="", software="", name=""):
+    """Link into the site's release-notes reader for one firmware release."""
+    from urllib.parse import urlencode
+
+    repo = (repo or "").strip()
+    if not repo:
+        return ""
+    params = [("repo", repo)]
+    if tag:
+        params.append(("tag", tag))
+    if model:
+        params.append(("model", model))
+    if software:
+        params.append(("software", software))
+    if name:
+        params.append(("name", name))
+    return RELEASE_NOTES_VIEWER_URL + "?" + urlencode(params)
+
 
 class GitHubAPI:
     """GitHub API wrapper for fetching release information with rate limiting and caching"""
@@ -22508,6 +22560,39 @@ class FirmwareDownloaderGUI(QMainWindow):
             first_item = self.package_list.item(0)
             self.update_download_button_text(first_item)
 
+    def post_install_viewer_url_for(self, firmware_data):
+        """Link into innioasis.app's post-install reader for this firmware.
+
+        The manifest is the only place that knows about post_install, so match
+        the selected package to its entry by repository first, then by name.
+        Markdown documents open in our own styled page; anything else stays a
+        plain link to the project's own guide.
+        """
+        if not firmware_data:
+            return ""
+        repo_name = (firmware_data.get('repo_name') or '').strip().lower()
+        package_name = (firmware_data.get('name') or firmware_data.get('software_name') or '').strip().lower()
+        device = (firmware_data.get('device') or firmware_data.get('model') or '').strip().upper()
+        packages = getattr(self, 'packages', None) or []
+
+        def viewer_url(package):
+            return build_post_install_viewer_url(
+                package.get('post_install', ''),
+                software_name=package.get('name', ''),
+                model=package.get('device', '') or device,
+                repo=package.get('repo', ''),
+                tag=firmware_data.get('version', '')
+            )
+
+        matches = [p for p in packages if (p.get('post_install') or '').strip()]
+        for package in matches:
+            if repo_name and (package.get('repo') or '').strip().lower() == repo_name:
+                return viewer_url(package)
+        for package in matches:
+            if package_name and (package.get('name') or '').strip().lower() == package_name:
+                return viewer_url(package)
+        return ""
+
     def show_context_menu(self, position):
         """Show context menu for right-click on firmware items"""
         item = self.package_list.itemAt(position)
@@ -22525,6 +22610,13 @@ class FirmwareDownloaderGUI(QMainWindow):
         view_releases_action = None
         if firmware_data and firmware_data.get('repo_name'):
             view_releases_action = context_menu.addAction("View Releases")
+
+        # Offer the project's post-install guide in our own reader when it
+        # publishes one (Markdown on GitHub, or its own page).
+        post_install_action = None
+        post_install_url = self.post_install_viewer_url_for(firmware_data)
+        if post_install_url:
+            post_install_action = context_menu.addAction("Post-Install Guide")
 
         # Add "Firmware Directory" option (always available)
         firmware_directory_action = context_menu.addAction("Firmware Directory")
@@ -22547,12 +22639,23 @@ class FirmwareDownloaderGUI(QMainWindow):
         action = context_menu.exec(self.package_list.mapToGlobal(position))
 
         if action == view_releases_action and firmware_data:
-            # Open GitHub releases page for this software
+            # Open the site's release-notes reader: the same notes with our
+            # portable downloads and the guided Updater install, plus a small
+            # "See More on GitHub" link back to the project's own release.
             repo_name = firmware_data.get('repo_name', '')
             if repo_name:
-                github_url = f"https://github.com/{repo_name}/releases"
-                webbrowser.open(github_url)
-                self.status_label.setText(f"Opened releases page for {repo_name}")
+                release_url = build_release_notes_viewer_url(
+                    repo_name,
+                    tag=firmware_data.get('version', ''),
+                    model=firmware_data.get('device', '') or firmware_data.get('model', ''),
+                    name=firmware_data.get('name', '') or firmware_data.get('software_name', '')
+                ) or f"https://github.com/{repo_name}/releases"
+                webbrowser.open(release_url)
+                self.status_label.setText(f"Opened release notes for {repo_name}")
+
+        elif action == post_install_action and post_install_url:
+            webbrowser.open(post_install_url)
+            self.status_label.setText("Opened the post-install guide for this firmware")
 
         elif action == firmware_directory_action:
             # Open Innioasis firmware directory webpage

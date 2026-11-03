@@ -36,22 +36,13 @@
           <h1 id="release-title">Release notes</h1>
         </div>
       </div>
-      <p class="lumen-lead" id="release-lead">What changed in this release, and where to download it.</p>
+      <p class="lumen-lead" id="release-lead">What changed in this release, and how to install it.</p>
       <div class="lumen-release-tag-row" id="release-meta"></div>
       <div class="lumen-doc-actions" id="release-actions">
-        <a class="lumen-button lumen-button--primary" id="release-downloads-link" href="#release-downloads">Download this release</a>
+        <a class="lumen-button lumen-button--primary" id="release-updater" href="guide.html">Get it in Updater CE</a>
         <a class="lumen-button" id="release-directory" href="firmware.html">Firmware Downloads</a>
       </div>
     </header>
-
-    <section class="lumen-release-downloads" id="release-downloads" hidden>
-      <h2>Download &amp; install</h2>
-      <div id="release-download-rows"></div>
-      <div class="lumen-actions" style="margin-top:14px;">
-        <a class="lumen-button lumen-button--primary" id="release-updater" href="guide.html" hidden>Get it in Updater CE</a>
-        <span class="lumen-doc-see-more" id="release-mirror-note" hidden>Repackaged portable builds are served from the community mirror.</span>
-      </div>
-    </section>
 
     <article class="lumen-doc-body" id="release-body" aria-live="polite">
       <p class="lumen-doc-status" id="release-status">Loading release notes…</p>
@@ -62,18 +53,18 @@
   </main>
   <div id="footer-root"></div>
   <div id="support-toolbar-slot"></div>
-  <script src="firmware-catalog.js?v=20260803" defer></script>
-  <script src="docs-viewer.js?v=20261104tokens" defer></script>
+  <script src="firmware-catalog.js?v=20261107notes" defer></script>
+  <script src="docs-viewer.js?v=20261107silo" defer></script>
   <script src="nav.js?v=20261105copyleft" defer></script>
   <script src="site-i18n.js?v=20260830" defer></script>
   <script>
     /* Release notes reader.
 
        This replaces the bare "View on GitHub" jump with a page in our own
-       styling: the release's Markdown body rendered verbatim, our portable
-       download buttons (mirror packages first, the project's own assets as a
-       fallback) and the "Get it in Updater CE" guided install. The notes are
-       shown here, so nothing sends the reader to another site.
+       styling: the release's Markdown body rendered verbatim, as simple as a
+       notice page. No release file listing is shown here - readers are pointed
+       at our firmware directory and the "Get it in Updater CE" guided install
+       instead of a table of ZIPs, APKs and other release assets.
 
        Reached from the firmware directory rows, from install guides, and from
        post_install.html. scripts/generate_doc_pages.py writes static versions
@@ -124,70 +115,7 @@
         if (release && release.published_at) bits.push("<span>" + escapeHtml(D.formatDate(release.published_at)) + "</span>");
         if (release && release.prerelease) bits.push('<span class="lumen-release-pill lumen-release-pill--prerelease">Preview build</span>');
         if (release && release.draft) bits.push('<span class="lumen-release-pill lumen-release-pill--prerelease">Draft</span>');
-        if (state.mirrorCount) bits.push('<span class="lumen-release-pill lumen-release-pill--mirror">Portable mirror</span>');
         meta.innerHTML = bits.join("");
-      }
-
-      function assetRows(release, mirrorAssets) {
-        var rows = [];
-        var saveAs = D.mirrorDownloadName(release, state.item);
-        mirrorAssets.forEach(function (entry) {
-          var asset = entry.asset;
-          rows.push({
-            name: saveAs,
-            url: asset.browser_download_url,
-            size: asset.size,
-            note: "Portable package · repackaged by the community mirror",
-            primary: true,
-            saveAs: saveAs
-          });
-        });
-        var assets = (release && release.assets) || [];
-        assets.forEach(function (asset) {
-          var name = String(asset.name || "");
-          if (!/\.(zip|img|apk|dmg|deb|AppImage|tar\.gz|7z)$/i.test(name)) return;
-          if (rows.some(function (row) { return row.name === name; })) return;
-          var lower = name.toLowerCase();
-          var note = "Project release asset";
-          if (/^rom/.test(lower)) note = "Firmware package for Updater CE and manual flashing";
-          else if (/\.apk$/.test(lower)) note = "Android app package";
-          else if (/mac|darwin|osx/.test(lower)) note = "macOS build";
-          else if (/linux|appimage|\.deb$/.test(lower)) note = "Linux build";
-          else if (/win|\.exe/.test(lower)) note = "Windows build";
-          rows.push({ name: name, url: asset.browser_download_url, size: asset.size, note: note, primary: false });
-        });
-        return rows;
-      }
-
-      function renderDownloads(release, mirrorAssets) {
-        var section = el("release-downloads");
-        var container = el("release-download-rows");
-        if (!section || !container) return;
-        var rows = assetRows(release, mirrorAssets);
-        if (!rows.length) {
-          container.innerHTML = '<p class="lumen-doc-status">This release does not publish downloadable files. ' +
-            "Use the Updater CE guide below to install it.</p>";
-          section.hidden = false;
-          return;
-        }
-        container.innerHTML = rows.map(function (row) {
-          return '<div class="lumen-download-row">' +
-            '<div class="lumen-download-row-main">' +
-            '<span class="lumen-download-name">' + escapeHtml(row.name) + "</span>" +
-            '<span class="lumen-download-note">' + escapeHtml(row.note) +
-            (row.size ? " · " + escapeHtml(D.formatBytes(row.size)) : "") + "</span>" +
-            "</div>" +
-            '<a class="lumen-download-cta' + (row.primary ? " lumen-download-cta--primary" : "") + '" href="' +
-            escapeHtml(row.url) + '" rel="noopener noreferrer"' +
-            (row.saveAs
-              ? ' download="' + escapeHtml(row.saveAs) + '" data-save-as="' + escapeHtml(row.saveAs) + '"'
-              : " download") + '>' +
-            (row.primary ? "Download portable ZIP" : "Download") + "</a>" +
-            "</div>";
-        }).join("");
-        section.hidden = false;
-        var note = el("release-mirror-note");
-        if (note) note.hidden = !mirrorAssets.length;
       }
 
       function setActions(release) {
@@ -208,8 +136,6 @@
               (state.software ? "&software=" + encodeURIComponent(state.software) : "")
             : "firmware.html";
         }
-        var downloadsLink = el("release-downloads-link");
-        if (downloadsLink) downloadsLink.hidden = !el("release-downloads") || el("release-downloads").hidden;
       }
 
       function setIcon(item, release) {
@@ -233,7 +159,7 @@
         var cards = [];
         var item = state.item;
 
-        if (item && item.post_install) {
+        if (item && item.post_install && D.parseSource(item.post_install)) {
           var link = D.postInstallHref(item.post_install, {
             software: item.slug || state.software,
             model: item.model || state.model,
@@ -277,11 +203,18 @@
 
       function showError(message, release) {
         var body = el("release-body");
+        /* Keep the reader here: a failure offers the firmware directory and a
+           retry rather than a jump to the project's own release page. */
         if (body) {
           body.innerHTML =
             '<div class="lumen-doc-status lumen-doc-error"><p><strong>' + escapeHtml(message) + "</strong></p>" +
             '<p class="lumen-actions">' +
+            '<button class="lumen-button lumen-button--primary" type="button" id="release-retry">Try again</button>' +
             '<a class="lumen-button" href="firmware.html">Back to Firmware Downloads</a></p></div>';
+          var retry = el("release-retry");
+          if (retry) {
+            retry.addEventListener("click", function () { window.location.reload(); });
+          }
         }
         setActions(release || null);
         var note = el("release-note");
@@ -291,14 +224,13 @@
         }
       }
 
-      function renderRelease(release, releases, mirrorAssets) {
+      function renderRelease(release, releases) {
         var item = state.item;
         var label = state.name || (item && item.name) || state.repo;
         var version = versionOf(release);
         var title = (release && release.name) ? release.name : (label + " " + version).trim();
 
         state.tag = (release && release.tag_name) || state.tag;
-        state.mirrorCount = mirrorAssets.length;
 
         var titleEl = el("release-title");
         if (titleEl) titleEl.textContent = title;
@@ -309,26 +241,49 @@
         var lead = el("release-lead");
         if (lead) {
           lead.textContent = (item && item.description) ||
-            "What changed in this release, and where to download it.";
+            "What changed in this release, and how to install it.";
         }
         document.title = title + " - Innioasis Updater";
 
         setIcon(item, release);
         setMeta(release);
-        renderDownloads(release, mirrorAssets);
         setActions(release);
         renderRelated(release, releases);
 
         var body = el("release-body");
+        var ctx = {};
+        if (state.repo && state.tag) {
+          ctx.repo = state.repo;
+          ctx.ref = state.tag;
+          ctx.dirBlob = "https://github.com/" + state.repo + "/blob/" + state.tag + "/";
+          ctx.dirRaw = "https://raw.githubusercontent.com/" + state.repo + "/" + state.tag + "/";
+        }
+        /* A release with no body is not necessarily a release with no notes:
+           projects often attach them as a Markdown file instead. Those are
+           pulled through the GitHub API and rendered here, so reading them
+           never requires leaving the site. */
+        function noNotes() {
+          if (!body) return;
+          body.innerHTML = '<p class="lumen-doc-status">' +
+            escapeHtml(release && release.name ? release.name + " has no published notes yet." : "This release has no published notes yet.") +
+            ' Check <a href="firmware.html">Firmware Downloads</a> for the current build, '
+            + "or install it with Updater CE." +
+            "</p>";
+        }
         if (body) {
-          var ctx = {};
-          if (state.repo && state.tag) {
-            ctx.repo = state.repo;
-            ctx.ref = state.tag;
-            ctx.dirBlob = "https://github.com/" + state.repo + "/blob/" + state.tag + "/";
-            ctx.dirRaw = "https://raw.githubusercontent.com/" + state.repo + "/" + state.tag + "/";
+          var published = String((release && release.body) || "").trim();
+          if (published) {
+            body.innerHTML = D.markdownToHtml(published, ctx);
+          } else {
+            body.innerHTML = '<p class="lumen-doc-status">Loading the notes from the project…</p>';
+            D.releaseNotesMarkdown(state.repo, state.tag).then(function (found) {
+              if (found && found.markdown) {
+                body.innerHTML = D.markdownToHtml(found.markdown, ctx);
+              } else {
+                noNotes();
+              }
+            }).catch(noNotes);
           }
-          body.innerHTML = D.markdownToHtml(D.releaseBody(release), ctx);
         }
 
         if (state.software && state.tag) {
@@ -365,7 +320,7 @@
         return matched || releases[0];
       }
 
-      /* Generated pages already carry these notes, the download buttons and
+      /* Generated pages already carry these notes, the install buttons and
          the Updater guide, and they never hit a rate-limited API. When one
          exists for this release, prefer it. */
       function useGeneratedPage(done) {
@@ -429,26 +384,17 @@
 
         Promise.all([
           releasesRequest,
-          state.tag ? D.fetchMirrorAssets(state.repo, state.tag) : Promise.resolve([]),
           state.tag ? Promise.resolve([]) : D.fetchReleases(state.repo, 1)
         ]).then(function (results) {
           var releases = results[0] || [];
-          var mirrorAssets = results[1] || [];
           var release = pickRelease(releases);
           if (!release) {
             showError("This project has no public releases yet.");
             return;
           }
-          /* With no tag in the URL the page is the project's latest release,
-             so the mirror lookup has to wait until we know the tag. */
-          if (!state.tag) {
-            state.tag = release.tag_name || "";
-            D.fetchMirrorAssets(state.repo, state.tag).then(function (assets) {
-              renderRelease(release, releases, assets);
-            });
-            return;
-          }
-          renderRelease(release, releases, mirrorAssets);
+          /* With no tag in the URL this page is the project's latest release,
+             and renderRelease records the tag it actually resolved. */
+          renderRelease(release, releases);
         }).catch(function (error) {
           if (window.console && console.warn) console.warn("release notes failed", error);
           showError("The release notes for this version could not be loaded.");

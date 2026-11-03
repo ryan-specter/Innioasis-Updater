@@ -187,6 +187,31 @@
       };
     }
 
+    /* A Markdown file attached to a release, the shape a project uses for
+       notes it does not put in the release body:
+       /owner/repo/releases/download/<tag>/<file>.md */
+    if (GITHUB_HOSTS.test(host) && seg.length >= 6 && seg[2] === "releases" && seg[3] === "download") {
+      var assetTag = decode(seg[4]);
+      var assetFile = seg.slice(5).map(decode).join("/");
+      if (!assetFile || !MARKDOWN_EXT.test(assetFile)) return null;
+      var assetRepo = decode(seg[0]) + "/" + decode(seg[1]);
+      var assetPage = "https://github.com/" + assetRepo + "/releases/tag/" + encodeURIComponent(assetTag);
+      return {
+        kind: "github-asset",
+        host: "GitHub",
+        repo: assetRepo,
+        ref: assetTag,
+        path: assetFile,
+        sourceUrl: url.href,
+        rawUrl: url.href.split("#")[0],
+        blobUrl: assetPage,
+        dirRaw: url.href.split("#")[0].replace(/[^/]*$/, ""),
+        dirBlob: assetPage,
+        fileLabel: assetFile,
+        anchor: anchor
+      };
+    }
+
     /* Anything that ends in a Markdown extension is fetched as-is. This
        covers project sites (jarvissax.github.io/rondo/README.md), raw
        documentation servers, and our own same-origin docs. */
@@ -229,11 +254,34 @@
     };
   }
 
-  /** GitHub page for a release tag (used by "See More" links). */
+  /** GitHub page for a release tag. Kept for API compatibility; pages no
+      longer offer it as a hand-off. */
   function releasePageUrl(repo, tag) {
     if (!repo) return "";
     if (tag) return "https://github.com/" + repo + "/releases/tag/" + encodeURIComponent(tag);
     return "https://github.com/" + repo + "/releases";
+  }
+
+  function siteUrl(path) {
+    return String(SITE || "https://innioasis.app/")
+      .replace(/\/+$/, "") + "/" + String(path || "").replace(/^\/+/, "");
+  }
+
+  /** Our release notes page for a project's GitHub releases link. */
+  function internalReleasePath(repo, tag) {
+    var catalog = global.INNIOASIS_FIRMWARE_CATALOG || [];
+    var entry = null;
+    for (var i = 0; i < catalog.length; i += 1) {
+      if (catalog[i].repo && String(catalog[i].repo).toLowerCase() === String(repo || "").toLowerCase()) {
+        entry = catalog[i];
+        break;
+      }
+    }
+    if (entry && entry.slug && tag) {
+      return siteUrl("release-notes/" + entry.slug + "/" + tagSlug(tag) + ".html");
+    }
+    if (entry && entry.slug) return siteUrl("release-notes/" + entry.slug + "/index.html");
+    return siteUrl("release-notes/index.html");
   }
 
   /* ------------------------------------------------------------------ *
@@ -464,6 +512,22 @@
     if (/^(mailto:|tel:|data:)/i.test(href)) return href;
     if (href.charAt(0) === "#") return href;
     if (/^https?:/i.test(href)) {
+      /* A release's own files are never listed here, so an asset link inside
+         the notes is left as plain text. */
+      if (/^https?:\/\/(?:www\.)?github\.com\/[^/]+\/[^/]+\/releases\/download\//i.test(href)) {
+        return "";
+      }
+      /* A link to the project's GitHub releases page points at our own release
+         notes page for the same release. */
+      var release = href.match(/^https?:\/\/(?:www\.)?github\.com\/([^/?#]+)\/([^/?#]+)\/releases(?:\/tag\/([^?#]+))?/i);
+      if (release) {
+        return internalReleasePath(release[1] + "/" + release[2],
+          release[3] ? decodeURIComponent(release[3]) : "");
+      }
+      /* A "Full Changelog" compare link is the project's release notes by
+         another name: send it to our release history for that software. */
+      var compare = href.match(/^https?:\/\/(?:www\.)?github\.com\/([^/?#]+)\/([^/?#]+)\/compare\//i);
+      if (compare) return internalReleasePath(compare[1] + "/" + compare[2], "");
       /* A link to another Markdown file on GitHub becomes another reading
          page here rather than a jump out to GitHub. */
       var parsed = parseSource(href);
@@ -508,15 +572,21 @@
 
     text = text.replace(/\[([^\]]+)\]\(\s*([^\s)]+)(?:\s+&quot;([^&]*)&quot;)?\s*\)/g, function (m, label, href, title) {
       var resolved = resolveLink(href, ctx);
+      if (!resolved) return label;
       var external = /^https?:/i.test(resolved) && resolved.indexOf("innioasis.app") === -1;
       return '<a href="' + escapeAttr(resolved) + '"' +
         (title ? ' title="' + title + '"' : "") +
         (external ? ' target="_blank" rel="noopener noreferrer"' : "") + ">" + label + "</a>";
     });
 
-    /* Bare URLs, but not ones already inside an href attribute. */
+    /* Bare URLs, but not ones already inside an href attribute. Release
+       assets stay as plain text; release pages point at our own notes. */
     text = text.replace(/(^|[\s(])(https?:\/\/[^\s<)"]+)/g, function (m, lead, url) {
-      return lead + '<a href="' + escapeAttr(url) + '" target="_blank" rel="noopener noreferrer">' + url + "</a>";
+      var target = resolveLink(url, null);
+      if (!target) return lead + url;
+      var external = /^https?:/i.test(target) && target.indexOf("innioasis.app") === -1;
+      return lead + '<a href="' + escapeAttr(target) + '"' +
+        (external ? ' target="_blank" rel="noopener noreferrer"' : "") + ">" + url + "</a>";
     });
 
     text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
@@ -958,11 +1028,11 @@
     return tokensRequest;
   }
 
-  function requestText(url, timeoutMs, token) {
+  function requestText(url, timeoutMs, token, accept) {
     var controller = null;
     var timer = null;
     var init = { cache: "no-store", credentials: "omit", mode: "cors" };
-    init.headers = { Accept: "application/vnd.github+json" };
+    init.headers = { Accept: accept || "application/vnd.github+json" };
     if (token) init.headers.Authorization = "Bearer " + token;
     if (typeof AbortController !== "undefined") {
       controller = new AbortController();
@@ -991,14 +1061,14 @@
      small and shared, so every reader on the site would spend it. A token is
      tried, then the next, then the call is repeated anonymously; a token the
      API rejects is dropped so it is never offered again. */
-  function fetchGithubText(url, timeoutMs) {
+  function fetchGithubText(url, timeoutMs, accept) {
     return loadGithubTokens().then(function () {
       var tried = [];
       function attempt() {
         var available = githubTokens.filter(function (value) { return tried.indexOf(value) === -1; });
         var token = available.length ? available[Math.floor(Math.random() * available.length)] : "";
         if (token) tried.push(token);
-        return requestText(url, timeoutMs, token).catch(function (error) {
+        return requestText(url, timeoutMs, token, accept).catch(function (error) {
           if (error && error.status === 401 && token) {
             var at = githubTokens.indexOf(token);
             if (at !== -1) githubTokens.splice(at, 1);
@@ -1041,6 +1111,20 @@
             return decodeBase64Utf8(data.content.replace(/\s/g, ""));
           });
       });
+    } else if (source.kind === "github-asset") {
+      /* A release asset is not a repo path, so it is looked up in the
+         release's asset list and read through the API's binary endpoint. */
+      attempts.push(function () {
+        return fetchRelease(source.repo, source.ref).then(function (release) {
+          var wanted = source.path.toLowerCase();
+          var asset = ((release && release.assets) || []).filter(function (candidate) {
+            return String(candidate.name || "").toLowerCase() === wanted;
+          })[0];
+          if (!asset) throw new Error("no-asset");
+          return fetchAssetMarkdown(source.repo, asset);
+        }).then(function (found) { return found.markdown; });
+      });
+      attempts.push(function () { return fetchText(source.rawUrl); });
     } else {
       attempts.push(function () { return fetchText(source.rawUrl); });
     }
@@ -1062,6 +1146,125 @@
     } catch (_) {
       return "";
     }
+  }
+
+  /* ------------------------------------------------------------------ *
+   * Release notes written as files
+   * ------------------------------------------------------------------ */
+
+  /* Markdown files a release ships as assets, notes-looking ones first. */
+  var NOTES_NAME = /(release[-_ .]?notes|changelog|whats?[-_ ]?new|notes|install|readme)/i;
+
+  function markdownAssets(release) {
+    return ((release && release.assets) || []).filter(function (asset) {
+      return MARKDOWN_EXT.test(String(asset.name || ""));
+    }).sort(function (a, b) {
+      var left = NOTES_NAME.test(String(a.name || "")) ? 0 : 1;
+      var right = NOTES_NAME.test(String(b.name || "")) ? 0 : 1;
+      return left - right || String(a.name || "").localeCompare(String(b.name || ""));
+    });
+  }
+
+  /* Where a project keeps its notes when the release body is empty. Only
+     files that are notes rather than documentation are named here: a README
+     is the project's front page, not the notes for one build. */
+  function notesFileCandidates(release) {
+    var fromAssets = markdownAssets(release).map(function (asset) { return String(asset.name || ""); });
+    return fromAssets.concat([
+      "RELEASE-NOTES.md",
+      "RELEASE_NOTES.md",
+      "release-notes.md",
+      "CHANGELOG.md",
+      "CHANGELOG",
+      "docs/RELEASE-NOTES.md"
+    ]).filter(function (name, index, all) { return all.indexOf(name) === index; });
+  }
+
+  /* Read one Markdown file out of a repo at a ref. The contents API goes
+     first so the site's tokens carry the call, then the raw host and the
+     jsDelivr mirror cover networks that block the API. */
+  function fetchRepoMarkdown(repo, ref, path) {
+    return fetchGithubText("https://api.github.com/repos/" + repo + "/contents/" + path +
+      "?ref=" + encodeURIComponent(ref), 12000)
+      .then(function (body) {
+        var data = JSON.parse(body);
+        if (!data || !data.content) throw new Error("empty");
+        return decodeBase64Utf8(String(data.content).replace(/\s/g, ""));
+      })
+      .catch(function () {
+        return fetchText("https://raw.githubusercontent.com/" + repo + "/" + ref + "/" + path)
+          .catch(function () {
+            return fetchText("https://cdn.jsdelivr.net/gh/" + repo + "@" + ref + "/" + path);
+          });
+      })
+      .then(function (markdown) {
+        if (!markdown || !String(markdown).trim()) throw new Error("empty");
+        return {
+          markdown: markdown,
+          path: path,
+          url: "https://github.com/" + repo + "/blob/" + ref + "/" + path
+        };
+      });
+  }
+
+  /* A Markdown file attached to a release. GitHub answers the asset endpoint
+     with a redirect to its CDN, which a browser page may not be allowed to
+     read, so this is a best-effort attempt: the caller still has the file's
+     own URL to show when it fails. */
+  function fetchAssetMarkdown(repo, asset) {
+    var name = String((asset && asset.name) || "");
+    var attempt = asset && asset.id
+      ? fetchGithubText("https://api.github.com/repos/" + repo + "/releases/assets/" + asset.id,
+        12000, "application/octet-stream")
+      : Promise.reject(new Error("no-asset"));
+    return attempt
+      .catch(function () {
+        if (!asset || !asset.browser_download_url) throw new Error("no-url");
+        return fetchText(asset.browser_download_url);
+      })
+      .then(function (markdown) {
+        if (!markdown || !String(markdown).trim()) throw new Error("empty");
+        return {
+          markdown: markdown,
+          path: name,
+          url: (asset && (asset.browser_download_url || asset.url)) || ""
+        };
+      });
+  }
+
+  /**
+   * The notes for one release. The release's own Markdown body wins when it
+   * has one; otherwise the first readable notes file is pulled in: a Markdown
+   * asset first, then a notes file in the repo at that tag. The resolved
+   * object always carries the URL of the original file so a page can link to
+   * it when the reader wants the source.
+   */
+  function releaseNotesMarkdown(repo, tag) {
+    if (!repo || !tag) return Promise.reject(new Error("no-release"));
+    return fetchRelease(repo, tag).then(function (release) {
+      var body = String((release && release.body) || "").trim();
+      if (body) {
+        return {
+          markdown: body,
+          path: "",
+          url: releasePageUrl(repo, tag),
+          release: release,
+          fromBody: true
+        };
+      }
+      var chain = Promise.reject(new Error("no-notes"));
+      notesFileCandidates(release).forEach(function (path) {
+        chain = chain.catch(function () { return fetchRepoMarkdown(repo, tag, path); });
+      });
+      var asset = markdownAssets(release)[0];
+      if (asset) {
+        chain = chain.catch(function () { return fetchAssetMarkdown(repo, asset); });
+      }
+      return chain.then(function (found) {
+        found.release = release;
+        return found;
+      });
+    });
   }
 
   /* ------------------------------------------------------------------ *
@@ -1212,6 +1415,9 @@
     markdownToHtml: markdownToHtml,
     sanitizeHtml: sanitizeHtml,
     loadMarkdown: loadMarkdown,
+    releaseNotesMarkdown: releaseNotesMarkdown,
+    fetchRepoMarkdown: fetchRepoMarkdown,
+    markdownAssets: markdownAssets,
     fetchText: fetchText,
     fetchRelease: fetchRelease,
     fetchReleases: fetchReleases,

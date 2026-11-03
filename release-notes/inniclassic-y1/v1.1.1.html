@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>v1.1.1 - InniClassic: now flashable via Innioasis Updater - Innioasis Updater</title>
+  <meta name="description" content="The project is now named InniClassic still based on and credited to JJ Launcher (https://github.com/ismileblue/y1 launcher — see README). Same 1.1.1 build as before, no functional">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/release-notes/inniclassic-y1/v1.1.1.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="v1.1.1 - InniClassic: now flashable via Innioasis Updater - Innioasis Updater">
+  <meta property="og:description" content="The project is now named InniClassic still based on and credited to JJ Launcher (https://github.com/ismileblue/y1 launcher — see README). Same 1.1.1 build as before, no functional">
+  <meta property="og:url" content="https://innioasis.app/release-notes/inniclassic-y1/v1.1.1.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="v1.1.1 - InniClassic: now flashable via Innioasis Updater - Innioasis Updater">
+  <meta name="twitter:description" content="The project is now named InniClassic still based on and credited to JJ Launcher (https://github.com/ismileblue/y1 launcher — see README). Same 1.1.1 build as before, no functional">
+  <link rel="icon" href="../../y1_illustration.png">
+  <link rel="stylesheet" href="../../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../../docs-viewer.css?v=20261103docs">
+  <script src="../../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page lumen-release-page"><p class="lumen-doc-back"><a href="../../firmware.html?model=Y1&amp;software=inniclassic-y1">← Firmware Downloads</a></p><header class="lumen-doc-head"><div class="lumen-release-head"><div class="lumen-release-titles"><p class="lumen-kicker">Firmware release notes · Inniclassic · Y1</p><h1>v1.1.1 - InniClassic: now flashable via Innioasis Updater</h1></div></div><p class="lumen-lead">A classic-style Y1 Software.</p><div class="lumen-release-tag-row"><span class="lumen-release-pill">v1.1.1</span><span>Y1</span><span>2026-07-23</span></div><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../../guide.html?model=Y1&amp;software=inniclassic-y1">Get it in Updater CE</a><a class="lumen-button" href="../../firmware.html?model=Y1&amp;software=inniclassic-y1">Firmware Downloads</a></div></header><article class="lumen-doc-body lumen-release-body"><p>The project is now named <strong>InniClassic</strong> (still based on and credited to <a href="https://github.com/ismileblue/y1_launcher" target="_blank" rel="noopener noreferrer">JJ Launcher</a> — see README). Same 1.1.1 build as before, no functional version bump for the rename itself.</p>
+<h3 id="now-installable-as-a-full-rom">🆕 Now installable as a full ROM</h3>
+<p><code>rom.zip</code> flashes directly via the <a href="https://www.innioasis.com/pages/download" target="_blank" rel="noopener noreferrer">Innioasis Updater</a> — no ADB, no manual uninstall step. It ships the latest <strong>Y1 Firmware 3.1.2</strong> with InniClassic pre-installed as the system launcher. Just select the zip in the Updater and follow the prompts (the Updater expects this exact filename, so don&#x27;t rename it after downloading).</p>
+<p>The APK (<code>InniClassic-1.1.1.apk</code>) is still available too, for updating an existing JJ Launcher-based install via ADB — see the README&#x27;s Method 2.</p>
+<h3 id="also-in-this-build">Also in this build</h3>
+<ul><li>New <strong>iPod Classic (Dark)</strong> theme</li><li>iPod Classic is now the true first-launch default theme</li><li>Fixed Bluetooth A2DP <code>connect()</code> failing on some speakers (missing <code>BLUETOOTH_PRIVILEGED</code>/<code>WRITE_SECURE_SETTINGS</code>, now self-granted at startup)</li><li>New <strong>Album Cover Tilt</strong> setting to turn off the Now Playing 3D tilt</li><li>Fixed track titles sometimes showing their file extension (<code>.ogg</code>, <code>.wav</code>, etc.)</li><li>Music menu: split &quot;Artists&quot; into <strong>Artists</strong> (track artist) and <strong>Album Artists</strong> (album artist), matching real iPod Classic</li><li>Music Quiz restructured into 5 rounds of 8 questions, with round-complete and victory screens</li><li>A PC-side script (<a href="https://github.com/FabianZettl/inniclassic/blob/master/tools/build_library_cache.py" target="_blank" rel="noopener noreferrer"><code>tools/build_library_cache.py</code></a>) to pre-build the library scan cache for large libraries, so the device doesn&#x27;t have to re-tag everything on next boot</li><li>Plus the two Reddit-reported fixes from the original 1.1.1 (invisible web server text, wheel active while locked) — see below</li></ul>
+<h3 id="fixed-original-111-fixes">Fixed (original 1.1.1 fixes)</h3>
+<ul><li>Wireless PC Upload (web server) status text was hardcoded white, invisible against the iPod Classic theme&#x27;s white background. Same issue fixed on the Bluetooth/Wi-Fi/Brightness/Storage/Settings screen titles.</li><li>The wheel stayed active while the device was locked (screen off) and could still change the volume — the guard for this existed but lived in a method that never actually ran on this device; moved to where it&#x27;s effective.</li></ul>
+<p>Full changelog: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FFabianZettl%2Finniclassic%2Fblob%2Fmaster%2FCHANGELOG.md">CHANGELOG.md</a></p>
+<blockquote><p>[!WARNING] Updating from an older APK install? Uninstall it first (<code>adb uninstall com.themoon.y1</code> or <code>adb shell pm uninstall --user 0 com.themoon.y1</code>) — see the README&#x27;s Installation section. The ROM method doesn&#x27;t need this.</p></blockquote></article><section class="lumen-doc-related"><h2>Also useful</h2><ul class="lumen-doc-related-list"><li><a href="../../guides/inniclassic-y1.html"><strong>Install guide</strong><small>Step-by-step install for Inniclassic</small></a></li><li><a href="v1.4.5.html"><strong>InniClassic 1.4.5</strong><small>v1.4.5 · 2026-09-29</small></a></li><li><a href="v1.4.4.html"><strong>InniClassic 1.4.4</strong><small>v1.4.4 · 2026-09-29</small></a></li><li><a href="v1.4.3.html"><strong>InniClassic 1.4.3</strong><small>v1.4.3 · 2026-09-22</small></a></li><li><a href="v1.4.2.html"><strong>InniClassic 1.4.2</strong><small>v1.4.2 · 2026-09-02</small></a></li><li><a href="v1.4.1.html"><strong>InniClassic 1.4.1</strong><small>v1.4.1 · 2026-08-28</small></a></li><li><a href="v1.3.2.html"><strong>InniClassic 1.3.2</strong><small>v1.3.2 · 2026-08-19</small></a></li><li><a href="v1.3.1.html"><strong>InniClassic 1.3.1</strong><small>v1.3.1 · 2026-08-03</small></a></li><li><a href="v1.3.0.html"><strong>InniClassic 1.3.0</strong><small>v1.3.0 · 2026-07-29</small></a></li></ul></section><p class="lumen-doc-footer-note">Notes as published by the Inniclassic project. Install it with Updater CE, or download it from the firmware directory.</p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../../firmware-catalog.js?v=20260803" defer></script>
+<script src="../../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../../nav.js?v=20261103brand" defer></script>
+<script src="../../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

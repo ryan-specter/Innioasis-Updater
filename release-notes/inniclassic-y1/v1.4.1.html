@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>InniClassic 1.4.1 - Innioasis Updater</title>
+  <meta name="description" content="Video feature catch-up, a new boot logo, and another round of Reddit-reported fixes. Added - Video thumbnails — the Videos list shows a real frame from each file instead of a gener">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/release-notes/inniclassic-y1/v1.4.1.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="InniClassic 1.4.1 - Innioasis Updater">
+  <meta property="og:description" content="Video feature catch-up, a new boot logo, and another round of Reddit-reported fixes. Added - Video thumbnails — the Videos list shows a real frame from each file instead of a gener">
+  <meta property="og:url" content="https://innioasis.app/release-notes/inniclassic-y1/v1.4.1.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="InniClassic 1.4.1 - Innioasis Updater">
+  <meta name="twitter:description" content="Video feature catch-up, a new boot logo, and another round of Reddit-reported fixes. Added - Video thumbnails — the Videos list shows a real frame from each file instead of a gener">
+  <link rel="icon" href="../../y1_illustration.png">
+  <link rel="stylesheet" href="../../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../../docs-viewer.css?v=20261103docs">
+  <script src="../../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page lumen-release-page"><p class="lumen-doc-back"><a href="../../firmware.html?model=Y1&amp;software=inniclassic-y1">← Firmware Downloads</a></p><header class="lumen-doc-head"><div class="lumen-release-head"><div class="lumen-release-titles"><p class="lumen-kicker">Firmware release notes · Inniclassic · Y1</p><h1>InniClassic 1.4.1</h1></div></div><p class="lumen-lead">A classic-style Y1 Software.</p><div class="lumen-release-tag-row"><span class="lumen-release-pill">v1.4.1</span><span>Y1</span><span>2026-08-28</span></div><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../../guide.html?model=Y1&amp;software=inniclassic-y1">Get it in Updater CE</a><a class="lumen-button" href="../../firmware.html?model=Y1&amp;software=inniclassic-y1">Firmware Downloads</a></div></header><article class="lumen-doc-body lumen-release-body"><p>Video feature catch-up, a new boot logo, and another round of Reddit-reported fixes.</p>
+<h3 id="added">Added</h3>
+<ul><li><strong>Video thumbnails</strong> — the Videos list shows a real frame from each file instead of a generic icon, loaded in the background.</li><li><strong>Video resume-position</strong> — playback remembers where you left off and jumps back there next time you open that file.</li><li><strong>Fill Video Screen</strong> setting — Settings → Fill Video Screen lets you choose between the original aspect ratio (letterboxed) or filling the whole screen. Direct response to a GitHub issue request.</li><li><strong>New boot logo</strong> — replaces the Rockbox-branded splash the ROM&#x27;s <code>LOGO</code> partition had carried over since this project&#x27;s very first release with a plain black screen showing &quot;InniClassic&quot;.</li></ul>
+<h3 id="changed">Changed</h3>
+<ul><li><strong>Larger list/settings text</strong> — Songs/Albums/Artists/Genres/Composers rows, folder browsing, and every Settings row are a bit bigger.</li><li><strong>Cover Flow now groups by artist</strong> — previously sorted purely alphabetically by album title; now sorted by artist first, album second, matching the real iPod Classic.</li></ul>
+<h3 id="fixed">Fixed</h3>
+<ul><li><strong>Folders with many files lagged noticeably when opened</strong> — rows now build in chunks instead of all at once, so the screen stays responsive.</li><li><strong>Screen could randomly wake up in a pocket while listening to music</strong> — only the Center button now wakes the real display back up (was any key before, which pocket pressure on the wheel could trigger).</li></ul>
+<h3 id="install">Install</h3>
+<ul><li><strong><code>rom.zip</code></strong> — flash via the <a href="https://www.innioasis.com/pages/download" target="_blank" rel="noopener noreferrer">Innioasis Updater</a>, no ADB required. Must keep the filename exactly <code>rom.zip</code>.</li><li><strong><code>InniClassic-1.4.1.apk</code></strong> — install over an existing JJ Launcher / InniClassic install via <code>adb install InniClassic-1.4.1.apk</code>.</li></ul>
+<p>Full changelog: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FFabianZettl%2Finniclassic%2Fblob%2Fmaster%2FCHANGELOG.md">https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md</a></p></article><section class="lumen-doc-related"><h2>Also useful</h2><ul class="lumen-doc-related-list"><li><a href="../../guides/inniclassic-y1.html"><strong>Install guide</strong><small>Step-by-step install for Inniclassic</small></a></li><li><a href="v1.4.5.html"><strong>InniClassic 1.4.5</strong><small>v1.4.5 · 2026-09-29</small></a></li><li><a href="v1.4.4.html"><strong>InniClassic 1.4.4</strong><small>v1.4.4 · 2026-09-29</small></a></li><li><a href="v1.4.3.html"><strong>InniClassic 1.4.3</strong><small>v1.4.3 · 2026-09-22</small></a></li><li><a href="v1.4.2.html"><strong>InniClassic 1.4.2</strong><small>v1.4.2 · 2026-09-02</small></a></li><li><a href="v1.3.2.html"><strong>InniClassic 1.3.2</strong><small>v1.3.2 · 2026-08-19</small></a></li><li><a href="v1.3.1.html"><strong>InniClassic 1.3.1</strong><small>v1.3.1 · 2026-08-03</small></a></li><li><a href="v1.3.0.html"><strong>InniClassic 1.3.0</strong><small>v1.3.0 · 2026-07-29</small></a></li></ul></section><p class="lumen-doc-footer-note">Notes as published by the Inniclassic project. Install it with Updater CE, or download it from the firmware directory.</p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../../firmware-catalog.js?v=20260803" defer></script>
+<script src="../../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../../nav.js?v=20261103brand" defer></script>
+<script src="../../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

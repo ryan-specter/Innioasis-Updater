@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Developers | Add custom firmware to Innioasis Updater CE - Innioasis Updater</title>
   <meta name="description" content="Developer documentation for adding a custom Innioasis Y1 or Y2 firmware to Updater CE: fork the repository, publish rom.zip assets, edit slidia_manifest.xml, test, and open a pull request.">
-  <meta name="keywords" content="Innioasis Updater developer guide, slidia_manifest.xml, custom firmware, Y1 ROM, Y2 ROM, rom.zip, rom_type_b.zip, rom_y2.zip, GitHub release">
+  <meta name="keywords" content="Innioasis Updater developer guide, slidia_manifest.xml, custom firmware, Y1 ROM, Y2 ROM, rom.zip, rom_type_b.zip, rom_y2.zip, release assets">
   <link rel="canonical" href="https://innioasis.app/developers.html">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Developers | Add custom firmware to Innioasis Updater CE - Innioasis Updater">
@@ -56,7 +56,7 @@
     <header>
       <p class="lumen-kicker">For firmware developers</p>
       <h1>Add your firmware to Updater CE.</h1>
-      <p class="lead">Updater CE is the community catalogue and installer for custom firmware. Develop your project from a base ROM, publish it on GitHub with the correct release assets, add two small entries to <code>slidia_manifest.xml</code>, test the model filters, and open a pull request. One repository can serve both Y1 and Y2.</p>
+      <p class="lead">Updater CE is the community catalogue and installer for custom firmware. Develop your project from a base ROM, publish it as a public repository with the correct release assets, add two small entries to <code>slidia_manifest.xml</code>, test the model filters, and open a pull request. One repository can serve both Y1 and Y2.</p>
       <div class="lumen-actions">
         <a class="lumen-button lumen-button--primary" href="https://github.com/y1-community/Innioasis-Updater" target="_blank" rel="noopener noreferrer">View the Updater CE source</a>
         <a class="lumen-button" href="firmware.html">Browse Software Downloads</a>
@@ -84,7 +84,7 @@
 
 <section class="lumen-guide-section" aria-labelledby="packages-title">
       <h2 id="packages-title">Use these release asset names</h2>
-      <p>The filename is part of the compatibility signal. Keep the names exact and put the ZIP files in the GitHub release assets, not only in the repository source tree.</p>
+      <p>The filename is part of the compatibility signal. Keep the names exact and put the ZIP files in the project's release assets, not only in the repository source tree.</p>
       <div class="lumen-table-wrap">
         <table class="lumen-doc-table">
           <caption class="lumen-visually-hidden">Firmware ZIP asset names and supported devices</caption>
@@ -103,14 +103,14 @@
 
 <section class="lumen-guide-section" aria-labelledby="how-it-works-title">
       <h2 id="how-it-works-title">How the connection works</h2>
-      <p>Updater CE reads the manifest as its catalogue. Each <code>&lt;package&gt;</code> line tells it the project name, GitHub repository, model, and handler. When a user chooses that project, Updater checks the repository’s GitHub releases and looks for a <code>rom*.zip</code> asset.</p>
+      <p>Updater CE reads the manifest as its catalogue. Each <code>&lt;package&gt;</code> line tells it the project name, repository, model, and handler. When a user chooses that project, Updater checks the repository’s published releases and looks for a <code>rom*.zip</code> asset.</p>
       <div class="lumen-grid">
         <article class="lumen-card">
           <h3>Manifest</h3>
           <p>Names the project and maps it to a model. Y1 and Y2 need separate lines, even when they share a repository.</p>
         </article>
         <article class="lumen-card">
-          <h3>GitHub release</h3>
+          <h3>Published release</h3>
           <p>Contains the installable ZIP assets. A single release may contain the Y1 Type A, Y1 Type B, and Y2 packages together.</p>
         </article>
         <article class="lumen-card">
@@ -123,9 +123,9 @@
 <section class="lumen-guide-section" aria-labelledby="steps-title">
       <h2 id="steps-title">Publish a project in five steps</h2>
       <ol class="lumen-steps">
-        <li><strong>Fork the Updater CE repository.</strong> Create your own GitHub fork of <a href="https://github.com/y1-community/Innioasis-Updater" target="_blank" rel="noopener noreferrer">y1-community/Innioasis-Updater</a>, then clone your fork locally.</li>
-        <li><strong>Prepare a GitHub firmware repository.</strong> Make sure the repository is public and its release contains the correct ZIP assets. You can put <code>rom.zip</code>, <code>rom_type_b.zip</code>, and <code>rom_y2.zip</code> on the same release when they belong to the same version.</li>
-        <li><strong>Edit the manifest.</strong> Open <code>slidia_manifest.xml</code> in the root of your Updater CE fork. Add one line for Y1 and one line for Y2. The <code>repo</code> value is the GitHub <code>owner/repository</code>; <code>url</code> is the public project page.</li>
+        <li><strong>Fork the Updater CE repository.</strong> Create your own fork of <a href="https://github.com/y1-community/Innioasis-Updater" target="_blank" rel="noopener noreferrer">y1-community/Innioasis-Updater</a>, then clone your fork locally.</li>
+        <li><strong>Prepare a public firmware repository.</strong> Make sure the repository is public and its release contains the correct ZIP assets. You can put <code>rom.zip</code>, <code>rom_type_b.zip</code>, and <code>rom_y2.zip</code> on the same release when they belong to the same version.</li>
+        <li><strong>Edit the manifest.</strong> Open <code>slidia_manifest.xml</code> in the root of your Updater CE fork. Add one line for Y1 and one line for Y2. The <code>repo</code> value is the repository's <code>owner/repository</code>; <code>url</code> is the public project page.</li>
         <li><strong>Test the catalogue.</strong> Run Updater from the edited checkout. Select Y1 and confirm the project shows the Y1 assets. Select Y2 and confirm it shows the Y2 release. Check Type A and Type B separately when both are published.</li>
         <li><strong>Open a pull request.</strong> Push the manifest change to your fork and open a pull request against the upstream Updater CE repository. Include the project link, supported models, release tag, asset names, and the devices you tested.</li>
       </ol>
@@ -133,12 +133,12 @@
 
 <section class="lumen-guide-section" aria-labelledby="manifest-title">
       <h2 id="manifest-title">Generate your manifest lines</h2>
-      <p>Paste the URL of your public GitHub repository to create the two <code>&lt;package&gt;</code> lines for <code>slidia_manifest.xml</code> — one for Y1 and one for Y2. The generator reads the <code>owner/repository</code> from the URL, builds the project name from it, checks the latest copy of the manifest so the preview shows exactly where your lines belong, then walks you through opening a pull request with them.</p>
+      <p>Paste the URL of your public repository to create the two <code>&lt;package&gt;</code> lines for <code>slidia_manifest.xml</code> — one for Y1 and one for Y2. The generator reads the <code>owner/repository</code> from the URL, builds the project name from it, checks the latest copy of the manifest so the preview shows exactly where your lines belong, then walks you through opening a pull request with them.</p>
 
       <div class="lumen-manifest-form" id="manifest-generator" data-manifest-generator>
         <div class="lumen-manifest-fields">
           <div class="lumen-field">
-            <label for="manifest-repo-url">GitHub repository URL</label>
+            <label for="manifest-repo-url">Repository URL</label>
             <input type="url" id="manifest-repo-url" value="https://github.com/your-account/your-firmware" autocomplete="off" spellcheck="false">
             <span class="lumen-field-help">The only field you need — the generator extracts the <code>owner/repository</code> from the URL.</span>
           </div>
@@ -166,25 +166,25 @@
         </details>
       </div>
 
-      <div class="lumen-warning"><strong>One line is not enough for a shared repository.</strong> If the Y2 line is missing, Y2 users will not get a model-matched entry even when <code>rom_y2.zip</code> exists in the GitHub release.</div>
+      <div class="lumen-warning"><strong>One line is not enough for a shared repository.</strong> If the Y2 line is missing, Y2 users will not get a model-matched entry even when <code>rom_y2.zip</code> exists in the project's release.</div>
 
       <h3>Submit the lines as a pull request</h3>
       <ol class="lumen-steps">
         <li><strong>Copy the two lines above.</strong> The generator already matched the latest manifest format.</li>
-        <li><strong>Edit <code>slidia_manifest.xml</code> on GitHub.</strong> Use the edit link below; GitHub creates a fork and a branch for you automatically.</li>
+        <li><strong>Edit <code>slidia_manifest.xml</code> in the repository.</strong> Use the edit link below; the repository host creates a fork and a branch for you automatically.</li>
         <li><strong>Paste the lines just before <code>&lt;/slidia&gt;</code>,</strong> keeping the existing entries unchanged.</li>
         <li><strong>Commit to a new branch</strong> (for example <code>add-your-firmware</code>), then open a pull request against the Updater CE repository.</li>
         <li><strong>In the PR, include</strong> the project link, supported models, release tag, asset names, and the devices you tested.</li>
       </ol>
       <div class="lumen-actions">
-        <a class="lumen-button lumen-button--primary" href="https://github.com/y1-community/Innioasis-Updater/edit/main/slidia_manifest.xml" target="_blank" rel="noopener noreferrer">Edit the Updater CE manifest on GitHub</a>
+        <a class="lumen-button lumen-button--primary" href="https://github.com/y1-community/Innioasis-Updater/edit/main/slidia_manifest.xml" target="_blank" rel="noopener noreferrer">Edit the Updater CE manifest</a>
         <a class="lumen-button" href="https://github.com/y1-community/Innioasis-Updater/blob/main/slidia_manifest.xml" target="_blank" rel="noopener noreferrer">See the latest manifest</a>
       </div>
-      <p class="lumen-meta">Keep <code>device="Y1"</code> and <code>device="Y2"</code> uppercase, use the exact URL of your public GitHub repository, and keep <code>type="img"</code> and <code>handler="Custom Firmware"</code> for a firmware entry.</p>
+      <p class="lumen-meta">Keep <code>device="Y1"</code> and <code>device="Y2"</code> uppercase, use the exact URL of your public repository, and keep <code>type="img"</code> and <code>handler="Custom Firmware"</code> for a firmware entry.</p>
     </section>
 
 <section class="lumen-guide-section" aria-labelledby="release-title">
-      <h2 id="release-title">Make the GitHub release easy to verify</h2>
+      <h2 id="release-title">Make the release easy to verify</h2>
       <p>Give the release a clear tag and release note. The tag is useful to people, but the ZIP asset names are what Updater CE uses to identify the install packages.</p>
       <div class="lumen-grid">
         <article class="lumen-card">
@@ -229,7 +229,7 @@
         <li>In the pull request, explain what you tested. Do not describe an untested model as supported.</li>
       </ol>
       <pre class="lumen-code"><code>python -c "from xml.etree import ElementTree as ET; ET.parse('slidia_manifest.xml'); print('manifest ok')"</code></pre>
-      <p>For a local check, run that command from the repository root. It verifies XML syntax only; it does not prove that a GitHub release contains valid firmware or that a device is safe to flash.</p>
+      <p>For a local check, run that command from the repository root. It verifies XML syntax only; it does not prove that a release contains valid firmware or that a device is safe to flash.</p>
     </section>
 
 <section class="lumen-guide-section" aria-labelledby="links-title">

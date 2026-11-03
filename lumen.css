@@ -292,6 +292,9 @@ body.site-themes-app code { padding: .1em .3em; border-radius: 4px; background: 
 .lumen-directory-hero p { margin: 0; color: var(--lumen-muted); line-height: 1.6; }
 .lumen-filterbar { display: flex; flex-wrap: wrap; gap: .7rem; align-items: end; padding: var(--lumen-space-5) 0; }
 .lumen-field { display: grid; gap: .35rem; min-width: 150px; flex: 1 1 160px; }
+/* The Device type field is hidden for models with a single hardware type;
+   without this rule the display above would override the hidden attribute. */
+.lumen-field[hidden] { display: none; }
 .lumen-field label { color: var(--lumen-muted); font-size: .78rem; font-weight: 700; }
 .lumen-field select { width: 100%; min-height: 44px; padding: .6rem .7rem; border: 1px solid var(--lumen-line-strong); border-radius: var(--lumen-radius-sm); background: var(--lumen-panel); color: var(--lumen-text); font: .9rem var(--lumen-body); }
 .lumen-field-help { color: var(--lumen-faint); font-size: .76rem; }

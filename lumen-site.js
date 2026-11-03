@@ -94,21 +94,16 @@
         });
     }
 
-    /* Nightlies are what the "Show nightly builds" option hides: a release
-       whose tag or name says nightly, or an unlabelled GitHub pre-release.
-       A pre-release that names a version (beta, preview, RC) is a published
-       preview release rather than a nightly - Rockbox Y2 publishes nothing
-       but betas, and hiding those left its table showing a single
-       superseded stable build. A release tagged "stable" is always treated
-       as stable, matching the Updater app. */
+    /* A nightly build is a GitHub pre-release, or a release whose tag or
+       name says so. Rockbox Y1 and Y2 ship nightly builds, so a project
+       can have nightlies without any stable release. A release tagged
+       "stable" is always treated as stable, matching the Updater app. */
     function isNightly(release) {
         if (!release) return false;
         var tag = (release.tag_name || "").toLowerCase();
         if (tag.indexOf("stable") !== -1) return false;
-        var label = tag + " " + (release.name || "").toLowerCase();
-        if (label.indexOf("nightly") !== -1) return true;
-        if (!release.prerelease) return false;
-        return !/\b(beta|preview|rc\d*)\b/.test(label);
+        var label = (tag + " " + (release.name || "")).toLowerCase();
+        return !!release.prerelease || label.indexOf("nightly") !== -1;
     }
 
     /* Clean display version for a release, mirroring the Updater app's
@@ -1063,12 +1058,11 @@
             if (heroH1) heroH1.textContent = "Software Updates and Firmware";
             if (heroLead) heroLead.textContent = "Browse verified Original Software and community custom firmwares for the Innioasis Y1, Y2, and Timmkoo players. Download standalone packages or install directly with Updater CE.";
         }
-        /* Nightly filter, mirroring the Updater app's "Show nightly builds"
-           checkbox. Off by default: stable releases plus published preview
-           builds (beta/RC), which are real releases. Tick it to add nightly
-           builds. The URL ?nightly=1 param wins so filtered views stay
-           shareable; without it we reuse the same preference as the home
-           page table. */
+        /* Nightly / pre-release filter, mirroring the Updater app's
+           "Show nightly builds" checkbox. Off by default: stable releases
+           only. Tick it to see preview, nightly, and RC builds. The URL
+           ?nightly=1 param wins so filtered views stay shareable; without
+           it we reuse the same preference as the home page table. */
         var nightly = document.getElementById("lumen-nightly-filter");
         var storedNightly = false;
         if (!window.INNIOASIS_PRIVACY || window.INNIOASIS_PRIVACY.allows("nightly")) {
@@ -1199,9 +1193,9 @@
         }
 
         /* Apply the nightly filter on top of the model-matched releases.
-           Unchecked: stable and preview releases. Checked: every release.
-           Returns null when releases exist but the current filter hides
-           them all. */
+           Unchecked: stable releases only. Checked: every release, with
+           stable builds still included alongside previews. Returns null
+           when releases exist but the current filter hides them all. */
         function visibleReleases(item) {
             var all = releasesForItem(item);
             if (!all) return null;
@@ -1255,17 +1249,41 @@
             return '<span class="lumen-firmware-icon-box" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#141721;border:1px solid rgba(255,255,255,0.14);box-shadow:0 1px 4px rgba(0,0,0,0.3);color:var(--lumen-accent,#6366f1);flex-shrink:0;"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></span>';
         }
 
+        /* A version written in a release title: an optional leading v, a
+           dotted numeric core, and an optional suffix such as -beta.2,
+           +build.7 or hotfix4. Only the token at the start or the end of
+           the title is a title version; punctuation may sit either side. */
+        var TITLE_VERSION = "[vV]?\\d+\\.\\d+(?:\\.\\d+)?(?:[-+][0-9A-Za-z][0-9A-Za-z.+-]*|[0-9]*[A-Za-z]+\\d*)?";
+        var TITLE_VERSION_START = new RegExp("^(" + TITLE_VERSION + ")(?=$|[\\s:;,()\\[\\]\\u2013\\u2014-])");
+        var TITLE_VERSION_END = new RegExp("(?:^|[\\s:;,()\\[\\]\\u2013\\u2014-])(" + TITLE_VERSION + ")(?=[.,;:!?'\")\\]\\u201d\\u2019]*$)");
+        var TITLE_VERSION_MIDDLE = new RegExp("(?:^|\\s)(" + TITLE_VERSION + ")(?=$|\\s)");
+
+        /* The semantic version the release title announces. Titles like
+           "V2.5", "Rockbox Y2 Beta v0.2.0" or "JJ Launcher ROM
+           v0.11.6hotfix4" name the build directly, so the title is read
+           before the tag. A version in the middle of the title is used only
+           when neither end carries one. */
+        function versionFromTitle(title) {
+            var text = String(title || "").trim();
+            if (!text) return "";
+            var startMatch = text.match(TITLE_VERSION_START);
+            if (startMatch) return startMatch[1];
+            var endMatch = text.match(TITLE_VERSION_END);
+            if (endMatch) return endMatch[1];
+            var middleMatch = text.match(TITLE_VERSION_MIDDLE);
+            return middleMatch ? middleMatch[1] : "";
+        }
+
+        /* List a release by the semantic version its GitHub title carries at
+           the start or end, and parse the tag for a version only when the
+           title has none to show. */
         function extractReleaseVersion(release, item) {
             if (!release) return item ? item.name : "Public release";
             var name = (release.name || "").trim();
             var tag = (release.tag_name || "").trim();
             if (name) {
-                var endMatch = name.match(/(?:^|\s)(v?\d+\.\d+(?:\.\d+)?(?:-[a-zA-Z0-9.]+)?)$/i);
-                if (endMatch && endMatch[1]) return endMatch[1];
-                var startMatch = name.match(/^(v?\d+\.\d+(?:\.\d+)?(?:-[a-zA-Z0-9.]+)?)(?:\s|$)/i);
-                if (startMatch && startMatch[1]) return startMatch[1];
-                var anyMatch = name.match(/(?:^|\s)(v?\d+\.\d+(?:\.\d+)?(?:-[a-zA-Z0-9.]+)?)(?:\s|$)/i);
-                if (anyMatch && anyMatch[1]) return anyMatch[1];
+                var titleVersion = versionFromTitle(name);
+                if (titleVersion) return titleVersion;
             }
             return tag ? displayVersion(tag) : (name || "Public release");
         }
@@ -1464,9 +1482,9 @@
                 var cachedActive = repos.filter(function (repo) { return releaseState[repo] === "cached"; }).length;
                 if (status) {
                     if (liveLoaded) {
-                        status.textContent = "All public " + softwareName + " releases loaded live from GitHub.";
+                        status.textContent = "All public " + softwareName + " releases loaded.";
                     } else if (cachedActive) {
-                        status.textContent = "Showing " + softwareName + " releases from catalogue archive (live GitHub API unavailable).";
+                        status.textContent = "Showing " + softwareName + " releases from the catalogue archive.";
                     } else {
                         status.textContent = "Release information is not available right now. The project links remain available.";
                     }

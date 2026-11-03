@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Player V2.3 - Innioasis Updater</title>
+  <meta name="description" content="Y2Player v2.3 - Up Next Queue, Library Browsing, and Menu Artwork Version 2.3 focuses on making the playback queue predictable, expanding the ways a library can be browsed, and bri">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/release-notes/y2player-y2/releasev2.3.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Player V2.3 - Innioasis Updater">
+  <meta property="og:description" content="Y2Player v2.3 - Up Next Queue, Library Browsing, and Menu Artwork Version 2.3 focuses on making the playback queue predictable, expanding the ways a library can be browsed, and bri">
+  <meta property="og:url" content="https://innioasis.app/release-notes/y2player-y2/releasev2.3.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Player V2.3 - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Player v2.3 - Up Next Queue, Library Browsing, and Menu Artwork Version 2.3 focuses on making the playback queue predictable, expanding the ways a library can be browsed, and bri">
+  <link rel="icon" href="../../y1_illustration.png">
+  <link rel="stylesheet" href="../../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../../docs-viewer.css?v=20261103docs">
+  <script src="../../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page lumen-release-page"><p class="lumen-doc-back"><a href="../../firmware.html?model=Y2&amp;software=y2player-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><div class="lumen-release-head"><div class="lumen-release-titles"><p class="lumen-kicker">Firmware release notes · Y2Player · Y2</p><h1>Y2Player V2.3</h1></div></div><p class="lumen-lead">A Y2 custom Software.</p><div class="lumen-release-tag-row"><span class="lumen-release-pill">ReleaseV2.3</span><span>Y2</span><span>2026-08-15</span></div><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../../guide.html?model=Y2&amp;software=y2player-y2">Get it in Updater CE</a><a class="lumen-button" href="../../firmware.html?model=Y2&amp;software=y2player-y2">Firmware Downloads</a></div></header><article class="lumen-doc-body lumen-release-body"><h1 id="y2player-v23---up-next-queue-library-browsing-and-menu-artwork">Y2Player v2.3 - Up Next Queue, Library Browsing, and Menu Artwork</h1>
+<p>Version 2.3 focuses on making the playback queue predictable, expanding the ways a library can be browsed, and bringing album artwork into the menu system.</p>
+<p>It also separates audiobooks more cleanly from music, improves repeated Vorbis metadata handling, and removes unused internal state across the application.</p>
+<h2 id="a-queue-that-shows-what-will-actually-play">A Queue That Shows What Will Actually Play</h2>
+<p>The playback queue has been rebuilt around two explicit sections:</p>
+<ul><li><strong>Up Next</strong> contains tracks deliberately added by the user.</li><li><strong>Continuation</strong> contains the remaining tracks from the album, playlist, library collection, or shuffled collection that started playback.</li></ul>
+<p><strong>Play Next</strong> puts a track or selected collection directly after the current track. <strong>Add to Up Next</strong> appends tracks in the order they were added. When Up Next is empty, playback returns to the original continuation instead of abandoning the album or collection that was already playing.</p>
+<p>Shuffle now exposes the actual upcoming playback order in the queue. Manually added tracks remain ahead of the shuffled continuation and keep their deliberate order. Turning Shuffle off restores the remaining source collection to its original order without losing Up Next.</p>
+<p>Repeat All repeats the source collection rather than repeatedly injecting manually added Up Next entries. Duplicate tracks also receive distinct queue-entry identities, so moving or removing one occurrence does not affect another copy of the same song.</p>
+<h2 id="queue-controls-designed-for-the-click-wheel">Queue Controls Designed for the Click Wheel</h2>
+<p>The queue screen now places <strong>Queue Actions</strong> at the top and then shows the current and upcoming songs in playback order.</p>
+<p>Pressing Center on a queue entry opens a circular action menu containing the actions that apply to that occurrence:</p>
+<ul><li>Play Now</li><li>Play Next</li><li>Move</li><li>Remove</li></ul>
+<p>Move opens the queue itself as a wheel-controlled position selector. Reordering stays inside the relevant Up Next or continuation section, so an ordinary move cannot accidentally change the meaning of the queue.</p>
+<p>Queue Actions provides focused cleanup commands:</p>
+<ul><li><strong>Clear Up Next</strong> removes only manually added songs.</li><li><strong>Clear After Current</strong> keeps the current song and removes everything after it.</li><li><strong>Stop &amp; Clear</strong> stops playback and removes the complete queue after confirmation.</li></ul>
+<p>The navigation has also been flattened. Queue management no longer requires opening several nested menus from an individual song, and holding Center on a queue row remains a quick Play Now shortcut.</p>
+<h2 id="add-albums-collections-or-several-selected-songs">Add Albums, Collections, or Several Selected Songs</h2>
+<p>Queue actions are no longer limited to one track at a time.</p>
+<p>Holding Center on an album or another supported collection opens batch actions for the complete collection:</p>
+<ul><li>Play Next</li><li>Add to Up Next</li><li>Add Shuffled</li></ul>
+<p>Track Options also includes <strong>Select Multiple</strong>. Center toggles individual songs in the current list, and holding Center opens the same batch queue actions for the selected set.</p>
+<p>This makes it possible to start an album or Shuffle All, choose several songs to hear first, and then return automatically to the original playback sequence.</p>
+<h2 id="browse-music-by-genre-and-year">Browse Music by Genre and Year</h2>
+<p>The Music menu now includes <strong>Genres</strong> and <strong>Years</strong>.</p>
+<p>Opening a genre or year provides separate destinations for all matching tracks, artists, and albums. The selected filter is retained while navigating through an artist and into one of their albums, so a year or genre view does not unexpectedly expand back into the entire library.</p>
+<p>Genre values separated by repeated Vorbis comments or semicolons are treated as separate genres. Duplicate values are collapsed case-insensitively, while names containing characters such as the slash in <code>R&amp;B/Soul</code> remain intact. Tracks without a genre or year remain available under <strong>Unknown Genre</strong> and <strong>Unknown Year</strong>.</p>
+<p>Album identity now includes the album artist. Two artists can therefore each have an album called <em>Greatest Hits</em> without their tracks being merged into one global album entry.</p>
+<h2 id="more-sorting-choices">More Sorting Choices</h2>
+<p>Sort Order under Settings → Library is now divided into three groups:</p>
+<ul><li><strong>Tracks</strong> retains the existing track-order choices.</li><li><strong>Albums</strong> can be ordered by title, artist, oldest release first, or newest release first.</li><li><strong>Year Lists</strong> can show newest or oldest years first.</li></ul>
+<p>Album rows display their release year where it is available. Unknown years stay at the end in both directions, and the chronological order of songs inside an album is not changed by a library-level sorting preference.</p>
+<p>The new album and year sorting preferences are included in Backup &amp; Restore. Older backups receive stable defaults when imported.</p>
+<h2 id="album-artwork-in-menus">Album Artwork in Menus</h2>
+<p>Album artwork is now displayed on the left side of song lists and on representative rows for albums, artists, genres, years, playlists, and audiobooks. Queue entries and filtered library views use the same artwork path.</p>
+<p>The existing artwork rules still apply: embedded artwork is preferred, followed by supported external cover files such as <code>folder.jpg</code>, <code>folder.jpeg</code>, <code>folder.png</code>, <code>cover.jpg</code>, <code>cover.jpeg</code>, and <code>cover.png</code>.</p>
+<p>The Y2 has limited CPU and memory, so list artwork is deliberately bounded:</p>
+<ul><li>only rows currently visible on screen are scheduled;</li><li>images are decoded at thumbnail size through the shared artwork cache;</li><li>visible requests are processed in a controlled sequence;</li><li>requests are cancelled when rows move offscreen, the screen changes, or the view is hidden;</li><li>stale results are rejected if the library or source file changed;</li><li>missing, unavailable, blank, oversized, or damaged artwork is ignored safely.</li></ul>
+<p>Album track lists continue showing track numbers instead of thumbnails, preserving the most useful information for ordered album playback.</p>
+<h2 id="better-audiobook-separation">Better Audiobook Separation</h2>
+<p>Files stored under <code>AUDIOBOOKS</code> remain fully available through the dedicated Audiobooks section, including chapters, resume progress, and queue continuation.</p>
+<p>They are no longer mixed into the music-facing Songs, Albums, Artists, Genres, Years, Favorites, Recently Played, Folders, playlists, track counts, or Shuffle All views. This keeps audiobook chapters from appearing as ordinary songs while preserving their dedicated playback behavior.</p>
+<p>The circular menu for an audiobook chapter is also more focused. It contains Chapters, Queue, Sleep Timer, and Track Details instead of music-only actions such as Shuffle, Repeat, Favorite, and Add to Playlist.</p>
+<h2 id="repeated-vorbis-artist-values">Repeated Vorbis Artist Values</h2>
+<p>Ogg Vorbis and Opus files can store several <code>ARTIST</code> comments. FFmpeg exposes repeated values as one semicolon-separated string, which Y2Player previously treated as a single artist name.</p>
+<p>Repeated values are now parsed into individual artist entries. Feature-credit parsing still applies, duplicate names are removed case-insensitively, and the complete original credit remains available for display and playback metadata.</p>
+<h2 id="internal-cleanup-and-validation">Internal Cleanup and Validation</h2>
+<p>Version 2.3 also removes unused fields, counters, wrappers, and duplicate state from the device, display, diagnostics, playback, queue, backup, and playlist code. Media-key classification is shared between the hardware gate and broadcast receiver, and several result objects that carried values no caller used have been simplified.</p>
+<p>These changes are maintenance rather than feature removal. The updated code and new visible-row artwork planner are covered by the complete debug unit-test suite.</p>
+<h2 id="installation">Installation</h2>
+<p>The release provides the existing system-only update path as well as a complete <code>rom_y2.zip</code> package for the Innioasis Updater.</p>
+<p>For the system-only method, use SP Flash Tool in <strong>Download Only</strong> mode with only the <strong>ANDROID</strong> partition selected, pointing to the supplied <code>system.img</code>. Do not select or format any other partition.</p>
+<p>The <code>rom_y2.zip</code> package performs a full-device installation and erases user data. Create a Y2Player backup and copy important media, exports, and other files off the device before using the full-ROM method.</p>
+<p>Verify the supplied checksums and read the complete installation guide in the repository before flashing either package.</p>
+<h2 id="reporting-bugs">Reporting Bugs</h2>
+<p>If you encounter a problem, enable verbose diagnostics first:</p>
+<p><strong>Settings → System → Diagnostics → Verbose Diagnostics</strong></p>
+<p>Reproduce the problem, then export the report:</p>
+<p><strong>Settings → System → Diagnostics → Export Diagnostics</strong></p>
+<p>Please attach the exported report to a GitHub issue. For queue problems, include the collection that started playback, the queue action used, and whether Shuffle or Repeat was enabled. For artwork problems, mention whether the cover is embedded or external and include the external filename where applicable.</p>
+<p>Thank you to everyone who reported the queue, metadata, audiobook, browsing, and menu-artwork issues that shaped this release.</p></article><section class="lumen-doc-related"><h2>Also useful</h2><ul class="lumen-doc-related-list"><li><a href="../../guides/y2player-y2.html"><strong>Install guide</strong><small>Step-by-step install for Y2Player</small></a></li><li><a href="release2.5.html"><strong>Y2Player V2.5</strong><small>Release2.5 · 2026-09-04</small></a></li><li><a href="realeasev2.2.2.html"><strong>Y2Player V2.2.2</strong><small>RealeaseV2.2.2 · 2026-08-10</small></a></li><li><a href="releasev2.2.1.html"><strong>Y2Player V2.2.1 </strong><small>ReleaseV2.2.1 · 2026-08-03</small></a></li><li><a href="releasev2.2.html"><strong>Y2Player V2.2</strong><small>ReleaseV2.2 · 2026-08-01</small></a></li><li><a href="releasev2.1.html"><strong>Y2Player V2.1</strong><small>ReleaseV2.1 · 2026-07-29</small></a></li><li><a href="releasev2.0.html"><strong>Y2Player 2.0 Complete Media Engine Rewrite</strong><small>ReleaseV2.0 · 2026-07-27</small></a></li><li><a href="releasev1.2.html"><strong>Y2Player V1.2</strong><small>ReleaseV1.2 · 2026-07-26</small></a></li></ul></section><p class="lumen-doc-footer-note">Notes as published by the Y2Player project. Install it with Updater CE, or download it from the firmware directory.</p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../../firmware-catalog.js?v=20260803" defer></script>
+<script src="../../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../../nav.js?v=20261103brand" defer></script>
+<script src="../../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

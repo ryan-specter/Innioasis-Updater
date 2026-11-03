@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 6 - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 6: Playlists, and pause that really pauses. Linux 6.18 and the native Reborn music player for the Innioasis Y2. Already running Y2Linux Settings → About & Updates">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/release-notes/reborn-y2linux-y2/baseline-57.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 6 - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 6: Playlists, and pause that really pauses. Linux 6.18 and the native Reborn music player for the Innioasis Y2. Already running Y2Linux Settings → About & Updates">
+  <meta property="og:url" content="https://innioasis.app/release-notes/reborn-y2linux-y2/baseline-57.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 6 - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 6: Playlists, and pause that really pauses. Linux 6.18 and the native Reborn music player for the Innioasis Y2. Already running Y2Linux Settings → About & Updates">
+  <link rel="icon" href="../../y1_illustration.png">
+  <link rel="stylesheet" href="../../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../../docs-viewer.css?v=20261103docs">
+  <script src="../../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page lumen-release-page"><p class="lumen-doc-back"><a href="../../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><div class="lumen-release-head"><div class="lumen-release-titles"><p class="lumen-kicker">Firmware release notes · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 6</h1></div></div><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><div class="lumen-release-tag-row"><span class="lumen-release-pill">baseline-57</span><span>Y2</span><span>2026-10-15</span></div><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Get it in Updater CE</a><a class="lumen-button" href="../../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads</a></div></header><article class="lumen-doc-body lumen-release-body"><p><strong>Y2Linux 1.0 Beta 6: Playlists, and pause that really pauses.</strong> Linux 6.18 and the native Reborn music player for the Innioasis Y2.</p>
+<h2 id="already-running-y2linux">Already running Y2Linux</h2>
+<p>Settings → About &amp; Updates → Check for Updates → Download Update → <strong>Restart and Install</strong>.</p>
+<h2 id="whats-new">What&#x27;s new</h2>
+<ul><li><strong>Playlists</strong> (Home → Playlists):<ul><li>Your <strong>.m3u / .m3u8</strong> playlists from Internal Storage and the SD card, including ones exported by a computer (Windows, macOS or Linux paths are matched to your music).</li><li><strong>Make and change them on the player:</strong> New Playlist (named with the keyboard); <strong>Add to Playlist…</strong> on any song, album, artist or Now Playing; <strong>Remove</strong>; <strong>Move</strong> a song with the wheel; Rename, Duplicate, Delete; <strong>Save Queue as Playlist</strong>.</li><li><strong>Favorites</strong> with a heart: add or remove a song from its menu or from Now Playing, which shows a heart for favorites.</li><li>The file stays the playlist: changes are written back into it, so your computer sees them too. Songs the player can&#x27;t find right now (SD card out) stay in the file and come back when they&#x27;re there.</li></ul></li><li><strong>Pause and play continue at once:</strong> the player no longer restarts the song after a pause (it used to &quot;buffer&quot; for about a second, on Bluetooth and wired). After three minutes paused it rests the audio as before.</li><li><strong>Fast-forward / rewind</strong> (hold Next / Previous) no longer shows &quot;audio reconfiguration is still pending&quot;: the position runs while you hold, and the song continues from there when you let go.</li></ul>
+<p>Everything from earlier betas (keyboard, search, Radio) is included.</p>
+<h2 id="install-from-stock">Install (from stock)</h2>
+<p>You need SP Flash Tool v5.2032, a USB cable, <strong><code>Y2Linux-1.0.0-beta.6-first-install.zip</code></strong> below and the <strong>Innioasis Y2 firmware package v3.2.0</strong> from Innioasis (also your way back to stock).</p>
+<ol><li>Unpack both.</li><li>SP Flash Tool → <strong>Download Only</strong> → load <code>MT6582_Android_scatter.txt</code> <strong>from the Y2Linux zip</strong>. Exactly BOOTIMG, RECOVERY, ANDROID and USRDATA are ticked.</li><li>Click Download and connect the switched-off Y2; wait for the green tick.</li><li>Unplug and press Power: Y2Linux and Reborn start, music works.</li><li>Connect the Y2 to the computer and <strong>copy</strong> (don&#x27;t move) <code>system.img</code> from the Innioasis package onto the <strong>Firmware</strong> drive. The player takes the Wi-Fi/Bluetooth firmware from it and turns the radios on.</li></ol>
+<p>Full guide: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2FINSTALL.md">INSTALL</a> · How updates work: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2FRECOVERY-AND-UPDATES.md">Recovery and updates</a></p>
+<h2 id="known-issues-beta">Known issues (beta)</h2>
+<ul><li>Playlists and the new pause were built and tested on the computer; this is their first release on the player.</li><li>Jumping to a new place in a song still takes about a second on Bluetooth.</li><li>FM radio is planned for the next beta.</li><li>Battery life in sleep is not yet stock-like (about 9 mA vs stock 1.3 mA). The player cannot detect wired headphones yet.</li></ul>
+<h2 id="files">Files</h2>
+<ul><li><code>Y2Linux-1.0.0-beta.6-first-install.zip</code>: images, scatter files and checksums for SP Flash Tool. The data image has no SSH key (developers: <code>tools/production/first_owner.py</code>).</li><li><code>manifest.json</code>, <code>manifest.sig</code>, <code>rootfs.ext4.gz</code>, <code>bootimg.img.gz</code>, <code>recovery.img.gz</code>: the signed over-the-air update (Ed25519 key <code>platform-v1-release-20261015</code>, sequence 5600).</li><li><code>Y2Linux-1.0.0-beta.6-sources-buildroot-legal-info.tar</code> (licences, manifests, this project&#x27;s packages) and the third-party sources and Linux source linked below: corresponding sources. Our own code: Y2Linux and Y2Reborn at tag <code>baseline-57</code>.</li><li><code>SHA256SUMS</code> for the attached files.</li></ul>
+<p>Beta software: use at your own risk. Not affiliated with Innioasis or MediaTek. Details: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-6.md">Beta 6 report</a>.</p>
+<h2 id="sources-unchanged-since-an-earlier-release">Sources unchanged since an earlier release</h2>
+<ul><li><code>Y2Linux-sources-third-party-dce38ffdd9e0.tar</code> (attached to <code>baseline-52</code>), SHA-256 <code>dce38ffdd9e0a2b5adf687e95c2a67c22ca355e10c430f879630fbf0d5ea7c1a</code></li><li><code>linux-6.18.56.tar.xz</code> (attached to <code>baseline-52</code>), SHA-256 <code>4633bbda2ab95eaf2a7af4041236451d6759c72e6946265531af4b3aacefbf89</code></li></ul></article><section class="lumen-doc-related"><h2>Also useful</h2><ul class="lumen-doc-related-list"><li><a href="../../guides/reborn-y2linux-y2.html"><strong>Install guide</strong><small>Step-by-step install for Reborn (Y2Linux)</small></a></li><li><a href="baseline-207.html"><strong>Y2Linux 1.0 Beta 9.2.16</strong><small>baseline-207 · 2026-11-02</small></a></li><li><a href="baseline-206.html"><strong>Y2Linux 1.0 Beta 9.2.15</strong><small>baseline-206 · 2026-11-01</small></a></li><li><a href="baseline-205.html"><strong>Y2Linux 1.0 Beta 9.2.14</strong><small>baseline-205 · 2026-11-01</small></a></li><li><a href="baseline-204.html"><strong>Y2Linux 1.0 Beta 9.2.13</strong><small>baseline-204 · 2026-11-01</small></a></li><li><a href="baseline-203.html"><strong>Y2Linux 1.0 Beta 9.2.12</strong><small>baseline-203 · 2026-10-31</small></a></li><li><a href="baseline-202.html"><strong>Y2Linux 1.0 Beta 9.2.11</strong><small>baseline-202 · 2026-10-31</small></a></li><li><a href="baseline-201.html"><strong>Y2Linux 1.0 Beta 9.2.10</strong><small>baseline-201 · 2026-10-31</small></a></li><li><a href="baseline-199.html"><strong>Y2Linux 1.0 Beta 9.2.8</strong><small>baseline-199 · 2026-10-31</small></a></li></ul></section><p class="lumen-doc-footer-note">Notes as published by the Reborn (Y2Linux) project. Install it with Updater CE, or download it from the firmware directory.</p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../../firmware-catalog.js?v=20260803" defer></script>
+<script src="../../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../../nav.js?v=20261103brand" defer></script>
+<script src="../../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

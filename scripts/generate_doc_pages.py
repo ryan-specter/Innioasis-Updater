@@ -455,12 +455,45 @@ def resolve_asset(href: str, ctx: dict | None) -> str:
     return urllib.parse.urljoin(base, href) if base else href
 
 
+# Repo -> catalogue slug, filled in by build(), so a note that links to the
+# project's own releases can point at our release notes page instead.
+SLUG_BY_REPO: dict[str, str] = {}
+
+ASSET_LINK_RE = re.compile(r"^https?://(?:www\.)?github\.com/[^/]+/[^/]+/releases/download/", re.I)
+RELEASE_LINK_RE = re.compile(
+    r"^https?://(?:www\.)?github\.com/([^/]+/[^/]+)/releases(?:/tag/([^?#]+))?", re.I
+)
+COMPARE_LINK_RE = re.compile(r"^https?://(?:www\.)?github\.com/([^/]+/[^/]+)/compare/", re.I)
+
+
+def release_notes_href(repo: str, tag: str = "") -> str:
+    """Our own page for a project's releases."""
+    slug = SLUG_BY_REPO.get((repo or "").lower(), "")
+    if slug and tag:
+        return "%s/release-notes/%s/%s.html" % (SITE, slug, tag_slug(tag))
+    if slug:
+        return "%s/release-notes/%s/index.html" % (SITE, slug)
+    return SITE + "/release-notes/index.html"
+
+
 def resolve_link(href: str, ctx: dict | None) -> str:
     if not href:
         return "#"
     if re.match(r"^(mailto:|tel:|data:|#)", href, re.I):
         return href
     if re.match(r"^https?:", href, re.I):
+        # A release's own files are never listed here, and a link to the
+        # project's GitHub releases page becomes our release notes page.
+        if ASSET_LINK_RE.match(href):
+            return ""
+        release = RELEASE_LINK_RE.match(href)
+        if release:
+            return release_notes_href(release.group(1), urllib.parse.unquote(release.group(2) or ""))
+        # A "Full Changelog" compare link is the project's release notes by
+        # another name: send it to our release history for that software.
+        compare = COMPARE_LINK_RE.match(href)
+        if compare:
+            return release_notes_href(compare.group(1))
         nested = parse_source(href)
         if nested and nested["kind"] == "github":
             query = {"url": href}
@@ -506,6 +539,8 @@ def inline_markdown(text: str, ctx: dict | None) -> str:
     def link(match: re.Match) -> str:
         label, href, title = match.group(1), match.group(2), match.group(3)
         resolved = resolve_link(href, ctx)
+        if not resolved:
+            return label
         external = resolved.startswith("http") and "innioasis.app" not in resolved
         return '<a href="%s"%s%s>%s</a>' % (
             esc(resolved),
@@ -516,12 +551,18 @@ def inline_markdown(text: str, ctx: dict | None) -> str:
 
     text = re.sub(r"!\[([^\]]*)\]\(\s*([^\s)]+)(?:\s+&quot;([^&]*)&quot;)?\s*\)", image, text)
     text = re.sub(r"\[([^\]]+)\]\(\s*([^\s)]+)(?:\s+&quot;([^&]*)&quot;)?\s*\)", link, text)
-    text = re.sub(
-        r"(^|[\s(])(https?://[^\s<)\"]+)",
-        lambda m: '%s<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>'
-        % (m.group(1), m.group(2), m.group(2)),
-        text,
-    )
+    def autolink(match: re.Match) -> str:
+        target = resolve_link(match.group(2), ctx)
+        if not target:
+            return match.group(1) + match.group(2)
+        external = target.startswith("http") and "innioasis.app" not in target
+        return match.group(1) + '<a href="%s"%s>%s</a>' % (
+            esc(target),
+            ' target="_blank" rel="noopener noreferrer"' if external else "",
+            match.group(2),
+        )
+
+    text = re.sub(r"(^|[\s(])(https?://[^\s<)\"]+)", autolink, text)
     text = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", text)
     text = re.sub(r"__([^_]+)__", r"<strong>\1</strong>", text)
     text = re.sub(r"(^|[\s(])\*([^*\n]+)\*(?=[\s).,;:!?]|$)", r"\1<em>\2</em>", text)
@@ -798,7 +839,7 @@ HEAD = """<!doctype html>
 
 FOOT = """<div id="footer-root"></div><div id="support-toolbar-slot"></div>
 <script src="{up}firmware-catalog.js?v=20260803" defer></script>
-<script src="{up}docs-viewer.js?v=20261104tokens" defer></script>
+<script src="{up}docs-viewer.js?v=20261107silo" defer></script>
 <script src="{up}nav.js?v=20261103brand" defer></script>
 <script src="{up}site-i18n.js?v=20260830" defer></script>
 </body></html>
@@ -822,85 +863,6 @@ document.addEventListener("DOMContentLoaded", function () {
 def page(head_args: dict, main: str, up: str) -> str:
     return (HEAD.format(brand=BRAND, up=up, **head_args) + main +
             FOOT.format(up=up).replace("</body></html>", FOOT_SCRIPT))
-
-
-def mirror_download_name(item: dict, release: dict) -> str:
-    """The name a portable mirror package is saved under.
-
-    The mirror republishes each portable package under a platform name
-    (rom_windows-x64.zip), but visitors should end up with the same rom ZIP
-    name the project's own release uses, so the download carries that name.
-    """
-    names = [
-        str(asset.get("name") or "")
-        for asset in (release.get("assets") or [])
-        if re.match(r"^rom[^/]*\.zip$", str(asset.get("name") or ""), re.I)
-    ]
-    wanted = str(item.get("packageName") or "").lower()
-    for name in names:
-        if name.lower() == wanted:
-            return name
-    for name in names:
-        if re.match(r"^rom(?:_y2|_type_a)?\.zip$", name, re.I):
-            return name
-    return names[0] if names else (item.get("packageName") or "rom.zip")
-
-
-def download_rows(item: dict, release: dict, mirrored: list[dict]) -> list[dict]:
-    rows = []
-    save_as = mirror_download_name(item, release)
-    for asset in mirrored:
-        if not str(asset.get("name") or ""):
-            continue
-        rows.append({
-            "name": save_as,
-            "url": asset.get("browser_download_url") or "",
-            "size": asset.get("size") or 0,
-            "note": "Portable package · repackaged by the community mirror",
-            "primary": True,
-            "download": save_as,
-        })
-    for asset in release.get("assets") or []:
-        name = str(asset.get("name") or "")
-        if not re.search(r"\.(zip|img|apk|dmg|deb|AppImage|tar\.gz|7z)$", name, re.I):
-            continue
-        if any(row["name"] == name for row in rows):
-            continue
-        lower = name.lower()
-        if lower.startswith("rom"):
-            note = "Firmware package for Updater CE and manual flashing"
-        elif lower.endswith(".apk"):
-            note = "Android app package"
-        elif re.search(r"mac|darwin|osx", lower):
-            note = "macOS build"
-        elif re.search(r"linux|appimage|\.deb$", lower):
-            note = "Linux build"
-        elif re.search(r"win|\.exe", lower):
-            note = "Windows build"
-        else:
-            note = "Project release asset"
-        rows.append({
-            "name": name,
-            "url": asset.get("browser_download_url") or "",
-            "size": asset.get("size") or 0,
-            "note": note,
-            "primary": False,
-        })
-    return rows
-
-
-def human_size(size) -> str:
-    try:
-        value = float(size)
-    except (TypeError, ValueError):
-        return ""
-    if value <= 0:
-        return ""
-    for unit in ("B", "KB", "MB", "GB"):
-        if value < 1024 or unit == "GB":
-            return ("%d %s" % (value, unit)) if (value >= 10 or unit == "B") else ("%.1f %s" % (value, unit))
-        value /= 1024
-    return ""
 
 
 def release_version(release: dict) -> str:
@@ -930,8 +892,6 @@ def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list
         (release.get("body") or "").strip() or
         ("Release notes, downloads and the Updater CE install guide for %s %s on the Innioasis %s." % (name, version, model))
     )
-    rows = download_rows(item, release, mirrored)
-
     meta_bits = ['<span class="lumen-release-pill">%s</span>' % esc(tag)]
     if model:
         meta_bits.append("<span>%s</span>" % esc(model))
@@ -941,54 +901,18 @@ def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list
         meta_bits.append('<span class="lumen-release-pill lumen-release-pill--prerelease">Preview build</span>')
     if release.get("draft"):
         meta_bits.append('<span class="lumen-release-pill lumen-release-pill--prerelease">Draft</span>')
-    if mirrored:
-        meta_bits.append('<span class="lumen-release-pill lumen-release-pill--mirror">Portable mirror</span>')
 
     icon = item.get("icon") or ""
     icon_html = (
         '<img class="lumen-release-icon" src="%s" alt="" loading="lazy">' % esc(icon) if icon else ""
     )
 
-    download_html = []
-    if rows:
-        download_html.append('<section class="lumen-release-downloads" id="release-downloads">')
-        download_html.append("<h2>Download &amp; install</h2>")
-        for row in rows:
-            size = human_size(row["size"])
-            save_attr = (
-                ' download="%s" data-save-as="%s"' % (esc(row["download"]), esc(row["download"]))
-                if row.get("download") else " download"
-            )
-            download_html.append(
-                '<div class="lumen-download-row"><div class="lumen-download-row-main">'
-                '<span class="lumen-download-name">%s</span>'
-                '<span class="lumen-download-note">%s%s</span></div>'
-                '<a class="lumen-download-cta%s" href="%s" rel="noopener noreferrer"%s>%s</a></div>'
-                % (
-                    esc(row["name"]), esc(row["note"]), (" · " + esc(size)) if size else "",
-                    " lumen-download-cta--primary" if row["primary"] else "",
-                    esc(row["url"]), save_attr,
-                    "Download portable ZIP" if row["primary"] else "Download",
-                )
-            )
-        download_html.append(
-            '<div class="lumen-actions" style="margin-top:14px;">'
-            '<a class="lumen-button lumen-button--primary" href="%s">Get it in Updater CE</a>'
-            '%s</div>'
-            % (
-                esc(guide_href(item, up)),
-                '<span class="lumen-doc-see-more">Repackaged portable builds are served from the community mirror.</span>'
-                if mirrored else "",
-            )
-        )
-        download_html.append("</section>")
-
     body_ctx = {"repo": item.get("repo", ""), "ref": tag,
                 "raw_dir": "https://raw.githubusercontent.com/%s/%s/" % (item.get("repo", ""), tag),
                 "blob_dir": "https://github.com/%s/blob/%s/" % (item.get("repo", ""), tag)}
     notes = markdown_to_html(release.get("body") or "", body_ctx) if (release.get("body") or "").strip() else ""
     if not notes:
-        notes = '<p class="lumen-doc-status">This release has no published notes yet. The download and install links above are still valid.</p>'
+        notes = '<p class="lumen-doc-status">This release has no published notes yet. Install it with Updater CE, or from the firmware directory.</p>'
 
     related = []
     post_install = item.get("post_install") or item.get("post_install2") or ""
@@ -1003,11 +927,6 @@ def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list
                 up, esc(item["slug"]), esc(item["slug"]),
                 (' data-post-install2="%s"' % esc(post_install2)) if post_install2 else "",
             )
-        )
-    elif post_install:
-        related.append(
-            "<li><a href=\"%s\"><strong>Post-install setup</strong><small>The project's own setup guide</small></a></li>"
-            % esc(post_install)
         )
     if item.get("guide") or item.get("seoPage"):
         related.append(
@@ -1035,14 +954,14 @@ def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list
         '<div class="lumen-release-head">%s<div class="lumen-release-titles">' % icon_html,
         '<p class="lumen-kicker">Firmware release notes · %s%s</p>' % (esc(name), (" · " + esc(model)) if model else ""),
         "<h1>%s</h1></div></div>" % esc(title),
-        '<p class="lumen-lead">%s</p>' % esc(item.get("description") or "What changed in this release, and where to download it."),
+        '<p class="lumen-lead">%s</p>' % esc(item.get("description") or "What changed in this release, and how to install it."),
         '<div class="lumen-release-tag-row">%s</div>' % "".join(meta_bits),
         '<div class="lumen-doc-actions">',
-        ('<a class="lumen-button lumen-button--primary" href="#release-downloads">Download this release</a>' if rows else ""),
+        '<a class="lumen-button lumen-button--primary" href="%s">Get it in Updater CE</a>'
+        % esc(guide_href(item, up)),
         '<a class="lumen-button" href="%sfirmware.html?model=%s&amp;software=%s">Firmware Downloads</a>'
         % (up, esc(model), esc(item["slug"])),
         "</div></header>",
-        "".join(download_html),
         '<article class="lumen-doc-body lumen-release-body">%s</article>' % notes,
     ]
     if related:
@@ -1051,8 +970,8 @@ def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list
             '<ul class="lumen-doc-related-list">%s</ul></section>' % "".join(related)
         )
     main.append(
-        '<p class="lumen-doc-footer-note">Notes as published by the %s project, '
-        "with the same downloads and install steps offered in Updater CE.</p>"
+        '<p class="lumen-doc-footer-note">Notes as published by the %s project. '
+        "Install it with Updater CE, or download it from the firmware directory.</p>"
         % esc(name)
     )
     main.append("</main>")
@@ -1162,7 +1081,6 @@ def post_install_page(item: dict, source: dict, markdown: str, release_tags: lis
     canonical = "%s/post-install/%s.html" % (SITE, item["slug"])
     body = markdown_to_html(markdown, source)
     description = one_line(markdown, 170) or ("Post-install setup instructions for %s on the Innioasis %s." % (name, model))
-    source_link = source.get("blob_url", "") + source.get("anchor", "")
     latest = release_tags[0] if release_tags else ""
 
     main = (
@@ -1171,21 +1089,18 @@ def post_install_page(item: dict, source: dict, markdown: str, release_tags: lis
         '<header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · %s%s</p>'
         "<h1>%s</h1>"
         '<p class="lumen-lead">%s</p>'
-        '<p class="lumen-doc-source">Instructions published by the project%s</p>'
+        '<p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p>'
         '<div class="lumen-doc-actions">'
         '<a class="lumen-button lumen-button--primary" href="%srelease-notes/%s/%s.html">Firmware Downloads →</a>'
         '<a class="lumen-button" href="%s">Install guide</a>'
-        '<a class="lumen-doc-see-more" href="%s" target="_blank" rel="noopener noreferrer">See the original source ↗</a>'
         "</div></header>"
         '<article class="lumen-doc-body">%s</article>'
-        '<p class="lumen-doc-footer-note">These are %s\'s own instructions, shown word for word. '
-        "Links inside them open the project's own pages.</p></main>"
+        '<p class="lumen-doc-footer-note">These are %s\'s own instructions, shown here word for word.</p></main>'
         % (
             up, esc(model), esc(item["slug"]), esc(name), (" · " + esc(model)) if model else "",
             esc(title), esc(item.get("description") or "The steps the project asks you to finish after the firmware is installed."),
-            (" · <code>%s</code>" % esc(source.get("path", ""))) if source.get("path") else "",
             up, esc(item["slug"]), esc(tag_slug(latest)),
-            esc(guide_href(item, up)), esc(source_link), body, esc(name),
+            esc(guide_href(item, up)), body, esc(name),
         )
     )
     return page({
@@ -1241,6 +1156,10 @@ def build(refresh: bool = False) -> None:
     catalog = load_catalog()
     manifest = load_manifest()
     software = build_software(catalog, manifest)
+    SLUG_BY_REPO.clear()
+    for entry in software:
+        if entry.get("repo"):
+            SLUG_BY_REPO[entry["repo"].lower()] = entry["slug"]
     mirror = mirror_index(refresh=refresh)
     print("software entries: %d" % len(software))
 

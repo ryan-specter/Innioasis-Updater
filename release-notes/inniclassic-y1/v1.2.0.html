@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>InniClassic 1.2.0 - Innioasis Updater</title>
+  <meta name="description" content="Video playback, gapless playback, and a full visual consistency pass across every screen. Added - Video playback - new "Videos" entry in the Main Menu, its own folder on the SD car">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/release-notes/inniclassic-y1/v1.2.0.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="InniClassic 1.2.0 - Innioasis Updater">
+  <meta property="og:description" content="Video playback, gapless playback, and a full visual consistency pass across every screen. Added - Video playback - new "Videos" entry in the Main Menu, its own folder on the SD car">
+  <meta property="og:url" content="https://innioasis.app/release-notes/inniclassic-y1/v1.2.0.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="InniClassic 1.2.0 - Innioasis Updater">
+  <meta name="twitter:description" content="Video playback, gapless playback, and a full visual consistency pass across every screen. Added - Video playback - new "Videos" entry in the Main Menu, its own folder on the SD car">
+  <link rel="icon" href="../../y1_illustration.png">
+  <link rel="stylesheet" href="../../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../../docs-viewer.css?v=20261103docs">
+  <script src="../../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page lumen-release-page"><p class="lumen-doc-back"><a href="../../firmware.html?model=Y1&amp;software=inniclassic-y1">← Firmware Downloads</a></p><header class="lumen-doc-head"><div class="lumen-release-head"><div class="lumen-release-titles"><p class="lumen-kicker">Firmware release notes · Inniclassic · Y1</p><h1>InniClassic 1.2.0</h1></div></div><p class="lumen-lead">A classic-style Y1 Software.</p><div class="lumen-release-tag-row"><span class="lumen-release-pill">v1.2.0</span><span>Y1</span><span>2026-07-27</span></div><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../../guide.html?model=Y1&amp;software=inniclassic-y1">Get it in Updater CE</a><a class="lumen-button" href="../../firmware.html?model=Y1&amp;software=inniclassic-y1">Firmware Downloads</a></div></header><article class="lumen-doc-body lumen-release-body"><p>Video playback, gapless playback, and a full visual consistency pass across every screen.</p>
+<h3 id="added">Added</h3>
+<ul><li><strong>Video playback</strong> - new &quot;Videos&quot; entry in the Main Menu, its own folder on the SD card (<code>/storage/sdcard0/Videos</code>), full-screen player with wheel-driven volume/seek. <strong>Now powered by libVLC instead of ExoPlayer</strong> - ExoPlayer&#x27;s precise frame-timing API only exists from Android API 21 onward, and its fallback for older devices turned out to be broken on the Y1&#x27;s API 17 (audio and the position clock stayed correct, but picture played back several times faster than real time). libVLC brings its own native AV-sync engine independent of that Android API, giving stable, correctly-synced playback. Audio-only playback is untouched and still runs on ExoPlayer. Thumbnails in the video list and resume-position are still unaddressed for now - see <code>tools/handbrake_y1_preset.json</code> for a ready-to-import HandBrake preset tuned for smooth playback on the Y1&#x27;s chip.</li><li><strong>Gapless playback</strong> - automatically kicks in for albums/playlists of 15 tracks or fewer, with shuffle off and no FLAC in the queue. Track transitions inside a gapless queue no longer stop and reload.</li><li><strong>Favorites are always visible now</strong> on Now Playing - hollow heart normally, filled red heart when favorited, instead of nothing at all unless already a favorite.</li></ul>
+<h3 id="changed">Changed</h3>
+<ul><li>Unified font sizes, left alignment, and row spacing across every menu (Main Menu, Music menu, Artists, Albums, Songs, Settings/Bluetooth/Wi-Fi).</li><li>Right-arrow indicator now only shows on the focused row, everywhere.</li><li>Thinner status bar matching real iPod proportions; narrows to the left column on both Main Menu and Music menu so the album cover bleeds behind it.</li><li>Main Menu and Music menu covers now share the exact same slow &quot;Ken Burns&quot; panning animation.</li><li>Bigger Now Playing album cover, bolder track counter, marquee-scrolling long titles, glass-look progress bar.</li><li>Larger album cover thumbnails in the Albums list.</li></ul>
+<h3 id="fixed">Fixed</h3>
+<ul><li>Focus arrow color was theme-dependent instead of fixed white.</li><li>A recycled list row&#x27;s blue focused background could get incorrectly reset regardless of actual focus state.</li><li>Now Playing&#x27;s progress ticker and the clock/widget refresh loop kept doing full work every 0.5-1s even when not visible (or during virtual screen-off) - both now sit idle unless actually needed. Should help battery life.</li></ul>
+<h3 id="install">Install</h3>
+<ul><li><strong><code>rom.zip</code></strong> - flash via the <a href="https://www.innioasis.com/pages/download" target="_blank" rel="noopener noreferrer">Innioasis Updater</a>, no ADB required. Must keep the filename exactly <code>rom.zip</code>.</li><li><strong><code>InniClassic-1.2.0.apk</code></strong> - install over an existing JJ Launcher / InniClassic install via <code>adb install InniClassic-1.2.0.apk</code>.</li></ul>
+<p>Full changelog: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FFabianZettl%2Finniclassic%2Fblob%2Fmaster%2FCHANGELOG.md">https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md</a></p></article><section class="lumen-doc-related"><h2>Also useful</h2><ul class="lumen-doc-related-list"><li><a href="../../guides/inniclassic-y1.html"><strong>Install guide</strong><small>Step-by-step install for Inniclassic</small></a></li><li><a href="v1.4.5.html"><strong>InniClassic 1.4.5</strong><small>v1.4.5 · 2026-09-29</small></a></li><li><a href="v1.4.4.html"><strong>InniClassic 1.4.4</strong><small>v1.4.4 · 2026-09-29</small></a></li><li><a href="v1.4.3.html"><strong>InniClassic 1.4.3</strong><small>v1.4.3 · 2026-09-22</small></a></li><li><a href="v1.4.2.html"><strong>InniClassic 1.4.2</strong><small>v1.4.2 · 2026-09-02</small></a></li><li><a href="v1.4.1.html"><strong>InniClassic 1.4.1</strong><small>v1.4.1 · 2026-08-28</small></a></li><li><a href="v1.3.2.html"><strong>InniClassic 1.3.2</strong><small>v1.3.2 · 2026-08-19</small></a></li><li><a href="v1.3.1.html"><strong>InniClassic 1.3.1</strong><small>v1.3.1 · 2026-08-03</small></a></li><li><a href="v1.3.0.html"><strong>InniClassic 1.3.0</strong><small>v1.3.0 · 2026-07-29</small></a></li></ul></section><p class="lumen-doc-footer-note">Notes as published by the Inniclassic project. Install it with Updater CE, or download it from the firmware directory.</p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../../firmware-catalog.js?v=20260803" defer></script>
+<script src="../../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../../nav.js?v=20261103brand" defer></script>
+<script src="../../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

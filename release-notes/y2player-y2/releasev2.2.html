@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Player V2.2 - Innioasis Updater</title>
+  <meta name="description" content="Y2Player v2.2 - Interface Redesign, Audiobooks, and Library Browsing Version 2.1 focused on the library scanner and media engine. Version 2.2 is all about the user experience. The">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/release-notes/y2player-y2/releasev2.2.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Player V2.2 - Innioasis Updater">
+  <meta property="og:description" content="Y2Player v2.2 - Interface Redesign, Audiobooks, and Library Browsing Version 2.1 focused on the library scanner and media engine. Version 2.2 is all about the user experience. The">
+  <meta property="og:url" content="https://innioasis.app/release-notes/y2player-y2/releasev2.2.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Player V2.2 - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Player v2.2 - Interface Redesign, Audiobooks, and Library Browsing Version 2.1 focused on the library scanner and media engine. Version 2.2 is all about the user experience. The">
+  <link rel="icon" href="../../y1_illustration.png">
+  <link rel="stylesheet" href="../../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../../docs-viewer.css?v=20261103docs">
+  <script src="../../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page lumen-release-page"><p class="lumen-doc-back"><a href="../../firmware.html?model=Y2&amp;software=y2player-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><div class="lumen-release-head"><div class="lumen-release-titles"><p class="lumen-kicker">Firmware release notes · Y2Player · Y2</p><h1>Y2Player V2.2</h1></div></div><p class="lumen-lead">A Y2 custom Software.</p><div class="lumen-release-tag-row"><span class="lumen-release-pill">ReleaseV2.2</span><span>Y2</span><span>2026-08-01</span></div><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../../guide.html?model=Y2&amp;software=y2player-y2">Get it in Updater CE</a><a class="lumen-button" href="../../firmware.html?model=Y2&amp;software=y2player-y2">Firmware Downloads</a></div></header><article class="lumen-doc-body lumen-release-body"><h1 id="y2player-v22---interface-redesign-audiobooks-and-library-browsing">Y2Player v2.2 - Interface Redesign, Audiobooks, and Library Browsing</h1>
+<p>Version 2.1 focused on the library scanner and media engine. Version 2.2 is all about the user experience. The biggest additions are proper audiobook support and a redesigned menu system, alongside improvements to artist and album browsing, confirmation prompts for destructive actions, and a cleanup of comments throughout the codebase.</p>
+<h2 id="row-icons">Row Icons</h2>
+<p>Menus now use a much larger and more consistent icon set, with 47 icons in total.</p>
+<p>These aren&#x27;t image assets. Every icon is drawn using strokes on a single shared <code>Path</code> and <code>RectF</code>, both of which are reused for every menu row. Nothing is decoded, cached, or allocated while scrolling, so the new icons come at essentially no runtime cost.</p>
+<h2 id="audiobooks">Audiobooks</h2>
+<p>Audiobooks are now a dedicated section on the main menu instead of something you have to reach through the folder browser.</p>
+<p>Any audio files stored inside a folder named <code>AUDIOBOOKS</code> are automatically grouped into books. Common folder names such as <code>Disc 1</code>, <code>CD2</code>, or <code>Part 3</code> are collapsed into the parent book, so multi-disc audiobooks appear as a single entry.</p>
+<p>Each audiobook now has its own menu with:</p>
+<ul><li>Chapters</li><li>Start from Beginning</li><li>Clear Progress</li></ul>
+<p>When clearing progress, the player tells you exactly which chapter&#x27;s position will be forgotten and asks for confirmation before doing so.</p>
+<h2 id="menu-ordering">Menu Ordering</h2>
+<p>Almost every menu has been reorganized with one simple goal: the options you use most often are now at the top, while reference and maintenance screens are moved toward the bottom.</p>
+<ul><li><strong>Settings</strong> now opens with Bluetooth, followed by Audio, Interface, Library, and System.</li><li><strong>Music</strong> starts with Shuffle All and Songs, followed by Albums, Artists, Playlists, and finally Folders.</li><li><strong>System</strong> now ends with About, with Diagnostics and Reset placed just above it.</li><li><strong>Now Playing</strong> opens with Shuffle, Repeat, and Queue so the playback controls are immediately visible.</li><li><strong>Track Options</strong> now begin with Play Next and Add to Queue instead of Browse Track and Track Details.</li></ul>
+<p>Destructive actions have also been moved beneath the actions they&#x27;re related to. For example:</p>
+<ul><li>Clear Progress is below Start from Beginning.</li><li>Remove is below Play Now.</li><li>Reset sits just above About.</li></ul>
+<p>Several menu labels were also shortened to fit the Y2&#x27;s 480-pixel display more comfortably.</p>
+<ul><li>Previous Restarts Track → Previous Button</li><li>Hold Seek Step → Seek Step When Held</li><li>Import/Export M3U Playlists → Import/Export Playlists</li><li>Sound Effects (toggle) → Audio Effects</li></ul>
+<p>The Favorite menu item now keeps a fixed title, with its enabled state shown in the subtitle. This matches how Shuffle, Repeat, and Theme already behave and prevents the label from constantly changing length.</p>
+<h2 id="confirmation-for-irreversible-actions">Confirmation for Irreversible Actions</h2>
+<p>Y2Player has six actions that cannot be undone:</p>
+<ul><li>Forget Bluetooth Device</li><li>Clear Audiobook Progress</li><li>Clear Queue</li><li>Reset Library</li><li>Clear Listening History</li><li>Delete Playlist</li></ul>
+<p>Previously, Delete Playlist, Clear History, and Clear Queue executed immediately with a single button press.</p>
+<p>All six actions now use the same confirmation screen. The confirmation clearly states what will happen, and <strong>Cancel</strong> is selected by default so the destructive option is never under the cursor when the dialog opens.</p>
+<p>A static validation also ensures these six operations can only be triggered through their confirmation screens, preventing future changes from accidentally introducing a one-click destructive action.</p>
+<h2 id="artist-and-album-browsing">Artist and Album Browsing</h2>
+<p>Artist and album browsing has been completely reworked to properly support featured artists.</p>
+<p>Previously, albums were grouped using the raw <code>artist</code> tag, even though the <code>albumArtist</code> tag was already scanned, stored in the database, and available. It simply wasn&#x27;t being used.</p>
+<p>For example, if one song on an album was tagged as <code>Daft Punk feat. Pharrell Williams</code>, the player would:</p>
+<ul><li>create a separate artist entry named <code>Daft Punk feat. Pharrell Williams</code>;</li><li>show only twelve tracks instead of thirteen under Daft Punk;</li><li>completely hide the featured track when opening the album through the artist view.</li></ul>
+<p>Albums are now grouped using the <code>albumArtist</code> tag first, which is exactly what it was designed for. Albums and compilations remain intact without relying on fragile string parsing.</p>
+<p>Featured artists are then added separately using a conservative parser. It only splits on explicit feature markers:</p>
+<ul><li><code>feat.</code></li><li><code>feat</code></li><li><code>ft.</code></li><li><code>ft</code></li><li><code>featuring</code></li><li>bracketed <code>with</code></li></ul>
+<p>Each marker is matched as a complete word. It intentionally ignores characters like <code>&amp;</code>, <code>,</code>, and <code>+</code> because they appear in legitimate artist names such as Simon &amp; Garfunkel, Earth, Wind &amp; Fire, and Florence + the Machine. A plain <code>with</code> is also ignored to avoid incorrectly splitting names like Sleeping with Sirens.</p>
+<p>Since the Y2 has no built-in tag editor, preserving existing metadata is much safer than trying to aggressively interpret it.</p>
+<p>The end result is:</p>
+<ul><li>featured artists now appear in their own artist entries;</li><li>selecting that artist shows the albums they appear on, with the album&#x27;s primary artist displayed underneath;</li><li>opening the album shows only the tracks they contributed to.</li></ul>
+<p>The full artist credit is still shown on the Now Playing screen, notifications, and in exported M3U playlists.</p>
+<p><code>Various Artists</code> is no longer treated as a standalone artist. Only performers that actually appear on individual tracks receive their own artist entry.</p>
+<h2 id="collection-shuffle">Collection Shuffle</h2>
+<p>Version 2.1 introduced per-collection Shuffle actions for Songs, Favorites, Recently Played, artists, and playlists.</p>
+<p>Albums now support this as well, with a Shuffle option automatically added as the first row whenever an album contains more than one track. Single-track albums do not display the option since shuffling would have no effect.</p>
+<h2 id="additional-metadata">Additional Metadata</h2>
+<p>A new <strong>Additional Metadata</strong> option has also been added to Settings.</p>
+<p>When enabled, Y2Player displays extra information throughout the interface where available, providing more detailed information about your music library without affecting the default, cleaner layout for users who prefer it.</p>
+<h2 id="navigation">Navigation</h2>
+<p>Pressing and holding the Play/Pause button from anywhere within the menus now jumps directly back to the Now Playing screen.</p>
+<h2 id="scrobble">Scrobble</h2>
+<p>Y2Player can now export your listening history, making it easy to keep a record of the tracks you&#x27;ve played.</p></article><section class="lumen-doc-related"><h2>Also useful</h2><ul class="lumen-doc-related-list"><li><a href="../../guides/y2player-y2.html"><strong>Install guide</strong><small>Step-by-step install for Y2Player</small></a></li><li><a href="release2.5.html"><strong>Y2Player V2.5</strong><small>Release2.5 · 2026-09-04</small></a></li><li><a href="releasev2.3.html"><strong>Y2Player V2.3</strong><small>ReleaseV2.3 · 2026-08-15</small></a></li><li><a href="realeasev2.2.2.html"><strong>Y2Player V2.2.2</strong><small>RealeaseV2.2.2 · 2026-08-10</small></a></li><li><a href="releasev2.2.1.html"><strong>Y2Player V2.2.1 </strong><small>ReleaseV2.2.1 · 2026-08-03</small></a></li><li><a href="releasev2.1.html"><strong>Y2Player V2.1</strong><small>ReleaseV2.1 · 2026-07-29</small></a></li><li><a href="releasev2.0.html"><strong>Y2Player 2.0 Complete Media Engine Rewrite</strong><small>ReleaseV2.0 · 2026-07-27</small></a></li><li><a href="releasev1.2.html"><strong>Y2Player V1.2</strong><small>ReleaseV1.2 · 2026-07-26</small></a></li></ul></section><p class="lumen-doc-footer-note">Notes as published by the Y2Player project. Install it with Updater CE, or download it from the firmware directory.</p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../../firmware-catalog.js?v=20260803" defer></script>
+<script src="../../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../../nav.js?v=20261103brand" defer></script>
+<script src="../../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

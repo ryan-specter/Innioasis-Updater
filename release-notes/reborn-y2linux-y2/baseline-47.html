@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux Baseline 47 - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux Baseline 47 — fixes the dark screen while an update installs. Install over Wi-Fi: Settings → About & Updates → Check for Updates → Download Update → Restart and Install cha">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/release-notes/reborn-y2linux-y2/baseline-47.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux Baseline 47 - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux Baseline 47 — fixes the dark screen while an update installs. Install over Wi-Fi: Settings → About & Updates → Check for Updates → Download Update → Restart and Install cha">
+  <meta property="og:url" content="https://innioasis.app/release-notes/reborn-y2linux-y2/baseline-47.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux Baseline 47 - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux Baseline 47 — fixes the dark screen while an update installs. Install over Wi-Fi: Settings → About & Updates → Check for Updates → Download Update → Restart and Install cha">
+  <link rel="icon" href="../../y1_illustration.png">
+  <link rel="stylesheet" href="../../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../../docs-viewer.css?v=20261103docs">
+  <script src="../../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page lumen-release-page"><p class="lumen-doc-back"><a href="../../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><div class="lumen-release-head"><div class="lumen-release-titles"><p class="lumen-kicker">Firmware release notes · Reborn (Y2Linux) · Y2</p><h1>Y2Linux Baseline 47</h1></div></div><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><div class="lumen-release-tag-row"><span class="lumen-release-pill">baseline-47</span><span>Y2</span><span>2026-10-14</span></div><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Get it in Updater CE</a><a class="lumen-button" href="../../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads</a></div></header><article class="lumen-doc-body lumen-release-body"><p>Y2Linux Baseline 47 — fixes the dark screen while an update installs.</p>
+<p>Install over Wi-Fi: Settings → About &amp; Updates → Check for Updates → Download Update → <strong>Restart and Install</strong> (charger or at least half a battery).</p>
+<ul><li>The display&#x27;s DSI clock gating stays off. With it, the display controller could answer register reads one register late after start-up, so the first picture never started (seen on the installer screen and once at a cold start). No battery cost: the DSI only runs while the screen is on.</li><li>The recovery probe (<code>y2-platform update probe-recovery</code>) restarts into the installer screen and back, like an install.</li></ul>
+<p>Kernel <code>6.18.56-y2linux-platform-v1-power-final-47</code>, release <code>1.0.0-platform-v1-power-final-candidate.47</code>, update sequence 4700. Assets: <code>manifest.json</code> + <code>manifest.sig</code> (Ed25519, key <code>platform-v1-release-20261015</code>) and the three payloads pinned by SHA-256. Developer preview.</p>
+<hr>
+<p><strong>Note (2026-10-16):</strong> the system image (<code>rootfs.ext4.gz</code>) was removed from this release because it contained proprietary MediaTek radio firmware that may not be redistributed. Use Baseline 49 or later; their images contain no firmware.</p></article><section class="lumen-doc-related"><h2>Also useful</h2><ul class="lumen-doc-related-list"><li><a href="../../guides/reborn-y2linux-y2.html"><strong>Install guide</strong><small>Step-by-step install for Reborn (Y2Linux)</small></a></li><li><a href="baseline-207.html"><strong>Y2Linux 1.0 Beta 9.2.16</strong><small>baseline-207 · 2026-11-02</small></a></li><li><a href="baseline-206.html"><strong>Y2Linux 1.0 Beta 9.2.15</strong><small>baseline-206 · 2026-11-01</small></a></li><li><a href="baseline-205.html"><strong>Y2Linux 1.0 Beta 9.2.14</strong><small>baseline-205 · 2026-11-01</small></a></li><li><a href="baseline-204.html"><strong>Y2Linux 1.0 Beta 9.2.13</strong><small>baseline-204 · 2026-11-01</small></a></li><li><a href="baseline-203.html"><strong>Y2Linux 1.0 Beta 9.2.12</strong><small>baseline-203 · 2026-10-31</small></a></li><li><a href="baseline-202.html"><strong>Y2Linux 1.0 Beta 9.2.11</strong><small>baseline-202 · 2026-10-31</small></a></li><li><a href="baseline-201.html"><strong>Y2Linux 1.0 Beta 9.2.10</strong><small>baseline-201 · 2026-10-31</small></a></li><li><a href="baseline-199.html"><strong>Y2Linux 1.0 Beta 9.2.8</strong><small>baseline-199 · 2026-10-31</small></a></li></ul></section><p class="lumen-doc-footer-note">Notes as published by the Reborn (Y2Linux) project. Install it with Updater CE, or download it from the firmware directory.</p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../../firmware-catalog.js?v=20260803" defer></script>
+<script src="../../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../../nav.js?v=20261103brand" defer></script>
+<script src="../../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

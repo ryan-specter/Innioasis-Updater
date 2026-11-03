@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Player V2.5 - Innioasis Updater</title>
+  <meta name="description" content="Y2Player v2.5 - Search, FM Radio, Faster Navigation, and Playback Reliability Version 2.5 brings whole-device search, FM radio support for compatible Y2 hardware, faster navigation">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/release-notes/y2player-y2/release2.5.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Player V2.5 - Innioasis Updater">
+  <meta property="og:description" content="Y2Player v2.5 - Search, FM Radio, Faster Navigation, and Playback Reliability Version 2.5 brings whole-device search, FM radio support for compatible Y2 hardware, faster navigation">
+  <meta property="og:url" content="https://innioasis.app/release-notes/y2player-y2/release2.5.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Player V2.5 - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Player v2.5 - Search, FM Radio, Faster Navigation, and Playback Reliability Version 2.5 brings whole-device search, FM radio support for compatible Y2 hardware, faster navigation">
+  <link rel="icon" href="../../y1_illustration.png">
+  <link rel="stylesheet" href="../../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../../docs-viewer.css?v=20261103docs">
+  <script src="../../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page lumen-release-page"><p class="lumen-doc-back"><a href="../../firmware.html?model=Y2&amp;software=y2player-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><div class="lumen-release-head"><div class="lumen-release-titles"><p class="lumen-kicker">Firmware release notes · Y2Player · Y2</p><h1>Y2Player V2.5</h1></div></div><p class="lumen-lead">A Y2 custom Software.</p><div class="lumen-release-tag-row"><span class="lumen-release-pill">Release2.5</span><span>Y2</span><span>2026-09-04</span></div><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../../guide.html?model=Y2&amp;software=y2player-y2">Get it in Updater CE</a><a class="lumen-button" href="../../firmware.html?model=Y2&amp;software=y2player-y2">Firmware Downloads</a></div></header><article class="lumen-doc-body lumen-release-body"><h1 id="y2player-v25---search-fm-radio-faster-navigation-and-playback-reliability">Y2Player v2.5 - Search, FM Radio, Faster Navigation, and Playback Reliability</h1>
+<p>Version 2.5 brings whole-device search, FM radio support for compatible Y2 hardware, faster navigation through large libraries, more flexible sleep-timer controls, and a redesigned equalizer interface.</p>
+<p>This release also addresses several reported problems involving screen-off playback, shuffle ordering, audiobook seeking, queue controls, embedded artwork, list wrapping, and general navigation.</p>
+<h2 id="whole-device-search">Whole-Device Search</h2>
+<p>Search is now available directly from the main menu.</p>
+<p>The new wheel-driven QWERTY keyboard searches across:</p>
+<ul><li>Songs</li><li>Albums</li><li>Artists</li><li>Playlists</li><li>Audiobooks</li></ul>
+<p>Track searches include title, artist, album, filename, genre, and composer metadata. Matching is accent-insensitive and supports multiple search terms, with exact and prefix matches ranked first.</p>
+<p>Search results reuse the existing playback and browsing flows. Tracks can be played or opened through their context menus, while albums, artists, playlists, and audiobooks open their corresponding library views.</p>
+<p>The interface was designed for the Y2’s 480 × 360 display:</p>
+<ul><li>The keyboard remains visible at the bottom of the screen.</li><li>Two complete result rows remain visible above it.</li><li>The wheel moves through keys in QWERTY order.</li><li>Left and Right move within the current keyboard row.</li><li>Center enters the selected key.</li><li>Back deletes the previous character.</li><li>The Results key moves focus to the matching items.</li><li>Direct touch works on both keyboard keys and results.</li><li>Playback controls are suppressed while typing to prevent accidental track changes.</li></ul>
+<p>Search also has separate instructions before typing and a dedicated message when no results are found.</p>
+<p>To keep it responsive with large libraries, searchable metadata is indexed once per active library. Recent queries are cached, and only the best 100 results are retained. In a synthetic 10,000-track benchmark, ordinary indexed queries completed in approximately 2–5 ms, while cached queries completed in approximately 0.02 ms.</p>
+<h2 id="fm-radio">FM Radio</h2>
+<p>Y2Player now includes support for the MediaTek MT6627 FM tuner found in newer FM-equipped Y2 hardware revisions.</p>
+<p>The FM Radio interface supports:</p>
+<ul><li>Wheel-controlled frequency tuning</li><li>Previous and next station seeking</li><li>Frequency and signal information</li><li>Wired-headphone antenna detection</li><li>Tuner power control</li><li>Safe switching between music playback and FM audio</li><li>Proper tuner cleanup when leaving the FM screen</li></ul>
+<h3 id="important-y2-hardware-notice">Important Y2 Hardware Notice</h3>
+<p>Innioasis has confirmed that there are two Y2 hardware revisions.</p>
+<p>The original Y2 batch does not contain the required FM radio hardware. These devices may be able to open the FM interface and tune frequencies, but they cannot receive a usable radio signal and will normally output only static.</p>
+<p>Newer Y2 units include the required FM circuitry and use the FM-enabled stock firmware.</p>
+<p>Because many existing Y2 devices cannot receive FM, the FM Radio entry is hidden by default. Owners of compatible newer hardware can enable it under:</p>
+<p>Settings → Interface → FM Radio</p>
+<p>Flashing FM-enabled stock firmware cannot add the missing tuner circuitry to an original Y2. FM reception depends on the physical hardware revision, not only the installed firmware.</p>
+<h2 id="faster-alphabet-navigation">Faster Alphabet Navigation</h2>
+<p>Large alphabetically sorted libraries now support iPod-style alphabet scrolling.</p>
+<p>Normal and moderately fast wheel movement retain the existing precise scrolling behavior. Sustained fast movement activates an alphabet scrub mode with a large temporary <code>#</code> or <code>A–Z</code> overlay.</p>
+<p>Alphabet scrolling is available where the visible order is genuinely alphabetical, including supported:</p>
+<ul><li>Song lists</li><li>Favorites</li><li>Artists</li><li>Albums sorted by title</li><li>Playlists</li><li>Filtered library views</li></ul>
+<p>It remains disabled for album track order, Recently Played, chronologically sorted albums, Queue, folders, settings, confirmation screens, and circular menus.</p>
+<p>The first position for each letter is indexed once per visible list, so moving through a large library does not repeatedly scan every row.</p>
+<h2 id="improved-sleep-timer">Improved Sleep Timer</h2>
+<p>The sleep timer now opens a dedicated wheel-controlled selection screen instead of cycling through a small number of presets.</p>
+<p>Available choices include:</p>
+<ul><li>Off</li><li>End of track</li><li>End of album</li><li>End of queue</li><li>Every exact duration from 1 through 60 minutes</li></ul>
+<p>Reopening the Sleep Timer screen returns to the currently selected option.</p>
+<p>Active minute timers now show a live remaining-time countdown throughout the interface. Expired timers are cleared correctly instead of remaining visibly enabled after playback stops.</p>
+<p>End of Album and End of Queue follow the active playback collection and queue rather than using an approximate duration.</p>
+<h2 id="more-reliable-screen-off-playback">More Reliable Screen-Off Playback</h2>
+<p>Y2Player now holds a service-level playback wake lock throughout Preparing and Playing.</p>
+<p>Previously, the decoder-level wake lock could be released during the brief asynchronous handoff between one completed track and the next. If the display was asleep at that exact moment, Android could suspend the CPU before the service completed the transition.</p>
+<p>The new ownership closes that gap while still releasing the wake lock when playback is:</p>
+<ul><li>Paused</li><li>Idle</li><li>Stopped</li><li>In an error state</li><li>Shutting down</li></ul>
+<p>This fixes playback potentially stopping at the end of a track until the screen was turned back on.</p>
+<h2 id="optional-seeking-while-locked">Optional Seeking While Locked</h2>
+<p>A new option allows the Y2’s Left and Right buttons to seek while the device is locked instead of changing tracks or audiobook chapters.</p>
+<p>It can be enabled under:</p>
+<p>Settings → Audio → Seeking → Seek When Locked</p>
+<p>When enabled, Left and Right use the configured held-seek interval. The option is disabled by default, and headset or Bluetooth transport controls retain their normal behavior.</p>
+<h2 id="wake-up-seek-fix">Wake-Up Seek Fix</h2>
+<p>A separate input-routing fix prevents a held seek button from being interpreted as multiple Previous or Next commands when the display wakes.</p>
+<p>When the unlocked activity is visible, it now has exclusive ownership of local keypad gestures. The vendor broadcast remains available as a screen-off fallback, while genuine headset and Bluetooth media commands remain unaffected.</p>
+<p>This is particularly useful for audiobooks, where an interrupted seek could previously skip several chapters.</p>
+<h2 id="correct-playback-order-after-disabling-shuffle">Correct Playback Order After Disabling Shuffle</h2>
+<p>Disabling Shuffle now rebuilds the ordered continuation around the currently playing track.</p>
+<p>Previously, turning Shuffle off after progressing through a playlist could restart or incorrectly arrange the remaining ordered playback.</p>
+<p>The corrected behavior:</p>
+<ul><li>Keeps the current track active.</li><li>Restores the remaining playlist or collection order.</li><li>Preserves deliberately added Up Next tracks.</li><li>Keeps those Up Next entries ahead of the restored continuation.</li><li>Handles the final track and progressed shuffle sessions correctly.</li></ul>
+<h2 id="queue-control-fixes">Queue Control Fixes</h2>
+<p>Center-button behavior in Queue now matches other track lists.</p>
+<p>A short Center press opens the selected queue entry’s action menu. Holding Center uses the corresponding long-press behavior without accidentally performing both actions.</p>
+<p>This removes inconsistent behavior where Queue treated Center differently from Songs and other track views.</p>
+<h2 id="redesigned-equalizer-controls">Redesigned Equalizer Controls</h2>
+<p>Equalizer configuration has been redesigned around explicit wheel-controlled selection screens.</p>
+<p>Preset selection now displays a complete list instead of cycling blindly through available presets. The list includes Custom whenever individual band values are active.</p>
+<p>Selecting an equalizer band opens a dedicated dB value screen:</p>
+<ul><li>The current value is preselected.</li><li>Values use valid 1 dB steps within the range reported by the device.</li><li>Exact minimum and maximum values remain available.</li><li>Center applies the selected value and returns.</li><li>Back cancels without changing the band.</li><li>Left and Right retain their normal global playback behavior.</li></ul>
+<p>This replaces the previous short-press and long-press band adjustment system, making the current and resulting values much clearer.</p>
+<h2 id="consistent-list-wrapping">Consistent List Wrapping</h2>
+<p>The Wrap Lists preference is now respected across all selectable screens.</p>
+<p>It applies consistently to:</p>
+<ul><li>Library lists</li><li>Settings</li><li>Confirmation choices</li><li>Equalizer selectors</li><li>Circular action menus</li><li>Search keyboard navigation</li></ul>
+<p>When Wrap Lists is disabled, selection stops at the beginning and end. When enabled, selection continues from the final item to the first and vice versa.</p>
+<p>Queue reordering remains intentionally bounded because that screen edits a target position rather than navigating an ordinary menu.</p>
+<h2 id="improved-back-navigation">Improved Back Navigation</h2>
+<p>Holding the Y2’s top Back button now returns directly to the main menu, matching classic iPod behavior.</p>
+<ul><li>A short press returns one screen.</li><li>A held press clears the navigation stack and returns home.</li><li>Hold detection works with normal Android key repeats.</li><li>Release-based detection also supports firmware that does not emit repeat events.</li><li>The short Back action is suppressed after a recognized hold.</li></ul>
+<p>Back also dismisses temporary alerts and status messages before navigating away. A second press performs the normal Back action.</p>
+<p>Persistent library, playback, Bluetooth, and diagnostic status information is not intercepted.</p>
+<h2 id="artist-navigation-fix">Artist Navigation Fix</h2>
+<p>Track Options → Browse Track → Go to Artist now opens the selected artist’s album list.</p>
+<p>Previously, this route bypassed the normal artist view and opened a flat list containing every song by that artist.</p>
+<p>The corrected behavior now matches:</p>
+<p>Music → Artists → Artist Albums</p>
+<p>Go to Album and existing featured-artist normalization remain unchanged.</p>
+<h2 id="safer-embedded-artwork">Safer Embedded Artwork</h2>
+<p>Oversized or malformed embedded artwork is now rejected safely.</p>
+<p>Previously, invalid artwork data could trigger an exception while constructing the artwork byte array and potentially crash Y2Player.</p>
+<p>The native metadata bridge now:</p>
+<ul><li>Enforces the configured artwork-size limit before allocation.</li><li>Detects JNI allocation failures.</li><li>Clears the resulting exception safely.</li><li>Returns no artwork instead of bringing down the application.</li></ul>
+<p>Valid embedded and external artwork behavior is unchanged.</p>
+<h2 id="cleaner-now-playing-footer">Cleaner Now Playing Footer</h2>
+<p>The permanent transition-mode item and its divider have been removed from the Now Playing footer.</p>
+<p>Shuffle and Repeat remain on the left, while queue position remains right-aligned. This gives the footer a more balanced layout and removes information that did not need to remain visible continuously.</p>
+<p>This is only a presentation change. Gapless playback, Crossfade, Crossfade Mode, their settings, and their playback behavior remain available.</p>
+<h2 id="usb-connection-feedback">USB Connection Feedback</h2>
+<p>Connecting USB now produces a single perceptible haptic response when haptics are enabled and supported by the device.</p>
+<p>The implementation uses the existing coalesced USB state instead of reacting independently to every Android power and USB broadcast.</p>
+<p>The following do not cause duplicate vibrations:</p>
+<ul><li>Initial USB state detection</li><li>Repeated connected-state broadcasts</li><li>Power-state refreshes</li><li>Disconnecting the cable</li></ul>
+<h2 id="settings-and-backup-compatibility">Settings and Backup Compatibility</h2>
+<p>The following new preferences are included in Backup &amp; Restore:</p>
+<ul><li>FM Radio main-menu visibility</li><li>Seek When Locked</li></ul>
+<p>Older backups remain compatible and receive safe defaults:</p>
+<ul><li>FM Radio is hidden.</li><li>Seek When Locked is disabled.</li></ul>
+<h2 id="validation">Validation</h2>
+<p>Version 2.5 has been checked with the complete debug unit-test suite and Android lint.</p>
+<p>The latest validation completed successfully with more than 930 unit tests covering navigation, Search, FM state, playback, queue behavior, sleep timers, input routing, artwork, preferences, and backup compatibility.</p>
+<h2 id="installation">Installation</h2>
+<p>The release provides the existing system-only update path as well as a complete <code>rom_y2.zip</code> package for the Innioasis Updater.</p>
+<p>For the system-only method, use SP Flash Tool in Download Only mode with only the ANDROID partition selected, pointing to the supplied <code>system.img</code>.</p>
+<p>Do not select, format, or flash unrelated partitions.</p>
+<p>The complete <code>rom_y2.zip</code> installation performs a full-device installation and erases user data. Before using it:</p>
+<ol><li>Export a Y2Player backup.</li><li>Copy the backup off the device.</li><li>Copy any important music, playlists, diagnostics, and other files to a computer.</li><li>Verify the supplied package checksum.</li><li>Follow the installation instructions for the Y2 specifically.</li></ol>
+<p>Do not use a Y1 package on a Y2.</p>
+<h2 id="reporting-problems">Reporting Problems</h2>
+<p>If you encounter a problem, enable verbose diagnostics before reproducing it:</p>
+<p>Settings → System → Diagnostics → Verbose Diagnostics</p>
+<p>After reproducing the problem, export the report:</p>
+<p>Settings → System → Diagnostics → Export Diagnostics</p>
+<p>Attach the exported report to a GitHub issue and include:</p>
+<ul><li>Whether your Y2 is from the original or FM-enabled hardware batch</li><li>The audio format being played</li><li>Whether playback used the speaker, wired headphones, or Bluetooth</li><li>Whether Shuffle, Repeat, Crossfade, ReplayGain, or the equalizer was enabled</li><li>The exact screen and hardware-button sequence that produced the problem</li></ul>
+<p>For FM problems, also mention whether wired headphones were connected and whether FM works in the FM-enabled Innioasis stock firmware.</p>
+<p>Thank you to everyone who submitted issues, tested builds, provided diagnostics, and helped investigate the Y2’s different hardware revisions. Your reports directly shaped the Search interface, navigation improvements, timer redesign, playback fixes, and hardware compatibility behavior in this release.</p></article><section class="lumen-doc-related"><h2>Also useful</h2><ul class="lumen-doc-related-list"><li><a href="../../guides/y2player-y2.html"><strong>Install guide</strong><small>Step-by-step install for Y2Player</small></a></li><li><a href="releasev2.3.html"><strong>Y2Player V2.3</strong><small>ReleaseV2.3 · 2026-08-15</small></a></li><li><a href="realeasev2.2.2.html"><strong>Y2Player V2.2.2</strong><small>RealeaseV2.2.2 · 2026-08-10</small></a></li><li><a href="releasev2.2.1.html"><strong>Y2Player V2.2.1 </strong><small>ReleaseV2.2.1 · 2026-08-03</small></a></li><li><a href="releasev2.2.html"><strong>Y2Player V2.2</strong><small>ReleaseV2.2 · 2026-08-01</small></a></li><li><a href="releasev2.1.html"><strong>Y2Player V2.1</strong><small>ReleaseV2.1 · 2026-07-29</small></a></li><li><a href="releasev2.0.html"><strong>Y2Player 2.0 Complete Media Engine Rewrite</strong><small>ReleaseV2.0 · 2026-07-27</small></a></li><li><a href="releasev1.2.html"><strong>Y2Player V1.2</strong><small>ReleaseV1.2 · 2026-07-26</small></a></li></ul></section><p class="lumen-doc-footer-note">Notes as published by the Y2Player project. Install it with Updater CE, or download it from the firmware directory.</p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../../firmware-catalog.js?v=20260803" defer></script>
+<script src="../../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../../nav.js?v=20261103brand" defer></script>
+<script src="../../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

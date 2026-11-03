@@ -41,7 +41,7 @@ window.INNIOASIS_FIRMWARE_CATALOG = [
         "guide": "guides/rondo-y1.html",
         "seoPage": "rondo-y1-software.html",
         "icon": "https://innioasis.app/assets/rondo_icon.jpg",
-        "post_install": "https://jarvissax.github.io/rondo/",
+        "post_install": "https://github.com/jarvissax/rondo/blob/main/docs/install.md#first-start",
         "description": "A lightweight, custom audio operating system for the Innioasis Y1."
     },
     {

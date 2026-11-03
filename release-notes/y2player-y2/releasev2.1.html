@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Player V2.1 - Innioasis Updater</title>
+  <meta name="description" content="Y2Player v2.1 — Library Scanner and Media Engine Improvements Version 2.1 is the result of a much deeper development effort than previous Y2Player updates. Its main focus is faster">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/release-notes/y2player-y2/releasev2.1.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Player V2.1 - Innioasis Updater">
+  <meta property="og:description" content="Y2Player v2.1 — Library Scanner and Media Engine Improvements Version 2.1 is the result of a much deeper development effort than previous Y2Player updates. Its main focus is faster">
+  <meta property="og:url" content="https://innioasis.app/release-notes/y2player-y2/releasev2.1.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Player V2.1 - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Player v2.1 — Library Scanner and Media Engine Improvements Version 2.1 is the result of a much deeper development effort than previous Y2Player updates. Its main focus is faster">
+  <link rel="icon" href="../../y1_illustration.png">
+  <link rel="stylesheet" href="../../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../../docs-viewer.css?v=20261103docs">
+  <script src="../../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page lumen-release-page"><p class="lumen-doc-back"><a href="../../firmware.html?model=Y2&amp;software=y2player-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><div class="lumen-release-head"><div class="lumen-release-titles"><p class="lumen-kicker">Firmware release notes · Y2Player · Y2</p><h1>Y2Player V2.1</h1></div></div><p class="lumen-lead">A Y2 custom Software.</p><div class="lumen-release-tag-row"><span class="lumen-release-pill">ReleaseV2.1</span><span>Y2</span><span>2026-07-29</span></div><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../../guide.html?model=Y2&amp;software=y2player-y2">Get it in Updater CE</a><a class="lumen-button" href="../../firmware.html?model=Y2&amp;software=y2player-y2">Firmware Downloads</a></div></header><article class="lumen-doc-body lumen-release-body"><h1 id="y2player-v21--library-scanner-and-media-engine-improvements">Y2Player v2.1 — Library Scanner and Media Engine Improvements</h1>
+<p>Version 2.1 is the result of a much deeper development effort than previous Y2Player updates. Its main focus is faster and more reliable library scanning, accompanied by several important metadata, playback-engine, playlist, and diagnostic improvements.</p>
+<h2 id="building-a-proper-development-environment">Building a Proper Development Environment</h2>
+<p>One of the largest obstacles when developing Y2Player was that the original firmware does not provide a functional ADB environment. Without ADB, it is extremely difficult to profile the application, collect detailed traces, inspect database behavior, or determine what Android is doing during a library scan.</p>
+<p>To overcome this limitation, I built a static API-19 ARM <code>adbd</code> from pinned official Android 4.4.2 source and integrated it into a verified copy of the stock MediaTek boot image.</p>
+<p>The resulting development image preserves USB mass storage, uses RSA-authorized non-root ADB, and keeps the production security properties enabled. This gave me a reliable way to profile Y2Player directly on the physical hardware without turning the device into an insecure general-purpose debug system.</p>
+<p>With this environment, I could instrument every stage of the scanner, examine SQLite query plans, collect native FFmpeg timings, monitor memory and wake-lock behavior, and test changes against real and synthetic music libraries.</p>
+<p>The improvements in v2.1 are therefore based on measured physical-device results rather than trial-and-error optimization.</p>
+<h2 id="finding-the-main-scanner-bottleneck">Finding the Main Scanner Bottleneck</h2>
+<p>The largest confirmed scanner problem was an inefficient database lookup.</p>
+<p>During a first scan, Y2Player attempts to match each discovered file against an existing database entry. One fallback query compared the storage volume and relative path case-insensitively. Unfortunately, the database did not contain an index that matched both the columns and the required collation.</p>
+<p>As the library grew, Android’s SQLite implementation repeatedly scanned an increasingly large part of the database. On a synthetic 9,178-file library, this single operation consumed 258.160 seconds more than four minutes and approximately 43% of the instrumented baseline.</p>
+<p>Adding the correct composite, case-insensitive index changed the query into an exact covering-index lookup. The same phase then completed in 4.124 seconds.</p>
+<p>That is a measured reduction of 98.4%.</p>
+<p>Scanner batches were also increased from 64 to 400 files. Unchanged-file update chunks were increased from 192 to 400 while remaining below Android’s SQLite parameter limit. This reduced fingerprint queries and database transactions from 144 to 23.</p>
+<h2 id="measured-scanner-results">Measured Scanner Results</h2>
+<p>The optimized synthetic first scan completed in:</p>
+<p><strong>5 minutes 9.882 seconds for 9,178 files.</strong></p>
+<p>The instrumentation accounted for 99.83% of that time, leaving only 0.531 seconds unattributed.</p>
+<p>Other measured results include:</p>
+<ul><li>The problematic relative-path lookup fell from 258.160 to 4.124 seconds.</li><li>Fingerprint-query time fell from 8.109 to 1.913 seconds.</li><li>Database commit time fell from 3.368 to 1.669 seconds.</li><li>An unchanged 9,178-file library fell from 42.106 to 19.070 seconds.</li><li>A real 225-file initial scan improved by approximately 14% after the database and batching changes.</li><li>Later FFmpeg probe tuning reduced repeated real-library scan time by an additional measured average of 12%.</li></ul>
+<p>The large synthetic library was designed to test scanner scaling, traversal, and database behavior. It is not presented as an exact reproduction of any particular real-world library, since actual scan time also depends on codecs, tags, artwork, directory layout, SD-card performance, fragmentation, and filesystem cache state.</p>
+<h2 id="faster-incremental-scanning">Faster Incremental Scanning</h2>
+<p>Existing libraries now update more efficiently because metadata extraction only runs for files that have actually changed.</p>
+<p>Tests covering adding, modifying, renaming, and deleting individual files confirmed that:</p>
+<ul><li>Adding one file performs one metadata read.</li><li>Modifying one file performs one metadata read.</li><li>Renaming one file indexes the new path and marks the old path unavailable.</li><li>Deleting one file performs no metadata read and marks the deleted path unavailable.</li><li>Unchanged files perform zero FFmpeg metadata calls and reread zero metadata bytes.</li></ul>
+<p>The scanner still traverses the library and checks file fingerprints so that removals and external changes are detected correctly. Avoiding that traversal entirely would require a more substantial change-detection architecture.</p>
+<h2 id="ffmpeg-metadata-improvements">FFmpeg Metadata Improvements</h2>
+<p>Version 2.1 also refines the metadata pipeline introduced alongside the FFmpeg engine.</p>
+<p>The scanner performs one metadata-only JNI call per changed file. It uses FFmpeg’s container layer but does not initialize an audio decoder, decode PCM, or load embedded artwork into memory during indexing.</p>
+<p>Attached-picture payloads are skipped during scanning. The scanner records whether artwork exists, while the compressed artwork itself is loaded separately and only when required by Now Playing, album views, or remote controls.</p>
+<p>The retained FFmpeg metadata settings are now:</p>
+<ul><li>32 KiB probe size, reduced from 512 KiB.</li><li>100 ms maximum analysis duration, reduced from 2 seconds.</li></ul>
+<p>These settings were not chosen based on timing alone. Every candidate was validated against the complete media regression corpus before being accepted.</p>
+<p>On the controlled physical-card benchmark, the final settings produced:</p>
+<ul><li>12.0% lower average scan time.</li><li>22.9% fewer metadata bytes read.</li><li>69.7% less time in FFmpeg stream analysis.</li><li>Zero additional metadata failures.</li></ul>
+<p>The remaining dominant operation is now <code>avformat_open_input</code>, particularly for files containing large tag or artwork regions. This is why further substantial improvements will require more than another simple probe-limit adjustment.</p>
+<h2 id="metadata-correctness">Metadata Correctness</h2>
+<p>The new regression suite also uncovered several metadata correctness issues.</p>
+<p>Version 2.1 fixes or improves:</p>
+<ul><li>Comments and track/disc totals throughout JNI, database storage, and library reloads.</li><li>ReplayGain tags in Vorbis and Opus containers.</li><li>Deterministic selection when duplicate ReplayGain tags exist.</li><li>Rejection of malformed ReplayGain values instead of treating them as zero.</li><li>ADTS AAC sample-rate and channel detection without opening a decoder.</li><li>FLAC bit-depth detection directly from STREAMINFO when required.</li><li>Removal of misleading PCM bit-depth values from lossy codecs.</li><li>More consistent classification of unsupported, corrupt, and partially playable files.</li><li>Detection of skipped invalid packets and unexpectedly short decoded output.</li><li>Handling of extremely large metadata values through a bounded text contract.</li><li>Correct artwork-presence detection without decoding or retaining the image during a scan.</li></ul>
+<p>These changes also required a database migration so the additional metadata fields remain available after the application restarts.</p>
+<h2 id="scanner-reliability-and-progress">Scanner Reliability and Progress</h2>
+<p>Long scans now hold a dedicated partial wake lock only while scanning is active. This prevents the CPU from suspending in the middle of a large scan when the screen turns off.</p>
+<p>Physical-device testing confirmed that the scanner wake lock is released immediately after the work finishes and is not retained while the application is idle.</p>
+<p>The interface also displays scan progress while the library is being built, providing visible feedback instead of leaving the user to wonder whether indexing is still active.</p>
+<h2 id="playlist-portability">Playlist Portability</h2>
+<p>Playlist importing has been improved for playlists created on desktop operating systems.</p>
+<p>Y2Player can now relocate Windows, macOS, and Linux absolute paths to matching files stored near the playlist on the device. Once one desktop directory has been mapped to a device directory, later entries from the same source directory use the cached mapping instead of repeating the search.</p>
+<p>Relative paths and normal device-local paths continue to work as before.</p>
+<h2 id="playback-engine-refinements">Playback Engine Refinements</h2>
+<p>Although version 2.0 introduced the new FFmpeg playback engine, version 2.1 contains another substantial internal refinement.</p>
+<p>Decoded audio now remains in float32 throughout Y2Player’s processing path. ReplayGain, balance, fades, ducking, gapless transitions, and crossfade mixing are all applied before one final conversion to PCM16 at the Android 4.4 AudioTrack boundary.</p>
+<p>This provides several benefits:</p>
+<ul><li>Temporary signal headroom is preserved during processing.</li><li>Intermediate clipping is avoided.</li><li>Crossfades no longer quantize each track before mixing.</li><li>Reusable buffers eliminate unnecessary per-block allocation.</li><li>Android 4.4 receives the PCM16 format required by its public AudioTrack implementation.</li></ul>
+<p>The update also fixes a race where an old cancellation request could affect a newly prepared decoder or seek operation. Decoder commands and abort signals are now ordered together so a stale abort cannot cross into replacement work.</p>
+<p>Additional engine improvements include:</p>
+<ul><li>Reliable fallback seeking for very short FLAC files without seek tables.</li><li>Bounded recovery from malformed audio packets.</li><li>More deterministic damaged-file warnings.</li><li>Correct gapless and crossfade promotion without flushing AudioTrack.</li><li>No wake-lock gap during a successful prepared-track transition.</li><li>Suppression of expected FFmpeg decoder-rejection noise during metadata-only scans while genuine decoder errors remain visible.</li><li>Removal of an unnecessary duplicate foreground-notification update during playback start.</li></ul>
+<p>Normal playback, gapless promotion, crossfades, screen-off playback, Bluetooth output, physical controls, scanning during playback, notification state, and wake-lock release were validated separately on the physical device.</p>
+<h2 id="automated-regression-testing">Automated Regression Testing</h2>
+<p>One of the most valuable results of this work is something users will never directly see: a permanent automated media regression suite.</p>
+<p>The current corpus contains 76 deterministic fixtures:</p>
+<ul><li>35 metadata cases.</li><li>24 technical-format cases.</li><li>17 malformed or unsupported cases.</li></ul>
+<p>It covers MP3, FLAC, AAC/M4A, ADTS AAC, ALAC, WAV integer and floating-point PCM, AIFF, Ogg Vorbis, Opus, ReplayGain combinations, embedded artwork, unusual text encodings, truncated files, corrupt metadata, invalid packets, missing tags, and several boundary cases.</p>
+<p>On the physical Innioasis Y2, the final validation passed:</p>
+<ul><li>76 of 76 fixtures.</li><li>1,394 of 1,394 independently declared metadata assertions.</li><li>Decode-to-EOF checks for every playable fixture.</li><li>Midpoint seek checks for every applicable fixture.</li><li>Production scanner and database comparisons.</li><li>25 complete resource-test cycles.</li><li>1,900 metadata calls and 1,900 decode attempts.</li><li>Zero leaked file descriptors.</li><li>Zero leaked threads.</li><li>No crashes, ANRs, SQLite errors, non-finite PCM, or metadata failures.</li></ul>
+<p>The automated corpus validates the media engine below AudioTrack. Hardware transport, Bluetooth routing, notifications, physical controls, screen-off playback, gapless transitions, crossfades, and wake locks are tested separately on the real device.</p>
+<h2 id="firmware-work">Firmware Work</h2>
+<p>The firmware pipeline now also contains a guarded patch for the stock primary-audio HAL’s previously inactive DAC-frequency hook.</p>
+<p>This is groundwork for future 44.1/48 kHz output work. It does not currently change Y2Player’s advertised output format: the application still uses the proven 44.1 kHz stereo PCM16 Android path. Version 2.1 therefore does not claim native high-resolution output.</p>
+<p>The generated firmware independently verifies the APK, native library, patched HAL, filesystem metadata, SELinux contexts, partition size, and readback hashes before producing <code>system.img</code>.</p>
+<h2 id="is-this-the-fastest-it-can-possibly-be">Is This the Fastest It Can Possibly Be?</h2>
+<p>Probably not.</p>
+<p>The current scanner architecture prioritizes correctness, compatibility, and reliability. Every new or changed file is still opened through FFmpeg so metadata is handled consistently across all supported formats.</p>
+<p>After the database and probe improvements, FFmpeg’s container-opening stage is the main remaining first-scan bottleneck. On an unchanged library, the remaining cost comes from directory traversal, file-stat checks, fingerprint queries, seen-token updates, and rebuilding the in-memory index.</p>
+<p>Potential future work includes:</p>
+<ul><li>Reducing container and metadata parsing overhead for common formats.</li><li>Improving handling of very large embedded artwork and tag regions.</li><li>Reusing compiled SQLite statements in the changed-file update path.</li><li>Avoiding unnecessary unchanged-file database writes.</li><li>Investigating durable per-directory change detection.</li><li>Measuring cold SD-card block I/O with better kernel tracing.</li><li>Carefully evaluating limited parallel metadata extraction.</li></ul>
+<p>Parallel scanning is not automatically faster on this device. The Y2 has limited memory, a relatively slow removable-storage path, and only a small number of CPU cores. Multiple FFmpeg probes could increase contention, memory pressure, or playback interruptions. Any parallel implementation therefore needs to be measured and validated rather than assumed to be an improvement.</p>
+<h2 id="looking-ahead">Looking Ahead</h2>
+<p>The new ADB development environment and permanent regression suite make future optimization much safer.</p>
+<p>Changes can now be tested against known metadata, playback, corruption, seeking, memory, and resource expectations before they reach a release. This makes it possible to improve performance without silently breaking unusual files or introducing subtle playback regressions.</p>
+<p>My goal remains the same: correctness first, performance second.</p>
+<p>A scan that is consistently accurate and reliable is ultimately more valuable than one that is only marginally faster.</p>
+<p>Feedback from real-world libraries is especially useful. If you have a large collection, unusual metadata, embedded artwork that causes problems, or files that do not behave as expected, I would be very interested in hearing about it. Those reports help identify where Y2Player can improve next.</p></article><section class="lumen-doc-related"><h2>Also useful</h2><ul class="lumen-doc-related-list"><li><a href="../../guides/y2player-y2.html"><strong>Install guide</strong><small>Step-by-step install for Y2Player</small></a></li><li><a href="release2.5.html"><strong>Y2Player V2.5</strong><small>Release2.5 · 2026-09-04</small></a></li><li><a href="releasev2.3.html"><strong>Y2Player V2.3</strong><small>ReleaseV2.3 · 2026-08-15</small></a></li><li><a href="realeasev2.2.2.html"><strong>Y2Player V2.2.2</strong><small>RealeaseV2.2.2 · 2026-08-10</small></a></li><li><a href="releasev2.2.1.html"><strong>Y2Player V2.2.1 </strong><small>ReleaseV2.2.1 · 2026-08-03</small></a></li><li><a href="releasev2.2.html"><strong>Y2Player V2.2</strong><small>ReleaseV2.2 · 2026-08-01</small></a></li><li><a href="releasev2.0.html"><strong>Y2Player 2.0 Complete Media Engine Rewrite</strong><small>ReleaseV2.0 · 2026-07-27</small></a></li><li><a href="releasev1.2.html"><strong>Y2Player V1.2</strong><small>ReleaseV1.2 · 2026-07-26</small></a></li></ul></section><p class="lumen-doc-footer-note">Notes as published by the Y2Player project. Install it with Updater CE, or download it from the firmware directory.</p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../../firmware-catalog.js?v=20260803" defer></script>
+<script src="../../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../../nav.js?v=20261103brand" defer></script>
+<script src="../../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

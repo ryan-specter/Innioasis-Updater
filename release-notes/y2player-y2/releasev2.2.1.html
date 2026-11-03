@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Player V2.2.1  - Innioasis Updater</title>
+  <meta name="description" content="Y2Player v2.2.1 — Playback Stability, Improved Controls, and Now Playing Updates Version 2.2.1 focuses on feedback received after the 2.2 release. The largest changes address volum">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/release-notes/y2player-y2/releasev2.2.1.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Player V2.2.1  - Innioasis Updater">
+  <meta property="og:description" content="Y2Player v2.2.1 — Playback Stability, Improved Controls, and Now Playing Updates Version 2.2.1 focuses on feedback received after the 2.2 release. The largest changes address volum">
+  <meta property="og:url" content="https://innioasis.app/release-notes/y2player-y2/releasev2.2.1.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Player V2.2.1  - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Player v2.2.1 — Playback Stability, Improved Controls, and Now Playing Updates Version 2.2.1 focuses on feedback received after the 2.2 release. The largest changes address volum">
+  <link rel="icon" href="../../y1_illustration.png">
+  <link rel="stylesheet" href="../../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../../docs-viewer.css?v=20261103docs">
+  <script src="../../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page lumen-release-page"><p class="lumen-doc-back"><a href="../../firmware.html?model=Y2&amp;software=y2player-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><div class="lumen-release-head"><div class="lumen-release-titles"><p class="lumen-kicker">Firmware release notes · Y2Player · Y2</p><h1>Y2Player V2.2.1 </h1></div></div><p class="lumen-lead">A Y2 custom Software.</p><div class="lumen-release-tag-row"><span class="lumen-release-pill">ReleaseV2.2.1</span><span>Y2</span><span>2026-08-03</span></div><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../../guide.html?model=Y2&amp;software=y2player-y2">Get it in Updater CE</a><a class="lumen-button" href="../../firmware.html?model=Y2&amp;software=y2player-y2">Firmware Downloads</a></div></header><article class="lumen-doc-body lumen-release-body"><h1 id="y2player-v221--playback-stability-improved-controls-and-now-playing-updates">Y2Player v2.2.1 — Playback Stability, Improved Controls, and Now Playing Updates</h1>
+<p>  Version 2.2.1 focuses on feedback received after the 2.2 release. The largest changes address volume peaks, lock-screen playback, physical controls, queue reliability, and the Now Playing interface.</p>
+<h2 id="volume-and-lock-screen-playback">Volume and Lock-Screen Playback</h2>
+<p>  Several issues could cause the output volume to briefly jump when changing volume modes, pausing playback, locking the device, or waking the screen.</p>
+<p>  Volume ownership has been reworked so that the player&#x27;s software gain is applied before Android&#x27;s system stream is changed. This prevents the system stream from becoming audible at full volume during the handover.</p>
+<p>  The following cases have been corrected:</p>
+<ul><li>Switching between In-App and System / Hardware Keys volume modes no longer causes a brief volume peak.<ul><li>Starting playback after changing volume mode while paused no longer produces a loud initial burst.</li><li>Pausing, locking, unlocking, and waking the screen no longer briefly exposes the system stream at maximum volume.</li><li>Volume changes made while the screen is locked are no longer overwritten when the screen turns back on.</li><li>In-App volume can now be raised and lowered while the screen is locked.</li><li>Holding a volume button continues changing the volume instead of requiring repeated individual presses.</li><li>Paused tracks remain loaded when the interface or screen goes away, preventing playback from unexpectedly returning to the beginning.</li></ul></li></ul>
+<h2 id="firmware-volume-key-handling">Firmware Volume-Key Handling</h2>
+<p>  The firmware now contains a guarded keypad-layout patch for the Y2&#x27;s physical volume buttons.</p>
+<p>  The local volume keys are delivered directly to Y2Player instead of allowing Android to modify the system stream before the app can respond. This is particularly important for In-App volume control and screen-off operation.</p>
+<p>  Only the Y2&#x27;s physical volume scan codes are remapped. Genuine headset and Bluetooth media controls remain unchanged.</p>
+<h2 id="playback-and-queue-reliability">Playback and Queue Reliability</h2>
+<p>  Paused playback is now treated as an active, resumable session. Locking the device or leaving the interface no longer unloads a paused track simply because the activity disconnected.</p>
+<p>  Shuffle handling has also been corrected. Changing Shuffle mode now preserves the portion of the queue that has already been played and rebuilds only the remaining order. This prevents unplayed tracks from becoming stranded behind the current position and avoids reaching a false end of the shuffled queue.</p>
+<p>  Seeking has additional endpoint protection so a seek cannot land inside an unusable final fragment of a track.</p>
+<h2 id="navigation-changes">Navigation Changes</h2>
+<p>  Left and Right now have one consistent purpose throughout the entire interface:</p>
+<ul><li>Left plays the previous track.<ul><li>Right plays the next track.</li><li>Hold Left or Right seeks backward or forward.</li><li>Center opens the selected menu or activates the selected option.</li><li>Back returns to the previous menu.</li></ul></li></ul>
+<p>  Left and Right no longer enter or leave menus. Context menus that were previously opened with Right are now opened by holding Center.</p>
+<p>  A short Center press on the Now Playing screen no longer pauses or resumes playback. It simply keeps the display awake. The dedicated Play/Pause button remains responsible for playback.</p>
+<h2 id="main-menu-cleanup">Main Menu Cleanup</h2>
+<p>  The duplicate Now Playing entry has been removed from the main menu because the current track is already visible in the Now Playing panel.</p>
+<p>  When there is no active or restored playback session, the same position is used for Shuffle All. Shuffle All is hidden once a session exists so it cannot accidentally replace the current queue.</p>
+<h2 id="circular-now-playing-menu">Circular Now Playing Menu</h2>
+<p>  Holding Center on the Now Playing screen now opens a new circular playback menu over the current screen.</p>
+<p>  The scroll wheel moves around the available controls, and a short Center press activates the selected item. Back or another long Center press closes the menu.</p>
+<p>  The radial menu includes:</p>
+<ul><li>Shuffle<ul><li>Repeat</li><li>Queue</li><li>Favorite</li><li>Sleep Timer</li><li>Add to Playlist</li><li>Track Options</li></ul></li></ul>
+<p>  The menu blends over the Now Playing screen with a short fade and scale animation. Active options use the same accent color and visual state system as the rest of the interface.</p>
+<h2 id="now-playing-status-information">Now Playing Status Information</h2>
+<p>  The old button-hint footer has been replaced with useful playback information.</p>
+<p>  The footer now displays:</p>
+<ul><li>Shuffle status<ul><li>Repeat mode</li><li>Effective transition mode</li><li>Current queue position</li></ul></li></ul>
+<p>  The transition indicator distinguishes between standard playback, gapless playback, and crossfade, including the configured fade duration.</p>
+<h2 id="additional-metadata-layout">Additional Metadata Layout</h2>
+<p>  When Additional Metadata is enabled, its information is now divided into two dedicated lines:</p>
+<ol><li>Genre<ol><li>Codec, bitrate, sample rate, and bit depth</li></ol></li></ol>
+<p>  This prevents the metadata from being compressed into one long line and reduces clipping on the right side of the display.</p>
+<p>  Long selected text can now scroll after a short delay instead of remaining permanently truncated. Scrolling stops while the screen is off and restarts when needed.</p>
+<h2 id="album-information">Album Information</h2>
+<p>  The album line on the Now Playing screen is now always displayed when album information exists.</p>
+<p>  Previously, the album line disappeared when an album had the same name as its artist. Artist and album are separate metadata fields, so matching names no longer cause either field to be hidden.</p>
+<h2 id="favorites-and-active-state-indicators">Favorites and Active-State Indicators</h2>
+<p>  Favorite actions now have a clear visual state.</p>
+<p>  Favorited tracks use a filled heart instead of continuing to display the same empty heart. Other enabled options also use consistent accent coloring, active surfaces, markers, or check indicators where appropriate.</p>
+<p>  This makes it easier to tell whether options such as Favorite, Shuffle, Repeat, and other toggles are currently enabled.</p>
+<h2 id="scroll-wheel-improvements">Scroll-Wheel Improvements</h2>
+<p>  Rapid wheel movement now accelerates through long collections such as Songs, Albums, Artists, Playlists, Queue, and Audiobooks.</p>
+<p>  Acceleration is deliberately disabled in short settings menus so individual options remain easy to select. Slowing down or reversing direction immediately restores one-row precision.</p>
+<p>  A new Wrap Lists option has also been added under Controls:</p>
+<ul><li>When enabled, moving past the final item returns to the first.<ul><li>When disabled, selection stops at the beginning and end of ordinary lists.</li><li>Circular selectors and the new radial menu continue wrapping naturally.</li></ul></li></ul>
+<h2 id="haptic-feedback">Haptic Feedback</h2>
+<p>  Haptic feedback now occurs only when an input was actually accepted.</p>
+<p>  Pressing against the end of a non-wrapping list or performing an unavailable action no longer produces a misleading vibration. Accepted navigation and control actions still provide immediate feedback.</p>
+<h2 id="library-and-browsing-fixes">Library and Browsing Fixes</h2>
+<p>  Several smaller library issues have also been corrected:</p>
+<ul><li>Artist names differing only by capitalization or surrounding spaces are now treated as the same artist.<ul><li>Various Artists is filtered consistently regardless of capitalization.</li><li>Multi-disc audiobook chapters now sort by disc, folder, track number, filename, and title instead of interleaving tracks whose numbering restarts on each disc.</li><li>Single-track playlists no longer display a meaningless Shuffle option.</li><li>Library reset now waits for scanning and pending state writes before deleting and rebuilding the library.</li><li>User-copyable exports prefer removable storage when it is available.</li></ul></li></ul>
+<h3 id="update-schedule-notice">Update schedule notice</h3>
+<p>  Development of Y2Player will continue, but future updates may take a little longer to arrive. My vacation from work is now over, so I have less free time available for development and testing. I still plan to address reported issues and improve the player whenever possible, and I appreciate your patience and continued feedback.</p>
+<h3 id="whats-planned-next">What’s Planned Next</h3>
+<p>  The next update is planned to focus on improvements to the queue and playback systems, alongside multi-select actions and faster library navigation with letter-based scrolling. I also want to make the scroll wheel configurable on the Now Playing screen, allowing it to control either volume or seeking. FM Radio   support has already been implemented experimentally, but the device is not currently receiving a signal, so further hardware investigation is required and may take some time. Additional themes and interface options are also planned, with the goal of supporting more personal preferences without making the player   bloated or unintuitive. This is one of the most challenging parts of development, as different users often prefer very different controls and layouts, so these features will need careful design and testing.</p></article><section class="lumen-doc-related"><h2>Also useful</h2><ul class="lumen-doc-related-list"><li><a href="../../guides/y2player-y2.html"><strong>Install guide</strong><small>Step-by-step install for Y2Player</small></a></li><li><a href="release2.5.html"><strong>Y2Player V2.5</strong><small>Release2.5 · 2026-09-04</small></a></li><li><a href="releasev2.3.html"><strong>Y2Player V2.3</strong><small>ReleaseV2.3 · 2026-08-15</small></a></li><li><a href="realeasev2.2.2.html"><strong>Y2Player V2.2.2</strong><small>RealeaseV2.2.2 · 2026-08-10</small></a></li><li><a href="releasev2.2.html"><strong>Y2Player V2.2</strong><small>ReleaseV2.2 · 2026-08-01</small></a></li><li><a href="releasev2.1.html"><strong>Y2Player V2.1</strong><small>ReleaseV2.1 · 2026-07-29</small></a></li><li><a href="releasev2.0.html"><strong>Y2Player 2.0 Complete Media Engine Rewrite</strong><small>ReleaseV2.0 · 2026-07-27</small></a></li><li><a href="releasev1.2.html"><strong>Y2Player V1.2</strong><small>ReleaseV1.2 · 2026-07-26</small></a></li></ul></section><p class="lumen-doc-footer-note">Notes as published by the Y2Player project. Install it with Updater CE, or download it from the firmware directory.</p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../../firmware-catalog.js?v=20260803" defer></script>
+<script src="../../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../../nav.js?v=20261103brand" defer></script>
+<script src="../../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

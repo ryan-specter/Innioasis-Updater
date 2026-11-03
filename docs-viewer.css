@@ -39,22 +39,6 @@
   margin: 18px 0 6px;
 }
 
-/* The small "See More" escape hatch. Kept deliberately quiet: the page is
-   the reading experience, the original is the provenance link. */
-.lumen-doc-see-more {
-  font-size: .78rem;
-  font-weight: 600;
-  color: var(--lumen-muted, #94a3b8);
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.lumen-doc-see-more:hover,
-.lumen-doc-see-more:focus-visible {
-  color: var(--lumen-accent, #6366f1);
-  text-decoration: underline;
-}
-
 .lumen-doc-source {
   display: flex;
   align-items: center;
@@ -306,88 +290,6 @@
 .lumen-release-pill--prerelease {
   border-color: #f59e0b;
   color: #fbbf24;
-}
-
-.lumen-release-pill--mirror {
-  border-color: rgba(56, 189, 248, .5);
-  color: #38bdf8;
-}
-
-/* Download panel: the reason someone opened a release page. */
-.lumen-release-downloads {
-  margin: 20px 0 8px;
-  padding: 14px 16px;
-  border: 1px solid var(--lumen-line, rgba(255, 255, 255, .12));
-  border-radius: 12px;
-  background: var(--lumen-panel-soft, rgba(255, 255, 255, .04));
-}
-
-.lumen-release-downloads h2 {
-  margin: 0 0 10px;
-  font-size: .78rem;
-  font-weight: 800;
-  letter-spacing: .07em;
-  text-transform: uppercase;
-  color: var(--lumen-muted, #94a3b8);
-}
-
-.lumen-download-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-  padding: 9px 0;
-  border-top: 1px solid var(--lumen-line, rgba(255, 255, 255, .08));
-}
-
-.lumen-download-row:first-of-type { border-top: 0; }
-
-.lumen-download-row-main { min-width: 0; }
-
-.lumen-download-name {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: .86rem;
-  font-weight: 600;
-  overflow-wrap: anywhere;
-}
-
-.lumen-download-note {
-  display: block;
-  font-size: .76rem;
-  color: var(--lumen-muted, #94a3b8);
-  margin-top: 2px;
-}
-
-.lumen-download-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 7px 13px;
-  border-radius: 999px;
-  font-size: .82rem;
-  font-weight: 700;
-  text-decoration: none;
-  border: 1px solid var(--lumen-line-strong, rgba(255, 255, 255, .2));
-  color: var(--lumen-text, #f8fafc);
-  background: transparent;
-  white-space: nowrap;
-}
-
-.lumen-download-cta:hover {
-  border-color: var(--lumen-accent, #6366f1);
-  color: var(--lumen-accent, #6366f1);
-}
-
-.lumen-download-cta--primary {
-  background: var(--lumen-accent, #6366f1);
-  border-color: var(--lumen-accent, #6366f1);
-  color: var(--lumen-ink, #0b0d12);
-}
-
-.lumen-download-cta--primary:hover {
-  color: var(--lumen-ink, #0b0d12);
-  filter: brightness(1.08);
 }
 
 /* Related cards under the notes: post-install setup and neighbouring

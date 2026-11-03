@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Player 2.0 Complete Media Engine Rewrite - Innioasis Updater</title>
+  <meta name="description" content="--- Small update! I fixed a race condition that could prevent the SD card from mounting correctly after the update. Please download Version 2.0 again to get the fix. After installi">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/release-notes/y2player-y2/releasev2.0.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Player 2.0 Complete Media Engine Rewrite - Innioasis Updater">
+  <meta property="og:description" content="--- Small update! I fixed a race condition that could prevent the SD card from mounting correctly after the update. Please download Version 2.0 again to get the fix. After installi">
+  <meta property="og:url" content="https://innioasis.app/release-notes/y2player-y2/releasev2.0.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Player 2.0 Complete Media Engine Rewrite - Innioasis Updater">
+  <meta name="twitter:description" content="--- Small update! I fixed a race condition that could prevent the SD card from mounting correctly after the update. Please download Version 2.0 again to get the fix. After installi">
+  <link rel="icon" href="../../y1_illustration.png">
+  <link rel="stylesheet" href="../../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../../docs-viewer.css?v=20261103docs">
+  <script src="../../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page lumen-release-page"><p class="lumen-doc-back"><a href="../../firmware.html?model=Y2&amp;software=y2player-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><div class="lumen-release-head"><div class="lumen-release-titles"><p class="lumen-kicker">Firmware release notes · Y2Player · Y2</p><h1>Y2Player 2.0 Complete Media Engine Rewrite</h1></div></div><p class="lumen-lead">A Y2 custom Software.</p><div class="lumen-release-tag-row"><span class="lumen-release-pill">ReleaseV2.0</span><span>Y2</span><span>2026-07-27</span></div><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../../guide.html?model=Y2&amp;software=y2player-y2">Get it in Updater CE</a><a class="lumen-button" href="../../firmware.html?model=Y2&amp;software=y2player-y2">Firmware Downloads</a></div></header><article class="lumen-doc-body lumen-release-body"><hr>
+<p><strong>Small update!</strong></p>
+<p>I fixed a race condition that could prevent the SD card from mounting correctly after the update. Please download <strong>Version 2.0</strong> again to get the fix.</p>
+<p><strong>After installing the updated V2.0, please do the following:</strong></p>
+<ol><li><strong>Settings → System → Diagnostics → Reset Library</strong></li><li><strong>Settings → Library → Storage → Rescan Library</strong></li></ol>
+<p>Due to the underlying <strong>FFmpeg</strong> update, the library database schema has changed. As a result, your media library needs to be reindexed.</p>
+<h3 id="reporting-bugs">Reporting bugs</h3>
+<p>For future bug reports, please enable <strong>Verbose Diagnostics</strong> first:</p>
+<p><strong>Settings → System → Diagnostics → Verbose Diagnostics</strong></p>
+<p>Then use the device until the bug occurs. After that, export the diagnostics:</p>
+<p><strong>Settings → System → Diagnostics → Export Diagnostics</strong></p>
+<p>Connect your Y2 to your computer and obtain the log. The framework logs almost everything happening on the device, and these logs help me identify and fix issues much more quickly.</p>
+<p>If you&#x27;d like to report a bug, please create a GitHub issue (many people already do!). Including the diagnostics ZIP with your report makes it much easier to track down the problem.</p>
+<h1 id="y2player-20---complete-media-engine-rewrite">Y2Player 2.0 - Complete Media Engine Rewrite</h1>
+<p>Y2Player 2.0 is by far the biggest update since the project started.</p>
+<p>Over the last <strong>two nights</strong>, I completely tore out the old media engine and rebuilt it from scratch.</p>
+<p>When I originally started Y2Player, I chose to use Android&#x27;s stock <code>MediaPlayer</code> API. At the time, I underestimated how limited it actually is. The stock media framework is heavily dependent on the device manufacturer and whatever codecs they decided to include. On the Innioasis Y2, that meant limited format support, inconsistent playback behavior, and a lot of restrictions that made adding new features increasingly difficult.</p>
+<p>So I decided to stop using the stock player and replace it entirely.</p>
+<p>Fortunately, one thing worked in my favor. From the beginning, I designed Y2Player with a relatively modular architecture that kept the playback engine separated from the rest of the application. That meant I could swap out the entire media backend with surprisingly few changes to the rest of the codebase. What could have turned into a complete rewrite of the app ended up being almost a plug-and-play replacement of the playback engine.</p>
+<p>Y2Player 2.0 now uses the <strong>latest stable release of FFmpeg</strong> as its decoding backend. Instead of relying on Android&#x27;s outdated media framework, Y2Player now ships with its own modern media engine, providing far better compatibility, stability, and room for future improvements.</p>
+<h2 id="whats-new">What&#x27;s New</h2>
+<ul><li>✅ Completely rewritten media engine</li><li>✅ Powered by the latest stable version of <strong>FFmpeg</strong></li><li>✅ No longer dependent on Android&#x27;s stock <code>MediaPlayer</code></li><li>✅ Improved playback stability</li><li>✅ Much broader codec and container support</li><li>✅ Better compatibility with modern audio files</li><li>✅ Foundation for future playback improvements</li></ul>
+<h2 id="supported-audio-formats">Supported Audio Formats</h2>
+<p>Y2Player 2.0 now supports the most commonly used audio formats, including:</p>
+<ul><li>MP3</li><li>FLAC</li><li>WAV</li><li>AAC / M4A</li><li>OGG Vorbis</li><li>Opus</li><li>WMA</li><li>AIFF</li><li>And many more</li></ul>
+<h2 id="supported-containers">Supported Containers</h2>
+<p>Audio can now be played from containers such as:</p>
+<ul><li>MP3</li><li>WAV</li><li>FLAC</li><li>ALAC</li><li>M4A</li><li>MP4</li><li>OGG</li><li>MKV</li><li>WebM</li><li>And many more</li></ul>
+<h2 id="why-ffmpeg">Why FFmpeg?</h2>
+<p>Moving to FFmpeg means Y2Player is no longer limited by the firmware&#x27;s built-in codec support. Instead, it uses one of the most widely used multimedia libraries available, giving the player a much more capable and reliable playback engine.</p>
+<p>This rewrite also lays the foundation for future features such as:</p>
+<ul><li>Real gapless playback</li><li>Real ReplayGain support</li><li>Better metadata handling</li><li>High-resolution audio improvements</li><li>Additional playback enhancements</li></ul>
+<hr>
+<p>This update took a lot more work than I originally expected, but it was absolutely the right decision.</p>
+<p>It should also resolve the vast majority of issues users experienced with unsupported audio files. Looking back, the original media engine quickly became the biggest limitation of the project - it was simply a consequence of my inexperience and not fully understanding the limitations of Android&#x27;s stock media framework.</p>
+<p>With FFmpeg at its core, Y2Player now has a modern, future-proof media foundation that I can continue building on without being constrained by the original Android media stack. This rewrite also makes future features significantly easier to implement, rather than having to fight against the limitations of the stock player every step of the way.</p></article><section class="lumen-doc-related"><h2>Also useful</h2><ul class="lumen-doc-related-list"><li><a href="../../guides/y2player-y2.html"><strong>Install guide</strong><small>Step-by-step install for Y2Player</small></a></li><li><a href="release2.5.html"><strong>Y2Player V2.5</strong><small>Release2.5 · 2026-09-04</small></a></li><li><a href="releasev2.3.html"><strong>Y2Player V2.3</strong><small>ReleaseV2.3 · 2026-08-15</small></a></li><li><a href="realeasev2.2.2.html"><strong>Y2Player V2.2.2</strong><small>RealeaseV2.2.2 · 2026-08-10</small></a></li><li><a href="releasev2.2.1.html"><strong>Y2Player V2.2.1 </strong><small>ReleaseV2.2.1 · 2026-08-03</small></a></li><li><a href="releasev2.2.html"><strong>Y2Player V2.2</strong><small>ReleaseV2.2 · 2026-08-01</small></a></li><li><a href="releasev2.1.html"><strong>Y2Player V2.1</strong><small>ReleaseV2.1 · 2026-07-29</small></a></li><li><a href="releasev1.2.html"><strong>Y2Player V1.2</strong><small>ReleaseV1.2 · 2026-07-26</small></a></li></ul></section><p class="lumen-doc-footer-note">Notes as published by the Y2Player project. Install it with Updater CE, or download it from the firmware directory.</p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../../firmware-catalog.js?v=20260803" defer></script>
+<script src="../../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../../nav.js?v=20261103brand" defer></script>
+<script src="../../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

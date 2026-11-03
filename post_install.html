@@ -36,7 +36,6 @@
       <div class="lumen-doc-actions" id="doc-actions">
         <a class="lumen-button lumen-button--primary" id="doc-downloads" href="firmware.html">Firmware Downloads →</a>
         <a class="lumen-button" id="doc-guide" href="guide.html" hidden>Install guide</a>
-        <a class="lumen-doc-see-more" id="doc-source-link" href="#" target="_blank" rel="noopener noreferrer" hidden>See the original source ↗</a>
       </div>
     </header>
     <article class="lumen-doc-body" id="doc-body" aria-live="polite">
@@ -47,8 +46,8 @@
   </main>
   <div id="footer-root"></div>
   <div id="support-toolbar-slot"></div>
-  <script src="firmware-catalog.js?v=20260803" defer></script>
-  <script src="docs-viewer.js?v=20261104tokens" defer></script>
+  <script src="firmware-catalog.js?v=20261107notes" defer></script>
+  <script src="docs-viewer.js?v=20261107silo" defer></script>
   <script src="nav.js?v=20261105copyleft" defer></script>
   <script src="site-i18n.js?v=20260830" defer></script>
   <script>
@@ -118,7 +117,11 @@
             if (!wanted) return null;
             var postInstall = (wanted.getAttribute("post_install") || "").trim();
             var postInstall2 = (wanted.getAttribute("post_install2") || "").trim();
-            if (!state.url) state.url = D.postInstallTarget({ post_install: postInstall, post_install2: postInstall2 });
+            /* The catalogue can point at a project page while the manifest
+               names the Markdown file behind it: take the manifest's value
+               whenever we have no importable document yet. */
+            var manifestTarget = D.postInstallTarget({ post_install: postInstall, post_install2: postInstall2 });
+            if (manifestTarget && (!state.url || !D.parseSource(state.url))) state.url = manifestTarget;
             return {
               name: (wanted.getAttribute("name") || "").trim(),
               repo: (wanted.getAttribute("repo") || "").trim(),
@@ -165,22 +168,9 @@
           }
         }
 
-        var sourceLink = document.getElementById("doc-source-link");
-        if (sourceLink) {
-          if (source && source.blobUrl) {
-            sourceLink.href = source.blobUrl + (source.anchor || "");
-            sourceLink.textContent = "See the original instructions ↗";
-            sourceLink.hidden = false;
-          } else {
-            sourceLink.hidden = true;
-          }
-        }
-
         var sourceNote = document.getElementById("doc-source");
         if (sourceNote) {
-          var file = source.path || source.fileLabel || "";
-          sourceNote.innerHTML = "Instructions published by the project" +
-            (file ? " · <code>" + escapeHtml(file) + "</code>" : "");
+          sourceNote.textContent = "Instructions published by the project, shown here word for word.";
           sourceNote.hidden = false;
         }
       }
@@ -220,12 +210,15 @@
       function renderError(state, source, error) {
         var body = document.getElementById("doc-body");
         if (!body) return;
-        var openUrl = source ? source.blobUrl + (source.anchor || "") : (state.url || "https://innioasis.app/firmware.html");
+        var guideUrl = state.model
+          ? "guide.html?model=" + encodeURIComponent(state.model) +
+            (state.software ? "&software=" + encodeURIComponent(state.software) : "")
+          : "guide.html";
         body.innerHTML =
           '<div class="lumen-doc-status lumen-doc-error">' +
           "<p><strong>These instructions could not be loaded here.</strong> The project's file may have moved, or the browser could not reach it.</p>" +
-          '<p class="lumen-actions"><a class="lumen-button lumen-button--primary" href="' + escapeHtml(openUrl) +
-          '" target="_blank" rel="noopener noreferrer">Open the original instructions</a>' +
+          '<p class="lumen-actions"><a class="lumen-button lumen-button--primary" href="' + escapeHtml(guideUrl) +
+          '">Install guide</a>' +
           '<a class="lumen-button" href="firmware.html">Back to Firmware Downloads</a></p>' +
           "</div>";
         if (window.console && console.warn) console.warn("post-install fetch failed", error);
@@ -277,8 +270,7 @@
 
           var note = document.getElementById("doc-note");
           if (note) {
-            note.textContent = "These are " + label + "'s own instructions, shown word for word. " +
-              "Links inside them open the project's own pages.";
+            note.textContent = "These are " + label + "'s own instructions, shown here word for word.";
             note.hidden = false;
           }
         }).catch(function (error) {
@@ -315,6 +307,17 @@
         if (!state.model && item) state.model = item.model || "";
         if (!state.url && item) state.url = D.postInstallTarget(item) || item.post_install || "";
 
+        /* A catalogue link that is not Markdown is not the last word: the
+           manifest may name the Markdown file the project actually publishes,
+           and that is read in the viewer instead of sending the reader off
+           site. */
+        if (state.url && !D.parseSource(state.url)) {
+          mergeManifest(state).then(function (manifestItem) {
+            start(state, item, manifestItem);
+          });
+          return;
+        }
+
         if (!state.url) {
           mergeManifest(state).then(function (manifestItem) {
             if (!state.url) {
@@ -333,12 +336,37 @@
         start(state, item, null);
       }
 
+      function isOwnPage(url) {
+        try {
+          var parsed = new URL(url, window.location.href);
+          return parsed.hostname === window.location.hostname ||
+            /(^|\.)innioasis\.app$/i.test(parsed.hostname);
+        } catch (_) {
+          return true;
+        }
+      }
+
+      function showUnavailable(state, item) {
+        var body = document.getElementById("doc-body");
+        if (!body) return;
+        body.innerHTML =
+          '<div class="lumen-doc-status">This software publishes its post-install steps as a separate page, ' +
+          "so they are not shown here. The install guide and the firmware directory cover the same steps, " +
+          "and the release notes list what changed in each build.</div>";
+        setActions(state, item, null);
+      }
+
       function start(state, item, manifestItem) {
         var source = D.parseSource(state.url);
         if (!source) {
-          /* Not Markdown: the project's page, a PDF, a forum post. Open it the
-             way a normal link would. */
-          window.location.replace(state.url);
+          /* Only pages we host are opened directly. Anything else keeps the
+             reader here with our own install steps instead of becoming a
+             hand-off to someone else's site. */
+          if (isOwnPage(state.url)) {
+            window.location.replace(state.url);
+            return;
+          }
+          showUnavailable(state, item);
           return;
         }
         mount(state, item, manifestItem, source);
