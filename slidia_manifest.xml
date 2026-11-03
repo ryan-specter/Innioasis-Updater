@@ -3,23 +3,42 @@
   <!-- App Market: APKs -->
  <!-- <package name="Stock Menu 2.1.9 Update for Type B Y1's" repo="rockbox-y1/rockbox" url="https://github.com/y1-community/com.innioasis.y1/releases/latest" android_package="org.rockbox" device="y1" type="apk" handler="App" /> -->
   <!-- Custom Firmware: Project Gallagher -->
+
 <package name="Original Software" repo="y1-community/y1-stock-rom" device="Y1" url="https://github.com/y1-community/y1-stock-rom" type="img" handler="Custom Firmware" />
+
 <package name="Original Software" repo="y1-community/y1-stock-rom" device="Y2" url="https://github.com/y1-community/y1-stock-rom" type="img" handler="Custom Firmware" />
+
 <package name="Reborn (Y2Linux)" repo="schulzcode/y2linux" device="Y2" url="https://github.com/schulzcode/y2linux" type="img" post_install="https://innioasis.app/y2reborn_wifibt.html" handler="Custom Firmware" />
+
 <package name="Rockbox" repo="rockbox-y1/rockbox" device="Y1" url="https://github.com/rockbox-y1/rockbox" type="img" icon="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" handler="Custom Firmware" /> 
+
 <package name="Rockbox" repo="spycemagic/y2-rockbox" device="Y2" url="https://github.com/spycemagic/y2-rockbox" icon="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" type="img" handler="Custom Firmware" /> 
+
 <package name="Rondo" repo="jarvissax/rondo" device="Y1" url="https://github.com/jarvissax/rondo" post_install="https://github.com/jarvissax/rondo/blob/main/docs/install.md#first-start" icon="https://innioasis.app/assets/rondo_icon.jpg" type="img" handler="Custom Firmware" />
+
 <package name="Koensayr" repo="ryan-specter/koensayr-auto" derivative="y1-community/y1-stock-rom" device="Y1" url="https://github.com/ryan-specter/koensayr-auto" type="img" icon="https://avatars.githubusercontent.com/u/10089013?v=4" handler="Custom Firmware" />
+
 <package name="JJ Launcher" repo="ismileblue/y1_launcher" device="Y1" url="https://github.com/ismileblue/y1_launcher" type="img" handler="Custom Firmware" />
+
 <package name="JJ Launcher" repo="ismileblue/y1_launcher" device="Y2" url="https://github.com/ismileblue/y1_launcher" type="img" handler="Custom Firmware" />
+
 <package name="Please Update App To Continue" device_type="0" repo="Please-Click/Updates-Available" device="Y1" url="https://github.com/Please-Click/Updates-Available/releases/latest" type="img" handler="Custom Firmware" />
+
 <package name="inniclassic" repo="FabianZettl/inniclassic" device="Y1" url="https://github.com/FabianZettl/inniclassic" type="img" handler="Custom Firmware" />
+
 <package name="inniclassic" repo="JonaszPotoniec/inniclassic-y2" device="Y2" url="https://github.com/JonaszPotoniec/inniclassic-y2" type="img" handler="Custom Firmware" />
-<package name="Y2Player" repo="schulzcode/Y2Player" derivative="y1-community/y1-stock-rom" device="Y2" url="https://github.com/schulzcode/Y2Player" type="img" handler="Custom Firmware" />
+
+<package name="Y2Player" repo="schulzcode/Y2Player" device="Y2" url="https://github.com/schulzcode/Y2Player" type="img" handler="Custom Firmware" />
+
 <package name="Better-Y" repo="Leska1337/better-Y" derivative="y1-community/y1-stock-rom" device="Y1" url="https://github.com/Leska1337/better-Y" type="img" icon="https://github.com/Leska1337/better-Y/raw/main/screenshots/plus_logo.png" handler="Custom Firmware" />
+
 <package name="Android 4.2 (Dev)" repo="y1-community/y1-ata-rom" device="Y1" url="https://github.com/y1-community/y1-ata-rom" type="img" handler="Custom Firmware" />
+
 <package name="Android 4.4 (Dev)" repo="y1-community/y2-ata-rom" device="Y2" url="https://github.com/y1-community/y2-ata-rom" type="img" handler="Custom Firmware" />
+
 <package name="Linux for Y1 (Dev)" repo="y1-community/y1-linux-rom" device="Y1" url="https://github.com/y1-community/y1-linux-rom" type="img" handler="Custom Firmware" />
+
 <package name="Solar" repo="thesolarproject/solar" device="Y1" url="https://github.com/thesolarproject/solar" type="img" icon="https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png" handler="Custom Firmware" />
+
 <package name="Solar" repo="thesolarproject/solar" device="Y2" url="https://github.com/thesolarproject/solar" type="img" icon="https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png" handler="Custom Firmware" />
 </slidia>
