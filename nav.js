@@ -112,7 +112,7 @@
     return href;
   }
 
-  var isThemesSite = (window.location.hostname === "themes.innioasis.app") || (window.location.port === "8081") || (document.body && document.body.classList.contains("site-themes-app")) || !!document.querySelector(".gallery-topbar");
+  var isThemesSite = (window.location.hostname === "themes.innioasis.app") || (window.location.port === "8081") || !!document.querySelector(".gallery-topbar");
 
   function decorateMainSiteHref(path) {
     if (!path) return path;
@@ -135,7 +135,7 @@
     var t = document.title || "";
     if (isThemesSite) {
       if (path === "" || path === "/" || path.endsWith("/index.html")) {
-        document.title = "Y1 and Y2 themes - Innioasis Themes Gallery";
+        document.title = "Innioasis Themes Gallery - Y1 and Y2 Rockbox themes";
         return;
       }
       if (t.indexOf("Themes Gallery") === -1) {
@@ -144,20 +144,14 @@
       }
       return;
     }
-    if (path.endsWith("/firmware.html")) {
-      document.title = "Innioasis and Timmkoo Software Updates and Custom Firmware - Innioasis Firmware Archive";
-      return;
-    }
     if (isFirmwarePersona) {
-      if (t.indexOf("Firmware Archive") === -1) {
-        var base = t.split(/\s+[|·-]\s+(?:Innioasis|Community)/)[0].trim();
-        document.title = (base || t) + " - Innioasis Firmware Archive";
+      if (t.indexOf("Innioasis Firmware Downloads") === -1) {
+        var base = t.replace(/\s+[|·-]\s+Innioasis [^|·-]*$/, "").trim();
+        document.title = (base || t) + " - Innioasis Firmware Downloads";
       }
-    } else {
-      if (t.indexOf("Updater CE") === -1) {
-        var uBase = t.split(/\s+[|·-]\s+Innioasis/)[0].trim();
-        document.title = (uBase || t) + " - Innioasis Updater CE";
-      }
+    } else if (t.indexOf("Innioasis Updater") === -1) {
+      var uBase = t.replace(/\s+[|·-]\s+Innioasis [^|·-]*$/, "").trim();
+      document.title = (uBase || t) + " - Innioasis Updater";
     }
   })();
 
@@ -342,6 +336,42 @@
       ':root[data-lumen-theme="high-contrast"] .lumen-notice-open { border-color: #ffffff; color: #ffffff; }' +
       '.lumen-notice-link { font-size: 0.76rem; font-weight: 600; text-decoration: none; color: var(--lumen-accent, #6366f1); }' +
       ':root[data-lumen-theme="2077"] .lumen-notice-link { color: #ff1e3c; }' +
+      /* Contextual notice card: mounted by a page that knows what the visitor
+         is looking at (firmware.html). One notice at a time, rotating through
+         the eligible set. The tray beside the bell always lists every notice. */
+      '.lumen-context-notice-slot:empty { display: none; }' +
+      '.lumen-context-notice { display: block; margin: 0 0 14px; padding: 11px 14px 10px; border-radius: 12px; border: 1px solid var(--lumen-line, rgba(255,255,255,0.12)); border-left: 3px solid var(--lumen-accent, #6366f1); background: var(--lumen-panel-soft, rgba(255,255,255,0.04)); transition: opacity .16s ease; }' +
+      '.lumen-context-notice.is-fading { opacity: 0; }' +
+      '.lumen-context-notice[data-severity="warning"] { border-left-color: #f59e0b; }' +
+      '.lumen-context-notice[data-severity="critical"] { border-left-color: #ef4444; }' +
+      '.lumen-context-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: .72rem; }' +
+      '.lumen-context-kicker { font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--lumen-muted, #94a3b8); }' +
+      '.lumen-context-severity { font-weight: 800; font-size: .64rem; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; letter-spacing: .05em; background: rgba(59,130,246,0.16); color: #60a5fa; }' +
+      '.lumen-context-notice[data-severity="warning"] .lumen-context-severity { background: rgba(245,158,11,0.18); color: #fbbf24; }' +
+      '.lumen-context-notice[data-severity="critical"] .lumen-context-severity { background: rgba(239,68,68,0.18); color: #f87171; }' +
+      '.lumen-context-target { color: var(--lumen-muted, #94a3b8); font-weight: 600; }' +
+      ':root[data-lumen-theme="light"] .lumen-context-kicker, :root[data-lumen-theme="light"] .lumen-context-target { color: #64748b; }' +
+      ':root[data-lumen-theme="2077"] .lumen-context-kicker { color: #23e6e0; }' +
+      '.lumen-context-all { margin-left: auto; font-weight: 600; color: var(--lumen-accent, #6366f1); text-decoration: none; }' +
+      ':root[data-lumen-theme="2077"] .lumen-context-all { color: #ff1e3c; }' +
+      '.lumen-context-title { margin: 6px 0 3px; font-size: .95rem; font-weight: 700; line-height: 1.3; color: var(--lumen-text, #f8fafc); }' +
+      ':root[data-lumen-theme="light"] .lumen-context-title { color: #0f172a; }' +
+      '.lumen-context-title a { color: inherit; text-decoration: none; }' +
+      '.lumen-context-title a:hover { text-decoration: underline; }' +
+      '.lumen-context-summary { margin: 0; font-size: .82rem; line-height: 1.45; color: var(--lumen-muted, #94a3b8); }' +
+      ':root[data-lumen-theme="light"] .lumen-context-summary { color: #475569; }' +
+      '.lumen-context-foot { display: flex; align-items: center; gap: 10px; margin-top: 8px; }' +
+      '.lumen-context-dots { display: flex; align-items: center; gap: 2px; }' +
+      '.lumen-context-dot { position: relative; width: 28px; height: 28px; padding: 0; border: none; border-radius: 50%; background: transparent; cursor: pointer; }' +
+      '.lumen-context-dot::before { content: ""; position: absolute; inset: 10px; border-radius: 50%; background: var(--lumen-line-strong, rgba(255,255,255,.25)); transition: background .15s ease, transform .15s ease; }' +
+      '.lumen-context-dot.is-active::before { background: var(--lumen-accent, #6366f1); transform: scale(1.3); }' +
+      '.lumen-context-dot:hover::before { background: var(--lumen-text, #fff); }' +
+      '.lumen-context-dot:focus-visible { outline: 2px solid var(--lumen-accent, #6366f1); outline-offset: 2px; }' +
+      ':root[data-lumen-theme="2077"] .lumen-context-dot.is-active::before { background: #23e6e0; }' +
+      ':root[data-lumen-theme="high-contrast"] .lumen-context-dot::before { background: #ffffff; }' +
+      '.lumen-context-link { margin-left: auto; font-size: .76rem; font-weight: 600; color: var(--lumen-accent, #6366f1); text-decoration: none; }' +
+      ':root[data-lumen-theme="2077"] .lumen-context-link { color: #ff1e3c; }' +
+      '@media (prefers-reduced-motion: reduce) { .lumen-context-notice { transition: none; } .lumen-context-dot::before { transition: none; } }' +
       '.lumen-nav-social-btn { display: inline-flex !important; align-items: center !important; justify-content: center !important; width: auto !important; height: auto !important; min-width: 0 !important; min-height: 0 !important; padding: 4px 6px !important; background: transparent !important; border: none !important; box-shadow: none !important; border-radius: 0 !important; text-decoration: none !important; transition: transform 0.15s ease, opacity 0.15s ease, color 0.15s ease !important; flex-shrink: 0 !important; cursor: pointer !important; opacity: 0.88 !important; }' +
       '.lumen-nav-social-btn:hover { opacity: 1 !important; transform: scale(1.15) !important; background: transparent !important; border: none !important; box-shadow: none !important; }' +
       '.lumen-nav-social-btn--reddit { color: #ff4500 !important; }' +
@@ -661,7 +691,13 @@
           id: n.getAttribute("id") || "",
           type: n.getAttribute("type") || n.getAttribute("severity") || "info",
           date: n.getAttribute("date") || n.getAttribute("from") || "",
+          from: n.getAttribute("from") || n.getAttribute("date") || "",
+          until: n.getAttribute("until") || "",
+          persistent: (n.getAttribute("persistent") || "").toLowerCase() === "true",
           models: n.getAttribute("models") || "",
+          deviceType: n.getAttribute("device_type") || "",
+          firmwareRepo: n.getAttribute("firmware_repo") || "",
+          firmwareVersion: n.getAttribute("firmware_version") || "",
           title: textOf("title"),
           summary: textOf("summary") || textOf("content") || textOf("body"),
           link: textOf("url") || textOf("link"),
@@ -673,6 +709,307 @@
       return [];
     }
   }
+
+  /* ---- Contextual notices ---------------------------------------------------
+     One feed, two jobs. The bell tray and the Notices page list every current
+     notice with no filtering, so those views always show what everyone was
+     told. A page that knows what the visitor is looking at (device model,
+     hardware type, software repo, release tag) puts the same id on a slot and
+     the card below shows exactly ONE notice at a time, rotating through the
+     eligible set: every broadcast notice plus every notice whose targeting
+     matches the current context. See the specification in notice.xml. */
+  var noticeFeed = [];
+  var noticeContext = {};
+  var noticeCard = null;
+  var noticeRotateMs = 9000;
+  var noticeSeverityRank = { critical: 3, warning: 2, info: 1 };
+
+  function noticeSplit(value) {
+    return String(value == null ? "" : value).split(",").map(function (part) {
+      return part.trim();
+    }).filter(Boolean);
+  }
+  function noticeIsAny(value) {
+    var text = String(value == null ? "" : value).trim();
+    return !text || text === "*";
+  }
+  function noticeRepoKey(value) {
+    return String(value == null ? "" : value).trim().toLowerCase()
+      .replace(/^https?:\/\/(www\.)?github\.com\//, "")
+      .replace(/\.git$/, "")
+      .replace(/\/+$/, "");
+  }
+  function noticeVersionKey(value) {
+    return String(value == null ? "" : value).trim().toLowerCase().replace(/^v(?=\d)/, "");
+  }
+  function noticeVersionMatches(pattern, version) {
+    var want = noticeVersionKey(pattern);
+    var have = noticeVersionKey(version);
+    if (!want || want === "*") return true;
+    if (!have) return false;
+    if (want.indexOf("*") === -1) return want === have;
+    var rx = new RegExp("^" + want.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, ".*") + "$");
+    return rx.test(have);
+  }
+  function noticeListMatches(raw, value, compare) {
+    if (noticeIsAny(raw)) return true;
+    if (!value) return false;
+    return noticeSplit(raw).some(function (entry) {
+      return noticeIsAny(entry) || compare(entry, value);
+    });
+  }
+  function noticeModelEquals(a, b) {
+    return String(a).toUpperCase() === String(b).toUpperCase();
+  }
+
+  /* Fail closed: a dimension the context does not know cannot satisfy a
+     notice that declares it. */
+  function noticeMatches(notice, context) {
+    var ctx = context || {};
+    return noticeListMatches(notice.models, ctx.model, noticeModelEquals) &&
+      noticeListMatches(notice.deviceType, ctx.deviceType, noticeModelEquals) &&
+      noticeListMatches(notice.firmwareRepo, ctx.repo, function (a, b) { return noticeRepoKey(a) === noticeRepoKey(b); }) &&
+      noticeListMatches(notice.firmwareVersion, ctx.version, noticeVersionMatches);
+  }
+
+  function noticeHasTargeting(notice) {
+    return !noticeIsAny(notice.models) || !noticeIsAny(notice.deviceType) ||
+      !noticeIsAny(notice.firmwareRepo) || !noticeIsAny(notice.firmwareVersion);
+  }
+
+  function noticeTargetLabel(notice) {
+    var bits = [];
+    if (!noticeIsAny(notice.models)) bits.push(noticeSplit(notice.models).join(", ").toUpperCase());
+    if (!noticeIsAny(notice.deviceType)) bits.push("Type " + noticeSplit(notice.deviceType).join(", ").toUpperCase());
+    if (!noticeIsAny(notice.firmwareRepo)) bits.push(noticeSplit(notice.firmwareRepo).map(function (repo) {
+      var parts = String(repo).split("/");
+      return parts[parts.length - 1];
+    }).join(", "));
+    if (!noticeIsAny(notice.firmwareVersion)) bits.push(noticeSplit(notice.firmwareVersion).join(", "));
+    return bits.join(" · ");
+  }
+
+  function noticeToday() {
+    var now = new Date();
+    var pad = function (n) { return (n < 10 ? "0" : "") + n; };
+    return now.getFullYear() + "-" + pad(now.getMonth() + 1) + "-" + pad(now.getDate());
+  }
+  function noticeIsActive(notice, today) {
+    var day = today || noticeToday();
+    if (notice.from && String(notice.from).slice(0, 10) > day) return false;
+    if (notice.until && String(notice.until).slice(0, 10) < day) return false;
+    return true;
+  }
+  function noticeRank(a, b) {
+    var weight = (noticeSeverityRank[String(b.type || "").toLowerCase()] || 1) -
+      (noticeSeverityRank[String(a.type || "").toLowerCase()] || 1);
+    if (weight) return weight;
+    var dateA = String(a.date || "").slice(0, 10);
+    var dateB = String(b.date || "").slice(0, 10);
+    if (dateA !== dateB) return dateA < dateB ? 1 : -1;
+    return String(a.id) < String(b.id) ? -1 : 1;
+  }
+  function noticeEligible(context) {
+    var ctx = context || noticeContext;
+    var today = noticeToday();
+    return noticeFeed.filter(function (notice) {
+      return noticeIsActive(notice, today) && noticeMatches(notice, ctx);
+    }).sort(noticeRank);
+  }
+
+  function noticeCardMarkup(notice, index, total) {
+    var severity = String(notice.type || "info").toLowerCase();
+    var target = noticeTargetLabel(notice);
+    var detail = noticeDetailHref(notice.id);
+    var pageUrl = (notice.link && !noticeIsBareSiteUrl(notice.link)) ? notice.link : "";
+    var dots = "";
+    if (total > 1) {
+      var buttons = [];
+      for (var i = 0; i < total; i++) {
+        buttons.push('<button type="button" class="lumen-context-dot' + (i === index ? " is-active" : "") +
+          '" data-notice-index="' + i + '" aria-label="Show community notice ' + (i + 1) + ' of ' + total + '"' +
+          (i === index ? ' aria-current="true"' : "") + '></button>');
+      }
+      dots = '<div class="lumen-context-dots" role="group" aria-label="Community notices">' + buttons.join("") + '</div>';
+    }
+    return '<div class="lumen-context-head">' +
+      '<span class="lumen-context-kicker">Community notice' + (total > 1 ? " " + (index + 1) + "/" + total : "") + '</span>' +
+      '<span class="lumen-context-severity">' + escapeHtml(severity.toUpperCase()) + '</span>' +
+      (target ? '<span class="lumen-context-target">' + escapeHtml(target) + '</span>' : '') +
+      '<a class="lumen-context-all" href="' + escapeHtml(decorateMainSiteHref("/notices.html")) + '">All notices &rarr;</a>' +
+      '</div>' +
+      '<p class="lumen-context-title"><a href="' + escapeHtml(detail) + '">' + escapeHtml(notice.title || "Community notice") + '</a></p>' +
+      (notice.summary ? '<p class="lumen-context-summary">' + escapeHtml(notice.summary) + '</p>' : "") +
+      ((dots || pageUrl)
+        ? '<div class="lumen-context-foot">' + dots +
+          (pageUrl ? '<a class="lumen-context-link" href="' + escapeHtml(pageUrl) + '" target="_blank" rel="noopener noreferrer">Open linked page</a>' : "") +
+          '</div>'
+        : "");
+  }
+
+  function clearNoticeTimer() {
+    if (noticeCard && noticeCard.timer) {
+      clearTimeout(noticeCard.timer);
+      noticeCard.timer = null;
+    }
+  }
+  function scheduleNoticeRotation() {
+    if (!noticeCard) return;
+    clearNoticeTimer();
+    if (noticeCard.paused) return;
+    if (!noticeCard.items || noticeCard.items.length < 2) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    noticeCard.timer = window.setTimeout(function () {
+      noticeCardShow(noticeCard.index + 1, false);
+    }, noticeRotateMs);
+  }
+  function noticeCardShow(index, manual) {
+    if (!noticeCard) return;
+    var items = noticeCard.items || [];
+    var el = noticeCard.el;
+    if (!items.length) {
+      el.innerHTML = "";
+      el.hidden = true;
+      clearNoticeTimer();
+      return;
+    }
+    el.hidden = false;
+    if (index < 0) index = items.length - 1;
+    if (index >= items.length) index = 0;
+    noticeCard.index = index;
+    var notice = items[index];
+    el.setAttribute("data-severity", String(notice.type || "info").toLowerCase());
+    function paint() {
+      el.innerHTML = noticeCardMarkup(notice, index, items.length);
+      el.classList.remove("is-fading");
+    }
+    clearTimeout(noticeCard.fadeTimer);
+    if (manual) {
+      paint();
+    } else {
+      el.classList.add("is-fading");
+      noticeCard.fadeTimer = window.setTimeout(paint, 140);
+    }
+    scheduleNoticeRotation();
+  }
+  function renderNoticeCard(freshIds) {
+    if (!noticeCard) return;
+    var previous = noticeCard.items && noticeCard.items[noticeCard.index];
+    var items = noticeEligible();
+    if (freshIds && freshIds.length) {
+      /* A notice that just became relevant (the visitor picked Y2, or Rockbox)
+         is what they should see next, not whatever was already on screen. */
+      items.sort(function (a, b) {
+        var freshA = freshIds.indexOf(a.id) === -1 ? 1 : 0;
+        var freshB = freshIds.indexOf(b.id) === -1 ? 1 : 0;
+        return freshA - freshB || noticeRank(a, b);
+      });
+    }
+    var key = items.map(function (notice) { return notice.id; }).join("|");
+    var unchanged = key === noticeCard.key;
+    noticeCard.items = items;
+    if (unchanged && !(freshIds && freshIds.length)) return;
+    noticeCard.key = key;
+    if (!items.length) {
+      noticeCardShow(0, true);
+      return;
+    }
+    var targetIndex = 0;
+    var i;
+    if (freshIds && freshIds.length) {
+      for (i = 0; i < items.length; i++) {
+        if (freshIds.indexOf(items[i].id) !== -1) { targetIndex = i; break; }
+      }
+    } else if (previous) {
+      for (i = 0; i < items.length; i++) {
+        if (items[i].id === previous.id) { targetIndex = i; break; }
+      }
+    }
+    noticeCardShow(targetIndex, false);
+  }
+  function pauseNoticeCard() {
+    if (!noticeCard) return;
+    noticeCard.paused = true;
+    clearNoticeTimer();
+  }
+  function resumeNoticeCard() {
+    if (!noticeCard) return;
+    noticeCard.paused = false;
+    scheduleNoticeRotation();
+  }
+  function bindNoticeCard(el) {
+    el.addEventListener("click", function (event) {
+      var dot = event.target && event.target.closest ? event.target.closest("[data-notice-index]") : null;
+      if (!dot) return;
+      event.preventDefault();
+      pauseNoticeCard();
+      noticeCardShow(parseInt(dot.getAttribute("data-notice-index"), 10) || 0, true);
+    });
+    el.addEventListener("pointerenter", pauseNoticeCard);
+    el.addEventListener("pointerleave", resumeNoticeCard);
+    el.addEventListener("focusin", pauseNoticeCard);
+    el.addEventListener("focusout", function (event) {
+      if (!el.contains(event.relatedTarget)) resumeNoticeCard();
+    });
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) pauseNoticeCard();
+      else if (!el.contains(document.activeElement)) resumeNoticeCard();
+    });
+  }
+
+  function mountNoticeCard() {
+    var el = document.getElementById("lumen-context-notice");
+    if (!el || noticeCard) return noticeCard;
+    noticeCard = { el: el, items: [], index: 0, timer: null, fadeTimer: null, paused: false, key: "" };
+    bindNoticeCard(el);
+    var stored = window.INNIOASIS_NOTICE_CONTEXT;
+    if (stored && typeof stored === "object") {
+      Object.keys(stored).forEach(function (key) {
+        var value = stored[key];
+        if (value !== undefined && value !== null && value !== "") noticeContext[key] = value;
+      });
+    }
+    renderNoticeCard([]);
+    return noticeCard;
+  }
+
+  /* A page calls this whenever the viewer's selection changes. Dimensions left
+     empty are forgotten, so a stale repo cannot keep a notice alive. */
+  function setNoticeContext(patch) {
+    var before = noticeEligible().map(function (notice) { return notice.id; });
+    Object.keys(patch || {}).forEach(function (key) {
+      var value = patch[key];
+      if (value === undefined || value === null || value === "") delete noticeContext[key];
+      else noticeContext[key] = value;
+    });
+    window.INNIOASIS_NOTICE_CONTEXT = {};
+    Object.keys(noticeContext).forEach(function (key) {
+      window.INNIOASIS_NOTICE_CONTEXT[key] = noticeContext[key];
+    });
+    var eligible = noticeEligible();
+    var fresh = eligible.filter(function (notice) { return before.indexOf(notice.id) === -1; })
+      .map(function (notice) { return notice.id; });
+    if (!noticeCard) mountNoticeCard();
+    renderNoticeCard(fresh);
+    return { eligible: eligible, fresh: fresh };
+  }
+
+  window.InnioasisNotices = {
+    setContext: setNoticeContext,
+    getContext: function () {
+      var copy = {};
+      Object.keys(noticeContext).forEach(function (key) { copy[key] = noticeContext[key]; });
+      return copy;
+    },
+    getNotices: function () { return noticeFeed.slice(); },
+    eligible: function (context) { return noticeEligible(context); },
+    matches: noticeMatches,
+    isTargeted: noticeHasTargeting,
+    refresh: function () {
+      if (!noticeCard) mountNoticeCard();
+      else renderNoticeCard([]);
+    }
+  };
 
   var noticesLoaded = false;
   function loadCommunityNotices() {
@@ -700,9 +1037,9 @@
         .then(function (res) {
           if (!res.ok) throw new Error("HTTP " + res.status);
           return res.text();
-        })
-        .then(function (xmlText) {
+        })        .then(function (xmlText) {
           var items = parseNoticesXml(xmlText);
+
           if (!items || !items.length) {
             tryFetch();
             return;
@@ -718,10 +1055,12 @@
               if (seenIds.indexOf(item.id) === -1) unreadCount++;
             }
             var typeTag = (item.type || "INFO").toUpperCase();
-            var rawModels = (item.models || "").trim();
-            var isAllModels = !rawModels || /^(all|all\s+models|\*)$/i.test(rawModels);
-            var modelsBadge = (!isAllModels && rawModels)
-              ? '<span class="lumen-notice-models">' + escapeHtml(rawModels) + '</span>'
+            /* The tray is the unfiltered view: every current notice is listed
+               whatever its targeting, with its targets named so a reader can
+               tell who it was written for. */
+            var targetLabel = noticeTargetLabel(item);
+            var modelsBadge = targetLabel
+              ? '<span class="lumen-notice-models">' + escapeHtml(targetLabel) + '</span>'
               : '';
             /* The tray opens the notice itself. A notice that only points at
                the bare site has no page of its own to send anyone to. */
@@ -757,6 +1096,12 @@
               unreadCount = 0;
             } catch (_) {}
           }
+
+          noticeFeed = items;
+          mountNoticeCard();
+          try {
+            document.dispatchEvent(new CustomEvent("innioasis:notices", { detail: items }));
+          } catch (_) {}
           noticesBody.innerHTML = html;
           noticesTray.setAttribute("data-notice-ids", allIds.join(","));
           if (noticesBadge) {

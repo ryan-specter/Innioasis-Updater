@@ -1312,7 +1312,7 @@
             var githubUrl = release && release.tag_name
                 ? 'https://github.com/' + item.repo + '/releases/tag/' + encodeURIComponent(release.tag_name)
                 : 'https://github.com/' + item.repo + '/releases';
-            return '<tr>' +
+            return '<tr data-release-tag="' + escapeHtml(release && (release.tag_name || release.name) || "") + '">' +
                 '<td><div style="display:flex;align-items:center;gap:10px;">' + iconHtml + '<div>' + versionHtml + (release && release.published_at ? '<br><span class="lumen-meta">' + escapeHtml(release.published_at.slice(0, 10)) + '</span>' : '') + '</div></div></td>' +
                 /* The package is not shown: the Release details expander lists
                    the rom zips this release is packaged in. */
@@ -1346,6 +1346,40 @@
                 }
             });
             table.innerHTML = rows.join("");
+            /* Model, type, software and release are all known here: hand them
+               to the notice card so it can re-rank and surface what applies. */
+            syncNoticeContext();
+        }
+
+        /* ---- Contextual community notices ----
+           This screen is the one place that knows which player, hardware type,
+           software project and release the visitor is looking at, so it feeds
+           that context to the shared notice card in nav.js. The card itself
+           shows one notice at a time and rotates through the eligible ones. */
+        function currentReleaseVersion(item) {
+            var visible = item ? visibleReleases(item) : null;
+            if (!visible || !visible.length) return "";
+            var latest = visible[0];
+            return (latest && (latest.tag_name || latest.name)) || "";
+        }
+        function syncNoticeContext(releaseTag) {
+            var item = matchingItems()[0] || null;
+            /* An empty dimension is dropped by the notice engine, so a stale
+               repo or version can never keep a notice alive. */
+            var patch = {
+                model: model ? model.value : "",
+                deviceType: typeForItem(item),
+                software: item ? item.name : "",
+                repo: item ? item.repo : "",
+                version: releaseTag || currentReleaseVersion(item)
+            };
+            var notices = window.InnioasisNotices;
+            if (notices && typeof notices.setContext === "function") {
+                notices.setContext(patch);
+            } else {
+                /* nav.js may not have run yet; it reads this on mount. */
+                window.INNIOASIS_NOTICE_CONTEXT = patch;
+            }
         }
 
         function fillSoftwareFilter() {
@@ -1452,6 +1486,16 @@
             var itemModel = btn.getAttribute("data-item-model") || "Y1";
             var releaseTag = btn.getAttribute("data-release-tag") || "release";
             startSmartZipDownload(zipUrl, zipName, itemName, itemModel, releaseTag);
+        });
+
+        /* Opening a release's details means the visitor is reading about that
+           exact version, so version-targeted notices apply from then on. */
+        table.addEventListener("click", function (event) {
+            var summary = event.target.closest ? event.target.closest(".lumen-release-details > summary") : null;
+            if (!summary) return;
+            var row = summary.closest("tr");
+            var tag = row ? row.getAttribute("data-release-tag") : "";
+            if (tag) syncNoticeContext(tag);
         });
 
         if (model) model.addEventListener("change", function () { syncTypeField(); fillSoftwareFilter(); render(); refreshLive(); syncUrl(); });

@@ -341,6 +341,9 @@
         ["Confirm the player is fully powered off before connecting.", "Confirm the rig is fully powered off before jacking in."],
         ["Reconnect the cable only when the tool is waiting. A port race can need a full unplug and a fresh Download click.", "Jack the datalink back in only when the tool is waiting. A port race can need a full unplug and a fresh Download click."],
         /* Footer */
+        /* Community Edition keeps its name in every theme, including 2077. */
+        ["Updater Community Edition", "Updater CE"],
+        ["Community Edition", "CE"],
         ["Innioasis Updater", "Innioasis Updater"],
         ["Installation guide", "Install run"],
         ["Software Downloads", "Soft drops"],
@@ -359,7 +362,9 @@
         /* The greedy "Community" string rule would turn the product name
            into "Updater The Afterlife Edition"; restore it after the
            string rules run. */
-        [/Updater The Afterlife Edition/, "Updater Community Edition"],
+        [/Updater The Afterlife Edition/, "Updater CE"],
+        [/The Afterlife Edition/, "Community Edition"],
+        [/Afterlife Edition/, "Community Edition"],
         [/^Install (.+) on your (Y1|Y2)$/, "Flash $1 on your $2"],
         [/^Install (.+) on your (Y1|Y2)\.$/, "Flash $1 on your $2."],
         [/^Install (.+) on your (Y1|Y2) \| Innioasis Updater$/, "Flash $1 on your $2 | Innioasis Updater"],
