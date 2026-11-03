@@ -286,34 +286,16 @@
         return url.toString();
     }
 
-    /* Spanish visitors get the Spanish walkthrough in the featured slot;
-       everyone else meets it as the final slide of the carousel. */
+    /* Player language for every embed; the Spanish walkthrough stays the
+       final slide of the carousel. */
     function applyEmbedLanguage() {
         var lang = preferredLanguage();
-        var spanish = lang === "es";
         document.querySelectorAll("iframe[src*='youtube']").forEach(function (frame) {
             var base = frame.getAttribute("data-embed-src") || frame.getAttribute("src");
             if (!base) return;
             frame.setAttribute("data-embed-src", base);
             frame.setAttribute("src", withPlayerLanguage(base, lang));
         });
-        var featured = document.querySelector("[data-featured-video]");
-        if (featured && spanish) {
-            featured.setAttribute("src", withPlayerLanguage("https://www.youtube-nocookie.com/embed/cdp5mpLhGkI?rel=0&start=305", lang));
-            featured.setAttribute("title", "Cristian Plaza: instalación de Rockbox en el Innioasis Y1 (en español)");
-        }
-        var caption = document.querySelector("[data-featured-caption]");
-        if (caption) {
-            caption.innerHTML = spanish
-                ? 'Vídeo de <a href="https://www.youtube.com/@CristianPlaza" target="_blank" rel="noopener noreferrer">Cristian Plaza</a>, en español, empezando por la instalación.'
-                : 'Video by <a href="https://www.youtube.com/watch?v=Jzo8LNJNE5I" target="_blank" rel="noopener noreferrer">Frawgeeys</a>. Installing Rockbox on the Y1 with Updater CE.';
-        }
-        if (spanish) {
-            /* It is already the featured video; do not show it twice. */
-            document.querySelectorAll("[data-video-lang='es']").forEach(function (slide) {
-                if (slide.parentNode) slide.parentNode.removeChild(slide);
-            });
-        }
     }
 
     function initCarousel(root) {
@@ -1293,11 +1275,11 @@
         if (viewParam === "firmware") {
             if (heroKicker) heroKicker.textContent = "Innioasis & Timmkoo Firmware Downloads";
             if (heroH1) heroH1.textContent = "Software Updates and Firmware";
-            if (heroLead) heroLead.textContent = "Browse verified Original Software and community custom firmwares for the Innioasis Y1, Y2, and Timmkoo players. Download standalone packages or install directly with Updater CE.";
+            if (heroLead) heroLead.textContent = "Browse verified Original Software and community custom firmwares for the Innioasis Y1 and Y2. Download standalone packages or install directly with Updater CE. Timmkoo Q5 and Q3 install from the firmware ZIP and RAR packages Timmkoo supplies.";
         } else {
             if (heroKicker) heroKicker.textContent = "Innioasis Software Updates & Downloads";
             if (heroH1) heroH1.textContent = "Software Updates and Firmware";
-            if (heroLead) heroLead.textContent = "Browse verified Original Software and community custom firmwares for the Innioasis Y1, Y2, and Timmkoo players. Download standalone packages or install directly with Updater CE.";
+            if (heroLead) heroLead.textContent = "Browse verified Original Software and community custom firmwares for the Innioasis Y1 and Y2. Download standalone packages or install directly with Updater CE. Timmkoo Q5 and Q3 install from the firmware ZIP and RAR packages Timmkoo supplies.";
         }
         /* Nightly / pre-release filter, mirroring the Updater app's
            "Show nightly builds" checkbox. Off by default: stable releases

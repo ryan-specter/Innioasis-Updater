@@ -26,7 +26,7 @@
         ["Get Innioasis Updater", "Grab Innioasis Updater"],
         ["Help me choose", "Pick your soft"],
         ["Community videos", "The Afterlife holos"],
-        ["Get to know Updater.", "Get to know Updater."],
+        ["Get to Know Innioasis Updater", "Conoce Innioasis Updater"],
         ["Start here", "Start here"],
         ["Using Innioasis Updater", "Using Innioasis Updater"],
         ["Choose Y1 or Y2", "Choose Y1 or Y2"],
