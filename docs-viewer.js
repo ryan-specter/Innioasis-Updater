@@ -909,10 +909,61 @@
    * Fetching
    * ------------------------------------------------------------------ */
 
-  function fetchText(url, timeoutMs) {
+  var SCRIPT_BASE = (function () {
+    try {
+      var script = document.currentScript;
+      if (script && script.src) return new URL(".", script.src).href;
+    } catch (_) {}
+    return "";
+  })();
+
+  /* Access tokens published with the site in config.ini. Entries are often
+     stored without the github_pat_ prefix and some carry quotes, so every
+     value is normalised before it is offered to the API. */
+  var githubTokens = null;
+  var tokensRequest = null;
+
+  function normalizeToken(raw) {
+    var value = String(raw == null ? "" : raw).trim().replace(/^["']+/, "").replace(/["']+$/, "").trim();
+    if (!value || /^(your|token|paste|none|xxx)/i.test(value)) return "";
+    if (/^github_pat_/i.test(value)) return "github_pat_" + value.slice(11);
+    if (/^(ghp_|gho_|ghu_|ghs_|github_pat)/i.test(value)) return value;
+    return "github_pat_" + value;
+  }
+
+  function parseTokenConfig(text) {
+    var tokens = [];
+    String(text || "").split(/\r?\n/).forEach(function (line) {
+      if (!/^(key_\d+|token)\s*=/.test(line.trim())) return;
+      var token = normalizeToken(line.split("=").slice(1).join("="));
+      if (token.length > 12 && tokens.indexOf(token) === -1) tokens.push(token);
+    });
+    return tokens;
+  }
+
+  /* Reuse the pool the release directory already loaded, so a page never asks
+     for config.ini twice. */
+  function loadGithubTokens() {
+    if (Array.isArray(githubTokens)) return Promise.resolve(githubTokens);
+    var shared = global.INNIOASIS_GITHUB_TOKENS;
+    if (Array.isArray(shared) && shared.length) {
+      githubTokens = shared.slice();
+      return Promise.resolve(githubTokens);
+    }
+    if (tokensRequest) return tokensRequest;
+    tokensRequest = fetch(SCRIPT_BASE + "config.ini", { cache: "no-store", credentials: "omit" })
+      .then(function (res) { return res.ok ? res.text() : ""; })
+      .then(function (text) { githubTokens = parseTokenConfig(text); return githubTokens; })
+      .catch(function () { githubTokens = []; return githubTokens; });
+    return tokensRequest;
+  }
+
+  function requestText(url, timeoutMs, token) {
     var controller = null;
     var timer = null;
     var init = { cache: "no-store", credentials: "omit", mode: "cors" };
+    init.headers = { Accept: "application/vnd.github+json" };
+    if (token) init.headers.Authorization = "Bearer " + token;
     if (typeof AbortController !== "undefined") {
       controller = new AbortController();
       init.signal = controller.signal;
@@ -920,7 +971,11 @@
     }
     return fetch(url, init).then(function (res) {
       if (timer) clearTimeout(timer);
-      if (!res.ok) throw new Error("HTTP " + res.status);
+      if (!res.ok) {
+        var error = new Error("HTTP " + res.status);
+        error.status = res.status;
+        throw error;
+      }
       return res.text();
     }).catch(function (error) {
       if (timer) clearTimeout(timer);
@@ -928,8 +983,37 @@
     });
   }
 
+  function fetchText(url, timeoutMs) {
+    return requestText(url, timeoutMs, "");
+  }
+
+  /* GitHub API calls go through a token first: the anonymous allowance is
+     small and shared, so every reader on the site would spend it. A token is
+     tried, then the next, then the call is repeated anonymously; a token the
+     API rejects is dropped so it is never offered again. */
+  function fetchGithubText(url, timeoutMs) {
+    return loadGithubTokens().then(function () {
+      var tried = [];
+      function attempt() {
+        var available = githubTokens.filter(function (value) { return tried.indexOf(value) === -1; });
+        var token = available.length ? available[Math.floor(Math.random() * available.length)] : "";
+        if (token) tried.push(token);
+        return requestText(url, timeoutMs, token).catch(function (error) {
+          if (error && error.status === 401 && token) {
+            var at = githubTokens.indexOf(token);
+            if (at !== -1) githubTokens.splice(at, 1);
+            return attempt();
+          }
+          if (token) return attempt();
+          throw error;
+        });
+      }
+      return attempt();
+    });
+  }
+
   function fetchGithubJson(url) {
-    return fetchText(url).then(function (body) { return JSON.parse(body); });
+    return fetchGithubText(url).then(function (body) { return JSON.parse(body); });
   }
 
   /**
@@ -949,7 +1033,7 @@
         });
       });
       attempts.push(function () {
-        return fetchText("https://api.github.com/repos/" + source.repo + "/contents/" + source.path +
+        return fetchGithubText("https://api.github.com/repos/" + source.repo + "/contents/" + source.path +
           "?ref=" + encodeURIComponent(source.ref), 12000)
           .then(function (body) {
             var data = JSON.parse(body);

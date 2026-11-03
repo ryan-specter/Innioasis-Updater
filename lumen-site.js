@@ -94,16 +94,21 @@
         });
     }
 
-    /* A nightly build is a GitHub pre-release, or a release whose tag or
-       name says so. Rockbox Y1 and Y2 ship nightly builds, so a project
-       can have nightlies without any stable release. A release tagged
-       "stable" is always treated as stable, matching the Updater app. */
+    /* Nightlies are what the "Show nightly builds" option hides: a release
+       whose tag or name says nightly, or an unlabelled GitHub pre-release.
+       A pre-release that names a version (beta, preview, RC) is a published
+       preview release rather than a nightly - Rockbox Y2 publishes nothing
+       but betas, and hiding those left its table showing a single
+       superseded stable build. A release tagged "stable" is always treated
+       as stable, matching the Updater app. */
     function isNightly(release) {
         if (!release) return false;
         var tag = (release.tag_name || "").toLowerCase();
         if (tag.indexOf("stable") !== -1) return false;
-        var label = (tag + " " + (release.name || "")).toLowerCase();
-        return !!release.prerelease || label.indexOf("nightly") !== -1;
+        var label = tag + " " + (release.name || "").toLowerCase();
+        if (label.indexOf("nightly") !== -1) return true;
+        if (!release.prerelease) return false;
+        return !/\b(beta|preview|rc\d*)\b/.test(label);
     }
 
     /* Clean display version for a release, mirroring the Updater app's
@@ -197,6 +202,9 @@
                     .map(function (value) {
                         return /^(github_pat_|ghp_|gho_|ghu_)/.test(value) ? value : "github_pat_" + value;
                     });
+                /* Share the pool with the docs reader so a page never loads
+                   config.ini twice. */
+                window.INNIOASIS_GITHUB_TOKENS = githubTokens;
                 return githubTokens;
             })
             .catch(function () { githubTokens = []; return githubTokens; });
@@ -1055,11 +1063,12 @@
             if (heroH1) heroH1.textContent = "Software Updates and Firmware";
             if (heroLead) heroLead.textContent = "Browse verified Original Software and community custom firmwares for the Innioasis Y1, Y2, and Timmkoo players. Download standalone packages or install directly with Updater CE.";
         }
-        /* Nightly / pre-release filter, mirroring the Updater app's
-           "Show nightly builds" checkbox. Off by default: stable releases
-           only. Tick it to see preview, nightly, and RC builds. The URL
-           ?nightly=1 param wins so filtered views stay shareable; without
-           it we reuse the same preference as the home page table. */
+        /* Nightly filter, mirroring the Updater app's "Show nightly builds"
+           checkbox. Off by default: stable releases plus published preview
+           builds (beta/RC), which are real releases. Tick it to add nightly
+           builds. The URL ?nightly=1 param wins so filtered views stay
+           shareable; without it we reuse the same preference as the home
+           page table. */
         var nightly = document.getElementById("lumen-nightly-filter");
         var storedNightly = false;
         if (!window.INNIOASIS_PRIVACY || window.INNIOASIS_PRIVACY.allows("nightly")) {
@@ -1123,6 +1132,9 @@
         var wantedModel = (availableModels.indexOf(modelParam) !== -1) ? modelParam : ((availableModels.indexOf(hashModel) !== -1) ? hashModel : "");
         if (model && wantedModel) {
             model.value = wantedModel;
+            /* The Device type field follows the model, so a ?model=Y2 or
+               #y2 link must not leave the Y1-only type control on screen. */
+            syncTypeField();
             if (filterSection) window.setTimeout(function () { filterSection.scrollIntoView({ block: "start" }); }, 0);
         }
         /* ?software=slug preselects a project; the slug embeds the model (original-y1, rockbox-y2). */
@@ -1187,9 +1199,9 @@
         }
 
         /* Apply the nightly filter on top of the model-matched releases.
-           Unchecked: stable releases only. Checked: every release, with
-           stable builds still included alongside previews. Returns null
-           when releases exist but the current filter hides them all. */
+           Unchecked: stable and preview releases. Checked: every release.
+           Returns null when releases exist but the current filter hides
+           them all. */
         function visibleReleases(item) {
             var all = releasesForItem(item);
             if (!all) return null;
@@ -1753,7 +1765,7 @@
             var path = window.location.pathname || "";
             var prefix = /\/guides\/|\/notices\/|\/Troubleshooting\//.test(path) ? "../" : "";
             var script = document.createElement("script");
-            script.src = prefix + "docs-viewer.js?v=20261103saveas";
+            script.src = prefix + "docs-viewer.js?v=20261104tokens";
             script.async = true;
             script.onload = function () { resolve(window.InnioasisDocs || null); };
             script.onerror = function () { resolve(null); };
