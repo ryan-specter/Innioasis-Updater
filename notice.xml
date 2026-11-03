@@ -19,6 +19,26 @@
   - from: optional ISO date YYYY-MM-DD. Shown on or after this date.
   - until: optional ISO date YYYY-MM-DD. Shown on or before this date.
   - models: optional comma-separated list of target models (e.g. "Y1,Y2"). Omit for all models.
+  - platform: optional comma-separated list (mac,windows,linux). Omitted means all.
+
+  Contextual targeting (all optional; every attribute set must match):
+  - device_type: comma-separated hardware revisions, e.g. "A" or "B" ("Type A"
+      is accepted). Y1 is the only model with revisions today.
+  - firmware_repo: the repository the notice is about, written exactly as in
+      slidia_manifest.xml, e.g. "rockbox-y1/rockbox". Full GitHub URLs are
+      accepted and * wildcards work.
+  - firmware_version: comma-separated release tags, e.g. "v3.2.0", "v3.2.*"
+      or "*" for any release of that repository. The leading "v" is optional.
+
+  A notice with none of these is for EVERYONE. In Updater CE the Select
+  Software card shows one notice at a time, ordered by how specific the match
+  is (firmware_repo, firmware_version, device_type, models, everyone) and
+  cycles through the rest of what applies; a reader's contexts are the current
+  selection plus every device logged for update reminders. Here on the site,
+  notices.html?repo=<repo>&model=<Y1|Y2>&type=<A|B>&version=<tag> lists notices
+  about that firmware first while keeping everyone's notices in the same list.
+  The app's Notices list, pop-out list and notification tray always show every
+  active notice, with no contextual narrowing.
 
   Child elements:
   - <title>: required, headline of the notice.
@@ -36,7 +56,7 @@
 -->
 <notices updated="2026-11-03">
 
-  <notice id="2026-11-03-rockbox-y2-warn" persistent="false" severity="warning" from="2026-11-03" until="2026-12-31" models="Y2">
+  <notice id="2026-11-03-rockbox-y2-warn" persistent="false" severity="warning" from="2026-11-03" until="2026-12-31" models="Y2" firmware_repo="spycemagic/y2-rockbox" firmware_version="*">
     <title>Users having issues with Rockbox for Y2.</title>
     <content>Rockbox 360p themes not working and music not reading from MicroSD.</content>
     <full_content>Rockbox for Y2 has two open problems reported by the community:
