@@ -969,8 +969,7 @@
       '<a href="' + escapeHtml(decorateMainSiteHref("/credits.html")) + '">Community Credits</a>' +
       '</div>' +
       '</div>' +
-      '<div class="footer-credit">Site created by <a href="https://ko-fi.com/teamslide" target="_blank" rel="noopener noreferrer">Ryan Specter</a> with the <a href="' + escapeHtml(decorateMainSiteHref("/credits.html")) + '">Innioasis Community</a>.</div>' +
-      '<div class="footer-bottom">Copyleft - Innioasis users and contributors, for the community.</div>' +
+      '<div class="footer-bottom">Copyleft - Ryan Specter and the Innioasis Community</div>' +
       '</footer>';
   }
 

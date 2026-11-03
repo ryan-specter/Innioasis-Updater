@@ -356,7 +356,7 @@
     body.donor-credits-controls-hidden .donor-credits-actions { display: none; }
     .donor-credits-actions button:hover, .donor-credits-actions button:focus-visible, .donor-credits-actions select:hover, .donor-credits-actions select:focus-visible { border-color: #10b981; background: #10b981; color: #03140d; outline: none; }
   </style>
-</head>
+<meta property="og:site_name" content="Innioasis Updater"></head>
 <body class="site-themes-app">
   <a class="lumen-skip-link" href="#main">Skip to content</a>
   <div id="nav-root"></div>
@@ -522,7 +522,7 @@
   </div>
   <div id="footer-root"></div>
   <div id="support-toolbar-slot"></div>
-  <script src="nav.js?v=20261105noticecards" defer></script>
+  <script src="nav.js?v=20261105copyleft" defer></script>
   <script src="site-i18n.js?v=20260830" defer></script>
 
   <script>
@@ -822,11 +822,14 @@
         if (key.indexOf("__anonymous_") !== 0 && topKeys[key]) topEntries.push(groups[key]);
         else otherEntries.push(groups[key]);
       });
-      topEntries.sort(function (a, b) { return b.total - a.total || a.name.localeCompare(b.name); });
-      otherEntries.sort(function (a, b) {
-        return (b.latestDt ? b.latestDt.getTime() : 0) - (a.latestDt ? a.latestDt.getTime() : 0);
+      // One credits list, newest donation first. Top Supporters keep their
+      // designation, but the list itself is chronological.
+      var chronologicalEntries = topEntries.concat(otherEntries);
+      chronologicalEntries.sort(function (a, b) {
+        return (b.latestDt ? b.latestDt.getTime() : 0) - (a.latestDt ? a.latestDt.getTime() : 0) ||
+          a.name.localeCompare(b.name);
       });
-      donorCreditsEntries = topEntries.concat(otherEntries);
+      donorCreditsEntries = chronologicalEntries;
 
       var overlay = document.getElementById("donor-credits-overlay");
       if (overlay && !overlay.hidden) startDonorCreditsCycle();
@@ -1361,7 +1364,7 @@
         });
       }
 
-      // 4. Render Table — merged per-donor, Top Supporters first
+      // 4. Render Table — merged per-donor, newest donations first
       var tableBody = document.getElementById("donations-table-body");
       if (tableBody) {
         tableBody.innerHTML = "";
@@ -1428,14 +1431,17 @@
           });
           Object.keys(mergedMap).forEach(function (k) {
             var e = mergedMap[k];
-            if (topSupporterKeys[k]) topSupporters.push(e);
+            e.isTopSupporter = !!topSupporterKeys[k];
+            if (e.isTopSupporter) topSupporters.push(e);
             else otherContributors.push(e);
           });
 
-          // Top Supporters: largest total first; remaining credits: newest first.
-          topSupporters.sort(function (a, b) { return b.total - a.total || a.name.localeCompare(b.name); });
-          otherContributors.sort(function (a, b) {
-            return (b.latestDt ? b.latestDt.getTime() : 0) - (a.latestDt ? a.latestDt.getTime() : 0);
+          // One list, newest donation first. Top Supporters keep their star and
+          // label but are no longer pulled above everyone else.
+          var chronologicalCredits = topSupporters.concat(otherContributors);
+          chronologicalCredits.sort(function (a, b) {
+            return (b.latestDt ? b.latestDt.getTime() : 0) - (a.latestDt ? a.latestDt.getTime() : 0) ||
+              a.name.localeCompare(b.name);
           });
           // Anonymous: sorted by date desc
           anonEntries.sort(function (a, b) {
@@ -1557,9 +1563,10 @@
             return tr;
           }
 
-          // Render: Top Supporters first, then remaining credits newest-to-oldest, then anonymous.
-          topSupporters.forEach(function (e) { tableBody.appendChild(renderMergedRow(e, true)); });
-          otherContributors.forEach(function (e) { tableBody.appendChild(renderMergedRow(e, false)); });
+          // Render: every credit newest-to-oldest, then anonymous.
+          chronologicalCredits.forEach(function (e) {
+            tableBody.appendChild(renderMergedRow(e, !!e.isTopSupporter));
+          });
 
           // Anonymous rows (not merged — each is its own unknown person)
           anonEntries.forEach(function (d) {

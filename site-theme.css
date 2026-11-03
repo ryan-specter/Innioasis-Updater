@@ -990,16 +990,3 @@ body.site-themes-app .bulk-update-panel {
 }
 
 /* Footer credit line: site creator + community */
-.site-footer .footer-credit {
-    margin: 0 0 6px;
-    font-size: 0.86rem;
-    color: var(--text-secondary, #9aa4b2);
-}
-.site-footer .footer-credit a {
-    color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-}
-.site-footer .footer-credit a:hover {
-    color: var(--accent, #66b3ff);
-}

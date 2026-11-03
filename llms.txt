@@ -51,3 +51,10 @@
 - [Themes Gallery](https://themes.innioasis.app/): Community themes for the Y1 and Rockbox.
 - [Clean install guide](https://innioasis.app/Troubleshooting/clean_install.html): Full clean-install walkthrough for Windows, macOS, and Linux.
 - [Source code](https://github.com/y1-community/Innioasis-Updater): The Updater source and this site on GitHub.
+
+Recovery guides:
+- https://innioasis.app/guides/recovery.html
+- https://innioasis.app/guides/y1-wont-turn-on.html
+- https://innioasis.app/guides/y2-wont-turn-on.html
+- https://innioasis.app/guides/y1-scroll-wheel-not-working.html
+- https://innioasis.app/guides/y2-scroll-wheel-not-working.html
