@@ -409,4 +409,7 @@
   <url><loc>https://innioasis.app/release-notes/y2player-y2/releasev1.2.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://innioasis.app/release-notes/y2player-y2/releasev1.1.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://innioasis.app/release-notes/y2player-y2/release.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://innioasis.app/firmware-info/index.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://innioasis.app/firmware-info/spycemagic-y2-rockbox.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://innioasis.app/firmware-info/leska1337-better-y.html</loc><changefreq>weekly</changefreq></url>
 </urlset>

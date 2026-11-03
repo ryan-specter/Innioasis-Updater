@@ -716,13 +716,17 @@
      told. A page that knows what the visitor is looking at (device model,
      hardware type, software repo, release tag) puts the same id on a slot and
      the card below shows exactly ONE notice at a time, rotating through the
-     eligible set: every broadcast notice plus every notice whose targeting
-     matches the current context. See the specification in notice.xml. */
+     notices that both match the current context and deserve to interrupt the
+     release list: a warning-level notice (or worse) that names the firmware
+     or the release it is about. Broadcasts and info notices stay in the bell
+     tray and on the notices page. See the specification in notice.xml. */
   var noticeFeed = [];
   var noticeContext = {};
   var noticeCard = null;
   var noticeRotateMs = 9000;
-  var noticeSeverityRank = { critical: 3, warning: 2, info: 1 };
+  var noticeSeverityRank = { critical: 3, warning: 2, severe: 2, alert: 2, info: 1 };
+  /* Severities the inline firmware-directory card may show. */
+  var noticeCardSeverities = { critical: true, warning: true, severe: true, alert: true };
 
   function noticeSplit(value) {
     return String(value == null ? "" : value).split(",").map(function (part) {
@@ -817,6 +821,21 @@
     }).sort(noticeRank);
   }
 
+  /* A notice belongs on the inline card only when it names the firmware or
+     the release it is about, so a broadcast never lands beside a release
+     list it says nothing about. */
+  function noticeNamesFirmware(notice) {
+    return !noticeIsAny(notice.firmwareRepo) || !noticeIsAny(notice.firmwareVersion);
+  }
+
+  /* What the inline card shows: warning or worse, naming a firmware or a
+     specific release, and matching the reader's current context. */
+  function noticeCardEligible(context) {
+    return noticeEligible(context).filter(function (notice) {
+      return noticeCardSeverities[String(notice.type || "").toLowerCase()] === true && noticeNamesFirmware(notice);
+    });
+  }
+
   function noticeCardMarkup(notice, index, total) {
     var severity = String(notice.type || "info").toLowerCase();
     var target = noticeTargetLabel(notice);
@@ -895,7 +914,7 @@
   function renderNoticeCard(freshIds) {
     if (!noticeCard) return;
     var previous = noticeCard.items && noticeCard.items[noticeCard.index];
-    var items = noticeEligible();
+    var items = noticeCardEligible();
     if (freshIds && freshIds.length) {
       /* A notice that just became relevant (the visitor picked Y2, or Rockbox)
          is what they should see next, not whatever was already on screen. */
@@ -976,7 +995,7 @@
   /* A page calls this whenever the viewer's selection changes. Dimensions left
      empty are forgotten, so a stale repo cannot keep a notice alive. */
   function setNoticeContext(patch) {
-    var before = noticeEligible().map(function (notice) { return notice.id; });
+    var before = noticeCardEligible().map(function (notice) { return notice.id; });
     Object.keys(patch || {}).forEach(function (key) {
       var value = patch[key];
       if (value === undefined || value === null || value === "") delete noticeContext[key];
@@ -986,7 +1005,7 @@
     Object.keys(noticeContext).forEach(function (key) {
       window.INNIOASIS_NOTICE_CONTEXT[key] = noticeContext[key];
     });
-    var eligible = noticeEligible();
+    var eligible = noticeCardEligible();
     var fresh = eligible.filter(function (notice) { return before.indexOf(notice.id) === -1; })
       .map(function (notice) { return notice.id; });
     if (!noticeCard) mountNoticeCard();

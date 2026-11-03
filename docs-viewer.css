@@ -423,3 +423,33 @@
 .lumen-cite:hover { opacity: 1; text-decoration: underline; }
 
 .lumen-release-repo { font-size: .8rem; }
+
+/* Firmware README pages: repository statistics above the rendered README. */
+.lumen-firmware-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+  gap: 10px;
+  margin: 0 0 12px;
+}
+.lumen-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border: 1px solid var(--lumen-line, rgba(255,255,255,.12));
+  border-radius: 12px;
+  background: var(--lumen-panel-soft, rgba(255,255,255,.04));
+}
+.lumen-stat--latest { grid-column: span 2; }
+.lumen-stat-label {
+  font-size: .66rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--lumen-muted, #94a3b8);
+}
+.lumen-stat-value { font-size: 1.15rem; font-weight: 800; line-height: 1.2; }
+.lumen-stat-note { font-size: .72rem; color: var(--lumen-muted, #94a3b8); }
+.lumen-firmware-readme { margin-top: 18px; }
+.lumen-firmware-readme img { max-width: 100%; height: auto; }
+@media (max-width: 560px) { .lumen-stat--latest { grid-column: span 1; } }

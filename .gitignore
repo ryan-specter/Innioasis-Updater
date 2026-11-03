@@ -7,3 +7,6 @@ __pycache__/
 *.log
 .DS_Store
 notices.html
+# Local release blocklist (shared format with Updater CE); the shipped
+# defaults live in release_blocklist.default.csv.
+release_blocklist.csv

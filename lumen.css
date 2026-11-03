@@ -717,3 +717,20 @@ img.lumen-shot { display: block; width: auto; max-width: min(100%, 640px); heigh
     html { scroll-behavior: auto; }
     *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
 }
+
+/* The release-table icon opens the project README page. */
+.lumen-firmware-icon-link {
+    display: inline-flex;
+    flex-shrink: 0;
+    border-radius: 9px;
+    text-decoration: none;
+    transition: transform .15s ease, opacity .15s ease;
+}
+.lumen-firmware-icon-link:hover,
+.lumen-firmware-icon-link:focus-visible { transform: translateY(-1px); }
+.lumen-firmware-icon-link:hover .lumen-firmware-icon-box,
+.lumen-firmware-icon-link:focus-visible .lumen-firmware-icon-box {
+    outline: 2px solid var(--lumen-accent, #6366f1);
+    outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) { .lumen-firmware-icon-link { transition: none; } }

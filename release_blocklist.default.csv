@@ -1,0 +1,24 @@
+# release_blocklist.csv format, shared with Innioasis Updater CE.
+#
+# The firmware directory reads release_blocklist.csv (local, gitignored) and
+# this shipped default, so blocks here always apply and a local file adds to
+# them. Blocked releases are dropped from the list whatever the nightly /
+# pre-release checkbox says.
+#
+# Columns: software | model | type | version | except | reason
+#   software  Project as the site lists it (Rockbox, Original Software,
+#             Solar, ...), its slug (rockbox-y1), or the app's stock alias
+#             (Y1 Stock ROM). Blank = any project.
+#   model     Device model (Y1, Y2, A5, ...). Blank = any model.
+#   type      Y1 hardware revision, A or B. Blank = any type.
+#   version   Exact build (1.2.3), comparison (<2.0, >=4.1), inclusive range
+#             (3.0-3.4), or the exact tag/title of an untagged build.
+#             Blank = every release of that software/model/type.
+#   except    "nightly" keeps nightly and untagged builds under a version rule.
+#   reason    Free text for whoever edits the list.
+#
+# Rows may also be comma-separated. Lines starting with # are ignored.
+
+| software | model | type | version | except | reason |
+| --- | --- | --- | --- | --- | --- |
+| Rockbox | Y1 | | 0.2 | | Rockbox 0.2 shipped libs and voices only, with no installable ROM package |

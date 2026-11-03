@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>README for Rockbox (Y2) - Innioasis Updater</title>
+  <meta name="description" content="The Y2 Rockbox build. Select Y2 before choosing this Software.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/firmware-info/spycemagic-y2-rockbox.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="README for Rockbox (Y2) - Innioasis Updater">
+  <meta property="og:description" content="The Y2 Rockbox build. Select Y2 before choosing this Software.">
+  <meta property="og:url" content="https://innioasis.app/firmware-info/spycemagic-y2-rockbox.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261113readme">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261113readme">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page lumen-release-page" data-firmware-info data-repo="spycemagic/y2-rockbox">
+  <p class="lumen-doc-back"><a href="../firmware.html">← Firmware Downloads</a></p>
+  <header class="lumen-doc-head">
+    <div class="lumen-release-head"><span class="lumen-release-icon" aria-hidden="true"><img src="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" width="40" height="40" alt="" loading="lazy" style="width:40px;height:40px;object-fit:cover;border-radius:10px;display:block;"></span><div class="lumen-release-titles"><p class="lumen-kicker">Firmware README · Y2</p><h1>Rockbox README</h1></div></div>
+    <p class="lumen-lead">The Y2 Rockbox build. Select Y2 before choosing this Software.</p>
+    <div class="lumen-release-tag-row"><span>Y2</span></div>
+    <div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../guides/rockbox-y2.html">Open the Rockbox guide</a><a class="lumen-button" href="../firmware.html?model=Y2&amp;software=rockbox-y2">Install with Updater CE</a><a class="lumen-button" href="../rockbox-benefits.html">Why Rockbox?</a></div>
+  </header>
+  <section class="lumen-firmware-stats" aria-label="Project statistics"><div class="lumen-stat"><span class="lumen-stat-label">Downloads from Firmware Archive</span><strong class="lumen-stat-value" data-stat="downloads">2,709</strong></div></section>
+  <p class="lumen-meta" id="fi-stats-note"></p>
+  <article class="lumen-doc-body lumen-firmware-readme" id="fi-body"><h1 id="y2-rockbox">Y2 RockBox</h1>
+<p>Rockbox for the Innioasis Y2, hosted inside its original Android 4.4.2 firmware. The project adds a full-screen Rockbox player, selectable cold-boot routes, USB mass-storage return, and normal Rockbox theme support while retaining the Stock Y2 interface and its guarded recovery path.</p>
+<blockquote><p>[!WARNING] Firmware flashing can erase data or leave the player temporarily unbootable. Beta V2 supports only the Innioasis Y2 on the official Stock 3.1.7 lineage. Back up first, verify the exact release checksum, and use only an updater explicitly carrying the guarded Y2 Class A route.</p></blockquote>
+<h2 id="current-release">Current release</h2>
+<p>Beta V2 is available as a GitHub prerelease:</p>
+<https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/tag/v0.2.0-beta>.
+<p>The files are public for manual download and checksum verification. Direct installation through the public Updater CE catalogue remains pending <a href="https://github.com/y1-community/Innioasis-Updater/pull/45" target="_blank" rel="noopener noreferrer">Updater CE PR #45</a>. Downloading a ZIP manually does not make an old or generic updater safe.</p>
+<p>Choose the exact platform asset:</p>
+<table><thead><tr><th>Platform</th><th>Asset</th></tr></thead><tbody><tr><td>macOS</td><td><code>Y2-Rockbox-Beta-v0.2.0-UPDATE-ONLY.zip</code></td></tr><tr><td>Windows</td><td><code>Y2-Rockbox-Beta-v0.2.0-Windows-UPDATE-ONLY.zip</code></td></tr></tbody></table>
+<p>Both files are byte-identical, 361,774,260 bytes, with SHA-256:</p>
+<p><code>409DDB4D2D18111FB8C3AB619F10F04B916B6B2A3FC04D1D38011324563F326A</code></p>
+<p>Do not rename either file to <code>rom_y2.zip</code>. Do not use a withdrawn Beta V2 archive, <code>InnioasisUpdater_Setup_1.1.2.exe</code>, a Y1 package, or a generic full-format route.</p>
+<p>The accepted archive contains only the Y2 scatter, five permitted payloads (UBOOT, BOOTIMG, RECOVERY, LOGO, and ANDROID), its update contract, and internal checksums. It excludes PRELOADER, partition-table images, SEC_RO, CACHE, USRDATA, and protected/runtime partitions.</p>
+<p>Read the complete <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fspycemagic%2Fy2-rockbox%2Fblob%2FHEAD%2F00_project_docs%2FY2_ROCKBOX_BETA_V2_INSTALL_GUIDE.md" target="_blank" rel="noopener noreferrer">installation guide</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fspycemagic%2Fy2-rockbox%2Fblob%2FHEAD%2F00_project_docs%2FY2_ROCKBOX_BETA_V2_RELEASE.md" target="_blank" rel="noopener noreferrer">release record</a>, and <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fspycemagic%2Fy2-rockbox%2Fblob%2FHEAD%2F00_project_docs%2FY2_BETA_V2_UPDATER_FORMATS.md" target="_blank" rel="noopener noreferrer">updater-format contract</a> before installing.</p>
+<h2 id="supported-hardware">Supported hardware</h2>
+<pre><code class="language-text">Device: Innioasis Y2
+Official firmware: Stock 3.1.7
+Android: 4.4.2 / SDK 19
+Platform: MediaTek MT6582
+Board: eastaeon82_wet_kk</code></pre>
+<h2 id="what-is-new-in-beta-v2">What is new in Beta V2</h2>
+<ul><li>Bluetooth Settings, pairing, A2DP playback, media controls, disconnect, and<p>reconnect work from both Rockbox and Stock.</p></li><li>Holding Previous/Next seeks within a track. An optional setting lets held<p>Volume buttons skip tracks while short presses continue to change volume.</p></li><li>Time/date changes persist without freezing the Rockbox UI.</li><li>Rockbox wheel vibration is adjustable through true-off and remains<p>independent from Stock&#x27;s key-vibration setting.</p></li><li>First-connect and repeated USB Storage flows are stable on Rockbox and Stock.</li><li>Clean boot reaches a responsive Rockbox root in approximately 28 seconds.</li><li>Centre wake, long-Centre Now Playing context, improved Back/Database<p>navigation, PictureFlow recovery, and saved Rockbox/Stock routing are proven.</p></li></ul>
+<p>The final power-down animation can look imperfect, although shutdown works. Beta V3 priorities include that polish, lyrics/theme diagnostics, high-resolution FLAC stability, DAC and wired-audio qualification, PictureFlow polish, and database/playlist presentation controls.</p>
+<h2 id="back-up-before-flashing">Back up before flashing</h2>
+<ol><li>Copy internal-storage and microSD content to the computer.</li><li>Back up the complete hidden <code>.rockbox</code> directory, including themes,<p>playlists, settings, and databases.</p></li><li>Keep an extracted, hash-verified official Y2 Stock 3.1.7 recovery package.</li><li>Charge the Y2, use a reliable data cable, and avoid hubs.</li><li>Close other software that may claim MediaTek or Android USB devices.</li></ol>
+<h2 id="mandatory-post-flash-reset">Mandatory post-flash reset</h2>
+<p>After the updater reports completed verification:</p>
+<ol><li>Unplug the Y2 completely.</li><li>Power it off if necessary.</li><li>Press and release the bottom pinhole once while unplugged.</li><li>Start the Y2 normally.</li></ol>
+<p>The updater-attached automatic boot can inherit temporary MediaTek loader or display state, visible as upper-screen artifacts or broken screen sleep. That is not the qualified first boot. The clean post-pinhole boot should reach the responsive Rbox root in about 28 seconds without upper artifacts.</p>
+<h2 id="cold-boot-routes">Cold-boot routes</h2>
+<p>Start from a fully powered-off Y2. Hold a route button before pressing Power and keep it held until the normal haptic release cue.</p>
+<table><thead><tr><th>Input</th><th>Destination</th></tr></thead><tbody><tr><td>No Volume button</td><td>Saved normal player; Rockbox by default</td></tr><tr><td>Volume Up</td><td>Opposite player; Stock by default</td></tr><tr><td>Volume Down</td><td>Boot Settings</td></tr></tbody></table>
+<p>Boot Settings changes the no-button route. Volume Up automatically remains the opposite player. Simultaneously holding both Volume buttons is unsupported and is not a Beta V2 feature.</p>
+<h2 id="controls-and-storage">Controls and storage</h2>
+<ul><li>Centre confirms selections and wakes the display.</li><li>On Now Playing, short Centre toggles play/pause and long Centre opens the<p>standard context menu.</p></li><li>Previous/Next navigate; holding them seeks within a track.</li><li>Short Back returns from the database to Now Playing; long Back from Now<p>Playing returns to the database context.</p></li><li>Play/Pause controls playback; the wheel navigates lists and adjusts volume.</li></ul>
+<p>For USB Storage, safely eject every mounted Y2 volume on the computer before turning USB storage off or unplugging. Rockbox does not automatically resume a paused track after USB; this is normal.</p>
+<p>Use complete 480x360 Rockbox themes. Merge a theme&#x27;s complete <code>.rockbox</code> subtree into the existing directory; never replace or delete the whole tree.</p>
+<h2 id="recovery">Recovery</h2>
+<p>Stop and restore the official complete Y2 Stock 3.1.7 package after a failed install, persistent boot loop, repeated wrong route, missing storage, or persistent crash dialog. Never substitute a preloader, scatter, or recovery file from another device.</p>
+<p>Development evidence and generated firmware are deliberately excluded from the public Git history. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fspycemagic%2Fy2-rockbox%2Fblob%2FHEAD%2F00_project_docs%2FSAFETY.md" target="_blank" rel="noopener noreferrer">SAFETY.md</a> and <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fspycemagic%2Fy2-rockbox%2Fblob%2FHEAD%2F00_project_docs%2FPUBLIC_INSTALL_STRATEGY.md" target="_blank" rel="noopener noreferrer">PUBLIC_INSTALL_STRATEGY.md</a> for the engineering and distribution rules.</p>
+<h2 id="licensing">Licensing</h2>
+<p>Original parent-project code and documentation are licensed under GPL-2.0-or-later; see <a href="https://github.com/spycemagic/y2-rockbox/blob/HEAD/LICENSE" target="_blank" rel="noopener noreferrer">LICENSE</a> and <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fspycemagic%2Fy2-rockbox%2Fblob%2FHEAD%2FNOTICE.md" target="_blank" rel="noopener noreferrer">NOTICE.md</a>. The modified Rockbox submodule retains its upstream licenses. Binary releases carry the corresponding source archive and applicable notices.</p></article>
+</main>
+<div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../firmware-info.js?v=20261113downloads" defer></script>
+<script src="../nav.js?v=20261113noticefilter" defer></script>
+<script src="../site-i18n.js?v=20261113blocklist" defer></script>
+</body></html>

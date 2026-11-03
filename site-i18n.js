@@ -182,6 +182,16 @@
         ["Choose the software you want to run.", "Choose the soft you want to run."],
         ["Show nightly builds", "Show nightly builds"],
         ["Show preview and nightly builds alongside stable releases.", "Show preview and nightly builds alongside stable drops."],
+        /* Rockbox on the Y1 also gates its pre-0.5 archive behind the switch. */
+        ["Show pre-0.5 Rockbox / nightly builds", "Show pre-0.5 Rockbox / nightly builds"],
+        ["Rockbox Y1 builds older than 0.5 and nightly builds are hidden by default. Tick to include them.", "Rockbox Y1 drops older than 0.5 and nightly drops are hidden by default. Tick to bring them back."],
+        ["Tick the pre-0.5 Rockbox / nightly-builds option to see older builds", "Tick the pre-0.5 Rockbox / nightly-builds option to see older drops"],
+        /* Y1 stock firmware keeps its pre-3.0.7 archive behind the same switch. */
+        ["Show pre-3.0.7 stock firmware / nightly builds", "Show pre-3.0.7 stock firmware / nightly builds"],
+        ["Y1 stock firmware older than 3.0.7 and nightly builds are hidden by default. Tick to include them.", "Y1 stock drops older than 3.0.7 and nightly drops are hidden by default. Tick to bring them back."],
+        ["Tick the pre-3.0.7 stock firmware / nightly-builds option to see older builds", "Tick the pre-3.0.7 stock firmware / nightly-builds option to see older drops"],
+        ["Not available right now", "Off the board right now"],
+        ["Held back from this list.", "Pulled from this list."],
         ["No stable release yet", "No stable drop yet"],
         ["Tick the nightly-builds option to see previews", "Tick the nightly-builds option to see previews"],
         ["If something goes wrong", "If the gig goes sideways"],

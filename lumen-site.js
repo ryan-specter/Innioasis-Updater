@@ -106,11 +106,38 @@
         return !!release.prerelease || label.indexOf("nightly") !== -1;
     }
 
-    /* Rockbox Y1 keeps a pre-0.5 archive: the stable v0.4 and v0.3 builds
-       predate the current 0.5 package layout, so the directory treats them
-       as legacy builds and only lists them when the visitor ticks the
-       nightly-builds checkbox, exactly like a nightly or preview build. */
-    var ROCKBOX_Y1_FLOOR = [0, 5];
+    /* Legacy floors: builds older than the floor are archive material, so
+       the directory keeps them behind the nightly-builds checkbox along
+       with the nightlies and leads with a current build. Rockbox Y1 changed
+       package layout at 0.5; Y1 stock firmware is supported from 3.0.7 up. */
+    var LEGACY_FILTERS = {
+        rockboxY1: {
+            version: [0, 5],
+            label: "Show pre-0.5 Rockbox / nightly builds",
+            help: "Rockbox Y1 builds older than 0.5 and nightly builds are hidden by default. Tick to include them.",
+            hint: "Tick the pre-0.5 Rockbox / nightly-builds option to see older builds"
+        },
+        stockY1: {
+            version: [3, 0, 7],
+            label: "Show pre-3.0.7 stock firmware / nightly builds",
+            help: "Y1 stock firmware older than 3.0.7 and nightly builds are hidden by default. Tick to include them.",
+            hint: "Tick the pre-3.0.7 stock firmware / nightly-builds option to see older builds"
+        }
+    };
+
+    function isOriginalItem(item) {
+        return !!item && (/^original-/.test(String(item.slug || "")) || item.type === "original");
+    }
+
+    /* The filter copy and version floor for one project, or null when the
+       project only has nightlies to hide. */
+    function legacyFilterFor(item) {
+        if (!item) return null;
+        var y1 = String(item.model || "").toUpperCase() === "Y1";
+        if (y1 && isRockboxY1Item(item)) return LEGACY_FILTERS.rockboxY1;
+        if (y1 && isOriginalItem(item)) return LEGACY_FILTERS.stockY1;
+        return null;
+    }
 
     function isRockboxY1Item(item) {
         if (!item || String(item.model || "").toUpperCase() !== "Y1") return false;
@@ -133,16 +160,130 @@
         return null;
     }
 
-    /* True when a release's version sorts below the 0.5 floor. A missing
+    /* Signed comparison of two version tuples, ignoring trailing zeros. */
+    function compareVersionTuples(a, b) {
+        var length = Math.max(a.length, b.length);
+        for (var i = 0; i < length; i += 1) {
+            var left = i < a.length ? a[i] : 0;
+            var right = i < b.length ? b[i] : 0;
+            if (left !== right) return left < right ? -1 : 1;
+        }
+        return 0;
+    }
+
+    /* A dotted version from a blocklist cell, or null when the cell is
+       something else (a comparison, a range, a tag name). */
+    function versionTuple(value) {
+        var text = String(value == null ? "" : value).trim().replace(/^v/i, "");
+        if (!/^\d+(\.\d+)*$/.test(text)) return null;
+        return text.split(".").map(function (part) { return Number(part); });
+    }
+
+    /* True when a release's version sorts below the given floor. A missing
        version is not judged legacy: only releases that state one. */
-    function isPreHalfRelease(release) {
+    function isBelowFloor(release, floor) {
         var version = releaseVersionTuple(release);
-        if (!version) return false;
-        for (var i = 0; i < ROCKBOX_Y1_FLOOR.length; i += 1) {
-            var part = i < version.length ? version[i] : 0;
-            if (part !== ROCKBOX_Y1_FLOOR[i]) return part < ROCKBOX_Y1_FLOOR[i];
+        return version ? compareVersionTuples(version, floor) < 0 : false;
+    }
+
+    /* ---- release_blocklist.csv ----
+       The blocklist format Updater CE uses, shared by the site: one row per
+       block with software | model | type | version | except | reason. Rows
+       may be pipe- or comma-separated, # starts a comment, and version is an
+       exact build ("1.2.3"), a comparison ("<2.0", ">=4.1"), an inclusive
+       range ("3.0-3.4"), or a tag/name for an untagged build. A blank model
+       or type matches any, and except=nightly keeps nightly and untagged
+       builds available under a version rule. */
+    function blocklistKey(value) {
+        return String(value == null ? "" : value).toLowerCase().replace(/[^a-z0-9]/g, "");
+    }
+
+    function splitBlocklistRow(line) {
+        var text = line.trim();
+        var pipeSeparated = text.indexOf("|") !== -1;
+        if (pipeSeparated) text = text.replace(/^\|/, "").replace(/\|$/, "");
+        return text.split(pipeSeparated ? "|" : ",").map(function (cell) {
+            cell = cell.trim();
+            if (cell.length > 1 && cell.charAt(0) === '"' && cell.charAt(cell.length - 1) === '"') {
+                cell = cell.slice(1, -1).trim();
+            }
+            return cell;
+        });
+    }
+
+    function parseBlocklist(text) {
+        var rules = [];
+        String(text == null ? "" : text).split(/\r?\n/).forEach(function (line) {
+            var trimmed = line.trim();
+            if (!trimmed || trimmed.charAt(0) === "#") return;
+            var cells = splitBlocklistRow(trimmed);
+            /* Header and separator rows describe the columns, not a block. */
+            if (cells.every(function (cell) { return !cell || /^-+$/.test(cell); })) return;
+            if (blocklistKey(cells[0]) === "software") return;
+            rules.push({
+                software: cells[0] || "",
+                model: cells[1] || "",
+                type: cells[2] || "",
+                version: cells[3] || "",
+                except: String(cells[4] || "").toLowerCase(),
+                reason: cells[5] || ""
+            });
+        });
+        return rules;
+    }
+
+    /* The names a blocklist row may use for a project: its catalogue name,
+       its slug, and the stock aliases the Updater app uses. */
+    function blocklistSoftwareKeys(item) {
+        var model = String(item.model || "").toUpperCase();
+        var keys = [item.name, item.slug];
+        if (isOriginalItem(item)) keys.push(model + " stock rom", model + " stock", "stock rom", "stock");
+        return keys.map(blocklistKey);
+    }
+
+    function blockMatchesItem(rule, item, type) {
+        if (rule.software && blocklistSoftwareKeys(item).indexOf(blocklistKey(rule.software)) === -1) return false;
+        if (rule.model && String(item.model || "").toUpperCase() !== rule.model.toUpperCase()) return false;
+        if (rule.type && String(type || "").toUpperCase() !== rule.type.toUpperCase()) return false;
+        return true;
+    }
+
+    function blockMatchesRelease(rule, release) {
+        var version = String(rule.version || "").trim();
+        if (!version) return true;
+        var exceptsNightly = rule.except.indexOf("nightly") !== -1 && isNightly(release);
+        var releaseVersion = releaseVersionTuple(release);
+        if (!releaseVersion) {
+            if (exceptsNightly) return false;
+            /* An untagged build is named by its exact tag or title. */
+            return blocklistKey(version) === blocklistKey(release.tag_name) ||
+                blocklistKey(version) === blocklistKey(release.name);
+        }
+        if (exceptsNightly) return false;
+        var exact = versionTuple(version);
+        if (exact) return compareVersionTuples(releaseVersion, exact) === 0;
+        var comparison = version.match(/^(<=|>=|<|>|=)\s*v?(\d+(?:\.\d+)*)$/);
+        if (comparison) {
+            var delta = compareVersionTuples(releaseVersion, versionTuple(comparison[2]));
+            if (comparison[1] === "<") return delta < 0;
+            if (comparison[1] === "<=") return delta <= 0;
+            if (comparison[1] === ">") return delta > 0;
+            if (comparison[1] === ">=") return delta >= 0;
+            return delta === 0;
+        }
+        var range = version.match(/^v?(\d+(?:\.\d+)*)\s*-\s*v?(\d+(?:\.\d+)*)$/);
+        if (range) {
+            return compareVersionTuples(releaseVersion, versionTuple(range[1])) >= 0 &&
+                compareVersionTuples(releaseVersion, versionTuple(range[2])) <= 0;
         }
         return false;
+    }
+
+    function isBlockedRelease(rules, item, release, type) {
+        if (!rules || !rules.length || !release) return false;
+        return rules.some(function (rule) {
+            return blockMatchesItem(rule, item, type) && blockMatchesRelease(rule, release);
+        });
     }
 
     /* Clean display version for a release, mirroring the Updater app's
@@ -1082,18 +1223,12 @@
            both there; every other project only has nightlies to reveal. */
         var nightlyCopy = nightly && nightly.parentNode ? nightly.parentNode.querySelector("span") : null;
         var nightlyHelp = document.getElementById("nightly-help");
-        var nightlyCopyFor = {
-            generic: {
-                label: "Show nightly builds",
-                help: "Show preview and nightly builds alongside stable releases."
-            },
-            rockboxY1: {
-                label: "Show pre-0.5 Rockbox / nightly builds",
-                help: "Rockbox Y1 builds older than 0.5 and nightly builds are hidden by default. Tick to include them."
-            }
+        var GENERIC_FILTER_COPY = {
+            label: "Show nightly builds",
+            help: "Show preview and nightly builds alongside stable releases."
         };
         function syncNightlyCopy() {
-            var copy = isRockboxY1Item(matchingItems()[0] || null) ? nightlyCopyFor.rockboxY1 : nightlyCopyFor.generic;
+            var copy = legacyFilterFor(matchingItems()[0] || null) || GENERIC_FILTER_COPY;
             if (nightlyCopy && nightlyCopy.textContent !== copy.label) nightlyCopy.textContent = copy.label;
             if (nightlyHelp && nightlyHelp.textContent !== copy.help) nightlyHelp.textContent = copy.help;
         }
@@ -1108,6 +1243,24 @@
                 syncUrl();
             });
         }
+        /* Blocked builds come from the Updater app's release_blocklist.csv.
+           release_blocklist.csv is local, ops-only config and is gitignored;
+           release_blocklist.default.csv carries the shipped blocks. Both are
+           read, so a local file adds blocks without dropping the defaults. */
+        var blocklistRules = [];
+        function loadBlocklist() {
+            var files = ["release_blocklist.csv", "release_blocklist.default.csv"];
+            return Promise.all(files.map(function (file) {
+                return fetch(file, { cache: "no-store" })
+                    .then(function (response) { return response.ok ? response.text() : ""; })
+                    .then(parseBlocklist)
+                    .catch(function () { return []; });
+            })).then(function (lists) {
+                blocklistRules = lists[0].concat(lists[1]);
+                render();
+            });
+        }
+
         function fillModelFilter() {
             if (!model) return;
             var availableModels = [];
@@ -1220,6 +1373,17 @@
             return matching.length ? matching : null;
         }
 
+        /* How many model-matched releases the blocklist removed, so an empty
+           list explains itself instead of claiming the project has none. */
+        function blockedReleaseCount(item) {
+            var repoReleases = releases[item.repo];
+            if (!Array.isArray(repoReleases) || !repoReleases.length) return 0;
+            var type = typeForItem(item);
+            return matchingReleases(repoReleases, item, type).filter(function (release) {
+                return isBlockedRelease(blocklistRules, item, release, type);
+            }).length;
+        }
+
         /* Apply the nightly filter on top of the model-matched releases.
            Unchecked: stable releases only. Checked: every release, with
            stable builds still included alongside previews. Returns null
@@ -1227,11 +1391,15 @@
         function visibleReleases(item) {
             var all = releasesForItem(item);
             if (!all) return null;
+            /* A blocked build never appears, whatever the checkbox says. */
+            var type = typeForItem(item);
+            all = all.filter(function (release) { return !isBlockedRelease(blocklistRules, item, release, type); });
+            if (!all.length) return null;
+            var floor = legacyFilterFor(item);
             if (!showNightly) {
-                var rockboxY1 = isRockboxY1Item(item);
                 all = all.filter(function (release) {
                     if (isNightly(release)) return false;
-                    if (rockboxY1 && isPreHalfRelease(release)) return false;
+                    if (floor && isBelowFloor(release, floor.version)) return false;
                     return true;
                 });
             }
@@ -1267,6 +1435,26 @@
             });
             var assetLinks = links.length ? links.join("") : '<li>No ZIP asset was found in this release.</li>';
             return '<details class="lumen-release-details"><summary>Release details and zip</summary><p><strong>' + escapeHtml(release.name || release.tag_name || "Public release") + '</strong>' + (release.published_at ? ' · ' + escapeHtml(release.published_at.slice(0, 10)) : '') + '</p><ul>' + assetLinks + '</ul></details>';
+        }
+
+        /* The release-table icon opens the project's README: the static page
+           scripts/generate_firmware_info.py wrote when the README names
+           Updater CE, otherwise the live reader on firmware_info.html. */
+        function readmePageFor(item) {
+            if (!item || !item.repo) return "";
+            var map = window.INNIOASIS_README_PAGES || {};
+            var entry = map[String(item.repo).toLowerCase()];
+            if (entry && entry.page) return entry.page;
+            return "firmware_info.html?repo=" + encodeURIComponent(item.repo) +
+                (item.slug ? "&software=" + encodeURIComponent(item.slug) : "");
+        }
+
+        function firmwareIconLink(markup, item) {
+            var href = readmePageFor(item);
+            if (!href) return markup;
+            var label = "Read the " + (item.name || "firmware") + " README";
+            return '<a class="lumen-firmware-icon-link" href="' + escapeHtml(href) + '" title="' +
+                escapeHtml(label) + '" aria-label="' + escapeHtml(label) + '">' + markup + '</a>';
         }
 
         function resolveFirmwareIcon(release, item) {
@@ -1325,22 +1513,25 @@
 
         function releaseRows(release, item, state) {
             /* The Release column label with icon and semver detection. */
-            var iconHtml = resolveFirmwareIcon(release, item);
+            var iconHtml = firmwareIconLink(resolveFirmwareIcon(release, item), item);
             var versionLabel = release ? extractReleaseVersion(release, item)
                 : state === "failed" ? item.name
                 : state === "empty" ? "No public releases"
                 : state === "nomatch" ? "No release with " + item.packageName
                 : state === "filtered-stable" ? "No stable release yet"
+                : state === "blocked" ? "Not available right now"
                 : "Checking public releases";
             var versionHtml = (state === "failed" && !release)
                 ? "<strong>" + escapeHtml(versionLabel) + "</strong>"
                 : '<span class="lumen-version-pill" style="font-weight:700;font-size:0.95rem;">' + escapeHtml(versionLabel) + '</span>';
-            /* The empty state names the same option the filterbar does, so
-               Rockbox on the Y1 points at its pre-0.5 builds too. */
-            var filteredHint = isRockboxY1Item(item)
-                ? 'Tick the pre-0.5 Rockbox / nightly-builds option to see older builds'
-                : 'Tick the nightly-builds option to see previews';
-            var hint = release ? '' : state === "filtered-stable" ? '<span class="lumen-muted-inline">' + filteredHint + '</span>' : '';
+            /* The empty state names the same option the filterbar does, and
+               a blocklisted project says so instead of claiming there is no
+               package. */
+            var filteredHint = (legacyFilterFor(item) || {}).hint || 'Tick the nightly-builds option to see previews';
+            var hint = release ? ''
+                : state === "filtered-stable" ? '<span class="lumen-muted-inline">' + filteredHint + '</span>'
+                : state === "blocked" ? '<span class="lumen-muted-inline">Held back from this list.</span>'
+                : '';
             var guideUrl = 'guide.html?model=' + encodeURIComponent(item.model) + '&software=' + encodeURIComponent(item.slug);
             var updater = '<a class="lumen-updater-button lumen-updater-button--table" href="' + guideUrl + '" aria-label="Get ' + escapeHtml(item.name) + ' for ' + escapeHtml(item.model) + ' on Innioasis Updater"><img src="mtkclient/gui/images/icon.png" width="28" height="28" alt=""><span><strong>Get it on Updater</strong><small>with guided install</small></span></a>';
 
@@ -1409,7 +1600,9 @@
                 } else {
                     var repoReleases = releases[item.repo];
                     var repoLoaded = Array.isArray(repoReleases) && repoReleases.length > 0;
-                    rows.push(releaseRows(null, item, repoLoaded ? "nomatch" : (releaseState[item.repo] || "loading")));
+                    var state = !repoLoaded ? (releaseState[item.repo] || "loading")
+                        : blockedReleaseCount(item) ? "blocked" : "nomatch";
+                    rows.push(releaseRows(null, item, state));
                 }
             });
             table.innerHTML = rows.join("");
@@ -1586,6 +1779,7 @@
         fillSoftwareFilter();
         render();
         refreshLive();
+        loadBlocklist();
     }
 
     /* Compact "what can I install" table for the homepage. One row per

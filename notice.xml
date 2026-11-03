@@ -40,6 +40,12 @@
   The app's Notices list, pop-out list and notification tray always show every
   active notice, with no contextual narrowing.
 
+  The inline card above the release list on firmware.html is narrower still:
+  it only shows a notice whose severity is warning, severe, alert or critical
+  AND that sets firmware_repo or firmware_version, so the list is interrupted
+  only by a problem that names the build on screen. Every other notice stays
+  in the bell tray and on notices.html.
+
   Child elements:
   - <title>: required, headline of the notice.
   - <content>: required, short banner description/body text (also supports <body>).
