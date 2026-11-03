@@ -309,6 +309,26 @@
       '.lumen-notice-summary { margin: 0 0 6px 0; font-size: 0.78rem; line-height: 1.4; color: var(--lumen-muted, #94a3b8); }' +
       ':root[data-lumen-theme="light"] .lumen-notice-summary { color: #475569; }' +
       ':root[data-lumen-theme="2077"] .lumen-notice-summary { color: #aab8c8; }' +
+      '.lumen-notice-full { max-height: 190px; overflow-y: auto; -webkit-overflow-scrolling: touch; margin: 2px 0 8px; padding-right: 4px; font-size: 0.8rem; line-height: 1.5; color: var(--lumen-muted, #94a3b8); }' +
+      '.lumen-notice-full > :first-child { margin-top: 0; }' +
+      '.lumen-notice-full p { margin: 0 0 8px; }' +
+      '.lumen-notice-full ul, .lumen-notice-full ol { margin: 0 0 8px; padding-left: 18px; }' +
+      '.lumen-notice-full li { margin: 3px 0; }' +
+      '.lumen-notice-full h2, .lumen-notice-full h3, .lumen-notice-full h4 { margin: 10px 0 4px; font-size: 0.86rem; line-height: 1.3; color: var(--lumen-text, #f8fafc); }' +
+      '.lumen-notice-full a { color: var(--lumen-accent, #6366f1); text-decoration: underline; }' +
+      '.lumen-notice-full code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em; background: rgba(255,255,255,.08); padding: 1px 4px; border-radius: 4px; }' +
+      '.lumen-notice-full pre { background: rgba(255,255,255,.06); padding: 8px 10px; border-radius: 8px; overflow-x: auto; }' +
+      '.lumen-notice-full pre code { background: none; padding: 0; }' +
+      '.lumen-notice-full blockquote { margin: 0 0 8px; padding-left: 10px; border-left: 2px solid var(--lumen-line-strong, rgba(255,255,255,.2)); }' +
+      '.lumen-notice-full img { display: block; max-width: 100%; height: auto; margin: 8px 0; border-radius: 8px; }' +
+      '.lumen-notice-full hr { border: none; border-top: 1px solid var(--lumen-line, rgba(255,255,255,.12)); margin: 10px 0; }' +
+      ':root[data-lumen-theme="light"] .lumen-notice-full { color: #475569; }' +
+      ':root[data-lumen-theme="light"] .lumen-notice-full h2, :root[data-lumen-theme="light"] .lumen-notice-full h3, :root[data-lumen-theme="light"] .lumen-notice-full h4 { color: #0f172a; }' +
+      '.lumen-notice-actions { display: flex; align-items: center; gap: 10px; }' +
+      '.lumen-notice-open { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--lumen-line, rgba(255,255,255,0.16)); color: var(--lumen-muted, #94a3b8); text-decoration: none; transition: color .15s ease, border-color .15s ease, background .15s ease; }' +
+      '.lumen-notice-open:hover { color: var(--lumen-text, #fff); border-color: var(--lumen-line-strong, rgba(255,255,255,0.3)); background: rgba(255,255,255,0.08); }' +
+      '.lumen-notice-open svg { width: 15px; height: 15px; display: block; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }' +
+      ':root[data-lumen-theme="high-contrast"] .lumen-notice-open { border-color: #ffffff; color: #ffffff; }' +
       '.lumen-notice-link { font-size: 0.76rem; font-weight: 600; text-decoration: none; color: var(--lumen-accent, #6366f1); }' +
       ':root[data-lumen-theme="2077"] .lumen-notice-link { color: #ff1e3c; }' +
       '.lumen-nav-social-btn { display: inline-flex !important; align-items: center !important; justify-content: center !important; width: auto !important; height: auto !important; min-width: 0 !important; min-height: 0 !important; padding: 4px 6px !important; background: transparent !important; border: none !important; box-shadow: none !important; border-radius: 0 !important; text-decoration: none !important; transition: transform 0.15s ease, opacity 0.15s ease, color 0.15s ease !important; flex-shrink: 0 !important; cursor: pointer !important; opacity: 0.88 !important; }' +
@@ -698,6 +718,14 @@
             var linkHtml = detailHref
               ? '<a class="lumen-notice-link" href="' + escapeHtml(detailHref) + '">Read more &rarr;</a>'
               : '';
+            /* The card carries the whole notice, Markdown and images included,
+               in its own scroll box so a long warning stays readable in place. */
+            var fullHtml = renderNoticeMarkdown(item.fullContent || item.summary || "");
+            var pageUrl = (item.link && !noticeIsBareSiteUrl(item.link)) ? item.link : "";
+            var openHtml = pageUrl
+              ? '<a class="lumen-notice-open" href="' + escapeHtml(pageUrl) + '" target="_blank" rel="noopener noreferrer" title="Open the linked page" aria-label="Open the linked page">' +
+                '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.5 2.4 3.9 5.5 3.9 9S14.5 18.6 12 21c-2.5-2.4-3.9-5.5-3.9-9S9.5 5.4 12 3Z"></path></svg></a>'
+              : "";
             return (
               '<article class="lumen-notice-card lumen-notice-card--' + escapeHtml(item.type) + '">' +
               '<div class="lumen-notice-meta">' +
@@ -706,8 +734,8 @@
               (item.date ? '<time class="lumen-notice-date">' + escapeHtml(item.date) + '</time>' : '') +
               '</div>' +
               '<h4 class="lumen-notice-title">' + escapeHtml(item.title) + '</h4>' +
-              '<p class="lumen-notice-summary">' + escapeHtml(item.summary) + '</p>' +
-              linkHtml +
+              '<div class="lumen-notice-full">' + fullHtml + '</div>' +
+              ((linkHtml || openHtml) ? '<div class="lumen-notice-actions">' + linkHtml + openHtml + '</div>' : '') +
               '</article>'
             );
           }).join("");

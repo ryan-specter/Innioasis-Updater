@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../lumen.css?v=20260823">
     <link rel="stylesheet" href="../site-theme.css?v=20260803">
     <link rel="stylesheet" href="../site-pages.css?v=20260818">
-    <link rel="stylesheet" href="../site-toolbar.css?v=20260803">
+    <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
     <style>
         :root {
             color-scheme: light;
@@ -315,7 +315,7 @@
             <details class="toc" aria-label="Jump to a Topic">
                 <summary><span>Jump to a Topic</span></summary>
                 <ul>
-                    <li><a href="#y1-basics">Your First Days with the Y1</a></li>
+                    <li><a href="#y1-basics">Your First Days with Your Player</a></li>
                     <li><a href="#getting-started">Getting Around the Updater</a></li>
                     <li><a href="#toolkit">Meet the Toolkit</a></li>
                     <li><a href="#factory-software">Refreshing the Factory Software</a></li>
@@ -331,15 +331,15 @@
             </details>
 
         <section id="y1-basics">
-            <h2>Your First Days with the Y1</h2>
-            <p>The Y1 ships with the original Innioasis system software—the <strong>Y1 System Menu</strong>. When you power on for the first time, follow the on-device setup and then connect to your computer so Updater can lend a hand.</p>
+            <h2>Your First Days with Your Player</h2>
+            <p>Every player we cover—Innioasis or Timmkoo—arrives with the original system software installed. Power it on, follow the on-device setup, then let Updater walk you through what comes next.</p>
             <ul>
-                <li><strong>Charge & power on:</strong> Let the Y1 reach a comfortable charge, then unlock it to the home screen.</li>
-                <li><strong>Connect to Updater:</strong> Plug in the USB cable and launch Innioasis Updater. The app will recognize your player and highlight the best firmware choices so you can stay current from day one.</li>
-                <li><strong>Install Rockbox when ready:</strong> Use the <strong>Installing Rockbox on Your Y1</strong> section below to add Rockbox. You can always return to the original interface through <em>System › Return to Stock Firmware</em> inside Rockbox.</li>
-                <li><strong>Explore the built-in features:</strong> Playback controls, Bluetooth pairing, and Wi-Fi setup all live in the Y1 System Menu. When this guide references steps from the official manual, we’ll note them as happening in the “Y1 System Menu (Original Software).”</li>
+                <li><strong>Charge &amp; power on:</strong> Let the player reach a comfortable charge, then unlock it to the home screen.</li>
+                <li><strong>Let Updater guide you:</strong> Open Innioasis Updater first and choose what you want to install. It takes you through each step and tells you exactly when to plug the player in with the USB cable, so the order is never a guess.</li>
+                <li><strong>Install Rockbox when ready:</strong> The Rockbox section below walks you through it. You can always return to the original interface through <em>System › Return to Stock Firmware</em> inside Rockbox.</li>
+                <li><strong>Explore the built-in features:</strong> Playback controls, Bluetooth pairing, and Wi-Fi setup all live in the player’s own system menu. When this guide references steps from the official manual, we’ll point out that they happen in the original software rather than in Rockbox.</li>
             </ul>
-            <p>For deeper dives into every setting, download the full <a href="https://support.innioasis.com/download/user_manual/Y1_Manual-English.pdf" target="_blank" rel="noopener">Y1 English User Manual (PDF)</a>. Pair it with Updater for the smoothest path—Updater handles firmware installs, theme drops, and firmware recovery while the manual covers daily controls.</p>
+            <p>For deeper dives into every setting, download the full <a href="https://support.innioasis.com/download/user_manual/Y1_Manual-English.pdf" target="_blank" rel="noopener">Y1 English User Manual (PDF)</a>. Pair it with Updater for the smoothest path—Updater handles firmware installs, theme installation, and firmware recovery while the manual covers daily controls.</p>
         </section>
 
         <section id="getting-started">
@@ -352,17 +352,8 @@
                     <p>Already have a package? Drop in an <code>update.zip</code> or <code>rom.zip</code> you downloaded from <a href="https://innioasis.app">Innioasis.app</a> and Updater happily installs it.</p>
                 </article>
                 <article class="card">
-                    <h3>Smart Drop</h3>
-                    <p>Drag a theme, app, or update ZIP straight onto the window. Updater spots what you dropped and guides the install.</p>
-                    <p>If nothing happens, make sure your Y1 is unlocked and connected over USB or Wi-Fi ADB.</p>
-                </article>
-                <article class="card">
                     <h3>Browse Files Button</h3>
                     <p>Prefer to click? Use <strong>Browse Files</strong> in the top corner to pick any supported ZIP or folder. Updater will do the rest.</p>
-                </article>
-                <article class="card">
-                    <h3>Fast Update</h3>
-                    <p>When your device supports it, tap <strong>⚡ Fast Update</strong> to send Rockbox or firmware refreshes over Wi-Fi or a quick USB cable. Skip the 10+ minute full reinstall—most updates finish in under five minutes on an average connection.</p>
                 </article>
                 <article class="card">
                     <h3>Theme Quick Tips</h3>
@@ -370,7 +361,7 @@
                 </article>
             </div>
             <p class="note">
-                Want to install manually? You can always download <code>update.zip</code> or <code>rom.zip</code> from <a href="https://innioasis.app">Innioasis.app</a> and feed them to Updater using Smart Drop or Browse Files.
+                Want to install manually? You can always download <code>update.zip</code> or <code>rom.zip</code> from <a href="https://innioasis.app">Innioasis.app</a> and point Updater at them with <strong>Browse Files</strong>.
             </p>
         </section>
 
@@ -403,7 +394,7 @@
                 <li>Select the release you want—Updater highlights the newest build so you always know what’s current.</li>
                 <li>Click <strong>Install/Restore</strong> and let the process run. Your Y1 will reboot on its own when the update is finished.</li>
             </ol>
-            <p>Saved a firmware earlier? Pick the <code>update.zip</code> from your computer (or download one from <a href="https://innioasis.app">Innioasis.app</a>) and Smart Drop it into the window. Updater treats it just like a catalog release.</p>
+            <p>Saved a firmware earlier? Pick the <code>update.zip</code> from your computer (or download one from <a href="https://innioasis.app">Innioasis.app</a>) and choose it with <strong>Browse Files</strong>. Updater treats it just like a catalog release.</p>
             <p class="note">Factory updates can take a few minutes. Keep the cable steady and wait for the friendly “Ready” message before unplugging.</p>
         </section>
 
@@ -420,12 +411,12 @@
 
         <section id="rockbox-fast-update">
             <h2>Updating Rockbox After Install</h2>
-            <p>Once Rockbox is installed, you can keep it fresh with almost no waiting.</p>
+            <p>When a newer Rockbox build is published, repeat the install you used the first time—Updater keeps it short.</p>
             <ul>
-                <li>Connect your Y1 with a cable or enable Wi-Fi ADB, then tap <strong>⚡ Fast Update</strong>.</li>
-                <li><a href="https://innioasis.app/installguide.html">Updater</a> sends the latest Rockbox files and restarts the player for you—usually in under five minutes, so you’re back on the go fast.</li>
+                <li>Open <strong>Available Software</strong>, choose <strong>Rockbox</strong>, and pick the newest build.</li>
+                <li>Press <strong>Install/Restore</strong> and follow the prompts. Updater tells you when to connect the player and restarts it once the files are in place.</li>
             </ul>
-            <p class="note">Fast Update works best on rooted setups but can still handle quick Rockbox refreshes on standard devices once preparation is complete.</p>
+            <p class="note">Keep the player charged and the cable connected until Updater says it has finished.</p>
         </section>
 
         <section id="troubleshooting">
@@ -445,12 +436,8 @@
                     <p>Make sure your internet connection is stable and your device is recognized (you should see it listed in Updater). If the catalog is empty, Updater may be running an old cache—perform the <a href="clean_install.html">clean install</a> to refresh everything.</p>
                 </article>
                 <article class="topic">
-                    <strong>Smart Drop isn’t reacting</strong>
-                    <p>Confirm that USB debugging or Wi-Fi ADB is enabled. If drops still do nothing, unplug and reconnect the device, then reopen Updater. A clean install can also revive Smart Drop if it hasn’t been updated in a while.</p>
-                </article>
-                <article class="topic">
-                    <strong>Fast Update says it’s unavailable</strong>
-                    <p>Some firmware builds need a quick preparation before Fast Update appears. Connect with a cable, tap <strong>Prepare Fast Update</strong>, and let Updater finish. Once that’s done, Fast Update stays ready for Wi-Fi pushes.</p>
+                    <strong>The player isn’t picked up</strong>
+                    <p>Follow the step Updater is asking for, then plug the player in when prompted. If it still isn’t found, try another USB port, use the cable that came with the player, and make sure the screen is awake and unlocked.</p>
                 </article>
                 <article class="topic">
                     <strong>Driver reminders on Windows</strong>
@@ -467,7 +454,7 @@
                 <li>Community uploads shared in the Y1 Discord and forums.</li>
                 <li>Classic Rockbox themes from <a href="https://themes.rockbox.org">themes.rockbox.org</a>.</li>
             </ul>
-            <p>Choose a theme that matches the firmware you’re using (Original Software vs. Rockbox). Once downloaded, drop the ZIP or folder into <a href="https://innioasis.app/installguide.html">Updater</a>—Smart Drop takes care of placement, or use <strong>Browse Files</strong> if you prefer clicking. You’ll also find quick links inside the <a href="#toolkit">Toolkit</a>, and every theme source works the same way: drag, drop, install.</p>
+            <p>Choose a theme that matches the firmware you’re using (Original Software vs. Rockbox). Once downloaded, point <a href="https://innioasis.app/installguide.html">Updater</a> at the ZIP with <strong>Browse Files</strong> and it takes care of placement. You’ll also find quick links inside the <a href="#toolkit">Toolkit</a>, and every theme source works the same way: pick the file, install.</p>
             <p class="note">If a theme doesn’t apply, double-check that the ZIP contains the theme folder itself (not nested inside another folder). You can re-run the install as many times as you like.</p>
         </section>
 
@@ -475,7 +462,7 @@
             <h2>Helpful Daily Tips</h2>
             <ul>
                 <li><strong>Keep the cable steady:</strong> A loose cable can interrupt transfers. Use the included cable or a trusted high-quality replacement.</li>
-                <li><strong>Check Wi-Fi signals:</strong> For wireless transfers, make sure your Y1 and computer are on the same network. Enable Wi-Fi ADB from Updater’s <em>Settings › Smart Drop</em> tab when you’re ready to go cable-free.</li>
+                <li><strong>Keep the player awake:</strong> An unlocked screen and a steady cable keep installs moving. If the player sleeps mid-install, wake it and Updater carries on.</li>
                 <li><strong>Let Updater finish:</strong> Status messages at the bottom tell you when it’s safe to unplug. Wait for “Ready” or “All done” before disconnecting.</li>
                 <li><strong>Peek at the Toolkit:</strong> On Windows you can open it from the Start Menu or tap the <strong>Toolkit</strong> button inside Updater. It shows extra rescue buttons, screenshots, remote control, and quick links.</li>
             </ul>
@@ -485,8 +472,7 @@
             <h2>How Updater Talks to Your Y1</h2>
             <p>Updater quietly switches between a few connection styles to give you the fastest path to your goal:</p>
             <ul>
-                <li><strong>USB Storage Mode:</strong> When the device is awake and connected, Updater treats it like a drive so Smart Drop can copy themes, music, and other files right where they belong.</li>
-                <li><strong>ADB over USB or Wi-Fi:</strong> This keeps things in sync for Smart Drop previews, screenshots, remote control inside the Toolkit, and one-click Fast Update runs.</li>
+                <li><strong>USB file access:</strong> When the player is awake and connected, Updater reads and writes the files it needs, so themes, music and firmware land where they belong.</li>
                 <li><strong>Install/Restore (Powered-off / DFU):</strong> If your Y1 is off or needs a full refresh, Updater uses the bundled USB drivers to install factory firmware or <code>rom.zip</code> packages from a clean slate—no ADB required.</li>
             </ul>
             <p class="note">
@@ -513,7 +499,7 @@
                 <a href="#toolkit">Toolkit</a>
                 <a href="#factory-software">Factory Software</a>
                 <a href="#rockbox-software">Install Rockbox</a>
-                <a href="#rockbox-fast-update">Rockbox Fast Update</a>
+                <a href="#rockbox-fast-update">Updating Rockbox</a>
                 <a href="#troubleshooting">Troubleshooting</a>
                 <a href="#themes">Themes</a>
                 <a href="#usage-tips">Daily Tips</a>
@@ -534,8 +520,8 @@
     <div id="support-toolbar-slot"></div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../site-theme.css?v=20260622">
-    <link rel="stylesheet" href="../site-toolbar.css?v=20260622">
-    <script src="../nav.js?v=20261105noticemarkdown" defer></script>
+    <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+    <script src="../nav.js?v=20261105noticecards" defer></script>
     <script src="../site-init.js?v=20260803" defer></script>
 
 <script src="../site-i18n.js?v=20260830" defer></script></body>

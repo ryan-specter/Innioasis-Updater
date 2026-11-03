@@ -46,7 +46,7 @@
 
 If you rely on a MicroSD library, stay on Original Software until these are fixed.
 
-> Restoring the original firmware takes one run of Updater CE and does not erase your music.
+> Restoring the original firmware takes one run of Updater CE. Music on your MicroSD card is left alone, but music saved to the Y2's internal storage is erased: on Y2 the Keep Data option in Updater CE 2.5.1 only carries data across between firmwares that are cross-compatible, and moving to Original Software is not one of those cases.
 
 The steps are in the [Y2 stock restore guide](https://innioasis.app/guides/restore-original-y2.html).</full_content>
     <url>https://innioasis.app</url>

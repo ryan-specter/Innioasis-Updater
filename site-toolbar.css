@@ -425,6 +425,11 @@ body.y1-toolbar-thank-you-controls-hidden .y1-toolbar-thank-you-close {
 }
 
 
+#support-toolbar-container.y1-toolbar-hidden,
+#support-toolbar-container.y1-toolbar-hidden .y1-site-dock-wrap {
+    display: none !important;
+}
+
 #support-toolbar-container {
     font-family: var(--site-font, "DM Sans", system-ui, sans-serif);
     --dock-ink: var(--lumen-text, var(--site-text, #f4f6fb));

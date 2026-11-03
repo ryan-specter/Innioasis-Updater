@@ -14,6 +14,11 @@
     pointer-events: none !important;
     box-sizing: border-box !important;
   }
+  /* The close button must beat the !important flex layout above. */
+  #support-toolbar-container.y1-toolbar-hidden,
+  #support-toolbar-container.y1-toolbar-hidden .y1-site-dock-wrap {
+    display: none !important;
+  }
   #support-toolbar-container .y1-site-dock-wrap {
     pointer-events: auto !important;
     position: fixed !important;
@@ -416,7 +421,7 @@
 
 
 
-      <label class="y1-donate-optout"><input type="checkbox" data-donations-optout><span>Don\'t show donation appeals again</span></label>
+      <label class="y1-donate-optout"><input type="checkbox" data-donations-optout><span>Don't show donation appeals again</span></label>
       <p class="y1-donate-smallprint" style="margin-top: 14px;">Support Updater and the Themes Gallery through Ko-fi, PayPal, Revolut, or Patreon. <a href="credits.html" style="color: inherit; text-decoration: underline;">View our full public donor ledger &amp; money raised for community projects →</a></p>
     </div>
 
@@ -963,19 +968,26 @@
 
   if (!hasDecided()) setBanner(true);
 
+  function hideSupportToolbar() {
+    var container = document.getElementById("support-toolbar-container");
+    if (!container) return;
+    /* The container's own stylesheet says display:flex !important, so a plain
+       inline style would lose that fight. Class + important both stick. */
+    container.classList.add("y1-toolbar-hidden");
+    container.style.setProperty("display", "none", "important");
+    container.setAttribute("aria-hidden", "true");
+  }
   var dockCloseBtn = document.querySelector("[data-dock-close]");
   if (dockCloseBtn) {
     dockCloseBtn.addEventListener("click", function (e) {
       if (e) { e.preventDefault(); e.stopPropagation(); }
-      var container = document.getElementById("support-toolbar-container");
-      if (container) container.style.display = "none";
+      hideSupportToolbar();
       try { sessionStorage.setItem("y1-dock-dismissed", "1"); } catch (_) {}
     });
   }
   try {
     if (sessionStorage.getItem("y1-dock-dismissed") === "1") {
-      var dismissedContainer = document.getElementById("support-toolbar-container");
-      if (dismissedContainer) dismissedContainer.style.display = "none";
+      hideSupportToolbar();
     }
   } catch (_) {}
 

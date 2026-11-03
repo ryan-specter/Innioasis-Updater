@@ -13,12 +13,13 @@
   <link rel="stylesheet" href="site-theme.css?v=20261019d">
   <link rel="stylesheet" href="lumen.css?v=20261019d">
   <link rel="stylesheet" href="site-pages.css?v=20261019d">
-  <link rel="stylesheet" href="site-toolbar.css?v=20261019d">
+  <link rel="stylesheet" href="site-toolbar.css?v=20261105dockclose">
   <script src="site-init.js?v=20261019d" defer></script>
   <style>
     .lumen-notice-view { max-width: 760px; }
     .lumen-notice-back { margin: 0 0 18px; font-size: .9rem; }
     .lumen-notice-back a { color: var(--lumen-accent, #6366f1); text-decoration: none; }
+    .lumen-notice-view { scroll-margin-top: 92px; }
     .lumen-notice-body { margin-top: 8px; line-height: 1.7; color: var(--lumen-text, #e7ecf5); }
     .lumen-notice-body h2, .lumen-notice-body h3 { margin: 26px 0 8px; line-height: 1.25; }
     .lumen-notice-body p { margin: 0 0 14px; }
@@ -38,13 +39,11 @@
   <div id="nav-root"></div>
   <main id="main" class="lumen-guide">
     <header>
-      <p class="lumen-kicker">Community Bulletin · notice.xml</p>
+      <p class="lumen-kicker">Community Bulletin</p>
       <h1>Notices &amp; Announcements</h1>
       <p class="lead">Important firmware updates, hardware compatibility notes, and announcements shared across Innioasis Updater CE, the Community Firmware Archive, and Themes Gallery.</p>
       <div class="lumen-actions">
-        <a class="lumen-button lumen-button--primary" href="guide.html">Get Updater CE</a>
-        <a class="lumen-button" href="firmware.html">Browse Software Downloads</a>
-        <a class="lumen-button" href="https://themes.innioasis.app/">Themes Gallery</a>
+        <a class="lumen-button lumen-button--primary" href="https://github.com/y1-community/updater-ce-neo/discussions/6" target="_blank" rel="noopener noreferrer">Request a community notice</a>
       </div>
     </header>
 
@@ -54,7 +53,7 @@
   </main>
   <div id="footer-root"></div>
   <div id="support-toolbar-slot"></div>
-  <script src="nav.js?v=20261105noticemarkdown" defer></script>
+  <script src="nav.js?v=20261105noticecards" defer></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       var listEl = document.getElementById("notices-list");
@@ -143,6 +142,21 @@
           '<div class="lumen-notice-body">' + markdownToHtml(notice.full) + "</div>" +
           pageLink +
           "</article>";
+        if (listEl) {
+          /* Put the start of the notice at the top of the viewport instead of
+             leaving the reader on the page header buttons. Computed by hand
+             because scrollIntoView misbehaves when late layout shifts the page. */
+          var jumpToNotice = function () {
+            var start = listEl.querySelector(".lumen-notice-view");
+            if (!start) return;
+            var top = start.getBoundingClientRect().top + (window.pageYOffset || 0) - 92;
+            window.scrollTo(0, top > 0 ? top : 0);
+          };
+          requestAnimationFrame(jumpToNotice);
+          if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(jumpToNotice).catch(function () {});
+          }
+        }
       }
       function wantedId() {
         try {

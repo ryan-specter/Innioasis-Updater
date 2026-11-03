@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../lumen.css?v=20260823">
     <link rel="stylesheet" href="../site-theme.css?v=20260803">
     <link rel="stylesheet" href="../site-pages.css?v=20260818">
-    <link rel="stylesheet" href="../site-toolbar.css?v=20260803">
+    <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
     <style>
         :root {
             color-scheme: light;
@@ -322,14 +322,14 @@
         <span class="badge">Manual Update Advisory · Release 1.8.2.8</span>
         <h1>Fix Innioasis Updater & Y1 Helper Issues with a Clean Install</h1>
         <p class="intro">
-            If your <a href="https://innioasis.app/installguide.html">Innioasis Updater</a> hasn’t pulled the 1.8.2.8 release, launches slowly, or you’ve been relying on the older Y1 Helper tool, follow the clean install instructions below. This guide walks you through the supported reinstall on Windows and macOS so you can get back to reliable updates, Smart Drop, Fast Update, and remote control features in one place.
+            If your <a href="https://innioasis.app/installguide.html">Innioasis Updater</a> hasn’t pulled the 1.8.2.8 release, launches slowly, or you’ve been relying on the older Y1 Helper tool, follow the clean install instructions below. This guide walks you through the supported reinstall on Windows and macOS so you can get back to reliable updates, guided installs, and remote control features in one place.
         </p>
         <div class="callouts">
             <div class="callout">
                 <strong>Windows and macOS users:</strong> perform this clean install if Updater hasn’t updated itself recently, is lingering on older builds, or fails to launch within a few seconds.
             </div>
             <div class="callout warning-note">
-                Some long-dormant installs do not self-update. A fresh installer run is the fastest path to regain Smart Drop and Rockbox Fast Update support.
+                Some long-dormant installs do not self-update. A fresh installer run is the fastest path back to a working install.
             </div>
         </div>
     </header>
@@ -340,7 +340,7 @@
             <p>Manual reinstallation is recommended when you see any of the following symptoms:</p>
             <ul class="symptom-list">
                 <li>Updater takes minutes to launch or stalls while checking for updates.</li>
-                <li>Smart Drop, Rockbox Fast Update, or Wi-Fi ADB options never appeared after recent releases.</li>
+                <li>Updates stop arriving even though newer releases exist.</li>
                 <li>Device firmware updates fail to download or apply even though they’re available.</li>
                 <li>You skipped multiple releases and haven’t used the Updater in a long time.</li>
             </ul>
@@ -373,12 +373,12 @@
                 <article class="step-card">
                     <span class="step-label">Step 3</span>
                     <h3>Install and relaunch</h3>
-                    <p>Run the installer you downloaded—Windows will prompt for permission. When setup finishes, launch Innioasis Updater; it should now detect 1.8.2.8 automatically and regain Smart Drop and Fast Update.</p>
+                    <p>Run the installer you downloaded—Windows will prompt for permission. When setup finishes, launch Innioasis Updater; it should now detect 1.8.2.8 automatically and pick up updates again.</p>
                 </article>
             </div>
             <!--
             <figure>
-                <img src="https://i.redd.it/f9zfmxrkxs0g1.png" alt="Windows users may need a manual update to access Smart Drop and Fast Update">
+                <img src="https://i.redd.it/f9zfmxrkxs0g1.png" alt="Windows users may need a manual update to get back on the current release">
                 <figcaption>Users returning after a long break may be stranded on older builds—reinstalling reconnects you to feature updates.</figcaption>
             </figure>
             -->
@@ -435,9 +435,8 @@
             <h2>After You Update to 1.8.2.8</h2>
             <p>Once you are on the latest version, you gain access to the features below. These are only available on current builds.</p>
             <ul class="features-list">
-                <li><strong>Smart Drop</strong> for intelligent transfer of Y1 themes, Rockbox themes, music, firmware, and custom apps over USB or Wi-Fi ADB.</li>
-                <li><strong>Rockbox Fast Update</strong> to push Wi-Fi based Rockbox updates directly to your device.</li>
-                <li><strong>Wi-Fi ADB setup assistance</strong> so cables are optional after the first pairing.</li>
+                <li><strong>One-click installs</strong> for original firmware, community releases, and Rockbox builds from the built-in catalogue.</li>
+                <li><strong>Clear guided steps</strong> that tell you when to connect the player and when it is safe to unplug.</li>
                 <li>General stability improvements and dramatically faster launch times across both platforms.</li>
             </ul>
             <p class="note">
@@ -463,8 +462,8 @@
     <div id="support-toolbar-slot"></div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../site-theme.css?v=20260622">
-    <link rel="stylesheet" href="../site-toolbar.css?v=20260622">
-    <script src="../nav.js?v=20261105noticemarkdown" defer></script>
+    <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+    <script src="../nav.js?v=20261105noticecards" defer></script>
     <script src="../site-init.js?v=20260803" defer></script>
 
 <script src="../site-i18n.js?v=20260830" defer></script></body>
