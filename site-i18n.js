@@ -156,10 +156,10 @@
         ["Let us know how we can improve", "Ping the fixer with feedback"],
         ["Maybe later", "Later"],
         /* Homepage software table */
-        ["Software for Y1 and Y2", "Soft for Y1 and Y2"],
+        ["Software for every Innioasis and Timmkoo player", "Soft for every Innioasis and Timmkoo rig"],
         ["See what you can install.", "The Ripperdoc's got some great new soft for you"],
         ["Open the full release list", "Open the full drop list"],
-        ["Software available for the Innioasis Y1 and Y2, with release listings for each model", "Soft on the board for the Innioasis Y1 and Y2, with drop listings for each rig"],
+        ["Software available for every Innioasis and Timmkoo player, with release listings for each model", "Soft on the board for every Innioasis and Timmkoo rig, with drop listings for each model"],
         ["All software listed is from the ", "All soft listed is from the "],
         [" shows the releases for each model, with install guides, manual ZIP downloads, and the ", " shows the drops for each rig, with install runs, manual ZIP downloads, and the "],
         ["Releases", "Drops"],
@@ -169,7 +169,7 @@
         ["The latest versions refresh from the project release feeds.", "The latest drops refresh from the project release feeds."],
         ["The list loaded where available; some release feeds are unreachable right now.", "The list loaded where it could; some drop feeds are down right now."],
         /* Software directory */
-        ["Browse Original Software and community Software releases for Innioasis Y1 and Y2.", "Browse Original Software and community soft drops for Innioasis Y1 and Y2."],
+        ["Browse Original Software and community Software releases for every Innioasis and Timmkoo player.", "Browse Original Software and community soft drops for every Innioasis and Timmkoo rig."],
         ["Choose the model printed on your player, then browse every public Software release listed for it. When you are ready to install, use the guided Updater route instead of downloading a ZIP first.", "Choose the model printed on your rig, then browse every public soft drop listed for it. When you are ready to flash, take the guided Updater route instead of pulling a ZIP first."],
         ["Get it on Updater", "Grab it on Updater"],
         ["with guided install", "with guided install"],

@@ -1275,11 +1275,11 @@
         if (viewParam === "firmware") {
             if (heroKicker) heroKicker.textContent = "Innioasis & Timmkoo Firmware Downloads";
             if (heroH1) heroH1.textContent = "Software Updates and Firmware";
-            if (heroLead) heroLead.textContent = "Browse verified Original Software and community custom firmwares for the Innioasis Y1 and Y2. Download standalone packages or install directly with Updater CE. Timmkoo Q5 and Q3 install from the firmware ZIP and RAR packages Timmkoo supplies.";
+            if (heroLead) heroLead.textContent = "Browse verified Original Software and community custom firmwares for every Innioasis player (Y1, Y2, G1, G3, G5, Q8, R1, PR1, D1) and every Timmkoo player (A5, Q5, Q3). Download standalone packages or install directly with Updater CE; Timmkoo firmware installs from the ZIP and RAR packages Timmkoo supplies.";
         } else {
             if (heroKicker) heroKicker.textContent = "Innioasis Software Updates & Downloads";
             if (heroH1) heroH1.textContent = "Software Updates and Firmware";
-            if (heroLead) heroLead.textContent = "Browse verified Original Software and community custom firmwares for the Innioasis Y1 and Y2. Download standalone packages or install directly with Updater CE. Timmkoo Q5 and Q3 install from the firmware ZIP and RAR packages Timmkoo supplies.";
+            if (heroLead) heroLead.textContent = "Browse verified Original Software and community custom firmwares for every Innioasis player (Y1, Y2, G1, G3, G5, Q8, R1, PR1, D1) and every Timmkoo player (A5, Q5, Q3). Download standalone packages or install directly with Updater CE; Timmkoo firmware installs from the ZIP and RAR packages Timmkoo supplies.";
         }
         /* Nightly / pre-release filter, mirroring the Updater app's
            "Show nightly builds" checkbox. Off by default: stable releases
