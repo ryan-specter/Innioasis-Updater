@@ -651,7 +651,7 @@
       var r = Math.random();
       if (r < 0.40) {
         var familyChoices = [
-          "<strong>Hey! I'm Ryan.</strong> I look after Innioasis Updater CE, the Innioasis Firmware Archive and the Themes Gallery, supporting every Innioasis and Timmkoo player, new and old alike. I pay for the servers, the file storage, the web addresses and the players I test each release on, so everything stays free and open for the community.<br><br>Donations cover roughly 15% of what all of that really costs; the rest comes out of my own pocket. Whatever you give keeps these resources alive for the next owner, and it directly helps my partner and me raise our family. Thank you so much!",
+          "<strong>Hey! I'm Ryan.</strong> I look after Innioasis Updater CE, the Innioasis Firmware Archive and the Themes Gallery, supporting every Innioasis and Timmkoo player, new and old alike. I pay for the servers, the file storage, the web addresses and the players I test each release on, so everything stays free and open for the community.<br><br>Donations cover roughly 15% of what all of that really costs; the rest comes out of my own pocket. Whatever you give funds our device preservation and software archiving efforts, and it directly helps my partner and me raise our family. Thank you so much!",
           "<strong>Hey there, I'm Ryan.</strong> I build and maintain Innioasis Updater CE, the Themes Gallery and the firmware archive as hobby projects, supporting every Innioasis and Timmkoo player, new and old alike. I pay for the servers, the file storage, the web addresses and the test players out of my own pocket - the players cost more than the servers do - so everyone gets in for free.<br><br>Donations cover about 15% of the real cost, and they directly support my partner and me as we raise our young family. Every contribution makes a real difference to us."
         ];
         devIntro.innerHTML = familyChoices[Math.floor(Math.random() * familyChoices.length)];
@@ -1273,7 +1273,7 @@
     function fxUnit(code) {
       code = String(code || "USD").toUpperCase();
       var r = fxRate(code);
-      if (FX_ZERO[code] || r >= 0.5) return 1.0;
+      if (FX_ZERO[code] || r >= 10) return 1.0;
       return 0.01;
     }
 
@@ -1284,9 +1284,9 @@
 
     function fxGoal(usd, code) {
       var r = fxRate(code);
-      var value = Number(usd || 0) * (r > 1.0 ? r : 1.0);
-      var q = value >= 20000 ? 1000.0 : (value >= 2000 ? 100.0 : (value >= 200 ? 10.0 : 1.0));
-      return Math.ceil(value / q - 1e-9) * q;
+      var value = Number(usd || 0) * r;
+      if (r >= 10) return Math.round(value);
+      return Math.round(value * 100) / 100;
     }
 
     function fxShare(raised, target) {
@@ -1346,10 +1346,14 @@
       var monthRaised = Math.max(monthTotal || 0, raisedSince(starts.monthly));
       var raisedBy = { monthly: monthRaised, weekly: raisedSince(starts.weekly), daily: raisedSince(starts.daily) };
       var scope = null;
+      var metScope = monthRaised >= MONTHLY_TARGET ? "monthly" : null;
       if (monthRaised < MONTHLY_TARGET) {
         for (var i = 0; i < ladder.length; i++) {
           var rung = ladder[i];
-          if (targets[rung] - raisedBy[rung] < 1) continue;
+          if (targets[rung] - raisedBy[rung] < 1) {
+            if (!metScope) metScope = rung;
+            continue;
+          }
           if (rung !== "daily" && (raisedBy[rung] / targets[rung]) * 100 > WIDE_MAX_PERCENT) continue;
           scope = rung;
           break;
@@ -1359,7 +1363,7 @@
       var symbol = fxSymbol(code);
       if (!scope) {
         return {
-          scope: null, covered: true, met: true, periodWord: "", periodPhrase: "", periodSuffix: "", periodAdjective: "",
+          scope: null, covered: true, met: true, metScope: metScope, periodWord: "", periodPhrase: "", periodSuffix: "", periodAdjective: "",
           raised: 0, target: 0, pct: 0, remaining: 0, symbol: symbol, code: code
         };
       }
@@ -1383,13 +1387,22 @@
       };
     }
 
+    function moneyLabel(value) {
+      var n = Number(value || 0);
+      return (n % 1 === 0) ? n.toFixed(0) : n.toFixed(2);
+    }
+
     function fundingGoalText(goal, withEncouragement) {
-      if (!goal || goal.covered || !goal.scope) {
+      if (goal && goal.covered) {
+        var metWords = { monthly: "This month's", weekly: "This week's", daily: "Today's" };
+        var metLabel = metWords[goal.metScope];
+        if (metLabel) return metLabel + " costs are covered - thank you!";
+      }
+      if (!goal || !goal.scope) {
         return "We rely on your donations to keep running. Donate now";
       }
-      var raisedLabel = (goal.raised % 1 === 0) ? goal.raised.toFixed(0) : goal.raised.toFixed(2);
-      var text = "You've helped us cover " + goal.symbol + raisedLabel +
-        " of our " + goal.symbol + goal.target.toFixed(0) + " costs " + (goal.periodSuffix || ("for this " + goal.periodWord)) + ".";
+      var text = "You've helped us raise " + goal.symbol + moneyLabel(goal.raised) +
+        " of our " + goal.symbol + moneyLabel(goal.target) + " costs " + (goal.periodSuffix || ("for this " + goal.periodWord)) + ".";
       return withEncouragement ? text + " All donations are appreciated." : text;
     }
 
@@ -1436,10 +1449,7 @@
       if (streamBox && streamLine) {
         var goal = fundingGoalView(donations, curMonthRaised, now);
         var pct = goal.pct;
-        var isGoalMet = goal.met;
-        var goalBarText = isGoalMet
-          ? "We rely on your donations to keep running. Donate now"
-          : fundingGoalText(goal, true);
+        var goalBarText = fundingGoalText(goal, true);
 
         var goalBarHTML = goal.covered ? "" :
           '<div style="width: 100%; display: flex; flex-direction: column; gap: 4px; align-items: center;">' +

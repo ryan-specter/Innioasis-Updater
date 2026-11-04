@@ -495,8 +495,8 @@
       <div class="y1-dock-secondary-line" id="y1-dock-secondary-line" aria-label="Running costs and community contributions - click to support" role="button" tabindex="0">
         <div class="y1-dock-secondary-goal-view" id="y1-dock-secondary-goal-view">
           <span class="y1-dock-secondary-text" id="y1-dock-secondary-text">
-            <span class="y1-dock-text-desktop">You've helped us cover $0 of this month's $200 running costs.</span>
-            <span class="y1-dock-text-mobile">$0 of $200 monthly running costs covered</span>
+            <span class="y1-dock-text-desktop">You've helped us raise $0 of our $200 costs for this month.</span>
+            <span class="y1-dock-text-mobile">You've helped us raise $0 of our $200 costs for this month.</span>
           </span>
           <div class="y1-dock-secondary-bar-wrap" id="y1-dock-secondary-bar-wrap" aria-hidden="true"><div class="y1-dock-secondary-bar-fill" id="y1-dock-secondary-bar-fill"></div></div>
         </div>
@@ -510,7 +510,7 @@
           <div class="y1-dock-goal-bar-wrap" aria-hidden="true">
             <div class="y1-dock-goal-bar-fill" id="y1-dock-idle-bar-fill"></div>
           </div>
-          <span class="y1-dock-goal-text" id="y1-dock-idle-goal-text">You've helped us cover $0 of this month's $200 running costs.</span>
+          <span class="y1-dock-goal-text" id="y1-dock-idle-goal-text">You've helped us raise $0 of our $200 costs for this month.</span>
         </div>
         <div class="y1-dock-idle-ticker-view" id="y1-dock-idle-ticker-view" aria-live="polite" hidden>
           <span class="y1-dock-idle-ticker" id="y1-dock-idle-ticker-text">Loading...</span>
@@ -812,7 +812,7 @@
   function fxUnit(code) {
     code = String(code || "USD").toUpperCase();
     var r = fxRate(code);
-    if (FX_ZERO[code] || r >= 0.5) return 1.0;
+    if (FX_ZERO[code] || r >= 10) return 1.0;
     return 0.01;
   }
 
@@ -823,9 +823,9 @@
 
   function fxGoal(usd, code) {
     var r = fxRate(code);
-    var value = Number(usd || 0) * (r > 1.0 ? r : 1.0);
-    var q = value >= 20000 ? 1000.0 : (value >= 2000 ? 100.0 : (value >= 200 ? 10.0 : 1.0));
-    return Math.ceil(value / q - 1e-9) * q;
+    var value = Number(usd || 0) * r;
+    if (r >= 10) return Math.round(value);
+    return Math.round(value * 100) / 100;
   }
 
   function fxShare(raised, target) {
@@ -1156,9 +1156,25 @@
     setPanel(privacyPanel, privacyOpen, true, privacyClose);
   }
 
+  /* Re-enabling donations reloads the page with ?donations=true set alongside
+     whatever parameters are already there, so every part of the page comes
+     back with the appeals switched on. */
+  function reloadWithDonationsEnabled() {
+    try {
+      var url = new URL(window.location.href);
+      url.searchParams.set("donations", "true");
+      window.location.replace(url.toString());
+    } catch (_) {
+      window.location.reload();
+    }
+  }
+
   function saveFromPanel() {
+    var reenabledDonations = false;
     if (hasDonationsPreference() && donationsToggle && typeof window.setY1DonationsDisabled === "function") {
-      window.setY1DonationsDisabled(!donationsToggle.checked);
+      var disableDonations = !donationsToggle.checked;
+      reenabledDonations = donationsOff() && !disableDonations;
+      window.setY1DonationsDisabled(disableDonations);
     }
     if (consent && consent.save) {
       consent.save({
@@ -1173,6 +1189,10 @@
     window.setTimeout(function () {
       setPanel(privacyPanel, privacyOpen, false, null);
       if (privacyStatus) privacyStatus.textContent = "";
+      if (reenabledDonations) {
+        reloadWithDonationsEnabled();
+        return;
+      }
       if (privacyOpen) privacyOpen.focus();
     }, 900);
   }
@@ -1404,7 +1424,6 @@
       }
       if (donationLineInterval) clearInterval(donationLineInterval);
       var donorLines = Array.isArray(tickerHtml) ? tickerHtml.filter(Boolean) : (tickerHtml ? [tickerHtml] : []);
-      var raisedLabel = (goal.raised % 1 === 0) ? goal.raised.toFixed(0) : goal.raised.toFixed(2);
       var remLabel = (goal.remaining % 1 === 0) ? goal.remaining.toFixed(0) : goal.remaining.toFixed(2);
       var secondaryBarWrap = document.getElementById("y1-dock-secondary-bar-wrap") || (secondaryBarFill ? secondaryBarFill.parentElement : null);
 
@@ -1417,12 +1436,11 @@
         };
       }
 
-      var periodSuffix = goal.periodSuffix || ("for this " + goal.periodWord);
       var targetPhrase = goal.met
         ? null
         : {
-            desktop: "You've helped us cover " + goal.symbol + raisedLabel + " of our " + goal.symbol + goal.target.toFixed(0) + " costs " + periodSuffix,
-            mobile: goal.symbol + raisedLabel + " of " + goal.symbol + goal.target.toFixed(0) + " costs " + periodSuffix,
+            desktop: fundingGoalText(goal, false),
+            mobile: fundingGoalText(goal, false),
             isTarget: true
           };
 
@@ -1442,8 +1460,8 @@
         : [
             targetPhrase,
             {
-              desktop: "Only " + goal.symbol + remLabel + " to go on " + (goal.periodPhrase || ("this " + goal.periodWord)) + "'s costs.",
-              mobile: "Only " + goal.symbol + remLabel + " to go " + (goal.periodPhrase || ("this " + goal.periodWord)),
+              desktop: "Only " + goal.symbol + remLabel + " left to raise for " + (goal.periodPhrase || ("this " + goal.periodWord)) + "'s costs.",
+              mobile: "Only " + goal.symbol + remLabel + " left to raise for " + (goal.periodPhrase || ("this " + goal.periodWord)) + "'s costs.",
               isTarget: true
             },
             {
@@ -1825,10 +1843,14 @@
     var monthRaised = Math.max(monthTotal || 0, raisedSince(starts.monthly));
     var raisedBy = { monthly: monthRaised, weekly: raisedSince(starts.weekly), daily: raisedSince(starts.daily) };
     var scope = null;
+    var metScope = monthRaised >= MONTHLY_TARGET ? "monthly" : null;
     if (monthRaised < MONTHLY_TARGET) {
       for (var i = 0; i < ladder.length; i++) {
         var rung = ladder[i];
-        if (targets[rung] - raisedBy[rung] < 1) continue;
+        if (targets[rung] - raisedBy[rung] < 1) {
+          if (!metScope) metScope = rung;
+          continue;
+        }
         if (rung !== "daily" && (raisedBy[rung] / targets[rung]) * 100 > WIDE_MAX_PERCENT) continue;
         scope = rung;
         break;
@@ -1838,7 +1860,7 @@
     var symbol = fxSymbol(code);
     if (!scope) {
       return {
-        scope: null, covered: true, met: true, periodWord: "", periodPhrase: "", periodSuffix: "", periodAdjective: "",
+        scope: null, covered: true, met: true, metScope: metScope, periodWord: "", periodPhrase: "", periodSuffix: "", periodAdjective: "",
         raised: 0, target: 0, pct: 0, remaining: 0, symbol: symbol, code: code
       };
     }
@@ -1863,13 +1885,22 @@
     };
   }
 
+  function moneyLabel(value) {
+    var n = Number(value || 0);
+    return (n % 1 === 0) ? n.toFixed(0) : n.toFixed(2);
+  }
+
   function fundingGoalText(goal, withEncouragement) {
-    if (!goal || goal.covered || !goal.scope) {
+    if (goal && goal.covered) {
+      var metWords = { monthly: "This month's", weekly: "This week's", daily: "Today's" };
+      var metLabel = metWords[goal.metScope];
+      if (metLabel) return metLabel + " costs are covered - thank you!";
+    }
+    if (!goal || !goal.scope) {
       return "We rely on your donations to keep running. Donate now";
     }
-    var raisedLabel = (goal.raised % 1 === 0) ? goal.raised.toFixed(0) : goal.raised.toFixed(2);
-    var text = "You've helped us cover " + goal.symbol + raisedLabel +
-      " of our " + goal.symbol + goal.target.toFixed(0) + " costs " + (goal.periodSuffix || ("for this " + goal.periodWord)) + ".";
+    var text = "You've helped us raise " + goal.symbol + moneyLabel(goal.raised) +
+      " of our " + goal.symbol + moneyLabel(goal.target) + " costs " + (goal.periodSuffix || ("for this " + goal.periodWord)) + ".";
     return withEncouragement ? text + " All donations are appreciated." : text;
   }
 
@@ -1908,10 +1939,7 @@
     var legRaised = document.getElementById("y1-goal-legend-raised");
     var legRem = document.getElementById("y1-goal-legend-remaining");
 
-    var isGoalMet = goal.met;
-    var goalMsg = isGoalMet
-      ? "We rely on your donations to keep running. Donate now"
-      : fundingGoalText(goal, true);
+    var goalMsg = fundingGoalText(goal, true);
     [titleEl, statsEl, legRaised, legRem,
      raisedBar && raisedBar.parentElement, remBar && remBar.parentElement].forEach(function (el) {
       if (el) el.style.display = goal.covered ? "none" : "";
@@ -1989,10 +2017,7 @@
     }
 
     var raisedPct = goal.pct;
-    var isTickerGoalMet = goal.met;
-    var tickerGoalMsg = isTickerGoalMet
-      ? "We rely on your donations to keep running. Donate now"
-      : fundingGoalText(goal, false);
+    var tickerGoalMsg = fundingGoalText(goal, false);
     var goalItem = {
       html: '<span class="y1-dock-ticker-badge y1-dock-ticker-badge--goal">Costs</span>' +
             '<div class="y1-dock-mini-bar" title="' + Math.round(raisedPct) + '% covered" style="display: inline-block; width: 50px; height: 6px; background: rgba(156,163,175,0.2); border: 1px solid rgba(156,163,175,0.35); border-radius: 4px; overflow: hidden; vertical-align: middle; margin-right: 6px;">' +
@@ -2132,10 +2157,7 @@
     var desktop = document.querySelector("#y1-dock-secondary-text .y1-dock-text-desktop");
     var mobile = document.querySelector("#y1-dock-secondary-text .y1-dock-text-mobile");
     if (desktop) desktop.textContent = fundingGoalText(goal, true);
-    if (mobile) {
-      mobile.textContent = goal.symbol + "0 of " + goal.symbol + goal.target.toFixed(0) +
-        " costs " + (goal.periodSuffix || ("for this " + goal.periodWord));
-    }
+    if (mobile) mobile.textContent = fundingGoalText(goal, false);
   })();
 
   refreshFxRates(function () {
