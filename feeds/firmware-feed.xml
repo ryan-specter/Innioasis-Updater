@@ -4,7 +4,7 @@
   <title>Innioasis and Timmkoo firmware releases</title>
   <link rel="alternate" type="text/html" href="https://innioasis.app/firmware-list.html"/>
   <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/firmware-feed.xml"/>
-  <updated>2026-11-04T19:27:19Z</updated>
+  <updated>2026-11-04T20:26:34Z</updated>
   <inni:schema_version>2</inni:schema_version>
   <inni:manifest_url>https://innioasis.app/slidia_manifest.xml</inni:manifest_url>
   <inni:firmware_list_url>https://innioasis.app/firmware-list.html</inni:firmware_list_url>
@@ -2869,7 +2869,7 @@
         </inni:mirror_asset>
       </inni:release>
     </inni:mirror>
-    <inni:mirror repo="y1-community/y2player-mirror" source_repo="schulzcode/y2player" updated_at="2026-11-04T19:27:19Z">
+    <inni:mirror repo="y1-community/y2player-mirror" source_repo="schulzcode/y2player" updated_at="2026-11-04T20:26:34Z">
       <inni:release tag="ReleaseV2.3" original_tag="ReleaseV2.3" mirror_tag="ReleaseV2.3" release_name="Portable Flashing Package: Y2Player V2.3" published_at="2026-11-03T16:10:44Z">
         <inni:mirror_asset name="rom_y2-linux.zip" tag="ReleaseV2.3" original_url="" original_size="626713267" mirror_original_url="https://github.com/y1-community/y2player-mirror/releases/download/ReleaseV2.3/rom_y2-linux.zip">
         </inni:mirror_asset>
@@ -13309,6 +13309,78 @@ Full changelog: [CHANGELOG.md](https://github.com/FabianZettl/jj-launcher-classi
 - This APK is debug-signed (no production keystore has been set up yet for this fork)
 
 See [CHANGELOG.md](https://github.com/FabianZettl/jj-launcher-classic/blob/master/CHANGELOG.md) for the full list.</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:JonaszPotoniec/inniclassic-y2/20261104</id>
+    <updated>2026-11-04T20:21:02Z</updated>
+    <published>2026-11-04T20:21:02Z</published>
+    <title>InniClassic 20261104</title>
+    <link rel="alternate" type="text/html" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/tag/20261104"/>
+    <inni:repo>JonaszPotoniec/inniclassic-y2</inni:repo>
+    <inni:tag_name>20261104</inni:tag_name>
+    <inni:name>InniClassic 20261104</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <inni:icon_url>https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png</inni:icon_url>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/index.html" title="index.html" length="30965" type="text/html"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/InniClassic-20261104.apk" title="InniClassic-20261104.apk" length="24527493" type="application/vnd.android.package-archive"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom.zip" title="rom.zip" length="455462943" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_type_b.zip" title="rom_type_b.zip" length="422466574" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y1_type_a.zip" title="rom_y1_type_a.zip" length="455462943" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y1_type_b.zip" title="rom_y1_type_b.zip" length="422466574" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y2.zip" title="rom_y2.zip" length="465901262" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/SHA256SUMS.txt" title="SHA256SUMS.txt" length="491" type="text/plain"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/update.json" title="update.json" length="299" type="application/json"/>
+    <content type="text">### InniClassic Release
+
+Automated build with full support for **Innioasis Y1** (Type A &amp; Type B) and **Innioasis Y2**.
+
+#### 📦 Release Assets
+
+| File | Target Device | Notes |
+| :--- | :--- | :--- |
+| **`InniClassic-20261104.apk`** | All Devices (Y1 / Y2) | Standalone launcher APK (sideload or install) |
+| **`update.json`** | All Devices | OTA update metadata for in-app updater |
+| **`rom_y2.zip`** | **Innioasis Y2** (MT6582) | Complete flashable ROM with dual-storage, watchdog &amp; clickwheel keylayout |
+| **`rom_y1_type_a.zip`** (`rom.zip`) | **Innioasis Y1** (Type A) | Flashable ROM for Y1 players with original firmware **2.0.0 or higher** |
+| **`rom_y1_type_b.zip`** (`rom_type_b.zip`) | **Innioasis Y1** (Type B) | Flashable ROM for Y1 players with original firmware **below 2.0.0** |
+| **`SHA256SUMS.txt`** | All Files | SHA-256 integrity checksums |
+
+#### ⚡ Flashing Instructions (SP Flash Tool)
+1. Extract the corresponding zip file for your device.
+2. Launch `flash_tool.exe` (or Linux `flash_tool`).
+3. Load the scatter file (`MT6582_Android_scatter.txt` for Y2, `MT6572_Android_scatter.txt` for Y1).
+4. Select **Firmware Upgrade** or **Download Only**.
+5. Power off the device completely, click **Download**, and connect the USB cable.
+
+---
+
+
+## What&#x27;s Changed
+* fix(settings): make the Settings rows open the right screens and take effect by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/5
+* fix: small fixes for the menu title, a test, resource ids, old processes and settings in the old prefs files by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/24
+* fix(ui): make the list rows clear and consistent by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/25
+* fix(rom): install the stock Bluetooth.apk without the phone profiles, turn off the low-battery dialog and name the USB device in the Y2 ROM by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/22
+* fix(settings): fix the time zone and the status bar clock, and add Sync Time Now by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/6
+* feat(music): improve the library and the Music menu: album grouping, shuffle, Compilations, Top 25 by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/19
+* feat(coverflow): make Cover Flow and the fast wheel like the iPod: artist order, layout, speed and letter jump by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/20
+* feat(ui): use the iPod Classic layout in the Classic themes, with an iPod status bar and battery warnings by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/23
+* feat(theme): change the theme without a restart, and add an Auto theme by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/26
+* feat(settings): group the Settings rows like the iPod, with On/Off switches by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/27
+* fix(usb): switch USB function to mass_storage before sharing storage by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/7
+* feat(audio): equal 2 dB volume steps, effects only when used, Click Volume, and one audio source at a time by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/31
+* fix(input): act on each button once, on release, and fix the keyboard by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/28
+* feat(connectivity): keep the modem off on the Y2, and make Bluetooth pairing work by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/30
+* fix(player): restore the Now Playing menu, spectrum, lyrics and hold buttons by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/11
+* chore(i18n): remove generate_polish.py, polish.json is the source by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/40
+* fix(browser): allow browsing SD card folders and refine folder navigation by @JonaszPotoniec in https://github.com/JonaszPotoniec/inniclassic-y2/pull/36
+* feat(browser): support multiple genre tags in songs (#34) by @JonaszPotoniec in https://github.com/JonaszPotoniec/inniclassic-y2/pull/37
+* fix(library): detect modified audio metadata during media library scans (#34) by @JonaszPotoniec in https://github.com/JonaszPotoniec/inniclassic-y2/pull/38
+* chore(lint): stop the release build on calls to APIs newer than minSdk 19 by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/39
+
+## New Contributors
+* @ferrolho made their first contribution in https://github.com/JonaszPotoniec/inniclassic-y2/pull/5
+
+**Full Changelog**: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261017...20261104</content>
   </entry>
   <entry>
     <id>tag:innioasis.app,2026:JonaszPotoniec/inniclassic-y2/20261017</id>
@@ -28792,54 +28864,13 @@ Ryan - Maintainer of Updater CE.</content>
     <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.4/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream"/>
     <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.4/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload"/>
     <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.4/run_linux.sh" title="run_linux.sh" length="87903" type="application/octet-stream"/>
-    <content type="text">**This release improves reliaiblity for SP Flash Tool based installs on Windows and Linux and improves first-launch guidance to ensure that Windows users restart their machines before attempting their first install, to ensure that drivers are working as expected.**
+    <content type="text"># Looking to get started with Updater, and custom firmware on your Innioasis Y1 or Y2 Please visit www.innioasis.app to get started. 
+Innioasis Updater can be used to automatically download firmware releases from the [Community Firmware Archive](https://innioasis.app/firmware.html), a community driven archival of the stock firmware releases posted on Google Drive by Innioasis, but also of custom firmware projects and releases.
 
-# Innioasis Updater is the stock firmware installation and modding tool for the Innioasis Y1 and Y2 audio players, built by the users, _for_ the users.
+If you found this project helpful, [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/V7V51JJ95H).
 
-# Came from an old Rockbox tutorial or guide? We&#x27;ve got a new, guided tool called Innioasis Updater, To get started with it, or if you&#x27;re looking for firmware downloads or updates for another Innioasis device, please head to [innioasis.com/pages/download](https://innioasis.com/pages/download)
-
-[&lt;img src=&quot;https://innioasis.app/mtkclient/gui/images/screenshot.jpg&quot; alt=&quot;Innioasis Updater Screenshot&quot;/&gt;](https://innioasis.app)
-
-# Innioasis Updater
-&lt;img src=&quot;mtkclient/gui/images/icon.png&quot; alt=&quot;Innioasis Updater Icon&quot; width=&quot;128&quot;/&gt;
-Innioasis Updater is an easy, one-click firmware installer for the Innioasis Y1 MP3 player running Android firmwares. It lists official software updates as well as community built firmwares.
-
-# Looking to update or customise your Innioasis player? head to [innioasis.app/guide.html](https://innioasis.app/guide.html) to begin
-
-## Developed in Python using Cursor IDE by
-- Ryan Specter of Team Slide
-
-## Special Thanks to
-
-### [All who have donated to our community driven projects like Updater, Themes Gallery and Firmware Archive](https://innioasis.app/credits.html?thank-you=1)
-
-### Team Slide branding lead
-- u/_allstar
-  
-### r/innioasis and its mods
-
-### Rockbox Y1 Port and ROM Developer
- - [@rockbox-y1 (u/After-Acanthaceae547)](https://www.github.com/rockbox-y1)
-
- ### TikTok / YouTube creators
-- Ryan /@catsteal3r on TikTok
-- Corduroy cat - YouTuber
-- Edit: I previously credited these as the same individual but it turns out they are actually seperate content creators. Sorry for any confusion caused. - Ryan Specter 
-## MTKclient Credits
-
-- bkerler for creating mtkclient
-- kamakiri [xyzz]
-- linecode exploit [chimera]
-- Chaosmaster
-- Geert-Jan Kreileman (GUI, design &amp; fixes)
-
-## Installing on Linux
-
-Try this install command in your terminal, and if it doesn&#x27;t work for some reason, [file an issue](https://github.com/y1-community/Innioasis-Updater/issues) explaining your Linux distribution and the issue you encountered.
-
-```
-curl -sL https://github.com/y1-community/Innioasis-Updater/releases/latest/download/run_linux.sh | bash
-```</content>
+You can contribute to this project for free by [sharing 100MB on Honeygain](https://join.honeygain.com/ITSRY2B5D7)
+</content>
   </entry>
   <entry>
     <id>tag:innioasis.app,2026:y1-community/Innioasis-Updater/2.0.3</id>
@@ -28855,52 +28886,13 @@ curl -sL https://github.com/y1-community/Innioasis-Updater/releases/latest/downl
     <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream"/>
     <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.3/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload"/>
     <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.3/run_linux.sh" title="run_linux.sh" length="87903" type="text/x-shellscript"/>
-    <content type="text">**This release adds guided Y2 firmware installs for Mac users. You can now use Innioasis Updater Community Edition to get and install firmwares for your player with this new journey**
+    <content type="text"># Looking to get started with Updater, and custom firmware on your Innioasis Y1 or Y2 Please visit www.innioasis.app to get started. 
+Innioasis Updater can be used to automatically download firmware releases from the [Community Firmware Archive](https://innioasis.app/firmware.html), a community driven archival of the stock firmware releases posted on Google Drive by Innioasis, but also of custom firmware projects and releases.
 
-# Innioasis Updater is the stock firmware installation and modding tool for the Innioasis Y1 and Y2 audio players, built by the users, _for_ the users.
+If you found this project helpful, [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/V7V51JJ95H).
 
-# Came from an old Rockbox tutorial or guide? We&#x27;ve got a new, guided tool called Innioasis Updater, To get started with it, or if you&#x27;re looking for firmware downloads or updates for another Innioasis device, please head to [innioasis.com/pages/download](https://innioasis.com/pages/download)
-
-[&lt;img src=&quot;https://innioasis.app/mtkclient/gui/images/screenshot.jpg&quot; alt=&quot;Innioasis Updater Screenshot&quot;/&gt;](https://innioasis.app)
-
-# Innioasis Updater
-&lt;img src=&quot;mtkclient/gui/images/icon.png&quot; alt=&quot;Innioasis Updater Icon&quot; width=&quot;128&quot;/&gt;
-Innioasis Updater is an easy, one-click firmware installer for the Innioasis Y1 MP3 player running Android firmwares. It lists official software updates as well as community built firmwares.
-
-# Looking to update or customise your Innioasis player? head to [innioasis.app/guide.html](https://innioasis.app/guide.html) to begin
-
-## Developed in Python using Cursor IDE by
-- Ryan Specter of Team Slide
-
-## Special Thanks to
-
-### Team Slide branding lead
-- u/_allstar
-  
-### r/innioasis and its mods
-
-### Rockbox Y1 Port and ROM Developer
- - [@rockbox-y1 (u/After-Acanthaceae547)](https://www.github.com/rockbox-y1)
-
- ### TikTok / YouTube creators
-- Ryan /@catsteal3r on TikTok
-- Corduroy cat - YouTuber
-- Edit: I previously credited these as the same individual but it turns out they are actually seperate content creators. Sorry for any confusion caused. - Ryan Specter 
-## MTKclient Credits
-
-- bkerler for creating mtkclient
-- kamakiri [xyzz]
-- linecode exploit [chimera]
-- Chaosmaster
-- Geert-Jan Kreileman (GUI, design &amp; fixes)
-
-## Installing on Linux
-
-Try this install command in your terminal, and if it doesn&#x27;t work for some reason, [file an issue](https://github.com/y1-community/Innioasis-Updater/issues) explaining your Linux distribution and the issue you encountered.
-
-```
-curl -sL https://github.com/y1-community/Innioasis-Updater/releases/latest/download/run_linux.sh | bash
-```</content>
+You can contribute to this project for free by [sharing 100MB on Honeygain](https://join.honeygain.com/ITSRY2B5D7)
+</content>
   </entry>
   <entry>
     <id>tag:innioasis.app,2026:y1-community/Innioasis-Updater/2.0.2</id>
@@ -28916,52 +28908,13 @@ curl -sL https://github.com/y1-community/Innioasis-Updater/releases/latest/downl
     <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream"/>
     <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.2/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload"/>
     <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.2/run_linux.sh" title="run_linux.sh" length="91280" type="text/x-shellscript"/>
-    <content type="text">**This release adds guided Y2 firmware installs for Mac users. You can now use Innioasis Updater Community Edition to get and install firmwares for your player with this new journey**
+    <content type="text"># Looking to get started with Updater, and custom firmware on your Innioasis Y1 or Y2 Please visit www.innioasis.app to get started. 
+Innioasis Updater can be used to automatically download firmware releases from the [Community Firmware Archive](https://innioasis.app/firmware.html), a community driven archival of the stock firmware releases posted on Google Drive by Innioasis, but also of custom firmware projects and releases.
 
-# Innioasis Updater is the stock firmware installation and modding tool for the Innioasis Y1 and Y2 audio players, built by the users, _for_ the users.
+If you found this project helpful, [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/V7V51JJ95H).
 
-# Came from an old Rockbox tutorial or guide? We&#x27;ve got a new, guided tool called Innioasis Updater, To get started with it, or if you&#x27;re looking for firmware downloads or updates for another Innioasis device, please head to [innioasis.com/pages/download](https://innioasis.com/pages/download)
-
-[&lt;img src=&quot;https://innioasis.app/mtkclient/gui/images/screenshot.jpg&quot; alt=&quot;Innioasis Updater Screenshot&quot;/&gt;](https://innioasis.app)
-
-# Innioasis Updater
-&lt;img src=&quot;mtkclient/gui/images/icon.png&quot; alt=&quot;Innioasis Updater Icon&quot; width=&quot;128&quot;/&gt;
-Innioasis Updater is an easy, one-click firmware installer for the Innioasis Y1 MP3 player running Android firmwares. It lists official software updates as well as community built firmwares.
-
-# Looking to update or customise your Innioasis player? head to [innioasis.app/guide.html](https://innioasis.app/guide.html) to begin
-
-## Developed in Python using Cursor IDE by
-- Ryan Specter of Team Slide
-
-## Special Thanks to
-
-### Team Slide branding lead
-- u/_allstar
-  
-### r/innioasis and its mods
-
-### Rockbox Y1 Port and ROM Developer
- - [@rockbox-y1 (u/After-Acanthaceae547)](https://www.github.com/rockbox-y1)
-
- ### TikTok / YouTube creators
-- Ryan /@catsteal3r on TikTok
-- Corduroy cat - YouTuber
-- Edit: I previously credited these as the same individual but it turns out they are actually seperate content creators. Sorry for any confusion caused. - Ryan Specter 
-## MTKclient Credits
-
-- bkerler for creating mtkclient
-- kamakiri [xyzz]
-- linecode exploit [chimera]
-- Chaosmaster
-- Geert-Jan Kreileman (GUI, design &amp; fixes)
-
-## Installing on Linux
-
-Try this install command in your terminal, and if it doesn&#x27;t work for some reason, [file an issue](https://github.com/y1-community/Innioasis-Updater/issues) explaining your Linux distribution and the issue you encountered.
-
-```
-curl -sL https://github.com/y1-community/Innioasis-Updater/releases/latest/download/run_linux.sh | bash
-```</content>
+You can contribute to this project for free by [sharing 100MB on Honeygain](https://join.honeygain.com/ITSRY2B5D7)
+</content>
   </entry>
   <entry>
     <id>tag:innioasis.app,2026:y1-community/Innioasis-Updater/2.0.1</id>

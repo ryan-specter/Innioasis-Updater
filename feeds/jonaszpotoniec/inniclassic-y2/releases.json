@@ -1,5 +1,119 @@
 [
   {
+    "id": 434408829,
+    "tag_name": "20261104",
+    "name": "InniClassic 20261104",
+    "body": "### InniClassic Release\n\nAutomated build with full support for **Innioasis Y1** (Type A & Type B) and **Innioasis Y2**.\n\n#### \ud83d\udce6 Release Assets\n\n| File | Target Device | Notes |\n| :--- | :--- | :--- |\n| **`InniClassic-20261104.apk`** | All Devices (Y1 / Y2) | Standalone launcher APK (sideload or install) |\n| **`update.json`** | All Devices | OTA update metadata for in-app updater |\n| **`rom_y2.zip`** | **Innioasis Y2** (MT6582) | Complete flashable ROM with dual-storage, watchdog & clickwheel keylayout |\n| **`rom_y1_type_a.zip`** (`rom.zip`) | **Innioasis Y1** (Type A) | Flashable ROM for Y1 players with original firmware **2.0.0 or higher** |\n| **`rom_y1_type_b.zip`** (`rom_type_b.zip`) | **Innioasis Y1** (Type B) | Flashable ROM for Y1 players with original firmware **below 2.0.0** |\n| **`SHA256SUMS.txt`** | All Files | SHA-256 integrity checksums |\n\n#### \u26a1 Flashing Instructions (SP Flash Tool)\n1. Extract the corresponding zip file for your device.\n2. Launch `flash_tool.exe` (or Linux `flash_tool`).\n3. Load the scatter file (`MT6582_Android_scatter.txt` for Y2, `MT6572_Android_scatter.txt` for Y1).\n4. Select **Firmware Upgrade** or **Download Only**.\n5. Power off the device completely, click **Download**, and connect the USB cable.\n\n---\n\n\n## What's Changed\n* fix(settings): make the Settings rows open the right screens and take effect by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/5\n* fix: small fixes for the menu title, a test, resource ids, old processes and settings in the old prefs files by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/24\n* fix(ui): make the list rows clear and consistent by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/25\n* fix(rom): install the stock Bluetooth.apk without the phone profiles, turn off the low-battery dialog and name the USB device in the Y2 ROM by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/22\n* fix(settings): fix the time zone and the status bar clock, and add Sync Time Now by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/6\n* feat(music): improve the library and the Music menu: album grouping, shuffle, Compilations, Top 25 by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/19\n* feat(coverflow): make Cover Flow and the fast wheel like the iPod: artist order, layout, speed and letter jump by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/20\n* feat(ui): use the iPod Classic layout in the Classic themes, with an iPod status bar and battery warnings by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/23\n* feat(theme): change the theme without a restart, and add an Auto theme by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/26\n* feat(settings): group the Settings rows like the iPod, with On/Off switches by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/27\n* fix(usb): switch USB function to mass_storage before sharing storage by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/7\n* feat(audio): equal 2 dB volume steps, effects only when used, Click Volume, and one audio source at a time by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/31\n* fix(input): act on each button once, on release, and fix the keyboard by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/28\n* feat(connectivity): keep the modem off on the Y2, and make Bluetooth pairing work by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/30\n* fix(player): restore the Now Playing menu, spectrum, lyrics and hold buttons by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/11\n* chore(i18n): remove generate_polish.py, polish.json is the source by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/40\n* fix(browser): allow browsing SD card folders and refine folder navigation by @JonaszPotoniec in https://github.com/JonaszPotoniec/inniclassic-y2/pull/36\n* feat(browser): support multiple genre tags in songs (#34) by @JonaszPotoniec in https://github.com/JonaszPotoniec/inniclassic-y2/pull/37\n* fix(library): detect modified audio metadata during media library scans (#34) by @JonaszPotoniec in https://github.com/JonaszPotoniec/inniclassic-y2/pull/38\n* chore(lint): stop the release build on calls to APIs newer than minSdk 19 by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/39\n\n## New Contributors\n* @ferrolho made their first contribution in https://github.com/JonaszPotoniec/inniclassic-y2/pull/5\n\n**Full Changelog**: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261017...20261104",
+    "draft": false,
+    "prerelease": false,
+    "created_at": "2026-11-04T13:49:51Z",
+    "published_at": "2026-11-04T20:21:02Z",
+    "html_url": "https://github.com/JonaszPotoniec/inniclassic-y2/releases/tag/20261104",
+    "icon_url": "https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 710801195,
+        "name": "index.html",
+        "browser_download_url": "https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/index.html",
+        "size": 30965,
+        "download_count": 0,
+        "content_type": "text/html",
+        "created_at": "2026-11-04T20:20:42Z",
+        "updated_at": "2026-11-04T20:20:43Z",
+        "url": "https://api.github.com/repos/JonaszPotoniec/inniclassic-y2/releases/assets/710801195"
+      },
+      {
+        "id": 710801198,
+        "name": "InniClassic-20261104.apk",
+        "browser_download_url": "https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/InniClassic-20261104.apk",
+        "size": 24527493,
+        "download_count": 0,
+        "content_type": "application/vnd.android.package-archive",
+        "created_at": "2026-11-04T20:20:43Z",
+        "updated_at": "2026-11-04T20:20:45Z",
+        "url": "https://api.github.com/repos/JonaszPotoniec/inniclassic-y2/releases/assets/710801198"
+      },
+      {
+        "id": 710801202,
+        "name": "rom.zip",
+        "browser_download_url": "https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom.zip",
+        "size": 455462943,
+        "download_count": 0,
+        "content_type": "application/zip",
+        "created_at": "2026-11-04T20:20:43Z",
+        "updated_at": "2026-11-04T20:20:58Z",
+        "url": "https://api.github.com/repos/JonaszPotoniec/inniclassic-y2/releases/assets/710801202"
+      },
+      {
+        "id": 710801190,
+        "name": "rom_type_b.zip",
+        "browser_download_url": "https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_type_b.zip",
+        "size": 422466574,
+        "download_count": 0,
+        "content_type": "application/zip",
+        "created_at": "2026-11-04T20:20:42Z",
+        "updated_at": "2026-11-04T20:21:00Z",
+        "url": "https://api.github.com/repos/JonaszPotoniec/inniclassic-y2/releases/assets/710801190"
+      },
+      {
+        "id": 710801196,
+        "name": "rom_y1_type_a.zip",
+        "browser_download_url": "https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y1_type_a.zip",
+        "size": 455462943,
+        "download_count": 0,
+        "content_type": "application/zip",
+        "created_at": "2026-11-04T20:20:42Z",
+        "updated_at": "2026-11-04T20:21:01Z",
+        "url": "https://api.github.com/repos/JonaszPotoniec/inniclassic-y2/releases/assets/710801196"
+      },
+      {
+        "id": 710801197,
+        "name": "rom_y1_type_b.zip",
+        "browser_download_url": "https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y1_type_b.zip",
+        "size": 422466574,
+        "download_count": 0,
+        "content_type": "application/zip",
+        "created_at": "2026-11-04T20:20:42Z",
+        "updated_at": "2026-11-04T20:21:00Z",
+        "url": "https://api.github.com/repos/JonaszPotoniec/inniclassic-y2/releases/assets/710801197"
+      },
+      {
+        "id": 710801191,
+        "name": "rom_y2.zip",
+        "browser_download_url": "https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y2.zip",
+        "size": 465901262,
+        "download_count": 0,
+        "content_type": "application/zip",
+        "created_at": "2026-11-04T20:20:42Z",
+        "updated_at": "2026-11-04T20:21:00Z",
+        "url": "https://api.github.com/repos/JonaszPotoniec/inniclassic-y2/releases/assets/710801191"
+      },
+      {
+        "id": 710801194,
+        "name": "SHA256SUMS.txt",
+        "browser_download_url": "https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/SHA256SUMS.txt",
+        "size": 491,
+        "download_count": 0,
+        "content_type": "text/plain",
+        "created_at": "2026-11-04T20:20:42Z",
+        "updated_at": "2026-11-04T20:20:43Z",
+        "url": "https://api.github.com/repos/JonaszPotoniec/inniclassic-y2/releases/assets/710801194"
+      },
+      {
+        "id": 710801193,
+        "name": "update.json",
+        "browser_download_url": "https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/update.json",
+        "size": 299,
+        "download_count": 0,
+        "content_type": "application/json",
+        "created_at": "2026-11-04T20:20:42Z",
+        "updated_at": "2026-11-04T20:20:43Z",
+        "url": "https://api.github.com/repos/JonaszPotoniec/inniclassic-y2/releases/assets/710801193"
+      }
+    ]
+  },
+  {
     "id": 415758741,
     "tag_name": "20261017",
     "name": "InniClassic 20261017",
