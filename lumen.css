@@ -734,3 +734,7 @@ img.lumen-shot { display: block; width: auto; max-width: min(100%, 640px); heigh
     outline-offset: 2px;
 }
 @media (prefers-reduced-motion: reduce) { .lumen-firmware-icon-link { transition: none; } }
+
+/* Latest release label in the homepage install table. */
+.lumen-release-table .lumen-version{display:inline-block;margin-left:.4rem;padding:.05rem .45rem;border-radius:999px;background:rgba(120,130,150,.14);color:var(--lumen-muted,#5b6474);font-size:.75rem;font-weight:600;vertical-align:middle}
+.lumen-release-table .lumen-version[hidden]{display:none}

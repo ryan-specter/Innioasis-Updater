@@ -1813,10 +1813,102 @@
             var benefitLink = first.benefits ? '<a class="lumen-benefit-link" href="' + escapeHtml(first.benefits) + '">Why ' + escapeHtml(group.name) + '?</a>' : '';
             var guideHref = first.seoPage || first.guide || ('guide.html?model=' + encodeURIComponent(first.model) + '&software=' + encodeURIComponent(first.slug));
             return "<tr>" +
-                '<td><a class="lumen-project-link" href="' + escapeHtml(guideHref) + '"><strong>' + escapeHtml(group.name) + "</strong></a>" + (benefitLink ? '<br>' + benefitLink : '') + "</td>" +
+                '<td><a class="lumen-project-link" href="' + escapeHtml(guideHref) + '"><strong>' + escapeHtml(group.name) + "</strong></a>" + '<span class="lumen-version" data-version-group="' + escapeHtml(group.name) + '" hidden><span class="lumen-visually-hidden">Latest release: </span><span data-version-for="' + escapeHtml(group.name) + '"></span></span>' + (benefitLink ? '<br>' + benefitLink : '') + "</td>" +
                 "<td>" + releaseButtons + "</td>" +
                 "</tr>";
         }).join("");
+    }
+
+    /* Latest version beside each install name. slidia_manifest.xml names the
+       repository for every package, so one release lookup per repository
+       fills the whole table without guessing where a project publishes. */
+    function initHomeVersions() {
+        var body = document.getElementById("lumen-home-firmware-table");
+        if (!body || !Array.isArray(window.INNIOASIS_FIRMWARE_CATALOG)) return;
+        if (!window.fetch || !window.DOMParser) return;
+        var VERSION_TTL = 6 * 60 * 60 * 1000;
+        var lookups = {};
+
+        function readCached(repo) {
+            try {
+                var raw = window.sessionStorage.getItem("innioasis-version:" + repo);
+                if (!raw) return null;
+                var saved = JSON.parse(raw);
+                if (!saved || !saved.version || (Date.now() - (saved.at || 0)) > VERSION_TTL) return null;
+                return saved.version;
+            } catch (_) { return null; }
+        }
+
+        function writeCached(repo, version) {
+            try {
+                window.sessionStorage.setItem("innioasis-version:" + repo, JSON.stringify({ version: version, at: Date.now() }));
+            } catch (_) {}
+        }
+
+        function latestVersion(repo) {
+            var cached = readCached(repo);
+            if (cached) return Promise.resolve(cached);
+            return fetchGithubApi("https://api.github.com/repos/" + repo + "/releases/latest")
+                .then(function (response) {
+                    if (!response.ok) return null;
+                    return response.json().then(function (release) {
+                        var tag = release && (release.tag_name || release.name);
+                        if (!tag) return null;
+                        writeCached(repo, tag);
+                        return tag;
+                    });
+                })
+                .catch(function () { return null; });
+        }
+
+        function versionFor(repo) {
+            if (!lookups[repo]) lookups[repo] = latestVersion(repo);
+            return lookups[repo];
+        }
+
+        function show(groupName, version) {
+            var wrappers = body.querySelectorAll("[data-version-group]");
+            Array.prototype.forEach.call(wrappers, function (wrapper) {
+                if (wrapper.getAttribute("data-version-group") !== groupName) return;
+                var slot = wrapper.querySelector("[data-version-for]");
+                if (slot) slot.textContent = version;
+                wrapper.hidden = false;
+                wrapper.setAttribute("title", "Latest published release: " + version);
+            });
+        }
+
+        fetch("slidia_manifest.xml", { cache: "no-cache" })
+            .then(function (response) { return response.ok ? response.text() : null; })
+            .then(function (text) {
+                if (!text) return;
+                var doc = new DOMParser().parseFromString(text, "application/xml");
+                var packages = Array.prototype.slice.call(doc.getElementsByTagName("package"));
+                if (!packages.length) return;
+                var entries = packages.map(function (pkg) {
+                    return {
+                        name: (pkg.getAttribute("name") || "").trim(),
+                        repo: (pkg.getAttribute("repo") || "").trim(),
+                        device: (pkg.getAttribute("device") || "").trim().toUpperCase()
+                    };
+                }).filter(function (entry) { return entry.name && entry.repo; });
+                var groups = {};
+                window.INNIOASIS_FIRMWARE_CATALOG.forEach(function (item) {
+                    if (!groups[item.name]) groups[item.name] = [];
+                    groups[item.name].push(String(item.model || "").toUpperCase());
+                });
+                Object.keys(groups).forEach(function (name) {
+                    var models = groups[name];
+                    var match = entries.filter(function (entry) {
+                        return entry.name.toLowerCase() === name.toLowerCase() &&
+                            (!entry.device || models.indexOf(entry.device) !== -1);
+                    })[0];
+                    if (!match) return;
+                    versionFor(match.repo).then(function (version) {
+                        if (version) show(name, version);
+                    });
+                });
+            })
+            .catch(function () {});
     }
 
     function initPersonalisedGuide() {
@@ -2198,6 +2290,7 @@
                     }
                 });
                 initHomeFirmware();
+        initHomeVersions();
             })
             .catch(function () {});
     }
