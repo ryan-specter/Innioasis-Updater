@@ -556,6 +556,17 @@ img.lumen-shot { display: block; width: auto; max-width: min(100%, 640px); heigh
 .lumen-download-option .lumen-button { width: 100%; }
 .lumen-another-platform { grid-column: 1 / -1; justify-self: center; margin: 1.1rem 0 .35rem; padding: .6rem 1.3rem; border: 1px solid var(--lumen-line-strong); border-radius: var(--lumen-pill); background: var(--lumen-panel); color: var(--lumen-text); font: 700 .82rem var(--lumen-body); cursor: pointer; box-shadow: 0 1px 0 var(--lumen-line); transition: border-color .18s var(--lumen-ease), color .18s var(--lumen-ease), background .18s var(--lumen-ease); }
 .lumen-another-platform:hover, .lumen-another-platform:focus-visible { border-color: var(--lumen-accent); color: var(--lumen-accent); background: var(--lumen-accent-wash); outline: none; }
+/* Shown instead of the platform columns when the visitor is on a phone,
+   tablet or ChromeOS device, where a desktop installer cannot run. */
+.lumen-download-notice { padding: 1.1rem; background: var(--lumen-panel); }
+.lumen-download-notice h3 { margin: 0 0 .45rem; }
+.lumen-download-notice p { margin: 0 0 .7rem; }
+.lumen-download-notice .lumen-actions { margin-top: .25rem; }
+@media (max-width: 760px) {
+    .lumen-download-options { grid-template-columns: minmax(0, 1fr); }
+    .lumen-download-option { border-left: 0; }
+    .lumen-download-option + .lumen-download-option { border-top: 1px solid var(--lumen-line); }
+}
 
 /* Edge "keep the file" help banner and modal */
 .edge-keep-modal { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 1.5rem; background: rgba(15, 15, 18, 0.55); backdrop-filter: blur(3px); }

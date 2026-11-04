@@ -351,6 +351,46 @@
     accent-color: #10b981;
     cursor: pointer;
   }
+  /* Heart button that brings the dock back after the cross hides it. It sits
+     outside #support-toolbar-container so the hidden-container rule cannot
+     take it with it. */
+  .y1-dock-reopen {
+    position: fixed !important;
+    right: 16px !important;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important;
+    z-index: 10001 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid var(--lumen-line-strong, rgba(255, 255, 255, 0.16)) !important;
+    border-radius: 50% !important;
+    background: var(--lumen-panel, var(--site-bg-elevated, #12141c)) !important;
+    color: var(--lumen-text, var(--site-text, #f4f6fb)) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.32) !important;
+    cursor: pointer !important;
+    box-sizing: border-box !important;
+    transition: transform 0.15s ease, opacity 0.15s ease !important;
+  }
+  .y1-dock-reopen[hidden] {
+    display: none !important;
+  }
+  .y1-dock-reopen:hover,
+  .y1-dock-reopen:focus-visible {
+    transform: translateY(-1px) !important;
+    outline: none !important;
+  }
+  .y1-dock-reopen:focus-visible {
+    box-shadow: 0 0 0 3px rgba(141, 183, 255, 0.55), 0 4px 16px rgba(0, 0, 0, 0.32) !important;
+  }
+  .y1-dock-reopen-icon {
+    display: block !important;
+    color: #ff5e5b !important;
+  }
 </style>
 <div id="support-toolbar-container">
   <div class="y1-dock-backdrop" data-dock-backdrop hidden></div>
@@ -530,14 +570,14 @@
       <div style="display: flex; gap: 8px; justify-content: center; margin-top: 14px; flex-wrap: wrap;">
         <a href="credits.html" class="y1-toolbar-thank-you-close" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; background: #10b981; color: #03140d; border-color: #10b981;">Full Credits &amp; Ledger →</a>
         <button type="button" class="y1-toolbar-thank-you-close" data-toolbar-thank-you-close>Close</button>
-      </div>
-    </div>
+      </div>    </div>
   </div>
 </div>
+<button class="y1-dock-reopen" id="y1-dock-reopen" type="button" data-dock-reopen aria-controls="support-toolbar-container" aria-label="Open the site toolbar" title="Open the site toolbar" hidden><svg class="y1-dock-reopen-icon" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
 <script>
 
 (function () {
-  "use strict";
+  "use strict"; 
   var consent = window.INNIOASIS_PRIVACY;
 
   function donationsOff() {
@@ -1322,26 +1362,55 @@
 
   if (!hasDecided()) setBanner(true);
 
+  var dockReopenBtn = document.querySelector("[data-dock-reopen]");
+
+  function setDockReopenVisible(visible) {
+    if (!dockReopenBtn) return;
+    dockReopenBtn.hidden = !visible;
+  }
+
   function hideSupportToolbar() {
     var container = document.getElementById("support-toolbar-container");
     if (!container) return;
     container.classList.add("y1-toolbar-hidden");
     container.style.setProperty("display", "none", "important");
     container.setAttribute("aria-hidden", "true");
+    setDockReopenVisible(true);
   }
+
+  function showSupportToolbar() {
+    var container = document.getElementById("support-toolbar-container");
+    if (!container) return;
+    container.classList.remove("y1-toolbar-hidden");
+    container.style.removeProperty("display");
+    container.removeAttribute("aria-hidden");
+    setDockReopenVisible(false);
+    try { sessionStorage.removeItem("y1-dock-dismissed"); } catch (_) {}
+    var closeBtn = document.querySelector("[data-dock-close]");
+    if (closeBtn && typeof closeBtn.focus === "function") closeBtn.focus();
+  }
+
   var dockCloseBtn = document.querySelector("[data-dock-close]");
   if (dockCloseBtn) {
     dockCloseBtn.addEventListener("click", function (e) {
       if (e) { e.preventDefault(); e.stopPropagation(); }
       hideSupportToolbar();
       try { sessionStorage.setItem("y1-dock-dismissed", "1"); } catch (_) {}
+      if (dockReopenBtn && typeof dockReopenBtn.focus === "function") dockReopenBtn.focus();
+    });
+  }
+  if (dockReopenBtn) {
+    dockReopenBtn.addEventListener("click", function (e) {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      showSupportToolbar();
     });
   }
   try {
     if (sessionStorage.getItem("y1-dock-dismissed") === "1") {
       hideSupportToolbar();
     }
-  } catch (_) {}
+  } catch (_) {
+  }
 
   (function () {
     var secondaryLine = document.getElementById("y1-dock-secondary-line");

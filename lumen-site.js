@@ -660,20 +660,67 @@
         });
     }
 
+    /* Updater CE is a desktop app, so a handheld is never a download target:
+       an iPad reports Macintosh, Android reports Linux and ChromeOS reports
+       Linux, so the agent string alone would offer the wrong installer. */
+    function isComputerBrowser() {
+        var ua = navigator.userAgent || "";
+        var platform = (navigator.userAgentData && navigator.userAgentData.platform) || "";
+        var p = (platform + " " + ua).toLowerCase();
+        if (/android|iphone|ipad|ipod|ipados|mobile|tablet|cros|chrome os|chromeos|kindle|silk|iemobile/.test(p)) return false;
+        /* iPadOS reports a desktop Mac agent; a touch screen without a fine
+           pointer gives it away. */
+        if (navigator.maxTouchPoints > 1 && window.matchMedia && !window.matchMedia("(pointer: fine)").matches) return false;
+        return /win|mac|linux|x11/.test(p);
+    }
+
     function detectPlatform() {
+        if (!isComputerBrowser()) return null;
         var ua = navigator.userAgent || "";
         var platform = (navigator.userAgentData && navigator.userAgentData.platform) || ua;
         var p = (platform + " " + ua).toLowerCase();
         if (p.indexOf("win") !== -1) return "windows";
-        if (p.indexOf("mac") !== -1 || p.indexOf("iphone") !== -1 || p.indexOf("ipad") !== -1 || p.indexOf("ipod") !== -1) return "macos";
-        if (p.indexOf("linux") !== -1 || p.indexOf("x11") !== -1 || p.indexOf("android") !== -1) return "linux";
+        if (p.indexOf("mac") !== -1) return "macos";
+        if (p.indexOf("linux") !== -1 || p.indexOf("x11") !== -1) return "linux";
         return null;
+    }
+
+    /* Phones, tablets and ChromeOS get one card that names the desktop
+       platforms and offers the files anyway, instead of a download button
+       that cannot install anything on the device in hand. */
+    function showDesktopOnlyNotice(options, cards) {
+        var notice = document.createElement("div");
+        notice.className = "lumen-download-option lumen-download-notice";
+        notice.innerHTML =
+            "<h3>Innioasis Updater CE runs on a computer</h3>" +
+            "<p>It is available for <strong>Windows</strong>, <strong>macOS</strong> and <strong>Linux</strong>. " +
+            "Open this page on your PC, Mac or Linux computer to install it there.</p>" +
+            "<p class=\"lumen-meta\">You can still download the file now and copy it to a computer.</p>" +
+            "<div class=\"lumen-actions\"><button type=\"button\" class=\"lumen-button\" data-download-anyway>Download anyway</button></div>";
+        options.insertBefore(notice, options.firstChild);
+        options.classList.add("lumen-download-options--single");
+        cards.forEach(function (card) { card.hidden = true; });
+        var toggle = options.querySelector("[data-another-platform]");
+        if (toggle) toggle.hidden = true;
+        var button = notice.querySelector("[data-download-anyway]");
+        if (button) {
+            button.addEventListener("click", function () {
+                cards.forEach(function (card) { card.hidden = false; });
+                options.classList.remove("lumen-download-options--single");
+                notice.hidden = true;
+            });
+        }
     }
 
     function initPlatformReveal() {
         document.querySelectorAll("[data-platform-detect]").forEach(function (options) {
-            var detected = detectPlatform();
             var cards = Array.prototype.slice.call(options.querySelectorAll("[data-platform]"));
+            if (!cards.length) return;
+            if (!isComputerBrowser()) {
+                showDesktopOnlyNotice(options, cards);
+                return;
+            }
+            var detected = detectPlatform();
             if (!detected || cards.length < 2) return;
             var chosen = cards.filter(function (card) { return card.getAttribute("data-platform") === detected; })[0];
             if (!chosen) return;

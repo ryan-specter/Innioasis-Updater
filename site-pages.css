@@ -218,6 +218,39 @@ body.site-themes-app > main.lumen-directory {
     body.site-themes-app > main.lumen-guide,
     body.site-themes-app > main.lumen-directory { width: min(1320px, calc(100% - 4rem)); }
 }
+
+/* Quick start: on a landscape screen the download card sits beside the hero,
+   using the empty space to the right of the title, so the page is shorter and
+   the action is visible without scrolling. Portrait screens keep the card in
+   the flow below the hero. */
+@media (min-width: 900px) and (orientation: landscape) {
+    body.site-themes-app > main.lumen-guide--quickstart {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+        column-gap: clamp(1.5rem, 3.5vw, 3.5rem);
+        align-items: start;
+    }
+    .lumen-guide--quickstart > header { grid-column: 1; grid-row: 1; margin-bottom: 0; }
+    .lumen-guide--quickstart > #platform {
+        grid-column: 2;
+        grid-row: 1;
+        margin: 0;
+        padding: 1.1rem 1.15rem 1.25rem;
+        border: 1px solid var(--lumen-line);
+        border-radius: var(--lumen-radius-md);
+        background: var(--lumen-panel);
+    }
+    .lumen-guide--quickstart > section:not(#platform) { grid-column: 1 / -1; }
+    .lumen-guide--quickstart > #platform .lumen-platforms-head h2 {
+        margin-bottom: .45rem;
+        font-size: calc(clamp(1.45rem, 2.1vw, 1.95rem) * var(--lumen-font-scale, 1));
+    }
+    /* Revealed platforms stack inside the narrow card instead of squeezing
+       three columns into one. */
+    .lumen-guide--quickstart > #platform .lumen-download-options { grid-template-columns: minmax(0, 1fr); }
+    .lumen-guide--quickstart > #platform .lumen-download-option { border-left: 0; }
+    .lumen-guide--quickstart > #platform .lumen-download-option + .lumen-download-option { border-top: 1px solid var(--lumen-line); }
+}
 body.site-themes-app .lumen-shot { max-width: min(100%, 640px); }
 body.site-themes-app .lumen-shot--wide { max-width: min(100%, 680px); }
 .lumen-visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }

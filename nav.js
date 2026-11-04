@@ -200,11 +200,15 @@
       );
     }).join("");
 
+  /* The download itself is a desktop app, so a phone, tablet or ChromeOS
+     visitor gets the neutral label instead of "for macOS" on an iPhone or
+     "for Linux" on an Android tablet. */
   function detectUserPlatformLabel() {
     var ua = (typeof navigator !== "undefined" && (navigator.userAgentData && navigator.userAgentData.platform) || navigator.userAgent || "").toLowerCase();
-    if (/mac|iphone|ipad|ipod/i.test(ua)) return "for macOS";
+    if (/android|iphone|ipad|ipod|ipados|mobile|tablet|cros|chrome os|chromeos|kindle|silk|iemobile/i.test(ua)) return "";
+    if (/mac/i.test(ua)) return "for macOS";
     if (/win/i.test(ua)) return "for Windows";
-    if (/linux|x11|android/i.test(ua)) return "for Linux";
+    if (/linux|x11/i.test(ua)) return "for Linux";
     return "";
   }
   var platformSuffix = detectUserPlatformLabel();
