@@ -24,9 +24,9 @@
 
 <package name="Please Update App To Continue" device_type="0" repo="Please-Click/Updates-Available" device="Y1" url="https://github.com/Please-Click/Updates-Available/releases/latest" type="img" handler="Custom Firmware" />
 
-<package name="inniclassic" repo="FabianZettl/inniclassic" portable_zips="y1-community/inniclassic-mirror" device="Y1" url="https://github.com/FabianZettl/inniclassic" type="img" handler="Custom Firmware" />
+<package name="inniclassic" repo="JonaszPotoniec/inniclassic-y2" portable_zips="y1-community/inniclassic-y2-mirror" device="Y1" url="https://github.com/JonaszPotoniec/inniclassic-y2" type="img" handler="Custom Firmware" package_name="rom.zip" />
 
-<package name="inniclassic" repo="JonaszPotoniec/inniclassic-y2" portable_zips="y1-community/inniclassic-y2-mirror" device="Y2" url="https://github.com/JonaszPotoniec/inniclassic-y2" type="img"  icon="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" handler="Custom Firmware" />
+<package name="inniclassic" repo="JonaszPotoniec/inniclassic-y2" portable_zips="y1-community/inniclassic-y2-mirror" device="Y2" url="https://github.com/JonaszPotoniec/inniclassic-y2" type="img" icon="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" handler="Custom Firmware" package_name="rom_y2.zip" />
 
 <package name="Y2Player" repo="schulzcode/Y2Player" portable_zips="y1-community/y2player-mirror" device="Y2" url="https://github.com/schulzcode/Y2Player" type="img" handler="Custom Firmware" />
 
