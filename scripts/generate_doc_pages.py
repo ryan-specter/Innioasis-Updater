@@ -205,7 +205,15 @@ def build_software(catalog: list[dict], manifest: list[dict]) -> list[dict]:
         item["slug"] = slug
         item["model"] = (item.get("model") or "").upper()
         seen[slug] = item
-    return sorted(seen.values(), key=lambda entry: (entry.get("model", ""), entry.get("name", "")))
+    result = sorted(seen.values(), key=lambda entry: (entry.get("model", ""), entry.get("name", "")))
+    for item in result:
+        repo = (item.get("repo") or "").lower()
+        if repo and repo not in FIRMWARE_PAGE_BY_REPO:
+            FIRMWARE_PAGE_BY_REPO[repo] = "firmware.html?model=%s&software=%s" % (
+                urllib.parse.quote(item.get("model") or ""),
+                urllib.parse.quote(item.get("slug") or ""),
+            )
+    return result
 
 
 # ---------------------------------------------------------------- github api
@@ -483,6 +491,54 @@ RELEASE_LINK_RE = re.compile(
     r"^https?://(?:www\.)?github\.com/([^/]+/[^/]+)/releases(?:/tag/([^?#]+))?", re.I
 )
 COMPARE_LINK_RE = re.compile(r"^https?://(?:www\.)?github\.com/([^/]+/[^/]+)/compare/", re.I)
+REPO_LINK_RE = re.compile(r"^https?://(?:www\.)?github\.com/([^/?#]+)/([^/?#]+?)(?:\.git)?/?(?:[?#].*)?$", re.I)
+
+# Every listed repository points at its own firmware listing, so a README
+# that names another project links to our releases for it.
+FIRMWARE_PAGE_BY_REPO: dict[str, str] = {}
+
+YOUTUBE_RE = re.compile(
+    r"^https?://(?:www\.|m\.)?(?:youtube\.com/(?:watch\?(?:[^#]*&)?v=|shorts/|embed/)|youtu\.be/)([\w-]{6,})",
+    re.I,
+)
+VIMEO_RE = re.compile(r"^https?://(?:www\.)?(?:vimeo\.com/(?:video/)?|player\.vimeo\.com/video/)(\d+)", re.I)
+START_TIME_RE = re.compile(r"[?&](?:t|start)=(\d+)")
+
+
+def video_card(href: str, label: str) -> str:
+    """A thumbnail link for a video, with the embed URL kept for the player."""
+    url = href or ""
+    start_match = START_TIME_RE.search(url)
+    start = int(start_match.group(1)) if start_match else 0
+    youtube = YOUTUBE_RE.match(url)
+    if youtube:
+        embed = "https://www.youtube-nocookie.com/embed/%s?autoplay=1&rel=0" % youtube.group(1)
+        if start:
+            embed += "&start=%d" % start
+        poster = "https://i.ytimg.com/vi/%s/hqdefault.jpg" % youtube.group(1)
+        return (
+            '<a class="lumen-video-link" href="%s" data-video-embed="%s" data-video-title="%s" target="_blank" rel="noopener noreferrer">'
+            '<span class="lumen-video-frame"><img class="lumen-video-poster" src="%s" alt="" loading="lazy" decoding="async">'
+            '<span class="lumen-video-play" aria-hidden="true">&#9654;</span></span>'
+            '<span class="lumen-video-label">%s</span></a>'
+            % (esc(url), esc(embed), esc(label), esc(poster), label)
+        )
+    vimeo = VIMEO_RE.match(url)
+    if vimeo:
+        embed = "https://player.vimeo.com/video/%s?autoplay=1" % vimeo.group(1)
+        if start:
+            embed += "#t=%ds" % start
+        return (
+            '<a class="lumen-video-link" href="%s" data-video-embed="%s" data-video-title="%s" target="_blank" rel="noopener noreferrer">'
+            '<span class="lumen-video-frame"><span class="lumen-video-play" aria-hidden="true">&#9654;</span></span>'
+            '<span class="lumen-video-label">%s</span></a>'
+            % (esc(url), esc(embed), esc(label), label)
+        )
+    return ""
+
+
+def firmware_page_for(repo: str) -> str:
+    return FIRMWARE_PAGE_BY_REPO.get((repo or "").lower(), "")
 
 
 def parser_release_query(repo: str, tag: str = "", software: str = "") -> str:
@@ -526,6 +582,12 @@ def resolve_link(href: str, ctx: dict | None) -> str:
         compare = COMPARE_LINK_RE.match(href)
         if compare:
             return release_notes_href(compare.group(1))
+        # A bare link to a listed project is that project's firmware listing.
+        repo_link = REPO_LINK_RE.match(href)
+        if repo_link:
+            page = firmware_page_for(repo_link.group(1) + "/" + repo_link.group(2))
+            if page:
+                return page
         nested = parse_source(href)
         if nested and nested["kind"] == "github":
             query = {"url": href}
@@ -570,6 +632,9 @@ def inline_markdown(text: str, ctx: dict | None) -> str:
 
     def link(match: re.Match) -> str:
         label, href, title = match.group(1), match.group(2), match.group(3)
+        video = video_card(href, label)
+        if video:
+            return video
         resolved = resolve_link(href, ctx)
         if not resolved:
             return label

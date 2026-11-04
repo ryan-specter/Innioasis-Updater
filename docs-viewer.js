@@ -540,6 +540,15 @@
          another name: send it to our release history for that software. */
       var compare = href.match(/^https?:\/\/(?:www\.)?github\.com\/([^/?#]+)\/([^/?#]+)\/compare\//i);
       if (compare) return internalReleasePath(compare[1] + "/" + compare[2], "");
+      /* A link to a project's own repository is the project's listing here,
+         not a hand-off to a bare GitHub page. Deeper paths (a source file, an
+         issue) stay on GitHub because a release listing cannot represent
+         them. */
+      var project = href.match(/^https?:\/\/(?:www\.)?github\.com\/([^/?#]+)\/([^/?#]+?)(?:\.git)?\/?(?:[?#].*)?$/i);
+      if (project) {
+        var listing = firmwarePageFor(project[1] + "/" + project[2]);
+        if (listing) return listing;
+      }
       /* A link to another Markdown file on GitHub becomes another reading
          page here rather than a jump out to GitHub. */
       var parsed = parseSource(href);
@@ -559,6 +568,114 @@
     }
     return joinUrl(ctx.dirBlob || ctx.dirRaw, href);
   }
+
+  /* A firmware project's listing for the repository it ships from. */
+  function firmwarePageFor(repo) {
+    var key = String(repo || "").toLowerCase();
+    var catalog = global.INNIOASIS_FIRMWARE_CATALOG || [];
+    for (var i = 0; i < catalog.length; i += 1) {
+      var item = catalog[i];
+      if (!item || !item.repo || !item.slug) continue;
+      if (String(item.repo).toLowerCase() !== key) continue;
+      return "firmware.html?model=" + encodeURIComponent(item.model || "") +
+        "&software=" + encodeURIComponent(item.slug);
+    }
+    return "";
+  }
+
+  /* Embeddable video links become a thumbnail card that opens a player here,
+     so a README never sends the reader away just to watch a clip. */
+  function videoFor(href) {
+    var url = String(href || "");
+    var startMatch = url.match(/[?&](?:t|start)=(\d+)/);
+    var start = startMatch ? parseInt(startMatch[1], 10) || 0 : 0;
+    var youtube = url.match(/^https?:\/\/(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?(?:[^#]*&)?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{6,})/i);
+    if (youtube) {
+      return {
+        href: url,
+        embed: "https://www.youtube-nocookie.com/embed/" + youtube[1] +
+          "?autoplay=1&rel=0" + (start ? "&start=" + start : ""),
+        poster: "https://i.ytimg.com/vi/" + youtube[1] + "/hqdefault.jpg"
+      };
+    }
+    var vimeo = url.match(/^https?:\/\/(?:www\.)?(?:vimeo\.com\/(?:video\/)?|player\.vimeo\.com\/video\/)(\d+)/i);
+    if (vimeo) {
+      return {
+        href: url,
+        embed: "https://player.vimeo.com/video/" + vimeo[1] + "?autoplay=1" +
+          (start ? "#t=" + start + "s" : ""),
+        poster: ""
+      };
+    }
+    return null;
+  }
+
+  function videoCard(video, label) {
+    var caption = String(label || "Watch the video");
+    return '<a class="lumen-video-link" href="' + escapeAttr(video.href) + '"' +
+      ' data-video-embed="' + escapeAttr(video.embed) + '"' +
+      ' data-video-title="' + escapeAttr(caption) + '"' +
+      ' target="_blank" rel="noopener noreferrer">' +
+      '<span class="lumen-video-frame">' +
+        (video.poster ? '<img class="lumen-video-poster" src="' + escapeAttr(video.poster) + '" alt="" loading="lazy" decoding="async">' : '') +
+        '<span class="lumen-video-play" aria-hidden="true">&#9654;</span>' +
+      '</span>' +
+      '<span class="lumen-video-label">' + caption + '</span>' +
+    '</a>';
+  }
+
+  var videoModal = null;
+
+  function openVideoModal(embed, title) {
+    if (!embed) return;
+    if (!videoModal) {
+      videoModal = document.createElement("div");
+      videoModal.className = "lumen-video-modal";
+      videoModal.setAttribute("role", "dialog");
+      videoModal.setAttribute("aria-modal", "true");
+      videoModal.innerHTML = '<div class="lumen-video-modal-backdrop" data-video-close></div>' +
+        '<div class="lumen-video-modal-panel">' +
+          '<button type="button" class="lumen-video-modal-close" data-video-close aria-label="Close video">&times;</button>' +
+          '<div class="lumen-video-modal-frame"></div>' +
+        '</div>';
+      videoModal.hidden = true;
+      videoModal.addEventListener("click", function (event) {
+        if (event.target && event.target.closest && event.target.closest("[data-video-close]")) closeVideoModal();
+      });
+      document.body.appendChild(videoModal);
+    }
+    var frame = videoModal.querySelector(".lumen-video-modal-frame");
+    if (frame) {
+      frame.innerHTML = '<iframe src="' + escapeAttr(embed) + '" title="' + escapeAttr(title || "Video") + '"' +
+        ' allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"' +
+        ' allowfullscreen loading="lazy"></iframe>';
+    }
+    videoModal.hidden = false;
+    document.documentElement.classList.add("lumen-video-open");
+    var close = videoModal.querySelector(".lumen-video-modal-close");
+    if (close) close.focus();
+  }
+
+  function closeVideoModal() {
+    if (!videoModal) return;
+    videoModal.hidden = true;
+    var frame = videoModal.querySelector(".lumen-video-modal-frame");
+    /* Clearing the player is what actually stops playback. */
+    if (frame) frame.innerHTML = "";
+    document.documentElement.classList.remove("lumen-video-open");
+  }
+
+  document.addEventListener("click", function (event) {
+    var link = event.target && event.target.closest ? event.target.closest("a[data-video-embed]") : null;
+    if (!link) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || (event.button && event.button > 0)) return;
+    event.preventDefault();
+    openVideoModal(link.getAttribute("data-video-embed"), link.getAttribute("data-video-title"));
+  }, false);
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") closeVideoModal();
+  });
 
   /* Inline spans: code, images, links, emphasis, strikethrough, autolinks. */
   function inline(source, ctx) {
@@ -583,6 +700,8 @@
     });
 
     text = text.replace(/\[([^\]]+)\]\(\s*([^\s)]+)(?:\s+&quot;([^&]*)&quot;)?\s*\)/g, function (m, label, href, title) {
+      var video = videoFor(href);
+      if (video) return videoCard(video, label);
       var resolved = resolveLink(href, ctx);
       if (!resolved) return label;
       var external = /^https?:/i.test(resolved) && resolved.indexOf("innioasis.app") === -1;
@@ -874,7 +993,7 @@
   };
 
   var ALLOWED_ATTRS = {
-    A: "href title rel target name id",
+    A: "href title rel target name id data-video-embed data-video-title",
     IMG: "src alt title width height loading decoding align",
     SOURCE: "src srcset type media",
     VIDEO: "src controls width height poster muted loop playsinline",

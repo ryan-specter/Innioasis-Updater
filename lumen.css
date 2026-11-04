@@ -738,3 +738,21 @@ img.lumen-shot { display: block; width: auto; max-width: min(100%, 640px); heigh
 /* Latest release label in the homepage install table. */
 .lumen-release-table .lumen-version{display:inline-block;margin-left:.4rem;padding:.05rem .45rem;border-radius:999px;background:rgba(120,130,150,.14);color:var(--lumen-muted,#5b6474);font-size:.75rem;font-weight:600;vertical-align:middle}
 .lumen-release-table .lumen-version[hidden]{display:none}
+
+/* Video links inside a parsed README or release note open a player here
+   rather than sending the reader to YouTube. */
+.lumen-video-link{display:flex;align-items:center;gap:.85rem;margin:.75rem 0;padding:.5rem;border:1px solid var(--lumen-line,rgba(255,255,255,.14));border-radius:12px;background:var(--lumen-panel,#121824);text-decoration:none!important;max-width:520px}
+.lumen-video-link:hover{border-color:var(--lumen-accent,#6366f1)}
+.lumen-video-frame{position:relative;display:flex;align-items:center;justify-content:center;width:148px;aspect-ratio:16/9;flex:0 0 auto;border-radius:9px;overflow:hidden;background:linear-gradient(135deg,#1f2937,#111827)}
+.lumen-video-poster{width:100%;height:100%;object-fit:cover;display:block}
+.lumen-video-play{position:absolute;display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:rgba(0,0,0,.62);color:#fff;font-size:.85rem;line-height:1;pointer-events:none}
+.lumen-video-label{font-weight:600;font-size:.92rem;color:var(--lumen-text,#e5e7eb)}
+.lumen-video-modal{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center}
+.lumen-video-modal[hidden]{display:none}
+.lumen-video-modal-backdrop{position:absolute;inset:0;background:rgba(3,6,12,.82)}
+.lumen-video-modal-panel{position:relative;width:min(960px,calc(100% - 2rem));background:#0b0f17;border:1px solid rgba(255,255,255,.16);border-radius:14px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.55)}
+.lumen-video-modal-frame{position:relative;width:100%;aspect-ratio:16/9}
+.lumen-video-modal-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.lumen-video-modal-close{position:absolute;top:.4rem;right:.5rem;z-index:2;width:34px;height:34px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:1.35rem;line-height:1;cursor:pointer}
+.lumen-video-open{overflow:hidden}
+@media (max-width:560px){.lumen-video-frame{width:112px}}
