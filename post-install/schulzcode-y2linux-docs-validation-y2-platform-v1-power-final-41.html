@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-41 — software restart keeps the display (SMI gates) - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-41 — software restart keeps the display SMI gates Status: SEALED, awaiting the owner flash 2026-10-16. Package out/y2linux-platform-v1-power-final-candidate-4">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-41.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-41 — software restart keeps the display (SMI gates) - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-41 — software restart keeps the display SMI gates Status: SEALED, awaiting the owner flash 2026-10-16. Package out/y2linux-platform-v1-power-final-candidate-4">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-41.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-41 — software restart keeps the display (SMI gates) - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-41 — software restart keeps the display SMI gates Status: SEALED, awaiting the owner flash 2026-10-16. Package out/y2linux-platform-v1-power-final-candidate-4">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-41 — software restart keeps the display (SMI gates)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-41--software-restart-keeps-the-display-smi-gates">POWER-FINAL-41 — software restart keeps the display (SMI gates)</h1>
+<p>Status: <strong>SEALED, awaiting the owner flash</strong> (2026-10-16). Package <code>out/y2linux-platform-v1-power-final-candidate-41/</code> (fallback = 40), receipts <code>out/deep-sleep-final/build41-receipts/</code>. BOOTIMG <code>cda64be9b35e0861e266085031d62c4b7a8b61a66d7121b8fc7825118261d12a</code>, Y2ROOT <code>efe870d1d43b207ee1f539413b6459bddb660ee76535f042ef07cf23cfc9f47e</code>, RECOVERY <code>5712c4cd72100099fc7d342f4b484a83665d9d8d0eb53ae1096fd68abac45cdc</code>. Kernel <code>6.18.56-y2linux-platform-v1-power-final-41</code>, release <code>…candidate.41</code>, update sequence 4100. Container suite <strong>718 OK</strong>, all seal checks PASS. Signed OTA (release key): <code>…-41-ota-release/</code>. Contains 40 (snapshots stay).</p>
+<h2 id="why">Why</h2>
+<p>Root cause from <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-PLATFORM-V1-POWER-FINAL-40.md">40</a>: after a software restart the SMI common clock gate is still closed when LK starts (<code>MMSYS_CG_CON0</code> keeps Linux&#x27;s shutdown state through the watchdog restart), so the first display fetch through larb0 never completes. The DSI handover now opens the SMI common/larb0 gates if they are closed, waits up to 10 ms for larb0 to drain and logs <code>handoff: SMI gates … left closed by a restart, opened; larb0 stat=… after … us</code>. A cold start does not log it.</p>
+<h2 id="device-results">Device results</h2>
+<ul><li>Cold start (archive <code>20261016/141</code>): healthy, no <code>SMI gates</code> line, larb0 idle.</li><li><strong>Software restart (archive 142): still dark, but the cause is confirmed</strong>: `handoff: SMI gates 1 left closed by a<p>restart, opened; larb0 stat=00000001 after 10000 us`. With the clock back, SMI common reads like a cold start, yet the request LK issued while it was gated stays stuck in larb0. Opening at handover is too late; 42 reopens the gates before the restart.</p></li></ul>
+<h2 id="owner-steps">Owner steps</h2>
+<ol><li>Flash 41 (BOOTIMG + ANDROID). Cold start: no <code>SMI gates</code> line expected.</li><li>With the owner&#x27;s OK: one software restart. Expected: panel lit, <code>SMI gates 1 … opened</code>, larb0 stat 0.</li><li>Then <code>/data/updates/restart.json</code> <code>{&quot;mode&quot;: &quot;reboot&quot;}</code> and an install with no Power presses.</li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

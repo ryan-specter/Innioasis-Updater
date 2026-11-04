@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reborn physical input audit - Innioasis Updater</title>
+  <meta name="description" content="Reborn physical input audit <!-- knowledge-base-scope: historical-design-/-runbook -- Historical record. The dates, candidate identity, "current" claims, next steps and p">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-architecture-reborn-input-audit.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Reborn physical input audit - Innioasis Updater">
+  <meta property="og:description" content="Reborn physical input audit <!-- knowledge-base-scope: historical-design-/-runbook -- Historical record. The dates, candidate identity, "current" claims, next steps and p">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-architecture-reborn-input-audit.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Reborn physical input audit - Innioasis Updater">
+  <meta name="twitter:description" content="Reborn physical input audit <!-- knowledge-base-scope: historical-design-/-runbook -- Historical record. The dates, candidate identity, "current" claims, next steps and p">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>Reborn physical input audit</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="reborn-physical-input-audit">Reborn physical input audit</h1>
+<!-- knowledge-base-scope: historical-design-/-runbook -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_REBORN_STATE.md) for the latest physically observed result.
+<p>The Y2 UI consumes semantic actions only. Raw Linux input records stop at <code>reborn-platform::input::InputManager</code>.</p>
+<table><thead><tr><th>Physical control</th><th>Linux source / event</th><th>Normalized event</th><th>Semantic action</th></tr></thead><tbody><tr><td>Click wheel clockwise</td><td><code>APT32F click-wheel</code>, <code>EV_KEY KEY_DOWN</code>/<code>KEY_PAGEDOWN</code>, or <code>EV_REL REL_WHEEL &gt; 0</code></td><td><code>WheelClockwise(steps)</code></td><td><code>WheelClockwise(steps)</code> in lists; volume up in Now Playing</td></tr><tr><td>Click wheel counter-clockwise</td><td><code>APT32F click-wheel</code>, <code>EV_KEY KEY_UP</code>/<code>KEY_PAGEUP</code>, or <code>EV_REL REL_WHEEL &lt; 0</code></td><td><code>WheelCounterClockwise(steps)</code></td><td><code>WheelCounterClockwise(steps)</code> in lists; volume down in Now Playing</td></tr><tr><td>Center / Select</td><td><code>Y2 navigation buttons</code>, <code>EV_KEY 28</code></td><td><code>Press/Release(Select)</code></td><td><code>Select</code> on release; long release becomes <code>ContextMenu</code></td></tr><tr><td>Back</td><td><code>Y2 navigation buttons</code>, <code>EV_KEY 158</code></td><td><code>Press/Release(Back)</code></td><td><code>Back</code>; long press goes Home</td></tr><tr><td>Previous</td><td><code>Y2 navigation buttons</code>, <code>EV_KEY 105</code>, or any device <code>EV_KEY 165</code></td><td><code>Press/Release(Previous)</code></td><td>Previous track; long press seeks backward</td></tr><tr><td>Next</td><td><code>Y2 navigation buttons</code>, <code>EV_KEY 106</code>, or any device <code>EV_KEY 163</code></td><td><code>Press/Release(Next)</code></td><td>Next track; long press seeks forward</td></tr><tr><td>Play / Pause</td><td><code>Y2 navigation buttons</code>, <code>EV_KEY 164</code>, or any device <code>EV_KEY 57</code></td><td><code>Press/Release(PlayPause)</code></td><td>Toggle playback; long press opens Now Playing</td></tr><tr><td>Power</td><td><code>mtk-pmic-keys</code>, <code>EV_KEY 116</code></td><td><code>Press/Release(Power)</code></td><td>Short press sleeps/wakes display; long press opens power menu</td></tr><tr><td>Volume down</td><td>Any accepted input device, <code>EV_KEY 114</code></td><td><code>Press/Repeat(VolumeDown)</code></td><td>Volume down; never navigation</td></tr><tr><td>Volume up</td><td>Any accepted input device, <code>EV_KEY 115</code></td><td><code>Press/Repeat(VolumeUp)</code></td><td>Volume up; never navigation</td></tr></tbody></table>
+<h2 id="keyboard-mode-since-100-beta5">Keyboard mode (since 1.0.0-beta.5)</h2>
+<p>While the full-screen keyboard is open (<code>ActionRouter::set_keyboard(true)</code>, set by the main loop before each event), Back, Play/Pause, Previous and Next produce <code>NavigateUp</code>, <code>NavigateDown</code>, <code>NavigateLeft</code> and <code>NavigateRight</code> on press; their releases produce nothing. Held Previous/Next repeat every other repeat tick (180 ms). A long Back press produces <code>Home</code> (cancel). Wheel rotation produces nothing. Select keeps <code>Select</code> on release and <code>ContextMenu</code> (Done) on a long press. A button pressed as an arrow keeps its hold and release in keyboard mode even if the keyboard closed meanwhile.</p>
+<h2 id="timing-owned-by-the-input-boundary">Timing owned by the input boundary</h2>
+<ul><li>Long press: 650 ms.</li><li>Repeat begins: 400 ms.</li><li>Repeat cadence: 90 ms.</li><li>Wheel acceleration: up to six semantic steps for same-direction events<p>within 180 ms.</p></li></ul>
+<p>Long press is emitted once and recorded by <code>ActionRouter</code>; the matching release is consumed, so a long press cannot also trigger its short action.</p>
+<h2 id="screen-off-policy">Screen-off policy</h2>
+<p><code>ActionRouter::route</code> receives the authoritative screen-on flag. While the screen is off, wheel/navigation/select/back actions produce no semantic action. Volume and playback controls remain global and do not wake the display. Only a Power release while the screen is off produces <code>ScreenWake</code>.</p>
+<p>Playback buttons and volume are routed above the current screen, so ordinary navigation and Back cannot stop playback. The UI only returns typed <code>Effect</code> values; service calls remain in <code>app/reborn</code>.</p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

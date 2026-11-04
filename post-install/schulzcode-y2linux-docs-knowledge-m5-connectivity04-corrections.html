@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CONNECTIVITY-04: verify the real CONN EMI remap before startup - Innioasis Updater</title>
+  <meta name="description" content="CONNECTIVITY-04: verify the real CONN EMI remap before startup <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate i">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m5-connectivity04-corrections.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="CONNECTIVITY-04: verify the real CONN EMI remap before startup - Innioasis Updater">
+  <meta property="og:description" content="CONNECTIVITY-04: verify the real CONN EMI remap before startup <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate i">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m5-connectivity04-corrections.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CONNECTIVITY-04: verify the real CONN EMI remap before startup - Innioasis Updater">
+  <meta name="twitter:description" content="CONNECTIVITY-04: verify the real CONN EMI remap before startup <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate i">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>CONNECTIVITY-04: verify the real CONN EMI remap before startup</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="connectivity-04-verify-the-real-conn-emi-remap-before-startup">CONNECTIVITY-04: verify the real CONN EMI remap before startup</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>CONNECTIVITY-03 now passes the native MD completion gate on this Y2: <code>stage=2 FS=841 restore=1 open=0 result=0 poweroff=0</code>, at uptime 48.502808 s. The owner reports a crash shortly afterward. Photos show faults on idle CPUs in timer/RCU interrupt processing; SSH stops responding. Both the kernel and Y2ROOT identify CONNECTIVITY-03, and the installed calibration helper matches the corrected binary. This is progress through MD calibration, not successful WMT/RF initialization or usable Wi-Fi/Bluetooth.</p>
+<h2 id="concrete-register-error">Concrete register error</h2>
+<p><code>y2_ccf_radio_remap(0)</code> used INFRACFG_AO + <code>0x1310</code>, physical <code>0x10002310</code>. The retained stock FM kernel&#x27;s <code>mtk_wcn_consys_hw_init</code> at <code>0xc0564fa4</code> constructs virtual <code>0xf0001000</code> and accesses offset <code>0x310</code>: physical <code>0x10001310</code>. The donor&#x27;s corrected header agrees; older donor comments still describe the wrong offset. The native implementation followed that stale offset, leaving the actual CONN-to-AP DRAM translation unchanged.</p>
+<p>Correct the access to INFRACFG_AO + <code>0x310</code>. Replace the complete 13-bit address/enable field with <code>0x1bdf</code>, preserving other bits, and check readback. A rejected write returns <code>-EIO</code> before CONN power-on/reset release. The target remains the existing excluded <code>0xbdf00000</code> region. MD&#x27;s four remap registers at <code>0x300</code>–<code>0x30c</code>, memory reservations and M4 ownership remain unchanged. Two bounded startup messages identify remap verification and BTIF entry.</p>
+<p>The crash timing and multi-CPU faults are consistent with incorrect remote memory translation. After owner installation, the corrected candidate remains responsive through 813 seconds, including a bounded radio recovery, with the same boot ID and no captured crash signature. WMT startup still times out; see the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fhardware-evidence%2F2026-09-16-m5-connectivity04%2FREADME.md">physical result</a>. The lost CONNECTIVITY-03 stream does not identify every failing access.</p>
+<h2 id="validation-and-deployment-scope">Validation and deployment scope</h2>
+<p>The regression executes the production remap function against modeled MMIO. It checks the stock register address, replacement of stale mappings, preserved adjacent/high fields, ignored-write failure, and unchanged MD mappings. It rejects the previous source. No device calibration is used in this test.</p>
+<p>Build CONNECTIVITY-04 as a production BOOTIMG-only update retaining the installed CONNECTIVITY-03 Y2ROOT and Y2DATA. No firmware changes, factory writes, new memory ranges, or power-platform redesign. After manual installation, capture the same startup through remap, CONN/BTIF/WMT and interface readiness, then continue M5 qualification if startup succeeds. M5 remains open.</p>
+<p>The previous CONNECTIVITY-03 BOOTIMG reproduces the crash and is not a working recovery choice. Known bootable rollback pairs remain CONNECTIVITY-02 with CONNECTIVITY-01 Y2ROOT, or accepted POWER-03 with its previous root; both require the corresponding root image and preserve Y2DATA.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M2-PHYWAKE-01 physical result - Innioasis Updater</title>
+  <meta name="description" content="M2-PHYWAKE-01 physical result <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, next s">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m2-phy-wake-hardware-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M2-PHYWAKE-01 physical result - Innioasis Updater">
+  <meta property="og:description" content="M2-PHYWAKE-01 physical result <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, next s">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m2-phy-wake-hardware-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M2-PHYWAKE-01 physical result - Innioasis Updater">
+  <meta name="twitter:description" content="M2-PHYWAKE-01 physical result <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, next s">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M2-PHYWAKE-01 physical result</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m2-phywake-01-physical-result">M2-PHYWAKE-01 physical result</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>2026-09-09, implementation 305f8f9. The owner reports flashing the new build and supplied <strong>10 new.jpg / 50 new.jpg from a confirmed same boot with USB connected</strong>. Both identify M2-PHYWAKE-01 / Linux 6.18.0-y2-m2-phywake1. The second photograph actually shows BEAT 49; its filename is not evidence of BEAT 50/STOP.</p>
+<table><thead><tr><th>Field</th><th>10 new.jpg</th><th>50 new.jpg</th></tr></thead><tbody><tr><td>BEAT / FRAME</td><td>10 / 68</td><td>49 / 302</td></tr><tr><td>Stage</td><td>WAIT 1S / LOOP LIVE</td><td>same</td></tr><tr><td>Uptime / idle seconds</td><td>11.32 / 10.16</td><td>54.61 / 49.55</td></tr><tr><td>Timer IRQ CPU0</td><td>1134</td><td>5463</td></tr><tr><td>USB RC / VALID</td><td>0 / 001FFFFF</td><td>same</td></tr><tr><td>PW / CLK</td><td>0 /3 and 0/15</td><td>same</td></tr><tr><td>WAKE / W / before-after validity</td><td>0 / 1 / 7F-FFF</td><td>same</td></tr><tr><td>Post-read POWER / DEVCTL</td><td>20 / 80</td><td>same</td></tr><tr><td>PHY 6a before / after</td><td>04 / 00</td><td>same</td></tr><tr><td>Post-read PHY68..6e</td><td>00 00 00 02 12 00 00</td><td>same</td></tr><tr><td>Pre-read PHY1a / 1d / 22 / 63</td><td>10 / 00 / 00 / 00</td><td>same</td></tr><tr><td>PHY00 / 05 / 15 before-after</td><td>6E/6E / 44/44 / 10/10</td><td>same</td></tr><tr><td>MemTotal / CPUs online</td><td>22208 kB / 0</td><td>same</td></tr><tr><td>Last error / sleep / proc / sysfs</td><td>NONE / 0 / 0 / 0</td><td>same</td></tr><tr><td>Frame write / watchdog / framebuffer</td><td>804 / STOPPED / GUARD OK</td><td>same</td></tr></tbody></table>
+<p><strong>CONFIRMED:</strong> the guarded single force_suspendm release completed with full readback, unchanged three sampled trim bytes and continued PID1/timer progress through BEAT 49. The cached snapshot is taken once near BEAT 1; the photographs do not establish continuous PHY/DMA monitoring. IRQ delta 4329 across 43.29 kernel uptime seconds agrees with 100 Hz, without independent host timing.</p>
+<p>USB remains disconnected and DEVCTL reports B-device with no valid VBUS session, despite the owner-confirmed attached cable. This does not establish physical VBUS absence, a broken cable, a ready PHY or USB enumeration. The next smallest observation is the stock PMIC charger-presence bit; see <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-chrdet-probe.md">the CHRDET contract</a>. No analog/calibration or VBUS forcing is justified solely by these photos.</p>
+<p>Private originals and manifests: evidence-private/20260909-m2-phywake-result/.</p>
+<ul><li>10 new.jpg: 216478 bytes, SHA-256<p><code>c5f1bc33129096c3e33475e79221f6f5fe894986f47182ff3d91ae1cb3beb247</code>.</p></li><li>50 new.jpg: 237915 bytes, SHA-256<p><code>5f034d911ec8e9749b62fe1b6c19249c299f1c4fd3fae0a45b106a7a15e65bed</code>.</p></li></ul>
+<p>The earlier 10.jpg / 50.jpg are retained separately. The former shows a guarded refusal (WAKE -19, W0, V00/000, no PHY write), the latter success at BEAT 44. Their chronology is unresolved; the new confirmed same-boot pair supersedes them for this trial. Unread fields and zero fields without validity are not hardware values. The earlier refusal is not erased or reclassified as a successful write.</p>
+<p>Associated candidate: 1,097,728 bytes, SHA-256 <code>d68c8fbc56721c7aa1fda5b3e321a9aff5876661aac857505864e28d8924793a</code>. Association is owner-reported and screen-identified, not an independent flash readback. Host elapsed time, final STOP, restoration and broad boot repeatability remain unreported. #23/#27/#28 remain open; M1 complete, M2 incomplete, M3 deferred.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

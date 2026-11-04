@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Actual system architecture - Innioasis Updater</title>
+  <meta name="description" content="Actual system architecture <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims, next steps and permis">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-audit-current-system-02_system_architecture.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Actual system architecture - Innioasis Updater">
+  <meta property="og:description" content="Actual system architecture <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims, next steps and permis">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-audit-current-system-02_system_architecture.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Actual system architecture - Innioasis Updater">
+  <meta name="twitter:description" content="Actual system architecture <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims, next steps and permis">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>Actual system architecture</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="actual-system-architecture">Actual system architecture</h1>
+<!-- knowledge-base-scope: historical-audit/review -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_REBORN_STATE.md) for the latest physically observed result.
+<p>Source authorities and commits are in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Faudit%2Fcurrent-system%2F00_SCOPE_AND_EVIDENCE.md">scope</a>. Arrows below describe existing ownership/data flow, not a proposed product.</p>
+<h2 id="boot-and-persistent-storage">Boot and persistent storage</h2>
+<pre><code class="language-text">MT6582 Boot ROM
+  -&gt; retained stock preloader (DRAM/platform assumptions)
+  -&gt; retained stock LK
+  -&gt; BOOTIMG: Android boot header + Linux 6.18 + DT + rescue initramfs
+       -&gt; /init: proc/sys/dev/run/tmp, platform and display preparation
+          +-&gt; forced rescue / failed storage or compatibility checks
+          |     -&gt; RAM-resident recovery/diagnostic environment
+          +-&gt; charger-only/low-battery gate -&gt; offline-charge program
+          |     (no normal Y2ROOT/Reborn/radio startup)
+          `-&gt; identify internal eMMC by controller, geometry, label, UUID
+              -&gt; read-only noload root preflight and compatibility checks
+              -&gt; e2fsck -p; unacceptable result -&gt; rescue
+              -&gt; mount Y2ROOT rw + Y2DATA rw,nosuid,nodev
+              -&gt; expose BOOTIMG-owned modules from /run/y2/modules
+              -&gt; switch_root -&gt; BusyBox init / rcS
+                  -&gt; platform/data setup -&gt; Reborn supervisor
+                  -&gt; USB/display/system logging/D-Bus/radio/SSH services</code></pre>
+<p><code>Y2ROOT</code> reuses stock ANDROID; <code>Y2DATA</code> reuses USRDATA. The tested addressing contract distinguishes scatter coordinates from native eMMC coordinates. Linux&#x27;s Y2-specific stock-logical translation is essential; it is not generic eMMC behavior. Preloader/LK/partition tables/NVRAM/calibration are not update targets. <code>Y2DATA.img</code> is an initialization seed, not an update payload. A/B slots and automatic rollback are not implemented.</p>
+<p>Evidence: <a href="https://github.com/SchulzCode/Y2Linux/blob/main/initramfs/production/init" target="_blank" rel="noopener noreferrer">production init</a>, <a href="https://github.com/SchulzCode/Y2Linux/blob/main/tools/production/layout.py" target="_blank" rel="noopener noreferrer">layout</a>, <a href="https://github.com/SchulzCode/Y2Linux/blob/main/tools/production/package.py" target="_blank" rel="noopener noreferrer">package</a>, <a href="https://github.com/SchulzCode/Y2Linux/blob/main/kernel/patches/0023-y2-stock-emmc-capacity.patch" target="_blank" rel="noopener noreferrer">storage translation patch</a>, <a href="https://github.com/SchulzCode/Y2Linux/blob/main/buildroot/board/y2/production-overlay/etc/init.d/S02y2-data" target="_blank" rel="noopener noreferrer">data startup</a>.</p>
+<h2 id="hardware-ownership-map">Hardware ownership map</h2>
+<pre><code class="language-text">Linux 6.18 + canonical Y2 DT + hashed patch/overlay manifest
+ |
+ +-- clocks/pinctrl/EINT/PWRAP -&gt; MT6323 MFD/regmap
+ |    +-- regulators / ADC / charger power_supply / PMIC keys / RTC / poweroff
+ +-- SPM -&gt; CPU hotplug/suspend + MFG generic power domain
+ +-- cpufreq-dt / CPU cooling -&gt; fixed-voltage OPPs
+ +-- thermal + efuse calibration -&gt; CPU and PMIC die observations
+ +-- DRM mediatek -&gt; OVL/RDMA/COLOR/DSI/PHY -&gt; panel/backlight
+ +-- Lima -&gt; Mali-400 MP2 -&gt; Mesa render node -&gt; PRIME/display scanout
+ +-- input -&gt; navigation/keypad/PMIC keys/APT32F wheel -&gt; evdev
+ +-- MSDC -&gt; internal eMMC / external SD -&gt; ext4/vfat
+ +-- USB PHY/MUSB gadget -&gt; ACM + USB Ethernet; PHY also owns charger detection
+ +-- ALSA/ASoC -&gt; MT6582 AFE DL1 -&gt; I2S -&gt; CS43131 -&gt; headphone pins
+ `-- one CONSYS parent -&gt; rails/reset/BTIF-DMA/STP/WMT/firmware/calibration
+       +-- fullmac Wi-Fi port -&gt; cfg80211 -&gt; wlan0
+       `-- standard HCI -&gt; BlueZ</code></pre>
+<p>Canonical files: <a href="https://github.com/SchulzCode/Y2Linux/blob/main/kernel/dts/innioasis-y2.dts" target="_blank" rel="noopener noreferrer">DT</a>, <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">platform drivers</a>, <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">audio drivers</a>, <a href="https://github.com/SchulzCode/Y2Linux/blob/main/kernel/patches/manifest.json" target="_blank" rel="noopener noreferrer">patch manifest</a>. The production DTS includes the common DTS; there is not an independent second hardware design. Low-level register constants often originate in vendor/donor evidence; their named policy wrappers improve reviewability but do not independently validate electrical assumptions.</p>
+<p>Memory intent is 0x3e000000 bytes in DT (992 MiB), minus reserved regions, kernel and other allocations—not a freely available 1 GiB heap. The historical LK gap is reserved, as is connectivity-owned high memory. HIGHMEM, a 3G/1G split, 100-Hz tick and NO_HZ_IDLE are configured; CMA is disabled. The audit does not propose changing these boundaries.</p>
+<h2 id="processes-services-and-persistence">Processes, services and persistence</h2>
+<pre><code class="language-text">BusyBox init
+ +-- S00 runtime / S01 platform / S02 persistent data
+ +-- S05reborn -&gt; reborn-supervise -&gt; reborn
+ |                (bounded rapid-crash budget; delayed restarts)
+ +-- splash helper -&gt; explicit KMS handoff to Reborn
+ +-- syslogd -&gt; bounded /data/logs/system.log
+ +-- D-Bus system bus
+ +-- bluetoothd
+ +-- S41 connectivity supervisor
+ |    +-- factory provider -&gt; root-only runtime calibration material
+ |    +-- calibration helper &lt;-&gt; kernel /dev/y2-calibration
+ |    +-- wpa_supplicant global/interface control
+ |    |     -&gt; wpa_cli events -&gt; udhcpc -&gt; IP/routes/resolver configuration
+ |    +-- bluealsad (A2DP source; SBC in inspected build)
+ |    `-- y2-bt-reconnect (preferred paired+trusted audio sink policy)
+ `-- Dropbear: key-only root SSH bound to USB Ethernet 10.42.0.1:22
+
+/data
+ +-- Reborn state/library/cache/logs/diagnostics (under app data root)
+ +-- music directory
+ +-- network config + enable preference
+ +-- Bluetooth bonds/preference
+ `-- owner SSH authorization + generated host keys
+
+/run: transient sockets, locks, driver/service observations and radio logs
+/media/sd: explicit y2-media-managed removable music source</code></pre>
+<p>Evidence: <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Reborn packaging and services</a>, <a href="https://github.com/SchulzCode/Y2Linux/blob/main/buildroot/board/y2/production-overlay/usr/libexec/y2/connectivity" target="_blank" rel="noopener noreferrer">connectivity service</a>, <a href="https://github.com/SchulzCode/Y2Linux/blob/main/buildroot/board/y2/overlay/etc/default/dropbear" target="_blank" rel="noopener noreferrer">SSH configuration</a>, <a href="https://github.com/SchulzCode/Y2Linux/blob/main/buildroot/board/y2/production-overlay/usr/sbin/y2-media" target="_blank" rel="noopener noreferrer">media mount helper</a>.</p>
+<p>Reborn starts before optional radios; workers must tolerate unavailable providers. Screen blanking is not deep suspend. <code>y2-suspend</code> independently enforces activity/radio policy; playback/radio activity leases prevent inappropriate suspend. There is no evidence that merely sleeping the UI implements a complete battery standby policy.</p>
+<h2 id="reborn-state-and-data-flow">Reborn state and data flow</h2>
+<pre><code class="language-text">evdev -&gt; InputManager -&gt; normalized controls -&gt; ActionRouter -&gt; Action
+                                                               |
+control socket -&gt; enumerated commands --------------------------+
+                                                               v
+main/UI thread: Runtime owns AppModel + Ui + graphics + service handles
+  Ui::action(&amp;mut AppModel, ...) -&gt; Effect -&gt; Runtime::effect
+  service events -------------&gt; AppModel::apply / Runtime handlers
+  Ui::draw(&amp;AppModel, ...) ----&gt; quads -&gt; native GLES renderer -&gt; KMS
+      (draw does not own hardware or perform service IO)
+
+Runtime -&gt; scanner worker -&gt; FFmpeg metadata -&gt; DB command queue (32)
+                          -&gt; SQLite worker/connection -&gt; paged query reply
+Runtime -&gt; decode worker -&gt; bounded PCM stream -&gt; audio worker -&gt; AudioSink
+Runtime -&gt; Wi-Fi worker -&gt; supplicant control + rfkill/preference
+Runtime -&gt; BT worker -&gt; BlueZ/BlueALSA D-Bus + pairing agent
+Runtime -&gt; diagnostics worker -&gt; bounded tests/bundles
+all -&gt; Observer -&gt; bounded event/metric state + bounded logger worker</code></pre>
+<p>The model is the UI/session authority, but not yet the sole playback authority: the decode worker owns a copied upcoming-track list. This is actual architectural drift, not a second intentional queue service. UI navigation mutates AppModel directly while returning effects; this is not a fully pure reducer architecture, and need not become one. The useful boundary is that presentation does not own device/DB/decoder handles.</p>
+<p>Production sources: <a href="https://github.com/SchulzCode/Y2Reborn/blob/main/app/reborn/src/main.rs" target="_blank" rel="noopener noreferrer">runtime</a>, <a href="https://github.com/SchulzCode/Y2Reborn/blob/main/app/reborn/src/playback.rs" target="_blank" rel="noopener noreferrer">playback</a>, <a href="https://github.com/SchulzCode/Y2Reborn/blob/main/crates/reborn-core/src/lib.rs" target="_blank" rel="noopener noreferrer">model</a>, <a href="https://github.com/SchulzCode/Y2Reborn/blob/main/crates/reborn-library/src/lib.rs" target="_blank" rel="noopener noreferrer">library</a>, <a href="https://github.com/SchulzCode/Y2Reborn/blob/main/crates/reborn-ui/src/lib.rs" target="_blank" rel="noopener noreferrer">UI</a>.</p>
+<h2 id="actual-audio-and-graphics-dependencies">Actual audio and graphics dependencies</h2>
+<pre><code class="language-text">file -&gt; FFmpeg demux/decode -&gt; swresample to stereo FLTP at source rate
+     -&gt; avfilter volume/RG + optional EQ + always limiter
+        (limiter negotiates packed double internally; back to FLTP)
+     -&gt; swresample to job output rate / packed S16 or S32
+     -&gt; optional crossfade window conversions/mix -&gt; audio worker
+        +-- wired ALSA hw:Y2Audio -&gt; S16-only AFE -&gt; 32-bit I2S slots -&gt; DAC
+        `-- BlueALSA ALSA PCM -&gt; bluealsad SBC -&gt; BlueZ -&gt; HCI -&gt; headphones
+
+quads + bitmap font/icon atlas + 160x160 artwork
+ -&gt; GLES2 textures/draws -&gt; EGL/GBM front buffer
+ -&gt; DRM FB/pageflip -&gt; panel scanout</code></pre>
+<p>The S32 transport representation is not proof of 32-bit precision. A 32-bit slot is not a 32-bit sample. Bluetooth does share the main processed PCM, but has additional BlueALSA encoding/transport buffering and a separately negotiated PCM rate. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Faudit%2Fcurrent-system%2F05_AUDIO_AUDIT.md">audio</a>.</p>
+<h2 id="production-build-authority-and-legacy">Production build authority and legacy</h2>
+<p><code>tools/production/build.py</code> orchestrates the pinned kernel inputs, Buildroot external tree, board overlays, sibling Reborn source, owner firmware inputs, image construction and package validation. Reborn&#x27;s <code>tools/build/cross.sh</code> consumes the Buildroot SDK with locked/vendored Cargo dependencies. Reborn&#x27;s local packaging and preview helpers are not substitutes for the system image build.</p>
+<p>First-boot/development configurations, Y2PlayerNative manifest placeholders, old UI packs/previews and historical milestone reports are legacy/reference material. Some recovery/development tools still matter; do not delete them solely because they are old. The native Wi-Fi vendor-derived core remains production code despite its legacy shape. The separation between these categories needs better documentation, not wholesale relocation of the repositories.</p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

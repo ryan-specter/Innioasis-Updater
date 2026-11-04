@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-25 — Cover Flow at the panel's rate, short album lengths, macOS card metadata - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-25 — Cover Flow at the panel's rate, short album lengths, macOS card metadata Status: INSTALLED 2026-10-13; first check archive 119, superseded by 26. Package">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-25.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-25 — Cover Flow at the panel's rate, short album lengths, macOS card metadata - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-25 — Cover Flow at the panel's rate, short album lengths, macOS card metadata Status: INSTALLED 2026-10-13; first check archive 119, superseded by 26. Package">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-25.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-25 — Cover Flow at the panel's rate, short album lengths, macOS card metadata - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-25 — Cover Flow at the panel's rate, short album lengths, macOS card metadata Status: INSTALLED 2026-10-13; first check archive 119, superseded by 26. Package">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-25 — Cover Flow at the panel&#x27;s rate, short album lengths, macOS card metadata</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-25--cover-flow-at-the-panels-rate-short-album-lengths-macos-card-metadata">POWER-FINAL-25 — Cover Flow at the panel&#x27;s rate, short album lengths, macOS card metadata</h1>
+<p>Status: <strong>INSTALLED</strong> (2026-10-13; first check archive 119, superseded by 26). Package <code>out/y2linux-platform-v1-power-final-candidate-25/</code> (fallback = 24 = <code>baseline-24</code>), receipts <code>out/deep-sleep-final/build25-receipts/</code>. BOOTIMG <code>44a9c3cfcffb28538bb748d7a5923a7574c87b77223ffc0b360b662d38563cf7</code>, Y2ROOT <code>6f629a895e41ae9c75ccadada4a22e39752a39011b31bb84c02ea33f9eba8f67</code>. Identity: build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-25</code>, kernel <code>6.18.56-y2linux-platform-v1-power-final-25</code>, root <code>2026.08-platform-v1.55</code>, release <code>1.0.0-platform-v1-power-final-candidate.25</code>; Linux <code>f7eb741</code>, <strong>Reborn <code>ed6a8cb</code></strong>. Platform as 24.</p>
+<h2 id="why-24-ran-at-27-fps">Why 24 ran at 27 fps</h2>
+<p>24 shortened the loop&#x27;s wait while animating, but the render gate still required 34 ms between frame starts (<code>render_time.elapsed() &gt;= 34 ms</code>). Presentation is synchronous (<code>eglSwapBuffers</code> → <code>drmModePageFlip</code> → wait for the flip event), so a frame started ≥34 ms after the previous one lands on the 2nd or 3rd vblank of the ≈63-Hz panel: 21–31 fps, measured 27 median / 31 max.</p>
+<h2 id="what-25-changes-reborn-ed6a8cb">What 25 changes (Reborn <code>ed6a8cb</code>)</h2>
+<ul><li><code>frame_gap(gliding)</code>: 12 ms start-to-start while <code>Ui::gliding()</code> (Cover Flow glide, cover flight), so the vblank paces<p>frames; 34 ms otherwise. Spinners, fades and the power ring keep the calm budget (no 60-fps spinner during a scan).</p></li><li>The Interactive CPU lease (kernel floor 747.5 MHz, 250 ms) is renewed while gliding, not only per wheel event.</li><li>Album detail line (&quot;9 songs · 38 min&quot;) cached per album and library. Host profile at 3000 tracks: <code>ui.draw</code><p>0.033 ms/frame, two thirds of it that all-track scan.</p></li><li>Albums shorter than a minute show m:ss (&quot;1 song · 0:42&quot;) instead of &quot;0 min&quot;.</li><li>Scanner skips AppleDouble <code>._*</code> files (in <code>supported</code>) and <code>.Spotlight-V100</code>, <code>.fseventsd</code>, <code>.Trashes</code>,<p><code>.TemporaryItems</code> folders; scans of a Mac-written card complete and prune again.</p></li></ul>
+<h2 id="tests">Tests</h2>
+<p>Reborn: <code>cargo fmt</code>, <code>cargo clippy --workspace --all-targets -D warnings</code>, <code>cargo test --workspace</code> all pass; new tests for the frame gap, <code>gliding</code>, the sub-minute length/cache, and a card with a <code>._</code> file and an unreadable <code>.Spotlight-V100</code> (fails without the fix). Renderer unchanged (no GLES comparison needed). Platform: <code>validate.py</code> PASS, ELF closure 354 files PASS, installed ARM PASS, privacy clean, release inventory 108 packages, container suite 693 OK.</p>
+<h2 id="owner-checks-after-the-flash">Owner checks after the flash</h2>
+<ol><li>Cover Flow smoothness: 40-s <code>metrics</code> sampler (frames/s from <code>graphics_frames</code> deltas) while scrolling; expect<p>well above 31 fps, ≈60 when frames fit one vblank. <code>graphics_frame_time_ms</code> shows frames that miss.</p></li><li>A rescan of the owner&#x27;s card reports complete (no &quot;11 traversal failures&quot;); stale entries disappear.</li><li>Still owed from 24: start-up colour flash, Genres after the tag re-read; then the sleep tests (archive 119+).</li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-30 — storage and decode performance pass - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-30 — storage and decode performance pass Status: SUPERSEDED, NEVER FLASHED ALONE 2026-10-14; contained in 31–34, installed as part of 33. Package out/y2linux-">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-30.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-30 — storage and decode performance pass - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-30 — storage and decode performance pass Status: SUPERSEDED, NEVER FLASHED ALONE 2026-10-14; contained in 31–34, installed as part of 33. Package out/y2linux-">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-30.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-30 — storage and decode performance pass - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-30 — storage and decode performance pass Status: SUPERSEDED, NEVER FLASHED ALONE 2026-10-14; contained in 31–34, installed as part of 33. Package out/y2linux-">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-30 — storage and decode performance pass</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-30--storage-and-decode-performance-pass">POWER-FINAL-30 — storage and decode performance pass</h1>
+<p>Status: <strong>SUPERSEDED, NEVER FLASHED ALONE</strong> (2026-10-14; contained in 31–34, installed as part of 33). Package <code>out/y2linux-platform-v1-power-final-candidate-30/</code> (fallback = 29), receipts <code>out/deep-sleep-final/build30-receipts/</code>. BOOTIMG <code>7d95f85517e8744fc4c19c904e422decaade4cf9d7cd19004b186e4cb4c302b9</code>, Y2ROOT <code>65467e6ab707cca8078a315ed31ed8f845cf11566151b37ac4910836fe2b82c2</code>. Identity: build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-30</code>, kernel <code>6.18.56-y2linux-platform-v1-power-final-30</code>, root <code>2026.08-platform-v1.60</code>, release <code>1.0.0-platform-v1-power-final-candidate.30</code>; Linux <code>6aa52e3</code>, <strong>Reborn <code>f08cf93</code></strong>. Contains 27–29.</p>
+<h2 id="measured-on-29-boot-cac3e209">Measured on 29 (boot <code>cac3e209</code>)</h2>
+<ul><li>Library database (317 tracks, 393 KB): query 2.7 ms, open+checks ≈56 ms, initial catalog ≈70 ms; warm rescan ≈200 ms.</li><li><code>session.json</code> durable save 7.9 ms (1.0 ms without fsync), on user actions only.</li><li>Start-up scan 6975 ms, all of it cold SD directory reads: <code>find /media/sd -type d</code> 7955 ms cold / 38 ms warm for 118<p>directories; one cold listing = ~200 unmerged 512-byte reads (~50 ms). The card itself: 85 MB/s sequential.</p></li><li>Pre-mount <code>fsck.exfat -n</code>: 315 ms cold.</li><li>FFmpeg pipeline (stage benchmark, % of one core at 1.2–1.3 GHz): MP3 320k decode 1.3 / pipeline 2.5; CD FLAC 0.9 /<p>2.1; 24/96 FLAC 2.1 / 4.6; AAC 0.9 / 2.0; <code>alimiter</code> ≈ half of each pipeline.</p></li></ul>
+<h2 id="what-30-changes">What 30 changes</h2>
+<ul><li>Kernel: plugged directory readahead for exFAT (<code>0068</code>), FAT (<code>0069</code>) and the ext4 batch reader (<code>0070</code>): a cold<p>directory cluster is one request instead of one per 512-byte sector. Read path only.</p></li><li><code>noatime</code> for SD cards of every format and the internal Y2Media partition (no access-time writes during playback).</li><li>Reborn <code>f08cf93</code>: the limiter runs only when the DSP graph can raise a peak (active EQ or positive net gain); the<p>default pipeline costs about half as much CPU and loud masters are no longer limited above −0.18 dBFS.</p></li></ul>
+<h2 id="tests">Tests</h2>
+<p><code>test_exfat_readahead</code> (three plugged loops, noatime), <code>test_platform_storage_tools</code>/<code>test_internal_media</code> (mount options), Reborn <code>limiter_only_when_the_graph_can_raise_a_peak</code> (+ workspace tests, clippy, fmt). Kernel warnings unchanged (47). validate PASS, ELF 354, installed ARM, privacy, inventory, container suite <strong>711 OK</strong>.</p>
+<h2 id="owner-checks-after-the-flash">Owner checks after the flash</h2>
+<ol><li>Normal boot; the start-up scan in Reborn&#x27;s log (<code>scan_completed elapsed_ms</code>) should drop from ≈7000 ms to well<p>under 1000 ms; cold <code>find /media/sd -type d</code> likewise.</p></li><li>Playback sounds unchanged (default settings: no limiter stage; EQ on: limiter present).</li><li><code>mount | grep -E &quot;media/(sd|internal)&quot;</code> shows <code>noatime</code>.</li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reborn Product UI v2 - Innioasis Updater</title>
+  <meta name="description" content="Reborn Product UI v2 <!-- knowledge-base-scope: source-contract -- Source-contract scope. This page describes the Product UI v2 source Reborn 0.2.0. See current state ../">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-ui-reborn-product-ui-v2.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Reborn Product UI v2 - Innioasis Updater">
+  <meta property="og:description" content="Reborn Product UI v2 <!-- knowledge-base-scope: source-contract -- Source-contract scope. This page describes the Product UI v2 source Reborn 0.2.0. See current state ../">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-ui-reborn-product-ui-v2.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Reborn Product UI v2 - Innioasis Updater">
+  <meta name="twitter:description" content="Reborn Product UI v2 <!-- knowledge-base-scope: source-contract -- Source-contract scope. This page describes the Product UI v2 source Reborn 0.2.0. See current state ../">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>Reborn Product UI v2</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="reborn-product-ui-v2">Reborn Product UI v2</h1>
+<!-- knowledge-base-scope: source-contract -->
+> **Source-contract scope.** This page describes the Product UI v2 source
+> (Reborn 0.2.0). See [current state](../CURRENT_REBORN_STATE.md) for what is
+> installed and physically observed; built does not mean qualified.
+<p>Reborn is a dedicated music player for the Innioasis Y2 (480×360, scroll wheel and buttons, no touch). Product UI v2 keeps the existing visual language (dark background, warm gold accent, one licensed sans atlas, one icon atlas) and removes everything a listener does not need. The navigation tree is in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Fui%2FREBORN-PRODUCT-NAVIGATION-V2.md">REBORN-PRODUCT-NAVIGATION-V2</a>; the platform boundary is in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Farchitecture%2Fplatform-api-boundary.md">platform-api-boundary</a>; the audit and pruning ledger is in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Freview%2FREBORN-PRODUCT-PASS-V2.md">REBORN-PRODUCT-PASS-V2</a>.</p>
+<h2 id="principles">Principles</h2>
+<ol><li>Every normal screen answers &quot;would a person using a music player use<p>this?&quot;. If not, it is removed, merged, moved to Diagnostics or hidden.</p></li><li>Normal screens never show Linux, driver, service, transport, schema or<p>signing vocabulary. A test fails the build if they do (<code>normal_screens_never_show_engineering_terms_or_generic_unavailable</code>).</p></li><li>There is no generic &quot;Unavailable&quot;. A state names itself: <em>Wi-Fi Is Off</em>,<p><em>No SD card</em>, <em>Connecting…</em>, <em>Connect to Wi-Fi to Check for Updates</em>, <em>Updates Are Installed with a Computer</em>, <em>Song Not Found</em>.</p></li><li>A problem state has a short heading, one explanation and one useful<p>action. Raw errors appear only in Diagnostics.</p></li><li>Exactly one focus on every interactive screen. Static fact pages<p>(Battery, Storage, Song Info) have no focus because nothing on them acts.</p></li></ol>
+<h2 id="layout-system">Layout system</h2>
+<table><thead><tr><th>Region</th><th>Geometry</th><th>Content</th></tr></thead><tbody><tr><td>Status bar</td><td>0–28 px</td><td>Playing glyph (gold) · Wi-Fi and Bluetooth glyphs (bright when connected) · battery % and icon, <code>+</code> while charging, red when low</td></tr><tr><td>Title</td><td>y 40, 20 px</td><td>Screen name; long lists show a muted position counter</td></tr><tr><td>Content</td><td>76–316 px</td><td>Five 46 px rows on a 48 px pitch, or hero + facts + rows</td></tr><tr><td>Footer</td><td>324–360 px</td><td>Mini player (art, title, artist, state) or one status line (radio progress/problem)</td></tr></tbody></table>
+<ul><li><strong>Rows</strong>: 15 px label, 12 px secondary, optional 12 px duration. Focus is a<p>gold outline with a warm fill; the playing track has a small gold play glyph. Long lists draw a thin scroll rail.</p></li><li><strong>Hero</strong>: 20 px heading (up to two lines) and 14 px body (up to three<p>lines) for off, empty, progress and error states.</p></li><li><strong>Facts</strong>: two columns, 14 px label left and value right, 34 px pitch.</li><li><strong>Sheets</strong> (Quick Settings, options, pickers, confirmations): centred,<p>sized to content, up to six 40 px rows; destructive confirmations start on <em>Cancel</em> and name their action (<em>Power Off</em>, <em>Forget</em>, <em>Rebuild</em>).</p></li><li><strong>Toasts</strong>: one line above the footer for 1.8 s.</li></ul>
+<p>Minimum functional text is 12 px; normal list text is 15 px. Accent gold is used for focus, the playing glyph, progress and active shuffle/repeat only.</p>
+<h2 id="screens">Screens</h2>
+<p><strong>Home</strong> — Music, Now Playing (current title), Queue (song count), Settings.</p>
+<p><strong>Music</strong> — Albums, Artists, Songs, Folders. Album and Artist pages show art, name and secondary line above <em>Play All</em>, then tracks; album rows omit the artist when it equals the album artist. Folders&#x27; roots are <em>Internal Storage</em> and <em>SD Card</em>. Empty lists explain themselves (<em>No Music Yet</em>, *Finding Your Music…*, <em>Library Scan Didn&#x27;t Finish</em>, <em>Can&#x27;t Read Your Music</em>) and offer <em>Scan for Music</em> where useful.</p>
+<p><strong>Now Playing</strong> — 176 px art, title (up to three lines), artist, album, state (<em>Playing</em>, <em>Paused</em>, <em>SD card removed</em>, <em>No audio output</em> with one hint), progress with elapsed/remaining, and a volume bar. The wheel changes volume by a fixed 2 per detent; Select opens Now Playing options: Show Queue, Shuffle, Repeat, Go to Album, Go to Artist, Song Info. The footer shows the output and shuffle/repeat state.</p>
+<p><strong>Queue</strong> — ordered occurrences, the current one marked. Hold Select: Play Now, Remove from Queue, Move Up, Move Down, Clear Upcoming (confirmed).</p>
+<p><strong>Song Info</strong> — Title, Artist, Album, Length, Format (<code>FLAC · 96 kHz</code>), File, Location (Internal Storage / SD Card).</p>
+<p><strong>Settings</strong> — Wi-Fi, Bluetooth, PC Transfer, Audio, Playback, Library, Display, System, each with a one-line summary.</p>
+<ul><li><strong>Wi-Fi</strong>: Wi-Fi toggle, joined network first (<em>Connected</em>, <em>Connecting…</em>,<p><em>Getting network address…</em>, <em>Connected · No internet</em>, *Couldn&#x27;t connect*), saved and nearby networks with signal words, <em>Search Again</em>. Off: <em>Wi-Fi Is Off</em> + <em>Turn On Wi-Fi</em>. Problems in the footer: wrong password, no address, no name lookup, network not found.</p></li><li><strong>Bluetooth</strong>: toggle, devices (<em>Playing audio · AAC</em>, <em>Connected</em>,<p><em>Paired</em>, <em>Not paired</em>), <em>Search for Devices</em>. A connected device opens Disconnect, Use for Audio, Codec (only with a real choice), Forget Device.</p></li><li><strong>PC Transfer</strong>: <em>Connect to a Computer</em>, <em>Preparing PC Transfer…</em>, *PC<p>Transfer Ready*, <em>PC Transfer Disconnected</em>, free space and *Scan for New Music*.</p></li><li><strong>Audio</strong>: Output (picker: Headphone jack and connected Bluetooth<p>devices), ReplayGain (Off/Track/Album).</p></li><li><strong>Playback</strong>: Shuffle, Repeat (Off/All/One), Gapless Playback, Crossfade<p>(Off/3/6/10 s).</p></li><li><strong>Library</strong>: Internal Storage and SD Card song counts, *Scan for New<p>Music*, <em>Rebuild Library</em> (confirmed; re-reads every file, never empties the library).</p></li><li><strong>Display</strong>: Brightness (20–100 %, shown only when the backlight has<p>levels), Screen Timeout (15 s – 5 min, Never).</p></li><li><strong>System</strong>: Battery, Storage, Software Update, About, Reset &amp;<p>Maintenance, Diagnostics, Restart, Power Off.</p></li></ul>
+<p><strong>Battery</strong> — charge % when the platform publishes a valid estimate and the charging state; <em>Low Battery</em> / <em>Battery Critically Low</em> heroes. Transitions to Low and Critical are announced once by a toast.</p>
+<p><strong>Storage</strong> — Internal Storage and SD Card as <em>3.2 GB free of 6.4 GB</em>, *No SD card* or <em>SD card error · Reinsert the card</em>; <em>Storage Running Low</em> / <em>Storage Almost Full</em> heroes.</p>
+<p><strong>Software Update</strong> — <em>Software Update</em> (check), <em>Checking for Updates…</em>, <em>Up to Date</em>, <em>Update Available</em> (download), <em>Downloading Update…</em>, *Ready to Install* (Restart to Install / Cancel Update, confirmed), *Installing Update…*, and named failures (<em>Connect to Wi-Fi to Check for Updates</em>, <em>Updates Are Installed with a Computer</em>, <em>Not Enough Space for the Update</em>, <em>Update Couldn&#x27;t Be Verified</em>, <em>Update Didn&#x27;t Finish</em>). No keys, sequences, manifests or journals.</p>
+<p><strong>About</strong> — Reborn 0.2.0, System <em>Y2Linux 1.0.0</em>, Device <em>Innioasis Y2</em>, Licenses.</p>
+<p><strong>Reset &amp; Maintenance</strong> — Reset Reborn Settings, Forget Wi-Fi Networks, Remove Bluetooth Pairings, Rebuild Music Library, Clear Cache. Each is a real operation behind a confirmation that states its consequence. A full user-data wipe is not offered on the device.</p>
+<p><strong>Quick Settings</strong> (hold Power) — Wi-Fi and Bluetooth toggle in place, Output, Brightness, Restart, Power Off.</p>
+<p><strong>Diagnostics</strong> (Settings → System → Diagnostics) — see the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Fui%2FREBORN-PRODUCT-NAVIGATION-V2.md%23diagnostics-tree&amp;anchor=diagnostics-tree">navigation map</a>.</p>
+<h2 id="boot-and-shutdown">Boot and shutdown</h2>
+<p>The early splash (Y2Linux <code>tools/graphics/reborn-splash.c</code>) shows the Reborn wordmark, one thin white bar and a short status line on the product background. Its pixels are generated from Reborn&#x27;s own boot screens (<code>reborn_ui::boot_screen</code>) and a cross-repository test proves the splash and Reborn&#x27;s hand-off frame are identical. The bar fills to coarse real startup milestones and never shows a number. The splash keeps the display until Reborn&#x27;s first complete UI frame is ready (Reborn itself starts last, after the platform services and enabled radios are up); that frame is presented under the full boot screen, which is revealed over ten frames (~340 ms) with input held until it is done. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Farchitecture%2Fboot-handoff.md">boot progress and hand-off</a>.</p>
+<p>On a platform shutdown or restart intent Reborn dissolves the UI into the same screen (<strong>Saving</strong>), saves the session and closes audio and the library database, shows <strong>Shutting down</strong> (or <strong>Restarting</strong>, <strong>Battery empty</strong>) while the bar drains and the screen dims, presents a black frame, turns the backlight off and then acknowledges (23 frames at ~34 ms ≈ 0.8 s of visuals plus the save time). The platform turns the backlight off before it stops a Reborn that did not acknowledge, and again before init powers down, so a crashed or hung Reborn cannot leave a lit panel.</p>
+<h2 id="wheel">Wheel</h2>
+<p>One physical detent is one step everywhere. Only long library lists (Albums, Artists, Songs, Folders, Album, Artist with at least 40 rows) honour the input layer&#x27;s acceleration, which needs a sustained rotation of four or more detents and resets on a 220 ms pause or reversal. Settings, Queue, sheets and password entry move one row, item or value per detent; Now Playing changes volume by a fixed step. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Freview%2FREBORN-PRODUCT-PASS-V2.md%237-wheel&amp;anchor=7-wheel">the pass report</a>.</p>
+<h2 id="previews">Previews</h2>
+<p>The 480×360 previews of every state were in <code>previews/v2/</code> (replaced by the <a href="https://github.com/SchulzCode/Y2Reborn/blob/main/docs/ui/previews/v3/" target="_blank" rel="noopener noreferrer">v3 previews</a> in Reborn 0.3.0), rendered from the production UI code by <code>reborn-preview</code> and <code>tools/preview/render_previews.py</code>.</p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

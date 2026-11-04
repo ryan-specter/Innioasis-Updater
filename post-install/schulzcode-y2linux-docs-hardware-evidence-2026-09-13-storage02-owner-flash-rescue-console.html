@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Storage02 rescue console with SD present - Innioasis Updater</title>
+  <meta name="description" content="Storage02 rescue console with SD present The owner photo shows display/DSI diagnostics, then at approximately 41.66 seconds: Y2RESCUE: missing/invalid internal Y2ROOT or">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-hardware-evidence-2026-09-13-storage02-owner-flash-rescue-console.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Storage02 rescue console with SD present - Innioasis Updater">
+  <meta property="og:description" content="Storage02 rescue console with SD present The owner photo shows display/DSI diagnostics, then at approximately 41.66 seconds: Y2RESCUE: missing/invalid internal Y2ROOT or">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-hardware-evidence-2026-09-13-storage02-owner-flash-rescue-console.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Storage02 rescue console with SD present - Innioasis Updater">
+  <meta name="twitter:description" content="Storage02 rescue console with SD present The owner photo shows display/DSI diagnostics, then at approximately 41.66 seconds: Y2RESCUE: missing/invalid internal Y2ROOT or">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Storage02 rescue console with SD present</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="storage02-rescue-console-with-sd-present">Storage02 rescue console with SD present</h1>
+<p>The owner photo shows display/DSI diagnostics, then at approximately 41.66 seconds:</p>
+<pre><code>Y2RESCUE: missing/invalid internal Y2ROOT or Y2DATA; no reboot, no SD fallback, ACM retained
+sh: can&#x27;t access tty; job control turned off
+~ #</code></pre>
+<p>This confirms Linux/rescue execution and the root resolver&#x27;s failure path. Normal Buildroot switch_root did not occur. The retained-ACM text is intent, not proof that USB enumerated. The prompt does not itself establish a usable input console. The earlier empty-SD warning traffic is absent from this screen with SD present. Neither root-versus-data rejection nor internal card initialization is identified by the aggregate error, so actual block/driver logs are required before a fix.</p>
+<p>Source review identifies a separate startup prerequisite: kernel/usb/y2_musb.c function y2_usb_begin rejects when initial CHRDET is asserted. The established AUDIO-02 deployment says disconnect after flashing, boot unplugged, then attach once after startup. The assistant&#x27;s instruction to keep USB connected during restart was wrong for this existing driver. Correct the production instructions; do not claim this proves the exact device-side USB result without logs.</p>
+<p>Next read-only observation: owner restart unplugged, attach once after at least ten seconds, capture the existing rescue LOG1 ACM stream. No eMMC write or speculative firmware change is required to try this established startup path.</p>
+<p>Private photo SHA256: 35dea75e0fd423b6185b1bb337c0e8d56a80b08483556e21a229fea87fe63ea4</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

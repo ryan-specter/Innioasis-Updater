@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2R-600 — M6 recoverable production userspace, updates and security - Innioasis Updater</title>
+  <meta name="description" content="<!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current" claims, next steps and permissions below belong t">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2r-600.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2R-600 — M6 recoverable production userspace, updates and security - Innioasis Updater">
+  <meta property="og:description" content="<!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current" claims, next steps and permissions below belong t">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2r-600.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2R-600 — M6 recoverable production userspace, updates and security - Innioasis Updater">
+  <meta name="twitter:description" content="<!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current" claims, next steps and permissions below belong t">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2R-600 — M6 recoverable production userspace, updates and security</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<h2 id="platform-first-gate--2026-09-10">Platform-first gate — 2026-09-10</h2>
+<p>The owner now requires M2 core/Buildroot, complete M3 native audio, M4 full power, M5 connectivity, GPU/lima and final whole-platform qualification before Y2PlayerNative begins. This supersedes earlier wording that allowed central application work after a wired-player slice. DEV-02 qualifies the core resources but USB reconnect remains the immediate #27/#28 blocker. This checkpoint grants no new hardware-phase or flash authorization. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fy2linux-dev02-live-qualification.md">Live result</a>.</p>
+<h1 id="y2r-600--m6-recoverable-production-userspace-updates-and-security">Y2R-600 — M6 recoverable production userspace, updates and security</h1>
+<h2 id="additional-evidence--2026-09-10">Additional evidence — 2026-09-10</h2>
+<p>Retain the deterministic rootfs-placement failure: vendor/DA/Linux address spaces differed, leaving an old superblock while overwriting the filesystem body. Separate continuous DA verification reads from region-relative writes; never reuse Tempo&#x27;s partition offsets or automatic installer. Their frozen-rootfs backup cleanup deadlocked, reinforcing independent cleanup/offline consistency. LK recovery-key/software-entry claims are source evidence, not our installed-loader proof or write authorization. Existing rootfs/application/recovery choices remain authoritative; production implementation stays deferred.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Freverse-engineering-audit.md">Research matrix and source limits</a>. M1 complete; M2 active/exit incomplete. External results do not promote our hardware status. Existing acceptance criteria and historical checkpoints follow.</p>
+<p>Canonical epic <a href="https://github.com/SchulzCode/Y2Linux/issues/32" target="_blank" rel="noopener noreferrer">#32</a>; <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">coverage audit</a>.</p>
+<p><strong>Deferred planning epic; no implementation-ready children added by this audit.</strong></p>
+<h2 id="goal--why-this-epic-is-needed">Goal / why this epic is needed</h2>
+<p>Connect the diagnostic initramfs to an appliance userspace and eventual safe Android retirement. Current BOOTIMG recovery is not a production update system. Track the platform part of later M18–M20; native application tasks stay in its repo.</p>
+<h2 id="dependencies--evidence">Dependencies / evidence</h2>
+<p>M0 residual backup/lineage knowledge and owner-proven recovery; core storage, power, logging and native-audio gates. Do not re-prove SPFT viability from scratch. Use <code>partition-map.md</code>, <code>recovery.md</code>, <code>first-experiment-result.md</code> and M1 runtime limits. Production distribution choice follows measured footprint/support.</p>
+<h2 id="high-level-coverage">High-level coverage</h2>
+<p>Recoverable development rootfs then production image selection (no premature Debian/Buildroot/Yocto commitment), ARMv7 userspace/toolchain/ABI contract, bounded boot services and non-root app permissions/udev or narrow privileged service. Read-only/mutable partition policy, filesystem/power-loss behavior, storage capacity, service supervision and data migration/backup; no speculative A/B layout.</p>
+<p>Complete same-device personalized backup/independent retention and recovery consistency where needed; preserve stock loaders/calibration and known-good fallback. Track signed payloads/integrity, interruption-safe install, rollback and key management/threat model. Update signatures alone do not establish a hardware verified-boot chain behind unchanged LK. Do not bypass security state.</p>
+<p>Pin maintained 6.18.y selection/update process, reproducible release manifests, firmware/source/license provenance and notices; retain audit traceability. Define production debug exposure, secret-redacted exports, entropy/identity, RTC versus network-time policy and certificate needs. Shutdown/recovery, service restart and update-failure tests precede release qualification and Android removal.</p>
+<h2 id="exit-evidence--unlocks">Exit evidence / unlocks</h2>
+<p>A measured minimal image boots reliably, supervises the non-root player against standard Linux interfaces, preserves user/calibration data and can recover/roll back tested interrupted updates under an approved storage model. Security and support limitations are explicit. Provides M6 platform contracts for M7+ and the later M18–M20 release gates; core app development need not wait for full OTA.</p>
+<h2 id="out-of-scope--stop">Out-of-scope / stop</h2>
+<p>No repartitioning, formatting, rootfs install, signing key generation, firmware redistribution decision or updater implementation today. Stop on uncertain write ranges/rollback semantics, inadequate backup/power, provenance or privilege gaps. Do not make a whole-ROM restore the automatic fallback for a BOOTIMG-only trial.</p>
+<h2 id="execution-and-validation-boundary">Execution and validation boundary</h2>
+<p>High-level planning epic only, not an implementation task or hardware permission. Expand only the next evidence-backed change when this phase is activated; preserve existing stable IDs and link existing issues instead of duplicating them. No speculative driver task list, build, flash or experiment is authorized by this epic.</p>
+<p>Before closing the phase or proceeding through its exit gate, repeat the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fplanning%2Froadmap-gap-audit.md%23standing-milestone-boundary-rule&amp;anchor=standing-milestone-boundary-rule">standing roadmap/gap audit</a> using real hardware results. Separate owner reports, retained artifacts, source support and actual device validation. Unknown dependencies stop the relevant path; do not guess hardware or silently broaden scope. Milestone qualification uses the appropriate full verification boundary; small later fixes keep targeted validation and D08/package checks without routine provenance re-audits.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M2-USBACM-02 — retain the failed PMIC poll - Innioasis Updater</title>
+  <meta name="description" content="M2-USBACM-02 — retain the failed PMIC poll <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" c">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-usbacm-02-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M2-USBACM-02 — retain the failed PMIC poll - Innioasis Updater">
+  <meta property="og:description" content="M2-USBACM-02 — retain the failed PMIC poll <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" c">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-usbacm-02-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M2-USBACM-02 — retain the failed PMIC poll - Innioasis Updater">
+  <meta name="twitter:description" content="M2-USBACM-02 — retain the failed PMIC poll <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" c">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M2-USBACM-02 — retain the failed PMIC poll</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m2-usbacm-02--retain-the-failed-pmic-poll">M2-USBACM-02 — retain the failed PMIC poll</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<blockquote><p>Subsequent <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usbacm-hardware-result.md%23usbacm-02-result&amp;anchor=usbacm-02-result">owner test</a> shows the prompt followed by poll-5 sync-only refusal before cable attachment. The original validated handoff below is historical; USBACM-03 addresses the single-sample sync check.</p></blockquote>
+<p>2026-09-09, baseline <code>c066d62</code>, active M2 / #23 / #27 / #28. <strong>Offline validated; this replacement has not been hardware tested.</strong></p>
+<p><code>/home/luca/Dokumente/Code/Y2Linux/out/m2-usbacm-02/BOOTIMG.img</code></p>
+<p><strong>1,159,168 bytes</strong>; SHA-256: <code>4ff741513ef842fca28e6fd8cd08829c9c8c9d2e3e160da70552e06166460e20</code>.</p>
+<p>Heading/build <strong>M2-USBACM-02</strong>, Linux <strong>6.18.0-y2-m2-usbacm2</strong>.</p>
+<h2 id="why-this-image">Why this image</h2>
+<p>The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usbacm-hardware-result.md">USBACM-01 photo</a> shows successful unplugged-start PHY wake, then US:2 RC:-16 and invalid live CHRDET. This identifies a live PWRAP poll refusal before controller registration. The original candidate discards the failed WACS state, preventing diagnosis of the exact idle condition.</p>
+<p>This image retains that snapshot through teardown and displays POLL/PW/V, WACS before/after, and G gate fields. The cached wake/PHY rows remain visible; CPU-online and mount rows are replaced only when this failure occurs. The misleading USBGUARD heading is corrected. The local live ABI is versioned and expanded to 88 bytes; the 260-byte baseline snapshot is unchanged.</p>
+<p><strong>The underlying busy condition is not yet fixed.</strong> There is no change to the PWRAP protocol, hardware guards/writes, USB poll/stop limits, D08 map, CPU0, packaging or recovery procedure. This candidate obtains the missing evidence while retaining the original guarded enumeration attempt if the polls succeed.</p>
+<h2 id="validation">Validation</h2>
+<ul><li>One clean pinned build, no compiler warnings/errors. <strong>15 targeted methods</strong><p>and <strong>four host-capture methods</strong> pass: five production worker/status scenarios, 33 QEMU ARM PID1 paths, renderer bounds, PWRAP busy/stale/timeout and completion faults, existing wake/session/relay checks, linked relay-syscall mutations, real-artifact corruptions and BOOTIMG/D08 checks.</p></li><li>Kernel config differs from USBACM-01 only in LOCALVERSION. No added subsystem<p>or memory configuration. Initramfs gzip is 9379 bytes; complete LK read-tail, decompressor/initramfs bounds and 16 MiB BOOTIMG partition checks pass.</p></li><li>Linked worker review shows the 52-byte failed snapshot copied into retained<p>RAM before the latched error/teardown. Status dispatch checks the new magic and 88-byte size; cached baseline remains 260 bytes. The linked PMIC read transaction and read/write/delay callbacks are byte-identical to USBACM-01. The larger probe function is not byte-identical; no identity claim is made for it. Source protocol and its fault tests remain unchanged.</p></li><li>Source/artifact hashes, logs, config, ELFs, focused disassembly, source snapshot<p>and input lock retained in the output directory. <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-usbacm-02-layout.json" target="_blank" rel="noopener noreferrer">Layout</a> and <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-usbacm-02-iteration.json" target="_blank" rel="noopener noreferrer">iteration record</a>. No repeated unchanged ROM/recovery provenance audit or duplicate successful build.</p></li></ul>
+<h2 id="owner-test">Owner test</h2>
+<ol><li>Use the established <strong>BOOTIMG-only</strong> procedure for the exact image above.<p>Start the updated <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fusb-log-capture.md">host capture tool</a> before the boot: <code>python3 tools/observation/usb_log_capture.py --output out/m2-usbacm-02/capture-01</code>.</p></li><li>Power on with USB unplugged. Attach promptly only if <code>ATTACH USB CABLE NOW</code><p>appears, then leave the cable connected for the bounded attempt.</p></li><li>If USB STOP appears, photograph the whole screen including **US/RC, POLL/PW/V,<p>WACS, G and bottom PHY rows**. WACS gives full hexadecimal before/after words; G reports MUX, WRAP, channel and init low bytes, and full arbitration. If POLL/WACS/G are absent, retain the whole screen to locate another failure.</p></li><li>If enumeration proceeds, retain the capture directory. Expected LOG1 header<p>is now <code>Y2LOG1 M2-USBACM-02</code>; use the updated host tool with this image.</p></li><li>Keep the existing <strong>60 seconds from power-on</strong> limit and manual Android<p>BOOTIMG restoration. The USB active deadline remains 50 seconds; no reconnect or connected-start recovery is added. Record cable timing and any freeze/reset.</p></li></ol>
+<p>USB logging and M2 exit remain blocked. M1 stays complete; #23/#27/#28 stay open. M3/audio/application work is still deferred. Original USBACM-01 image and owner photo are retained; no physical operation was performed to prepare this update.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

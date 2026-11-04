@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Community tester installation, use and recovery - Innioasis Updater</title>
+  <meta name="description" content="Community tester installation, use and recovery Baseline02 is the newest sealed owner-local engineering candidate. Its fresh software checks pass; new-image and automatic">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-release-y2-community-tester-guide.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Community tester installation, use and recovery - Innioasis Updater">
+  <meta property="og:description" content="Community tester installation, use and recovery Baseline02 is the newest sealed owner-local engineering candidate. Its fresh software checks pass; new-image and automatic">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-release-y2-community-tester-guide.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Community tester installation, use and recovery - Innioasis Updater">
+  <meta name="twitter:description" content="Community tester installation, use and recovery Baseline02 is the newest sealed owner-local engineering candidate. Its fresh software checks pass; new-image and automatic">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Community tester installation, use and recovery</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="community-tester-installation-use-and-recovery">Community tester installation, use and recovery</h1>
+<p><strong>Baseline02 is the newest sealed owner-local engineering candidate.</strong> Its fresh software checks pass; new-image and automatic cold-boot hardware remain PHYSICAL_NOT_RUN. The preceding exact UART01 pair proves bounded C1/C2/C3 and affected I/O behavior. This candidate is not publicly cleared. The firmware and optional-codec redistribution questions remain independent of working source/build support.</p>
+<h2 id="current-package-and-automatic-idle">Current package and automatic idle</h2>
+<p>Use <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-BASELINE-02.md">Baseline02 versions/hashes</a> and the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fcandidate-index.md">qualified paired fallback</a>. Only the owner installs BOOTIMG and ANDROID/Y2ROOT. An existing device update preserves Y2DATA; the first-initialization seed below is <strong>only for an intended first installation</strong>.</p>
+<p>Qualified CPU0 C3 policy activates once after static boot checks; every entry still obeys topology, workload, OPP, clocks, timer and UART ACK guards. Check <code>y2-platform status cpu</code> for the boot-policy result. `y2-platform cpu-idle-policy stop<code>disables C3 for this boot; recovery boot options</code>y2.deep_idle=off` or <code>y2.cpu_safe=1</code> retain safe fallback. Runtime deep idle is separate from full system suspend and does not prove battery-life savings. After owner installation, the packaged guarded SSH harness checks exact identity/automatic startup before bounded C3 trials and wake/storage regressions.</p>
+<h2 id="before-installing">Before installing</h2>
+<p>Use the exact supported Innioasis Y2 board/layout named in <code>manifest.json</code> (<code>eastaeon82_wet_kk</code>, MT6582). Other board, display, battery or eMMC revisions need identification before installation. Keep your own original recovery material and the supplied paired fallback. Device-local NVRAM, PROTECT and calibration stay on that same device. Never copy another person&#x27;s calibration or radio identity. Owner firmware provisioning accepts only the seven hash-checked stock firmware/default files described by <code>tools/connectivity/provision.py</code>; no private calibration tree is an input.</p>
+<p>The normal package contains <code>BOOTIMG.img</code> and <code>Y2ROOT.img</code>. The preserving scatter selects only <strong>BOOTIMG and ANDROID</strong> (Y2ROOT). USRDATA/Y2DATA stays untouched. Never select Format All, Firmware Upgrade, preloader, LK, NVRAM, PROTECT, MBR/EBR, factory or calibration partitions. Flashing is an explicit physical owner action; none of the tools below invokes a flasher. Validate the package and compare its SHA256SUMS before using the separately documented owner flash procedure.</p>
+<h2 id="first-installation-on-your-own-device">First installation on your own device</h2>
+<ol><li>Obtain the correctly provisioned, validated system package and a recovery plan<p>for your exact device. Preserve the stock protected partitions in place.</p></li><li>Generate an SSH key on <strong>your own computer</strong> if you do not already have one:<p><code>ssh-keygen -t ed25519 -f ~/.ssh/y2linux_ed25519</code>. Keep the private key there. A maintainer never needs it. Only the <code>.pub</code> file is used below.</p></li><li>On the Linux build/packaging host, generate your separate, empty data seed:</li></ol>
+<pre><code class="language-sh">   python3 tools/production/first_owner.py \
+     --system out/y2linux-baseline-02-candidate \
+     --public-key ~/.ssh/y2linux_ed25519.pub \
+     --output out/my-y2-first-initialization</code></pre>
+<p>   This creates a fresh filesystem, without a maintainer data template or user    database. Its separate scatter selects <strong>USRDATA only</strong>. It destroys any    existing user data if you choose to flash it. Use it only for an explicitly    intended first initialization, never a preserving update.</p>
+<ol><li>The owner installs the paired system images and, only when needed, their<p>separate first-initialization image. On first boot, device host keys and mutable settings are created locally. Confirm the new host-key fingerprint through a trusted local observation; never disable host-key checking to resolve a changed key.</p></li><li>Check Reborn, Settings → System → Storage/Battery and Settings → Bluetooth,<p>then export diagnostics. There is no claim of a Windows/macOS installer here; image generation and validation currently require Linux/e2fsprogs. The normal player and music workflow do not require knowledge of its internal USB networking protocol.</p></li></ol>
+<h2 id="add-music">Add music</h2>
+<p>Use a microSD card or <strong>Settings → PC Transfer</strong>. Copy music into the card&#x27;s music folders, safely eject the card from the computer, then insert it in the player and choose <strong>Settings → Library → Scan for New Music</strong>. Do not remove a card while it is being written.</p>
+<p>For internal storage, connect USB and use the transfer tool on your computer:</p>
+<pre><code class="language-sh">python3 tools/host/transfer.py song.flac \
+  --private-key ~/.ssh/y2linux_ed25519 --known-hosts ~/.ssh/known_hosts</code></pre>
+<p>The tool uploads into a temporary file, verifies the hash and publishes the track without replacing an existing file. The destination can include a folder using <code>--name &#x27;Artist/Album/song.flac&#x27;</code>. If interrupted, the existing music remains intact and the receipt identifies the incomplete transfer. Then rescan in Reborn. Advanced connection details are in the platform transfer documentation.</p>
+<h2 id="send-a-useful-diagnostic-report">Send a useful diagnostic report</h2>
+<p>Choose <strong>Settings → System → Diagnostics → Export Diagnostic Report</strong>. It is different from <strong>Export Player Data</strong>, which is a private backup. Retrieve an export from a computer with the already verified owner connection:</p>
+<pre><code class="language-sh">python3 tools/host/diagnostics.py --host root@10.42.0.1 \
+  --private-key ~/.ssh/y2linux_ed25519 --known-hosts ~/.ssh/known_hosts \
+  --output ./y2-diagnostics.tar.gz</code></pre>
+<p>This command creates and downloads a fresh redacted export and checks its hash. It includes versions, boot ID, numerical platform/CPU/storage/radio/power health, codec state and classified kernel/Reborn/system log events. It contains no raw log text, music names, database, passwords, SSH private keys, bonds, NVRAM or calibration. Keep your symptom description separate: what you did, what happened, which headphones/card/host you chose to disclose, and roughly when it occurred. The tool keeps private file permissions on the computer. Do not attach a private state backup or the private physical-harness receipts to a public bug report. Eight retained diagnostic exports are allowed before retrieving/removing old ones; low-space reserve is respected.</p>
+<h2 id="preserving-beta1--beta2-update">Preserving beta1 → beta2 update</h2>
+<p>Back up irreplaceable music and your private state first. Check the target package manifest, supported layout, SHA256SUMS and paired fallback. With the player powered down, the owner uses only <code>MT6582_preserve_data_scatter.txt</code>; only BOOTIMG and ANDROID are selected. <strong>No Y2DATA initialization image is used.</strong> Settings, library, credentials and Bluetooth bonds remain on Y2DATA. After reboot, check the reported new source pair and verify playback, library and network/bond retention. The integrated qualification tool captures the before/after evidence. A successful host package test is not a physical update rehearsal.</p>
+<p>Signed root-only update support is a separate advanced workflow. The manual BOOTIMG/Y2ROOT pair is not A/B OTA, and a checksum is not an update signature.</p>
+<h2 id="recovery-by-symptom">Recovery by symptom</h2>
+<table><thead><tr><th>Symptom</th><th>Recovery action</th></tr></thead><tbody><tr><td>Reborn fails but the platform boots</td><td>Export diagnostics; restart through the existing service recovery workflow. Restore the paired fallback if persistent. Preserve Y2DATA.</td></tr><tr><td>Bad settings</td><td>Use Settings → System → Reset &amp; Maintenance → Reset Reborn Settings; it preserves music and the library. Avoid full-user reset unless you intend that loss.</td></tr><tr><td>Corrupt library database</td><td>Use Settings → Library → Rebuild Library if Reborn starts. Existing corrupt DB evidence is retained according to recovery policy; music files are the source of truth. Storage/I/O errors must be resolved first.</td></tr><tr><td>Bad root or failed root update</td><td>Use the documented rescue/rollback workflow or owner-install the supplied paired fallback. Do not initialize data.</td></tr><tr><td>Bad BOOTIMG or no Linux boot</td><td>The owner installs the known matched BOOTIMG/Y2ROOT fallback through the established recovery procedure. There is no automatic A/B boot fallback.</td></tr><tr><td>Changed/missing SSH identity</td><td>Verify the host key through a trusted observation. Restore your own public-key authorization; never borrow maintainer credentials.</td></tr><tr><td>Missing radio calibration</td><td>Stop radio activation and preserve evidence. Restore only that device&#x27;s own original calibration through the documented owner recovery process.</td></tr></tbody></table>
+<h2 id="one-integrated-physical-run">One integrated physical run</h2>
+<p>Review the offline plan first:</p>
+<pre><code class="language-sh">python3 tools/development/qualify-feature-completion.py</code></pre>
+<p>After the owner installs the integration candidate, use existing pinned SSH aliases for USB and the independently authorized Wi-Fi observer:</p>
+<pre><code class="language-sh">python3 tools/development/qualify-feature-completion.py \
+  --package out/y2linux-baseline-02-candidate \
+  --host y2 --wifi-host y2-wifi --run --exercise --sleep</code></pre>
+<p>The owner, not this implementation pass, runs this command. It checks exact identity before mutation, keeps independent lanes moving after an ordinary test failure, and refuses deep-sleep exercises unless awake/SRAM gates pass. A reset, identity mismatch, taint or lost recovery stops further mutation. Charger removal and the deliberate Power wake require owner interaction. Native bit-depth proof requires I2S capture; codec proof needs a peer supporting that codec; audible and wheel/boot/shutdown observations still need a person. These remain named pending cases rather than inferred passes. <code>--run</code> alone is read-only observation; <code>--observe-seconds</code> captures an explicitly chosen listening/coexistence workload.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

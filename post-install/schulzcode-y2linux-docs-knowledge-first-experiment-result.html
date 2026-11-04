@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2B-240 result — Linux PID1 evidence and Android recovery - Innioasis Updater</title>
+  <meta name="description" content="Y2B-240 result — Linux PID1 evidence and Android recovery <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identi">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-first-experiment-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2B-240 result — Linux PID1 evidence and Android recovery - Innioasis Updater">
+  <meta property="og:description" content="Y2B-240 result — Linux PID1 evidence and Android recovery <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identi">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-first-experiment-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2B-240 result — Linux PID1 evidence and Android recovery - Innioasis Updater">
+  <meta name="twitter:description" content="Y2B-240 result — Linux PID1 evidence and Android recovery <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identi">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2B-240 result — Linux PID1 evidence and Android recovery</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2b-240-result--linux-pid1-evidence-and-android-recovery">Y2B-240 result — Linux PID1 evidence and Android recovery</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>2026-09-08. The single diagnostic candidate transfer completed and the owner observed a solid green Y2 display. Android was restored through a second BOOTIMG-only transfer and the owner reports normal operation. **Linux 6.18 boot to initramfs PID1 is established by the reported solid-green diagnostic stage; timed heartbeat success is not established.** This concludes this experiment and achieves M1&#x27;s Linux-plus-PID1 boot objective, while further diagnostic/timing validation remains. No further boot is implied.</p>
+<h2 id="actual-operation-and-evidence">Actual operation and evidence</h2>
+<p>Times below are SPFT host timestamps, Europe/Berlin, not device power-on times.</p>
+<table><thead><tr><th>Event</th><th>Recorded result</th></tr></thead><tbody><tr><td>Candidate operation</td><td>Download Only started 22:46:10; USB 5-2, VID:PID 0e8d:2000, ttyACM0 detected 22:46:14; S_DONE(0) at 22:46:17</td></tr><tr><td>Candidate transfer</td><td>BOOTIMG alone, 1,089,536 bytes; authorized diagnostic path; SHA-256 <code>db7d8a5cf082b37f77c8732bd8e1ab742e4205f9383e421b051917f17364ab7e</code></td></tr><tr><td>Observation</td><td>Owner: “y2 screen is green”; no photograph/UART log or timed sequence supplied</td></tr><tr><td>Interrupted host wait</td><td>Download Only USB wait started 22:50:39, stopped by user 22:50:48; no target connection/image transfer in that wait</td></tr><tr><td>Restore operation</td><td>Download Only started 22:51:28; same USB port detected 22:51:43; S_DONE(0) at 22:51:46</td></tr><tr><td>Actual restore image</td><td><code>/home/luca/Dokumente/Code/Y2Player/out/boot-adb/boot.img</code>, 5,875,712 bytes; SHA-256 <code>275870974bbecc74233761753187ee478bfe79ca9d2f2818facd6e0c039c6b43</code></td></tr><tr><td>Android result</td><td>Owner reports device works as expected; fresh ADB sees Y2 on USB 5-2, sys.boot_completed=1, stock Linux 3.4.67 and Android 4.4.2 fingerprint</td></tr></tbody></table>
+<p>Actual tool: SPFT 5.2032.00, executable SHA-256 <code>d618e7d08ba5a4020038921a95336a3805a4b2cf17a374fd308cc5299ea7d9d8</code>. Actual DA: original bundled <code>MTK_AllInOne_DA.bin</code>, SHA-256 <code>46cd175d7556e6e80b13f6a70827c6931a5dfa25a09c3cc50e75ba7ff9327618</code>. Original FM scatter SHA-256 <code>e5fe03e9f3219cc9b5ead27892f2ddb722acc16adce3306d27feb87893cd977e</code>. GUI and logs retain Download Only, empty auth file and BOOTIMG alone selected. DA checksum level 0 was the existing setting. Transfer checksums are logged; there is no independent post-write SHA-256 readback. Both actual transmitted images are BOOTIMG; no other ROM image transfer is logged. Preloader/LK and the other normal partition entries were disabled; BMTPOOL is reserved/non-download.</p>
+<p>The physical BOOTIMG partition remains EMMC_USER [0x01d80000,0x02d80000). SPFT&#x27;s logged 0x03180000 is its logical address, not a new raw addressing rule. The owner operated the physical device and download controls; the assistant performed host verification/log inspection and read-only Android checks.</p>
+<h2 id="interpretation-and-limits">Interpretation and limits</h2>
+<p>The reviewed diagnostic paints full green only when its proc endpoint receives <code>I</code> from task PID1. That endpoint exists after the built-in kernel initcall, and each paint rechecks the watchdog-disabled and inherited-display guards. Taken with the exact candidate transfer and owner observation, this is evidence of installed LK accepting this image, Linux decompression/startup, usable static-DT RAM, initramfs execution, PID1 and the guarded framebuffer path. This is functional evidence for this image/device state, not a complete audit of loader security, all RAM, DMA safety or watchdog behavior over time.</p>
+<p>Preceding stripes, white-half changes, terminal checkerboard, reset/freeze behavior and power-on/power-off times were not reported. Do not infer they failed merely because only green was reported. Do not claim the required three timed heartbeat changes or verify the 60-second cutoff from flash timestamps. The two-second sleep result is logged but is not checked before PID1 paints green; green therefore does not independently validate timer accuracy.</p>
+<p>Recovery differs from the planned runbook: the owner restored <code>out/boot-adb/boot.img</code>, not original FM boot.img (SHA-256 <code>5ef1bdf28481ee0bf5f3528c1ddd91cf3f4d2d5f39e4d0ea049a8137a30f6af6</code>). Record the actual successful Android recovery; do not call it an exact FM restore or exact current-image backup. No additional corrective flash is needed just to make history match the plan. Per-feature audio/storage tests were not independently captured; normal operation is owner-reported, supplemented by ADB.</p>
+<h2 id="smallest-next-engineering-step--proposal-only">Smallest next engineering step — proposal only</h2>
+<p>Make the existing guarded RGB565 output readable with a tiny fixed-font text renderer and bounded status pages. Keep CPU0, D08 memory, watchdog entry and the same framebuffer aperture. Do not initialize another display path or add eMMC/network/USB drivers for this step.</p>
+<p>First display a build identifier, PID, boot-stage/error code and heartbeat counter. Then show kernel version, detected memory, CPU online set, uptime, timer interrupt counts and a bounded selection of kernel log records. Linux 6.18 supplies userspace kernel-log access via <a href="https://raw.githubusercontent.com/torvalds/linux/v6.18/Documentation/ABI/testing/dev-kmsg" target="_blank" rel="noopener noreferrer">/dev/kmsg</a>; use nonblocking reads with explicit record/byte limits and truncation/error indicators, not a reader that waits forever after the last record.</p>
+<p>Place progress markers before/after each collection operation. Current PID1 turns green, writes several proc/sysfs reports to UART, and only then enters the heartbeat loop. Consequently a delay/block/error in that path is one possible explanation for a persistent green screen, not a diagnosed cause. Screen progress must not depend on draining UART; retain UART as additional output. Define page timings and bounded writes before implementing, then rebuild and repeat offline D08/artifact checks. A later hardware trial requires separate authorization. No M2 or new implementation started here.</p>
+<p>Private final logs/hashes/Android capture: <code>evidence-private/20260908-y2b240-result/</code>, indexed in <code>capture-index.tsv</code>. Earlier captures remain as historical checkpoints and are superseded by this result where they describe restoration or authorization as pending.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

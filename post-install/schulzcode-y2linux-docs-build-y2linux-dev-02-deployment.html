@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DEV-02: BOOTIMG-only correction for the existing SD root - Innioasis Updater</title>
+  <meta name="description" content="DEV-02: BOOTIMG-only correction for the existing SD root <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identit">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-dev-02-deployment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="DEV-02: BOOTIMG-only correction for the existing SD root - Innioasis Updater">
+  <meta property="og:description" content="DEV-02: BOOTIMG-only correction for the existing SD root <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identit">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-dev-02-deployment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DEV-02: BOOTIMG-only correction for the existing SD root - Innioasis Updater">
+  <meta name="twitter:description" content="DEV-02: BOOTIMG-only correction for the existing SD root <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identit">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>DEV-02: BOOTIMG-only correction for the existing SD root</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="dev-02-bootimg-only-correction-for-the-existing-sd-root">DEV-02: BOOTIMG-only correction for the existing SD root</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Use <code>/home/luca/Dokumente/Code/Y2Linux/out/y2linux-dev-02/BOOTIMG.img</code>. It is 4,683,776 bytes, SHA-256: <code>3afbc15950e75d0477036709aabf32ceb2101ff090a6625ba5e9f7d5e840df05</code>.</p>
+<p>The SD card already mounts and its Y2ROOT was verified on the Y2. **Keep its contents; no Mac transfer or SD rewrite is needed for this test.** Companion rootfs.ext4/rootfs.tar are the unchanged DEV-01 base, with the same public key.</p>
+<ol><li>Owner uses the existing SP Flash Tool workflow: Download Only, BOOTIMG only,<p>selecting this new file. No Format/Firmware Upgrade, PRELOADER, LK, partition table, NVRAM/calibration, other Android partitions or internal rootfs writes.</p></li><li>Leave the prepared SD installed. Boot USB unplugged and attach to the Linux<p>PC after ten seconds, so logging can begin before the root transition.</p></li><li>If the host again denies tty access, run <code>sudo setfacl -m u:luca:rw /dev/ttyACM0</code><p>for the actual current Y2 ACM device. Device permissions can reset on reconnect.</p></li><li>Tell the assistant it is deployed. It can start a fresh 180-second capture and<p>collect Ethernet/SSH, memory, input and SD state together. No separate register test image is needed.</p></li></ol>
+<p>Expected new kernel release: <strong>6.18.0-y2linux-dev02</strong>. USB serial and LOG1 header intentionally retain <strong>Y2LINUX-DEV-01</strong>, the installed userspace identity. The capture command therefore remains:</p>
+<pre><code class="language-sh">cd /home/luca/Dokumente/Code/Y2Linux
+python3 tools/observation/usb_log_capture.py --build Y2LINUX-DEV-01 \
+  --seconds 180 --output out/y2linux-dev-02/capture-01</code></pre>
+<p>The new child probe should log Y2ABI checks for Thumb signals, kernel helpers, threads/TLS, floating point and allocation, then PASS. Failed probes keep rescue PID1 alive and log the failure. Unknown subsequent faults print registers and instruction information with <code>user_debug=31</code>; if the screen stops, retain a photo of the final output. A passed preflight is not proof that every init path works.</p>
+<p>Observe the color pattern and console, exercise the wheel and all buttons. After Y2ROOT switches, the expected target remains 10.42.0.1/24 and key-only SSH. The matching private key must be available through the owner&#x27;s SSH agent; the assistant uses only the public identity path and never inspects the private file.</p>
+<p>DRM loads the exact DEV-02 module from rescue before switching root. The installed SD module directory still names DEV-01, so avoid unloading/reloading DRM before its module directory is refreshed. <code>sd-module-update.tar</code> contains only the matching <code>/display.ko</code> and <code>/lib/modules/6.18.0-y2linux-dev02/</code> files/indexes. After SSH works and <code>/</code> is verified as the removable Y2ROOT, the assistant can apply that small update there. No whole SD rewrite is required.</p>
+<p>All offline checks pass. Physical correction of the SIGILL and wheel regression, pattern visibility, persistent USB reconnect, Ethernet and SSH remain unproved until this deployment is observed. Internal eMMC stays disabled.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

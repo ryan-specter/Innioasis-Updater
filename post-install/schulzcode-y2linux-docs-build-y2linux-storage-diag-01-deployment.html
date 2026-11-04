@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Storage02 DIAG01 deployment - Innioasis Updater</title>
+  <meta name="description" content="Storage02 DIAG01 deployment <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, next ste">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-storage-diag-01-deployment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Storage02 DIAG01 deployment - Innioasis Updater">
+  <meta property="og:description" content="Storage02 DIAG01 deployment <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, next ste">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-storage-diag-01-deployment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Storage02 DIAG01 deployment - Innioasis Updater">
+  <meta name="twitter:description" content="Storage02 DIAG01 deployment <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, next ste">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Storage02 DIAG01 deployment</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="storage02-diag01-deployment">Storage02 DIAG01 deployment</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>The installed Storage02 rescue reports missing/invalid internal Y2ROOT or Y2DATA. Linux USB remains absent, including after the latest reported restart/attachment. This temporary diagnostic shows the cached USB state, internal block identity, root/data signature checks and kernel log tail on three rotating console pages. It stays in rescue and mounts no block filesystem. It is not a root/USB fix.</p>
+<p>Rescue source commit: <code>8bf2d6404ee7f93c9244b124d7acea035e37e6c3</code>. Kernel/module source remains <code>c2db4893b79eca25458b6adc318232c80dd99872</code> and their bytes are unchanged. DT differences are limited to log verbosity and initrd extent. Package: <code>/home/luca/Dokumente/Code/Y2Linux/out/y2linux-storage-diag-01/</code>.</p>
+<table><thead><tr><th>File</th><th style="text-align:right">Bytes</th><th>SHA256</th></tr></thead><tbody><tr><td>BOOTIMG.img</td><td style="text-align:right">5189632</td><td><code>b45be7027c3b02186ec2e20cf1fec9cbb2a438bd9d4677b3528f905b6b869748</code></td></tr><tr><td>MT6582_Android_scatter.txt</td><td style="text-align:right">7606</td><td><code>fe45a3f1d94b8cf7a8f127c3120b6b595db7a9644927693b5aecabf656c5b7a1</code></td></tr><tr><td>manifest.json</td><td style="text-align:right">2013</td><td><code>232019962913ab3d3bf9dcc8aa4bcc9bb516c0e555d16f34383cc2e1c5972814</code></td></tr><tr><td>SHA256SUMS</td><td style="text-align:right">511</td><td><code>b34afb5e19a55f6c3561cbd0e700b153fba5649cf413532bc2d20a0650c6cb0d</code></td></tr></tbody></table>
+<p>SPFT v5.2032 <strong>Download Only</strong>, package scatter, <strong>BOOTIMG only</strong> selected. ANDROID, USRDATA and every other partition must remain unchecked. Never Format All or Firmware Upgrade. Stock BOOTIMG physical EMMC_USER start 0x01d80000, span 0x01000000; scatter linear/global start 0x03180000 is not a physical readback offset. Read back the 16 MiB span and compare its first manifest payload size bytes to the BOOTIMG hash above, retaining original target/DA identity evidence.</p>
+<p>After flashing, disconnect USB. Boot unplugged; attach once at least ten seconds after Linux starts. No SD is required. Photograph PAGE 1, PAGE 2 and PAGE 3 as they rotate at roughly twelve-second intervals. There is no SSH/root handover. Expected empty-slot warnings stay in the kernel log without obscuring the screen.</p>
+<p><a href="https://innioasis.app/guides/reborn-y2linux-y2.html">Complete install and exact BOOTIMG-only restoration</a>. Returning to Storage02 uses its original 5187584-byte BOOTIMG with SHA256 6dfe7ff5de30f39581cc3479ed17d9a2fbf6671619741924d563f29114228d7d. The known AUDIO-02 + original SD fallback is also documented there. No root/data, loader/table/calibration restoration is part of either BOOTIMG-only path.</p>
+<p>PASS seven targeted tests, ARM reader/rejections/blkid, shell syntax, exact base kernel/module, unchanged DT hardware fields, newc/D08/BOOTIMG/scatter and hashes. Physical display of these diagnostic pages is pending. Storage #33 remains active; no internal-root acceptance or new protected-byte readback is claimed. <strong>Stop for the owner&#x27;s manual diagnostic flash. No assistant device write.</strong></p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

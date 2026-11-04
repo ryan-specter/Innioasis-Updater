@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2LINUX-DEV-02 — root handoff ABI and wheel transaction corrections - Innioasis Updater</title>
+  <meta name="description" content="Y2LINUX-DEV-02 — root handoff ABI and wheel transaction corrections <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candid">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-dev-02-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2LINUX-DEV-02 — root handoff ABI and wheel transaction corrections - Innioasis Updater">
+  <meta property="og:description" content="Y2LINUX-DEV-02 — root handoff ABI and wheel transaction corrections <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candid">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-dev-02-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2LINUX-DEV-02 — root handoff ABI and wheel transaction corrections - Innioasis Updater">
+  <meta name="twitter:description" content="Y2LINUX-DEV-02 — root handoff ABI and wheel transaction corrections <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candid">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2LINUX-DEV-02 — root handoff ABI and wheel transaction corrections</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-dev-02--root-handoff-abi-and-wheel-transaction-corrections">Y2LINUX-DEV-02 — root handoff ABI and wheel transaction corrections</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p><strong>Built and physically booted; live core qualification retained, USB reconnect fails.</strong> <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fy2linux-dev02-live-qualification.md">DEV-02 live qualification</a>. Four CPUs, expanded RAM/short memory test, Buildroot Y2ROOT, input, visible display and initial SSH/ECM/ACM work. The owner restart confirms persistent userspace fixes. The original offline/deployment checkpoint follows as history. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fy2linux-dev-02-deployment.md">Deployment</a>. The existing DEV-01 SD filesystem stays in place; no second Buildroot compilation or SD rewrite is required.</p>
+<table><thead><tr><th>Artifact</th><th style="text-align:right">Bytes</th><th>SHA-256</th></tr></thead><tbody><tr><td>BOOTIMG.img</td><td style="text-align:right">4683776</td><td><code>3afbc15950e75d0477036709aabf32ceb2101ff090a6625ba5e9f7d5e840df05</code></td></tr><tr><td>y2.dtb</td><td style="text-align:right">7774</td><td><code>57d774abaf2d410bbfbd5ec8956f7f3c4a35bf3120611fadb474cd51c12947e7</code></td></tr><tr><td>initramfs.cpio.gz</td><td style="text-align:right">1562123</td><td><code>ddd2f516124f2dbb11165e47467f7c56145d9da9343406794e84d0085a6f83a4</code></td></tr><tr><td>display.ko</td><td style="text-align:right">158300</td><td><code>545e29be86e0148445d70a5e508fedcdcc21126ca3d236000029bd1aaea86174</code></td></tr></tbody></table>
+<p>Exact configs, ELF-derived layout, source manifest, unchanged rootfs images, module update tar, logs, result.json and SHA256SUMS are in <code>out/y2linux-dev-02/</code>. The new kernel identifies itself as 6.18.0-y2linux-dev02. LOG1/rootfs/USB serial retain the DEV-01 userspace identity for compatibility with the installed SD.</p>
+<h2 id="evidence-and-corrections">Evidence and corrections</h2>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fy2linux-development-hardware-result.md">DEV-01 capture and owner photograph</a> confirm visible console, four CPUs, MemTotal954668KiB including HighTotal228352KiB, advancing display vblank, matching GEM/OVL addresses and a successfully mounted SD Y2ROOT. PID1 dies by SIGILL immediately after the switch-root message. The exact faulting PC was not recorded, so no single cause is asserted as proved.</p>
+<p>DEV-01 had <code>ARM_THUMB=n</code>, although the toolchain&#x27;s ARMv7 glibc advertises Thumb-2 code. The actual v6.18 <code>arch/arm/mm/Kconfig</code> says disabling this support can break signal handling when userspace switches ISA, including illegal-instruction aborts. <code>KUSER_HELPERS=n</code> similarly removes fixed-address ABI helpers; the actual packaged glibc contains a reference to 0xffff0fa0. Enable both supported userspace contracts. This removes known configuration incompatibilities without replacing glibc, selecting Debian, reducing RAM or changing the working display route.</p>
+<p><code>CONFIG_DEBUG_USER=y</code> with <code>user_debug=31</code> records future user faults instead of leaving only the final PID1 exit signal. A small glibc child preflight is run while rescue PID1 and its observer remain alive. It deliberately installs a Thumb signal handler from ARM code and returns through the kernel, checks kuser version, barrier and TLS helpers, creates/joins a glibc thread, executes VFP arithmetic, reads the monotonic clock and checks one MiB of allocator memory. A five-second alarm bounds it; failure leaves rescue selected. It does not prove every later init path or turn the photograph into a known fault-PC trace.</p>
+<p><code>CONFIG_FB_DEVICE=y</code> restores the normal framebuffer userspace device missing from DEV-01. Its color tool had logged ENOENT despite visible fbcon. Existing 480x360 timings, panel takeover, OVL format/address handling, PHY and mutex programming are preserved. Actual pattern visibility/readback awaits DEV-02.</p>
+<p>The wheel&#x27;s controller diagnostics show op1 (write), transactions2, DMA finished one-byte TX, no I2C completion and ten timeouts. Source review finds v6.18&#x27;s WRRD combination gated solely on <code>auto_restart</code>, whereas MT6582&#x27;s selected mt6577-compatible controller has <code>auto_restart=0</code>. It consequently requests two writes with only the first message configured and waits indefinitely for completion until the normal timeout. DEV-02 allows the already implemented WRRD path for exactly <code>mediatek,mt6582-i2c</code> when two messages are write then read to the same address. This sets direction change and 1/9-byte transfer lengths in one hardware operation. APT32F register-zero/frame contract, clocks, pulls, DMA channel, IRQ handling and timeout policy remain; no retries are added. Hardware confirmation remains required.</p>
+<h2 id="validation-and-compatibility">Validation and compatibility</h2>
+<p>One clean new kernel build, without warnings/errors; existing pinned Buildroot binaries reused. Exact kernel/DRM module, DT, decompressor relocation, BOOTIMG staging/overread and rescue archive checks pass. The physical bank and reservations are unchanged; actual kernel span is10626240bytes and exact initrd length1562123.</p>
+<p>Tests exercise the real patched I2C dispatch with non-auto-restart MT6582, the existing modern path, nonmatching messages, invalid buffers and a single bounded failed operation with balanced clocks. New config tests reject the actual old DEV-01 ABI settings and independently disabled Thumb/helpers/fb-device/debug support. A simulated SIGILL in the probe child leaves the rescue gate disabled. Existing shared provider/PHY/relay/USB tests and DEV DT/layout/archive mutations pass; the historical D08-specific baseline DT fixture is explicitly skipped by the generic test script, with DEV actual-DT checks taking its place.</p>
+<p>QEMU runs the actual ARM probe successfully, plus startup shell parsing and Dropbear help. QEMU emulates the userspace kernel ABI; these results do not prove real-Y2 signal handling. The linked kernel config and actual hardware preflight provide the complementary checks. Read-only e2fsck and independent ext4/tar checks of the unchanged rootfs/key/tools pass.</p>
+<p>The new DRM module is loaded from rescue. SD userspace/observer binaries are unchanged and skip module loading when DRM already exists. The old SD module index therefore does not prevent this boot, but must be refreshed before later module reloads. A root-owned, version-specific <code>sd-module-update.tar</code> is prepared for installation on verified removable Y2ROOT over SSH after successful startup. The module payload has no loader, partition, calibration or private-key contents.</p>
+<p>The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2Froadmap-gap-audit.md%23dev-02-root-handoff--wheel-correction-audit--2026-09-10&amp;anchor=dev-02-root-handoff--wheel-correction-audit--2026-09-10">boundary audit</a> keeps M2 active and incomplete. No device writes were executed by the assistant. Next is one owner flash and integrated physical acceptance, not separate images for the panic, wheel and framebuffer node.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

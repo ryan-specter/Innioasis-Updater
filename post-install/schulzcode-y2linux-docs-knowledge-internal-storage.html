@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Internal storage and removable media (POWER-FINAL-08) - Innioasis Updater</title>
+  <meta name="description" content="Internal storage and removable media POWER-FINAL-08 <!-- knowledge-base-scope: current-production-policy -- 2026-10-10 provisioning run on the owner's player that day. Si">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-internal-storage.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Internal storage and removable media (POWER-FINAL-08) - Innioasis Updater">
+  <meta property="og:description" content="Internal storage and removable media POWER-FINAL-08 <!-- knowledge-base-scope: current-production-policy -- 2026-10-10 provisioning run on the owner's player that day. Si">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-internal-storage.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Internal storage and removable media (POWER-FINAL-08) - Innioasis Updater">
+  <meta name="twitter:description" content="Internal storage and removable media POWER-FINAL-08 <!-- knowledge-base-scope: current-production-policy -- 2026-10-10 provisioning run on the owner's player that day. Si">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Internal storage and removable media (POWER-FINAL-08)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="internal-storage-and-removable-media-power-final-08">Internal storage and removable media (POWER-FINAL-08)</h1>
+<!-- knowledge-base-scope: current-production-policy -->
+2026-10-10 (provisioning run on the owner's player that day). **Since Beta 7.9 (2026-10-17) every player sets
+Internal Storage up by itself at start** (STORAGE-SETUP, [plan](../planning/INTERNAL-STORAGE-SETUP-PLAN.md)); the
+command below stays for developers.
+<h2 id="layout">Layout</h2>
+<table><thead><tr><th>Partition</th><th>Filesystem</th><th>Use</th></tr></thead><tbody><tr><td>p5 <code>Y2ROOT</code> (820 MiB)</td><td>ext4, UUID <code>...0101</code></td><td>system, read by the initramfs</td></tr><tr><td>p7 <code>Y2DATA</code> (800 MiB)</td><td>ext4, UUID <code>...0102</code></td><td><code>/data</code>: settings, Wi-Fi/Bluetooth state, SSH, logs, Reborn database</td></tr><tr><td>p8 <code>Y2MEDIA</code> (5.46 GiB)</td><td>ext4, UUID <code>...0103</code></td><td><code>/media/internal</code>: music and whatever the owner copies over MTP</td></tr><tr><td>SD card</td><td>any card the owner formats with <code>y2-media format</code> (ext4 by default); vfat/exfat/ext4 cards also mount</td><td><code>/media/sd</code></td></tr></tbody></table>
+<p>p8 used to be the stock firmware&#x27;s runtime FAT storage. The eMMC write guard now includes its exact span (stock logical sector 3742720 to the end of the exposed disk, directly after Y2DATA). Boot areas, CACHE, protected/NVRAM partitions and the hidden tail remain unwritable.</p>
+<h2 id="what-the-owner-sees">What the owner sees</h2>
+<ul><li>MTP <strong>Internal Storage</strong> is <code>/media/internal/music</code> (fixed slot, storage id <code>0xffff0001</code>); <strong>SD Card</strong> is <code>/media/sd</code>.<p>The old <code>/data/music</code> folder is no longer exported.</p></li><li>Reborn follows the platform&#x27;s record: Y2Media when <code>/run/y2/internal-media.json</code> says Ready for this boot and this<p>mount, <code>/data/music</code> before that (an unprovisioned device keeps working).</p></li><li>Factory reset does not erase Y2Media music; delete files over MTP.</li></ul>
+<p>User guide: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2FSTORAGE.md">Storage</a>.</p>
+<p><strong>Device result (Beta 7.9, owner&#x27;s player, 2026-10-17):</strong> p8 restored to the stock FAT from the 2026-10-10 backup; on the first restart after the confirmed update the setup ran in ≈16 s (case 2), Y2MEDIA identical to the original (label, UUID, start/size, features, 358 336 inodes, 1 432 576 blocks), 509 files in <code>Old Player Files</code> hash-identical, 3 leftovers dropped; on the update&#x27;s health boot it reported <code>Pending</code>/<code>update_in_progress</code>.</p>
+<h2 id="automatic-setup-beta-79">Automatic setup (Beta 7.9)</h2>
+<p><code>S02y2-media</code> runs <code>y2-platform internal-media setup --automatic</code> before USB and Reborn. It acts only on the stock FAT at the exact p8 geometry, after the read-only check (issue #44 rules), from a read-only mount at <code>/run/y2/old-storage</code>:</p>
+<ul><li>nothing but leftovers (empty folders, thumbnail caches, computer clutter) → format at once;</li><li>user files ≤ 400 MB with ≥ 150 MB left on Y2DATA → copied to <code>/data/system/internal-media-kept</code> with SHA-256,<p>format, moved to <code>music/Old Player Files</code> with SHA-256 (then <code>/data/music</code> as before);</p></li><li>more, or unreadable → <code>Waiting</code>: nothing changes, the old storage stays mounted read-only and is exported over MTP<p>as <em>Old Storage</em>; Reborn asks once, Settings → Storage → <em>Set Up Internal Storage</em> runs <code>internal-media setup --confirm-shown</code> (the serial this boot reported) and erases it, then the player restarts.</p></li></ul>
+<p><code>/data/system/internal-media-setup.json</code> (phase <code>staging</code> → <code>formatting</code> → <code>migrating</code>) makes every step resumable; only that record allows formatting a p8 that an interrupted format left unreadable. Skipped (<code>Pending</code>) while an update waits for its health check, below 3.70 V on battery, or with an unknown battery. The filesystem is created with every setting named (<code>internal_media.MKFS</code>), identical to the first Y2MEDIA. This boot&#x27;s result: <code>/run/y2/internal-media-setup.json</code> and <code>storage.internal_setup</code> in <code>y2-platform status</code>. Start screen phases <code>media_setup*</code>.</p>
+<h2 id="commands-root-over-usb-ssh">Commands (root, over USB SSH)</h2>
+<pre><code>y2-platform internal-media status
+y2-platform internal-media mount | unmount
+y2-platform internal-media provision --confirm-serial 3F93-07E6 [--no-migrate]
+y2-media status                      # shows partition_bytes and capacity_state (Undersized) for the card
+y2-media format --confirm-cid &lt;CID&gt;  # repartition the whole card, ext4 label Y2SD; names the card
+y2-media grow                        # e2fsck + resize2fs for an undersized ext4 card</code></pre>
+<p><code>provision</code> replaces only the stock FAT filesystem whose serial you pass, refuses a mounted or any other filesystem, creates ext4 <code>Y2MEDIA</code>, mounts it, copies <code>/data/music</code> across with SHA-256 verification and removes an original only after every file verified. Re-running it resumes a partial migration and never overwrites a differing file. Nothing formats or deletes automatically. The file-level backup of the stock partition taken before this change is <code>out/deep-sleep-final/evidence/20261010/93-stock-fat-partition-backup/</code>.</p>
+<h2 id="known-limits">Known limits</h2>
+<ul><li>Format and grow are explicit owner operations; a card with a foreign or undersized filesystem is only reported.</li><li>An ext4 card is not readable by a PC when pulled out; MTP is the transfer path. exFAT remains mountable.</li><li>No endurance measurement of ext4 on this eMMC; no physical power-loss test of Y2Media yet.</li><li>No physical power cut during the automatic setup yet (resume is host-tested at every phase); case 3 (large old library,<p>Old Storage, Set Up Now) is host-tested only.</p></li><li>ext4&#x27;s background inode-table initialisation asks the eMMC for WRITE_ZEROES inside p8 at start; the eMMC write guard<p>refuses erase-class commands (<code>mmc_erase: group start error -30</code>, one I/O error line). Harmless (unused inodes are tracked by the group descriptors), but log noise to clean up (allow zeroing inside p8, or format without lazy init).</p></li><li>Going back to stock leaves p8 as ext4, which stock Android cannot read; it has to format it (untested).</li><li>MTP keeps 96 MiB and 128 inodes free per storage (<code>tools/usb/mtp-safe.c</code>); uploads are PIO-bound at ≈9–10 MB/s<p>(<a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2FUSB-RX-DMA-MODE1-PLAN.md">receive DMA plan</a>).</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

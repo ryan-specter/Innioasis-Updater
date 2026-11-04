@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M2-USBCLK-01 — inherited USB clock state - Innioasis Updater</title>
+  <meta name="description" content="M2-USBCLK-01 — inherited USB clock state <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" cla">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m2-usb-clock-probe.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M2-USBCLK-01 — inherited USB clock state - Innioasis Updater">
+  <meta property="og:description" content="M2-USBCLK-01 — inherited USB clock state <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" cla">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m2-usb-clock-probe.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M2-USBCLK-01 — inherited USB clock state - Innioasis Updater">
+  <meta name="twitter:description" content="M2-USBCLK-01 — inherited USB clock state <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" cla">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M2-USBCLK-01 — inherited USB clock state</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m2-usbclk-01--inherited-usb-clock-state">M2-USBCLK-01 — inherited USB clock state</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<blockquote><p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usb-clock-hardware-result.md">Physical result</a>: all four clock reads pass, timer reporting works, and BEAT 50 is photographed without errors. The next bounded step is <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usb-state-probe.md">read-only USB state observation</a>.</p></blockquote>
+<p>2026-09-09. Smallest next #27 prerequisite after <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-pwrap-hardware-result.md">physical PWRAP/VUSB success</a>. Correct the source- identified timer action-name parser error in the same localized candidate.</p>
+<h2 id="exact-read-only-contract">Exact read-only contract</h2>
+<p>Read only four 32-bit always-on clock control/status registers. Do not enable, disable, reset, switch or measure a clock, and do not access USB MAC/PHY/DMA or analog calibration registers. A clock source selection number is raw evidence; do not assign an unproved frequency to it. This determines the inherited gate state before specifying safe MAC/PHY access or a minimal clock provider.</p>
+<table><thead><tr><th>Physical read</th><th>Meaning / exact FM corroboration</th></tr></thead><tbody><tr><td><code>0x10003018</code></td><td>PERI_PDN0_STA. FM CG_PERI descriptor at <code>0xc09b1a6c</code> points to virtual <code>0xf0003018</code>; vendor clock ID 10 is PERI_USB0. Status bit 10=1 means gated.</td></tr><tr><td><code>0x10000060</code></td><td>CLK_CFG_2. FM MUX_USB20 descriptor at <code>0xc09b1900</code> points to <code>0xf0000060</code>, selector mask <code>0x70000</code>, gate mask <code>0x800000</code>, shift 16, three inputs. Preserve shared SPI/UART/MSDC fields.</td></tr><tr><td><code>0x10209220</code></td><td>UNIVPLL_CON0. FM UNIVPLL descriptor at <code>0xc09b1720</code> points to <code>0xf0209220</code>; FM USB clock enable at <code>0xc04d9b24</code> reads/modifies bit 26. Snapshot only, not a PLL programming contract.</td></tr><tr><td><code>0x1020922c</code></td><td>UNIVPLL_PWR_CON0. Same FM descriptor points to <code>0xf020922c</code>; observe raw inherited power/isolation controls.</td></tr></tbody></table>
+<p>Pinned manufacturer <code>arch/arm/mach-mt6582/mt_clkmgr.c</code> at commit d53dd75, SHA-256 <code>f73bbe0a4c3c07e2831e4c2bc5cabd3de7909c52e2ce572863fabfc46eadbc8d</code>, corroborates the descriptors (<code>MUX_USB20</code>, <code>UNIVPLL</code>, <code>CG_PERI</code>) and ordinary non-clearing register reads. Header/source and focused FM descriptor extraction are retained under <code>evidence-private/20260909-m2-usb/</code>; existing FM provenance is reused. <a href="https://android.googlesource.com/kernel/mediatek/+/d53dd75c3ff77cac3f5be58fddfe660e94f94d64/arch/arm/mach-mt6582/mt_clkmgr.c" target="_blank" rel="noopener noreferrer">Manufacturer source</a>.</p>
+<p>Claim each four-byte resource before mapping; refuse an existing claimant or mapping failure. These providers are not enabled in the current kernel. Run only after successful PWRAP/CID/VUSB reads with reported VUSB enable set. Cache all results once per boot. Preserve a validity mask so partially acquired evidence cannot be mistaken for a zero register. An MMIO bus hang itself is not software- timeout recoverable; show the pre-probe stage before access and preserve the established 60-second manual test/recovery boundary.</p>
+<p>Show PWRAP RC/valid and CID/VUSB alongside CLOCK RC/valid, PERI/MUX and PLL/PWR. No USB controller or PHY register is read until its prerequisite contract is established. A successful clock snapshot is not an observed 48 MHz waveform, USB enumeration or permission to alter a shared PLL.</p>
+<h2 id="timer-parser-correction">Timer parser correction</h2>
+<p><code>timer-of.c</code> uses <code>np-&gt;full_name</code> as request_irq&#x27;s action name. Match the complete DT action token <code>timer@10008000</code> (optional leading slash), in a numeric IRQ row, instead of <code>mtk-clkevt</code>; reject substring matches, unrelated timer addresses, non-numeric counts and diagnostic summary lines. CPU0&#x27;s first decimal counter is sufficient because SMP remains disabled. The existing read limit is unchanged.</p>
+<p>One clean build, affected parser/PID1/probe tests, emitted read-only adapter review and D08/layout/BOOTIMG checks suffice: no memory, DMA or packaging policy change. Hardware test must show increasing timer counts, continued heartbeat through the STOP stage, and all raw clock fields/validity. #27 remains open until its full controller/PHY/VBUS/FIFO/IRQ/DMA and host-log evidence is established.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-46 — space for every update, restart by default; first public release - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-46 — space for every update, restart by default; first public release Status: PUBLISHED and INSTALLED over Wi-Fi as GitHub release baseline-46 2026-10-16, arc">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-46.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-46 — space for every update, restart by default; first public release - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-46 — space for every update, restart by default; first public release Status: PUBLISHED and INSTALLED over Wi-Fi as GitHub release baseline-46 2026-10-16, arc">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-46.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-46 — space for every update, restart by default; first public release - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-46 — space for every update, restart by default; first public release Status: PUBLISHED and INSTALLED over Wi-Fi as GitHub release baseline-46 2026-10-16, arc">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-46 — space for every update, restart by default; first public release</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-46--space-for-every-update-restart-by-default-first-public-release">POWER-FINAL-46 — space for every update, restart by default; first public release</h1>
+<p>Status: <strong>PUBLISHED and INSTALLED over Wi-Fi</strong> as GitHub release <code>baseline-46</code> (2026-10-16, archive <code>20261016/150</code>), the first release on the update channel; its recovery screen stayed dark (fix: 47). Package <code>out/y2linux-platform-v1-power-final-candidate-46/</code> (fallback = 45, which the player runs), receipts <code>out/deep-sleep-final/build46-receipts/</code>. BOOTIMG <code>d5bacc9ee66b52c3894070e8f9c2846acb95e4fefa668262576856415bb5583f</code>, Y2ROOT <code>e8dde2d1b958a21cbc862fd7eaef5b147cda82ef08c306a7343c5c241842d87a</code>, RECOVERY <code>476567c538c7f1dbcea6b5f5cd1577595c4b862f9a9521c374b86ae4b35fe1e2</code>. Kernel <code>6.18.56-y2linux-platform-v1-power-final-46</code>, update sequence 4600, Linux <code>d03ab29</code>, Reborn <code>850687d</code>. Container suite <strong>718 OK</strong>, host update/handover tests <strong>31 OK</strong>, Reborn fmt/clippy/tests OK, all seal checks PASS. Signed with the release key; the release assets are <code>…-46-ota-release/</code> (manifest, signature, three payloads).</p>
+<h2 id="why">Why</h2>
+<p>Owner after 45: &quot;does the update process also have a cleanup, so that we can guarantee there is always enough space for users to update?&quot; Staging 45 had failed <code>update_data_space_reserve</code> because a cancelled package stayed in <code>pending</code>, and nothing removed disposable data (the owner&#x27;s player held 330 MiB of test logs).</p>
+<table><thead><tr><th>Change</th><th>Detail</th></tr></thead><tbody><tr><td>Stale package</td><td>Deleted before every download and on <strong>Cancel Update</strong>.</td></tr><tr><td>Rollback copies</td><td>The recovery deletes the previous copies right before writing new ones; the space check counts them as free.</td></tr><tr><td>Cleanup</td><td>If the download does not fit, disposable data goes one entry at a time until it does: <code>/data/logs</code> except <code>system.log</code>, <code>recovery-last.log</code>, <code>recovery-display.txt</code>; rotated <code>*.previous.jsonl</code> platform journals; finished qualification runs. First for the manifest (a check works on a nearly full volume), then for the payloads. Never music, settings, library or the rollback copies.</td></tr><tr><td>Refusal</td><td><code>download.json</code> <code>needed_bytes</code>; Reborn: &quot;the update needs N MB of system space. Your music is not affected.&quot;</td></tr><tr><td>Restart</td><td>Default: restart into the recovery and back. Override <code>restart.json</code> <code>{&quot;mode&quot;: &quot;poweroff&quot;}</code>. Low battery in the recovery always turns off. Outcome screens say <em>Restarting</em>. Reborn: <strong>Restart and Install</strong>.</td></tr></tbody></table>
+<h2 id="owner-steps">Owner steps</h2>
+<ol><li>Player on Wi-Fi: Settings → About &amp; Updates → <strong>Check for Updates</strong>, <strong>Download Update</strong>, <strong>Restart and Install</strong>.</li><li>The agent checks the install log, the display, <code>Acknowledged</code> and the cleaned-up package afterwards.</li></ol>
+<h2 id="device-results">Device results</h2>
+<ul><li><strong>Over-the-air install from the GitHub release over Wi-Fi PASSED</strong> (owner: &quot;it worked&quot;): check found 46 (58.7 MB,<p>release key), download, Restart and Install, restart into 46 (boot <code>5b0b3a40</code>, reason 4), <code>Acknowledged</code>, taint 0.</p></li><li><strong>The recovery screen stayed dark.</strong> Hand-over read-back correct (<code>vact=00000168</code> at 0.52 s), then at the first<p>modeset (0.56 s) the read lag; 44&#x27;s three power cycles did not clear it (<code>still lag after 3 power cycles</code>), vblank 1. Analysis and fix: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-PLATFORM-V1-POWER-FINAL-47.md">47</a>.</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

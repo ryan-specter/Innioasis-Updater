@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Display and input evidence - Innioasis Updater</title>
+  <meta name="description" content="Display and input evidence <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, next step">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-display-input.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Display and input evidence - Innioasis Updater">
+  <meta property="og:description" content="Display and input evidence <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, next step">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-display-input.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Display and input evidence - Innioasis Updater">
+  <meta name="twitter:description" content="Display and input evidence <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, next step">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Display and input evidence</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="display-and-input-evidence">Display and input evidence</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<blockquote><p>2026-09-10: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Freverse-engineering-audit.md">historical experiment audit</a> finds a dated correction to 480×360 and cold-display PHY/GPIO112 reset failures. v6.18 already avoids the old OVL pitch/address and PMIC single-key bugs. Preserve our live-LK display; validate remaining variant/pin/rail details and the pending M2-INPUT-01 mappings on our older board.</p></blockquote>
+<blockquote><p>2026-09-09: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fdonor-audit.md">donor audit</a> supplies concrete GPIO navigation, APT32F protocol, keypad, DRM and GC9503V starting points. These supersede the discovery-only next steps below. The first implementation uses donor GPIO layout/mapping with upstream polled keys and evdev; older-board wiring and events still need physical USB capture. Keep our proven framebuffer address; donor comments/timings/address and backlight ownership need correction.</p></blockquote>
+<blockquote><p>Current hardware result: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm1-runtime-hardware-result.md">owner-observed M1 runtime success</a> confirms Linux 6.18, native PID1, increasing BEAT/uptime, working sleep, proc/sysfs mounts, CPU0, D08 RAM visibility, framebuffer diagnostics and stopped-watchdog status. <strong>M1 core achieved.</strong> Exact flashed hash and unreported diagnostic fields remain unverified. Earlier dated statements below are historical.</p></blockquote>
+<blockquote><p>Y2B-240 hardware result: the owner reports <strong>solid green</strong>, which the implemented state machine reaches through initramfs <code>/init</code> running as PID1. M1&#x27;s Linux 6.18 plus PID1 boot objective is achieved. No heartbeat/checkerboard success is claimed. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fon-screen-diagnostics.md">Y2B-245 / D14</a> is the offline follow-up for readable runtime diagnostics.</p></blockquote>
+<blockquote><p>Y2E-150 resolves the limited LK diagnostic contract: normal final layer 2 at 0xbfb00000, 480x360 RGB565, 960-byte stride; DSI sync-pulse video and normal backlight persistence supported by exact FM/LK instructions. Android runtime metadata differs (32 bpp, stride 1920). <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Frisk-accepted-diagnostic.md">D13</a> provides guarded access, provenance and limits; no panel initialization/input driver was implemented.</p></blockquote>
+<p>Date: 2026-09-08. Related task: Y2E-101. Historical source: integrity-verified snapshot <code>2026-07-29_004935/hardware/input-devices.txt</code>.</p>
+<p>CONFIRMED in that archive: <code>mtk-kpd</code>, <code>ACCDET</code>, <code>mtk-tpd</code>, <code>mtk-tpd-kpd</code> and AVRCP input devices, including event handlers and capability bitmaps. The application documents a 480 × 360 landscape display and wheel/button navigation. That behavioral resolution is not a panel/controller/timing identification.</p>
+<p>Android <code>KEYCODE_*</code> mappings are not Linux evdev scan codes. The old input-map note denying wheel acceleration is superseded by newer application source/release behavior; retain ordinary detent, hold/repeat, screen-off and Bluetooth-input distinctions as behavioral reference only.</p>
+<p>UNKNOWN: panel part/interface, timings, backlight controller, touch/controller identity, orientation transformation, physical wheel/button wiring, IRQ/reset/power sequencing and wake sources. APT32F/UPDATE I2C names are discovery clues, not established functions.</p>
+<p>Next proof is a bounded passive current-device capability/driver inventory matched to stock kernel symbols and display configuration. No synthetic input, panel writes, unreviewed controller sysfs reads, disassembly of an entire subsystem or Linux driver implementation is included in the first M0 batch.</p>
+<h2 id="y2e-130-memory-evidence">Y2E-130 memory evidence</h2>
+<p>The retained stock iomem identifies framebuffer <code>[0xbfb00000,0xc0000000)</code> (5 MiB). FM display-size functions were remapped at <code>0xc05128d4</code>/<code>0xc051296c</code>; the unknown-panel fallback is actually 20 MiB despite its misleading log. LK also forms a scratch pointer framebuffer minus 4 MiB. Buffer lifetime and inherited DMA are not fully established. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Finitial-ram-map.md">initial RAM policy</a>; all high display/scratch storage is excluded initially. These findings do not identify the panel or prove DMA shutdown.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

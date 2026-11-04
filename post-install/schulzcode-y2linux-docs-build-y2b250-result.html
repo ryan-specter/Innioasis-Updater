@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2B-250 — ARM time32 nanosleep fix - Innioasis Updater</title>
+  <meta name="description" content="Y2B-250 — ARM time32 nanosleep fix <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, n">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2b250-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2B-250 — ARM time32 nanosleep fix - Innioasis Updater">
+  <meta property="og:description" content="Y2B-250 — ARM time32 nanosleep fix <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, n">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2b250-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2B-250 — ARM time32 nanosleep fix - Innioasis Updater">
+  <meta name="twitter:description" content="Y2B-250 — ARM time32 nanosleep fix <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, n">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2B-250 — ARM time32 nanosleep fix</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2b-250--arm-time32-nanosleep-fix">Y2B-250 — ARM time32 nanosleep fix</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<blockquote><p>Subsequent owner hardware report confirms working sleep and increasing BEAT/uptime. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm1-runtime-hardware-result.md">M1 core result and exact evidence limits</a>. The report does not independently pin the flashed candidate hash; offline artifact identities below remain unchanged.</p></blockquote>
+<p>2026-09-08. <a href="https://github.com/SchulzCode/Y2Linux/issues/21" target="_blank" rel="noopener noreferrer">Issue #21</a>. <strong>Offline candidate ready; not flashed.</strong></p>
+<h2 id="evidence-and-exact-change">Evidence and exact change</h2>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fy2b245-hardware-result.md">Owner-reported Y2B-245 screen</a> proves the real renderer, PID1 and proc/sysfs mounts, then stops with sleep -38 / ENOSYS at BEAT 0. No increasing heartbeat is claimed.</p>
+<p>ARM EABI syscall 162 is <code>sys_nanosleep_time32</code>. The old linked table targets the weak ENOSYS alias at <code>0xc00309a8</code>. The one kernel config change is <code>CONFIG_COMPAT_32BIT_TIME: n → y</code>; <code>CONFIG_POSIX_TIMERS</code> remains disabled and is not required. No PID1, timer driver, DTS, framebuffer or watchdog code changed.</p>
+<p>Code/build source commit <code>dff1e82</code>. Previously audited Linux v6.18 commit <code>7d0a66e4bb9081d75c82ec4957c50034cb0ea449</code>, Clang/LLD 20.1.8 and the locked environment are unchanged. Source/toolchain hashes are trusted from the prior audit, not recomputed across the source tree.</p>
+<h2 id="targeted-validation">Targeted validation</h2>
+<ul><li>Exactly one clean build; resolved config comparison has exactly one changed option.</li><li>Linked table slot 162 now targets real, non-weak <code>sys_nanosleep_time32</code> at <code>0xc0066500</code>; <code>sys_ni_syscall</code> is separately at <code>0xc0030aac</code>.</li><li>Three syscall regression tests pass: real built mapping, rejection of disabled time32, rejection of table bytes redirected to ENOSYS despite correct config and an available real function.</li><li>The same check rejects the actual old kernel even with a fabricated enabled config.</li><li>Production ARM PID1 regression passes all nine syscall-fixture scenarios with console writes trapped. ARM init self-test passes. These are host tests, not proof of timer IRQs on the Y2.</li><li>D08/layout validation and final Android/MTK BOOTIMG wrappers, padding/read tail and 16 MiB partition bounds pass. No build warnings/errors.</li><li>DTB, init executable, cpio and gzip are byte-identical to Y2B-245. Emitted watchdog instructions match the previous candidate. PRELOADER/LK/partition layout are unchanged; no device operation occurred.</li><li>No unrelated full-suite, source/ROM/recovery audit or second reproducibility build was performed.</li></ul>
+<h2 id="retained-candidate">Retained candidate</h2>
+<p><code>/home/luca/Dokumente/Code/Y2Linux/out/m1-y2b250-time32/BOOTIMG.img</code></p>
+<p><strong>1,093,632 bytes</strong>; SHA-256 <code>074c3e6946e6e8ac61bc1df0da4fa53807071dd50ae3db4def97563c9207afce</code>.</p>
+<p>The separate bundle retains ELFs, resolved config, source archive, input lock, logs, layout.json, iteration.json, old-syscall.json and SHA256SUMS.</p>
+<table><thead><tr><th>Object</th><th>Half-open physical interval</th></tr></thead><tbody><tr><td>zimage</td><td><code>[0x80008000,0x8010f000)</code></td></tr><tr><td>appended_dtb</td><td><code>[0x8010f000,0x8010f730)</code></td></tr><tr><td>image</td><td><code>[0x80008000,0x80274ec0)</code></td></tr><tr><td>resident_kernel</td><td><code>[0x80008000,0x8029d4b0)</code></td></tr><tr><td>relocated_copy</td><td><code>[0x80275700,0x8037cd40)</code></td></tr><tr><td>relocated_dtb</td><td><code>[0x8037c600,0x8037cd30)</code></td></tr><tr><td>compressed_bss</td><td><code>[0x8037cd30,0x8037cd50)</code></td></tr><tr><td>malloc</td><td><code>[0x8037dd48,0x8038dd48)</code></td></tr><tr><td>initramfs</td><td><code>[0x84000000,0x84000f80)</code></td></tr><tr><td>lk_staging</td><td><code>[0x80007e00,0x80112600)</code></td></tr></tbody></table>
+<p>D08 static RAM remains <code>[0x80000000,0x81800000)</code> and <code>[0x84000000,0x84080000)</code>, with <code>[0x80000000,0x80004000)</code> reserved. CPU0 only, appended DTB, no ATAG import or expansion. BOOTIMG remains within EMMC_USER <code>[0x01d80000,0x02d80000)</code>.</p>
+<h2 id="expected-next-screen">Expected next screen</h2>
+<p>LK logo → kernel/PID1 status with mounts → successful sleep return, increasing BEAT/FRAME and changing runtime fields → STOP: RESTORE ANDROID after 50 successful sleeps. Existing external 60-second limit takes precedence over iteration completion. No automatic reset/restore.</p>
+<p>This removes the confirmed ENOSYS cause. Actual timer wakeup and progress still require the next separately authorized device trial; a frozen screen must be recorded as new evidence. No automatic flash or M2 work.</p>
+<h2 id="reproduce-this-localized-iteration">Reproduce this localized iteration</h2>
+<p>Use an unused output directory and the existing audited cache:</p>
+<pre><code class="language-sh">python3 tools/build/run.py --output out/m1-y2b250-time32 -- sh /project/tools/build/build.sh test_sleep_syscall.py test_pid1.py</code></pre>
+<p>Omitting test patterns retains the full suite for architecture changes and release validation.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

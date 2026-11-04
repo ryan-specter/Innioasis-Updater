@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Persistent ALSA development tools on Y2ROOT - Innioasis Updater</title>
+  <meta name="description" content="Persistent ALSA development tools on Y2ROOT <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current"">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-audio-tools-sd.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Persistent ALSA development tools on Y2ROOT - Innioasis Updater">
+  <meta property="og:description" content="Persistent ALSA development tools on Y2ROOT <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current"">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-audio-tools-sd.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Persistent ALSA development tools on Y2ROOT - Innioasis Updater">
+  <meta name="twitter:description" content="Persistent ALSA development tools on Y2ROOT <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current"">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Persistent ALSA development tools on Y2ROOT</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="persistent-alsa-development-tools-on-y2root">Persistent ALSA development tools on Y2ROOT</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>On 2026-09-10 the owner requested permanent tools instead of restoring the isolated <code>/tmp</code> bundle after each boot. The Y2 now runs <code>6.18.0-y2linux-m3audio02</code>. The existing DEV-01 SD received an additive audio-only update over SSH.</p>
+<p>Installed standard paths:</p>
+<ul><li><code>/usr/bin/aplay</code>, <code>/usr/bin/amixer</code>, <code>/usr/bin/speaker-test</code></li><li><code>/usr/lib/libasound.so.2</code>, <code>/usr/share/alsa/</code> runtime configuration</li><li><code>/usr/share/y2linux/audio/</code> short quiet 44.1/48-kHz WAVs</li><li><code>/usr/sbin/y2-audio-collect</code></li></ul>
+<p>These files are on the writable removable SD ext4 root, not tmpfs. No restore, wrapper, private loader, reboot, kernel flash or new rootfs build is required. A fresh SSH session resolves the installed programs normally. Installed hashes, ALSA card/PCM enumeration and read-only diagnostics are retained in <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/hardware-evidence/2026-09-10-audio-tools-sd/" target="_blank" rel="noopener noreferrer">hardware evidence</a>. Headphone remains off; installing tools does not play audio or change gain. A subsequent AUDIO-02 test now has owner-confirmed clean 44.1 kHz playback; 48 kHz, explicit L/R and stop/restart/repeat remain. See the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm3-audio-01-live-result.md">current physical result</a>.</p>
+<h2 id="reproducible-source-and-update">Reproducible source and update</h2>
+<p>The packages already belong to <code>buildroot/configs/y2_dev_defconfig</code>; fixtures are generated by <code>tools/development/audio-fixtures.py</code> and installed by canonical <code>buildroot/board/y2/post-build.sh</code>; the collector is in the Buildroot overlay. This update uses those exact built files, including standard ALSA configuration. No full rootfs replacement or false build-id change was performed. The SD&#x27;s whole-rootfs build-id stays DEV-01; <code>/etc/y2linux/audio-tools.sha256</code> records the additive deployment. New full M3 Buildroot images already include these tools.</p>
+<p>Generate the small update without rebuilding:</p>
+<pre><code class="language-sh">python3 tools/development/audio-sd-update.py out/y2linux-m3-audio-01 out/y2linux-audio-sd-update</code></pre>
+<p>Transfer the generated directory to <code>/tmp/y2-audio-sd-update-v1</code> on the Y2 and run <code>sh /tmp/y2-audio-sd-update-v1/install.sh</code>. Only installation staging is temporary. The installer requires writable ext4 root from SD host11240000, checks the archive and exact existing libc/libm/loader hashes, refuses destination symlinks, installs only audio paths, verifies installed hashes and syncs SD. It never replaces those base libraries, startup services, SSH keys or modules. The initial update archive is 2406400 bytes, SHA256 <code>b7216d41914030e7da32e66088c35c13c2661acc0a32535b2ded8916c60a03ae</code>.</p>
+<p>For the next supervised headphone test use ordinary commands:</p>
+<pre><code class="language-sh">amixer -c Y2Audio cset name=&#x27;PCM Ch Select&#x27; 0
+amixer -c Y2Audio sset Master 207,207
+amixer -c Y2Audio sset Headphone on
+aplay -D hw:CARD=Y2Audio,DEV=0 --period-size=1024 --buffer-size=8192 /usr/share/y2linux/audio/headphone-44100.wav
+amixer -c Y2Audio sset Headphone off</code></pre>
+<p>Master207 is -24dB; the three-second fixture peaks at -30dBFS. Retain bounded watchdog/cleanup and live PCM/IRQ/power/error inspection during qualification. Speaker-test is installed for future platform diagnostics, not automatically run.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

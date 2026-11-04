@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>REBORN-BASELINE-01 root-only deployment candidate - Innioasis Updater</title>
+  <meta name="description" content="REBORN-BASELINE-01 root-only deployment candidate <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "cur">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-reborn-baseline-01-deployment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="REBORN-BASELINE-01 root-only deployment candidate - Innioasis Updater">
+  <meta property="og:description" content="REBORN-BASELINE-01 root-only deployment candidate <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "cur">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-reborn-baseline-01-deployment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="REBORN-BASELINE-01 root-only deployment candidate - Innioasis Updater">
+  <meta name="twitter:description" content="REBORN-BASELINE-01 root-only deployment candidate <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "cur">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>REBORN-BASELINE-01 root-only deployment candidate</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="reborn-baseline-01-root-only-deployment-candidate">REBORN-BASELINE-01 root-only deployment candidate</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Native Rust Reborn implementation is ready for owner installation. It is not physically accepted. The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">boundary audit</a> records the new owner authorization while preserving GPU #34 and M5 #31 physical gates.</p>
+<p>Built source <code>77e673232a586e1f027538861bcbbec3466b36fd</code> in Y2Reborn; integration <code>08b0e7d17c453037edf64f58a1798ff4457ca0ce</code> in Y2Linux. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fevidence%2Freborn-baseline-01%2FREADME.md">Evidence</a> records host tests, cross/runtime checks, offline image build, provenance and preservation validation.</p>
+<p>Package: <code>/home/luca/Dokumente/Code/Y2Linux/out/REBORN-BASELINE-01</code>.</p>
+<table><thead><tr><th>Payload</th><th>SHA256</th></tr></thead><tbody><tr><td><code>Y2ROOT.img</code></td><td><code>c353152dea44a554486e024a4d8a8105fbbdfd1310db5749b28d7e5b8e5c8012</code></td></tr><tr><td><code>fallback/Y2ROOT.img</code> (GPU-02)</td><td><code>1dec3b9c462587d804a022ef97e45222329065d263f53c2159ce00f728db145f</code></td></tr><tr><td>Required installed GPU-02 BOOTIMG; unchanged</td><td><code>2e5f7e785e80dfc646e57d0ccfadff683d54a2c5303671c819ea4e42863089a9</code></td></tr></tbody></table>
+<p>Both roots are 512 MiB images. Reborn adds 7,331,840 bytes of allocated ext4 usage. No Y2DATA image, formatting or protected-storage change. No kernel/DT change.</p>
+<p>Follow package <code>INSTALL.md</code> or the full 34-item handoff at <code>/home/luca/Dokumente/Code/Y2Reborn/docs/validation/REBORN-BASELINE-01.md</code>. Verify <code>sha256sum -c SHA256SUMS</code>. The established SPFT v5.2032 Download Only workflow must use <strong>MT6582_reborn_root_only_scatter.txt</strong>, with <strong>only ANDROID</strong> selected. BOOTIMG, USRDATA and all other rows are unchecked/NONE. Fallback uses its own root-only scatter and retained GPU-02 root with the current GPU-02 kernel.</p>
+<p>After installation, first collect <code>rebornctl status --json</code>, <code>health --json</code>, <code>metrics --json</code>, <code>test baseline --json</code> over existing pinned owner SSH. Use Y2Reborn <code>tools/qualification/reborn-baseline.py</code> for artifact retention and explicit test classification before requesting physical interaction.</p>
+<p><strong>STOP for owner installation. REBORN BASELINE 01 has not passed physical acceptance.</strong></p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

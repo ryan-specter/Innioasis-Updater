@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DEV-01 SD preparation from the owner's Mac - Innioasis Updater</title>
+  <meta name="description" content="DEV-01 SD preparation from the owner's Mac <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" c">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-dev-01-mac-sd.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="DEV-01 SD preparation from the owner's Mac - Innioasis Updater">
+  <meta property="og:description" content="DEV-01 SD preparation from the owner's Mac <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" c">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-dev-01-mac-sd.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DEV-01 SD preparation from the owner's Mac - Innioasis Updater">
+  <meta name="twitter:description" content="DEV-01 SD preparation from the owner's Mac <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" c">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>DEV-01 SD preparation from the owner&#x27;s Mac</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="dev-01-sd-preparation-from-the-owners-mac">DEV-01 SD preparation from the owner&#x27;s Mac</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>The owner has a USB-C card reader usable on the Mac, not the Linux host. The already flashed BOOTIMG can remain while the prepared ext4 filesystem is transferred and installed. No storage target has yet been identified on the Mac; no disk write is authorized by a guessed disk number.</p>
+<p>The losslessly compressed <code>out/y2linux-dev-01/rootfs.ext4.gz</code> is 8,337,371 bytes. Its SHA-256 is <code>67399d568fa50c459aeac033f9b22f828f228f156ddccdfd956047845a502a48</code>. Decompression was checked against the existing ext4 SHA-256 <code>ecf7f9a448e708f9a1c023443ab4d4a9a22d9ab4e8e812b3319b58770dbd2ed3</code>. This is a transport copy of DEV-01, not a new rootfs build or kernel candidate. The original candidate SHA256SUMS remains unchanged.</p>
+<p>A temporary host HTTP server serves only the gzip and checksum files from <code>out/y2linux-dev-01/mac-transfer</code>, bound to <code>192.168.123.204:8765</code>. This address is the Linux host&#x27;s currently observed LAN address. The Mac must be on the same reachable LAN; no public upload or SSH key access is involved. Stop the server after transfer is confirmed; its lifetime is this working session.</p>
+<p>On the Mac:</p>
+<pre><code class="language-sh">mkdir -p ~/Downloads/Y2Linux-DEV-01
+cd ~/Downloads/Y2Linux-DEV-01
+curl -fLO http://192.168.123.204:8765/rootfs.ext4.gz
+curl -fLO http://192.168.123.204:8765/rootfs.ext4.gz.sha256
+shasum -a 256 -c rootfs.ext4.gz.sha256</code></pre>
+<p>Expect <code>rootfs.ext4.gz: OK</code>. Existing files with those names are replaced by curl; these commands write only the download directory, never the card.</p>
+<p>Run the following read-only command before and after connecting the card reader:</p>
+<pre><code class="language-sh">diskutil list</code></pre>
+<p>Send the listing and identify any contents that need preserving. Confirm the new external physical device, capacity and partition before constructing its exact unmount/write/verification commands. Do not select a Mac internal disk, APFS container or guessed <code>/dev/diskN</code>. The supplied image is an ext4 filesystem, not a partition-table image; the owner will write an identified suitable partition.</p>
+<p><a href="https://support.apple.com/en-mide/guide/disk-utility/dskutl1005/mac" target="_blank" rel="noopener noreferrer">Apple disk identification guide</a> explains checking internal/external location and capacity in Disk Utility. <a href="https://www.apple.com/server/docs/Command_Line_v10.4_2nd_Ed.pdf" target="_blank" rel="noopener noreferrer">Apple command-line reference</a> documents the read-only <code>diskutil list</code> command. No Mac write command has been executed or disk identifier assumed.</p>
+<h2 id="owner-identified-target--2026-09-10">Owner-identified target — 2026-09-10</h2>
+<p>The owner supplies a Mac <code>diskutil list</code> and explicitly allows erasing the 128 GB SanDisk card. Its current identifier is <strong>disk10</strong>, external/physical, 127.9 GB, FDisk partition scheme, one DOS_FAT_32 UNTITLED partition <strong>disk10s1</strong>. Internal disk0 and all APFS/simulator disks are excluded. The existing partition is large enough for the 512 MiB image; no partition-table rewrite is needed. The on-disk MBR type may continue to say FAT32; Linux root discovery uses the actual ext4 superblock label, not that partition-type description.</p>
+<p>Owner commands below assume the gzip is directly in Downloads and the card has stayed connected with the same disk identifier. Re-identify after reconnect. The subshell stops on failure without closing the interactive Terminal.</p>
+<pre><code class="language-sh">(
+set -eu
+cd &quot;$HOME/Downloads&quot;
+printf &#x27;%s\n&#x27; &#x27;67399d568fa50c459aeac033f9b22f828f228f156ddccdfd956047845a502a48  rootfs.ext4.gz&#x27; | shasum -a 256 -c -
+gzip -dc rootfs.ext4.gz &gt; rootfs.ext4
+printf &#x27;%s\n&#x27; &#x27;ecf7f9a448e708f9a1c023443ab4d4a9a22d9ab4e8e812b3319b58770dbd2ed3  rootfs.ext4&#x27; | shasum -a 256 -c -
+diskutil info /dev/disk10
+diskutil unmountDisk /dev/disk10
+sudo dd if=rootfs.ext4 of=/dev/rdisk10s1 bs=4m
+sync
+sudo dd if=/dev/rdisk10s1 of=rootfs.sd-readback.ext4 bs=4m count=128
+printf &#x27;%s\n&#x27; &#x27;ecf7f9a448e708f9a1c023443ab4d4a9a22d9ab4e8e812b3319b58770dbd2ed3  rootfs.sd-readback.ext4&#x27; | shasum -a 256 -c -
+diskutil eject /dev/disk10
+)</code></pre>
+<p>Expect three checksum OK messages, including the SD readback, and successful ejection. No host storage write was executed by the assistant. If macOS prompts about an unreadable filesystem, choose Ignore, not Initialize; ext4 is intended for the Y2. After ejection, power the Y2 off, insert the card, boot USB unplugged, wait about30seconds, then attach USB and collect rootfs/network state. Root starts at512MiB filesystem size; online expansion can follow a successful SD boot. The earlier MMC command timeouts remain a qualification concern, not proof that this prepared root will fail or succeed. Report any command error before retrying.</p>
+<p><a href="https://github.com/apple-oss-distributions/file_cmds/blob/main/dd/dd.1" target="_blank" rel="noopener noreferrer">Apple&#x27;s dd source manual</a> defines the block-size/count and source/destination behavior used for the exact 512MiB write and independent readback.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CONNECTIVITY-08: consume the MT6582 E2 RF calibration result - Innioasis Updater</title>
+  <meta name="description" content="CONNECTIVITY-08: consume the MT6582 E2 RF calibration result <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate ide">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m5-connectivity08-corrections.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="CONNECTIVITY-08: consume the MT6582 E2 RF calibration result - Innioasis Updater">
+  <meta property="og:description" content="CONNECTIVITY-08: consume the MT6582 E2 RF calibration result <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate ide">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m5-connectivity08-corrections.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CONNECTIVITY-08: consume the MT6582 E2 RF calibration result - Innioasis Updater">
+  <meta name="twitter:description" content="CONNECTIVITY-08: consume the MT6582 E2 RF calibration result <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate ide">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>CONNECTIVITY-08: consume the MT6582 E2 RF calibration result</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="connectivity-08-consume-the-mt6582-e2-rf-calibration-result">CONNECTIVITY-08: consume the MT6582 E2 RF calibration result</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fhardware-evidence%2F2026-09-17-m5-protocol%2FREADME.md">own-unit CONNECTIVITY-07 capture</a> locates EPROTO at opcode <code>0x14</code>, after both patches/reset replies, when a valid 630-byte RF calibration result exceeds the 256-byte WMT response buffer. The controller reports success. This is independent of the already-working factory reader, DMA interrupts and controller identification.</p>
+<p>Keep the 256-byte command buffer and ordinary exact reply checks. Only during an outstanding <code>01 14 01 00 01</code> request expecting the six-byte calibration success event may MT6582/HVR <code>8a01</code>/FVR <code>8a00</code> return the observed 630-byte shape. Require full STP mode, exact outer/inner lengths, event type/opcode, status zero, and operation 1. Validate the entire CRC, consume the full frame and advance sequence/ACK normally. Retain only the six-byte result prefix plus its real wire length for WMT completion; do not retain/log/persist RF data or synthesize a shorter wire length. All other oversized, unsolicited or failed results fail.</p>
+<p>Both the ordinary six-byte reply and the observed extended result remain valid under those checks. No global opcode-0x14 bypass like the donor&#x27;s calibration workaround is introduced. Patches, reset order, rails, firmware, own factory contents, M4 and the memory/storage layout stay unchanged.</p>
+<p>WMT failures now report opcode, parameter, mode, request/response/expected sizes and at most six event prefix bytes. STP failures report parser byte counts. Successful full-STP negotiation, each patch/reset and RF calibration are logged, so a subsequent failure can be located without exposing radio traffic or RF data.</p>
+<p>The executable regression exercises the actual STP and WMT functions with a synthetic 630-byte event matching the physical header, every split point and single-byte delivery, sequence/ACK retirement, duplicate suppression and a following ordinary command. It rejects wrong silicon, length, status, operation, opcode, unsolicited results, CRC damage, truncated frames and send failure; the existing six-byte path remains checked. Synthetic RF bytes replace all private payload bytes. The previous implementation rejects this regression.</p>
+<p>Build a production CONNECTIVITY-08 BOOTIMG-only update using CONNECTIVITY-07&#x27;s verified userspace and BOOTIMG fallback. Preserve Y2ROOT/Y2DATA and stop for the owner&#x27;s established manual installation procedure. Then inspect the new stage logs and drive the standard BlueZ/cfg80211 paths until a usable adapter appears or the next specific failure is captured. Sysfs hci0 alone is not success. M5 remains open; no broad audit or unchanged provenance repeat is required.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

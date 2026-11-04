@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-35 — over-the-air updates through a Y2 recovery image (OTA-35) - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-35 — over-the-air updates through a Y2 recovery image OTA-35 Status: SEALED, awaiting the owner flash 2026-10-15. Package out/y2linux-platform-v1-power-final-">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-35.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-35 — over-the-air updates through a Y2 recovery image (OTA-35) - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-35 — over-the-air updates through a Y2 recovery image OTA-35 Status: SEALED, awaiting the owner flash 2026-10-15. Package out/y2linux-platform-v1-power-final-">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-35.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-35 — over-the-air updates through a Y2 recovery image (OTA-35) - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-35 — over-the-air updates through a Y2 recovery image OTA-35 Status: SEALED, awaiting the owner flash 2026-10-15. Package out/y2linux-platform-v1-power-final-">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-35 — over-the-air updates through a Y2 recovery image (OTA-35)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-35--over-the-air-updates-through-a-y2-recovery-image-ota-35">POWER-FINAL-35 — over-the-air updates through a Y2 recovery image (OTA-35)</h1>
+<p>Status: <strong>SEALED, awaiting the owner flash</strong> (2026-10-15). Package <code>out/y2linux-platform-v1-power-final-candidate-35/</code> (fallback = 34), receipts <code>out/deep-sleep-final/build35-receipts/</code>. BOOTIMG <code>c27dd33c9d4488b5c7567d90fa1c6ebdbfbc1cae1aaf3b4244475f1ea7e1c391</code>, Y2ROOT <code>25ec8077a381b5d19b2cb7f20076a6e0ff06bc7cc1dd66b2f7a365ff12f15eff</code>, RECOVERY <code>859227b4fe8e61edee1dca54d306944ef18bf92683aaf45c427b0da64ac704cb</code>. Identity: build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-35</code>, kernel <code>6.18.56-y2linux-platform-v1-power-final-35</code>, root <code>2026.08-platform-v1.65</code>, release <code>1.0.0-platform-v1-power-final-candidate.35</code>, update sequence 3500; Linux <code>3eb96ba</code>, Reborn <code>6fbaba8</code>. Contains 27–34. Contract: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Farchitecture%2Fplatform-ota-v2.md">platform-ota-v2</a>. Scope audit: OTA-35 in the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap gap audit</a>.</p>
+<h2 id="what-35-changes">What 35 changes</h2>
+<table><thead><tr><th>Area</th><th>Change</th></tr></thead><tbody><tr><td>eMMC write policy</td><td>A kernel from BOOTIMG may also write RECOVERY and the 4 KiB MISC message; a kernel from RECOVERY (<code>y2.recovery=1</code>) may write BOOTIMG and the message. Neither writes its own image; everything else is unchanged.</td></tr><tr><td>RECOVERY.img</td><td>New, built with the candidate: same zImage and initramfs as BOOTIMG, own DTB (bootargs + <code>y2.recovery=1</code> only), <code>RECOVERY</code> ramdisk label, name <code>Y2Recovery-1</code>. Installed once with a one-row scatter in <code>recovery-install/</code>.</td></tr><tr><td>Updater</td><td><code>y2-update-core</code> v2: signed BOOTIMG + Y2ROOT (+ RECOVERY) packages, recovery request through MISC, recovery installer with backup, readback and restore of both images, rescue routing of unfinished updates. Root-only rescue installation retired.</td></tr><tr><td>Recovery screen</td><td><code>y2-recovery-ui</code>: title, steps and a progress bar (Terminus 16×32 from Linux). Host previews: <code>out/screenshots/recovery/</code>.</td></tr><tr><td>Platform</td><td>Release channel GitHub Releases (allowlisted redirects), per-MiB download progress, charger or ≥ 50 % gate, power-off install, daily background check (never installs), <code>probe-recovery</code> / <code>recovery-status</code>.</td></tr><tr><td>Reborn</td><td>Software Update: Turn Off and Install (press Power), download percent and size, pending restore, charger gate, &quot;Software update available&quot; toast once per release.</td></tr><tr><td>Keys</td><td>Release key <code>platform-v1-release-20261015</code> (sequences ≥ 3500) added; the development key stays trusted for owner tests.</td></tr></tbody></table>
+<h2 id="tests">Tests</h2>
+<p>Host: update core (17 cases: authentication, wrong image slot, install + readback, unchanged recovery, interrupted root and boot writes, readback failure, corrupt backup, unconfirmed health, owner rollback, lost request, probe, battery and space, download staging, up-to-date check, policy/redirect/daily check), eMMC policy in both modes (every sector), wire addresses, rescue and recovery PID1 control flow. Real images: the signed OTA package of the sealed candidate verifies with the image&#x27;s own trust and compatibility files (full decompression, 1.5 s on the host); one changed byte → <code>invalid signature</code>. On the device (34, read-only): the new ARM core found the internal disk by identity, read MISC (no request) and RECOVERY with <code>O_DIRECT</code>, and correctly refused the stock recovery (<code>recovery_image_valid: false</code>). Reborn: workspace tests and strict clippy clean. Platform: container suite <strong>718 OK</strong>, <code>validate.py</code> PASS, ELF closure 355 PASS, installed ARM PASS (40 modules), privacy clean, inventory 108 packages.</p>
+<p>Not tested: anything after the flash. LK booting our RECOVERY image, the panel in LK&#x27;s recovery mode, eMMC writes of BOOTIMG/RECOVERY/MISC on the device, install time, power loss.</p>
+<h2 id="device-results">Device results</h2>
+<ul><li><strong>Flashed 2026-10-15</strong> (owner, BOOTIMG + ANDROID and the one-row RECOVERY scatter). Archive <code>20261015/129</code>:<p>build/kernel 35, taint 0, Reborn first frame at 20 s, <code>recovery_image=0</code>, policy <code>normal: RECOVERY, MISC message …</code>, BOOTIMG and RECOVERY on the eMMC byte-identical to the package (RECOVERY tail zero), <code>recovery_image_valid: true</code>. The CMD35/WRITE_ZEROES refusal and the boot-stage <code>OSError</code> are unchanged from 34.</p></li><li><strong>Recovery entry PASSED</strong> (<code>probe-recovery</code>, then Power): LK booted RECOVERY (<code>boot_mode=2</code>), our kernel ran with<p><code>y2.recovery=1</code> and the recovery write policy, the display came up (owner saw <strong>Recovery works</strong>), the probe was recorded, MISC cleared, power off; the next Power started the normal system (boot <code>7676548e</code>, taint 0). Recovery from kernel start to the recorded outcome: 1.4 s. Evidence: <code>/data/updates/recovery-probe.json</code>, <code>/data/logs/recovery-last.log</code>.</p></li></ul>
+<h2 id="owner-steps">Owner steps</h2>
+<p><strong>1. Flash (one SP Flash Tool session, Download Only).</strong></p>
+<ul><li><code>MT6582_preserve_data_scatter.txt</code>: BOOTIMG + ANDROID, as always.</li><li>Then <code>recovery-install/MT6582_recovery_scatter.txt</code>: only <strong>RECOVERY → RECOVERY.img</strong> selected<p>(<a href="https://innioasis.app/guides/reborn-y2linux-y2.html">runbook</a>). The stock recovery is saved in archive 128.</p></li></ul>
+<p>Start the player. If the panel stays dark: hold Power 10 s, or flash <code>fallback/</code> (34); RECOVERY may stay.</p>
+<p><strong>2. Read-only check (agent, archive 129).</strong> Kernel <code>…-35</code>, <code>/sys/firmware/y2_boot/metadata</code> <code>recovery_image=0</code>, dmesg policy line <code>normal: RECOVERY, MISC message …</code>, <code>y2-platform update recovery-status</code> → <code>recovery_image_valid: true</code>, <code>misc_request: none</code>.</p>
+<p><strong>3. Recovery entry (owner OK, then press Power once).</strong> <code>y2-platform update probe-recovery</code>: the player turns off. Press Power: the screen says <strong>Recovery works</strong>, it turns off; press Power again. Then read <code>/data/updates/recovery-probe.json</code> (LK <code>boot_mode=2</code>, <code>recovery_image=1</code>) and <code>/data/logs/recovery-last.log</code>. Note whether the recovery screen was visible.</p>
+<p><strong>4. First install, no network (owner OK).</strong> Copy the signed test package <code>out/y2linux-platform-v1-power-final-candidate-35-ota-devtest/</code> (development key, reinstall of 35) to <code>/data/ota-test</code>, <code>y2-platform update stage --package /data/ota-test</code>. In Reborn: Settings → About &amp; Updates → <strong>Turn Off and Install</strong>, Power, watch the progress, Power. Afterwards: journal <code>Acknowledged</code>, both images equal to the package, install time from <code>recovery-last.log</code>.</p>
+<p><strong>5. Interruption (optional, owner).</strong> Repeat 4 and hold Power during &quot;Installing the system&quot;; Power again: the recovery restores, <strong>Update not installed / The previous version was restored</strong>.</p>
+<p><strong>6. Network.</strong> Publishing a GitHub release is the owner&#x27;s decision; until then <code>/data/updates/channel.json</code> can point at a test location.</p>
+<h2 id="signed-ota-packages-not-published">Signed OTA packages (not published)</h2>
+<table><thead><tr><th>Folder</th><th>Key</th><th>Use</th></tr></thead><tbody><tr><td><code>out/y2linux-platform-v1-power-final-candidate-35-ota-devtest/</code></td><td>development, reinstall flag</td><td>step 4 on the device (58.7 MB)</td></tr><tr><td><code>out/y2linux-platform-v1-power-final-candidate-35-ota-release/</code></td><td><code>platform-v1-release-20261015</code>, sequence 3500</td><td>a future GitHub release; a 35 player reports Up to Date for it</td></tr></tbody></table>
+<p>Both are byte-exact signatures over the sealed BOOTIMG, Y2ROOT and RECOVERY (checked against <code>SHA256SUMS</code>).</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

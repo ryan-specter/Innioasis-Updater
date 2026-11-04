@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2E-130 — Establish the safe initial Linux RAM map - Innioasis Updater</title>
+  <meta name="description" content="Y2E-130 — Establish the safe initial Linux RAM map <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-130.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2E-130 — Establish the safe initial Linux RAM map - Innioasis Updater">
+  <meta property="og:description" content="Y2E-130 — Establish the safe initial Linux RAM map <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-130.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2E-130 — Establish the safe initial Linux RAM map - Innioasis Updater">
+  <meta name="twitter:description" content="Y2E-130 — Establish the safe initial Linux RAM map <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2E-130 — Establish the safe initial Linux RAM map</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2e-130--establish-the-safe-initial-linux-ram-map">Y2E-130 — Establish the safe initial Linux RAM map</h1>
+<!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Canonical issue: <a href="https://github.com/SchulzCode/Y2Linux/issues/7" target="_blank" rel="noopener noreferrer">https://github.com/SchulzCode/Y2Linux/issues/7</a></p>
+<p>Depends on Y2E-125 (#6). Resolve U07a with offline FM-kernel/preloader/LK analysis and retained safe stock evidence. Ownership: research and architecture; no implementation handoff until the policy is fixed.</p>
+<p>Acceptance criteria:</p>
+<ul><li><input type="checkbox" disabled checked> Remap FM kernel reservation logic independently of old symbol offsets.</li><li><input type="checkbox" disabled checked> Record preloader/LK RAM-bank construction, display, modem/connectivity and identifiable loader/secure/shared-memory exclusions, distinguishing static facts from actual runtime observations.</li><li><input type="checkbox" disabled checked> Assess DMA risks at entry and choose a deliberately bounded initial memory map.</li><li><input type="checkbox" disabled checked> Specify exact permitted kernel/decompression, appended-DTB and initramfs intervals, byte budgets and offline validation formulas; do not invent the actual size of an unbuilt kernel.</li><li><input type="checkbox" disabled checked> Choose static DT memory or ATAG import and document all memory/initrd/command-line implications.</li><li><input type="checkbox" disabled checked> Update authoritative knowledge and state whether offline implementation may begin. Keep this issue open if the memory policy remains architecturally unresolved.</li></ul>
+<p>No Linux build, DTS/kernel implementation, BOOTIMG creation/modification, flashing, device writes or delegated research. Recovery and launch gates remain separate from offline artifact-design readiness.</p>
+<p>Result: offline memory policy complete under D08; see <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Finitial-ram-map.md">initial-ram-map</a>. U07c remains an explicit inherited-DMA/secure-state launch gate. No Linux artifact or implementation issue created; M0 not passed.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

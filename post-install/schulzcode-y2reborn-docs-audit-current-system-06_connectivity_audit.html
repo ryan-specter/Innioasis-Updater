@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Connectivity audit - Innioasis Updater</title>
+  <meta name="description" content="Connectivity audit <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims, next steps and permissions be">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-audit-current-system-06_connectivity_audit.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Connectivity audit - Innioasis Updater">
+  <meta property="og:description" content="Connectivity audit <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims, next steps and permissions be">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-audit-current-system-06_connectivity_audit.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Connectivity audit - Innioasis Updater">
+  <meta name="twitter:description" content="Connectivity audit <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims, next steps and permissions be">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>Connectivity audit</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="connectivity-audit">Connectivity audit</h1>
+<!-- knowledge-base-scope: historical-audit/review -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_REBORN_STATE.md) for the latest physically observed result.
+<h2 id="shared-hardware-authority">Shared hardware authority</h2>
+<p><strong>IMPLEMENTED / HIGH; limited physical functions VERIFIED.</strong> The native stack has one CONSYS kernel owner for shared rails, reset, SPM domains, BTIF/DMA, STP/WMT commands, firmware and calibration. Wi-Fi is exposed through cfg80211; Bluetooth through HCI/BlueZ. Reborn is not running a second vendor hardware-control stack.</p>
+<p>Evidence: <a href="https://github.com/SchulzCode/Y2Linux/blob/main/kernel/platform/connectivity/core.c" target="_blank" rel="noopener noreferrer">CONSYS core</a>, <a href="https://github.com/SchulzCode/Y2Linux/blob/main/kernel/platform/connectivity/firmware.c" target="_blank" rel="noopener noreferrer">firmware</a>, <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Wi-Fi integration</a>, <a href="https://github.com/SchulzCode/Y2Linux/blob/main/tools/connectivity/factory.c" target="_blank" rel="noopener noreferrer">factory provider</a>, <a href="https://github.com/SchulzCode/Y2Linux/blob/main/tools/connectivity/calibration.c" target="_blank" rel="noopener noreferrer">calibration helper</a>. Firmware size/SHA checks precede controller use. The factory handoff accepts an exact bounded record size through a root-only interface; source calibration is read rather than silently replaced with a generic MAC/calibration block. Sensitive runtime files are private and private memory/core-dump handling is deliberate. Keep these safeguards.</p>
+<p>Shared recovery has serialization, error counters, bounded automatic attempts and explicit manual recovery conditions. The empty legacy Wi-Fi <code>glResetInit/glResetUninit</code> functions are compatibility stubs because recovery moved to the parent; they do not mean recovery is entirely absent. The vendor-derived Wi-Fi core remains a maintenance burden, and its whole command/DMA/concurrency surface was not formally verified by this review. <strong>UNKNOWN</strong>: recovery correctness under simultaneous real audio and network traffic, RF interference and controller loss.</p>
+<h2 id="wi-fi-path-f18">Wi-Fi path: F18</h2>
+<pre><code class="language-text">Reborn Wifi command worker
+ -&gt; rfkill + /data/network/enabled
+ -&gt; wpa_supplicant Unix control socket + separate attached event socket
+ -&gt; nl80211/cfg80211 -&gt; native MT6582 fullmac port -&gt; CONSYS firmware
+
+supplicant connection event -&gt; wpa_cli event helper -&gt; udhcpc
+ -&gt; address/routes/resolver configuration</code></pre>
+<p>The <a href="https://github.com/SchulzCode/Y2Reborn/blob/main/crates/reborn-platform/src/wifi.rs" target="_blank" rel="noopener noreferrer">Reborn adapter</a> has bounded scan startup/completion deadlines, bounded/deduplicated results, separate scan-event monitoring, explicit Off/Starting/scanning state, saved-network operations and input escaping. Its fake-supplicant tests exercise asynchronous progression and malformed/error responses, not merely a success return. The <a href="https://github.com/SchulzCode/Y2Linux/blob/main/buildroot/board/y2/production-overlay/usr/libexec/y2/connectivity" target="_blank" rel="noopener noreferrer">platform service</a> attaches interfaces and supervises supplicant/calibration/BlueALSA. <a href="https://github.com/SchulzCode/Y2Linux/blob/main/buildroot/board/y2/production-overlay/usr/libexec/y2/wpa-event" target="_blank" rel="noopener noreferrer">wpa-event</a> drives DHCP. These are useful pieces to keep.</p>
+<p>What is incomplete:</p>
+<ul><li><code>connect()</code> is WPA-PSK password based: SSID 1–32 bytes and password 8–63 bytes, <code>key_mgmt WPA-PSK</code>. Open-network connection is not implemented by this function even if scans display an open network. WPA3/enterprise/captive portals are not promised requirements; explicitly define the supported subset.</li><li>ADD/SET/SELECT/SAVE succeeds before association/DHCP/DNS succeeds. There is no comparable end-to-end connection deadline and rollback policy to the robust scan state machine. Wrong password, lost AP and DHCP failure need distinct states.</li><li>Supplicant <code>COMPLETED</code> is a link/authentication state, not proof of DNS or useful IP traffic. UI “connected” must not be used as the acceptance criterion. A saved-network diagnostic that checks IP still does not prove DNS/data transfer.</li><li>App and platform both participate in radio preference/recovery policy. Direct rfkill is an appropriate Linux interface, but retries, requested state and actual recovery need a single documented contract rather than layered optimistic statuses.</li><li>cfg80211 regulatory/channel/power constraints are propagated into the fullmac protocol. This is better than transplanting another product&#x27;s country table; it is not RF/regulatory certification.</li></ul>
+<h3 id="what-is-physically-proven">What is physically proven</h3>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fhardware-evidence%2F2026-09-17-m5-connectivity10%2FREADME.md">CONNECTIVITY-10</a> records wlan0 registration, scans returning 23 then 12 BSS entries, clean off/on cycles and simultaneous Bluetooth adapter power with core functions 0x9, zero observed transport errors. It explicitly says there were no saved network blocks and that association/authentication/DHCP/DNS/transfer were untested.</p>
+<p>A later <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Fvalidation%2F2026-09-18-radio-inspection.md">Reborn inspection</a> records 28 Wi-Fi scan results through the deployed older Reborn build, and identified real status/UI defects subsequently addressed in source. This is stronger than a standalone <code>iw</code> scan, but still not a network connection test. The current scan-UI correction report leaves manual viewing/peer tests pending.</p>
+<p><strong>Conclusion: PARTIAL / HIGH.</strong> Scan/adapter bring-up is physically evidenced; complete Wi-Fi operation is <strong>UNKNOWN</strong>. Required physical qualification: WPA2 join with correct/incorrect credentials, DHCP timeout, DNS lookup and bidirectional transfer, saved reconnect after reboot/AP loss, radio off/on, suspend/resume if offered, and sustained coexistence with SBC playback. No credentials need to enter public logs to prove those outcomes.</p>
+<h2 id="bluetooth-pairing-and-reconnect-f19">Bluetooth, pairing and reconnect: F19</h2>
+<pre><code class="language-text">Reborn BlueZ worker + pairing agent
+ -&gt; system D-Bus -&gt; bluetoothd -&gt; HCI -&gt; shared CONSYS/STP/WMT transport
+
+processed PCM -&gt; BlueALSA ALSA PCM -&gt; bluealsa A2DP-source encoder
+ -&gt; BlueZ transport -&gt; HCI controller -&gt; remote audio sink</code></pre>
+<p><a href="https://github.com/SchulzCode/Y2Reborn/blob/main/crates/reborn-platform/src/bluetooth.rs" target="_blank" rel="noopener noreferrer">bluetooth.rs</a> uses ObjectManager, a DisplayYesNo agent, explicit confirmation, bounded discovery and asynchronous device operations. It rejects unsupported legacy PIN requests instead of inventing a PIN. Playback rate selects the exact device, transport direction and negotiated 44.1/48-kHz PCM; tests reject unavailable/wrong-peer/unsupported-rate objects. Bond files persist through the platform&#x27;s private BlueZ storage.</p>
+<p>The <a href="https://github.com/SchulzCode/Y2Linux/blob/main/tools/connectivity/reconnect.c" target="_blank" rel="noopener noreferrer">reconnect helper</a> has a sensible single preferred audio-device policy and bounded retries. BlueZ&#x27;s built-in reconnect policy is disabled to avoid two autonomous retry owners. However, the helper requires a paired <strong>Trusted</strong> sink. Reborn issues Pair/Connect/Disconnect/Remove operations but contains no <code>Trusted</code> property assignment/control. Pairing alone does not establish that helper precondition. A manually trusted device may work; the end-to-end UI onboarding/reconnect path is <strong>PARTIAL</strong>, not demonstrated. Confirm with a fresh bond rather than reusing an owner-configured headset.</p>
+<p>Reborn has no <code>MediaPlayer1</code>/<code>RegisterPlayer</code> implementation or corresponding AVRCP action/metadata service. BlueZ having AVRCP code does not connect remote play/pause/next commands to AppModel. This application integration is <strong>MISSING / HIGH</strong>. It need not block a wired-only alpha, but cannot be advertised as working headset control.</p>
+<p>Operations are tracked with timeouts and errors, but whole-bus/service restarts, peer disconnection during writes and output fallback are not qualified. Output switching uses the same playback rebuild/lifecycle mechanisms reviewed in F02, not a seamless handover. The app reads the BlueALSA PCM rate/channels/direction; its baseline S16 choice is appropriate to the current narrow SBC path, not a future proof of arbitrary codec/PCM negotiation.</p>
+<h2 id="actually-built-bluetooth-codecs">Actually built Bluetooth codecs</h2>
+<p>Inspected source: Buildroot BlueALSA 4.3.1 generated <code>config.h</code> and build sources in <code>out/y2linux-reborn-audio-final/buildroot/build/bluez-alsa-4.3.1</code>; BlueZ 5.79. The service launches <code>bluealsa -p a2dp-source</code>. SBC is built as the mandatory codec. Optional enable macros for AAC, aptX, aptX HD, LDAC, MPEG/MP3 and mSBC are undefined. The later <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Farchitecture%2Fbluetooth-codecs.md">focused codec audit</a> confirms the v4.3.1 executable name, advertised controller EDR features, codec/library distinctions and the proposed Auto policy; upstream v5 uses <code>bluealsad</code>.</p>
+<table><thead><tr><th>Codec</th><th>Enabled in inspected image build?</th><th>Reborn/Y2 peer qualification</th></tr></thead><tbody><tr><td>SBC</td><td>Yes</td><td>UNKNOWN: no retained actual A2DP listening/transport run identified</td></tr><tr><td>AAC</td><td>No</td><td>Not qualified; FFmpeg AAC <em>file decoding</em> is unrelated</td></tr><tr><td>aptX</td><td>No</td><td>Not qualified</td></tr><tr><td>aptX HD</td><td>No</td><td>Not qualified</td></tr><tr><td>LDAC</td><td>No</td><td>Not qualified</td></tr></tbody></table>
+<p>Do not describe these optional codecs as “supported today” merely because upstream BlueALSA supports them. Adding them is new codec/CPU/distribution scope, not a bug fix authorized by this audit.</p>
+<h2 id="actual-bluetooth-evidence-and-target">Actual Bluetooth evidence and target</h2>
+<p>Historical adapter power/discovery and service availability exist. The Reborn physical scan report found <strong>zero discoverable peers</strong>, not a successful pairing or audio connection. The native HCI path is therefore more than a stub, but pairing, bonding, preferred reconnect, A2DP transport, audible playback, remote controls and sustained radio coexistence remain distinct unclosed evidence items.</p>
+<p><strong>CURRENT:</strong> native adapters, orchestration, UI commands and shared PCM-to-BlueALSA path. <strong>TARGET:</strong> reliable narrowly specified WPA2/SBC operation with truthful link/IP/audio states, one reconnect policy, and tested recovery. <strong>GAP:</strong> peer/network proof plus trust/AVRCP integration; optional codec expansion is not on the critical path. Before claiming Bluetooth as a release feature, use at least a fresh paired headset and a second interoperability peer, test disconnect/range loss/reboot and wired switching, then run Wi-Fi traffic concurrently. This is a proposed qualification plan, not permission to activate radios or change bonds now.</p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

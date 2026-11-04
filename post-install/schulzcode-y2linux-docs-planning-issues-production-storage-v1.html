@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Production Storage / Installation v1 — issue 33 - Innioasis Updater</title>
+  <meta name="description" content="Production Storage / Installation v1 — issue 33 <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current" c">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-production-storage-v1.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Production Storage / Installation v1 — issue 33 - Innioasis Updater">
+  <meta property="og:description" content="Production Storage / Installation v1 — issue 33 <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current" c">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-production-storage-v1.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Production Storage / Installation v1 — issue 33 - Innioasis Updater">
+  <meta name="twitter:description" content="Production Storage / Installation v1 — issue 33 <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current" c">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Production Storage / Installation v1 — issue 33</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="production-storage--installation-v1--issue-33">Production Storage / Installation v1 — issue 33</h1>
+<!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>ACTIVE, wider qualification pending. **Storage06 internal boot and owner SSH are physically confirmed.** The former Storage03 pending-flash body is superseded by the local Storage06 source and hardware evidence.</p>
+<p>The stock logical disk needs a 23552-sector native offset and exposes 15203328 logical sectors. Source <code>bea30cd5883f524a252d8b94d7e914d9d2f7cbdb</code> restores that translation for ordinary block reads/writes without changing the stock tables or protected-region firewall. The owner manually deployed Storage06 and then the corrected owner-key Y2DATA initialization. Authenticated SSH confirms Linux 6.18.0-y2linux-storage06, four CPUs, 954376 KiB MemTotal, internal ext4 p5 root/p7 data, no SD block device and working USB ECM/ACM. Full BOOTIMG readback and stock MBR/EBR hashes match. Existing owner key/identity are retained.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fbuild%2Fy2linux-production-v1-r6-deployment.md">Storage06 result and exact artifacts</a> · <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fhardware-evidence%2F2026-09-13-storage06-owner%2FREADME.md">Hardware evidence</a> · <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fknowledge%2Fstorage06-addressing-correction.md">Addressing proof</a>.</p>
+<p>The owner explicitly authorized M4 progression and confirmed preserving this Storage06 layout. Y2LINUX-M4-01 is now built from <code>f2d2ac641ee67cd94cd2c57c9f5201b6e78841fc</code>, awaiting manual BOOTIMG-only deployment. It reuses current root/data and includes the working Storage06 BOOTIMG fallback. It introduces normal power/thermal/cpufreq/idle/suspend/RTC/ reset APIs with bounded charging inhibition. No M4 hardware success is claimed. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fbuild%2Fy2linux-m4-01-deployment.md">M4 deployment and qualification</a> · <a href="https://github.com/SchulzCode/Y2Linux/issues/30" target="_blank" rel="noopener noreferrer">M4 epic</a>.</p>
+<ul><li><input type="checkbox" disabled checked> Internal Y2ROOT/Y2DATA mount and Buildroot switch_root with SD absent.</li><li><input type="checkbox" disabled checked> Owner-key SSH, four CPUs and expected measured RAM.</li><li><input type="checkbox" disabled checked> Stock table hashes and complete Storage06 BOOTIMG readback.</li><li><input type="checkbox" disabled> Bounded scratch-write/repeat/persistence and preserving reinstall qualification.</li><li><input type="checkbox" disabled> Wider protected-region/readback, rescue-negative and recovery qualification.</li><li><input type="checkbox" disabled> Suspend/resume root/data integrity, display/input/audio regression tests.</li><li><input type="checkbox" disabled> Controlled reboot, actual hardware-off and subsequent normal power-on under M4.</li></ul>
+<p>Two synthetic ext4 buddy-cache inode warnings remain recorded; the image checks report clean and the system boots. Do not turn that into an unperformed stress, power-fail or full filesystem acceptance claim. M3&#x27;s narrow residual checks remain #29; USB cable reconnect #27 is deferred and does not block M4 unless it directly prevents suspend qualification. Radios and Y2PlayerNative stay deferred. The owner alone performs BOOTIMG flashing; root/data, loaders, partition tables, NVRAM/calibration and unrelated partitions are preserved in this M4 update.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

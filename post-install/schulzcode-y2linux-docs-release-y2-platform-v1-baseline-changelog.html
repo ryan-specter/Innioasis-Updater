@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Platform 1.0 baseline — human engineering changelog - Innioasis Updater</title>
+  <meta name="description" content="Platform 1.0 baseline — human engineering changelog The work produced concrete fixes, bounded optimizations and safer contracts. It did not establish integrated hardware">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-release-y2-platform-v1-baseline-changelog.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Platform 1.0 baseline — human engineering changelog - Innioasis Updater">
+  <meta property="og:description" content="Platform 1.0 baseline — human engineering changelog The work produced concrete fixes, bounded optimizations and safer contracts. It did not establish integrated hardware">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-release-y2-platform-v1-baseline-changelog.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Platform 1.0 baseline — human engineering changelog - Innioasis Updater">
+  <meta name="twitter:description" content="Platform 1.0 baseline — human engineering changelog The work produced concrete fixes, bounded optimizations and safer contracts. It did not establish integrated hardware">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Platform 1.0 baseline — human engineering changelog</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="platform-10-baseline--human-engineering-changelog">Platform 1.0 baseline — human engineering changelog</h1>
+<p>The work produced concrete fixes, bounded optimizations and safer contracts. It did not establish integrated hardware acceptance. Historical measurements below belong to the exact subsystem binaries and images listed in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Frelease%2FY2-PLATFORM-V1-FINAL-SESSION-RESULTS.md">the twelve-session ledger</a>.</p>
+<h2 id="1-bluetooth">1. Bluetooth</h2>
+<p><strong>BEFORE:</strong> Periodic reconnect/observation work and unreliable discovery fields.</p>
+<p><strong>WHAT THE PARALLEL SESSION FOUND:</strong> Off/disconnected evidence did not test a real headset; observer owner changes were ambiguous.</p>
+<p><strong>WHAT CHANGED:</strong> Event/deadline waits, bounded reconnect intents, restart/PCM generation handling and fixed JSON.</p>
+<p><strong>RESULT:</strong> Less idle polling; hardened codec/peer observation.</p>
+<p><strong>WHAT STILL NEEDS HARDWARE TESTING:</strong> Real headset/codec/reconnect/coexistence and endurance.</p>
+<h2 id="2-wi-fi">2. Wi-Fi</h2>
+<p><strong>BEFORE:</strong> Slow real STATUS replies could appear disconnected; repeated signal queries.</p>
+<p><strong>WHAT THE PARALLEL SESSION FOUND:</strong> Replies took 1.48–2.08 seconds; stale readiness/DNS and duplicate cleanup could survive epochs.</p>
+<p><strong>WHAT CHANGED:</strong> Bounded three-second STATUS, freshness-bound readiness/RSSI, shared service wake and DNS scheduling.</p>
+<p><strong>RESULT:</strong> Bug fixes and bounded repeated work; no new throughput/power claim.</p>
+<p><strong>WHAT STILL NEEDS HARDWARE TESTING:</strong> AP loss, changed-policy cold boot, radio coexistence and unresolved TX iperf reset.</p>
+<h2 id="3-ffmpeg--metadata">3. FFmpeg / metadata</h2>
+<p><strong>BEFORE:</strong> Metadata/artwork inspection could do unnecessary decoder work and reuse stale extraction.</p>
+<p><strong>WHAT THE PARALLEL SESSION FOUND:</strong> Malformed/huge artwork, duplicate parsing and sidecar-only opens needed explicit bounds.</p>
+<p><strong>WHAT CHANGED:</strong> Demux-only bounded inspection, metadata ABI/revision 2, cancellable local I/O and one DB scanner.</p>
+<p><strong>RESULT:</strong> Safer ingestion and faster owner host scan; exact FFmpeg remains 9.0.2.</p>
+<p><strong>WHAT STILL NEEDS HARDWARE TESTING:</strong> Integrated formats, tags/artwork edits, removal/cancellation and whole-app scans.</p>
+<h2 id="4-high-resolution-audio">4. High-resolution audio</h2>
+<p><strong>BEFORE:</strong> Software narrowing and generic container reporting could mislead about precision.</p>
+<p><strong>WHAT THE PARALLEL SESSION FOUND:</strong> Native intersection only admitted S16 stereo 44.1/48 kHz; wider hardware was unproved.</p>
+<p><strong>WHAT CHANGED:</strong> Correct final ties-even narrowing and separate source/DSP/container/meaningful/sink diagnostics.</p>
+<p><strong>RESULT:</strong> Software precision bug fixed; justified preservation of native S16.</p>
+<p><strong>WHAT STILL NEEDS HARDWARE TESTING:</strong> Actual low bits/I2S clocks and analog output before admitting wider modes/rates.</p>
+<h2 id="5-usb--desktop-transfer">5. USB / desktop transfer</h2>
+<p><strong>BEFORE:</strong> A coherent consumer transfer product and safe mount ownership were incomplete.</p>
+<p><strong>WHAT THE PARALLEL SESSION FOUND:</strong> MTP needed confinement, durable refresh, hotplug/release handling and real ARM UAPI.</p>
+<p><strong>WHAT CHANGED:</strong> Configfs MTP plus ECM; Developer ACM/ECM; Linux-only mounts, no raw MSC, pinned responder and PIO progress repair.</p>
+<p><strong>RESULT:</strong> Significant safe transfer implementation; desktop acceptance remains open.</p>
+<p><strong>WHAT STILL NEEDS HARDWARE TESTING:</strong> Actual desktop large/small files, reconnect/hash integrity, SD release and host matrix.</p>
+<h2 id="6-full-system-suspend">6. Full-system suspend</h2>
+<p><strong>BEFORE:</strong> Staged PM existed but full same-boot restore was not established.</p>
+<p><strong>WHAT THE PARALLEL SESSION FOUND:</strong> Baseline02 RTC watchdog-rebooted in device resume; precise CS43131 internal stall unknown.</p>
+<p><strong>WHAT CHANGED:</strong> Checked restores/quarantine, codec refusal rollback/substeps, acknowledged worker/player/UI quiescence and wake input reset.</p>
+<p><strong>RESULT:</strong> Hardening and observability; RTC failure not proved fixed.</p>
+<p><strong>WHAT STILL NEEDS HARDWARE TESTING:</strong> Power and RTC separately, staged PM first, complete restored same boot and repeated acceptance.</p>
+<h2 id="7-storage--filesystems">7. Storage / filesystems</h2>
+<p><strong>BEFORE:</strong> Path/UUID-only identity could accept a replacement card or symlinked file.</p>
+<p><strong>WHAT THE PARALLEL SESSION FOUND:</strong> Live block lifetime, mount claims and playback/artwork pins needed a single ownership model.</p>
+<p><strong>WHAT CHANGED:</strong> diskseq live claims, CID-qualified persistent IDs, no-follow file/parent pins, FAT UTF-8 and bounded diagnostics.</p>
+<p><strong>RESULT:</strong> Source replacement/hotplug hazards hardened; measured speed modes preserved.</p>
+<p><strong>WHAT STILL NEEDS HARDWARE TESTING:</strong> Different card/cloned UUID, absent boot, existing FAT/exFAT, hotplug and endurance.</p>
+<h2 id="8-reborn-performance">8. Reborn performance</h2>
+<p><strong>BEFORE:</strong> Static redraw, UI-thread observations and ALSA partial-write busy work wasted CPU.</p>
+<p><strong>WHAT THE PARALLEL SESSION FOUND:</strong> Exact temporary ARM comparison isolated rendering and audio pacing costs.</p>
+<p><strong>WHAT CHANGED:</strong> Visible-state frames, descriptor waits, ordered texture batches, existing-watchdog observations, correct cache eviction and readiness pacing.</p>
+<p><strong>RESULT:</strong> Owner app playing CPU 87.95→11.21%; static Home 14→0 frames/10 seconds; source integrated, measurements historical.</p>
+<p><strong>WHAT STILL NEEDS HARDWARE TESTING:</strong> Exact baseline latency/listening/XRUNs, startup tradeoffs and normal whole-app workloads.</p>
+<h2 id="9-gpu--display--graphics">9. GPU / display / graphics</h2>
+<p><strong>BEFORE:</strong> Full-size JPEG decoding cost memory/CPU despite small cover output.</p>
+<p><strong>WHAT THE PARALLEL SESSION FOUND:</strong> Working display/runtime PM needed preservation; measured JPEG reduction was useful.</p>
+<p><strong>WHAT CHANGED:</strong> Checked reduced JPEG decode in one bounded media wrapper; existing GPU/scanout architecture retained.</p>
+<p><strong>RESULT:</strong> Owner temporary ARM median 492.637→75.332 ms and RSS 29,920→9,320 KiB.</p>
+<p><strong>WHAT STILL NEEDS HARDWARE TESTING:</strong> Integrated GPU/display off/wake, blend/order/pixels and full-resume; no electrical claim.</p>
+<h2 id="10-sqlite--library-db">10. SQLite / library DB</h2>
+<p><strong>BEFORE:</strong> Scan-wide maps, row rewrites and full catalog reloads scaled poorly.</p>
+<p><strong>WHAT THE PARALLEL SESSION FOUND:</strong> No-op scans and removable-source cancellation needed TEMP/token ownership and bounded paging.</p>
+<p><strong>WHAT CHANGED:</strong> DB TEMP seen/candidate sets, conditional writes, 512-row pages and composed extractor migration.</p>
+<p><strong>RESULT:</strong> Owner native 50k catalog 8641.27→999.53 ms, unchanged scan 25471.03→3845.16 ms; ingest/prune tradeoffs retained.</p>
+<p><strong>WHAT STILL NEEDS HARDWARE TESTING:</strong> Whole app and endurance; 250k is a ceiling, not measured capacity; actual flash I/O unavailable.</p>
+<h2 id="11-input--wheel">11. Input / wheel</h2>
+<p><strong>BEFORE:</strong> Backlog/clock/rebind and held-key recovery could create wrong actions.</p>
+<p><strong>WHAT THE PARALLEL SESSION FOUND:</strong> The physical capture had zero events and the changed app never executed.</p>
+<p><strong>WHAT CHANGED:</strong> Monotonic provenance, stable identity, bounded reads, typed cancellation and one duplicate/acceleration owner.</p>
+<p><strong>RESULT:</strong> Timing/recovery bugs fixed in source; canonical Power routing composed.</p>
+<p><strong>WHAT STILL NEEDS HARDWARE TESTING:</strong> Counted mechanical detents/buttons, hold exclusivity, wake gesture and real latency.</p>
+<h2 id="12-master-integration">12. Master integration</h2>
+<p><strong>BEFORE:</strong> Eleven overlapping source pairs could not be assembled by blind merges.</p>
+<p><strong>WHAT THE PARALLEL SESSION FOUND:</strong> 34 concerns crossed scanner, waits, clocks, caches, USB/storage, ABI, privacy and sleep boundaries.</p>
+<p><strong>WHAT CHANGED:</strong> Composed selected work, rejected weaker/duplicate implementations and built one paired candidate.</p>
+<p><strong>RESULT:</strong> 324 Rust cases and a sealed software candidate; independent baseline rebuild supersedes its handoff.</p>
+<p><strong>WHAT STILL NEEDS HARDWARE TESTING:</strong> Every integrated acceptance area remains NOT_RUN; historical subsystem results keep their own identities.</p>
+<p>The independent final verifier adds the baseline version identity, a smoke-first handoff, separate Power/RTC selection, and reconciliation of an old telemetry test with the accepted three-second Wi-Fi timeout. No new hardware capability or runtime C3 policy is enabled by finalization.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

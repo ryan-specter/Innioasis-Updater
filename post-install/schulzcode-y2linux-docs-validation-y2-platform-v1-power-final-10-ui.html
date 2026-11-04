@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-10 — 09 plus Reborn Product UI v3 (validation receipt) - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-10 — 09 plus Reborn Product UI v3 validation receipt Status: offline-qualified; physical NOT RUN. Identity: Linux build commit 04aa8f92080fba6cdefa4f73b5c7ca8">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-10-ui.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-10 — 09 plus Reborn Product UI v3 (validation receipt) - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-10 — 09 plus Reborn Product UI v3 validation receipt Status: offline-qualified; physical NOT RUN. Identity: Linux build commit 04aa8f92080fba6cdefa4f73b5c7ca8">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-10-ui.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-10 — 09 plus Reborn Product UI v3 (validation receipt) - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-10 — 09 plus Reborn Product UI v3 validation receipt Status: offline-qualified; physical NOT RUN. Identity: Linux build commit 04aa8f92080fba6cdefa4f73b5c7ca8">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-10 — 09 plus Reborn Product UI v3 (validation receipt)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-10--09-plus-reborn-product-ui-v3-validation-receipt">POWER-FINAL-10 — 09 plus Reborn Product UI v3 (validation receipt)</h1>
+<p>Status: offline-qualified; physical NOT_RUN. Identity: Linux build commit <code>04aa8f92080fba6cdefa4f73b5c7ca81d5c5bdaa</code> (later test-only commit <code>a08ad7967641badeead94ab399d73804afedbcf9</code>), Reborn 0.3.0 <code>f31c94c5775aee855589392447ba56ff1bf892ab</code>. BOOTIMG <code>9d1f00a528f14824bef9eae5e65c4bd9cca00f38fc440e038c52e2cd67ecf0ca</code>, Y2ROOT <code>77a41a333ca27e9092dbafa37dc3f8da87ec6810c81398fa2258a1c116eafe16</code>. Fallback = sealed 09.</p>
+<h2 id="change">Change</h2>
+<p>Reborn Product UI v3 (docs: Y2Reborn <code>docs/ui/REBORN-PRODUCT-UI-V3.md</code>; scope audit: Y2Linux <code>docs/planning/roadmap-gap-audit.md</code>, POWER-FINAL-10 entry). Renderer: unchanged shader, new coverage-mask glyph/shape pages (luminance-alpha) and a 96×96 thumbnail atlas. Early splash regenerated (hand-off pixel-identical). Navigation: Power hold ring instead of menus; flatter Settings; service menu behind seven taps on Version; EQ presets; covers via a background worker with a disk cache. Linux: identity bump, regenerated <code>reborn-splash-mark.h</code>, splash bar dot, Open Sans licence installed under <code>/usr/share/reborn</code>; the Reborn version assertion in <code>tests/test_reborn_receipts.py</code> is now 0.3.0.</p>
+<h2 id="tests">Tests</h2>
+<p>Locked-container production suite PASS, 630 cases (first run failed one case, the stale 0.2.0 version assertion; fixed and rerun clean, both logs kept); 29 packaging-host and 27 splash PASS; package, ELF closure, installed-ARM, inventory and privacy PASS. Reborn: fmt, strict Clippy, 355 workspace tests PASS; all 62 preview frames render identically through the production GL code on a host GLES2 (Mesa) and the Python rasteriser.</p>
+<h2 id="not-verified">Not verified</h2>
+<p>On-device rendering (luminance-alpha and non-power-of-two textures on the Mali-400), frame times, memory (UI textures grow about 4.4 → 9 MB), cover decode time, the Power hold feel, shutdown timing (user grace 10 s, low-battery grace 3 s; the platform deadline still fires without an acknowledgement). Not implemented from the design: automatic &quot;Connected to a computer&quot; screen, the charging screen with the display off, the download progress ring, the Bluetooth pairing progress card.</p>
+<h2 id="verdict">Verdict</h2>
+<p><strong>IMPLEMENTATION_READY_PHYSICAL_NOT_RUN</strong></p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

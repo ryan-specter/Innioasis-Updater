@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2E-105 — Capture the current non-root ADB system and access baseline - Innioasis Updater</title>
+  <meta name="description" content="Y2E-105 — Capture the current non-root ADB system and access baseline <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-105.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2E-105 — Capture the current non-root ADB system and access baseline - Innioasis Updater">
+  <meta property="og:description" content="Y2E-105 — Capture the current non-root ADB system and access baseline <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-105.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2E-105 — Capture the current non-root ADB system and access baseline - Innioasis Updater">
+  <meta name="twitter:description" content="Y2E-105 — Capture the current non-root ADB system and access baseline <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2E-105 — Capture the current non-root ADB system and access baseline</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2e-105--capture-the-current-non-root-adb-system-and-access-baseline">Y2E-105 — Capture the current non-root ADB system and access baseline</h1>
+<!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<blockquote><p>Canonical platform research task. Transferred from SchulzCode/Y2PlayerNative#2; the original URL redirects here and preserves history. This task belongs to the research/architecture workstream, not an implementation handoff. The research owner performs and reviews the evidence, then advances only satisfied prerequisites. No <code>state:luna-ready</code> label applies.</p></blockquote>
+<h2 id="goal">Goal</h2>
+<p>Capture the current device&#x27;s identity, stock-family system evidence and access limitations in one bounded non-root session.</p>
+<h2 id="why">Why</h2>
+<p>Historical captures came from a secure-ADB boot image and cannot establish today&#x27;s installed boot/system state.</p>
+<h2 id="dependencies">Dependencies</h2>
+<ul><li>Y2E-101: <a href="https://github.com/SchulzCode/Y2Linux/issues/1" target="_blank" rel="noopener noreferrer">https://github.com/SchulzCode/Y2Linux/issues/1</a> (evidence review required)</li></ul>
+<p>Y2E-101 evidence reviewed. Its private-evidence convention and artifact catalog must exist. One already connected, authorized target is required; if absent, report the blocked capture without changing device configuration.</p>
+<h2 id="evidence--assumptions">Evidence / Assumptions</h2>
+<p>Archived records identify MT6582/ARMv7 and Linux 3.4.67, but current build/revision and modifications are UNKNOWN. Older captures show denied dmesg/cmdline with host exit 0, absent config.gz/DT exports, and missing uname. Do not assume BusyBox, root, modern toybox or working Android command exit propagation.</p>
+<h2 id="scope">Scope</h2>
+<p>One passive host/system inventory, with no interactive subsystem tests.</p>
+<h2 id="out-of-scope">Out of Scope</h2>
+<p>No partition contents, deep sysfs walks, radio changes, input generation, playback changes, permission workarounds or collector framework.</p>
+<h2 id="expected-files--components">Expected Files / Components</h2>
+<p><code>docs/knowledge/stock-system-baseline.md</code>; ignored per-command output and capture manifest under <code>evidence-private/&lt;capture-id&gt;/</code>.</p>
+<h2 id="instructions">Instructions</h2>
+<ol><li>Record host <code>date -u</code>, <code>uname -a</code>, <code>adb version</code>, <code>command -v adb</code>, <code>lsusb</code> if available, and <code>adb devices -l</code>. Use the chosen private serial explicitly for every later command. Stop for zero/multiple ambiguous/unauthorized/offline targets.</li><li>Capture each remote command separately with a host <code>timeout 15s adb -s &quot;$Y2_SERIAL&quot; shell &#x27;&lt;command&gt;&#x27;</code>. Record the remote exit with a shell-status marker if supported; keep local status separately. Capture <code>id</code>, <code>date</code>, <code>getprop</code>, <code>uname -a</code>, <code>cat /proc/version</code>, <code>cat /proc/cpuinfo</code>, <code>cat /proc/meminfo</code>, <code>cat /proc/cmdline</code>, <code>cat /proc/interrupts</code>, <code>cat /proc/iomem</code>, <code>cat /proc/modules</code>, <code>getenforce</code>, <code>dmesg</code>, <code>cat /proc/mounts</code>, and <code>dumpsys battery</code>. Missing/denied commands are recorded once, not retried with privileges.</li><li>List metadata only: <code>ls -ld /proc/config.gz /proc/device-tree /sys/firmware/devicetree/base</code>, <code>ls -l /system/lib/modules /vendor/lib/modules /system/etc/firmware /vendor/firmware</code>. Record CPU possible/present/online from their explicit files if readable. Do not recursively read firmware or sysfs.</li><li>Record USB properties from getprop and shell uid/groups/SELinux. Compare the selected build identity to cataloged stock/modified provenance. A matching fingerprint alone does not establish stock boot or stock HAL. Use owner-provided installation history if available, otherwise UNKNOWN; do not flash to make the unit stock.</li><li>Produce a compact access matrix and present-day versus historical differences. Preserve full raw getprop privately; publish only relevant redacted values.</li></ol>
+<h2 id="acceptance-criteria">Acceptance Criteria</h2>
+<ul><li><input type="checkbox" disabled> One target and current session are traceable privately; host/kernel/build/privilege facts have raw evidence.</li><li><input type="checkbox" disabled> Every requested command has collected/empty/denied/unavailable/failed outcome, including error text and independent status handling.</li><li><input type="checkbox" disabled> Device time is not silently used as trustworthy UTC; no inaccessible resource is inferred absent.</li><li><input type="checkbox" disabled> Installed boot/system lineage is explicitly confirmed or unknown, never inferred from a fingerprint alone.</li><li><input type="checkbox" disabled> Capture hashes validate and the sanitized report identifies prerequisites still blocking readback.</li></ul>
+<h2 id="validation">Validation</h2>
+<p>Re-read outputs for <code>Permission denied</code>, <code>Operation not permitted</code>, <code>not found</code>, timeout and empty data even when ADB returns 0. Verify the raw capture manifest with <code>sha256sum -c SHA256SUMS</code> from its directory; verify <code>git check-ignore evidence-private/probe</code> and <code>git diff --check</code>. No repeat capture is required solely to make a denial disappear.</p>
+<h2 id="expected-artifact">Expected Artifact</h2>
+<p>One timestamped passive capture, checksums and a system/access report suitable for partition-map planning.</p>
+<h2 id="execution-contract">Execution contract</h2>
+<p>Y2Linux is the canonical home for all platform research, evidence, recovery and Linux bring-up. Y2PlayerNative is reserved for the later Rust/C application. Preserve stable Y2E IDs. Do one task only; no application/kernel implementation, DTS changes, builds, flashing, reboot, boot-mode transitions, installs, adb root/su, remount, property/settings writes, radio toggles, log clearing, register access, guessed ioctls, bus probes, raw partition reads or writes. Read-only shell inspection is allowed only where explicitly listed.</p>
+<p>Use the existing Git author/committer configuration and authenticated GitHub user. Verify with <code>git var GIT_AUTHOR_IDENT</code> and <code>git var GIT_COMMITTER_IDENT</code> before committing; stop if identity is missing or wrong. Never change identity or add model attribution.</p>
+<p>Store raw files under ignored <code>evidence-private/&lt;capture-id&gt;/</code>; commit only reviewed/redacted reports and manifests. Use host UTC time; record device clock separately if available. For every observation record exact command/tool version, capture ID, source/build lineage, local exit status, remote exit status where obtainable, stdout/stderr, size, SHA-256, and outcome COLLECTED/EMPTY/DENIED/UNAVAILABLE/FAILED. Facts use CONFIRMED/INFERRED/UNKNOWN/DISPROVEN with evidence locator, date and task ID. Inspect error text: archived ADB commands returned host exit 0 with remote denial. Do not publish firmware, calibration, serial/MAC identifiers, credentials, pairing data or personal media.</p>
+<h2 id="stop-conditions">Stop Conditions</h2>
+<p>Stop the affected activity and report if identity is missing/wrong, inputs fail integrity checks, device identity differs unexpectedly, the target is ambiguous/offline/unauthorized, a command would mutate device state, or scope requires new tooling/privileges/architectural decisions. Record a bounded denial/missing resource and continue only other explicitly independent observations; never bypass it.</p>
+<h2 id="risk">Risk</h2>
+<p>Low: host documentation/offline analysis and explicitly bounded non-root observations only.</p>
+<h2 id="recovery">Recovery</h2>
+<p>No device mutation is allowed. Missing access is evidence; it does not authorize a privilege or boot change.</p>
+<h2 id="completion-report">Completion Report</h2>
+<p>Report files changed, exact commands and tool versions, validation results, artifact manifest/hashes, provenance/limitations, unexpected findings, unresolved blockers and one suggested next step. Do not implement the suggestion. The research owner must review the evidence before advancing a dependent research task; closing this issue does not pass M0.</p>
+<h2 id="unlocks">Unlocks</h2>
+<p>Evidence review may unlock Y2E-110 research.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

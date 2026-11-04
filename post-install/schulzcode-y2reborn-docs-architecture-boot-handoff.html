@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Boot progress and display hand-off - Innioasis Updater</title>
+  <meta name="description" content="Boot progress and display hand-off <!-- knowledge-base-scope: source-contract -- Source contract, software-validated only. Not flashed. The first boot of a build containi">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-architecture-boot-handoff.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Boot progress and display hand-off - Innioasis Updater">
+  <meta property="og:description" content="Boot progress and display hand-off <!-- knowledge-base-scope: source-contract -- Source contract, software-validated only. Not flashed. The first boot of a build containi">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-architecture-boot-handoff.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Boot progress and display hand-off - Innioasis Updater">
+  <meta name="twitter:description" content="Boot progress and display hand-off <!-- knowledge-base-scope: source-contract -- Source contract, software-validated only. Not flashed. The first boot of a build containi">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>Boot progress and display hand-off</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="boot-progress-and-display-hand-off">Boot progress and display hand-off</h1>
+<!-- knowledge-base-scope: source-contract -->
+> **Source contract, software-validated only.** Not flashed. The first boot of
+> a build containing it is the only way to measure splash-visible, first-frame
+> and fade times on the device.
+<h2 id="ownership-and-boot-order">Ownership and boot order</h2>
+<p>The early splash (Y2Linux <code>tools/graphics/reborn-splash.c</code>, started from the initramfs) owns the display from early boot until Reborn has rendered its <strong>first complete UI frame</strong>. Reborn starts <strong>last</strong> (<code>S90reborn</code>), after the platform services, the system bus and, when the user has them enabled, the radios are up (<code>/usr/libexec/y2/boot-gate</code>, bounded to 45 s, never a fixed delay). So the first frame is a complete system: Wi-Fi, Bluetooth, audio and the library workers exist when the user first sees and can touch the UI. The sequence is:</p>
+<ol><li>The splash shows the Reborn wordmark, one thin white bar and a short status<p>line. The bar fills left to right to coarse positions of real milestones.</p></li><li>Reborn finishes starting, then renders the real Home frame with the full boot<p>screen over it (<code>reborn_ui::boot_transition</code>, remaining = 1). The bar is already full and the status is &quot;Starting Reborn&quot; (milestone <code>ready</code>).</p></li><li>Reborn sends <code>READY 1</code>. The splash completes bar and status if they are not<p>already there, drops DRM master and replies <code>RELEASED 1</code>. There is no timer.</p></li><li>Reborn takes master, waits for the frame&#x27;s page-flip completion, and sends <code>PRESENTED 1</code>; the splash<p>destroys its buffer and exits. The first presented frame is pixel-identical to the splash&#x27;s last frame.</p></li><li>Reborn reveals the UI over <code>BOOT_FADE_FRAMES</code> (10) frames, ≈0.34 s: the bar<p>and status line fade out first, then the wordmark lifts a few pixels and dissolves with the cover on an ease-in-out curve. Input is ignored until the UI is fully visible. <code>application_ready</code> is announced after the first frame is presented, not before.</p></li></ol>
+<p><code>drmModeSetCrtc</code> returning zero is insufficient: physical deep-sleep validation found a boot where it returned after a kernel vblank timeout. The native path therefore requests and waits for a page-flip event even on its first frame. Missing completion or a rejected flip fails readiness, retains scanout buffers until teardown, and reports failed graphics health. Context creation alone is reported as waiting for presentation. The native regression executes the actual implementation with missing/failed/completed events and fails on the old code.</p>
+<p>Repeated presentation failure allows one automatic renderer recreation, then waits for an explicit screen wake. A completed frame restores that budget. This prevents the observed repeated context creation/logging during a display fault; it does not repair the underlying kernel or hardware fault. A splash handoff retry must complete a fresh READY/RELEASED handshake even if the splash could not reclaim DRM master after the previous client timed out.</p>
+<h2 id="why-the-logo-used-to-stay-up">Why the logo used to stay up</h2>
+<p>Reborn handed off as soon as its renderer existed (<code>graphics_ready</code>) and presented <code>boot_frame()</code>, a static copy of the logo. It then ran the rest of startup on its render thread (media sources, database and scanner, audio, Wi-Fi and Bluetooth workers, control server, diagnostics, platform client, artwork, AVRCP) and only drew again when that loop began. The splash was gone, so nothing animated and the logo stayed for the whole remainder of startup; the dissolve started only afterwards, and <code>application_ready</code> was announced for the logo frame. Reborn also used to start before the radios and the system bus existed (<code>S05reborn</code>), so its first frames were an incomplete system.</p>
+<h2 id="milestones">Milestones</h2>
+<p>Producers write a milestone name to <code>/run/reborn-splash/phase</code>: the initramfs through <code>y2_stage</code> (its existing stage names), <code>rcS</code> before each service that matters (<code>rc_*</code>), <code>boot-gate</code> for each real wait, and Reborn through <code>startup_phase</code> (<code>reborn_platform::contract::boot_milestone</code>). The table lives in <code>reborn_ui::BOOT_PHASES</code>; <code>reborn-preview</code> exports it with the rendered text to <code>docs/ui/previews/v3/boot-layout.json</code>, and Y2Linux <code>tools/graphics/make-splash-mark.py</code> generates <code>reborn-splash-mark.h</code> from it.</p>
+<table><thead><tr><th>Milestones</th><th>Status line</th></tr></thead><tbody><tr><td><code>start</code>, <code>root_data_mounted</code>, <code>switch_root</code>, <code>rc_data</code></td><td>Starting system</td></tr><tr><td><code>storage_discovery</code> … <code>fsck_complete</code></td><td>Preparing storage</td></tr><tr><td><code>rc_time</code></td><td>Setting the clock</td></tr><tr><td><code>rc_power</code></td><td>Starting power</td></tr><tr><td><code>rc_bluetooth</code></td><td>Starting Bluetooth</td></tr><tr><td><code>rc_connectivity</code> … <code>conn_activated</code></td><td>Starting connectivity (factory records, calibration, radio activation)</td></tr><tr><td><code>conn_wifi_wait</code>, <code>conn_wifi</code></td><td>Starting Wi-Fi (only when enabled)</td></tr><tr><td><code>conn_bluetooth_wait</code>, <code>conn_bluetooth</code></td><td>Starting Bluetooth (only when enabled)</td></tr><tr><td><code>system_ready</code>, <code>model_restored</code></td><td>Starting Reborn</td></tr><tr><td><code>graphics_ready</code>, <code>storage_ready</code></td><td>Loading music library</td></tr><tr><td><code>library_workers_ready</code>, <code>core_services_ready</code></td><td>Starting audio</td></tr><tr><td><code>audio_ready</code></td><td>Starting connectivity (Reborn&#x27;s radio workers)</td></tr><tr><td><code>radio_workers_ready</code> … <code>ready</code></td><td>Starting Reborn</td></tr></tbody></table>
+<p>The positions are ordinal weights, not time or work estimates, and are never shown as numbers. The bar only moves forward: earlier or unknown names are ignored, a missing milestone (a disabled radio) leaves the bar where it is until a later one arrives, and nothing advances on a timer. The splash redraws only while the bar is gliding to a new position (33 ms ticks) and is otherwise asleep in <code>poll</code>. <code>rcS</code> also writes every script&#x27;s start and end uptime to <code>/run/y2/boot-trace.jsonl</code> for profiling.</p>
+<p>The initramfs <code>rescue</code> stage and a failed hand-off show &quot;Could not start / Restart the player&quot; without a bar. The failure timeout counts from the last milestone (60 s), so a slow but progressing boot is never called a failure. A late <code>READY</code> still works.</p>
+<h2 id="early-boot-waits-that-were-removed">Early-boot waits that were removed</h2>
+<ul><li>The initramfs credits the device&#x27;s stored random seed as soon as Y2DATA is<p>mounted. Before, the kernel needed ~6 s to gather entropy on this CPU and the first process that waited for randomness (the platform helper&#x27;s temporary file names) blocked until then, about 3 s with nothing booting.</p></li><li><code>y2-platform</code> records no longer use <code>tempfile</code>, so they never wait for the<p>random pool.</p></li><li>Storage discovery polls every 50 ms instead of once a second.</li></ul>
+<h2 id="shutdown">Shutdown</h2>
+<p>Reborn dissolves the UI into the same screen with a full bar and <strong>Saving</strong>, saves (audio, session, database), then shows <strong>Shutting down</strong> (or <strong>Restarting</strong>, <strong>Battery empty</strong>) while the bar drains right to left and the screen dims. It presents a black frame, waits one refresh, turns the backlight off and acknowledges. It does not invent progress: the two labels are the two real phases. If Reborn never acknowledges (hang, crash, deadline), the platform turns the backlight off <em>before</em> stopping Reborn, so restoring the fbdev buffer cannot show on a lit panel.</p>
+<h2 id="checks">Checks</h2>
+<ul><li><code>cargo test -p reborn-ui</code> (phase table, bar geometry, no accent colour, fade<p>and shutdown schedules) and <code>cargo test -p reborn --test boot_handoff_guard</code> (first frame is the real UI under the cover, readiness after presentation).</p></li><li>Y2Linux <code>tests/test_reborn_splash.py</code> (milestone mapping, no regression,<p>missing/failed milestones, pixel identity with Reborn, hand-off timing, idle without wake-ups) and <code>tests/test_platform_power_contract.py</code>.</p></li><li>Previews: <code>docs/ui/previews/boot/contact-sheet.png</code>, made by Y2Linux<p><code>tools/graphics/boot-previews.py</code>.</p></li></ul></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

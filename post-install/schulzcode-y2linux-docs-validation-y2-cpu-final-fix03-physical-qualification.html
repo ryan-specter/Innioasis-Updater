@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2 CPU Final Fix03 physical qualification — prepared, not run - Innioasis Updater</title>
+  <meta name="description" content="Y2 CPU Final Fix03 physical qualification — prepared, not run <!-- knowledge-base-scope: historical-validation-receipt; baseline02-sync 2026-10-03 -- Historical exact-ima">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-cpu-final-fix03-physical-qualification.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2 CPU Final Fix03 physical qualification — prepared, not run - Innioasis Updater">
+  <meta property="og:description" content="Y2 CPU Final Fix03 physical qualification — prepared, not run <!-- knowledge-base-scope: historical-validation-receipt; baseline02-sync 2026-10-03 -- Historical exact-ima">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-cpu-final-fix03-physical-qualification.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2 CPU Final Fix03 physical qualification — prepared, not run - Innioasis Updater">
+  <meta name="twitter:description" content="Y2 CPU Final Fix03 physical qualification — prepared, not run <!-- knowledge-base-scope: historical-validation-receipt; baseline02-sync 2026-10-03 -- Historical exact-ima">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2 CPU Final Fix03 physical qualification — prepared, not run</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2-cpu-final-fix03-physical-qualification--prepared-not-run">Y2 CPU Final Fix03 physical qualification — prepared, not run</h1>
+<!-- knowledge-base-scope: historical-validation-receipt; baseline02-sync 2026-10-03 -->
+<blockquote><p><strong>Historical exact-image receipt.</strong> This report retains its named Fix image and dated result. It does not describe Baseline02 or negate the newer bounded UART01 C1/C2/C3 passes. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-BASELINE-02.md">Baseline02</a> and <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-CPU-C3-UART-PHYSICAL.md">latest CPU-idle hardware proof</a>.</p></blockquote>
+<p><strong>Status: NOT_RUN.</strong> This page prepares the single owner-controlled acceptance run of the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-CPU-FINAL-FIX03.md">Fix03 candidate</a>. Nothing here is a hardware result. Every row stays NOT_TESTED until a receipt from the installed Fix03 identity replaces it. The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-CPU-FINAL-FIX02-PHYSICAL-QUALIFICATION.md">Fix02 report</a> remains the authoritative physical baseline until then.</p>
+<h2 id="owner-action">Owner action</h2>
+<ol><li>Verify <code>SHA256SUMS</code> in <code>out/y2linux-cpu-final-fix03-candidate/</code>.</li><li>Install only BOOTIMG and ANDROID/Y2ROOT with<p><code>MT6582_preserve_data_scatter.txt</code>, through the existing preserving workflow.</p></li><li>Start the temporary Wi-Fi observer over USB, as in Fix02. The session-local<p>wrapper is in <code>out/cpu-final-fix02-physical-qualification/20260929T152328Z/</code>: <code>export PATH=$PWD/$E/bin:$PATH</code>, <code>ssh y2 sh &lt; $E/wifi-listener.sh</code>. Then run:</p></li></ol>
+<pre><code class="language-sh">python3 tools/development/qualify-cpu-fix03.py --run --host y2 --wifi-host y2-owner-wifi --allow-warm-reboot</code></pre>
+<p>Owner inputs, all prompted: one USB unplug if charging is active (Wi-Fi then carries the run), one Power press for the Power-wake test, and the USB reconnect afterwards.</p>
+<h2 id="what-the-harness-checks">What the harness checks</h2>
+<p>Awake checks run first, each with its own receipt:</p>
+<table><thead><tr><th>Step</th><th>Pass criterion</th></tr></thead><tbody><tr><td>Identity</td><td>Installed build/Reborn/kernel/rootfs match the package manifest</td></tr><tr><td>Regression gate</td><td>Timers, highres/NO_HZ, 1-ms sleeps, QoS with Back (158), MMC runtime gating with verified data, PWRAP 1196/1300 MHz at 1.20/1.25 V</td></tr><tr><td>Coordinator parking</td><td>3→2→1 parking in a silent screen-off window. The display wake restores <code>0-3</code>, with <code>hold_ms=60000</code> and <code>pressure_restores=0</code> afterwards</td></tr><tr><td>SLIDLE radios-off</td><td>Run as a detached device job: SLIDLE entries advance, <code>slow_reject_bus</code> stays 0, restore failures 0</td></tr><tr><td>USB loaded stress</td><td>10 × 1 MiB up/down SHA-256 roundtrips, observed over Wi-Fi. <code>irq_max_burst</code>, <code>irq_max_jiffy</code> and <code>irq_progress</code> are recorded</td></tr><tr><td>SRAM journal</td><td>Awake self-test, plus warm-reboot retention over whichever host answers</td></tr></tbody></table>
+<p>Only if every awake check passes:</p>
+<table><thead><tr><th>Step</th><th>Pass criterion</th></tr></thead><tbody><tr><td>Charger</td><td>Refusal only while charging is active, verified from <code>failed_stage=DPM_PREPARED error=-16</code></td></tr><tr><td>Staged PM</td><td>freezer/devices/platform/processors/core on the same boot, taint unchanged</td></tr><tr><td>Full RTC suspend</td><td>Same boot ID, RTC IRQ serviced, journal reaches <code>EXIT</code></td></tr><tr><td>Power wake</td><td>One deliberate press on the same boot</td></tr><tr><td>Five RTC cycles</td><td>Each the same boot, then post-resume CPU/USB/MMC/Reborn/audio state</td></tr></tbody></table>
+<p><strong>If a backstop reset happens</strong>, the harness reads the previous boot&#x27;s timed ring, names the last stage reached and the stalled call (for example <code>DEVICES_RESUMED</code> → <code>console_resume_all</code>), and records the decoded RGU cause (<code>/sys/firmware/y2_pm/reset_status</code>). That names the next single correction; it is not a pass.</p>
+<h2 id="not-changed-and-not-claimed">Not changed and not claimed</h2>
+<p>C3 stays default off. The screen-off frequency ceiling and the BSP 110/120 °C trips are unchanged owner decisions. No electrical power measurement is part of this run.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

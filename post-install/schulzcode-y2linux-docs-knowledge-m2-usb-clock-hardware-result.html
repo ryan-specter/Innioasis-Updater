@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M2-USBCLK-01 physical result - Innioasis Updater</title>
+  <meta name="description" content="M2-USBCLK-01 physical result <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, next st">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m2-usb-clock-hardware-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M2-USBCLK-01 physical result - Innioasis Updater">
+  <meta property="og:description" content="M2-USBCLK-01 physical result <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, next st">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m2-usb-clock-hardware-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M2-USBCLK-01 physical result - Innioasis Updater">
+  <meta name="twitter:description" content="M2-USBCLK-01 physical result <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, next st">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M2-USBCLK-01 physical result</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m2-usbclk-01-physical-result">M2-USBCLK-01 physical result</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>2026-09-09, owner supplied <code>out/m2-usbclk-01/{10,50}.jpg</code> and reports no errors. Both photos identify M2-USBCLK-01 / Linux 6.18.0-y2-m2-usbclk1. Copies and hashes are retained in <code>evidence-private/20260909-m2-usbclk-result/manifest.json</code>.</p>
+<table><thead><tr><th>Field</th><th>10.jpg</th><th>50.jpg</th></tr></thead><tbody><tr><td>BEAT / FRAME</td><td>15 / 98</td><td>50 / 308</td></tr><tr><td>Stage</td><td>WAIT 1S / LOOP LIVE</td><td>STOP: RESTORE ANDROID</td></tr><tr><td>Uptime / idle</td><td>16.87 / 15.21</td><td>55.72 / 50.56</td></tr><tr><td>Timer IRQ CPU0</td><td>1689</td><td>5574</td></tr><tr><td>MemTotal</td><td>22208 kB</td><td>same</td></tr><tr><td>PWRAP RC / VALID</td><td>0 / 3</td><td>same</td></tr><tr><td>CID / VUSB</td><td>00002023 / 0000C000</td><td>same</td></tr><tr><td>CLOCK RC / VALID</td><td>0 / 15</td><td>same</td></tr><tr><td>PERI / MUX</td><td>00000000 / 01010100</td><td>same</td></tr><tr><td>PLL / PWR</td><td>FD000001 / 80000001</td><td>same</td></tr><tr><td>LAST ERR</td><td>NONE</td><td>NONE</td></tr><tr><td>Sleep / proc mount / sysfs mount</td><td>0 / 0 / 0</td><td>same</td></tr><tr><td>Previous frame write</td><td>804</td><td>same</td></tr><tr><td>CPU part / online</td><td>0xc07 / 0</td><td>same</td></tr><tr><td>Memory policy / watchdog / display</td><td>D08 / STOPPED / GUARD OK</td><td>same</td></tr></tbody></table>
+<p>10.jpg: 278033 bytes, SHA-256 <code>b6c4aa3d9958147a81da0b70a52bd1ed3005c392a2cb00bc65c1db4350b822d6</code>. 50.jpg: 330751 bytes, SHA-256 <code>bd2d967a6a1cfb48f35c04659db24f1c97aace825cf641202fc39cc58cb01562</code>. Inspection crops were used only to read the original photos; originals are retained.</p>
+<h2 id="interpretation-and-limits">Interpretation and limits</h2>
+<p><strong>CONFIRMED:</strong> timer reporting is corrected and counts increase; the delta is 3885 interrupts over 38.85 kernel uptime seconds, consistent with CONFIG_HZ=100. These are kernel-derived times, not independent host-clock calibration.</p>
+<p>The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usb-clock-probe.md">clock contract</a> decodes PERI bit 10 clear (USB0 ungated), mux power-down bit 23 clear with selector 1, UNIVPLL USB reference enable bit 26 and main enable bit 0 set. PLL power bit 0 is set and isolation bit 1 clear (vendor mt_clkmgr.c PLL_PWR_ON / PLL_ISO_EN). Preserve unrelated bits, including the high PWR bit. This is one cached snapshot, not continuous clock monitoring or a measured frequency. VUSB remains reported enabled.</p>
+<p>The source-backed next step can inspect the inherited USB MAC and digital PHY state without enabling clocks, changing analog trims or taking DMA ownership. MAC/PHY access itself remains untested until that candidate runs. Controller initialization, peripheral/VBUS behavior and DMA quiescence are still unresolved.</p>
+<p>Associated <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fm2-usbclk-01-result.md">candidate</a> SHA-256 is <code>602080eb199f3a4be30082ee114dfeb97ef414e10d8ad4acf5d239f2096cd6ec</code>. The owner supplied build-identifying photographs, not selected/flashed/readback hash confirmation. Host time, cable state and restoration outcome are unreported. M1 remains complete; #23/#27/#28 remain open. No USB logging or M2 exit is claimed.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

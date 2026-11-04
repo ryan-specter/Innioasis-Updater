@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2E-101 — Inventory existing stock artifacts and establish evidence provenance - Innioasis Updater</title>
+  <meta name="description" content="Y2E-101 — Inventory existing stock artifacts and establish evidence provenance <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates,">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-101.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2E-101 — Inventory existing stock artifacts and establish evidence provenance - Innioasis Updater">
+  <meta property="og:description" content="Y2E-101 — Inventory existing stock artifacts and establish evidence provenance <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates,">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-101.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2E-101 — Inventory existing stock artifacts and establish evidence provenance - Innioasis Updater">
+  <meta name="twitter:description" content="Y2E-101 — Inventory existing stock artifacts and establish evidence provenance <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates,">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2E-101 — Inventory existing stock artifacts and establish evidence provenance</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2e-101--inventory-existing-stock-artifacts-and-establish-evidence-provenance">Y2E-101 — Inventory existing stock artifacts and establish evidence provenance</h1>
+<!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<blockquote><p>Canonical platform research task. Transferred from SchulzCode/Y2PlayerNative#1; the original URL redirects here and preserves history. This task belongs to the research/architecture workstream, not an implementation handoff. The research owner performs and reviews the evidence, then advances only satisfied prerequisites. No <code>state:luna-ready</code> label applies.</p></blockquote>
+<h2 id="goal">Goal</h2>
+<p>Produce one auditable catalog of the existing stock/research artifacts so later tasks know which inputs they may trust.</p>
+<h2 id="why">Why</h2>
+<p>The reference repository mixes vendor-package inputs, extracted stock binaries, modified firmware and historical captures. A package copy is not a per-device backup.</p>
+<h2 id="dependencies">Dependencies</h2>
+<p>None. This is the first research task.</p>
+<h2 id="evidence--assumptions">Evidence / Assumptions</h2>
+<p>Android reference: <code>/home/luca/Dokumente/Code/Y2Player</code>, inspected at <code>870f2b33e49129990bc0a98eeb34d58ed42542b6</code>. Ignored artifacts are not covered by that commit. Existing <code>OriginalFirmware/boot.img</code> SHA-256 is <code>8131020fafddb864d252b13f6bc7e83584487bd182d371d7e51f6244e2412f02</code>; recovery is <code>1c14b5316bfc0542b4b3b3c6c75208ff6da99e7302ef7c397aaa77e33cc6292c</code>. These are observed local hashes, not authenticity or restoration guarantees.</p>
+<h2 id="scope">Scope</h2>
+<p>Host-only artifact identity and provenance, historical capture integrity, and a short superseded/missing-source index.</p>
+<h2 id="out-of-scope">Out of Scope</h2>
+<p>No device access, full reverse engineering, archive-wide copying, firmware building, recovery execution or source port.</p>
+<h2 id="expected-files--components">Expected Files / Components</h2>
+<p><code>docs/knowledge/evidence-index.md</code>, <code>docs/knowledge/artifact-manifest.tsv</code>, <code>.gitignore</code> entry for <code>/evidence-private/</code>; raw verification output under that ignored directory. Preserve the supplied untracked blueprint.</p>
+<h2 id="instructions">Instructions</h2>
+<ol><li>Record repository revision/status without altering the Android checkout. Add the private-evidence ignore rule before storing raw records.</li><li>Catalog all top-level regular files in <code>OriginalFirmware/</code> with byte size/hash and original path. Record package origin/date/revision as UNKNOWN if no source record exists. Classify bundled images as package inputs, never current-device dumps.</li><li>Verify the existing <code>checksums.txt</code> in the two snapshot directories <code>out/hardware-snapshots/2026-07-29_004316/</code> and <code>2026-07-29_004935/</code>. Record missing/extra members, including supplemental source media, without copying media. Inspect manifest outcome/error records, not just hashes.</li><li>Catalog the manifest/index files of <code>out/afe-runtime/2026-07-30_135519/</code>; the exact analyzed HAL and kernel ELF when available under <code>reverse/</code>; and manifests/checksums of <code>out/boot-adb/</code> and <code>out/firmware/</code> when available. Limit this to identifiable evidence inputs and manifests, not every build output. Mark absent paths explicitly.</li><li>Index <code>docs/Y2_HARDWARE_AND_DAC_ANALYSIS.md</code>, the audio phase-2/3/4 reports, <code>docs/BLUETOOTH_STACK_INVESTIGATION.md</code>, <code>docs/FM_RADIO_FEASIBILITY.md</code>, <code>RELEASE_2.5.md</code> and <code>docs/ADB_BOOT_IMAGE.md</code>. Record known conflicts: fixed versus dynamic audio route claims, old no-Bluetooth-runtime claim, FM chip/revision claims, missing PowerShell collector, stale README/input behavior. Do not settle hardware disputes in this task.</li><li>Reuse the exact-source metadata where present; distinguish raw capture, static inference, derived binary and generated firmware. Hash existing files without editing them.</li></ol>
+<h2 id="acceptance-criteria">Acceptance Criteria</h2>
+<ul><li><input type="checkbox" disabled> Every top-level stock input has size, SHA-256, class, locator and origin/unknown field.</li><li><input type="checkbox" disabled> Both snapshot verification outcomes are recorded, including failures and unmanifested supplemental files.</li><li><input type="checkbox" disabled> Modified and stock inputs are unmistakably separated; no item is called a same-device recovery backup without evidence.</li><li><input type="checkbox" disabled> Missing artifacts/tools and superseded reports are listed; errors are not represented as successful hardware observations.</li><li><input type="checkbox" disabled> Raw/private evidence is ignored; only sanitized text is staged.</li></ul>
+<h2 id="validation">Validation</h2>
+<p>From each snapshot directory run <code>sha256sum -c checksums.txt</code> and preserve the output/status. Use <code>stat -c &#x27;%s %n&#x27; &lt;file&gt;</code> and <code>sha256sum &lt;file&gt;</code> for manifest entries. If Windows path syntax prevents native manifest verification, record the failure and normalize only a disposable copy; preserve the original. Run <code>git check-ignore evidence-private/probe</code>, <code>git diff --check</code>, <code>git diff --cached --name-only</code>, and inspect staged text for private material.</p>
+<h2 id="expected-artifact">Expected Artifact</h2>
+<p>A small provenance catalog and two recorded snapshot integrity results, with an explicit list of inputs that remain untrusted.</p>
+<h2 id="execution-contract">Execution contract</h2>
+<p>Y2Linux is the canonical home for all platform research, evidence, recovery and Linux bring-up. Y2PlayerNative is reserved for the later Rust/C application. Preserve stable Y2E IDs. Do one task only; no application/kernel implementation, DTS changes, builds, flashing, reboot, boot-mode transitions, installs, adb root/su, remount, property/settings writes, radio toggles, log clearing, register access, guessed ioctls, bus probes, raw partition reads or writes. Read-only shell inspection is allowed only where explicitly listed.</p>
+<p>Use the existing Git author/committer configuration and authenticated GitHub user. Verify with <code>git var GIT_AUTHOR_IDENT</code> and <code>git var GIT_COMMITTER_IDENT</code> before committing; stop if identity is missing or wrong. Never change identity or add model attribution.</p>
+<p>Store raw files under ignored <code>evidence-private/&lt;capture-id&gt;/</code>; commit only reviewed/redacted reports and manifests. Use host UTC time; record device clock separately if available. For every observation record exact command/tool version, capture ID, source/build lineage, local exit status, remote exit status where obtainable, stdout/stderr, size, SHA-256, and outcome COLLECTED/EMPTY/DENIED/UNAVAILABLE/FAILED. Facts use CONFIRMED/INFERRED/UNKNOWN/DISPROVEN with evidence locator, date and task ID. Inspect error text: archived ADB commands returned host exit 0 with remote denial. Do not publish firmware, calibration, serial/MAC identifiers, credentials, pairing data or personal media.</p>
+<h2 id="stop-conditions">Stop Conditions</h2>
+<p>Stop the affected activity and report if identity is missing/wrong, inputs fail integrity checks, device identity differs unexpectedly, the target is ambiguous/offline/unauthorized, a command would mutate device state, or scope requires new tooling/privileges/architectural decisions. Record a bounded denial/missing resource and continue only other explicitly independent observations; never bypass it.</p>
+<h2 id="risk">Risk</h2>
+<p>Low: host documentation/offline analysis and explicitly bounded non-root observations only.</p>
+<h2 id="recovery">Recovery</h2>
+<p>No device mutation is allowed. Missing access is evidence; it does not authorize a privilege or boot change.</p>
+<h2 id="completion-report">Completion Report</h2>
+<p>Report files changed, exact commands and tool versions, validation results, artifact manifest/hashes, provenance/limitations, unexpected findings, unresolved blockers and one suggested next step. Do not implement the suggestion. The research owner must review the evidence before advancing a dependent research task; closing this issue does not pass M0.</p>
+<h2 id="unlocks">Unlocks</h2>
+<p>Evidence review may unlock Y2E-105 research.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

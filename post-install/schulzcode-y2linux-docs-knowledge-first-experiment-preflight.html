@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2B-240 authorized preflight — 2026-09-08 - Innioasis Updater</title>
+  <meta name="description" content="Y2B-240 authorized preflight — 2026-09-08 <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" cl">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-first-experiment-preflight.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2B-240 authorized preflight — 2026-09-08 - Innioasis Updater">
+  <meta property="og:description" content="Y2B-240 authorized preflight — 2026-09-08 <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" cl">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-first-experiment-preflight.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2B-240 authorized preflight — 2026-09-08 - Innioasis Updater">
+  <meta name="twitter:description" content="Y2B-240 authorized preflight — 2026-09-08 <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" cl">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2B-240 authorized preflight — 2026-09-08</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2b-240-authorized-preflight--2026-09-08">Y2B-240 authorized preflight — 2026-09-08</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>The owner explicitly authorized issue #19 as specified: one diagnostic BOOTIMG-only download, one normal boot observed for no more than 60 seconds, then FM BOOTIMG-only restoration and stock function checks. Authorization is recorded; no further flash permission is requested. The procedure and artifact remain unchanged. This is a preflight checkpoint, not an experiment result.</p>
+<h2 id="verified-host-inputs-and-settings">Verified host inputs and settings</h2>
+<ul><li>Fresh recovery verifier: all 24 FM files and SPFT executable/bundled DA pass.</li><li>All 37 candidate bundle entries pass SHA256SUMS verification.</li><li>Fresh real-artifact/D08/layout/wrapper/partition validation passes; all 11<p>tests pass, including emitted watchdog instructions and guarded diagnostics.</p></li><li>Candidate: <code>out/m1-risk-accepted-diagnostic/BOOTIMG.img</code>, 1,089,536 bytes,<p>SHA-256 <code>db7d8a5cf082b37f77c8732bd8e1ab742e4205f9383e421b051917f17364ab7e</code>.</p></li><li>FM fallback: 5,656,576 bytes, SHA-256<p><code>5ef1bdf28481ee0bf5f3528c1ddd91cf3f4d2d5f39e4d0ea049a8137a30f6af6</code>.</p></li><li>Original FM scatter SHA-256:<p><code>e5fe03e9f3219cc9b5ead27892f2ddb722acc16adce3306d27feb87893cd977e</code>.</p></li><li>SPFT 5.2032.00 running executable was independently hashed through<p><code>/proc/150273/exe</code> on the host: SHA-256 <code>d618e7d08ba5a4020038921a95336a3805a4b2cf17a374fd308cc5299ea7d9d8</code>.</p></li><li>Actual GUI DA is the original bundled <code>MTK_AllInOne_DA.bin</code>, SHA-256<p><code>46cd175d7556e6e80b13f6a70827c6931a5dfa25a09c3cc50e75ba7ff9327618</code>.</p></li><li>Actual GUI shows original FM scatter, empty Authentication File,<p><strong>Download Only</strong>, and <strong>BOOTIMG alone checked</strong> with the exact candidate. The final setup log at 22:41:37 Europe/Berlin confirms the same file/size.</p></li><li>All 20 normal partition entries in the retained BROM host setup log were<p>reviewed: only BOOTIMG enabled. PRELOADER, MBR, EBR1/2, PRO_INFO, NVRAM, PROTECT_F/S, SECCFG, UBOOT/LK, RECOVERY, SEC_RO, MISC, LOGO, EXPDB, ANDROID, CACHE, USRDATA and FAT are disabled. Scatter BMTPOOL is reserved and <code>is_download: false</code>; it is not a selected target.</p></li><li>GUI shows logical image interval <code>0x03180000..0x03289fff</code> inclusive.<p>This does not change the audited physical BOOTIMG partition interval <code>EMMC_USER [0x01d80000,0x02d80000)</code>. No raw-address write is proposed.</p></li><li>Existing setup reports USB high speed/auto-detect and DA checksum level 0.<p>These are recorded existing settings; no verification/security option was changed. Host SHA-256 validation is not a device readback verification.</p></li></ul>
+<p>An intermediate GUI view selected the older <code>out/m1-first-boot/BOOTIMG.img</code>. That mismatch was caught before Download and the subsequent GUI/log capture confirms the authorized diagnostic path. Initial saved selections included other ROM files; they are not the verified final selection. Setup-only desktop interaction was stopped when concurrent window/selection changes were detected.</p>
+<h2 id="execution-remains-pending">Execution remains pending</h2>
+<p>No Download control has been activated by this session. The retained tool snapshot contains setup activity, not a device flash result, and the GUI shows 0 Bytes / 0:00. Kernel diagnostics, PID1, heartbeats, resets/freeze, restoration and stock functional results are <strong>not observed / not performed</strong>.</p>
+<p>After host verification, read-only <code>adb devices -l</code> returned an empty device list. Current target identity, cable/port, adequate charge, the owner&#x27;s proven power/USB sequence and a ready physical screen observer still need recording. The desktop can be inspected, but there is no physical Y2 camera/UART feed; the Linux candidate has no ADB. An unanswered readiness question is not an observation channel or a power/recovery procedure.</p>
+<p>Next step is physical coordination for the already-authorized experiment, followed by rechecking actual tool settings immediately before Download. Do not rebuild, substitute a candidate, retry, or expand to M2/full-ROM writes. Issue #19 remains open until trial and restoration evidence is recorded.</p>
+<p>Private raw evidence: <code>evidence-private/20260908-y2b240-preflight/</code>; file hashes are retained in <code>capture-index.tsv</code>. Screenshots are desktop SPFT configuration evidence, not photographs of Linux output on the Y2.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

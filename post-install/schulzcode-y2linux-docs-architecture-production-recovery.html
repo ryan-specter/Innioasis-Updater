@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Production v1 restoration - Innioasis Updater</title>
+  <meta name="description" content="Production v1 restoration <!-- knowledge-base-scope: historical-design-/-runbook -- Historical record. The dates, candidate identity, "current" claims, next steps and per">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-architecture-production-recovery.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Production v1 restoration - Innioasis Updater">
+  <meta property="og:description" content="Production v1 restoration <!-- knowledge-base-scope: historical-design-/-runbook -- Historical record. The dates, candidate identity, "current" claims, next steps and per">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-architecture-production-recovery.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Production v1 restoration - Innioasis Updater">
+  <meta name="twitter:description" content="Production v1 restoration <!-- knowledge-base-scope: historical-design-/-runbook -- Historical record. The dates, candidate identity, "current" claims, next steps and per">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Production v1 restoration</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="production-v1-restoration">Production v1 restoration</h1>
+<!-- knowledge-base-scope: historical-design-/-runbook -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Keep the working SD and <code>out/y2linux-m3-audio-02/BOOTIMG.img</code> unchanged. Its 4816896-byte image SHA256 is b9dbf6b528e4afbee2a5ffb2fc65df7f6a076564e92960332e24cee3809b5842. Owner-proven BOOTIMG-only recovery remains valid; no new full-ROM restore test was performed. No bootloader, table or protected-data write belongs in recovery.</p>
+<h2 id="tool-and-stock-source">Tool and stock source</h2>
+<p>SPFT: <code>/home/luca/Downloads/SP_Flash_Tool_v5.2032_Linux/flash_tool</code>, v5.2032.00 /5.2032.00.sn100, SHA256 d618e7d08ba5a4020038921a95336a3805a4b2cf17a374fd308cc5299ea7d9d8. Bundled DA <code>MTK_AllInOne_DA.bin</code>, SHA256 46cd175d7556e6e80b13f6a70827c6931a5dfa25a09c3cc50e75ba7ff9327618. Use the owner&#x27;s established connection/power procedure; its precise button/timing sequence is not invented here. A normal SSH/ECM connection is not a DA session.</p>
+<p>Original directory: <code>/home/luca/Dokumente/Code/Y2Player/y2_v3.2.0_FM-20260813/</code>. Only recovery-source paths refer to that historical Android project; this firmware is built by and for SchulzCode/Y2Linux. All three overwritten partitions have verified factory restoration sources in manifest.json (size/hash rechecked for this package). They are not exact backups of installed personal Android state.</p>
+<table><thead><tr><th>Target</th><th>Factory source</th><th>Physical EMMC_USER start</th><th>Span</th></tr></thead><tbody><tr><td>BOOTIMG</td><td>boot.img</td><td>0x01d80000</td><td>0x01000000</td></tr><tr><td>ANDROID</td><td>system.img (stock sparse ext4)</td><td>0x05180000</td><td>0x33400000</td></tr><tr><td>USRDATA</td><td>userdata.img (stock sparse ext4)</td><td>0x40380000</td><td>0x32000000</td></tr></tbody></table>
+<p>Stock scatter SHA256: e5fe03e9f3219cc9b5ead27892f2ddb722acc16adce3306d27feb87893cd977e. Verify original sources against manifest.restoration_sources and retain an independently accessible copy before writing. To restore personal Android data, retain a consistent full USRDATA readback before install. Factory userdata only restores factory state; NVRAM/calibration preservation is a separate requirement.</p>
+<h2 id="return-immediately-to-sd-development-linux">Return immediately to SD development Linux</h2>
+<p>Load the original stock scatter in SPFT, Download Only. <strong>Deselect every row</strong>, then select BOOTIMG only and point it to the hashed AUDIO-02 image above. Do not use original scatter default selections. Flash by the owner&#x27;s proven manual sequence. Read back EMMC_USER0x1d80000, length0x1000000; hash the first4816896 bytes against AUDIO-02. Insert the preserved working SD and boot: AUDIO-02 disables internal eMMC and resolves removable Y2ROOT. Internal Y2ROOT/Y2DATA are retained. This restores the development environment without restoring Android or wiping data.</p>
+<h2 id="restore-stock-android-factory-userspace">Restore stock Android factory userspace</h2>
+<p>With verified original FM sources available, load the original scatter, Download Only, deselect all, then select BOOTIMG→boot.img, ANDROID→system.img and USRDATA→userdata.img. These are the <strong>only three</strong> selected rows. This destroys Y2Linux root and Y2DATA; export persistent data first if needed. Restore a private preinstall USRDATA backup instead only after confirming that SPFT accepts its raw ext4 representation; do not improvise wrappers or offsets.</p>
+<p>Never select PRELOADER, UBOOT/LK, MBR/EBRs, RECOVERY, NVRAM, PRO_INFO, PROTECT_F/S, SECCFG, SEC_RO, MISC, LOGO, EXPDB, CACHE, FAT or BMTPOOL. Do not select Format All, Firmware Upgrade or Write Memory. Abort any request to format, security mismatch, table mismatch or unexpected address/identity.</p>
+<p>Read back the written ranges before Android boot; use raw prefix comparison for boot.img and compare material RAW/FILL chunks of stock sparse images against their physical expanded offsets. Stock DONT_CARE chunks have no prescribed hash; a factory sparse image&#x27;s file SHA256 is not an eMMC readback hash. The corrected Y2Linux raw ext4 images avoid that ambiguity by defining every written byte. Recompare protected/table before/after captures. Then check actual Android UI, storage/audio/device-specific behavior; a green SPFT tick is insufficient.</p>
+<p>Stock RECOVERY remains untouched, but its automatic Android filesystem repair, wipe and update functions are not a Y2Linux recovery mechanism. Use SPFT and known images rather than invoking Android wipe menus on the new filesystems.</p>
+<h2 id="missingbroken-y2root-or-y2data">Missing/broken Y2ROOT or Y2DATA</h2>
+<p>The production rescue waits for the exact internal filesystem identities and geometry, validates layout/schema and executable availability, and logs errors over ACM while retaining PID1 if those checks fail. It never falls back to SD, formats storage or schedules automatic reboot. <code>panic=0</code> prevents timed panic reboots in the rescue; init sets <code>panic=10</code> only at the root handover (a failed handover restores 0), so the running system restarts 10 s after a kernel panic. The final switch_root/exec assumes the validated BusyBox init remains executable; post-handover crashes/hardware faults are not repaired by this rescue. No claim is made that USB observes a crash before gadget initialization.</p>
+<p>Reflash only the failed allowlisted image using this release&#x27;s matching profile, preserving USRDATA unless explicitly restoring/initializing data. Torn BOOTIMG may prevent rescue starting; stock loader + SPFT remains the recovery path.</p>
+<p>Storage04 adds <code>y2.rescue=1</code> as an explicit production command-line entry and <code>y2-status storage|usb|audio|power</code> in both environments. The observer is optional instrumentation; platform drivers and display startup do not depend on it. The retained AUDIO-02 fallback is historical SD firmware, not a charging remedy: Y2Linux charging management and off-state power behavior remain unqualified.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

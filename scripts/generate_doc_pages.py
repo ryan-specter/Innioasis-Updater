@@ -48,6 +48,9 @@ BRAND = "Innioasis Updater"
 CACHE = ROOT / ".cache" / "doc-pages"
 TOKEN = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN") or ""
 MAX_RELEASES = int(os.environ.get("MAX_RELEASES_PER_REPO", "200"))
+# Rendering one document can register more Markdown links. The cap stops a
+# pathological link graph from writing an unbounded number of pages in one run.
+MAX_DISCOVERED_DOCS = int(os.environ.get("MAX_DISCOVERED_DOCS", "1200"))
 ALLOWED_HANDLERS = {"", "Custom Firmware"}
 
 # ---------------------------------------------------------------- utilities
@@ -1501,25 +1504,39 @@ def post_install_page(item: dict, source: dict, markdown: str, release_tags: lis
     body = markdown_to_html(markdown, source)
     description = one_line(markdown, 170) or ("Post-install setup instructions for %s on the Innioasis %s." % (name, model))
     latest = release_tags[0] if release_tags else ""
+    # A document imported from a repository outside the firmware catalogue has
+    # no install guide of its own. Send the reader to the documentation index
+    # instead of a guide URL with an empty model and software slug.
+    action_guide = guide_href(item, up) if model else (up + "post-install/index.html")
+    if model:
+        firmware_href = "%sfirmware.html?model=%s&software=%s" % (
+            up, urllib.parse.quote(model), urllib.parse.quote(item["slug"])
+        )
+        firmware_label = "Firmware Downloads →"
+        back_label = "← Firmware Downloads"
+    else:
+        firmware_href = up + "post-install/index.html"
+        firmware_label = "All documentation →"
+        back_label = "← All documentation"
 
     main = (
         '<main id="main" class="lumen-guide lumen-doc-page">'
-        '<p class="lumen-doc-back"><a href="%sfirmware.html?model=%s&amp;software=%s">← Firmware Downloads</a></p>'
+        '<p class="lumen-doc-back"><a href="%s">%s</a></p>'
         '<header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · %s%s</p>'
         "<h1>%s</h1>"
         '<p class="lumen-lead">%s</p>'
         '<p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p>'
         '<div class="lumen-doc-actions">'
-        '<a class="lumen-button lumen-button--primary" href="%sfirmware.html?model=%s&amp;software=%s">Firmware Downloads →</a>'
-        '<a class="lumen-button" href="%s">Install guide</a>'
+        '<a class="lumen-button lumen-button--primary" href="%s">%s</a>'
+        '<a class="lumen-button" href="%s">%s</a>'
         "</div></header>"
         '<article class="lumen-doc-body">%s</article>'
         '<p class="lumen-doc-footer-note">These are %s\'s own instructions, shown here word for word.</p>%s</main>'
         % (
-            up, esc(model), esc(item["slug"]), esc(name), (" · " + esc(model)) if model else "",
+            esc(firmware_href), esc(back_label), esc(name), (" · " + esc(model)) if model else "",
             esc(title), esc(item.get("description") or "The steps the project asks you to finish after the firmware is installed."),
-            up, esc(model), esc(item["slug"]),
-            esc(guide_href(item, up)), body, esc(name), source_citations(item, latest),
+            esc(firmware_href), esc(firmware_label),
+            esc(action_guide), "Install guide" if model else "All documentation", body, esc(name), source_citations(item, latest),
         )
     )
     return page({
@@ -1629,50 +1646,90 @@ def update_sitemap(urls: list[str]) -> None:
     print("sitemap: %d new URLs" % added)
 
 
+def discovered_doc_item(repo: str, by_repo: dict[str, dict]) -> dict:
+    """Catalogue row for a doc's repository, or a stand-in for a linked repo.
+
+    Projects in the manifest get their real name and model. A document from a
+    repository that is not itself a firmware (for example Y2Reborn, linked by
+    the Y2Linux docs) still gets a page, attributed to that repository.
+    """
+    item = by_repo.get(repo.lower())
+    if item:
+        return item
+    name = repo.split("/")[-1] if repo else "Documentation"
+    return {
+        "name": name,
+        "label": name,
+        "model": "",
+        "slug": tag_slug(repo.replace("/", "-")) if repo else "documentation",
+        "repo": repo,
+        "description": "Documentation published by %s." % (repo or "the project"),
+    }
+
+
 def render_discovered_markdown_pages(
     software: list[dict],
     refresh: bool = False,
     written_slugs: set[str] | None = None,
 ) -> tuple[list[str], list[str]]:
-    """Render static HTML pages in post-install/ for linked GitHub Markdown docs."""
+    """Render static HTML pages in post-install/ for linked GitHub Markdown docs.
+
+    Rendering a document registers the Markdown links inside it, so this runs to
+    a fixed point: every document reachable from a release note, post-install
+    guide or project README gets its own crawlable page, not just the first
+    level of links.
+    """
     post_root = ROOT / "post-install"
     post_root.mkdir(exist_ok=True)
     by_repo = {(entry.get("repo") or "").lower(): entry for entry in software if entry.get("repo")}
     seen_slugs = set(written_slugs or set())
+    processed: set[str] = set()
     urls: list[str] = []
     cards: list[str] = []
-    for raw_url, source in list(DISCOVERED_MD_SOURCES.items()):
-        path = str(source.get("path") or "")
-        if not path or re.search(r"(?:^|/)readme\.(?:md|markdown|mdown|mkd|mdx)$", path, re.I):
-            continue
-        repo = str(source.get("repo") or "")
-        item = by_repo.get(repo.lower())
-        if not item:
-            continue
-        stem = re.sub(r"\.(?:md|markdown|mdown|mkd|mdx)$", "", path, flags=re.I)
-        doc_slug = tag_slug(repo.replace("/", "-") + "-" + stem)
-        if not doc_slug or doc_slug in seen_slugs:
-            continue
-        seen_slugs.add(doc_slug)
-        markdown = load_markdown(source, refresh=refresh)
-        if not markdown.strip():
-            continue
-        (post_root / (doc_slug + ".html")).write_text(
-            post_install_page(item, source, markdown, [], slug_override=doc_slug),
-            encoding="utf-8",
-        )
-        urls.append("%s/post-install/%s.html" % (SITE, doc_slug))
-        doc_label = "%s · %s" % (software_label(item), path)
-        cards.append(
-            '<article class="lumen-card"><small>%s</small><h3><a href="../post_install.html?url=%s">%s</a></h3>'
-            '<p>%s</p></article>'
-            % (
-                esc(item.get("model", "")),
-                esc(urllib.parse.quote(source.get("blob_url") or raw_url, safe="")),
-                esc(doc_label),
-                esc(one_line(markdown, 150) or "Documentation published by the project."),
+    while len(processed) < MAX_DISCOVERED_DOCS:
+        pending = [
+            (raw_url, source)
+            for raw_url, source in DISCOVERED_MD_SOURCES.items()
+            if raw_url not in processed
+        ]
+        if not pending:
+            break
+        for raw_url, source in pending:
+            if len(processed) >= MAX_DISCOVERED_DOCS:
+                break
+            processed.add(raw_url)
+            path = str(source.get("path") or "")
+            if not path or re.search(r"(?:^|/)readme\.(?:md|markdown|mdown|mkd|mdx)$", path, re.I):
+                continue
+            repo = str(source.get("repo") or "")
+            item = discovered_doc_item(repo, by_repo)
+            stem = re.sub(r"\.(?:md|markdown|mdown|mkd|mdx)$", "", path, flags=re.I)
+            doc_slug = tag_slug(repo.replace("/", "-") + "-" + stem)
+            if not doc_slug or doc_slug in seen_slugs:
+                continue
+            markdown = load_markdown(source, refresh=refresh)
+            if not markdown.strip():
+                continue
+            seen_slugs.add(doc_slug)
+            (post_root / (doc_slug + ".html")).write_text(
+                post_install_page(item, source, markdown, [], slug_override=doc_slug),
+                encoding="utf-8",
             )
-        )
+            urls.append("%s/post-install/%s.html" % (SITE, doc_slug))
+            doc_label = "%s · %s" % (software_label(item), path)
+            cards.append(
+                '<article class="lumen-card"><small>%s</small><h3><a href="%s.html">%s</a></h3>'
+                '<p>%s</p><p class="lumen-meta"><a href="../post_install.html?url=%s">Open in the site reader</a></p></article>'
+                % (
+                    esc(item.get("model", "")),
+                    esc(doc_slug),
+                    esc(doc_label),
+                    esc(one_line(markdown, 150) or "Documentation published by the project."),
+                    esc(urllib.parse.quote(source.get("blob_url") or raw_url, safe="")),
+                )
+            )
+    if len(processed) >= MAX_DISCOVERED_DOCS:
+        print("  ! discovered-doc cap reached (%d); rerun to continue" % MAX_DISCOVERED_DOCS)
     return urls, cards
 
 

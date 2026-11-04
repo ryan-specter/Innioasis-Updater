@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M2-USBCLK-01 — ready for owner device test - Innioasis Updater</title>
+  <meta name="description" content="M2-USBCLK-01 — ready for owner device test <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" c">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-usbclk-01-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M2-USBCLK-01 — ready for owner device test - Innioasis Updater">
+  <meta property="og:description" content="M2-USBCLK-01 — ready for owner device test <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" c">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-usbclk-01-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M2-USBCLK-01 — ready for owner device test - Innioasis Updater">
+  <meta name="twitter:description" content="M2-USBCLK-01 — ready for owner device test <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" c">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M2-USBCLK-01 — ready for owner device test</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m2-usbclk-01--ready-for-owner-device-test">M2-USBCLK-01 — ready for owner device test</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<blockquote><p>Returned <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usb-clock-hardware-result.md">physical photos</a> now confirm CLOCK RC=0/VALID=15, increasing timer IRQ counts and BEAT 50 with no reported errors. Exact flashed hash and restoration remain unreported. The original pending-test handoff below is historical.</p></blockquote>
+<p>2026-09-09. Incremental #23/#27 prerequisite under active M2 #28. <strong>Offline validated; this candidate has not been flashed or hardware tested.</strong></p>
+<p>The preceding <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-pwrap-hardware-result.md">M2-PWRAP-01 photographs</a> confirm CID 0x2023, VUSB 0xc000, MemTotal 22208 kB and progress through BEAT 50. The timer -61 diagnostic is a source-identified parser mismatch. M1 stays complete; M2 and #22–#27 remain open.</p>
+<h2 id="candidate-and-change">Candidate and change</h2>
+<p><code>/home/luca/Dokumente/Code/Y2Linux/out/m2-usbclk-01/BOOTIMG.img</code></p>
+<p><strong>1,093,632 bytes</strong>; SHA-256: <code>602080eb199f3a4be30082ee114dfeb97ef414e10d8ad4acf5d239f2096cd6ec</code>.</p>
+<p>Kernel <code>6.18.0-y2-m2-usbclk1</code>, screen/build <strong>M2-USBCLK-01</strong>. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usb-clock-probe.md">Reviewed contract</a>: after the first sleep, reuse the proven bounded PWRAP CID/VUSB read. On success with VUSB reported enabled, cache four ordinary clock register reads: PERI_PDN0_STA, CLK_CFG_2, UNIVPLL_CON0 and UNIVPLL_PWR_CON0. Each resource is claimed and released; a refusal stops further reads and preserves a partial validity mask. No new hardware write is added; no USB MAC, PHY, calibration or DMA register is accessed. USB enumeration/ttyACM is not expected in this candidate.</p>
+<p>PID1 now matches the DT timer IRQ action token instead of the clock-event name. Clock fields replace the previous wrapper-detail rows; PWRAP RC/VALID and CID/VUSB remain visible. Screen fallback, D08, CPU0 and AP watchdog policy persist.</p>
+<h2 id="offline-validation">Offline validation</h2>
+<ul><li>One clean pinned Linux 6.18 / Clang 20.1.8 build, no compiler warnings/errors.<p>All 19 selected test methods pass: actual artifact/corruption and BOOTIMG checks, D08, overlays, framebuffer bounds, emitted watchdog/time32 checks, parser, 14 QEMU ARM PID1 scenarios, 20 PWRAP and 10 clock-probe scenarios.</p></li><li>Linked snapshot is PID1-only, 72 bytes, cached before hardware access. The clock<p>adapter at <code>0xc0015794</code> rejects all other addresses and has one mapped read; its store targets output RAM. PWRAP command/ACK bounds are preserved.</p></li><li>Resolved config differs from M2-PWRAP-01 only in LOCALVERSION. DT source is<p>unchanged; initrd-end follows the 4,840-byte gzip. No RAM/DMA/packaging policy change or repeated source/ROM/recovery audit was performed.</p></li><li><a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-usbclk-01-layout.json" target="_blank" rel="noopener noreferrer">Layout</a> and<p><a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-usbclk-01-iteration.json" target="_blank" rel="noopener noreferrer">iteration</a> retain dimensions and identity. BOOTIMG wrappers, complete LK read tail and the 16 MiB partition bound pass. Ignored output retains ELFs, source snapshot, lock, config, logs, focused linked disassembly and SHA256SUMS. Prior images are preserved.</p></li></ul>
+<h2 id="owner-test-and-evidence-to-return">Owner test and evidence to return</h2>
+<p>Use the established <strong>BOOTIMG-only</strong> test/recovery procedure. Stop observation at <strong>60 seconds from power-on</strong>; normal terminal stage is <code>STOP: RESTORE ANDROID</code> at BEAT 50. Stock preloader/LK, partition tables and calibration remain protected. No physical-device action was performed here.</p>
+<p>Expected: guarded screen and heartbeat, briefly <code>READ PWRAP / USB CLOCKS</code>, then continuing heartbeat. Successful probe shows <code>PWRAP RC:0 VALID:3</code> and <code>CLOCK RC:0 VALID:15 READ ONLY</code>, plus raw CID/VUSB, PERI/MUX and PLL/PWR values. The raw clock values are unknown until this test. Timer IRQ CPU0 should become a decimal count that increases between photos. A probe refusal should remain visible while heartbeat continues. An MMIO hang can freeze at the pre-probe stage; preserve the existing manual recovery boundary.</p>
+<p>Return:</p>
+<ol><li>Selected image SHA-256, and flashed/readback identity if the existing procedure<p>supplies it. The displayed version identifies the build, not the flashed hash.</p></li><li>Readable full-screen photos near <strong>BEAT 10 and BEAT 50/STOP</strong>, or the last<p>visible stage on failure. Include CLOCK RC/VALID, all PERI/MUX/PLL/PWR and CID/VUSB values, PWRAP RC/VALID, timer count, BEAT/FRAME, uptime, MemTotal, sleep/mount status and LAST ERR. Exact transcription is also sufficient.</p></li><li>Host elapsed time from power-on and between photos, whether the USB cable<p>remained attached, and any freeze/reset/display change.</p></li><li>Outcome of the usual BOOTIMG-only return to the known-good system, if performed.</li></ol>
+<p>Validity bits 0–3 correspond to PERI, MUX, PLL and PWR. Only values whose bits are set are evidence. <code>-19</code> refuses unmet prerequisites, <code>-16</code> is a resource conflict and <code>-12</code> is a mapping failure. Clock state does not measure frequency or establish the remaining PHY/VBUS/FIFO/IRQ/DMA ownership contract.</p>
+<p>Retained previous candidate: <code>out/m2-pwrap-01/BOOTIMG.img</code>, SHA-256 <code>c51102c861d65d39f5af2425ed73e9c1ba21d8adaae1b016f450a58630946ac0</code>. The owner-proven stock/FM restoration and M1 fallback boundaries are unchanged. This handoff stops for the owner&#x27;s physical test; M3 stays deferred.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

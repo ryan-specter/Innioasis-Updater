@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-24 — animation frame pacing (smooth Cover Flow) - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-24 — animation frame pacing smooth Cover Flow Status: INSTALLED; Cover Flow ≈27 fps was ≈10; tagged baseline-24 2026-10-13. Package out/y2linux-platform-v1-po">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-24.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-24 — animation frame pacing (smooth Cover Flow) - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-24 — animation frame pacing smooth Cover Flow Status: INSTALLED; Cover Flow ≈27 fps was ≈10; tagged baseline-24 2026-10-13. Package out/y2linux-platform-v1-po">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-24.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-24 — animation frame pacing (smooth Cover Flow) - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-24 — animation frame pacing smooth Cover Flow Status: INSTALLED; Cover Flow ≈27 fps was ≈10; tagged baseline-24 2026-10-13. Package out/y2linux-platform-v1-po">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-24 — animation frame pacing (smooth Cover Flow)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-24--animation-frame-pacing-smooth-cover-flow">POWER-FINAL-24 — animation frame pacing (smooth Cover Flow)</h1>
+<p>Status: <strong>INSTALLED; Cover Flow ≈27 fps (was ≈10); tagged <code>baseline-24</code></strong> (2026-10-13). Package <code>out/y2linux-platform-v1-power-final-candidate-24/</code> (fallback = 23), receipts <code>out/deep-sleep-final/build24-receipts/</code>. BOOTIMG <code>653c7d85b7659f5dae6172f2d07dae8802a91ca3afc83c5adb8f97f176dbdda7</code>, Y2ROOT <code>21f21e4770b150c96b1947acc1ef29de8d05b0c4054afe31575a7bf90c99860b</code>. Identity: build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-24</code>, kernel <code>6.18.56-y2linux-platform-v1-power-final-24</code>, root <code>2026.08-platform-v1.54</code>, release <code>1.0.0-platform-v1-power-final-candidate.24</code>; Linux <code>d2b38e8</code>, <strong>Reborn <code>ced5199</code></strong>. Platform as 22/23.</p>
+<h2 id="23-on-the-device-owner-scrolling-45-s-live-sample">23 on the device (owner scrolling, 45-s live sample)</h2>
+<p>Cover Flow looks right but felt slow. Renderer metrics while scrolling: 3–17 ms per frame (<code>graphics_frame_time_ms</code>; CPU 1–2 ms, the rest waits for the page flip), yet only <strong>≈10 frames per second</strong> (<code>graphics_frames</code> 568 → 1036 in 45 s). Reborn&#x27;s main thread used 5.5 % CPU, the CPU stayed at 598–747 MHz. Cause: the main loop computed its wait before the animation marked the frame dirty, so between wheel events it slept its idle 250 ms (50 ms while playing); dirty frames were also capped at one per 34 ms.</p>
+<p>Test library: 100 generated albums (300 silent 4-s FLACs, 8 cover styles, 8 genres) in <code>Cover Flow Test</code> on the SD card (generator in the session scratchpad). The owner&#x27;s SD card also holds 11 macOS <code>._*.mp3</code> AppleDouble files that fail to parse, so every scan reports &quot;incomplete&quot; and keeps stale entries — a Reborn follow-up (skip <code>._*</code> and macOS system folders).</p>
+<h2 id="what-24-changes">What 24 changes</h2>
+<p>Reborn <code>main_loop_interval</code>: while <code>ui.animating()</code> (Cover Flow glide, cover flight) the loop waits for the next 16.7-ms frame start; presentation paces to the page flip. Idle (250 ms), playing (50 ms), dirty (34 ms) and screen-off (1 s) waits are unchanged. Test extended.</p>
+<h2 id="tests">Tests</h2>
+<p>Reborn clippy clean, workspace tests pass; container suite 693, exit 0; package checks PASS.</p>
+<h2 id="hardware-result-owner-scrolling-40-s-live-sample--screen-capture">Hardware result (owner scrolling, 40-s live sample + screen capture)</h2>
+<table><thead><tr><th></th><th>23</th><th>24</th></tr></thead><tbody><tr><td>frames per second while drawing</td><td>≈10</td><td><strong>27 median, 31 max</strong></td></tr><tr><td><code>graphics_frame_time_ms</code></td><td>3–17 ms</td><td>3–18 ms</td></tr><tr><td><code>graphics_cpu_ms</code></td><td>1–2 ms</td><td>1–4 ms</td></tr><tr><td>Reborn main thread CPU</td><td>5.5 %</td><td><strong>45 %</strong></td></tr><tr><td>CPU clock</td><td>598–747 MHz</td><td>598–747 MHz (rarely 1.3 GHz)</td></tr></tbody></table>
+<p>31 fps is half the panel&#x27;s ≈63 Hz: a frame usually misses one page flip. GPU work is cheap; building a frame on the CPU (UI draw + loop work) takes ≈15 ms at the low clock. Next: an animation CPU workload lease (the platform&#x27;s <code>workload</code> QoS, as artwork decoding already uses) and less per-frame work (e.g. <code>album_detail</code> filters every track each frame); measure <code>ui.draw</code> on the host first. Video for the community: <code>~/Videos/y2linux-cover-flow-24.mp4</code> (40 s, the capture itself reaches only ≈10–15 fps over USB, so it looks choppier than the panel). Seen in the video: &quot;3 songs · 0 min&quot; for sub-minute albums (show m:ss); the centre shows the placeholder during very fast first passes until thumbnails are cached (expected).</p>
+<h2 id="what-to-check">What to check</h2>
+<p>Scroll Cover Flow again while the live sample runs: <code>graphics_frames</code> should rise ≈55–63 per second during the glide.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

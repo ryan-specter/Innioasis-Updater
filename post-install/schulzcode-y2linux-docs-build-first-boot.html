@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reproduce the offline first-boot artifact - Innioasis Updater</title>
+  <meta name="description" content="Reproduce the offline first-boot artifact <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" cl">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-first-boot.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Reproduce the offline first-boot artifact - Innioasis Updater">
+  <meta property="og:description" content="Reproduce the offline first-boot artifact <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" cl">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-first-boot.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Reproduce the offline first-boot artifact - Innioasis Updater">
+  <meta name="twitter:description" content="Reproduce the offline first-boot artifact <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" cl">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Reproduce the offline first-boot artifact</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="reproduce-the-offline-first-boot-artifact">Reproduce the offline first-boot artifact</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Current M2 integration uses <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fm2-baseline-01-result.md">M2-BASELINE-01</a> and <code>tools/build/baseline.sh</code> with its targeted suite. The original first-boot workflow and historical suite below do not qualify the combined baseline.</p>
+<p>Host requirements and locked package/source provenance are in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fenvironment.md">environment.md</a>. The source tree is upstream v6.18 plus the single <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fkernel-policy.md">D09 Kconfig visibility overlay</a>, with no C/assembly kernel patch. This command sequence never runs ADB, a flasher or an ARM system emulator.</p>
+<pre><code class="language-sh">python3 tools/build/prepare.py --offline
+python3 tools/build/full_source_check.py
+python3 tools/build/run.py --output out/my-clean-build -- sh /project/tools/build/build.sh</code></pre>
+<p>Use preparation without <code>--offline</code> only to fetch missing checksum-locked inputs. The actual build runs in a private networkless/device-isolated userspace. Choose a fresh output directory; existing vmlinux or BOOTIMG makes the end-to-end command fail rather than reuse a stale product. No RAM limits or config switches are automatically relaxed on failure.</p>
+<p>The pipeline resolves/checks config, compiles/tests the tiny ARM PID1, creates deterministic newc/gzip, builds Image/zImage, compiles DTS with actual gzip length, validates real ELF/DT/compression/layout evidence, appends DTB, packages/independently checks BOOTIMG, and runs all nine tests including actual-artifact mutations. The only execution of ARM code is QEMU <strong>user-mode</strong> <code>--selftest</code>, which exits before privileged operations. It is not a Linux/Y2 boot test.</p>
+<p>Output includes <code>BOOTIMG.img</code>, <code>Image</code>, <code>zImage</code>, <code>zImage-dtb</code>, <code>y2.dtb</code>, <code>init</code>, <code>initramfs.cpio[.gz]</code>, <code>kernel.config</code>, <code>layout.json</code>, kernel/compressed ELFs below <code>kernel/</code>, and build/validation/test logs. The manifest contains decimal integer physical addresses; the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Ffirst-boot-result.md">recorded result</a> renders exact half-open intervals in hex. <code>tools.validation.artifacts</code> verifies the actual kernel/compressed ELF symbols and their corresponding byte images, the embedded gzip/size/BSS table, LC1 stack, every approved DT node/property and all D08 arithmetic. <code>tools.validation.bootimg</code> independently decodes the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fbootimg-format.md">legacy format</a>.</p>
+<p><code>full_source_check.py</code> compares all 91,166 upstream files/links against the locked archive; safe tar extraction normalizes redundant <code>./</code> in relative link targets, which the verifier accounts for explicitly. File contents must be byte-identical, and extra/missing paths fail. The Kconfig overlay is separately hash/diff checked by the runner and mounted read-only from the cache, outside writable build output. Never call a cached source tree pristine solely because 31 earlier audit files match.</p>
+<p>The current UART0 correction and historical UART3 candidate each had two clean builds compared byte-for-byte across 11 outputs, including both ELF symbol containers and resolved config. A focused test-fixture correction handled options omitted entirely by Kconfig when disabled; no product bytes changed. Nine tests pass with no skips in complete builds. DT compilation and kernel logs contain no warning/error diagnostics. This is dtc syntax plus strict independent board-policy validation; a full dt-schema conformance run is not claimed. The new board-compatible string is local and not an upstream-accepted binding submission.</p>
+<p>Stop on any failed checksum, config, architecture, binary, layout, test or reproducibility check. Return to the relevant research/architecture boundary; do not enlarge RAM, import LK ATAGs or enable peripherals to obtain a passing image. Hardware launch separately requires <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Ffirst-boot-launch-gates.md">all recorded gates</a>.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

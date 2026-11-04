@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-19 — PMICWRAP clock gated for the PCM sleep - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-19 — PMIC WRAP clock gated for the PCM sleep Status: INSTALLED, FIRST BOOT AND A 47-MIN SLEEP CLEAN 2026-10-13. Package out/y2linux-platform-v1-power-final-ca">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-19.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-19 — PMICWRAP clock gated for the PCM sleep - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-19 — PMIC WRAP clock gated for the PCM sleep Status: INSTALLED, FIRST BOOT AND A 47-MIN SLEEP CLEAN 2026-10-13. Package out/y2linux-platform-v1-power-final-ca">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-19.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-19 — PMICWRAP clock gated for the PCM sleep - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-19 — PMIC WRAP clock gated for the PCM sleep Status: INSTALLED, FIRST BOOT AND A 47-MIN SLEEP CLEAN 2026-10-13. Package out/y2linux-platform-v1-power-final-ca">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-19 — PMICWRAP clock gated for the PCM sleep</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-19--pmicwrap-clock-gated-for-the-pcm-sleep">POWER-FINAL-19 — PMIC_WRAP clock gated for the PCM sleep</h1>
+<p>Status: <strong>INSTALLED, FIRST BOOT AND A 47-MIN SLEEP CLEAN</strong> (2026-10-13). Package <code>out/y2linux-platform-v1-power-final-candidate-19/</code> (fallback = 18 = <code>baseline-18</code>), receipts <code>out/deep-sleep-final/build19-receipts/</code>. BOOTIMG <code>494948998c45326501945b7ff00f782f1ff3c7264a4bdea70ef938e111ef44ed</code>, Y2ROOT <code>1e6a61fcc1f61345a1e5f79ae40540e3566bba060a13594c3732272d31c2f4d5</code>. Identity: build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-19</code>, kernel <code>6.18.56-y2linux-platform-v1-power-final-19</code>, root <code>2026.08-platform-v1.49</code>, release <code>1.0.0-platform-v1-power-final-candidate.19</code>; Linux <code>0fa5135</code> on <code>main</code>, Reborn unchanged (<code>217e28d</code>). Flash BOOTIMG + ANDROID only with <code>MT6582_preserve_data_scatter.txt</code>, Download Only. Scope audit: &quot;POWER-FINAL-19 PMIC_WRAP clock gate scope audit&quot; in the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap gap audit</a>.</p>
+<h2 id="why">Why</h2>
+<p>After 18 the only INFRA clock gate that still differs from stock at sleep entry is INFRA_PDN bit 23, the AP&#x27;s PMIC_WRAP clock (<a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fstock-suspend-re-ledger.md">ledger</a> F17). Stock&#x27;s suspend checklist has it gated (and even awake video playback does). Y2 had kept it on, assuming the sleep firmware needs it; stock does not support that. The owner-authorised live test on 18 showed that gating it makes the AP-side wrapper read as 0 (every PMIC transfer fails, no bus hang) and that ungating restores it at once. INFRA has never powered down on any candidate (<code>last_lost=0x0</code>), and one INFRA clock left running is a plausible reason.</p>
+<h2 id="what-19-changes">What 19 changes</h2>
+<ul><li>Inside <code>y2_spm_enter</code>, after the VPROC and PMIC sleep steps and the PMIC golden capture (the last AP PMIC access),<p>INFRA_PDN_SET bit 23 is written right before the PCM is armed. It is cleared (verified, up to 3 tries) right after <code>cpu_suspend</code> returns (after the backstop re-arm, before the INFRA restore and every PMIC/VPROC restore), and again on the arm-failure path. It never takes over a gate it did not set.</p></li><li>Switch <code>spm.pwrap_gate</code> (kernel default off), armed by userspace with the other power features; owner switch<p><code>{&quot;pwrap_gate&quot;: false}</code> in <code>/data/system/platform/power-features.json</code>.</p></li><li>State line in <code>/sys/devices/platform/10006000.power-controller/state</code>: `pwrap_gate pwrap_gates pwrap_ungates<p>pwrap_gate_failures pwrap_gate_sta pwrap_gated` (also in every sleep-diagnostics row).</p></li></ul>
+<h2 id="tests">Tests</h2>
+<p>Locked-container production suite: 689 cases, exit 0 (18: 685). The two suspend harnesses that compile the real <code>y2_spm_enter()</code> now model the gated wrapper and assert that no PMIC step runs while it is gated and that it is never left gated on any abort path; <code>test_pwrap_gate</code> pins the order. Package validation, ELF, installed ARM, privacy and inventory PASS. (The first 19 build <code>2b38a28</code> ungated before the backstop re-arm, which an existing test pins first; fixed in <code>0fa5135</code> and rebuilt.)</p>
+<h2 id="risk">Risk</h2>
+<p>If the PCM itself needed the AP-gated wrapper during sleep, a sleep could stall: the 30-s RGU backstop resets the device and the persistent rows record it. Recovery: <code>{&quot;pwrap_gate&quot;: false}</code> after a hold-Power restart, or flash <code>fallback/</code> (18). Stock sleeps with the same PCM and this clock gated.</p>
+<h2 id="hardware-results">Hardware results</h2>
+<p><strong>First boot (boot <code>d4f9a0f1</code>, archive 115):</strong> kernel <code>-power-final-19</code>, taint 0, <code>application_ready</code> 44.3 s, <code>pwrap_gate=1</code>, all 16–18 features armed, Wi-Fi/Bluetooth/USB/SSH up, charging; known log lines only.</p>
+<p><strong>47-min sleep (archive <code>out/deep-sleep-final/evidence/20261013/116-power19-short-sleep/</code>):</strong> 14:05:04 → Power 14:52:26, 2 entries / 2 resumes / 0 aborts (one maintenance wake), USB fine after the replug.</p>
+<ul><li><strong>PMIC_WRAP gate works:</strong> <code>pwrap_gates=2 pwrap_ungates=2 pwrap_gate_failures=0</code>; <code>pwrap_gate_sta=0x80bfe6</code> —<p>INFRA_PDN_STA at the kick is now <strong>exactly the stock golden value</strong>. PMIC step 2/2 restored.</p></li><li><strong>INFRA still retained:</strong> <code>last_lost=0x0</code>, PERICFG PDN0 <code>0x2fcffff</code> kept on both restores. So no INFRA clock gate<p>was the blocker.</p></li><li>Remaining PERI gate difference at entry: PDN0 <code>0x2fcffff</code> vs stock <code>0x2feffff</code> = <strong>bit 17, UART1</strong>. UART1 has no<p>Linux owner (LK leaves its clock on; the idle path only defers it); stock gates it in every scenario checklist (idle, deep idle and suspend). Next candidate.</p></li><li>Audio after the wake: no playback logged before the capture.</li></ul>
+<h2 id="what-to-check-after-the-flash">What to check after the flash</h2>
+<ol><li>Boot, display, audio, Wi-Fi, Bluetooth, USB as on 18; <code>state</code> shows <code>pwrap_gate=1</code>.</li><li>A short sleep first (≈35 min, one maintenance wake): <code>pwrap_gates</code> = <code>pwrap_ungates</code> = sleep entries,<p><code>pwrap_gate_failures=0</code>, <code>pwrap_gate_sta</code> has bit 23 (0x800000); wake and audio fine; <code>pmic_sleep_state</code> as on 18.</p></li><li><strong>The key read: <code>y2_infra/state last_lost</code></strong> — non-zero would mean INFRA finally powers down (then also check the<p>PERICFG restore counters and that USB, SD and audio survive).</p></li><li>Then the overnight drain against 16&#x27;s ≈8.6 mA.</li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

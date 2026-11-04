@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Suspend state probe — test plan (proposed, not yet run) - Innioasis Updater</title>
+  <meta name="description" content="Suspend state probe — test plan proposed, not yet run Goal: obtain the real PMIC/regulator/clock/GPIO state just before and just after sleep on DEEPSLEEP-FINAL-04 and com">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-suspend-state-probe-plan.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Suspend state probe — test plan (proposed, not yet run) - Innioasis Updater">
+  <meta property="og:description" content="Suspend state probe — test plan proposed, not yet run Goal: obtain the real PMIC/regulator/clock/GPIO state just before and just after sleep on DEEPSLEEP-FINAL-04 and com">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-suspend-state-probe-plan.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Suspend state probe — test plan (proposed, not yet run) - Innioasis Updater">
+  <meta name="twitter:description" content="Suspend state probe — test plan proposed, not yet run Goal: obtain the real PMIC/regulator/clock/GPIO state just before and just after sleep on DEEPSLEEP-FINAL-04 and com">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Suspend state probe — test plan (proposed, not yet run)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="suspend-state-probe--test-plan-proposed-not-yet-run">Suspend state probe — test plan (proposed, not yet run)</h1>
+<p>Goal: obtain the real PMIC/regulator/clock/GPIO state <strong>just before and just after</strong> sleep on DEEPSLEEP-FINAL-04 and compare it with the awake baseline (archive 78) and the vendor suspend golden table (25 of 44 entries differ awake). This is evidence for ranking candidates; it is not a measurement of current and not a reading taken while the SoC sleeps.</p>
+<h2 id="what-the-probe-does-read-only">What the probe does (read-only)</h2>
+<p><code>tools/development/power-session/suspend-probe.py</code> runs on the Y2 (stdlib Python, copied to tmpfs <code>/run/y2</code>). It reads the PMIC register dump (<code>/sys/kernel/debug/regmap/1000d000.pwrap/registers</code>, ~26 ms), regulator and clock summaries, GPIO, wakeup sources, SPM state, runtime-PM status. Captures: <code>pre-entry</code> (journal <code>suspend_syncing</code>, 0.1–0.7 s before freeze), <code>maintenance</code> (0.8 s after each maintenance wake), <code>post-resume</code> (first userspace instant after a BOOTTIME jump). A capture during which a suspend began is flagged <code>suspend_during_capture</code>. It never writes PM/PMIC/RTC/guard/wakeup state and holds no wakeup source. Captures go to <code>/data/logs/suspend-probe-&lt;boot&gt;-&lt;time&gt;/NNN-label.json</code> (small; ~60 KB each, max 24).</p>
+<h2 id="device-changes-if-approved">Device changes if approved</h2>
+<p>Only: the probe file and log on tmpfs <code>/run/y2</code>, and its capture directory under <code>/data/logs</code>. No product, kernel, helper or policy change; the 04 image is untouched.</p>
+<h2 id="procedure">Procedure</h2>
+<ol><li>Owner: connect USB, device on the player, paused. Claude: archive first (<code>capture-return.py</code>), then <code>arm-suspend-probe.py</code> under the host lease.</li><li>Owner: screen dark, <strong>unplug</strong>, tell Claude the time, wait <strong>~25 minutes untouched</strong> (&gt;= 2 maintenance wakes; sleep starts ~40–60 s after darkness).</li><li>Owner: re-plug and tell Claude. Claude: archive first, then analyse: <code>tools/development/analyze-suspend-probe.py &lt;captures&gt; --baseline &lt;archive 78 regs.txt&gt;</code>.</li><li>Compare: rails on at pre-entry/maintenance/post-resume; LP_SEL bits; golden differences remaining; enabled clocks; SD/eMMC/connectivity/USB runtime-PM state.</li></ol>
+<h2 id="stop-conditions--safety">Stop conditions / safety</h2>
+<p>Probe self-limits (<code>--max-seconds</code> 3600, 24 captures) and stops on boot change. If a stall/reset occurs, do not restart; connect USB and archive (04 stall records apply). Do not read <code>/sys/power/wakeup_count</code> or <code>/proc/kmsg</code> over SSH.</p>
+<h2 id="interpretation-limits">Interpretation limits</h2>
+<p>Registers read at pre-entry are the state before the freezer/SPM acts; the SPM/PCM may change PMIC state during sleep and restore it before post-resume. A difference between pre-entry and the golden table is therefore a <strong>candidate</strong>, not proof of a leak. A true during-sleep current needs an external measurement.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>USB DMA alignment evidence and current regression - Innioasis Updater</title>
+  <meta name="description" content="USB DMA alignment evidence and current regression <!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -- Current Baseline02 / UART01 scope UART01 pa">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-hardware-final-usb-dma-alignment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="USB DMA alignment evidence and current regression - Innioasis Updater">
+  <meta property="og:description" content="USB DMA alignment evidence and current regression <!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -- Current Baseline02 / UART01 scope UART01 pa">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-hardware-final-usb-dma-alignment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="USB DMA alignment evidence and current regression - Innioasis Updater">
+  <meta name="twitter:description" content="USB DMA alignment evidence and current regression <!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -- Current Baseline02 / UART01 scope UART01 pa">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>USB DMA alignment evidence and current regression</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="usb-dma-alignment-evidence-and-current-regression">USB DMA alignment evidence and current regression</h1>
+<!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -->
+<h2 id="current-baseline02--uart01-scope">Current Baseline02 / UART01 scope</h2>
+<p>UART01 passes three 1 MiB bidirectional USB checksum rounds with an independent Wi-Fi observer, after idle qualification, same boot and no filesystem errors. The current source retains alignment and progress-aware DMA protections. Earlier failed transfers remain historical evidence for those images; bounded success does not qualify large-transfer/reconnect/host-sleep endurance or USB host/VBUS.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-BASELINE-02.md">Baseline02 seal</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-CPU-C3-UART-PHYSICAL.md">UART01 hardware</a> and <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2FCURRENT_PLATFORM_STATE.md">current state</a> carry exact identities, counters and limits.</p>
+<h2 id="historical-source-research-and-physical-checkpoints">Historical source research and physical checkpoints</h2>
+<p>The following text retains earlier dated decisions and results. Its “current”, “next” and candidate labels belong to those sessions; the Baseline02 summary above takes precedence. Historical failures and seal-time NOT_RUN receipts remain evidence for their exact images.</p>
+<hr>
+<h1 id="hardware-final-ecm-request-alignment-and-inventra-dma">Hardware Final: ECM request alignment and Inventra DMA</h1>
+<p><strong>Latest physical boundary, 2026-09-27:</strong> Fix01 passes one 256-KiB bidirectional hash transfer, then loses USB connectivity during the next transfer while the display/UI remains usable. The failed-interval DMA/IRQ observer was lost and the precise transport cause is unknown. Do not infer that the earlier alignment correction failed, that the old IRQ storm returned, or that sustained DMA/recovery qualified from a single small transfer. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-CPU-FINAL-FIX01-PHYSICAL-QUALIFICATION.md%23playback-connectivity-and-recovery&amp;anchor=playback-connectivity-and-recovery">Fix01 physical report</a>.</p>
+<p>2026-09-27 source correction; physical execution of the new kernel remains pending. Hardware 02 reported an allocated Inventra controller while its DMA IRQ counter stayed at six over large bidirectional ECM transfers. USB throughput remained near the PIO baseline. Allocation is not evidence of payload DMA.</p>
+<p>The pinned Linux 6.18 source explains a concrete mismatch:</p>
+<ol><li><code>u_ether.c::rx_submit</code> allocates an aligned skb, then reserves<p><code>NET_IP_ALIGN</code> (two bytes) unless the gadget has <code>quirk_avoids_skb_reserve</code>. Hardware 02 does not select that quirk. USB receives into <code>skb-&gt;data</code>.</p></li><li><code>musb_gadget.c::map_dma_buffer</code> maps that exact data pointer.<p><code>musbhsdma.c::dma_channel_program</code> rejects addresses not divisible by four for controller RTL 1.8 or later. Its comment documents hardware masking the bottom two address bits; bypassing the guard would corrupt data.</p></li><li>Transmitted Ethernet skbs commonly also start two bytes off a word boundary<p>because their IP headers are aligned. Omitting the RX reserve alone does not fix this TX path. USB TX queues the final <code>skb-&gt;data</code> after protocol wrapping.</p></li></ol>
+<p>This strongly supports silent PIO fallback as the cause of the observed lack of DMA progress. The old image does not expose actual request-address rejection counters, so source analysis alone is not a physically observed DMA rejection.</p>
+<p>The correction selects the existing gadget no-reserve quirk only after the Y2 DMA controller is successfully allocated. Explicit <code>y2.usb_dma=off</code> and DMA allocation failure retain the previous PIO skb layout. A new pinned u_ether overlay copies only misaligned TX buffers, after ECM/protocol wrapping, through <code>skb_copy_expand</code> with word-aligned headroom. The kernel helper preserves packet contents and checksum/header metadata. If atomic allocation fails, it keeps the original skb and the existing controller alignment guard retains PIO fallback. It never changes the frame on the wire or disables the hardware alignment guard.</p>
+<p>RX changes where the Ethernet header resides, so IP/checksum alignment must be considered explicitly. This Y2 config selects ARMv7 efficient unaligned access and disables IPv6. The pinned ARM <code>csum_partial</code> has byte/halfword alignment handling; <code>ip_fast_csum</code> uses single-word LDR instructions supported unaligned on this CPU. An executable built from the exact <code>ip_fast_csum</code> assembly checks 2,816 IPv4 header patterns and lengths at both word and halfword alignment against a scalar checksum. It passes ARM QEMU. This does not replace physical DMA, checksum and data-integrity qualification, and is not an assertion about other ARM architectures or future IPv6 configurations.</p>
+<p>The existing DMA allocation/programming observer now also counts rejected misaligned programming requests as <code>dma_alignment_rejects</code>. Accepted programming bytes are deliberately not labelled USB delivery or application throughput. Host tests execute the actual patched TX helper and cover no-copy, copy, byte/metadata preservation, atomic allocation failure and original ownership; DMA observer tests preserve callback return values and count alignment rejects.</p>
+<p>Final same-boot qualification must capture the new counters before and after RAM-to-PC and PC-to-RAM transfers, then storage-backed transfers. Require increasing directional DMA program counts/bytes and IRQs, checked DNS/TCP, payload hashes, stable RX/TX error counters, no DMA bus faults, and reconnect and suspend recovery. Compare PIO only through the existing owner-controlled boot fallback. A faster configuration is not qualified until its measured throughput/CPU/temperature and failure behavior are retained. This repair needs no intermediate flash to complete the independent campaign source work.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

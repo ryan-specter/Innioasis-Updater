@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-48 — download screen with progress, speed and time left - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-48 — download screen with progress, speed and time left Status: PUBLISHED as GitHub release baseline-48 2026-10-16, owner: "publish 48". Package out/y2linux-p">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-48.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-48 — download screen with progress, speed and time left - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-48 — download screen with progress, speed and time left Status: PUBLISHED as GitHub release baseline-48 2026-10-16, owner: "publish 48". Package out/y2linux-p">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-48.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-48 — download screen with progress, speed and time left - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-48 — download screen with progress, speed and time left Status: PUBLISHED as GitHub release baseline-48 2026-10-16, owner: "publish 48". Package out/y2linux-p">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-48 — download screen with progress, speed and time left</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-48--download-screen-with-progress-speed-and-time-left">POWER-FINAL-48 — download screen with progress, speed and time left</h1>
+<p>Status: <strong>PUBLISHED</strong> as GitHub release <code>baseline-48</code> (2026-10-16, owner: &quot;publish 48&quot;). Package <code>out/y2linux-platform-v1-power-final-candidate-48/</code> (fallback = 47), receipts <code>out/deep-sleep-final/build48-receipts/</code>. BOOTIMG <code>5a1fa90e26a9a890ed6c2bca0fb201ccfa26920ea11936460fbfdb26fba8d74b</code>, Y2ROOT <code>1d7c4bcae8b4bae1e2068beeb54f1960a271accb07ffc73ca3c5649ba23ae047</code>, RECOVERY <code>6c14a2f79f055ec2a18101474804141a7b6ec07330f75771fa2a7cb730370a3f</code>. Kernel <code>6.18.56-y2linux-platform-v1-power-final-48</code>, update sequence 4800, Linux <code>d5cc381</code>, Reborn <code>62af097</code>. Container suite <strong>718 OK</strong>, host update tests <strong>24 OK</strong>, Reborn fmt/clippy/tests and GLES comparison (81 states) OK, all seal checks PASS. Signed with the release key: <code>…-48-ota-release/</code>. Contains 47 (DSI DCM off), whose device test is still open.</p>
+<h2 id="why">Why</h2>
+<p>Owner after downloading 47 over Wi-Fi: the animation stuttered, the screen showed no progress and nothing said that the download was done; wanted progress and download speed. Found: Reborn skips the platform refresh while any platform task runs, so the percentage never moved; the stage reply showed nothing; after the 18 s download (58.7 MB, ≈3.3 MB/s) the player decoded the package twice (<code>check</code>, then <code>queue</code>) for 24 s with nothing new on screen.</p>
+<table><thead><tr><th>Change</th><th>Detail</th></tr></thead><tbody><tr><td>Platform</td><td>Live progress in <code>/run/y2/update-progress.json</code> (RAM, ≤4/s: phase, bytes, speed over 4 s, seconds left); the queue&#x27;s decoding check writes <code>/run/y2/update-check-progress</code>. One decoding pass instead of two (about 12 s less; the queue still refuses a wrong-slot boot image). Download and check at nice 10. No per-MiB journal writes on Y2DATA.</td></tr><tr><td>Reborn</td><td>Reads both files five times a second while a download runs. Screen: <em>Step 1 of 2 · Download</em> / <em>Step 2 of 2 · Check</em>, large percentage, a bar that glides between reports with a moving highlight, MB of MB and speed, time left (in fives, then minutes); <em>Connecting…</em> with a sweeping segment before the first report. At the end the page turns to <strong>Ready to Install</strong> at once and a notice says <em>Update downloaded. Ready to install.</em> wherever the owner is; a failed download says nothing was changed.</td></tr></tbody></table>
+<p>Previews: Reborn <code>reborn-preview</code> states <code>34-update-downloading</code>, <code>34b-update-download-progress</code>, <code>34c-update-download-check</code>.</p>
+<h2 id="owner-steps">Owner steps</h2>
+<ol><li>First 47&#x27;s test (installed from the queue, five recovery probes).</li><li>Install 48 over Wi-Fi. That download still uses 47&#x27;s screen; 48&#x27;s screen shows from the next<p>download on (or a development reinstall published for the test).</p></li></ol>
+<h2 id="device-results">Device results</h2>
+<ul><li><strong>Installed over Wi-Fi from the release</strong> (47 before it, also over Wi-Fi): boot <code>7ab5099e</code>, <code>Acknowledged</code>, recovery<p>screen lit, install 53 s (archive <code>20261016/151</code>). The new download screen shows from the next download.</p></li><li>Five restart-entered recovery probes: all lit; details in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-PLATFORM-V1-POWER-FINAL-47.md%23device-results-on-48-archive-20261016151&amp;anchor=device-results-on-48-archive-20261016151">47</a>.</li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

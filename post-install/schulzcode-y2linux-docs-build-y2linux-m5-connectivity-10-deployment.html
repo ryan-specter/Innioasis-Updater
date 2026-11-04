@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CONNECTIVITY-10 — installed Wi-Fi regulatory completion correction - Innioasis Updater</title>
+  <meta name="description" content="CONNECTIVITY-10 — installed Wi-Fi regulatory completion correction <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candida">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m5-connectivity-10-deployment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="CONNECTIVITY-10 — installed Wi-Fi regulatory completion correction - Innioasis Updater">
+  <meta property="og:description" content="CONNECTIVITY-10 — installed Wi-Fi regulatory completion correction <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candida">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m5-connectivity-10-deployment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CONNECTIVITY-10 — installed Wi-Fi regulatory completion correction - Innioasis Updater">
+  <meta name="twitter:description" content="CONNECTIVITY-10 — installed Wi-Fi regulatory completion correction <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candida">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>CONNECTIVITY-10 — installed Wi-Fi regulatory completion correction</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="connectivity-10--installed-wi-fi-regulatory-completion-correction">CONNECTIVITY-10 — installed Wi-Fi regulatory completion correction</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p><strong>The owner-installed image exposes stable wlan0/cfg80211 and scans successfully.</strong> Two scans return 23 and 12 BSS entries. Runtime Wi-Fi restart and standard BlueZ power-on with Wi-Fi active succeed, with zero core/transport errors or recoveries. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fhardware-evidence%2F2026-09-17-m5-connectivity10%2FREADME.md">Physical verification and limits</a>.</p>
+<p>The exact -09 failure was Set TX Power (<code>0x38</code>) completing transmission but not its waiting OID. CONNECTIVITY-10 supplies the standard callbacks for that command. Regulatory channels/power limits, firmware, transport and the working Bluetooth corrections remain intact.</p>
+<h2 id="image-and-validation">Image and validation</h2>
+<p>Directory: <code>/home/luca/Dokumente/Code/Y2Linux/out/y2linux-m5-connectivity-10/</code>. Final source: <code>206f1da29d50a4a22cf01331a49b4519cd7a925f</code>. Kernel: <code>6.18.0-y2linux-m5-connectivity-10</code>. Retain installed CONNECTIVITY-07 Y2ROOT and all Y2DATA.</p>
+<table><thead><tr><th>File</th><th style="text-align:right">Bytes</th><th>SHA256</th></tr></thead><tbody><tr><td><code>BOOTIMG.img</code></td><td style="text-align:right">6150144</td><td><code>d7fbb0808db953a7c8d26f3846815b7b5fbc67caa1b86248d7f992dba51f30a7</code></td></tr><tr><td><code>fallback/BOOTIMG-previous.img</code></td><td style="text-align:right">6150144</td><td><code>200346dff20ea1ffe769278bc8c52a19402d850a380c2054f6e93d1ef167de7a</code></td></tr></tbody></table>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fevidence%2Fy2linux-m5-connectivity-10%2FREADME.md">Validation receipts</a>: 16 targeted tests against emitted -10 artifacts, old-source failure replay, production build, config/DT/memory/BOOTIMG checks and preserving package/hash validation. The final format-only diagnostic correction emits the same BOOTIMG bytes as the first -10 candidate. The installed image needs no repeat installation.</p>
+<h2 id="retained-manual-installation-and-fallback-procedure">Retained manual installation and fallback procedure</h2>
+<p>Installation remains the owner&#x27;s step under the existing deployment contract. For any later reinstall, verify <code>sha256sum -c SHA256SUMS</code>, use this directory&#x27;s <code>MT6582_BOOTIMG_only_scatter.txt</code>, <strong>Download Only</strong>, <strong>BOOTIMG.img only</strong>. Preserve Y2ROOT/Y2DATA, loaders, partition tables and protected partitions. Fallback selects only <code>fallback/BOOTIMG-previous.img</code>: verified -09 Bluetooth, with the earlier Wi-Fi regulatory completion failure. No assistant flash occurs.</p>
+<p>The verification leaves both radios and saved preferences off. No network is configured, so association/DHCP/data traffic remain untested. Bluetooth pairing, audio and sustained coexistence remain unqualified. M4 stays intact and M5 open; GPU/Reborn are not started.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

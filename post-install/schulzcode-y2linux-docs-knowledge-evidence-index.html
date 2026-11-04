@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Evidence provenance and review - Innioasis Updater</title>
+  <meta name="description" content="Evidence provenance and review <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, next">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-evidence-index.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Evidence provenance and review - Innioasis Updater">
+  <meta property="og:description" content="Evidence provenance and review <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, next">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-evidence-index.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Evidence provenance and review - Innioasis Updater">
+  <meta name="twitter:description" content="Evidence provenance and review <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, next">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Evidence provenance and review</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="evidence-provenance-and-review">Evidence provenance and review</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Date: 2026-09-08. Research task: <a href="https://github.com/SchulzCode/Y2Linux/issues/1" target="_blank" rel="noopener noreferrer">Y2E-101</a>. Capture ID: <code>20260908-provenance</code>. Status: bounded historical provenance audit complete. The later <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Frecovery.md">Y2E-125 recovery update</a> accepts owner-observed successful same-device flashing and identifies the FM fallback/tool. Earlier unproven-recovery statements below describe the original evidence boundary.</p>
+<p>Reference root: <code>/home/luca/Dokumente/Code/Y2Player</code>, Git revision <code>870f2b33e49129990bc0a98eeb34d58ed42542b6</code>. The source tree was clean when inspected. Ignored binaries/captures are not authenticated by that revision. All 24 top-level regular files in <code>OriginalFirmware/</code> were hashed without modification; see <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/knowledge/artifact-manifest.tsv" target="_blank" rel="noopener noreferrer">artifact-manifest.tsv</a>. Vendor origin, package download provenance and current-device compatibility remain UNKNOWN. A directory called OriginalFirmware is not proof of authenticity or a per-device backup.</p>
+<h2 id="verified-historical-captures">Verified historical captures</h2>
+<p>The command <code>sha256sum -c checksums.txt</code> was run from each snapshot directory. Both commands returned 0: 93 of 93 entries matched in each, with no missing manifest members. ZIP hashes also match the historical hardware report. Each capture manifest has 89 observation rows: 70 COLLECTED, 12 UNAVAILABLE, 5 DENIED and 2 EMPTY. Checksums establish retained bytes, not that every command successfully observed hardware.</p>
+<table><thead><tr><th>Snapshot</th><th>Manifest validation</th><th>Extra unmanifested member</th><th>Decision</th></tr></thead><tbody><tr><td><code>out/hardware-snapshots/2026-07-29_004316/</code></td><td>93/93 match</td><td>One patched primary audio library under <code>pulled/</code></td><td>Reuse only authenticated manifest members as the original snapshot. The added patched binary is separate evidence.</td></tr><tr><td><code>out/hardware-snapshots/2026-07-29_004935/</code></td><td>93/93 match</td><td>One supplemental personal source-media file</td><td>Media is not part of the original manifest and is excluded from public evidence.</td></tr></tbody></table>
+<p>The raw verification logs, complete extra-file lists and research helper remain private in <code>evidence-private/20260908-provenance/</code>. No source media or firmware is committed.</p>
+<p>The later <code>out/afe-runtime/2026-07-30_135519/manifest-files.csv</code> contains 116 hashed records. All 116 referenced files were independently rehashed and matched; detailed comparison remains private. This validates retained capture bytes, not the electrical interpretations in the report.</p>
+<p>Direct inspection confirms that old ADB host exit 0 accompanied <code>klogctl: Operation not permitted</code> for dmesg and permission-denied cmdline. <code>uname</code> was unavailable; config.gz and exported DT paths were unavailable; an empty modules list does not prove that the kernel lacks built-in drivers. Preserve statuses independently of exit codes.</p>
+<h2 id="generated-artifacts-restricted-reuse">Generated artifacts: restricted reuse</h2>
+<p><code>out/boot-adb/checksums.txt</code>: exit 1. <code>boot.img</code>, <code>boot-stock.img</code>, <code>ramdisk-adb.img</code> and <code>verification-report.txt</code> matched, but the listed standalone <code>adbd</code> file was absent. The current manifest identifies build <code>20260813T163015Z-2697c3590c89-dirty</code>, output boot SHA-256 <code>9abda0890c37558820602b1cf4c6bad74852a9a01812787e1b54b626c616797e</code>, and a CS43131 idle-resume kernel patch. This output is a modified kernel/ramdisk, not merely the stock kernel with ADB enabled. The manifest itself is not among its checksummed members. Do not infer current-device installation or certify complete build reproducibility from this directory.</p>
+<p><code>out/firmware/checksums.txt</code>: exit 1. <code>system.img</code>, <code>build-manifest.txt</code> and <code>verification-report.txt</code> matched; <code>Y2Player.apk</code> did not. The directory is not a coherent verified distribution as it stands. Do not repair/rebuild/replace files in this research task. A matching system image remains separately identifiable; it is not a stock image or proof of successful restoration.</p>
+<p>The decompressed kernel and symbolized ELF match their published hashes (<code>5f284fade5e9ab4f...</code> and <code>b2b5570d2db50cc...</code>; full values in the manifest). They may support offline analysis, subject to validating derivation from the exact stock kernel. <code>reverse/system/lib/libaudio.primary.default.so</code> was absent at the initially referenced path. The alternate authenticated snapshot member <code>out/hardware-snapshots/2026-07-29_004935/pulled/system__lib__libaudio.primary.default.so</code> is available and hashes to <code>5c5162f6a68f7db57febd050ee88cc886779dcce5948937149d6cd211eb0e6de</code>, matching the historical stock HAL. The unmanifested patched copy in the earlier snapshot hashes to <code>c155e239c8d13bc83bc4016ebdcbd1724114d728df86beb4d42c112150ffe216</code>, matching the historical patch report; it remains a separate derivative, not an original capture member.</p>
+<h2 id="report-precedence-and-unresolved-claims">Report precedence and unresolved claims</h2>
+<table><thead><tr><th>Source</th><th>Reusable scope</th><th>Qualification</th></tr></thead><tbody><tr><td><code>docs/Y2_HARDWARE_AND_DAC_ANALYSIS.md</code></td><td>Exact archived stock/capture hashes, DAC binding and initial analysis</td><td>Later second-I2S analysis supersedes parts of its route/rate recommendations.</td></tr><tr><td>Audio phase-2, phase-3 and phase-4 reports</td><td>Evolution from static call graph to captured active route</td><td>Preserve differences and measured versus inferred distinctions; phase-4 electrical/analog uncertainties remain open.</td></tr><tr><td><code>docs/BLUETOOTH_STACK_INVESTIGATION.md</code></td><td>Vendor artifact/service topology</td><td>Its early no-runtime-evidence statement is time-scoped, not a repository-wide current conclusion.</td></tr><tr><td><code>docs/FM_RADIO_FEASIBILITY.md</code></td><td>Reported runtime chip ID and routing experiments</td><td>Successful tune/open does not establish useful reception or physical RF population on every revision.</td></tr><tr><td><code>RELEASE_2.5.md</code></td><td>Current search/FM/input behavior and revision claims</td><td>Behavioral reference; external hardware-revision claims still need source provenance.</td></tr><tr><td><code>docs/ADB_BOOT_IMAGE.md</code></td><td>Earlier secure non-root ADB design</td><td>Current generated boot manifest additionally records a kernel patch. Referenced PowerShell collector is absent from the current checkout.</td></tr><tr><td>README and <code>docs/Y2_INPUT_MAP.md</code></td><td>Historical UI/key mapping</td><td>Older no-search/no-acceleration descriptions are superseded by release/source behavior. Android keycodes are not Linux scan codes.</td></tr></tbody></table>
+<h2 id="review-decision">Review decision</h2>
+<p>Y2E-101 is complete as a catalog and integrity assessment, including failed/generated inputs. Failed package checks are quarantined from recovery readiness; they do not prevent independent, passive observation of an already authorized device. Y2E-105 is therefore permitted next, without assuming that the connected device is stock or that any generated image is installed. Raw partition acquisition, firmware execution and restoration remain blocked. No implementation issue is ready.</p>
+<h2 id="y2e-140-evidence-follow-up">Y2E-140 evidence follow-up</h2>
+<p>Private <code>20260908-observation/</code> retains fresh read-only stock console/sysfs/resource evidence and previous kernel RAM-console tail, FM UART remapping, pinned vendor sources and externally sourced board-photo evidence. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fobservation-path.md">Interpretation and limits</a>; per-file hashes are appended to <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/knowledge/capture-index.tsv" target="_blank" rel="noopener noreferrer">capture-index.tsv</a>. Definitive remote statuses use Android echo; preliminary printf attempts are explicitly superseded. No UART wire capture or physical pin/voltage proof exists yet.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-43 — hold SMI for LK's display until the display takes over - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-43 — hold SMI for LK's display until the display takes over Status: SEALED, awaiting the owner flash 2026-10-16. Package out/y2linux-platform-v1-power-final-c">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-43.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-43 — hold SMI for LK's display until the display takes over - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-43 — hold SMI for LK's display until the display takes over Status: SEALED, awaiting the owner flash 2026-10-16. Package out/y2linux-platform-v1-power-final-c">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-43.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-43 — hold SMI for LK's display until the display takes over - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-43 — hold SMI for LK's display until the display takes over Status: SEALED, awaiting the owner flash 2026-10-16. Package out/y2linux-platform-v1-power-final-c">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-43 — hold SMI for LK&#x27;s display until the display takes over</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-43--hold-smi-for-lks-display-until-the-display-takes-over">POWER-FINAL-43 — hold SMI for LK&#x27;s display until the display takes over</h1>
+<p>Status: <strong>SEALED, awaiting the owner flash</strong> (2026-10-16). Package <code>out/y2linux-platform-v1-power-final-candidate-43/</code> (fallback = 42), receipts <code>out/deep-sleep-final/build43-receipts/</code>. BOOTIMG <code>bf5739dece268ce2b76cef7a66993af4348bb0d81729f19c5f261b63ba881ddc</code>, Y2ROOT <code>d18c1f06b774027f6e3addb7479058a2df533c4c8357beb345fed2c5ab350641</code>, RECOVERY <code>54e7eab49e4ab4fb1d8302f80a5474d2974cd919fc935256a827dbed98c3b61d</code>. Kernel <code>6.18.56-y2linux-platform-v1-power-final-43</code>, release <code>…candidate.43</code>, update sequence 4300. Container suite <strong>718 OK</strong>, all seal checks PASS. Signed OTA (release key): <code>…-43-ota-release/</code>.</p>
+<h2 id="why">Why</h2>
+<p>42 (reopen the gates before the restart) did not help (archives <code>20261016/144</code>, and 145 with <code>dis_pdn</code> off): the gate is closed <strong>during the next boot</strong>, not left over. Lima shares SMI common and goes runtime idle 200 ms after its probe. Every lit cold start hands the display over ~0.10 s after Lima&#x27;s probe; every dark restart (38–42, screen on or off) ~0.5 s after it (archives 135–145). Then the last reference drops, CCF closes SMI common under LK&#x27;s running fetch and larb0 wedges. The owner observed the same with power-on from charging with USB plugged in, which also hands over late.</p>
+<table><thead><tr><th>Change</th><th>Detail</th></tr></thead><tbody><tr><td><code>mm-clocks.c</code></td><td>Holds SMI common and larb0 from probe when LK left them running (<code>holding SMI common/larb0 for the loader display …</code>); <code>y2_mm_release_loader_hold()</code> drops the hold.</td></tr><tr><td>mutex (patch 0011)</td><td>Releases the hold in the first prepare, after enabling its own references.</td></tr><tr><td>42&#x27;s restart handler</td><td>Removed. 41&#x27;s handover opener and the snapshots stay.</td></tr></tbody></table>
+<h2 id="device-results--fixed">Device results — FIXED</h2>
+<ul><li>Cold start (archive <code>20261016/146</code>): hold taken at 0.40 s (before Lima at 0.41 s) and handed to the display mutex<p>(enable counts 1/1 afterwards); display lit, taint 0.</p></li><li><strong>Software restart (archive 147): display lit</strong> (owner: &quot;it worked&quot;). Handover at 0.89 s as on every restart boot,<p>but larb0 idle (<code>stat=0 greq=0</code>), no <code>SMI gates</code> line, vblank 17 → 219, taint 0. The dark panel after a software restart, open since candidate 11, is fixed.</p></li></ul>
+<h2 id="owner-steps">Owner steps</h2>
+<ol><li>Flash 43 (BOOTIMG + ANDROID). Check: <code>holding SMI common/larb0</code> at boot, no <code>SMI gates</code> line, display lit.</li><li>With the owner&#x27;s OK: one software restart; then power-off and power-on with USB plugged in.</li><li>If both stay lit: <code>/data/updates/restart.json</code> on and an install with no Power presses.</li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

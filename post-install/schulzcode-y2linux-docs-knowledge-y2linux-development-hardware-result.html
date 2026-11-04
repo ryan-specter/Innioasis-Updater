@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux development hardware results - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux development hardware results <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims,">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-y2linux-development-hardware-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux development hardware results - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux development hardware results <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims,">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-y2linux-development-hardware-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux development hardware results - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux development hardware results <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims,">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux development hardware results</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-development-hardware-results">Y2Linux development hardware results</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<h2 id="dev-02-live-buildroot-qualification--2026-09-10">DEV-02 live Buildroot qualification — 2026-09-10</h2>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fy2linux-dev02-live-qualification.md">Complete evidence-backed report</a>: four CPUs, MemTotal954660KiB, completed256MiB short RAM pass, writable removable Y2ROOT, all buttons/wheel, visible DRM pattern and initial SSH/ECM/ACM are measured. USB reconnect fails before enumeration; only the owner&#x27;s subsequent restart restores access. M2&#x27;s remaining concrete blocker is #27/#28 USB re-entry. Runtime/module/cursor and host configuration fixes are retained and reproducible. No assistant reboot or new BOOTIMG was performed.</p>
+<h2 id="dev-01-sd-mounts-then-pid1-sigill--2026-09-10">DEV-01 SD mounts, then PID1 SIGILL — 2026-09-10</h2>
+<p>After the Mac SD-writing instructions, the owner&#x27;s photograph shows ext4 recovery, UUID79324c69-6e75-4801-8000-000000000001 on mmcblk0p1, a successful read/write remount and <code>Y2ROOT: verified /dev/mmcblk0p1; switching to Buildroot</code> at23.490923s. At23.723691s the kernel panics: `Attempted to kill init! exitcode=0x00000004`. That is SIGILL; no fault PC/instruction was printed. This confirms removable-SD filesystem access and root selection, not successful Buildroot PID1/SSH. The visible display still works. It supersedes the earlier no-root-media observation; the earlier MMC timeouts do not establish inability to read this written card.</p>
+<p>DEV-01 disabled ARM_THUMB despite Thumb-2 toolchain code and disabled kuser helpers despite glibc containing a reference to the fixed helper page. Kernel ARM Kconfig explicitly documents possible SIGILL for either incompatibility. Those are supported corrections, not proof of the photographed fault&#x27;s exact instruction. DEV-02 also enables user fault diagnostics, adds a child ABI probe before handoff, enables FB_DEVICE for the missing fb0 node, and corrects the I2C controller WRRD dispatch behind the continuing wheel timeout. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fy2linux-dev-02-result.md">DEV-02 result</a>. No new physical success or milestone completion is inferred from the new build.</p>
+<h2 id="dev-01-rescue-capture-02--2026-09-10">DEV-01 rescue capture-02 — 2026-09-10</h2>
+<p>After the owner enabled host ACM access, a 45-second capture succeeded: <code>out/y2linux-dev-01/capture-02/raw.bin</code>, 196354 bytes, SHA-256 <code>32085a995f111f9e1dd8acf1e18ff2d8ea3389b586e9ef211e74ab8c279bfe69</code>. All 704 kernel records 0–703 are present. The LOG1 header and USB descriptor identify DEV-01. The history replay includes earlier boot snapshots; capture success does not mean every snapshot was freshly taken during these 45 seconds.</p>
+<ul><li>CPUs online 0–3; MemTotal 954668 KiB (about 932 MiB), HighTotal 228352 KiB.<p>Large RAM/HIGHMEM is visible; allocator stress is still untested.</p></li><li>XRGB8888, 480x360, pitch1920, GEM allocation692224 bytes. GEM DMA and live<p>OVL both <code>84900000</code>, match1; layer control <code>000040ff</code> selects format4. Vblank advances18 →86 →154 →221; mutex module mask488, SOF1. GPIO112 mux1, direction/output/input1; enabled backlight with inherited PWM/current. These support the owner&#x27;s visible-console observation without identifying which combined correction caused it.</p></li><li>The color tool reports <code>framebuffer query: No such file or directory</code> at8.496s.<p>No successful test-pattern/memory-readback result exists; investigate fb0 node availability in the next integrated correction while preserving visible fbcon.</p></li><li>Ten wheel I2C reads still time out: controller START1/status0/irq_seen0,<p>parent273MHz/div16/bus100kHz, op1, DMA enable0/flags1. The regression remains in the transaction path; retain exact diagnostics for the next combined fix.</p></li><li>Rescue declares no usable Y2ROOT at22.106s. The SD rootfs is not installed.<p>MMC command timeouts are present; SD filesystem boot is not qualified. USB composite enumeration and ACM log transfer work. ECM traffic, SSH, reconnect and allocator memory tests remain unqualified.</p></li></ul>
+<p>The owner can attach the card reader only to a Mac. A verified 8.3 MB gzip of the existing ext4 image is ready for LAN transfer. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fy2linux-dev-01-mac-sd.md">Mac preparation</a> starts with a read-only disk listing, before any exact owner write commands. No new candidate build, storage write, private-key access or milestone closure.</p>
+<h2 id="dev-01-owner-sees-the-linux-console--2026-09-10">DEV-01: owner sees the Linux console — 2026-09-10</h2>
+<p>At source checkpoint <code>a34a360</code>, the owner reports manually flashing the new BOOTIMG and seeing the Linux console. The SD rootfs has <strong>not</strong> been prepared. This is positive physical visible-output evidence, superseding BASELINE-03&#x27;s black-screen observation for this boot. Exact flashed bytes and the color test pattern are not independently verified; no claim identifies which combined source correction caused the improvement.</p>
+<p>Read-only host discovery independently identifies USB <code>0525:a4aa</code>, serial <code>Y2LINUX-DEV-01</code>, manufacturer <code>Linux 6.18.0-y2linux-dev01 with musb-hdrc</code>, speed 480 Mbit/s and an ACM interface on <code>/dev/ttyACM0</code>. Identity is retained in <code>out/y2linux-dev-01/usb-identity-owner-console.json</code>. This proves composite enumeration, not Ethernet traffic, successful log streaming or reconnect.</p>
+<p>ACM capture-01 could not open the serial device (host EACCES); sudo capture-02 could not start because a host password is required. No runtime log capture was obtained. The host currently lists only its internal NVMe and zram, with no removable SD attached. No disk or device storage was written.</p>
+<p>Expected current userspace is rescue, pending logs; SD root, Buildroot init, SSH, RAM size/stability, wheel and button operation on DEV-01 remain unverified. M2 stays active and incomplete. Next steps: attach the removable card to a host reader and identify it before owner writing, enable host ACM access, retain the running boot logs, then test Y2ROOT and networking together. No kernel rebuild or second BOOTIMG flash is needed merely to install the prepared SD rootfs.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

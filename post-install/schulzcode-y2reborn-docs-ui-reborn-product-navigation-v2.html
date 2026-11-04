@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reborn Product UI v2 navigation and focus map - Innioasis Updater</title>
+  <meta name="description" content="Reborn Product UI v2 navigation and focus map <!-- knowledge-base-scope: source-contract -- Source-contract scope. Routes of the Product UI v2 source. See current state .">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-ui-reborn-product-navigation-v2.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Reborn Product UI v2 navigation and focus map - Innioasis Updater">
+  <meta property="og:description" content="Reborn Product UI v2 navigation and focus map <!-- knowledge-base-scope: source-contract -- Source-contract scope. Routes of the Product UI v2 source. See current state .">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-ui-reborn-product-navigation-v2.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Reborn Product UI v2 navigation and focus map - Innioasis Updater">
+  <meta name="twitter:description" content="Reborn Product UI v2 navigation and focus map <!-- knowledge-base-scope: source-contract -- Source-contract scope. Routes of the Product UI v2 source. See current state .">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>Reborn Product UI v2 navigation and focus map</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="reborn-product-ui-v2-navigation-and-focus-map">Reborn Product UI v2 navigation and focus map</h1>
+<!-- knowledge-base-scope: source-contract -->
+> **Source-contract scope.** Routes of the Product UI v2 source. See
+> [current state](../CURRENT_REBORN_STATE.md) for the installed build.
+<h2 id="global-controls">Global controls</h2>
+<table><thead><tr><th>Control</th><th>Short press</th><th>Hold</th></tr></thead><tbody><tr><td>Wheel</td><td>Move one row / item / value (Now Playing: volume ±2)</td><td>—</td></tr><tr><td>Select</td><td>Open / act</td><td>Context options of the focused item; in password entry: connect</td></tr><tr><td>Back</td><td>Parent screen (restores focus and scroll)</td><td>Home</td></tr><tr><td>Play/Pause</td><td>Play / pause anywhere</td><td>Now Playing</td></tr><tr><td>Previous / Next</td><td>Previous / next track</td><td>Seek −/+ 30 s, repeating</td></tr><tr><td>Volume − / +</td><td>Volume (works with the screen off)</td><td>Repeats</td></tr><tr><td>Power</td><td>Screen off / on</td><td>Quick Settings</td></tr></tbody></table>
+<p>With the screen off only transport, volume and Power act. Sheets trap focus; Back closes them and restores the screen underneath. During an update install or a shutdown only wake and volume act.</p>
+<h2 id="normal-navigation-tree">Normal navigation tree</h2>
+<pre><code>Home
+├── Music
+│   ├── Albums ─ Album ─ (Play All, tracks)
+│   ├── Artists ─ Artist ─ (Play All, Albums by this Artist → Albums, songs)
+│   ├── Songs ─ (Jump to Letter)
+│   └── Folders ─ Internal Storage / SD Card ─ folders ─ songs
+├── Now Playing ─ options: Show Queue, Shuffle, Repeat, Go to Album, Go to Artist, Song Info
+├── Queue ─ options: Play Now, Remove, Move Up, Move Down, Clear Upcoming
+└── Settings (since 9.2.10 see REBORN-SETTINGS-MAP.md: the places, the tree and the rules for adding a setting)
+    ├── Wi-Fi ─ network options: Connect/Disconnect, Forget Network; password entry
+    ├── Bluetooth ─ device options: Pair/Connect/Disconnect, Use for Audio, Codec, Forget Device
+    ├── PC Transfer
+    ├── Audio ─ Output picker, ReplayGain
+    ├── Playback ─ Shuffle, Repeat, Gapless Playback, Crossfade
+    ├── Library ─ Internal Storage, SD Card, Scan for New Music, Rebuild Library
+    ├── Display ─ Brightness, Screen Timeout
+    └── System
+        ├── Battery
+        ├── Storage
+        ├── Software Update
+        ├── About ─ Licenses
+        ├── Reset &amp; Maintenance
+        ├── Diagnostics (technical subtree, below)
+        ├── Restart (confirmed)
+        └── Power Off (confirmed)
+
+Hold Power: Quick Settings ─ Wi-Fi, Bluetooth, Output, Brightness, Restart, Power Off</code></pre>
+<h2 id="route-table">Route table</h2>
+<table><thead><tr><th>Screen</th><th>Parent</th><th>Focus order</th><th>Context (hold Select)</th><th>Empty / loading / error</th></tr></thead><tbody><tr><td>Home</td><td>— (Back no-op)</td><td>Music → Now Playing → Queue → Settings</td><td>—</td><td>—</td></tr><tr><td>Music</td><td>Home</td><td>Albums → Artists → Songs → Folders</td><td>—</td><td>—</td></tr><tr><td>Albums / Artists</td><td>Music (or Artist)</td><td>Alphabetical rows</td><td>Jump to Letter</td><td>No Music Yet / Finding Your Music… / Scan Didn&#x27;t Finish / Can&#x27;t Read Your Music + Scan for Music</td></tr><tr><td>Album</td><td>Albums, Now Playing, song options</td><td>Play All → tracks (disc, track order)</td><td>Play All: Play, Shuffle, Play Next, Add to Queue; track: song options</td><td>As above</td></tr><tr><td>Artist</td><td>Artists, options</td><td>Play All → Albums by this Artist → songs</td><td>As Album</td><td>As above</td></tr><tr><td>Songs</td><td>Music</td><td>Title order</td><td>Play, Play Next, Add to Queue, Go to Album, Go to Artist, Song Info, Jump to Letter</td><td>As above</td></tr><tr><td>Folders</td><td>Music / parent folder</td><td>Folders, then songs</td><td>Song options</td><td>As above</td></tr><tr><td>Jump to Letter</td><td>Albums/Artists/Songs</td><td>Letters present</td><td>—</td><td>—</td></tr><tr><td>Now Playing</td><td>Any (Back restores)</td><td>Volume bar (wheel)</td><td>Select or hold: Now Playing options</td><td>Nothing Playing + Open Music</td></tr><tr><td>Queue</td><td>Home, Now Playing options</td><td>Occurrences</td><td>Queue options</td><td>Queue Is Empty + Open Music</td></tr><tr><td>Song Info</td><td>Song options</td><td>Static facts</td><td>—</td><td>Song Not Found</td></tr><tr><td>Settings</td><td>Home</td><td>Wi-Fi → … → System</td><td>—</td><td>—</td></tr><tr><td>Wi-Fi</td><td>Settings, Software Update</td><td>Toggle → networks → Search Again</td><td>Saved network: Connect/Disconnect, Forget</td><td>Is Off + Turn On; Is Starting…; problems in footer</td></tr><tr><td>Password entry</td><td>Wi-Fi (secured network)</td><td>One character per detent; Delete, Connect, Cancel</td><td>Hold Select connects</td><td>Fewer than 8 characters: toast</td></tr><tr><td>Bluetooth</td><td>Settings</td><td>Toggle → devices → Search for Devices</td><td>Device options (Select on a connected device)</td><td>Is Off + Turn On; Is Starting…; no devices hint in footer</td></tr><tr><td>Pairing</td><td>Over any screen</td><td>Pair → Cancel</td><td>—</td><td>Disappears when the request ends</td></tr><tr><td>PC Transfer</td><td>Settings</td><td>Scan for New Music</td><td>—</td><td>Connect to a Computer / Preparing… / Ready / Disconnected</td></tr><tr><td>Audio</td><td>Settings</td><td>Output → ReplayGain</td><td>—</td><td>—</td></tr><tr><td>Output picker</td><td>Audio, Quick Settings</td><td>Headphone jack → Bluetooth devices</td><td>—</td><td>Only usable devices listed</td></tr><tr><td>Playback</td><td>Settings</td><td>Shuffle → Repeat → Gapless → Crossfade</td><td>—</td><td>—</td></tr><tr><td>Library</td><td>Settings</td><td>Internal → SD → Scan → Rebuild</td><td>—</td><td>Scan/Rebuild disabled while scanning</td></tr><tr><td>Display</td><td>Settings</td><td>Brightness (if supported) → Screen Timeout</td><td>—</td><td>—</td></tr><tr><td>System</td><td>Settings</td><td>Battery → … → Power Off</td><td>—</td><td>—</td></tr><tr><td>Battery</td><td>System</td><td>Static</td><td>—</td><td>Low / Critically Low heroes</td></tr><tr><td>Storage</td><td>System, Library</td><td>Static</td><td>—</td><td>Checking… / Running Low / Almost Full / Storage Problem; SD error</td></tr><tr><td>Software Update</td><td>System</td><td>Hero action(s)</td><td>—</td><td>See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Fui%2FREBORN-PRODUCT-UI-V2.md%23screens&amp;anchor=screens">UI</a></td></tr><tr><td>About</td><td>System</td><td>Licenses</td><td>—</td><td>—</td></tr><tr><td>Reset &amp; Maintenance</td><td>System</td><td>Five operations</td><td>—</td><td>Each confirmed, starting on Cancel</td></tr><tr><td>Value detail</td><td>About, Diagnostics facts</td><td>Back</td><td>—</td><td>—</td></tr></tbody></table>
+<p>Back always returns to the parent with its focus and scroll restored (tested for every reachable route). Long Back returns Home.</p>
+<h2 id="diagnostics-tree">Diagnostics tree</h2>
+<p>Settings → System → Diagnostics:</p>
+<pre><code>Diagnostics
+├── Health (Run Checks)
+├── Battery        SOC, source, confidence, calibration, low-battery policy, voltage, current, pack temperature, supplies
+├── Storage        state, space, free/total, filesystem, UUID, device, mount generation, controllers and error counters
+├── Network        readiness, reason, IP, route, DNS, signal, RX/TX, power save
+├── Bluetooth      adapter, audio service, peers, active codec, PCM format/rate/channels, transport generation, codec policy, reconnect
+├── Audio          source codec/rate/bits, decoded and DSP format, ReplayGain, crossfade, sink, PCM format/rate/channels, enabled formats/rates, hw_params
+├── CPU &amp; Power    cores, load, memory, clocksource, highres, NO_HZ, frequency/governor, idle states, die temperatures, Reborn PSS
+├── USB            cable, transfer service, address, SFTP, DMA path and counters
+├── Update         journal, download, offered release, failures, signing key ID, sequence, rollback, scope
+├── Boot &amp; Services boot IDs, clean shutdown, last stage, reset cause, taint, clock, readiness
+├── Build Information Reborn build, Y2Linux release, build ID, kernel, rootfs, source commits
+├── Capabilities   implemented / enabled / qualified / experimental per capability
+├── Network Check · Storage Benchmark · Library Benchmark (confirmed) · Export Player Data
+├── Restore Previous System (confirmed; only when a verified previous root exists)
+└── Latest Result</code></pre>
+<p>Every fact opens its full value. Each section has <em>Refresh</em> (one platform observation) and Health has <em>Run Checks</em>.</p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

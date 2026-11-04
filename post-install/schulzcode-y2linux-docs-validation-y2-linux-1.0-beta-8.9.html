@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 8.9 (label 102, not published) - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 8.9 label 102, not published Status: BUILT label 102 and installed on the owner's player; NOT PUBLISHED 2026-10-19. The owner then chose to continue the">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.9.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 8.9 (label 102, not published) - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 8.9 label 102, not published Status: BUILT label 102 and installed on the owner's player; NOT PUBLISHED 2026-10-19. The owner then chose to continue the">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.9.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 8.9 (label 102, not published) - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 8.9 label 102, not published Status: BUILT label 102 and installed on the owner's player; NOT PUBLISHED 2026-10-19. The owner then chose to continue the">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 8.9 (label 102, not published)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-89-label-102-not-published">Y2Linux 1.0 Beta 8.9 (label 102, not published)</h1>
+<p>Status: <strong>BUILT (label 102) and installed on the owner&#x27;s player; NOT PUBLISHED</strong> (2026-10-19). The owner then chose to continue the error report uploader (R3/R4) on <code>main</code>, so the next release is a new build from there. Release <code>1.0.0-beta.8.9</code>, Reborn <code>1.0.0-beta.8.9</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.8.9</code>, update sequence 7100, Linux <code>0e0760f</code>, Reborn <code>4da5f84</code>. Built with <code>tools/production/release.py</code> (135 s, resumed workspace, update based on <code>baseline-101</code>): container suite <strong>792 OK</strong>, host suite 819 OK, Reborn 543 tests and strict Clippy; all seal checks PASS, no MediaTek firmware in any image. Milestone audit BETA-8.9 in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap-gap-audit</a>.</p>
+<table><thead><tr><th>Image</th><th>SHA-256</th></tr></thead><tbody><tr><td>BOOTIMG</td><td><code>fc8e71b9c4484fe80a3cdc663ec84c05c3217d2f945ca6d3f9fe9148a757c1c4</code></td></tr><tr><td>Y2ROOT</td><td><code>f7c7ff3596d186eefe74ec1dd0a7d325c25d6863b2209ce41bda464fcb9f4cec</code></td></tr><tr><td>RECOVERY</td><td><code>57f77eb599fe52435108f41b6831da60a399d381d83612b56a880a9f9577273d</code></td></tr><tr><td>Y2DATA (no SSH key)</td><td><code>d790e47126f1cc6a2382f332368317a338a181d72ad91d588332f39fbc576743</code></td></tr></tbody></table>
+<h2 id="what-changed">What changed</h2>
+<table><thead><tr><th>Part</th><th>Change</th></tr></thead><tbody><tr><td>Reborn</td><td>About &amp; Updates → Error Reports → <strong>Save Report</strong> → storage, and the report is saved: the topic step is gone. The topic never changed a report&#x27;s content (<code>report.py</code> collects the same sections for every topic; it was only a label in <code>report.json</code>), and a saved report goes with a GitHub issue that says what went wrong. Reborn runs <code>y2-platform report save --to internal|sd</code> without <code>--topic</code> (<code>report.json</code> <code>&quot;topic&quot;: null</code>); the storage rows lose their chevron. The topic picker stays for Send Report Now (hidden until there is an uploader), where it is the only thing the owner tells the receiver. Reborn <code>c0c5e04</code>.</td></tr><tr><td>Platform</td><td>No code change; <code>--topic</code> stays optional.</td></tr><tr><td>User guide</td><td><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2FERROR-REPORTS.md">ERROR-REPORTS</a> without the topic step (with a note for Beta 8.8). Linux <code>9dc60e6</code>.</td></tr></tbody></table>
+<h2 id="device-results-owners-player">Device results (owner&#x27;s player)</h2>
+<p>Installed by stage + apply (package hashes equal on the player, signature checked): back after ≈40 s, <code>PendingHealth</code> → <code>Acknowledged</code> 7100, Reborn healthy on <code>1.0.0-beta.8.9</code>; <code>/data/ota-102</code> removed. The owner then saved a report from the screens: SD card, 509 KB, <code>state: saved</code> at 13:30 UTC (no topic step).</p>
+<h2 id="known-gaps">Known gaps</h2>
+<ul><li>Not checked on the player: Save Report to Internal Storage from the screens, a FAT32 card, a full or read-only<p>card.</p></li><li>Unchanged from 8.8: no upload (R3 Worker, R4 uploader), battery current with a profile, output measurements, sleep<p>drain (#42), GC9503V confirmation (#45), charging on #47&#x27;s player.</p></li><li>One host-suite run before the build had one failure that did not repeat (the rerun and the build&#x27;s suites passed);<p>which test it was is not recorded.</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

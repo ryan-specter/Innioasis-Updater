@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>No-SD console photo - Innioasis Updater</title>
+  <meta name="description" content="No-SD console photo Owner confirms USB connected, SD absent, and supplies a photo of Linux fbcon. Visible uptime is approximately 154–156 seconds. Repeated lines identify">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-hardware-evidence-2026-09-13-storage02-owner-flash-no-sd-console.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="No-SD console photo - Innioasis Updater">
+  <meta property="og:description" content="No-SD console photo Owner confirms USB connected, SD absent, and supplies a photo of Linux fbcon. Visible uptime is approximately 154–156 seconds. Repeated lines identify">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-hardware-evidence-2026-09-13-storage02-owner-flash-no-sd-console.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="No-SD console photo - Innioasis Updater">
+  <meta name="twitter:description" content="No-SD console photo Owner confirms USB connected, SD absent, and supplies a photo of Linux fbcon. Visible uptime is approximately 154–156 seconds. Repeated lines identify">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>No-SD console photo</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="no-sd-console-photo">No-SD console photo</h1>
+<p>Owner confirms USB connected, SD absent, and supplies a photo of Linux fbcon. Visible uptime is approximately 154–156 seconds. Repeated lines identify <code>mtk-msdc 11240000.mmc</code>, <code>msdc_track_cmd_data</code>, CMD55 with argument 0, CMD8 with argument 0x1aa, and <code>host-&gt;error=0x00000002</code>.</p>
+<p>Source interpretation: kernel/dts/innioasis-y2-first-boot.dts maps 11240000  to the removable SD host; 11230000 is internal eMMC. SD uses <code>broken-cd</code>, which upstream drivers/mmc/core/host.c maps to MMC_CAP_NEEDS_POLL. The MMC rescan worker retries while no card responds. Upstream mtk-sd.c defines bit 1 as REQ_CMD_TMO and prints each failed command with dev_warn. Production inherits loglevel=8 plus ignore_loglevel, exposing all those expected empty-slot timeouts.</p>
+<p>This establishes a running Linux console/display without SD and an empty-slot logging defect. It does not establish internal root/data mounts or explain the absent Linux USB gadget. The photo does not show an internal-eMMC failure, root handover result, kernel panic or the observer USB status rows. No code change or physical write is justified solely as a cure for USB from this photo. A temporary card insertion without reboot can test whether warning traffic stops; production neither automounts the card nor accepts it as root.</p>
+<p>Photo retained privately as evidence-private/20260913-storage02-owner-flash/ no-sd-console.png; SHA256 3ad8223d6e3f929963d87f0eabff67178141d1d22eabeab1f9627a4820628dd4</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

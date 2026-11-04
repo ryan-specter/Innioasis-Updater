@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M2-CHRDET-01 physical result - Innioasis Updater</title>
+  <meta name="description" content="M2-CHRDET-01 physical result <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, next st">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m2-chrdet-hardware-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M2-CHRDET-01 physical result - Innioasis Updater">
+  <meta property="og:description" content="M2-CHRDET-01 physical result <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, next st">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m2-chrdet-hardware-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M2-CHRDET-01 physical result - Innioasis Updater">
+  <meta name="twitter:description" content="M2-CHRDET-01 physical result <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, next st">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M2-CHRDET-01 physical result</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m2-chrdet-01-physical-result">M2-CHRDET-01 physical result</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>2026-09-09, implementation <code>de1a6d0</code>. The owner supplied three photographs in <code>out/m2-chrdet-01/</code> and reports no error when starting without USB, but error <code>-19</code> when starting with USB connected. All show M2-CHRDET-01 and Linux 6.18.0-y2-m2-chrdet1. Filenames describe startup cable state; they do not certify same-boot chronology or BEAT 50.</p>
+<table><thead><tr><th>Field</th><th>USB connected at startup, “10”</th><th>No USB at startup, “10”</th><th>No USB at startup, “50”</th></tr></thead><tbody><tr><td>Actual BEAT / FRAME</td><td>10 / 68</td><td>11 / 74</td><td>46 / 284</td></tr><tr><td>Uptime / idle seconds</td><td>11.32 / 10.16</td><td>12.43 / 11.17</td><td>51.28 / 46.52</td></tr><tr><td>Timer IRQ CPU0</td><td>1134</td><td>1245</td><td>5130</td></tr><tr><td>PW result / validity</td><td>0 / 7</td><td>0 / 7</td><td>0 / 7</td></tr><tr><td>CLK result / validity</td><td>0 / 15</td><td>0 / 15</td><td>0 / 15</td></tr><tr><td>CHR_CON0 / bit5</td><td>007B / 1</td><td>0001 / 0</td><td>0001 / 0</td></tr><tr><td>USB result / validity</td><td>0 / 001FFFFF</td><td>0 / 001FFFFF</td><td>0 / 001FFFFF</td></tr><tr><td>WAKE / written / pre-post validity</td><td>-19 / 0 / 00-000</td><td>0 / 1 / 7F-FFF</td><td>0 / 1 / 7F-FFF</td></tr><tr><td>PHY 6a before / after</td><td>BE / <strong>unread</strong></td><td>04 / 00</td><td>04 / 00</td></tr><tr><td>Post POWER / DEVCTL</td><td><strong>unread</strong></td><td>20 / 80</td><td>20 / 80</td></tr><tr><td>Post PHY68..6e</td><td><strong>unread</strong></td><td>00 00 00 02 12 00 00</td><td>same</td></tr><tr><td>Pre PHY1a / 1d / 22 / 63</td><td><strong>unread</strong></td><td>10 / 00 / 00 / 00</td><td>same</td></tr><tr><td>PHY00 / 05 / 15 before-after</td><td><strong>unread</strong></td><td>6E/6E / 44/44 / 10/10</td><td>same</td></tr><tr><td>Last error</td><td>PHY WAKE -19</td><td>NONE</td><td>NONE</td></tr><tr><td>MemTotal / CPUs online</td><td>22208 kB / 0</td><td>same</td><td>same</td></tr><tr><td>Sleep / proc / sysfs results</td><td>0 / 0 / 0</td><td>same</td><td>same</td></tr><tr><td>Watchdog / framebuffer / frame write</td><td>STOPPED / GUARD OK / 804</td><td>same</td><td>same</td></tr></tbody></table>
+<p><strong>CONFIRMED:</strong> the cached PMIC status read succeeds in both reported startup conditions; CHRDET tracks the supplied cable-state reports. This is charger presence, not proof of host identity, data-wire integrity, electrical voltage or a usable MUSB session. The connected boot is visibly running at BEAT 10. The no-USB photographs show successful guarded wake and progress as late as BEAT 46; the owner has not explicitly confirmed that those two images share a boot. No connected-boot BEAT 50/STOP or continuous stability is claimed.</p>
+<h2 id="why--19-appears">Why -19 appears</h2>
+<p><code>y2_usb_wake_probe()</code> starts with result -19 and refuses its initial guard unless the complete snapshot matches the reviewed passive state. In particular, PHY6a must be 04. The connected photograph shows <strong>BE</strong>, with <code>written=0</code> and both wake validity masks zero. This establishes refusal before the seven extra mode reads and before any PHY write. It is not a failed CHRDET/PWRAP transaction, a kernel boot failure, or a failed write of zero to 6a.</p>
+<p>The old PID1 screen replaces the valid original USB rows whenever all USB reads succeeded, even when the subsequent wake guard refused. Consequently its <code>BE&gt;00</code>, zero post-PHY, zero mode/trim and <code>P:00 D:00</code> fields contain unread zero-initialized storage. Those zeros are <strong>not hardware evidence</strong>. Other initial guard failures may coexist with 6a=BE; the original MAC, remaining PHY, DMA and IRQ-enable values were collected but hidden.</p>
+<p>The earlier successful attached-cable PHY-wake report remains valid within its reported conditions. Exact cable attachment timing relative to startup is not established there. Do not equate “attached during observation” with “attached at power-on,” erase that success, or infer the loader&#x27;s complete mode from BE.</p>
+<h2 id="next-evidence-boundary">Next evidence boundary</h2>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usb-guard-diagnostic.md">M2-USBGUARD-01</a> changes diagnostic presentation only: retain the captured initial state on an early refusal and mark unread values with dashes. All register transactions, guards, snapshot ABI, memory/DMA and boot packaging policies remain unchanged. Obtain the connected-start raw state before selecting a stock-derived PHY recovery/session operation. CHRDET=1 alone does not authorize bypassing the passive-state guard or forcing VBUS.</p>
+<p>Private originals and manifest: <code>evidence-private/20260909-m2-chrdet-result/</code>.</p>
+<table><thead><tr><th>Original filename</th><th>Bytes</th><th>SHA-256</th></tr></thead><tbody><tr><td>10 usb connected at startup.jpg</td><td>229798</td><td><code>410156d1d9e9ea85976afaabe6d59a83c054db34faaa56e09b2b2f2eef01be58</code></td></tr><tr><td>10 no usb connected at startup.jpg</td><td>242813</td><td><code>4ffe34fdb744461dce47c9f8ce2c51b6adf02c6d6121119f3a11041ca8757aea</code></td></tr><tr><td>50 no usb connected at startup.jpg</td><td>227000</td><td><code>dbcac6f3ba3ce1e03b08280eaaf63af3f4766b5bfd3bb4708c2a9f459368b0d2</code></td></tr></tbody></table>
+<p>Retained candidate rechecked at 1,097,728 bytes, SHA-256 <code>e511fb89e45326673183f426a4bdd3b6ca708c25bf3e6ceecfc4a67478aa9660</code>. Association uses the owner report, directory and displayed build; no independent flash readback, host timing or restoration result is supplied. #23/#27/#28 stay open, M1 stays complete, M2 exit remains blocked and M3/application work deferred.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

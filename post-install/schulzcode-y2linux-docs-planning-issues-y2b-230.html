@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2B-230 — Package the legacy MTK BOOTIMG offline - Innioasis Updater</title>
+  <meta name="description" content="Y2B-230 — Package the legacy MTK BOOTIMG offline <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current"">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2b-230.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2B-230 — Package the legacy MTK BOOTIMG offline - Innioasis Updater">
+  <meta property="og:description" content="Y2B-230 — Package the legacy MTK BOOTIMG offline <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current"">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2b-230.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2B-230 — Package the legacy MTK BOOTIMG offline - Innioasis Updater">
+  <meta name="twitter:description" content="Y2B-230 — Package the legacy MTK BOOTIMG offline <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current"">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2B-230 — Package the legacy MTK BOOTIMG offline</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2b-230--package-the-legacy-mtk-bootimg-offline">Y2B-230 — Package the legacy MTK BOOTIMG offline</h1>
+<!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Depends on Y2B-225 (#13). Preserve stock preloader/LK and partition layout; no flashing commands.</p>
+<p>Package only a validated zImage+DTB and external diagnostic initramfs. Use the FM legacy Android header with 2048-byte pages, declared 0x100... addresses, 512-byte MTK KERNEL/ROOTFS wrappers and deterministic metadata. Runtime addresses remain the independently validated LK/D08 contract.</p>
+<p>Acceptance:</p>
+<ul><li><input type="checkbox" disabled checked> Strict independent parser checks every header field, wrapper magic/name/length/padding, Android SHA-1 ID and actual payload bytes.</li><li><input type="checkbox" disabled checked> Zero-fill file padding through LK&#x27;s complete read (including its extra two pages); final file fits the 16 MiB BOOTIMG partition.</li><li><input type="checkbox" disabled checked> Require successful actual artifact validation before writing; reject altered/missing evidence and do not change limits.</li><li><input type="checkbox" disabled checked> Emit packaged size/hash and roundtrip checks; no signed-image/authentication claim.</li></ul>
+<p>Validation: BOOTIMG 1,089,536 bytes, SHA-256 8e2fdae1f90c7589073676f69c0418af25cb0671a288ad838d83077f04b6d2f5. Seven tests pass, including 25 altered/truncated/extended package cases. Stock header SHA-1 semantics independently reproduced from the FM bytes. No authentication or launch claim.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

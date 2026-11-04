@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-15 — 14 with every component on its newest release - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-15 — 14 with every component on its newest release Status: IMPLEMENTATION READY PHYSICAL NOT RUN sealed, awaiting the owner flash. Package out/y2linux-platfor">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-15.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-15 — 14 with every component on its newest release - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-15 — 14 with every component on its newest release Status: IMPLEMENTATION READY PHYSICAL NOT RUN sealed, awaiting the owner flash. Package out/y2linux-platfor">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-15.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-15 — 14 with every component on its newest release - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-15 — 14 with every component on its newest release Status: IMPLEMENTATION READY PHYSICAL NOT RUN sealed, awaiting the owner flash. Package out/y2linux-platfor">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-15 — 14 with every component on its newest release</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-15--14-with-every-component-on-its-newest-release">POWER-FINAL-15 — 14 with every component on its newest release</h1>
+<p>Status: <strong>IMPLEMENTATION_READY_PHYSICAL_NOT_RUN</strong> (sealed, awaiting the owner flash). Package <code>out/y2linux-platform-v1-power-final-candidate-15/</code> (fallback = sealed 14), symbols <code>…-15-symbols/</code>, receipts <code>out/deep-sleep-final/build15-receipts/</code>, branch <code>power-final-15</code> (Y2Reborn branch <code>power-final-15</code>). Identity: Linux <code>be1aac2123abbe68778aa52c8ae206c55cdf8a6e</code> (a later test-only commit follows); Reborn <code>f68e088d7de9591e13ff1925590ceb419d340625</code>. BOOTIMG <code>86dc957a6a74da5107d9e889bf48686acb904d3bab6510f6a83e461ed450844d</code>, Y2ROOT <code>0b14b79445f160b4e07430386b5ca1b576bb7b04d793ef8ce3c09a8156d620ae</code>. Fallback = sealed 14.</p>
+<h2 id="versions">Versions</h2>
+<table><thead><tr><th>Component</th><th>13/14</th><th>15</th></tr></thead><tbody><tr><td>Linux</td><td>6.18.0</td><td><strong>6.18.56</strong> (stays on 6.18, as the owner asked)</td></tr><tr><td>Buildroot</td><td>2025.02.18 (line ended)</td><td><strong>2026.08</strong> (newest release)</td></tr><tr><td>Cross toolchain</td><td>Bootlin 2024.05-1</td><td><strong>Bootlin 2026.08-1</strong> (GCC 15.3.0, glibc 2.44, binutils 2.45.1)</td></tr><tr><td>Kernel build sandbox</td><td>Alpine 3.22.1, LLVM 20.1.8</td><td><strong>Alpine 3.24.2, LLVM 22.1.3</strong> (newest in Alpine), GCC 15.2, qemu 11.0.3</td></tr><tr><td>Rust</td><td>1.90.0</td><td><strong>1.99.0</strong></td></tr><tr><td>Image packages</td><td></td><td>Mesa 26.2.4, OpenSSL 4.0.3, Python 3.15.0, OpenSSH 10.6p1, GLib 2.90.1, D-Bus 1.16.2, util-linux 2.42.4, iproute2 7.2.0, busybox 1.38.0, SQLite 3.54.0, e2fsprogs 1.47.4, kmod 34.2, libdrm 2.4.134, ncurses 6.6, readline 8.3, expat 2.9.0, exfatprogs 1.4.3, fdk-aac 3.0.0, iperf3 3.22, iw 6.17, ethtool 7.1, json-c 0.19, libnl 3.12.0, libffi 3.8.0, libxcrypt 4.5.2, pcre2 10.49, procps-ng 4.0.7, strace 7.2, evtest 1.36, memtester 4.7.1, CA certificates 20260816</td></tr><tr><td>Already newest</td><td></td><td>FFmpeg 9.0.2, BlueZ 5.87, SBC 2.2, bluez-alsa 5.0.0, ALSA 1.2.16.x, curl 8.22.0, Dropbear 2026.94, wpa_supplicant 2.12, zlib 1.3.2, libsodium 1.0.22, wireless-regdb 2026.09.03</td></tr><tr><td>Host build tools</td><td></td><td>meson 1.12.1; Python build packages to newest PyPI (pypa-build 1.6.1, setuptools 84.0.0, wheel 0.48.0, flit-core 4.1.0, …)</td></tr><tr><td>Left at Buildroot&#x27;s choice</td><td></td><td>host-only tools that never ship: pkgconf 2.3.0 (3.0.8 exists), automake 1.16.5, libtool 2.5.4, patchelf 0.13 (deliberately pinned by Buildroot)</td></tr><tr><td>Not changed</td><td></td><td>Reborn&#x27;s vendored Rust crates (separate step)</td></tr></tbody></table>
+<p>Every source archive is pinned by SHA-256; where upstream publishes a checksum it was compared (Linux, Buildroot, Bootlin, OpenSSL, GLib, util-linux, iproute2, iperf3, Rust manifest, PyPI, Debian CA certificates, Alpine).</p>
+<h2 id="changes-needed-by-the-new-versions">Changes needed by the new versions</h2>
+<ul><li>Kernel: 49 overlays apply with fuzz 0 on 6.18.56 (12 re-based without conflict). i2c-mt65xx: upstream combines<p>every write-then-read, which covers MT6582. mtk_dsi: our probe order already satisfies upstream&#x27;s fix. Four overlays are upstream now and were removed (ext4 0032–0034, fs freeze 0066). SPM driver ported to the 6.18.y <code>struct syscore</code> API. The GC9503V panel sets <code>prepare_prev_first</code> because 6.18.y reverted the DSI host&#x27;s request.</p></li><li>Buildroot: defconfig options that 2026.08 removed (e2fsck and flock are always built; Mesa folded KMSRO into<p>Lima). Python 3.15: Buildroot&#x27;s patches 0002/0005 re-based. util-linux/Mesa patches that are upstream or irrelevant were dropped. OpenSSL 4.0 has no <code>c_rehash</code>, so the CA hook uses <code>openssl rehash</code>. libldac states the CMake 4 policy floor. The post-build and packaging steps find the OpenSSH/Mesa/libdrm build folders instead of naming old versions. The validator accepts Mesa&#x27;s single <code>libgallium</code> (Lima + KMSRO, no software rasterizer). <code>build.py</code> reads the kernel version from the source.</p></li><li>Reborn: Rust 1.99 Clippy fixes (<code>as_chunks</code>, <code>try_update</code>, pointer cast for the signal handler, zip counter).</li></ul>
+<h2 id="tests">Tests</h2>
+<p>Locked-container production suite: 8 suites, 664 cases, 10 host-dependency skips, exit 0 (two earlier runs stopped at tests that encoded 6.18.0 behaviour; adjusted in the test-only commit). Packaging-host 32 and splash 27 PASS. Package validation PASS; ELF closure 354 files / 1,135 dependency edges (fewer than 14 because Mesa now ships one library instead of per-driver copies); installed-ARM PASS (Python 3.15 imports all 39 platform modules under qemu, SQLite 3.54.0, OpenSSL 4.0.3); inventory 108 packages; privacy 1,491 root files, no private state. Reborn: 362 tests, fmt and strict Clippy on Rust 1.99. Host regression comparison against <code>main</code>: same 38 environment failures.</p>
+<h2 id="not-verified">Not verified</h2>
+<p>Everything physical, in particular the display (DSI order, Mesa 26/Lima), audio, Bluetooth (BlueZ/BlueALSA on the new GLib/D-Bus), Wi-Fi (wpa_supplicant with OpenSSL 4.0), SSH/SFTP (OpenSSH 10.6 sftp-server), MTP, sleep.</p>
+<h2 id="verdict">Verdict</h2>
+<p><strong>IMPLEMENTATION_READY_PHYSICAL_NOT_RUN</strong></p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

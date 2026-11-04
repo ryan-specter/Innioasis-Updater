@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CPU Final Fix02 source and binary ledger - Innioasis Updater</title>
+  <meta name="description" content="CPU Final Fix02 source and binary ledger <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claims, next s">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-cpu-final-fix02-sources.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="CPU Final Fix02 source and binary ledger - Innioasis Updater">
+  <meta property="og:description" content="CPU Final Fix02 source and binary ledger <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claims, next s">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-cpu-final-fix02-sources.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CPU Final Fix02 source and binary ledger - Innioasis Updater">
+  <meta name="twitter:description" content="CPU Final Fix02 source and binary ledger <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claims, next s">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>CPU Final Fix02 source and binary ledger</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="cpu-final-fix02-source-and-binary-ledger">CPU Final Fix02 source and binary ledger</h1>
+<!-- knowledge-base-scope: scoped-validation-record -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Retained sources were read without reacquiring ROM/recovery/calibration. New bounded extracts and fetched BSP files are private in <code>out/cpu-final-fix02/source/</code> with a SHA256 <code>manifest.json</code>, and are included in the candidate&#x27;s source collection. Fix01&#x27;s ledger remains valid for timers, GPT/CIRQ, SPM PCM and the RAM-console map.</p>
+<table><thead><tr><th>Reference</th><th>Narrow use</th></tr></thead><tbody><tr><td><a href="https://github.com/ubports/kernel_krillin/tree/874057f3c28735d606385361fb9a4cd4545ceba6/mediatek" target="_blank" rel="noopener noreferrer">BQ/Ubuntu krillin 874057f3</a> <code>platform/mt6582/kernel/drivers/mmc-host/{mt_sd.h,sd.c}</code></td><td>MT6582 MSDC register map (no PATCH_BIT2/PAD_DS/EMMC50/FIFO_CFG); stock <code>msdc_clksrc_onoff</code>: MS mode, PERI MSDC CG only, 10 µs, SD/MMC mode, CKSTB; <code>SDC_STS</code>/<code>FIFOCS</code>/<code>DMA_CFG</code> busy bits</td></tr><tr><td>same, <code>drivers/pmic_wrap/pwrap_hal.{c,h}</code></td><td>Register offsets MUX_SEL 0x00, WRAP_EN 0x04, HIPRIO_ARB_EN 0x50, DVFS_ADR/WDATA 0xe4..; arbiter channels MDINF..GPSINF bits 0..6 (DVFSINF bit 4); <code>pwrap_init</code> writes 0x1ff; WRAPPER_MODE 0</td></tr><tr><td>same, <code>core/include/mach/mt_musb_reg.h</code>, <code>mediatek/kernel/drivers/usb20/musbhsdma.c</code>, <code>include/linux/musb/musbhsdma.h</code>, <code>usb20/musb_gadget.c</code></td><td>8 HSDMA channels, bus-error bit 8, W1C DMA interrupt handling and spurious-IRQ BUSY/count recovery identical to upstream; RX mode-1 selection</td></tr><tr><td>Retained Y2 FM preloader SHA256 <code>1df1b624…6884a</code></td><td>Arbiter literal 0x1000d050 at file 0xc6e8/0xca08 (<code>ldr r5</code> at 0xc42e); final <code>movw r1,#0x1ff; str r1,[r5]</code> at 0xc954 (32-byte extract <code>preloader-pwrap-arbiter-store.bin</code>, disassembly <code>preloader-pwrap-init-arbiter.asm</code>). RAM-console guard at 0xacce only rewrites on magic 0x43474244; its else-branch callee writes a DRAM argument block. SRAM literals: 0x0010c000..0x0010c4ac, 0x0010dc00 (guard), 0x0010f040.., never 0x0010dc04..0x0010e0ff</td></tr><tr><td>Retained Y2 LK SHA256 <code>bb1a93b4…9964a</code></td><td>SRAM references 0x0010f000..0x0010f648; two halfword-aligned matches 0x0010e310/0x0010e352 at odd code offsets lie above the claimed window</td></tr><tr><td>M2-PWRAP-01 physical photograph <code>evidence-private/20260909-m2-pwrap-result/50.jpg</code> (SHA256 <code>853c2055…6e225</code>)</td><td>Real Y2 readback <code>MUX:0 WRAP:1 WACS:1 INIT:1 ARB:0000007F</code> with the same preloader</td></tr><tr><td><a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/?h=v6.18" target="_blank" rel="noopener noreferrer">Linux 6.18</a> locked local source</td><td><code>mtk-sd.c</code> runtime/system PM ops and <code>mmc_rescan</code> card detect; <code>drivers/base/power/main.c</code> callback runner, prepare/complete; <code>kernel/power/suspend.c</code> stages and <code>pm_test</code>; <code>mtk_wdt.c</code> start/stop/ping, suspend/resume only for core-active watchdogs; <code>lock_system_sleep()</code> flags; MUSB indexed endpoint registers and <code>musbhsdma</code> IRQ path</td></tr><tr><td>Fix01 physical report</td><td>Runtime-suspended MMC with enabled CGs, <code>0x3000</code>, quarter-second bursts, invalid SRAM records, USB loss with live UI, HOLD/&quot;Not charging&quot; with USB online</td></tr></tbody></table>
+<p>Only register behavior corroborated by at least two of the MT6582 BSP, the retained Y2 binaries and a physical Y2 readback was used. No adjacent-SoC constant was imported. The MT6582 arbiter field width follows from the BSP&#x27;s seven channels plus the physical 0x7f readback of a 0x1ff write; the MSDC register image follows from the BSP map; the RGU backstop uses only the existing upstream MT6582/MT6589 watchdog driver.</p>
+<p>Source inspections establish register/software contracts. Synthetic tests establish error handling. Only the next owner-controlled physical receipts can establish actual gating, parking, voltage, wake and USB behavior.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

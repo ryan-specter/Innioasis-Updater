@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M2-USBACM-04 — one bounded disconnect/reconnect trial - Innioasis Updater</title>
+  <meta name="description" content="M2-USBACM-04 — one bounded disconnect/reconnect trial <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity,">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-usbacm-04-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M2-USBACM-04 — one bounded disconnect/reconnect trial - Innioasis Updater">
+  <meta property="og:description" content="M2-USBACM-04 — one bounded disconnect/reconnect trial <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity,">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-usbacm-04-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M2-USBACM-04 — one bounded disconnect/reconnect trial - Innioasis Updater">
+  <meta name="twitter:description" content="M2-USBACM-04 — one bounded disconnect/reconnect trial <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity,">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M2-USBACM-04 — one bounded disconnect/reconnect trial</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m2-usbacm-04--one-bounded-disconnectreconnect-trial">M2-USBACM-04 — one bounded disconnect/reconnect trial</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>2026-09-09, baseline <code>7ee780a</code>. <strong>Offline validated; hardware test pending.</strong> The successful <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usbacm-hardware-result.md%23usbacm-03-kernel-and-pid1-capture-confirmed&amp;anchor=usbacm-03-kernel-and-pid1-capture-confirmed">USBACM-03 capture</a> is already pushed. #27 stays open until this robustness evidence is reviewed.</p>
+<p>Candidate: <code>out/m2-usbacm-04/BOOTIMG.img</code>, <strong>1,161,216 bytes</strong>. SHA-256: <code>ecdce008c34998dce03e1b5dd88b0c78c3015e5865b93d4ba609f6cbf134f365</code>. Heading/build <strong>M2-USBACM-04</strong>; Linux <strong>6.18.0-y2-m2-usbacm4</strong>.</p>
+<h2 id="change-and-bounds">Change and bounds</h2>
+<p>On first sampled CHRDET loss, disable the pullup and interrupt delivery, invoke upstream gadget disconnect/stop, and restore only the saved digital PHY session inputs. Keep the controller registered; PID1 closes its nonblocking tty, keeps its existing 8 KiB history, and continues displaying/logging beats at stage 8. The adapter suppresses delayed upstream pullup requests while unplugged.</p>
+<p>One reconnect repeats fresh supply/clock checks, exact saved PHY6c/6d checks, passive B-device/no host request, unchanged seven mode/trim and five other digital PHY bytes, and all eight zero DMA controls. It reuses the guarded session sequence and upstream start, checks retained FIFOs, then allows the pullup. A second detach, failed guard, IRQ limit or original 50-second USB deadline ends the trial. Expected tty EIO/ENODEV/EPIPE during cable loss becomes a retained <code>LINK tty disconnected</code> event; other relay errors remain errors. Replay uses LOG1 and retained kernel/PID1 history, including explicit existing GAP markers.</p>
+<p>No memory-policy, DMA ownership, DT hardware-node, rail, analog trim, boot packaging or unrelated USB feature change. The 60-second owner power-on limit, CPU0, watchdog stop, framebuffer fallback and BOOTIMG-only boundary remain. Connected-start recovery is still unsupported. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2Froadmap-gap-audit.md%23current-scope-review--one-bounded-usb-reconnect-baseline-7ee780a&amp;anchor=current-scope-review--one-bounded-usb-reconnect-baseline-7ee780a">Scope audit</a>.</p>
+<h2 id="validation">Validation</h2>
+<p>One clean build; no compiler warnings/errors. <strong>16 targeted methods</strong> pass: 29 production reconnect lifecycle/guard scenarios, eight worker scenarios, 34 QEMU ARM PID1 scenarios, host/ARM bounded relay faults and replay, existing session/clock/PWRAP checks, real linked relay syscalls, corrupt-artifact tests, and D08/BOOTIMG bounds. <strong>Eight host capture/orchestration methods</strong> pass using PTY/mock devices only, covering pause timing, changed tty number, wrong path, missing reconnect, failed replay and refusal of an already-running candidate.</p>
+<p>Resolved config differs from USBACM-03 only in LOCALVERSION. DT hardware nodes are unchanged; generated linux,initrd-end tracks the new gzip size. Initramfs gzip: 9510 bytes. Emitted ARM review retains ordered mask/pullup-clear, upstream disconnect/stop, byte-width PHY restoration, bounded re-entry guards, sampled W1C acknowledgement, start and pullup gate. No duplicate build or full source/ROM/SPFT audit. <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-usbacm-04-layout.json" target="_blank" rel="noopener noreferrer">Layout</a>, <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-usbacm-04-iteration.json" target="_blank" rel="noopener noreferrer">iteration</a>. Output retains sources, locked inputs, ELFs, disassembly, test logs and artifact hashes.</p>
+<h2 id="one-combined-owner-hardware-test">One combined owner hardware test</h2>
+<p>Use the established procedure to flash <strong>only BOOTIMG</strong>, with the exact candidate above. The assistant has not flashed or written any physical device. Keep the known restoration path and <strong>restore Android within 60 seconds of power-on</strong>.</p>
+<p>Start this on the real Linux host <strong>before booting the candidate</strong>:</p>
+<pre><code class="language-sh">sudo python3 tools/observation/usb_log_robustness.py --output out/m2-usbacm-04/robustness-01</code></pre>
+<p>The privileged host invocation is necessary on the inspected host: <code>luca</code> cannot open the current root:uucp 0660 ACM tty, and noninteractive sudo requires a local password. Enter it only in the local terminal. It covers both tty enumerations without persistent host permission changes. An assistant with explicit tty access can run the same tool through host execution without sudo. A one-node ACL normally disappears on disconnect; do not assume it grants access after re-enumeration.</p>
+<ol><li>Boot <strong>unplugged</strong>, attach promptly at <code>ATTACH USB CABLE NOW</code>.</li><li>The tool verifies USB descriptors and the exact USBACM-04 manufacturer,<p>records the real port/tty, then leaves it <strong>unopened for 8 seconds</strong>.</p></li><li>It opens, asserts DTR, sends LOG1, reads <strong>3 seconds</strong>, pauses userspace reads<p><strong>6 seconds</strong>, then resumes for <strong>3 seconds</strong>. The kernel may still buffer USB data during the pause; this tests a non-reading host application, not proof that every device queue filled. Offline relay fixtures cover actual EAGAIN.</p></li><li>At <strong>UNPLUG Y2 USB NOW</strong>, unplug once. Leave it unplugged <strong>5 seconds</strong>;<p>observe the heartbeat continuing and reconnect once. No screen transcription is needed if retained stage-8 heartbeat records establish continuity.</p></li><li>The tool re-discovers the same physical USB port with a new device number;<p>tty numbering may change. It sends LOG1 again and captures up to <strong>12 seconds</strong>. Its total budget is <strong>42 seconds from first enumeration</strong>; the device&#x27;s original deadline and owner&#x27;s 60-second power-on limit take precedence.</p></li></ol>
+<p>Stop on a screen error, heartbeat stall, unexpected device identity, no reconnect or any safety concern. Retain the complete output directory even on failure. <code>robustness.json</code> records host phases; both capture subdirectories retain raw bytes, hashes, USB descriptors, timing and exit reasons. Exit 0 means capture is ready for review, <strong>not</strong> hardware qualification.</p>
+<p>Review raw/chunk integrity and exact headers in both sessions; contiguous kernel sequence within each replay (replayed duplicates across sessions are expected); PID1 beat continuity, multiple stage-8/offline beats and subsequent configured beats without a restart/stall; bounded pause/unplug timing; and any GAP/ERR/LAST ERR. A disconnect may truncate the final transport line of the first capture; the second replay must recover the retained complete record. Unexplained omissions, malformed records or missing offline evidence do not pass. Report any overwritten history explicitly rather than claiming lossless delivery.</p>
+<p>Only a successful evidence review closes #27. Then follow #22 → #23 → #24 → #25 → #26 → M2 boot/stability qualification and the standing closure audit. No later scope starts from this offline candidate. M1 complete; M2 active/exit blocked.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

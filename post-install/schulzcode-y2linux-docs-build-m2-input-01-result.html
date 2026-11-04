@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M2-INPUT-01 — GPIO navigation through evdev and USB logs - Innioasis Updater</title>
+  <meta name="description" content="M2-INPUT-01 — GPIO navigation through evdev and USB logs <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identit">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-input-01-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M2-INPUT-01 — GPIO navigation through evdev and USB logs - Innioasis Updater">
+  <meta property="og:description" content="M2-INPUT-01 — GPIO navigation through evdev and USB logs <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identit">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-input-01-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M2-INPUT-01 — GPIO navigation through evdev and USB logs - Innioasis Updater">
+  <meta name="twitter:description" content="M2-INPUT-01 — GPIO navigation through evdev and USB logs <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identit">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M2-INPUT-01 — GPIO navigation through evdev and USB logs</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m2-input-01--gpio-navigation-through-evdev-and-usb-logs">M2-INPUT-01 — GPIO navigation through evdev and USB logs</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>2026-09-09, baseline <code>8ebc800</code>. <strong>Offline validated; physical input test pending.</strong> The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fdonor-audit.md">donor audit</a> and <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2Froadmap-gap-audit.md%23donor-adoption-and-gpio-input-scope--baseline-8ebc800&amp;anchor=donor-adoption-and-gpio-input-scope--baseline-8ebc800">scope review</a> supersede the old rigid foundation queue. M1 complete, M2 active/exit blocked.</p>
+<p>Candidate: <code>out/m2-input-01/BOOTIMG.img</code>, <strong>1,204,224 bytes</strong>. SHA-256: <code>05c6f33d7fadb75c9bc5d8cc4a23aed1a5dcc79cf6b4fe735ce9006906290d37</code>. Build/header <strong>M2-INPUT-01</strong>; Linux <strong>6.18.0-y2-m2-input1</strong>.</p>
+<h2 id="implemented-slice">Implemented slice</h2>
+<p>Donor GPIO register layout and navigation wiring feed a small standalone, input-only GPIO provider under the existing diagnostic overlay. It claims <code>10005000+1000</code> and exposes only GPIO6/7/9/10/54 via DT reserved ranges. Reads DIR/DIN and logs inherited mux/level on request; refuses output-configured pins. No GPIO, mux, pull, EINT, clock, rail or DMA write is added. It does not claim general MT6582 pinctrl/EINT support. Chris Hendrickson&#x27;s original source/commit and GPL licensing are retained in the adapted source and donor manifest.</p>
+<p>Upstream v6.18 <code>gpio-keys-polled</code> polls at 20 ms and provides ordinary evdev events for left/back/right/playpause/enter. These mappings are donor claims awaiting verification on this older board. No wheel rotation, volume or power key is implemented by this candidate.</p>
+<p>PID1 searches event0–7 by the exact device name, rejects ambiguity, reads the sysfs major/minor and verifies the opened device with EVIOCGNAME. It records the five initial key states with EVIOCGKEY, then drains up to 64 events per heartbeat without blocking. <code>INPUT KEY sequence code value</code> and `INPUT SYN sequence sec usec` go into the existing retained/live LOG1 relay; SYN_DROPPED, malformed reads and device errors produce <code>INPUT ERROR</code> and stop input collection. Missing input does not prevent heartbeat/USB. The build row shows event count or input error; all USB/supply failure fields remain available. Holding a key before the open is reported as INITIAL state, not invented as a new press.</p>
+<p>Canonical USB controller/session/clock/PWRAP source is byte-unchanged from USBACM-04, which preserves the initial attachment path and adds the still unqualified bounded reconnect. USBACM-03 remains the physically proven fallback; USBACM-04&#x27;s original robustness image/tool remain retained. This input test does not qualify reconnect. D08/CPU0, early watchdog stop, guarded framebuffer, stock loaders, BOOTIMG packaging and the original 60-second power-on limit remain.</p>
+<h2 id="validation">Validation</h2>
+<p>One clean <strong>kernel</strong> build, no compiler warnings/errors. Configuration review caught that the MediaTek architecture already selects the pinctrl core; the fragment now explicitly reflects it. No MT6582 pinctrl implementation is enabled. Resolved additions are input/evdev/polled keyboard, GPIOLIB/OF_GPIO and the 8250-selected serial GPIO helper; there are no modem/radio/MMC/I2C/EINT/CMA or memory-policy additions. GPIO userspace write interfaces remain disabled.</p>
+<p>The first complete package failed the ARM evdev test, which caught array-size versus event-size mistakes in batch validation/counting. Retained rejected output: <code>out/m2-input-01-rejected-evdev/</code> (do not flash). The unchanged kernel build was retained; corrected PID1, DT and package were rebuilt. The final candidate passes <strong>29 build-suite tests and 12 observation tests</strong>, including 16 ARM input scenarios, all 169 GPIO bank/direction cases plus out-of-range refusal, 34 ARM PID1 scenarios, existing USB/relay lifecycle/fault regressions and corrupt-artifact/layout tests. No duplicate successful kernel build.</p>
+<p>Emitted ARM review shows bounded GPIO offsets, input-direction refusal and ordered MMIO loads only; no GPIO MMIO stores. Expected GPIO/polled-key/evdev symbols are linked, and mknod/read/ioctl/close use the existing real syscall implementations. Initramfs gzip: <strong>10,760 bytes</strong>. Full current D08 reservation, decompressor/DT/initramfs and LK read-tail/16 MiB BOOTIMG checks pass. <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-input-01-layout.json" target="_blank" rel="noopener noreferrer">Layout</a>, <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-input-01-iteration.json" target="_blank" rel="noopener noreferrer">iteration/source and artifact hashes</a>. Output retains all 75 implementation/tool/test source files, config diff, ELFs, disassembly and test logs. No unchanged ROM/recovery/source-tree re-audit.</p>
+<h2 id="owner-hardware-test">Owner hardware test</h2>
+<p>The assistant has not flashed or written any physical device. Flash **only BOOTIMG** using the existing manual SP Flash Tool procedure and the exact image hash above. Preserve the known restoration path and restore Android within <strong>60 seconds from power-on</strong>. No Y2 was attached during host visibility checks.</p>
+<p>Start the existing host capture tool before booting the candidate:</p>
+<pre><code class="language-sh">sudo python3 tools/observation/usb_log_capture.py \
+  --build M2-INPUT-01 --output out/m2-input-01/capture-01</code></pre>
+<p>Use host execution with tty access; <code>sudo</code> is needed only if the local account lacks it, as in the earlier inspected host. The tool discovers the actual ACM tty through USB/sysfs identity; it does not assume ttyACM0. The explicit build selects <code>Y2LOG1 M2-INPUT-01</code>; old USBACM-03/04 capture remains supported.</p>
+<ol><li>Boot unplugged; attach at <code>ATTACH USB CABLE NOW</code> and keep USB attached.</li><li>After logging starts, press/release <strong>Prev, Menu, Next, Play, Select</strong>, in<p>that order, one at a time. Hold each roughly half a second, with a short gap. Repeat once if time permits; avoid long power-key holds in this input trial.</p></li><li>Retain the entire capture directory, including on error. If enumeration<p>fails, retain the full diagnostic screen showing build, US/RC and INPUT RC.</p></li></ol>
+<p>Expected codes: <strong>105, 158, 106, 164, 28</strong>. Each press should yield value1 and release value0 with SYN records; verify physical labels rather than assume the mapping. Review the GPIO request/mux messages, <code>INPUT OPEN</code> and INITIAL states, event sequence/timestamps, sustained PID1 beats and kernel warnings/deferred probes. Any <code>INPUT ERROR</code>, <code>GAP</code>, unexplained missing transition, stuck key, heartbeat stall, USB error or unsafe state fails the relevant test. End capture and restore within the existing limit. A capture exit0 only verifies collection; hardware success requires reviewing its contents. #24/#27/#28 remain open.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

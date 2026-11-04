@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2E-115 — Inspect stock boot structure and config/device-tree availability offline - Innioasis Updater</title>
+  <meta name="description" content="Y2E-115 — Inspect stock boot structure and config/device-tree availability offline <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dat">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-115.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2E-115 — Inspect stock boot structure and config/device-tree availability offline - Innioasis Updater">
+  <meta property="og:description" content="Y2E-115 — Inspect stock boot structure and config/device-tree availability offline <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dat">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-115.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2E-115 — Inspect stock boot structure and config/device-tree availability offline - Innioasis Updater">
+  <meta name="twitter:description" content="Y2E-115 — Inspect stock boot structure and config/device-tree availability offline <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dat">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2E-115 — Inspect stock boot structure and config/device-tree availability offline</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2e-115--inspect-stock-boot-structure-and-configdevice-tree-availability-offline">Y2E-115 — Inspect stock boot structure and config/device-tree availability offline</h1>
+<!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<blockquote><p>Canonical platform research task. Transferred from SchulzCode/Y2PlayerNative#4; the original URL redirects here and preserves history. This task belongs to the research/architecture workstream, not an implementation handoff. The research owner performs and reviews the evidence, then advances only satisfied prerequisites. No <code>state:luna-ready</code> label applies.</p></blockquote>
+<h2 id="goal">Goal</h2>
+<p>Document the exact local stock boot image&#x27;s structure and what kernel/config/DT evidence is actually available.</p>
+<h2 id="why">Why</h2>
+<p>Missing runtime DT/config exports do not establish that the image lacks those structures. The stock kernel may also use legacy board files or ATAGs.</p>
+<h2 id="dependencies">Dependencies</h2>
+<ul><li>Y2E-101: <a href="https://github.com/SchulzCode/Y2Linux/issues/1" target="_blank" rel="noopener noreferrer">https://github.com/SchulzCode/Y2Linux/issues/1</a> (evidence review required)</li><li>Y2E-110: <a href="https://github.com/SchulzCode/Y2Linux/issues/3" target="_blank" rel="noopener noreferrer">https://github.com/SchulzCode/Y2Linux/issues/3</a> (evidence review required)</li></ul>
+<p>Y2E-101 and Y2E-110 reviewed, with an identified immutable package boot input. This can finish with clearly recorded negative extraction results; it cannot certify compatibility with the current device by itself.</p>
+<h2 id="evidence--assumptions">Evidence / Assumptions</h2>
+<p>Cataloged boot SHA-256: <code>8131020fafddb864d252b13f6bc7e83584487bd182d371d7e51f6244e2412f02</code>. Existing reference <code>tools/adb/build_adb_boot.py</code> describes Android v0 headers and a 512-byte MTK ROOTFS wrapper; it is a builder, not a safe general-purpose extraction command. <code>OriginalFirmware/kernel</code>, <code>ramdisk.img</code> and <code>reverse/ramdisk/</code> are candidate derivatives requiring lineage checks.</p>
+<h2 id="scope">Scope</h2>
+<p>Offline header/layout and available config/DT evidence only; reuse existing host inspection tools.</p>
+<h2 id="out-of-scope">Out of Scope</h2>
+<p>No builder entrypoint, repacking, adbd compilation, kernel builds, DTS edits, driver reconstruction, bootloader patching, device access or new reusable tooling.</p>
+<h2 id="expected-files--components">Expected Files / Components</h2>
+<p><code>docs/knowledge/stock-boot-structure.md</code>; private extraction listings, offsets, hash records and any disposable derived files.</p>
+<h2 id="instructions">Instructions</h2>
+<ol><li>Verify original hashes. Inspect a disposable host copy with available read-only tools; record tool versions. Start with <code>file &lt;boot-copy&gt;</code> and <code>xxd -l 2048 &lt;boot-copy&gt;</code>. Read the existing parser source for layout reference without invoking its build flow.</li><li>Record magic/header interpretation, page alignment, kernel/ramdisk/second-stage sizes and offsets, load/tag addresses, command-line bytes and any trailing content. Verify all bounds against file length and the package&#x27;s partition size. A blank header command line is not evidence that the bootloader supplies none.</li><li>Compare extracted component hashes against cataloged loose kernel/ramdisk files if an existing trusted extractor handles this format. Record MTK wrapper and compression boundaries before decompression. Use list-only cpio inspection or extraction that rejects absolute paths, parent traversal and escaping symlinks; never run extracted files or init scripts.</li><li>Inspect any already recovered kernel image/symbol records for version and CONFIG/DT signatures; use an existing extract-ikconfig tool if available and record its source/version and exact command. Missing tools are a reported blocker, not permission to install or build a new analysis system.</li><li>For candidate DTBs in the kernel/trailing data, require valid header, totalsize within source bounds and successful existing <code>dtc -I dtb -O dts</code> parsing into a private analysis artifact before calling one valid. Decompilation is evidence extraction, not authored DTS. If tooling or a candidate is absent, document the bounded search locations/method and UNKNOWN outcome. Do not infer no DTB from string search alone.</li><li>Inspect matched ramdisk init/fstab/default properties for mount, console, module and firmware-loader references. Record possible bootloader-provided ATAGs/board-file use as unresolved where unsupported. Stop after structure and availability; no board pinout reconstruction.</li></ol>
+<h2 id="acceptance-criteria">Acceptance Criteria</h2>
+<ul><li><input type="checkbox" disabled> Header/component layout is bounds-checked with original/component hashes.</li><li><input type="checkbox" disabled> Loose derivatives are linked to the exact image or explicitly unverified.</li><li><input type="checkbox" disabled> Config and DT each have extracted-and-validated, not-found-in-stated-search, or unavailable-tool/access outcomes.</li><li><input type="checkbox" disabled> Negative results do not become invented DTS facts; runtime and boot-header command lines remain distinct.</li><li><input type="checkbox" disabled> Original inputs remain unchanged and no firmware artifact intended for booting is produced.</li></ul>
+<h2 id="validation">Validation</h2>
+<p>Compare <code>sha256sum</code> of original inputs before/after; preserve exact extraction/listing commands. Use <code>gzip -t</code> only on an identified extracted gzip payload and <code>dtc</code> only for a bounded DTB candidate. Record missing tools explicitly. Verify artifact hashes and <code>git diff --check</code>. Do not run any build script as a validation shortcut.</p>
+<h2 id="expected-artifact">Expected Artifact</h2>
+<p>One offline boot-layout report with reproducible evidence locators and a precise list of missing stock-kernel evidence.</p>
+<h2 id="execution-contract">Execution contract</h2>
+<p>Y2Linux is the canonical home for all platform research, evidence, recovery and Linux bring-up. Y2PlayerNative is reserved for the later Rust/C application. Preserve stable Y2E IDs. Do one task only; no application/kernel implementation, DTS changes, builds, flashing, reboot, boot-mode transitions, installs, adb root/su, remount, property/settings writes, radio toggles, log clearing, register access, guessed ioctls, bus probes, raw partition reads or writes. Read-only shell inspection is allowed only where explicitly listed.</p>
+<p>Use the existing Git author/committer configuration and authenticated GitHub user. Verify with <code>git var GIT_AUTHOR_IDENT</code> and <code>git var GIT_COMMITTER_IDENT</code> before committing; stop if identity is missing or wrong. Never change identity or add model attribution.</p>
+<p>Store raw files under ignored <code>evidence-private/&lt;capture-id&gt;/</code>; commit only reviewed/redacted reports and manifests. Use host UTC time; record device clock separately if available. For every observation record exact command/tool version, capture ID, source/build lineage, local exit status, remote exit status where obtainable, stdout/stderr, size, SHA-256, and outcome COLLECTED/EMPTY/DENIED/UNAVAILABLE/FAILED. Facts use CONFIRMED/INFERRED/UNKNOWN/DISPROVEN with evidence locator, date and task ID. Inspect error text: archived ADB commands returned host exit 0 with remote denial. Do not publish firmware, calibration, serial/MAC identifiers, credentials, pairing data or personal media.</p>
+<h2 id="stop-conditions">Stop Conditions</h2>
+<p>Stop the affected activity and report if identity is missing/wrong, inputs fail integrity checks, device identity differs unexpectedly, the target is ambiguous/offline/unauthorized, a command would mutate device state, or scope requires new tooling/privileges/architectural decisions. Record a bounded denial/missing resource and continue only other explicitly independent observations; never bypass it.</p>
+<h2 id="risk">Risk</h2>
+<p>Low: host documentation/offline analysis and explicitly bounded non-root observations only.</p>
+<h2 id="recovery">Recovery</h2>
+<p>No device mutation is allowed. Missing access is evidence; it does not authorize a privilege or boot change.</p>
+<h2 id="completion-report">Completion Report</h2>
+<p>Report files changed, exact commands and tool versions, validation results, artifact manifest/hashes, provenance/limitations, unexpected findings, unresolved blockers and one suggested next step. Do not implement the suggestion. The research owner must review the evidence before advancing a dependent research task; closing this issue does not pass M0.</p>
+<h2 id="unlocks">Unlocks</h2>
+<p>Evidence review may unlock Y2E-120 research.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

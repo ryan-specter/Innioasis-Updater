@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reborn radio scan UI correction - Innioasis Updater</title>
+  <meta name="description" content="Reborn radio scan UI correction <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, next">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-reborn-radio-ui-01-deployment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Reborn radio scan UI correction - Innioasis Updater">
+  <meta property="og:description" content="Reborn radio scan UI correction <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, next">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-reborn-radio-ui-01-deployment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Reborn radio scan UI correction - Innioasis Updater">
+  <meta name="twitter:description" content="Reborn radio scan UI correction <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, next">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Reborn radio scan UI correction</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="reborn-radio-scan-ui-correction">Reborn radio scan UI correction</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p><strong>Ready for owner manual installation; physical qualification pending.</strong> This is a root-only application correction over the installed REBORN-SPLASH-01 system.</p>
+<p>Scan now enables its radio, reports Starting/Scanning, publishes results, and reports empty or failed scans. Off is distinguished from unavailable; radio errors stay on their own screens. Discovery is bounded. New <code>rebornctl wifi</code> and <code>rebornctl bluetooth</code> scan/on/off commands exercise the actual UI workers.</p>
+<p>Built source <code>a8ae8b6723311b677662759082c55ad226441669</code>; integration <code>640ecb828af1ba48edcc6203701edb89f66eb0ac</code>. The exact images, tests, implementation, manual install/rollback and SSH qualification procedure are recorded at <code>/home/luca/Dokumente/Code/Y2Reborn/docs/validation/REBORN-RADIO-UI-01.md</code> and in the package&#x27;s <code>INSTALL.md</code>.</p>
+<p>Package: <code>/home/luca/Dokumente/Code/Y2Linux/out/REBORN-RADIO-UI-01</code>.</p>
+<table><thead><tr><th>Payload</th><th>SHA256</th></tr></thead><tbody><tr><td><code>Y2ROOT.img</code></td><td><code>79b12172645c4755fdf3219fc6f99971d94de62c42f807a3613a43516d1f7df8</code></td></tr><tr><td><code>fallback/Y2ROOT.img</code>, exact installed splash root</td><td><code>d40e9337e3a1149d12fdd240a59918b0d2c48e4e6a9974ab5b470685250d900c</code></td></tr><tr><td>Existing BOOTIMG, unchanged</td><td><code>8671de2900fd05cc80a9eb7a3541d5bbdab7e5dd96c18f73f44ca1b13beb19a5</code></td></tr></tbody></table>
+<p>Use <strong>MT6582_reborn_root_only_scatter.txt</strong>, <strong>Download Only</strong>, <strong>ANDROID only</strong>. Keep BOOTIMG, USRDATA and all other rows unchecked/NONE; preserve Y2DATA. Do not reuse the preceding splash package&#x27;s two-image scatter. Fallback is also root-only.</p>
+<p>The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fevidence%2Freborn-radio-ui-01%2FREADME.md">validation receipts</a> record 64 Rust tests, 20 daemon checks, four tooling tests, eight ARM runtime/shell checks, Clippy, an offline production build, raw ext4 checks and exact content comparison. Only two application binaries and three build identity files change. Root usage increases by 52 KiB; the kernel, native libraries, services, firmware, splash, charging program and partition geometry remain unchanged. No live install or radio setting change was performed while developing this correction.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

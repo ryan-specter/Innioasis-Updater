@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Platform power contract v1 - Innioasis Updater</title>
+  <meta name="description" content="Platform power contract v1 <!-- knowledge-base-scope: source-contract; baseline02-sync 2026-10-03 -- Baseline02 runtime idle and system suspend Baseline02 enables qualifi">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-architecture-platform-power-v1.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Platform power contract v1 - Innioasis Updater">
+  <meta property="og:description" content="Platform power contract v1 <!-- knowledge-base-scope: source-contract; baseline02-sync 2026-10-03 -- Baseline02 runtime idle and system suspend Baseline02 enables qualifi">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-architecture-platform-power-v1.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Platform power contract v1 - Innioasis Updater">
+  <meta name="twitter:description" content="Platform power contract v1 <!-- knowledge-base-scope: source-contract; baseline02-sync 2026-10-03 -- Baseline02 runtime idle and system suspend Baseline02 enables qualifi">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Platform power contract v1</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="platform-power-contract-v1">Platform power contract v1</h1>
+<!-- knowledge-base-scope: source-contract; baseline02-sync 2026-10-03 -->
+<h2 id="baseline02-runtime-idle-and-system-suspend">Baseline02 runtime idle and system suspend</h2>
+<p>Baseline02 enables qualified <strong>CPU0 C3 automatically after boot</strong> through <code>S05y2-cpu-idle</code>. The kernel initially registers C3 disabled with budget 0. The once-per-boot service checks identity, taint and static SPM/CIRQ/timer/context foundations, sets budget -1, enables CPU0 state2 and reads both controls back. Failures roll back; CPU1–3 C3 remains disabled. Dynamic topology, frequency, screen/workload/radio/USB, clock/domain, future-deadline, UART ACK and restore fault guards remain intact. The service does not force parking or gate UART1.</p>
+<p><code>y2-platform cpu-idle-policy stop</code> disables C3 for the current boot and prevents another start from overriding that choice. Recovery boot options <code>y2.deep_idle=off</code> and <code>y2.cpu_safe=1</code> retain the safe fallback. Runtime C3 is separate from full system suspend.</p>
+<p><code>y2-platform status cpu</code> publishes <code>idle_completion.C3.boot_policy</code>, sourced from <code>/run/y2/cpu-idle-policy.json</code> (schema <code>org.y2linux.cpu-idle-policy/v1</code>). It carries boot ID, state, reasons and control readbacks; failed activation includes rollback errors. States are Enabled / Skipped / Failed / Disabled. Missing/stale evidence is not successful activation. A start runs once per boot, respects explicit owner controls and never overrides a later stop; this service adds no polling loop.</p>
+<p>C1/C2/C3 are physically qualified on preceding UART01. Baseline02&#x27;s new image and automatic cold boot remain NOT_RUN. Full system suspend is still disabled for ordinary use pending same-boot Power/RTC acceptance. Screen blanking allows runtime idle; it does not invoke full system suspend. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-BASELINE-02.md">Baseline02</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-CPU-C3-UART-PHYSICAL.md">UART01 hardware</a> and <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2FCURRENT_PLATFORM_STATE.md">current state</a>.</p>
+<h2 id="shutdown-and-battery-ownership">Shutdown and battery ownership</h2>
+<p>Normal <code>/sbin/poweroff</code>, <code>/sbin/reboot</code>, Reborn user requests and future update reboots enter <code>y2-platform shutdown poweroff|reboot --reason user|service|update</code>. A private Unix socket uses SO_PEERCRED. Only root may request a transition; only the recorded Reborn PID/start-time can acknowledge the current request UUID. There is one monotonic deadline, never extended by duplicate requests.</p>
+<p><code>/run/y2/shutdown.json</code> publishes schema, current boot ID, request ID, intent, reason, requested time, deadline, client identity and acknowledgement. Reborn checks every 250 ms, stops audio, checkpoints session, stops scanning, checkpoints WAL and closes the single database connection. Ready means those steps completed; a failed step reports Failed. A missing/failed acknowledgement cannot block the platform beyond the ten-second grace. The platform stops services (two bounded three-second calls), records the journal (one second per attempt), syncs (five seconds), then requests BusyBox init&#x27;s standard shutdown (two seconds). No forced reboot syscall or charger/PMIC programming is introduced. Kernel uninterruptible I/O or final hardware poweroff cannot be guaranteed by a userspace deadline.</p>
+<p>The dedicated supervised policy process runs independently of Reborn. Five short exits exhaust its restart budget. Its once-per-second heartbeat becomes Unavailable after five seconds; the status API never retains a stale Normal. Restart during the same boot resumes a pending intent at its original deadline; no intent is replayed across boots. Journal orderly_shutdown means orderly software preparation reached its final record, not observed hardware power loss.</p>
+<p>Battery observation uses BAT0 voltage_now/present. USB presence is not assumed to supply positive net battery current. The **current shipped schema-2 policy is enabled but provisional**: critical/low/recover values are 3.4/3.5/3.6 V, five critical samples and ten-second grace. Its source text explicitly identifies a conservative stock-boundary floor, not a measured discharge curve. Provisional voltage-derived SOC is not calibrated pack current/capacity. A private <code>/data/system/platform/power-policy.json</code> can override the shipped policy; the loader accepts schema 1 or 2 with ordered voltage thresholds, critical_samples (1–60), grace_seconds (3–30) and an evidence reference/source. Schema 2 also validates ordered warning/critical/shutdown SOC values; SOC-triggered shutdown requires hardware or calibrated-estimate confidence. An evidence string is not software certification. Missing/invalid sensors report Unavailable. Debounce/ hysteresis implement Normal/Low/Critical/ShutdownPending; no charger limit changes. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fhardware-final-power-evidence.md">Power evidence</a> explains missing pack current, pack temperature and measured reserve qualification.</p>
+<p>Owner qualification must establish pack identity, safe observation conditions, voltage sag under representative peak load, warning and shutdown reserve, sampling/debounce and recovery hysteresis. Test app acknowledgement, hung app, blocked database and sync failure first with synthetic host fixtures. Only then, under the separate owner-controlled power session, qualify selected thresholds, poweroff/reboot and the behavior of USB-connected low voltage. Do not discharge an unknown pack to infer a limit.</p>
+<p>Suspend remains disabled for ordinary operation. See the explicit <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fplatform-v1-hardware-gates.md">hardware gates and existing scoped activity lease</a>. The owner qualification helper requires <code>y2-suspend --owner-qualify</code>; this flag does not confer qualification. Screen blanking never invokes it.</p>
+<h2 id="historical-physical-note--2026-09-28">Historical physical note — 2026-09-28</h2>
+<p><strong>2026-09-28 status:</strong> This page describes software behavior, with current hardware limits in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2FCURRENT_PLATFORM_STATE.md">platform state</a>. Fix01&#x27;s first devices-stage suspend request lost recovery; charger refusal was not truly exercised because BAT0 was Not charging. Full RTC/Power same-boot wake is NOT_TESTED. Do not read the contract below as a passed suspend qualification.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

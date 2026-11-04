@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2B-215 — Describe the researched CPU0 first-boot hardware - Innioasis Updater</title>
+  <meta name="description" content="Y2B-215 — Describe the researched CPU0 first-boot hardware <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity,">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2b-215.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2B-215 — Describe the researched CPU0 first-boot hardware - Innioasis Updater">
+  <meta property="og:description" content="Y2B-215 — Describe the researched CPU0 first-boot hardware <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity,">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2b-215.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2B-215 — Describe the researched CPU0 first-boot hardware - Innioasis Updater">
+  <meta name="twitter:description" content="Y2B-215 — Describe the researched CPU0 first-boot hardware <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity,">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2B-215 — Describe the researched CPU0 first-boot hardware</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2b-215--describe-the-researched-cpu0-first-boot-hardware">Y2B-215 — Describe the researched CPU0 first-boot hardware</h1>
+<!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Depends on Y2B-210 (#10), D08/D09. Offline only.</p>
+<p>Create a minimal Y2 DTS from the audited upstream MT6582 CPU/GIC/sysirq/GPT and fixed-clock descriptions. Preserve provenance. Include only CPU0 and the package-default UART3 diagnostic candidate; omit unrelated peripherals. No guessed pinctrl, DMA channels, storage or reserved-memory expansion.</p>
+<p>Acceptance:</p>
+<ul><li><input type="checkbox" disabled checked> Exactly D08&#x27;s two memory banks and permanent 16 KiB FDT reservation.</li><li><input type="checkbox" disabled checked> initrd end derived later from actual gzip bytes; no placeholder may reach a final DTB.</li><li><input type="checkbox" disabled checked> Single CPU, confirmed interrupt/clock addresses; no HYP/PSCI or unresearched device nodes.</li><li><input type="checkbox" disabled checked> Controlled bootargs, stdout-path without early baud override; U10a explicitly remains a launch gate.</li><li><input type="checkbox" disabled checked> Compile DTS syntax using a bounded test initrd length; final DTB requires the real initramfs and independent decoding.</li></ul>
+<p>Validation: upstream v6.18 dtc compiled the DTS without warnings using the explicitly test-only 0x1000 initrd length. Final DTB is rebuilt from the actual gzip length; this syntax-check DTB is not an accepted artifact. GIC virtualization register windows are omitted because only CPU0 distributor/CPU-interface operation is selected.</p>
+<p>Historical checkpoint: Y2E-140 (#16) later supersedes the initial UART3 choice with installed-evidence UART0/IRQ51 (D10), rebuilding and revalidating the whole artifact. This completed issue remains the original implementation history.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2LINUX-M4-ADC-01 — owner boot confirmed, charging inhibited - Innioasis Updater</title>
+  <meta name="description" content="Y2LINUX-M4-ADC-01 — owner boot confirmed, charging inhibited <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate ide">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m4-adc-01-deployment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2LINUX-M4-ADC-01 — owner boot confirmed, charging inhibited - Innioasis Updater">
+  <meta property="og:description" content="Y2LINUX-M4-ADC-01 — owner boot confirmed, charging inhibited <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate ide">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m4-adc-01-deployment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2LINUX-M4-ADC-01 — owner boot confirmed, charging inhibited - Innioasis Updater">
+  <meta name="twitter:description" content="Y2LINUX-M4-ADC-01 — owner boot confirmed, charging inhibited <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate ide">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2LINUX-M4-ADC-01 — owner boot confirmed, charging inhibited</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-m4-adc-01--owner-boot-confirmed-charging-inhibited">Y2LINUX-M4-ADC-01 — owner boot confirmed, charging inhibited</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>The owner has already deployed this kernel; <strong>no repeat flash is requested</strong>. It adds production IIO raw BATON1/ISENSE acquisition under the existing PMIC owner. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm4-battery-acquisition.md">Physical result and charging gate</a>. It does not enable charging or report battery temperature/current/percentage.</p>
+<p>Source commit: <code>bbd0664dcbc1190a5e16e3b3f5889f2154cb04fd</code>. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fevidence%2Fy2linux-m4-adc-01%2FREADME.md">Build/package evidence</a>.</p>
+<table><thead><tr><th>Item</th><th>Saved artifact</th></tr></thead><tbody><tr><td>BOOTIMG</td><td><code>out/y2linux-m4-adc-01/BOOTIMG.img</code></td></tr><tr><td>Size</td><td>5355520 bytes</td></tr><tr><td>SHA256</td><td><code>c3c9778e396413fced69364190eb892456dd71c66a0c23fa650be2dcd30e7461</code></td></tr><tr><td>Rootfs/data update</td><td>None; preserve Storage06 p5/p7 and existing SSH authorization</td></tr><tr><td>Fallback</td><td><code>out/y2linux-m4-adc-01/fallback/BOOTIMG-previous.img</code> (M4-01)</td></tr><tr><td>Fallback size</td><td>5355520 bytes</td></tr><tr><td>Fallback SHA256</td><td><code>5b2bdfa784aa790a81cd4c4f495ffcb1bd2dbfd2e26ffa33c0881c67967cb883</code></td></tr></tbody></table>
+<p>Reproduction from the clean source commit uses the normal production pipeline:</p>
+<pre><code class="language-sh">python3 tools/production/build.py --output out/y2linux-m4-adc-01-build --reuse-userspace out/y2linux-production-v1-r4
+python3 tools/production/boot_update.py --build out/y2linux-m4-adc-01-build --base out/y2linux-production-v1-r4 --fallback-package out/y2linux-m4-01 --output out/y2linux-m4-adc-01</code></pre>
+<p>For a future owner restoration of this saved package:</p>
+<ol><li>In its directory, run <code>sha256sum -c SHA256SUMS</code>.</li><li>Use the established SPFT/DA setup and <strong>Download Only</strong>; load<p><code>MT6582_BOOTIMG_only_scatter.txt</code> from this package.</p></li><li>Select <strong>BOOTIMG only</strong>, pointing to <code>BOOTIMG.img</code>. Every other row stays<p>unchecked, including PRELOADER, LK/UBOOT, MBR/EBR, NVRAM, ANDROID and USRDATA. Do not use Format or Firmware Upgrade.</p></li><li>To restore M4-01 instead, use the same BOOTIMG-only selection with<p><code>fallback/BOOTIMG-previous.img</code>. Neither image provides active charging.</p></li></ol>
+<p>The bounded SSH sampler and next physical sensor gate are documented in the linked knowledge page. No RTC setting, suspend, reboot/poweroff, raw-register write or active charge test belongs to this inhibited sensor qualification.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

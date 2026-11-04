@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-20 — reclaim the never-initialised UART1 clock - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-20 — reclaim the never-initialised UART1 clock Status: INSTALLED, FIRST BOOT CHECKED 2026-10-13. Package out/y2linux-platform-v1-power-final-candidate-20/ fal">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-20.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-20 — reclaim the never-initialised UART1 clock - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-20 — reclaim the never-initialised UART1 clock Status: INSTALLED, FIRST BOOT CHECKED 2026-10-13. Package out/y2linux-platform-v1-power-final-candidate-20/ fal">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-20.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-20 — reclaim the never-initialised UART1 clock - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-20 — reclaim the never-initialised UART1 clock Status: INSTALLED, FIRST BOOT CHECKED 2026-10-13. Package out/y2linux-platform-v1-power-final-candidate-20/ fal">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-20 — reclaim the never-initialised UART1 clock</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-20--reclaim-the-never-initialised-uart1-clock">POWER-FINAL-20 — reclaim the never-initialised UART1 clock</h1>
+<p>Status: <strong>INSTALLED, FIRST BOOT CHECKED</strong> (2026-10-13). Package <code>out/y2linux-platform-v1-power-final-candidate-20/</code> (fallback = 19), receipts <code>out/deep-sleep-final/build20-receipts/</code>. BOOTIMG <code>1ffdb4a2d024cf2d1c8554c518b859b2e7fe8a56186aefea4f8cbb35e4e93c55</code>, Y2ROOT <code>98ffdca9c2595f245c0ad94b25c9e89c99796f2234324fbd22c994c046859548</code>. Identity: build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-20</code>, kernel <code>6.18.56-y2linux-platform-v1-power-final-20</code>, root <code>2026.08-platform-v1.50</code>, release <code>1.0.0-platform-v1-power-final-candidate.20</code>; Linux <code>c853915</code> on <code>main</code>, Reborn unchanged (<code>217e28d</code>). Flash BOOTIMG + ANDROID only with <code>MT6582_preserve_data_scatter.txt</code>, Download Only. Scope audit: &quot;POWER-FINAL-20 UART1 clock reclaim scope audit&quot; in the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap gap audit</a>.</p>
+<h2 id="why">Why</h2>
+<p>After 19 every INFRA clock gate matches stock at sleep entry and INFRA still stays powered (archive 116). The last peripheral gate that differs is PERI_PDN0 bit 17, UART1: stock gates it in every scenario checklist (idle, deep idle, suspend). UART1 has no Linux owner. 19&#x27;s boot handoff showed `UART1 lcr=0 ier=0 lsr=0x0 dma=0 reason=tx_not_drained retained=1`: an all-zero, never-initialised UART was taken for an undrained transmitter, so its clock stayed on from the bootloader for the whole uptime (UART2/3 read the idle 0x60 and were gated).</p>
+<h2 id="what-20-changes">What 20 changes</h2>
+<ul><li><code>y2_unused_uart_never_initialised()</code> (<code>idle-clock-policy.h</code>): an all-zero LCR/IER/DMA/LSR set is not busy; the CCF<p>unused-clock handoff reclaims UART1 at boot like UART2/3. Any non-zero field keeps the previous rule. <code>clocks.unused_handoff</code> reports <code>reason=never_initialised retained=0</code>.</p></li><li>Every UART1 register read in the kernel was already conditional on its clock being on.</li><li>Expected side effect: the deep-idle UART owner check no longer sees an unknown UART1.</li></ul>
+<h2 id="tests">Tests</h2>
+<p>Locked-container production suite: 689 cases, exit 0 (the new assertions extend <code>test_cpu_idle_completion</code>). Package validation, ELF, installed ARM, privacy and inventory PASS.</p>
+<h2 id="hardware-results">Hardware results</h2>
+<p><strong>First boot after the flash (boot <code>53bad0d8</code>), USB networking did not work.</strong> The gadget enumerated and configured (stage 6, <code>usb0</code> up with 10.42.0.1), the Y2 received 36 packets but sent none (<code>usb0 tx_packets=0</code>, DMA completions 10/10, no unmask loss); the host saw bulk-OUT transmit timeouts (<code>NETDEV WATCHDOG</code>, 83 TX errors, ARP for 10.42.0.1 FAILED). Wi-Fi ping answered. The owner turned the player off and on (clean shutdown) and replugged; the next boot <code>6fd4d362</code> worked at once. A milder version occurred on 18&#x27;s first check (first SSH timed out, 1 of 2 pings answered), so it is not attributed to 20&#x27;s change; cause open (first connection after a flash). Evidence: archive <code>out/deep-sleep-final/evidence/20261013/117-power20-first-check/</code> (rows of boot <code>53bad0d8</code> in <code>sleep-diagnostics.jsonl</code>).</p>
+<p><strong>Working boot <code>6fd4d362</code> (archive 117):</strong> kernel <code>-power-final-20</code>, taint 0, <code>application_ready</code> 40.4 s; <code>clocks.unused_handoff</code>: <code>UART1 ... reason=never_initialised retained=0</code>; <code>uart1_gate_now=1</code>; awake PERI_PDN0 <code>0x2eed3fd</code> (bit 17 set); <code>uart_sleep_owner_ready=1</code> (the deep-idle UART owner check no longer refuses); all 16–19 features armed; Wi-Fi, Bluetooth, USB (archive taken over it), charging.</p>
+<h2 id="what-to-check-after-the-flash">What to check after the flash</h2>
+<ol><li>Boot, display, audio, radios, USB; <code>cat /sys/module/clocks/parameters/unused_handoff</code> shows UART1<p><code>reason=never_initialised retained=0</code>; PERI_PDN0 bit 17 set (<code>golden</code> row <code>PERI_PDN0_STA</code> now matching).</p></li><li>A ~35-min sleep: golden SoC differences down by one; <strong><code>y2_infra/state last_lost</code></strong>.</li><li>The overnight drain against 16&#x27;s ≈8.6 mA (first night for 17–20 together).</li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

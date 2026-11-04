@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-44 — dark recovery screen: DSI register reads lag one word - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-44 — dark recovery screen: DSI register reads lag one word Status: FLASHED by the owner 2026-10-16; cold start lit, archive 20261016/148 ; tested over the air">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-44.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-44 — dark recovery screen: DSI register reads lag one word - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-44 — dark recovery screen: DSI register reads lag one word Status: FLASHED by the owner 2026-10-16; cold start lit, archive 20261016/148 ; tested over the air">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-44.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-44 — dark recovery screen: DSI register reads lag one word - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-44 — dark recovery screen: DSI register reads lag one word Status: FLASHED by the owner 2026-10-16; cold start lit, archive 20261016/148 ; tested over the air">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-44 — dark recovery screen: DSI register reads lag one word</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-44--dark-recovery-screen-dsi-register-reads-lag-one-word">POWER-FINAL-44 — dark recovery screen: DSI register reads lag one word</h1>
+<p>Status: <strong>FLASHED by the owner</strong> (2026-10-16; cold start lit, archive <code>20261016/148</code>); tested over the air with 45. Package <code>out/y2linux-platform-v1-power-final-candidate-44/</code> (fallback = 43, which the player runs), receipts <code>out/deep-sleep-final/build44-receipts/</code>. BOOTIMG <code>f2c19f69980a6ea2491503437db29d0e32cd25a40cff6d4a28c9799242437385</code>, Y2ROOT <code>d53db06a9d54ebf89a6e49a6bd0c559b11dca95218c23c812dbe493bdf30d0a9</code>, RECOVERY <code>56fdf20b07eb7f4fe61ec92f33aad8a958118578a870ddcc8ca2916500d6a77f</code>. Kernel <code>6.18.56-y2linux-platform-v1-power-final-44</code>, release <code>…candidate.44</code>, update sequence 4400. Container suite <strong>718 OK</strong>, all seal checks PASS. Signed OTA (release key): <code>…-44-ota-release/</code>; development reinstall: <code>…-44-ota-devtest/</code>.</p>
+<h2 id="43-results">43 results</h2>
+<ul><li><strong>Install without a Power press PASSED</strong> (43 development reinstall, restart switch on): restart into recovery,<p>install 53 s (verify 1.7 s → backup 3.7 → system 34.9 → check 48.0 → boot 52.6 → installed 53.3), restart into the new system (boot reason 4), display lit (vblank 16 → 219), health <code>Acknowledged</code>.</p></li><li><strong>The recovery&#x27;s progress screen stayed dark</strong> (owner: &quot;only the update display did not show with usb<p>connected&quot;). The restart into the result was lit.</p></li></ul>
+<h2 id="why-the-recovery-screen-was-dark">Why the recovery screen was dark</h2>
+<p>The recovery&#x27;s kernel log (<code>/data/logs/recovery-last.log</code>) has the 43 SMI hold, an idle larb0 at the hand-over and a clean mutex reset, but no vblank after the first modeset (<code>vblank wait timed out</code>, <code>flip_done timed out</code>). Its DSI scan line reads the register file <strong>shifted by one word</strong>: each read returns the previous read&#x27;s data (<code>vactive=198048</code> is PSCTRL&#x27;s <code>0x305a0</code>, <code>lcc=0x168</code> is VACT_NL&#x27;s 360). The only earlier boot with this signature is archive <code>20261016/143</code> (42, cold start with USB plugged in, early hand-over at 0.49 s): its snapshot differs from the lit restart 147 in 77 DSI words and nothing else that matters (SMI, MMSYS gates, PHY, mutex identical). The real CON_CTRL reads 0: every read-modify-write of the DSI (<code>mtk_dsi_mask()</code>) stored a neighbour&#x27;s value, DSI_EN never stuck, no frame started. 144 (the larb0 wedge fixed in 43) reads DSI correctly, so this is a second, intermittent failure mode. USB enumeration is not concurrent with the modeset (5 s in 143). Why the register port lags is still unknown.</p>
+<table><thead><tr><th>Change</th><th>Detail</th></tr></thead><tbody><tr><td><code>mtk_dsi_poweron()</code> (patch 0017)</td><td>After the timing setup, reads PSCTRL then VACT_NL; if VACT_NL is not the mode&#x27;s vactive (<code>Y2SCAN DSI read-back …</code>), power-cycles PHY and DSI clocks and repeats the setup, at most 3 times (<code>DSI register reads lag one register; power-cycling the DSI (attempt n)</code>). A correct read-back costs two register reads.</td></tr><tr><td>Hand-over</td><td><code>handoff: clocks on; park video (ps=… vact=…)</code>: the same read-back of LK&#x27;s timing shows whether the lag comes from the loader.</td></tr><tr><td>Recovery</td><td>Saves <code>/sys/kernel/debug/y2_display_snapshot</code> as <code>/data/logs/recovery-display.txt</code> with its kernel log.</td></tr></tbody></table>
+<h2 id="owner-steps">Owner steps</h2>
+<ol><li>With the owner&#x27;s OK: install 44 over the air (restart switch on): staged <code>…-44-ota-devtest</code> or the release<p>package, <strong>Turn Off and Install</strong> in Reborn (with the switch on it restarts instead). Watch the recovery screen.</p></li><li>The agent checks the recovery log for the read-back lines, <code>Acknowledged</code>, and the new boot&#x27;s display.</li><li>If the recovery screen is dark again: the agent saves <code>recovery-display.txt</code> and the log (archive), and a<p>recovery probe (<code>y2-update-core probe</code>, restart switch on) repeats the restart-entered recovery without installing anything.</p></li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

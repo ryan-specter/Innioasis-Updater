@@ -82,3 +82,22 @@ listing their software releases in Updater CE.
 - [Rockbox-Y2 themes](https://innioasis.app/rockbox-y2-themes.html): Theme installation, 240p and 360p builds.
 - [Rockbox ROM download, both models](https://innioasis.app/rockbox-rom-download.html): Y1 and Y2 developer ROM packages side by side.
 - [Rockbox-Y1 vs Rockbox-Y2](https://innioasis.app/rockbox-y1-vs-y2.html): Hardware and build comparison.
+
+## Modding skills for AI agents
+
+The repository's `skills/` directory is a source-grounded knowledge base for
+agents working on Y1/Y2 hardware, firmware, themes and apps. Each skill names
+the project files its claims come from.
+
+- [Skills index](https://github.com/y1-community/Innioasis-Updater/blob/main/skills/README.md): How to use the library and the safety rules.
+- [Y1 hardware](https://github.com/y1-community/Innioasis-Updater/blob/main/skills/y1-hardware/SKILL.md): MT6572, wheel key events, display, audio, FM, storage and partitions.
+- [Y2 hardware](https://github.com/y1-community/Innioasis-Updater/blob/main/skills/y2-hardware/SKILL.md): MT6582 board, device tree, panels, PMIC and boot image.
+- [Firmware packages](https://github.com/y1-community/Innioasis-Updater/blob/main/skills/firmware-packages/SKILL.md): rom.zip, scatter files, Updater contracts and releases.
+- [Stock Android ROMs](https://github.com/y1-community/Innioasis-Updater/blob/main/skills/stock-android-roms/SKILL.md): Android 4.2/4.4 image editing, root and signing.
+- [Rockbox Y1](https://github.com/y1-community/Innioasis-Updater/blob/main/skills/rockbox-y1/SKILL.md) and [Rockbox Y2](https://github.com/y1-community/Innioasis-Updater/blob/main/skills/rockbox-y2/SKILL.md): the two ports, installs, controls and themes.
+- [Theme authoring](https://github.com/y1-community/Innioasis-Updater/blob/main/skills/theme-authoring/SKILL.md): Y1 config.json, Rockbox WPS, Reborn skins and Y2Player skins.
+- [Y2Linux](https://github.com/y1-community/Innioasis-Updater/blob/main/skills/y2linux/SKILL.md): kernel, Buildroot, platform services, OTA and recovery.
+- [Android apps](https://github.com/y1-community/Innioasis-Updater/blob/main/skills/android-apps/SKILL.md): API 17/19, wheel input, signing and media quirks.
+- [Launchers](https://github.com/y1-community/Innioasis-Updater/blob/main/skills/launchers/SKILL.md): JJ, Inniclassic, Solar, Better-Y, Koensayr and Rondo.
+- [Release notes archive](https://github.com/y1-community/Innioasis-Updater/blob/main/skills/release-notes-archive/SKILL.md): mining release notes and imported docs.
+- [Site publishing](https://github.com/y1-community/Innioasis-Updater/blob/main/skills/site-publishing/SKILL.md): manifest, generators, static docs and sitemap.

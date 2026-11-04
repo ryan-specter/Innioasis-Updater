@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M2-CHRDET-01 — PMIC charger-presence observation - Innioasis Updater</title>
+  <meta name="description" content="M2-CHRDET-01 — PMIC charger-presence observation <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "curr">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m2-chrdet-probe.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M2-CHRDET-01 — PMIC charger-presence observation - Innioasis Updater">
+  <meta property="og:description" content="M2-CHRDET-01 — PMIC charger-presence observation <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "curr">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m2-chrdet-probe.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M2-CHRDET-01 — PMIC charger-presence observation - Innioasis Updater">
+  <meta name="twitter:description" content="M2-CHRDET-01 — PMIC charger-presence observation <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "curr">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M2-CHRDET-01 — PMIC charger-presence observation</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m2-chrdet-01--pmic-charger-presence-observation">M2-CHRDET-01 — PMIC charger-presence observation</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Result received: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-chrdet-hardware-result.md">CHRDET follows reported startup cable state</a>. The connected-start PHY guard refuses before writing; the next step exposes its original inputs in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usb-guard-diagnostic.md">M2-USBGUARD-01</a>. The contract below describes the tested candidate.</p>
+<p>2026-09-09, localized #23/#27 prerequisite after the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-phy-wake-hardware-result.md">same-boot PHY wake result</a>. USB is attached but DEVCTL remains 80. Read the independent PMIC indication before considering the stock internal VBUS-force sequence. No electrical cable/connector assumption.</p>
+<h2 id="exact-source-and-access-contract">Exact source and access contract</h2>
+<p>The retained FM upmu_get_rgs_chrdet at c04b8c38 calls pmic_read_interface at c04b8c68 with address <strong>0x0000</strong>, mask <strong>1</strong>, shift <strong>5</strong>. The pinned MT6582 upmu_hw.h independently identifies CHR_CON0=0x0000, RGS_CHRDET mask 1/shift 5. This is the ordinary status accessor, not interrupt status or an acknowledge. Focused disassembly is retained privately as fm-chrdet-accessors.txt; reuse the existing FM provenance and pinned source d53dd75c3ff77cac3f5be58fddfe660e94f94d64. FM charging_get_charger_det_status at c04cb0b0 calls this same accessor twice, corroborating ordinary repeatable status reads (fm-chrdet-charging.txt). The vendor usb_cable_connected also checks role and charger type; CHRDET alone does not distinguish a data host, charger, usable data wires or USB readiness.</p>
+<p>Extend the established PWRAP whitelist with exactly this one 16-bit PMIC read, after successful CID/VUSB transactions and the MT6323 CID guard. Its AP WACS2 read command is <strong>0x00000000</strong> at AP+9c; bit31 remains clear. Use the existing bounded completion/idle waits, acknowledge only this completed response and never retry, clear stale responses or issue a PMIC write. Failure stops further clock/USB probing. Preserve partial validity: CID=1, VUSB=2, CHR_CON0=4; full=7.</p>
+<p>Snapshot grows four bytes to 260, shared by kernel and native PID1. Display <code>CHR:&lt;raw four hex digits&gt; D:&lt;bit5&gt;</code> when valid, otherwise <code>CHR:---- D:?</code>. Both CHRDET 0 and 1 are successful observations; do not turn a low status bit into a transport error. The rest of the PHY wake probe is unchanged, including its one guarded 6a write and calibration checks. No new hardware write beyond the PWRAP read request/ack, no charger policy, interrupt enable, clock, VBUS-force, MAC connection, DMA or calibration change. Everything remains cached once/boot.</p>
+<h2 id="validation-and-hardware-boundary">Validation and hardware boundary</h2>
+<p>This is a localized extension of the hardware-proven read transport, not a new subsystem or memory/DMA/packaging policy. One clean build, affected PWRAP/clock/ state/wake/PID1 tests, linked transaction review, standard artifact checks and D08/current-memory/BOOTIMG size/hash validation. No duplicate build or unchanged source/ROM/recovery audit. Test both detection states and third-transaction timeout, lost-init, invalid-FSM and acknowledge-to-idle failures.</p>
+<p>Stop at BOOTIMG for the owner test with the USB data cable attached to the PC. Return same-boot readable photos near BEAT 10 and 50/STOP showing CHR/PW/CLK, USB and all four PHY rows, uptime/IRQ and LAST ERR. Retain the established maximum 60 seconds from power-on and BOOTIMG-only recovery boundaries. Enumeration/ttyACM is not expected; #23/#27 and M2 remain open.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2B-235 — Prove offline reproducibility and publish the launch-gated result - Innioasis Updater</title>
+  <meta name="description" content="Y2B-235 — Prove offline reproducibility and publish the launch-gated result <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, can">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2b-235.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2B-235 — Prove offline reproducibility and publish the launch-gated result - Innioasis Updater">
+  <meta property="og:description" content="Y2B-235 — Prove offline reproducibility and publish the launch-gated result <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, can">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2b-235.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2B-235 — Prove offline reproducibility and publish the launch-gated result - Innioasis Updater">
+  <meta name="twitter:description" content="Y2B-235 — Prove offline reproducibility and publish the launch-gated result <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, can">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2B-235 — Prove offline reproducibility and publish the launch-gated result</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2b-235--prove-offline-reproducibility-and-publish-the-launch-gated-result">Y2B-235 — Prove offline reproducibility and publish the launch-gated result</h1>
+<!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Depends on Y2B-230 (#14). Final small checkpoint of this offline wave; M1 hardware first boot is not yet authorized.</p>
+<p>Acceptance:</p>
+<ul><li><input type="checkbox" disabled checked> One documented build command reconstructs all products from locked inputs, with no network/device access while compiling.</li><li><input type="checkbox" disabled checked> Two separate clean output directories produce identical kernel/config/DT/initramfs/BOOTIMG bytes and ELF evidence.</li><li><input type="checkbox" disabled checked> Full source-tree comparison against the locked archive confirms only the reviewed Kconfig overlay differs at build time.</li><li><input type="checkbox" disabled checked> Actual-artifact negative tests reject malformed DT/config/ELF/compressed/package evidence; final D08 report and hashes retained.</li><li><input type="checkbox" disabled checked> Update knowledge and milestone state with bounded offline research of U07b/U07c/U10a and backup/recovery gaps. Do not invent evidence or perform device operations.</li><li><input type="checkbox" disabled checked> Retain an accessible complete artifact/evidence bundle and report the conditional first-device experiment, stopping before hardware.</li></ul>
+<p>Validation: two clean builds match across 11 outputs; full 91,166-file/link source check passes. Nine tests pass with 20 actual-artifact corruption cases and 25 package mutation/extent cases. Final bundle is revalidated before retention. Exact reports and unresolved launch gates are in docs/build/first-boot-result.md and docs/knowledge/first-boot-launch-gates.md. M0/M1 remain open; no device command was run.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

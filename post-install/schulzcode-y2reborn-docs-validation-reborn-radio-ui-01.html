@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>REBORN-RADIO-UI-01 — scan feedback correction - Innioasis Updater</title>
+  <meta name="description" content="REBORN-RADIO-UI-01 — scan feedback correction <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claims, n">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-validation-reborn-radio-ui-01.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="REBORN-RADIO-UI-01 — scan feedback correction - Innioasis Updater">
+  <meta property="og:description" content="REBORN-RADIO-UI-01 — scan feedback correction <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claims, n">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-validation-reborn-radio-ui-01.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="REBORN-RADIO-UI-01 — scan feedback correction - Innioasis Updater">
+  <meta name="twitter:description" content="REBORN-RADIO-UI-01 — scan feedback correction <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claims, n">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>REBORN-RADIO-UI-01 — scan feedback correction</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="reborn-radio-ui-01--scan-feedback-correction">REBORN-RADIO-UI-01 — scan feedback correction</h1>
+<!-- knowledge-base-scope: scoped-validation-record -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_REBORN_STATE.md) for the latest physically observed result.
+<p><strong>Built and validated; stop for owner manual installation.</strong> The running device still has source <code>6209f48</code>. This correction has not been installed or physically qualified. It builds on the owner-installed, working splash update and keeps its BOOTIMG, kernel, radio drivers/services, audio path, charging code and Y2DATA.</p>
+<p>Built Reborn source: <code>a8ae8b6723311b677662759082c55ad226441669</code>. Y2Linux integration: <code>640ecb828af1ba48edcc6203701edb89f66eb0ac</code>. Rust 1.90.0, ARMv7 hard-float glibc, existing Buildroot GCC 13.3.0 toolchain. Cargo.lock/dependencies/native ABI and the safe Rust application architecture remain unchanged.</p>
+<h2 id="problem-and-corrected-behavior">Problem and corrected behavior</h2>
+<p>The previous <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Fvalidation%2F2026-09-18-radio-inspection.md">SSH inspection</a> proved Wi-Fi scan and Bluetooth adapter/discovery APIs work, but it used separate diagnostic test hooks. The owner subsequently confirmed the actual UI Scan action provided no progress or devices. Source inspection found no scan lifecycle in the UI, scans sent while radios were off, Wi-Fi&#x27;s disabled state treated as an error, and Bluetooth operation errors not displayed. Wi-Fi errors also overwrote a global notice visible on unrelated screens.</p>
+<p>The corrected flow is:</p>
+<ol><li>Select <strong>Scan networks</strong> or <strong>Scan devices</strong>. That explicit action enables<p>the selected radio if necessary and remembers its On preference.</p></li><li>The selected row/footer immediately shows <strong>Starting Wi-Fi/Bluetooth…</strong>, then<p><strong>Scanning…</strong>. Repeated activation cannot restart/cancel the current scan.</p></li><li>Wi-Fi waits for the actual supplicant <code>CTRL-EVENT-SCAN-RESULTS</code> event on a<p>separate attached control socket, then reads results. Commands and events cannot be confused. Startup and scan each have a 15-second deadline, with bounded native call timeouts. Results are strongest-first and deduplicated by SSID/security. Hidden SSIDs cannot be selected by this baseline UI.</p></li><li>Bluetooth powers through BlueZ, holds its own discovery session for 15 seconds,<p>publishes device updates during discovery, then stops that session. Paired and cached BlueZ devices remain in the list; no bonds are deleted.</p></li><li>Completion shows the result count. Empty Wi-Fi results say <strong>No networks found</strong>;<p>empty Bluetooth results ask for pairing mode. Failure is explicit and remains visible until the next operation. Early Bluetooth service startup can still return a visible retry error; it is no longer a silent action.</p></li></ol>
+<p>Wi-Fi Off is now an available, healthy radio state when rfkill and supplicant respond. Radio notices are owned by their respective screens. Held Select/Right activation no longer repeatedly toggles a radio or activates a row; Up/Down and volume repeats remain. No Wi-Fi network is selected or Bluetooth peer paired merely by pressing Scan. Existing platform saved-network behavior when enabling Wi-Fi remains in effect.</p>
+<p>Workers keep bounded channels and their existing fixed threads. The main/UI thread remains responsive during activation/discovery. No runtime dependency, unsafe block, shell radio backend, frame animation loop or new network listener. Structured scan start/active/completion/failure logs share an operation correlation ID; Bluetooth operation errors now identify the method. Status JSON exposes <code>wifi.scan</code> and <code>bluetooth.scan</code>, each with a typed <code>state</code>, plus <code>found</code> at completion or <code>message</code> on failure.</p>
+<h2 id="ssh-validation-uses-the-actual-ui-workers">SSH validation uses the actual UI workers</h2>
+<p>New bounded, enumerated commands on the existing protected Unix socket:</p>
+<pre><code class="language-text">rebornctl wifi scan --json
+rebornctl bluetooth scan --json
+rebornctl wifi on|off --json
+rebornctl bluetooth on|off --json
+rebornctl status --json</code></pre>
+<p>An <code>accepted</code> response means the operation is queued; poll status to observe Starting → Scanning → Complete/Failed. The Scan commands call the same application effects/workers as the buttons. Radio commands reject <code>--follow</code>; they never execute a shell, accept arbitrary operations or expose a password. The existing diagnostic tests remain available; Wi-Fi&#x27;s scan test now also waits for completion.</p>
+<p>The host <a href="https://github.com/SchulzCode/Y2Reborn/blob/main/tools/qualification/reborn-radio-ui.py" target="_blank" rel="noopener noreferrer">radio UI qualification script</a> uses pinned owner SSH, verifies the expected source before any operation, refuses to interrupt an active UI scan, retains JSON state samples and checks session continuity, active progress and completion. It restores Off for a radio it enabled from Off. It does not pair peers, choose networks, install software or access key bytes. Empty results are a successful completed scan, not proof of RF peer discovery.</p>
+<h2 id="validation">Validation</h2>
+<ul><li><strong>64 Rust tests</strong> pass, including a fake supplicant with real Unix datagrams<p>and an isolated D-Bus/BlueZ adapter exercising the actual Bluetooth worker. Tests cover radio enable-before-scan, progress, result delivery, empty scans, timeout/failure, duplicate activation, power-off, retained errors, correlation IDs, UI footer isolation, selectable results and protocol rejection.</p></li><li><strong>20 host daemon checks</strong> and <strong>4 host tooling tests</strong> pass; Clippy all workspace/<p>all targets passes with warnings denied.</p></li><li>The production cross/rootfs build passes with networking disabled. **8 installed<p>ARM application/shell checks** pass under QEMU, including decoder/DB/control regressions. These are not hardware scan tests.</p></li><li>Raw ext4 validation, pinned fallback hashes, root-only scatter preservation and<p>complete root content comparison pass. Exactly five file paths change: Reborn, rebornctl, root build ID, versions.json, and os-release. The installed splash helper, services, native libraries, firmware and all other paths match.</p></li></ul>
+<p>Receipts: <code>/home/luca/Dokumente/Code/Y2Linux/docs/build/evidence/reborn-radio-ui-01/</code>. Reborn binary: <strong>1,879,004 bytes</strong>; rebornctl: <strong>445,356 bytes</strong>. Y2ROOT remains 512 MiB; used ext4 space increases by <strong>53,248 bytes (52 KiB)</strong>.</p>
+<h2 id="exact-package-and-manual-installation">Exact package and manual installation</h2>
+<p>Package: <code>/home/luca/Dokumente/Code/Y2Linux/out/REBORN-RADIO-UI-01</code>.</p>
+<table><thead><tr><th>File</th><th>SHA256</th></tr></thead><tbody><tr><td><code>Y2ROOT.img</code></td><td><code>79b12172645c4755fdf3219fc6f99971d94de62c42f807a3613a43516d1f7df8</code></td></tr><tr><td><code>fallback/Y2ROOT.img</code> — installed splash root</td><td><code>d40e9337e3a1149d12fdd240a59918b0d2c48e4e6a9974ab5b470685250d900c</code></td></tr><tr><td>Required installed splash BOOTIMG, unchanged</td><td><code>8671de2900fd05cc80a9eb7a3541d5bbdab7e5dd96c18f73f44ca1b13beb19a5</code></td></tr></tbody></table>
+<ol><li>Verify on the host:</li></ol>
+<pre><code class="language-sh">   cd /home/luca/Dokumente/Code/Y2Linux/out/REBORN-RADIO-UI-01
+   sha256sum -c SHA256SUMS</code></pre>
+<ol><li>Open the established SP Flash Tool v5.2032 workflow and load this package&#x27;s<p><strong>MT6582_reborn_root_only_scatter.txt</strong>. Select <strong>Download Only</strong>.</p></li><li>Check <strong>ANDROID only</strong>, pointing to this package&#x27;s <code>Y2ROOT.img</code>. **BOOTIMG,<p>USRDATA and every other partition stay unchecked/NONE.** Do not select Format or Firmware Upgrade. This differs from the preceding two-image splash update.</p></li><li>Use the established owner shutdown/USB entry procedure: select Download,<p>connect the powered-off Y2, wait for success, disconnect and boot normally. Y2DATA, saved networks, bonds, settings and music remain in place.</p></li><li>If rollback is required, use <code>fallback/MT6582_reborn_root_only_scatter.txt</code><p>with <strong>ANDROID only</strong> and its <code>Y2ROOT.img</code>. Keep the installed splash BOOTIMG.</p></li></ol>
+<h2 id="after-owner-installation">After owner installation</h2>
+<p>Start with SSH <code>status</code>, <code>health</code>, <code>metrics</code>, and <code>test baseline --json</code>, verifying source <code>a8ae8b6723311b677662759082c55ad226441669</code>. Then run:</p>
+<pre><code class="language-sh">cd /home/luca/Dokumente/Code/Y2Reborn
+python3 tools/qualification/reborn-radio-ui.py \
+  --known-hosts /home/luca/Dokumente/Code/Y2Linux/evidence-private/20260915-m5-entry/known_hosts \
+  --expected-build a8ae8b6723311b677662759082c55ad226441669</code></pre>
+<p>Retain status/progress/results and any related subsystem logs before further changes. Only then request one visible scan confirmation and, if needed, a peer in pairing mode. Wi-Fi association, pairing/A2DP playback, suspend/charging and full Reborn Baseline 01 acceptance are not established by this fix. Do not start Reborn 02. <strong>Stop here for manual installation.</strong></p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

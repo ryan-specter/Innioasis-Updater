@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-31 — folder-first artwork and metadata formats - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-31 — folder-first artwork and metadata formats Status: SUPERSEDED, NEVER FLASHED ALONE 2026-10-14; contained in 32–34, installed as part of 33. Package out/y2">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-31.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-31 — folder-first artwork and metadata formats - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-31 — folder-first artwork and metadata formats Status: SUPERSEDED, NEVER FLASHED ALONE 2026-10-14; contained in 32–34, installed as part of 33. Package out/y2">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-31.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-31 — folder-first artwork and metadata formats - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-31 — folder-first artwork and metadata formats Status: SUPERSEDED, NEVER FLASHED ALONE 2026-10-14; contained in 32–34, installed as part of 33. Package out/y2">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-31 — folder-first artwork and metadata formats</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-31--folder-first-artwork-and-metadata-formats">POWER-FINAL-31 — folder-first artwork and metadata formats</h1>
+<p>Status: <strong>SUPERSEDED, NEVER FLASHED ALONE</strong> (2026-10-14; contained in 32–34, installed as part of 33). Package <code>out/y2linux-platform-v1-power-final-candidate-31/</code> (fallback = 30), receipts <code>out/deep-sleep-final/build31-receipts/</code>. BOOTIMG <code>9aeeba7899f47b3d137f664f3ae0d20e6a25cde76e87f14ec3a837b0012bb384</code>, Y2ROOT <code>b275bf043f14979ffa6ffcf9a84f5882b9453c7da822879157c2de0078d6bf4f</code>. Identity: build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-31</code>, kernel <code>6.18.56-y2linux-platform-v1-power-final-31</code>, root <code>2026.08-platform-v1.61</code>, release <code>1.0.0-platform-v1-power-final-candidate.31</code>; Linux <code>ebd2a58</code>, <strong>Reborn <code>0892bf2</code></strong>. Contains 27–30 (30 was never flashed; 31 supersedes it).</p>
+<h2 id="what-31-changes-reborn-0892bf2">What 31 changes (Reborn <code>0892bf2</code>)</h2>
+<ul><li>Artwork: the album folder&#x27;s cover first, the embedded picture only when the folder has none (thumbnails, Cover<p>Flow, Now Playing). Folder names by priority (any case, jpg/jpeg/png/webp): cover, folder, front, album, albumart, artwork; then Windows Media Player AlbumArt_{GUID}_Large / AlbumArtSmall; finally the only image in the folder. macOS <code>._*</code> never counts. Thumbnail cache renamed (<code>thumb2-</code>), old thumbnails removed once.</p></li><li>Library extensions <code>.m4b</code>, <code>.oga</code>, <code>.aifc</code> (already supported by the image&#x27;s FFmpeg); <code>.mp4</code> deliberately excluded.</li><li>Vorbis/APE <code>ALBUM ARTIST</code> (with a space) read as album artist; <code>METADATA_REVISION</code> 4 re-reads every row&#x27;s tags once.</li></ul>
+<p>Supported formats and the FFmpeg component list: scope audit &quot;POWER-FINAL-31&quot; in <code>docs/planning/roadmap-gap-audit.md</code>.</p>
+<h2 id="tests">Tests</h2>
+<p>Reborn workspace 379 (folder-over-embedded with a distinct cover, name priority / WMP / single-image fallback, extensions, legacy thumbnail removal), clippy <code>-D warnings</code>, fmt. Platform: validate PASS, ELF 354, installed ARM, privacy, inventory 108, container suite <strong>711 OK</strong>. Packaging/inventory ran from a checkout of the build commit (a docs-only commit followed it).</p>
+<h2 id="owner-checks-after-the-flash">Owner checks after the flash</h2>
+<ol><li>Album grid / Cover Flow show the folder image where both exist (first view rebuilds thumbnails).</li><li>The first library scan re-reads tags once (a few seconds); album artists tagged <code>ALBUM ARTIST</code> group correctly.</li><li>30&#x27;s checks: boot scan time, <code>noatime</code>, playback unchanged.</li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M2-BASELINE-02 — correct live display PHY handoff - Innioasis Updater</title>
+  <meta name="description" content="M2-BASELINE-02 — correct live display PHY handoff <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "cur">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-baseline-02-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M2-BASELINE-02 — correct live display PHY handoff - Innioasis Updater">
+  <meta property="og:description" content="M2-BASELINE-02 — correct live display PHY handoff <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "cur">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-baseline-02-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M2-BASELINE-02 — correct live display PHY handoff - Innioasis Updater">
+  <meta name="twitter:description" content="M2-BASELINE-02 — correct live display PHY handoff <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "cur">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M2-BASELINE-02 — correct live display PHY handoff</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m2-baseline-02--correct-live-display-phy-handoff">M2-BASELINE-02 — correct live display PHY handoff</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p><strong>Owner tested: black/grey screen and no responding log relay.</strong> The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-baseline-hardware-result.md">hardware result</a> supersedes the original offline handoff below. M1 COMPLETE, M2 ACTIVE. Build starts from <code>7c34d35</code> plus this source iteration. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-baseline-hardware-result.md">BASELINE-01 captures</a> confirm four CPUs, the five navigation channels, volume/Power, shared PMIC ownership and card identity, but show DSI failing before native display takeover.</p>
+<p><strong>Image:</strong> <code>/home/luca/Dokumente/Code/Y2Linux/out/m2-baseline-02/BOOTIMG.img</code><br> <strong>Size:</strong> 2,015,232 bytes<br> <strong>SHA-256:</strong> <code>13754b8f5ac49d173bce85f854b9683d23a2f3dc798b23309a1aa7197a4a8a34</code><br> <strong>Identity:</strong> Linux <code>6.18.0-y2-m2-baseline2</code>, LOG1 <code>M2-BASELINE-02</code>.</p>
+<h2 id="change-and-validation">Change and validation</h2>
+<p>BASELINE-01 incorrectly required LK&#x27;s live PLL divider/PCW to equal the planned Linux cold configuration. BASELINE-02 gives only the MT6582 PHY its own power callbacks: validate/log live power and lane LDO state, adopt it **without writes or a rate claim**, park DSI, then release inherited PHY power without decrementing unowned CCF references. Normal modeset acquires balanced CCF references and programs the existing cold sequence. Incomplete live power still refuses probe; there is no PLL_TOP read or live PLL retune. Safe CON0/CON1/CON2/PWR/CON/lane words are logged for subsequent diagnosis. Other SoCs retain their original PHY ops.</p>
+<p>All core subsystems from <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fm2-baseline-01-result.md%23what-actually-changed&amp;anchor=what-actually-changed">BASELINE-01</a> remain integrated, including USB/reconnect, input, PMIC, clocks, DRM, read-only MMC discovery and SMP. No input-driver change is inferred from the absence of wheel activity: capture-02 confirms buttons but not rotation. The host tool now defaults to 180 seconds for baseline builds; old builds retain 45 seconds.</p>
+<p>One clean kernel build, no compiler/DT warnings or errors; resolved config/DT, actual linked artifacts, D08 layout and final BOOTIMG pass validation. **26 test methods pass**, including real PHY callbacks under traced MMIO/CCF for unchanged live adoption, cold sequencing, missing-power refusal and CCF errors; plus provider write filters, ARM evdev/relay, USB lifecycle and host capture defaults. ARM PID1 selftest passes. No duplicate reproducibility/provenance/recovery audit. <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-baseline-02-layout.json" target="_blank" rel="noopener noreferrer">Layout</a>, <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-baseline-02-iteration.json" target="_blank" rel="noopener noreferrer">test/package manifest</a>, ELFs/config/logs and 113 snapshotted source inputs are retained with SHA256SUMS under <code>out/m2-baseline-02/</code>.</p>
+<p>D08 remains 24MiB + 512KiB, with the original low16KiB reservation; image/BSS span 5,191,568 bytes. Expanded RAM still needs LK-heap/live-DMA ownership evidence. PMIC rail/current/charger writes, MMC writes/mounts/rootfs installation, audio/radios/FM, GPU/apps and suspend/DVFS remain excluded. Production thermal, charging and shutdown policy is not implemented. No full input/clock/DRM/USB qualification is claimed; panel identity/init/timings, native framebuffer DMA, wheel response and reconnection still need this physical test. If native display fails, retain USB logs and classify the actual next error.</p>
+<h2 id="owner-flash-and-one-boot-test">Owner flash and one-boot test</h2>
+<ol><li>In the existing SPFT <strong>v5.2032</strong>, use<p><code>/home/luca/Dokumente/Code/Y2Player/y2_v3.2.0_FM-20260813/MT6582_Android_scatter.txt</code>. <strong>Download Only</strong>, all rows unchecked except <strong>BOOTIMG</strong>, selecting the image above. Check the hash; use the already proven manual flash/power sequence. Never select preloader/LK, format/upgrade or other partitions.</p></li><li>Stop SPFT, unplug and start capture below before normal power-on. Keep the<p>test microSD inserted. Start a <strong>300-second timer at power-on</strong>, boot unplugged, attach USB after <strong>10 seconds</strong>. No display prompt is required. If logs do not arrive within 30 seconds of attachment, end through the known recovery route.</p></li><li>During capture, observe whether readable Linux console replaces LK&#x27;s logo;<p>record geometry, flicker, backlight and warmth. Press/release each navigation button, Volume−/+, then briefly Power; **slide a finger around the capacitive wheel clockwise and counterclockwise**. No long Power hold as an input test, CPU stress or charging experiment. Report the physical action order.</p></li><li>Optional single reconnect after capture: only if at least 80 seconds remain,<p>unplug, start the second command below and reconnect after five seconds. Preserve both captures. Do not restart the device timer.</p></li><li>Stop on abnormal warmth/faults/lost observation; end <strong>by 300 seconds</strong> using<p>the established owner power/recovery sequence. USB intentionally disconnects near 295 seconds and does <strong>not</strong> power the unit off. Restore <strong>BOOTIMG only</strong> with the known <code>/home/luca/Dokumente/Code/Y2Player/out/boot-adb/boot.img</code> through the same Download Only procedure. Report restoration; do not restore full ROM.</p></li></ol>
+<p>Real-host commands (new output directories; no need to guess ttyACM numbering):</p>
+<pre><code class="language-sh">cd /home/luca/Dokumente/Code/Y2Linux
+sudo python3 tools/observation/usb_log_capture.py --build M2-BASELINE-02 \
+  --seconds 180 --output out/m2-baseline-02/capture-01</code></pre>
+<p>Optional reconnect capture, started while unplugged:</p>
+<pre><code class="language-sh">sudo python3 tools/observation/usb_log_capture.py --build M2-BASELINE-02 \
+  --wait-seconds 30 --seconds 60 --output out/m2-baseline-02/capture-02</code></pre>
+<p>Capture <code>timeout</code>/exit0 normally means the requested recording duration ended; check raw logs for actual kernel errors. Both prior captures were separate boots, so they did not qualify reconnect. The five-minute ceiling and USB cutoff remain unchanged for this same-scope iteration. **No further device action by the agent; await this manual flash and its complete logs.**</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

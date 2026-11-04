@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-26 — Bluetooth codec auto-selection - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-26 — Bluetooth codec auto-selection Status: INSTALLED, BLUETOOTH CODEC CHECK OPEN 2026-10-13; archive 121. Package out/y2linux-platform-v1-power-final-candida">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-26.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-26 — Bluetooth codec auto-selection - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-26 — Bluetooth codec auto-selection Status: INSTALLED, BLUETOOTH CODEC CHECK OPEN 2026-10-13; archive 121. Package out/y2linux-platform-v1-power-final-candida">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-26.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-26 — Bluetooth codec auto-selection - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-26 — Bluetooth codec auto-selection Status: INSTALLED, BLUETOOTH CODEC CHECK OPEN 2026-10-13; archive 121. Package out/y2linux-platform-v1-power-final-candida">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-26 — Bluetooth codec auto-selection</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-26--bluetooth-codec-auto-selection">POWER-FINAL-26 — Bluetooth codec auto-selection</h1>
+<p>Status: <strong>INSTALLED, BLUETOOTH CODEC CHECK OPEN</strong> (2026-10-13; archive 121). Package <code>out/y2linux-platform-v1-power-final-candidate-26/</code> (fallback = 25), receipts <code>out/deep-sleep-final/build26-receipts/</code>. BOOTIMG <code>f4ca442b185a6a8561ef12901d68c9662c630a5be65f554776fbe885fe1d585a</code>, Y2ROOT <code>66efd3ed0d4f727edeffa9dd6571f3d9c3e4ebe02647d8074b04c7cf09c2405f</code>. Identity: build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-26</code>, kernel <code>6.18.56-y2linux-platform-v1-power-final-26</code>, root <code>2026.08-platform-v1.56</code>, release <code>1.0.0-platform-v1-power-final-candidate.26</code>; Linux <code>64b3cc4</code>, <strong>Reborn <code>1c9edd4</code></strong>. Platform as 25.</p>
+<h2 id="25-on-the-device-first-check-archives-119120">25 on the device (first check, archives 119–120)</h2>
+<p>Boot <code>f0cc8b34</code> healthy, taint 0, DSI hand-over dark (<code>backlight off until the first Linux frame</code> → <code>restored</code>). The owner&#x27;s card now scans complete: 311 files discovered, 0 failures (24: &quot;11 traversal failures&quot;). Cover Flow frame rate not measured (the owner filmed it instead; the sampler caught only one 60-fps burst). The framebuffer stream tool reads ≈10 fps whatever the transport (raw 9.8, gzip 9.3; SSH chacha20 carries ≈19 MB/s), so it cannot show a 60-fps glide.</p>
+<h2 id="why-only-sbc-was-chosen">Why only SBC was chosen</h2>
+<p>The platform already starts BlueALSA with every compiled codec (`--codec=AAC --codec=aptX --codec=aptX-HD --codec=LDAC<code>,</code>/run/y2/codec-runtime.json<code>). Live</code>org.bluealsa.Manager1.Codecs<code>=</code>A2DP-source:SBC<code>,</code>…:AAC`, <code>…:aptX</code>, <code>…:aptX-HD</code>, <code>…:LDAC</code>. Reborn accepted only the lowercase prefix <code>a2dp-source:</code>, so every codec, SBC included, was <code>runtime_enabled=false</code>; the policy failed (<code>no_eligible_codec_PHYSICAL_GATE_or_distribution_gate</code>), the codec choice (Auto included) stayed hidden and the saved preference was the old default, SBC. The AirPods Pro were on AAC only because BlueZ negotiated it at connect.</p>
+<h2 id="what-26-changes-reborn-1c9edd4">What 26 changes (Reborn <code>1c9edd4</code>)</h2>
+<ul><li>The A2DP-source profile in <code>Codecs</code> matches case-insensitively (<code>a2dp_source_codecs</code>).</li><li>Default codec preference is Auto: LDAC → aptX-HD → aptX → AAC among mutually usable codecs, SBC fallback, requested<p>only while the PCM is idle (unchanged policy code).</p></li><li>Sessions saved before <code>codec_revision</code> 1 that hold SBC (the old default; the choice was never offered) move to Auto<p>once; another saved codec, or SBC chosen afterwards, is kept.</p></li></ul>
+<h2 id="tests">Tests</h2>
+<p>Reborn fmt, clippy <code>-D warnings</code>, workspace tests pass; the discovery test now uses the BlueALSA 5.0.0 names seen on the Y2, and both codec tests fail without the fix. Platform: <code>validate.py</code> PASS, ELF closure 354 PASS, installed ARM PASS, privacy clean, inventory 108 packages, container suite 693 OK.</p>
+<h2 id="owner-checks-after-the-flash">Owner checks after the flash</h2>
+<ol><li>Settings → Bluetooth codec shows Auto, SBC, AAC for the AirPods Pro; Auto selected.</li><li>Status <code>bluetooth.codec_policy</code>: <code>runtime_enabled</code> true for all five, <code>selected</code>/<code>pcms[0].codec</code> AAC after a<p>reconnect with playback stopped.</p></li><li>aptX / aptX-HD / LDAC need headphones that offer them (NOT_RUN).</li></ol>
+<h2 id="26-on-the-device-archive-121-boot-9f7fe545">26 on the device (archive 121, boot <code>9f7fe545</code>)</h2>
+<p>Kernel <code>…power-final-26</code>, taint 0, Reborn running with the new session (<code>codec_preference</code> Auto, <code>codec_revision</code> 1: the SBC → Auto migration worked). <strong>The owner could not play music:</strong> Reborn&#x27;s output was still the AirPods Pro (<code>14:14:7D:AA:34:47</code>) and every play press failed with <code>operation_failed &quot;connected A2DP peer required&quot;</code>. The AirPods were paired, bonded and trusted but never connected this boot: the platform reconnect (<code>/run/y2/bt-reconnect.json</code>) made two <code>ConnectProfile</code> calls, both ended without a reply (<code>completion_unknown_user_retry_required</code>), so automatic reconnect is <code>Inhibited</code> until a manual connect (<code>tools/connectivity/reconnect.c</code>, unchanged since 25). Reborn metrics: 0 Bluetooth connects, 0 disconnects; <code>pcms</code> empty, <code>codec_policy</code> none; codec history unchanged since 25 (last negotiated AAC). So 26&#x27;s codec code never ran; the likely cause is the AirPods being in their case, out of range or held by the phone at boot.</p>
+<p>Still open (device was unplugged for the overnight test before a manual connect was checked):</p>
+<ul><li>Manual connect (Settings → Bluetooth → AirPods Pro → Connect) works and lifts the inhibit.</li><li>Auto then requests AAC (26 is the first image that actually issues <code>SelectCodec</code> on connect) **without dropping the<p>link**; watch <code>metrics.bluetooth_disconnects</code> and the log right after the connect. If the request drops the link: skip <code>SelectCodec</code> when the negotiated codec already equals Auto&#x27;s choice.</p></li><li>Design gap regardless of 26: when the saved Bluetooth output is not connected, Reborn only reports &quot;connected A2DP<p>peer required&quot;; it neither retries the connect on play nor falls back to the Y2&#x27;s own output.</p></li></ul>
+<h2 id="overnight-test-start-refused-sleep-looked-like-a-self-wake-archive-122">Overnight test start: refused sleep looked like a self-wake (archive 122)</h2>
+<p>From 20:16 to 21:17 every sleep request was refused because the cable was attached (<code>suspend_refused_charger_or_usb_active</code>, once a minute). The owner unplugged at ≈21:18:38; the next attempt read <code>/sys/power/wakeup_count</code>, quiesced the radios (≈4–5 s), and at 21:18:42 the charger noticed the missing source (<code>status=2</code>, <code>NO_SOURCE</code>) and published a <code>BAT0</code> change (the only wakeup source with <code>wakeup_count</code> 1). At 21:18:44 the count store failed, so the helper refused (<code>product_refused</code>, <code>wake_event_in_progress</code>, no kernel entry) and restored the screen and radios: the &quot;self-wake&quot;. The same refusal appears twice in the archived journals, both on 13; none on 14–25. The platform reconnect also tried the AirPods a third time after the radio restore and failed again (<code>failures</code> 3, still <code>Inhibited</code>).</p>
+<p>Proposed platform fix (not made; needs the owner&#x27;s OK and a 27 build): when the count store fails and neither the Power nor the RTC interrupt count changed, start a new handshake with a fresh count (bounded, e.g. 3 tries), as the maintenance-wake path already does after its <code>BAT0</code> tick, instead of restoring the screen.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

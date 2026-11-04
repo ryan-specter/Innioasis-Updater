@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Source delivery and distribution gate - Innioasis Updater</title>
+  <meta name="description" content="Source delivery and distribution gate <!-- knowledge-base-scope: maintained; baseline02-sync 2026-10-03 -- Current Baseline02 delivery — 2026-10-03 Sealed package: out/y2">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-release-y2-community-source-delivery.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Source delivery and distribution gate - Innioasis Updater">
+  <meta property="og:description" content="Source delivery and distribution gate <!-- knowledge-base-scope: maintained; baseline02-sync 2026-10-03 -- Current Baseline02 delivery — 2026-10-03 Sealed package: out/y2">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-release-y2-community-source-delivery.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Source delivery and distribution gate - Innioasis Updater">
+  <meta name="twitter:description" content="Source delivery and distribution gate <!-- knowledge-base-scope: maintained; baseline02-sync 2026-10-03 -- Current Baseline02 delivery — 2026-10-03 Sealed package: out/y2">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Source delivery and distribution gate</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="source-delivery-and-distribution-gate">Source delivery and distribution gate</h1>
+<!-- knowledge-base-scope: maintained; baseline02-sync 2026-10-03 -->
+<h2 id="current-baseline02-delivery--2026-10-03">Current Baseline02 delivery — 2026-10-03</h2>
+<p>Sealed package: <code>out/y2linux-baseline-02-candidate/</code> (local-only). Compiled pair: Linux <code>8584ccd85f052f351fe51650b2348c83ca894ed4</code> / Reborn <code>b71b468860233faa0a42b8448ec5777fa952b8e3</code>. Current exact inputs are recorded in <code>metadata/versions.json</code>, <code>manifest.json</code> and <code>sources/manifest.json</code>.</p>
+<table><thead><tr><th>Delivered material</th><th>Package-relative path</th></tr></thead><tbody><tr><td>Exact project source snapshots</td><td><code>sources/Y2Linux.tar.gz</code>, <code>sources/Y2Reborn.tar.gz</code></td></tr><tr><td>Locked upstream sources</td><td><code>sources/linux-6.18.tar.xz</code>, <code>sources/buildroot-2025.02.18.tar.xz</code></td></tr><tr><td>Collector sources/manifests/licenses and warnings</td><td><code>sources/Buildroot-legal-info/</code></td></tr><tr><td>Source pair and material hashes</td><td><code>sources/manifest.json</code></td></tr><tr><td>Actual selected package/build inventory</td><td><code>validation/release-inventory.json</code></td></tr><tr><td>Validation exit codes</td><td><code>validation/validation-exit-codes.json</code></td></tr></tbody></table>
+<p>The current package supplies source tar archives, not the historical Git bundles. They retain source content; they do not carry Git history or prove possession of the original commit objects. Use the exact recorded commits in available local repositories, or identify unpacked source snapshots honestly when reconstructing. The fallback is the exact qualified UART01 BOOTIMG/Y2ROOT pair. Collector PASS retains explicit Bootlin/local-package/Buildroot limitations; legal review is incomplete and distribution remains owner-local. No byte-identical rebuild is claimed. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-BASELINE-02.md">Baseline02</a> and <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fplatform-v1-reconstruction.md">current reconstruction</a>.</p>
+<p>This pass distinguishes technical codec support, local engineering packaging and permission to publish. No public-distribution approval is inferred from successful compilation, an OSS library license, a disabled endpoint or a legal-info archive.</p>
+<p>The preserving package records exact Linux/Reborn commits, kernel/Buildroot inputs, root/release versions, BOOTIMG/Y2ROOT hashes, fallback identities, firmware file expectations, platform API and delivered capabilities. The capability record lists selected build symbols and installed configuration separately from enabled, experimental, hardware-conditional and physically qualified state. A fresh build never manufactures a physical qualification record.</p>
+<p><code>tools/production/privacy.py</code> scans the <strong>actual ext4 image</strong>, through read-only host extraction, for protected/private filenames and credential/key material. <code>system_update.py</code> refuses packaging when the scan fails. The existing partition allowlist checks remain independent. The public-distribution check fails separately for unapproved firmware and compiled optional codecs, even when their endpoint is disabled. This engineering candidate remains owner-local.</p>
+<p>For a later public release, retain and supply the exact corresponding sources, patches, configuration and build/install scripts, not just a commit URL or a binary SDK. Preserve copyright/license notices and include the selected packages&#x27; license texts. Record the chosen source-delivery method and review obligations for the actual GPL/LGPL versions and linking arrangements. Reborn&#x27;s native media membrane uses shared FFmpeg libraries; actual ELF dependencies, configuration and source archives belong in its receipt. This is an engineering checklist, not a legal clearance determination. The <a href="https://www.gnu.org/licenses/gpl-faq.en.html" target="_blank" rel="noopener noreferrer">GNU licensing FAQ</a> provides primary guidance; applicability and codec/patent/certification decisions remain for the owner/legal review.</p>
+<p>Run Buildroot <code>legal-info</code> and preserve its README warnings, manifests, source archives and licenses. Its collection has limits: external toolchain and local packages may require additional source material. Include the pinned Buildroot archive itself, Linux source archive and overlays, both source snapshots/bundles, Cargo lock/vendor checksums, exact Bootlin toolchain source expectations, codec source ledger and local source SPDX/licenses. The <a href="https://buildroot.org/downloads/manual/manual.html#legal-info" target="_blank" rel="noopener noreferrer">Buildroot manual</a> explicitly describes the collection and its limitations.</p>
+<p>Reconstruction uses the pinned dependency archives and adjacent clean source checkouts described in <code>docs/build/platform-v1-reconstruction.md</code>. Current-source kernel/Buildroot/Reborn builds and dependency closure must pass before sealing. Source identity is reconstructable; byte-identical filesystem and complete clean rebuild equivalence have not been demonstrated. No such claim is made.</p>
+<p>Unresolved public decisions remain: matched MediaTek firmware/defaults rights; AAC/aptX/aptX-HD/LDAC redistribution/certification questions from the existing codec ledger; complete external-toolchain source delivery; release signing/channel ownership. The owner-local candidate does not remove these features to hide the questions.</p>
+<p>The integration collector completed with explicit warnings for the external Bootlin toolchain and local <code>y2-connectivity</code>/<code>y2-update</code> package license fields, and for Buildroot itself. The package separately supplies the pinned Buildroot archive and both exact project source archives; the collector warning README is retained. Complete external-toolchain delivery and final local-package notice review remain open public-release obligations.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

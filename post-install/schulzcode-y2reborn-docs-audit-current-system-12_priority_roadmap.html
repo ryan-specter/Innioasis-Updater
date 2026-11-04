@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proposed correction sequence — no implementation authorization - Innioasis Updater</title>
+  <meta name="description" content="Proposed correction sequence — no implementation authorization <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "cu">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-audit-current-system-12_priority_roadmap.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Proposed correction sequence — no implementation authorization - Innioasis Updater">
+  <meta property="og:description" content="Proposed correction sequence — no implementation authorization <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "cu">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-audit-current-system-12_priority_roadmap.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Proposed correction sequence — no implementation authorization - Innioasis Updater">
+  <meta name="twitter:description" content="Proposed correction sequence — no implementation authorization <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "cu">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>Proposed correction sequence — no implementation authorization</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="proposed-correction-sequence--no-implementation-authorization">Proposed correction sequence — no implementation authorization</h1>
+<!-- knowledge-base-scope: historical-audit/review -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_REBORN_STATE.md) for the latest physically observed result.
+<p>This is the audit&#x27;s proposed order, not a newly activated implementation milestone. Before activating/closing/crossing a major boundary or expanding hardware/memory/production scope, repeat the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fplanning%2Froadmap-gap-audit.md%23standing-milestone-boundary-rule&amp;anchor=standing-milestone-boundary-rule">standing roadmap/gap audit</a> with real evidence and update the authoritative roadmap. Owner selection is required after this audit. Do not infer permission to flash, change charging, reclaim memory or enable S32 from this list.</p>
+<h2 id="p0--must-fix-before-continuing-feature-work">P0 — must fix before continuing feature work</h2>
+<p>Keep this group small: five correctness contracts, with regression tests at their actual failure boundaries.</p>
+<ol><li><strong>Native media lifetime (F01).</strong> Close the AVFrame ownership defect and audit adjacent error paths. Exit: allocator-aware repeated decode/seek/transition tests show bounded live allocations; current codec fixtures still pass. Do not rebuild the media architecture.</li><li><strong>Single audio sink lifecycle (F02).</strong> Make planning/reconfiguration consistent with the audio worker&#x27;s exclusive handle ownership; define failure rollback. Exit: realistic exclusive-sink tests for active volume/seek/skip/RG/output changes, followed by targeted wired behavior. Preserve direct hardware format authority.</li><li><strong>One queue/entry contract (F03/F08).</strong> Stable queue-entry identity, live edit propagation, repeat-one and collection playback semantics. Exit: runtime-driven tests for duplicates, reorder/remove/insert, transition races and album-only play, not only reducer tests.</li><li><strong>Crossfade delivery and fallback (F04).</strong> The offered durations must meet the sink&#x27;s real block contract and preserve next-track samples on error. Exit: all offered durations, short tracks, mixed source rates, cancellation and mix failure exercised with bounded output chunks. The owner may instead choose to keep crossfade explicitly unavailable until ready.</li><li><strong>Scan completion equals successful persistence (F05).</strong> Surface batch failures and prevent deletion/pruning after incomplete or uncommitted scans. Exit: injected transaction failures/ENOSPC/source loss preserve old records and report failure accurately.</li></ol>
+<p>In parallel as a <em>decision gate</em>, narrow unsupported capability claims and freeze hardware-scope expansion. Current charging and suspend uncertainty must remain explicit. This does not authorize hardware experiments as part of P0 software fixes.</p>
+<h2 id="p1--must-fix-before-public-testing">P1 — must fix before public testing</h2>
+<p>Group these into four acceptance packages rather than many independent feature tickets:</p>
+<h3 id="a-trustworthy-basic-player">A. Trustworthy basic player</h3>
+<p>Resolve seek-to-sample/RG/headroom semantics and strengthen gapless tests (F11/F12); explicitly define the supported format/precision subset (F09/F10). Physical exit: current image plays/pauses/seeks/skips/changes volume without unintended restarts/errors, screen-off audio remains stable, and a meaningful long-session run shows bounded memory and no unexplained XRUNs. High-resolution hardware expansion is not required for a truthful S16 alpha.</p>
+<h3 id="b-durable-data-and-truthful-interaction">B. Durable data and truthful interaction</h3>
+<p>Bound/dirty-check session writes and make failed restores visible (F06); provide corrupt-DB recovery (F07); handle SD/full-volume errors (F26); fix delayed-input/action/context mismatches that affect ordinary use (F20/F21/F24). Exit: full filesystem, source removal and interrupted writes have defined outcomes; queue/library/state survive or recover without silent success. Preserve atomic replacement and the single DB writer.</p>
+<h3 id="c-safe-platform-envelope">C. Safe platform envelope</h3>
+<p>Reconcile current charger policy with current-image, independent voltage/current/temperature and pack evidence; define low-battery and connected-poweroff behavior (F16). Close GPU02/suspend regression if deep sleep is offered (F17/F22). Exit: the owner-approved physical procedure demonstrates the narrowly promised envelope. If deep suspend remains unqualified, exclude it explicitly rather than claiming it works from an older milestone.</p>
+<h3 id="d-releasable-artifact-and-evidence">D. Releasable artifact and evidence</h3>
+<p>Clean-machine paired-source/cache recipe, embedded identity for reused payloads, corrected manifest/application contract, independent install/preserve-data/recovery exercise, rights/source/notices bundle, and version-bound validation index (F13–F15/F27/F31). Exit: another maintainer can build the intended pair and follow the release instructions without private undocumented steps. Owner firmware must have a lawful provision/distribution route.</p>
+<p>If Wi-Fi/Bluetooth are included in the public feature set, association/IP/DNS and fresh pairing/SBC/reconnect/coexistence are also P1 (F18/F19). Otherwise label them experimental/off and defer their broader claims; adapter scanning is not sufficient acceptance.</p>
+<h2 id="p2--should-fix-before-stable-release">P2 — should fix before stable release</h2>
+<ul><li>Establish the real 10k/20k library performance envelope and query-backed pagination/identity as needed (F23).</li><li>Complete metadata/glyph coverage, album identity, navigation restoration and artwork invalidation appropriate to a music product (F21/F24).</li><li>Correct diagnostic metric/status semantics and refine idle wakeups based on target measurements (F25/F28).</li><li>Finish supported storage/network/peer interoperability and scoped recovery; add exFAT/open-network/AVRCP/EQ configuration only where selected for the product contract (F09/F12/F18/F19/F26).</li><li>Qualify repeated renderer/device/service recovery and long-term PM behavior, not only clean boots (F17/F22/F29).</li><li>Plan native high-resolution output as a separate hardware/audio milestone only if still selected, with explicit AFE/clock/codec/electrical acceptance (F10). It is not a JSON/profile toggle.</li></ul>
+<h2 id="p3--nice-cleanup--future">P3 — nice cleanup / future</h2>
+<p>Label/de-duplicate obsolete reference assets and old capability summaries (F30); improve dense local code when already changing its behavior; evaluate rendering batching/extra caching only if measurements justify it. Optional Bluetooth codecs, a new UI design, signed remote updates/A-B rollback, more elaborate DSP and aggressive DVFS are future scope decisions, not implicit stabilization work.</p>
+<h2 id="sequence-and-stop-criteria">Sequence and stop criteria</h2>
+<pre><code class="language-text">owner chooses scope / reconcile evidence and claims
+  -&gt; P0 playback + queue + lifetime + DB correctness contracts
+  -&gt; current-source targeted host/native integration tests
+  -&gt; P1 persistence/input + narrow real-device player/power qualification
+  -&gt; clean paired build + public installation/recovery/legal closure
+  -&gt; scoped alpha
+  -&gt; measured scale/interoperability/endurance -&gt; beta/stable decision</code></pre>
+<p>Do not use a large passing regression count to skip a failed targeted test. Retain the failing fixture/physical observation and resolve or explicitly remove the affected capability from the release contract. Do not update milestone status merely because a correction was committed or an image built.</p>
+<h2 id="leave-alone-guardrail">Leave-alone guardrail</h2>
+<p>Keep stock bootloader/protected storage policy, strict rescue selection, standard subsystem ownership, existing memory reservations, Linux/Buildroot integration, shared FFmpeg engine, SQLite single-writer design, semantic input boundary, UI service separation, atomic file-write primitive and bounded diagnostics stable. The target is a smaller set of reliable contracts around those foundations—not another broad rewrite.</p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

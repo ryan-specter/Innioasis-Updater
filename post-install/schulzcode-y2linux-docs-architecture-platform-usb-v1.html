@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>USB device and owner file transfer v1 - Innioasis Updater</title>
+  <meta name="description" content="USB device and owner file transfer v1 <!-- knowledge-base-scope: source-contract; baseline02-sync 2026-10-03 -- Current bounded evidence: UART01 passes three 1 MiB bidire">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-architecture-platform-usb-v1.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="USB device and owner file transfer v1 - Innioasis Updater">
+  <meta property="og:description" content="USB device and owner file transfer v1 <!-- knowledge-base-scope: source-contract; baseline02-sync 2026-10-03 -- Current bounded evidence: UART01 passes three 1 MiB bidire">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-architecture-platform-usb-v1.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="USB device and owner file transfer v1 - Innioasis Updater">
+  <meta name="twitter:description" content="USB device and owner file transfer v1 <!-- knowledge-base-scope: source-contract; baseline02-sync 2026-10-03 -- Current bounded evidence: UART01 passes three 1 MiB bidire">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>USB device and owner file transfer v1</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="usb-device-and-owner-file-transfer-v1">USB device and owner file transfer v1</h1>
+<!-- knowledge-base-scope: source-contract; baseline02-sync 2026-10-03 -->
+<p><strong>Current bounded evidence:</strong> UART01 passes three 1 MiB bidirectional USB checksum rounds with an independent Wi-Fi observer after CPU idle qualification, same boot and no filesystem errors. The repaired device/transfer path is retained in Baseline02. New-image acceptance and large-transfer/cable/host-sleep endurance remain pending; USB host/VBUS and full-suspend restoration remain separate. Normal Dropbear is USB-bound. The temporary owner-authorized Wi-Fi observer is a qualification fallback, not a new persistent listener. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-CPU-C3-UART-PHYSICAL.md">UART01 hardware</a> and <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-BASELINE-02.md">Baseline02</a>.</p>
+<p>Historical SFTP implementation: DONE_SOFTWARE / HOST_VALIDATED. ACM + ECM used the existing peripheral-only MUSB/PHY path. The session runtime-PM reference correction already exists; this pass does not duplicate it. USB host/OTG and USB Audio host remain PHYSICAL_GATE: MT6582 MAC host capability is not board ID/role wiring, VBUS sourcing, current limit or connector proof. No host/VBUS path is enabled. Retained evidence is M2 passive B-device state and POWER-02&#x27;s two workaround reconnects; neither establishes PC sleep/wake/large-transfer endurance; the newer bounded UART01 checksum proof is scoped above.</p>
+<h2 id="protocol-and-access">Protocol and access</h2>
+<p>Use authenticated SFTP over the existing USB ECM link, 10.42.0.1:22, with the provisioned owner public key. Linux/macOS OpenSSH and Windows OpenSSH/WinSCP are client options; platform-specific ECM enumeration/address setup still needs qualification. The candidate retains ECM and does not claim universal Windows plug-and-play or add an unqualified RNDIS gadget. The new desktop-transfer candidate supersedes SFTP as the normal product path: MTP + ECM by default, ACM + ECM as an advanced disconnected-session choice. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-PLATFORM-V1-USB.md">USB Platform 1.0 report</a> records architecture, file confinement and qualification limits. No writable Linux filesystem is exported as USB mass storage. The following authenticated SFTP contract remains.</p>
+<p>Dropbear 2026.94 is restricted to both that address and usb0 using SO_BINDTODEVICE. Its existing warning-and-continue failure is patched to close the socket instead. Password authentication and forwarding remain disabled. The supervised listener waits for owner authorization, exact USB address and successful nonblocking getrandom before host-key generation or network crypto. Missing entropy keeps it Starting; no weak RNG fallback is selected. Kernel listening state, service heartbeat and boot identity determine readiness. It does not listen on Wi-Fi.</p>
+<p>Only OpenSSH 9.9p2&#x27;s SFTP subsystem is installed, using pinned Buildroot 2025.02.18 source/hash and all its LTS security patches. No second sshd, client suite or universal key is installed. The SFTP wrapper disables link/copy-data operations; a small patch checks 96 MiB and 128-inode reserve before each data write. <a href="https://man.openbsd.org/sftp-server" target="_blank" rel="noopener noreferrer">SFTP subsystem options</a> are standard OpenSSH. This is trusted-owner administration, with the existing root SSH account. It is not an untrusted media sandbox: root keys already authorize maintenance. A separate unprivileged/chroot upload account is DEFERRED until product onboarding and its storage permission requirements are settled. No private keys enter images.</p>
+<h2 id="verified-upload">Verified upload</h2>
+<p>On an owner computer with a verified host-key entry:</p>
+<pre><code class="language-sh">python3 tools/host/transfer.py song.flac --name &#x27;Artist/Album/song.flac&#x27; \
+  --private-key /owner/path/y2_key --known-hosts /owner/path/y2_known_hosts</code></pre>
+<p>The helper calculates SHA-256, requests a private staging token, uploads over SFTP, then asks the platform to verify/publish. Filename input never becomes shell syntax; OpenSSH receives quoted fixed commands. The destination is under the stable /data/music contract, with no symlink/submount traversal or overwrite. Mount generation and free space are checked again on commit. A fresh sealed inode prevents an old SFTP file descriptor from changing already verified music. File and directory fsync precede success. This requires space for upload plus sealed copy plus the 96-MiB reserve; it intentionally rejects oversized transfers.</p>
+<p>An interrupted session leaves only its private stage. The printed token supports <code>y2-platform transfer status --id TOKEN</code> and explicit <code>y2-platform transfer discard --id TOKEN</code>. A successful helper discards its stage after printing the commit receipt. At most eight stages are admitted. If power fails after atomic publication but before the receipt, existing music is still never overwritten; inspect its hash and discard the retained stage before retry. The helper does not automatically resume an unknown transaction. Ordinary SFTP clients may use /data/music directly but do not gain the helper&#x27;s verified atomic publish contract. They still receive reserve-write failures.</p>
+<h2 id="qualification">Qualification</h2>
+<p>For a future exact candidate, capture y2-status USB, SFTP/SSH readiness and hashes before/after: unplug/reconnect on one boot, PC sleep/wake, upload interrupt, one large file and many small files, concurrent playback, near-full data refusal, and unauthorized/incorrect host-key rejection. Confirm a Wi-Fi-side attempt cannot reach the USB-bound listener (including a route to 10.42.0.1). Use externally verified host keys; never disable host-key checking. Record client OS/driver, negotiated USB speed, elapsed bytes/time, boot ID, kernel warnings, data-space state and Reborn XRUNs. Owner controls cable and power actions. No throughput figure or electrical durability is claimed.</p>
+<h2 id="historical-physical-note--2026-09-28">Historical physical note — 2026-09-28</h2>
+<p><strong>2026-09-28 physical update:</strong> The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-CPU-FINAL-FIX01-PHYSICAL-QUALIFICATION.md">Fix01 run</a> passed one 256-KiB bidirectional SHA roundtrip, then lost USB connection during the next transfer while the Y2 UI stayed usable. The owner restarted. The failed-interval observer did not survive, so controller/IRQ/DMA cause is unknown. The protocol and access contract below remains implemented, but loaded transfer reliability, independent recovery and full-suspend restoration are not qualified. Normal Dropbear remains USB-bound; the run&#x27;s temporary key-only Wi-Fi SSH recovery listener was removed afterward.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

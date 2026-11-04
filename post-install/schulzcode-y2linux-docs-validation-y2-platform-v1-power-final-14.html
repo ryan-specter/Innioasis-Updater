@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-14 — 13 plus persistent sleep and USB diagnostics - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-14 — 13 plus persistent sleep and USB diagnostics Status: IMPLEMENTATION READY PHYSICAL NOT RUN sealed, awaiting the owner flash. Package out/y2linux-platform">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-14.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-14 — 13 plus persistent sleep and USB diagnostics - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-14 — 13 plus persistent sleep and USB diagnostics Status: IMPLEMENTATION READY PHYSICAL NOT RUN sealed, awaiting the owner flash. Package out/y2linux-platform">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-14.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-14 — 13 plus persistent sleep and USB diagnostics - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-14 — 13 plus persistent sleep and USB diagnostics Status: IMPLEMENTATION READY PHYSICAL NOT RUN sealed, awaiting the owner flash. Package out/y2linux-platform">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-14 — 13 plus persistent sleep and USB diagnostics</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-14--13-plus-persistent-sleep-and-usb-diagnostics">POWER-FINAL-14 — 13 plus persistent sleep and USB diagnostics</h1>
+<p>Status: <strong>IMPLEMENTATION_READY_PHYSICAL_NOT_RUN</strong> (sealed, awaiting the owner flash). Package <code>out/y2linux-platform-v1-power-final-candidate-14/</code> (fallback = sealed 13), symbols <code>…-14-symbols/</code>, receipts <code>out/deep-sleep-final/build14-receipts/</code>, branch <code>power-final-14</code>. Identity: Linux <code>9d06ac4deb158183f56f845086aaa307ce836177</code>; Reborn <code>63ac4a75286944ac0c57a2f15bb3b841923dd0f3</code> (code identical to <code>71ddb0d</code>). BOOTIMG <code>273dc927fbdb5778089ad76179ae92f8a32cb7625a83b39cc0850b572d7d3e5a</code>, Y2ROOT <code>78203697a71be7669c9e6f88dedc3a6daa80cd8ff6876d35779e86bb6ba314b9</code>. Fallback = sealed 13.</p>
+<h2 id="change">Change</h2>
+<ul><li><code>sleep_diagnostics.py</code> (new): bounded private <code>/data/system/platform/sleep-diagnostics.jsonl</code> (2 × 2 MiB, 64 KiB per<p>row, fsync). Rows at <code>kernel_suspend</code>, <code>kernel_resumed</code> (with <code>golden</code>), <code>restoring_radios</code>, <code>complete_result_*</code> and <code>product_failure</code>. A row holds <code>vproc_sleep</code>/<code>vproc_sleep_state</code>, <code>lp_sel</code>, <code>phy_savecurrent</code>, wheel <code>sleep</code>, <code>y2_infra/state</code>, SPM <code>state</code>, the USB/network snapshot and a filtered <code>/dev/kmsg</code> tail (USB, gadget, sleep path; at most 80 lines). There is also a row on a UDC state change and one 30 s later, at most one row per 10 s.</p></li><li><code>power_journal.py</code>: every row gains <code>usb_net</code> (UDC state, configfs UDC, <code>usb0</code> operstate/carrier/IPv4 from<p><code>/proc/net/fib_trie</code>, interface counters, y2-usb status summary, OUT-path counters, <code>umtprd</code>/<code>dropbear</code> running). Shared bounded append helper; per-second USB watch on the existing power sample.</p></li><li><code>suspend_record.py</code>: calls the diagnostics on the stages above; refusals write nothing.</li><li>Identity bump; scope audit: POWER-FINAL-14 entry in <code>docs/planning/roadmap-gap-audit.md</code>.</li><li>Read-only sysfs/procfs. A failure is counted, never raised, and never blocks sleep. SSH stays bound to <code>usb0</code>.</li></ul>
+<h2 id="evidence-behind-the-change">Evidence behind the change</h2>
+<p>Archive 104: 13 slept 12,104 s (7 suspends, 6 maintenance wakes, Power wake, <code>complete_result_0</code>). After the wake, USB enumerated but passed 0 bytes. The hold-Power restart then lost every 13 counter, and the syslog kept only boot start-up. The same USB failure recurred at 20:56 (0 bytes, MTP dead too).</p>
+<h2 id="tests">Tests</h2>
+<p>Locked-container production suite: 8 suites OK, 664 cases, 10 host-dependency skips (13: 651; plus 12 <code>test_sleep_diagnostics</code> cases and the <code>package.py --stock</code> case). The run ended at the same final step as 13&#x27;s; its exit code was not captured. Packaging-host tests: 32 PASS. Splash: 27 PASS. Package validation, ELF closure (385 files / 1,416 dependency edges), installed-ARM (39 modules), inventory (106 packages) and privacy (1,442 root files, no private state) PASS. Host regression comparison against <code>main</code>: the same 38 host-environment failures, and 524 tests against 512.</p>
+<h2 id="not-verified">Not verified</h2>
+<p>Everything physical: that the rows are written on the device at each stage, their size and timing on eMMC, and the <code>/dev/kmsg</code> filter on real messages. Defect B is not fixed; 14 only makes it observable.</p>
+<h2 id="verdict">Verdict</h2>
+<p><strong>IMPLEMENTATION_READY_PHYSICAL_NOT_RUN</strong></p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reborn Product UI v2 candidate receipt - Innioasis Updater</title>
+  <meta name="description" content="Reborn Product UI v2 candidate receipt <!-- knowledge-base-scope: scoped-validation-record -- Software receipt, 2026-10-01. Built and software-validated. Not flashed, not">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-reborn-product-ui-v2.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Reborn Product UI v2 candidate receipt - Innioasis Updater">
+  <meta property="og:description" content="Reborn Product UI v2 candidate receipt <!-- knowledge-base-scope: scoped-validation-record -- Software receipt, 2026-10-01. Built and software-validated. Not flashed, not">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-reborn-product-ui-v2.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Reborn Product UI v2 candidate receipt - Innioasis Updater">
+  <meta name="twitter:description" content="Reborn Product UI v2 candidate receipt <!-- knowledge-base-scope: scoped-validation-record -- Software receipt, 2026-10-01. Built and software-validated. Not flashed, not">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Reborn Product UI v2 candidate receipt</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="reborn-product-ui-v2-candidate-receipt">Reborn Product UI v2 candidate receipt</h1>
+<!-- knowledge-base-scope: scoped-validation-record -->
+> **Software receipt, 2026-10-01.** Built and software-validated. **Not
+> flashed, not physically qualified.** The [Fix02 physical report](Y2-CPU-FINAL-FIX02-PHYSICAL-QUALIFICATION.md)
+> remains the latest observed hardware state; the [Fix03 receipt](Y2-CPU-FINAL-FIX03.md)
+> remains the CPU platform change set this candidate is built on.
+<p>This candidate is the CPU Final Fix03 platform with the Reborn Product UI v2 pass (<a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Fui%2FREBORN-PRODUCT-UI-V2.md">product UI</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Fui%2FREBORN-PRODUCT-NAVIGATION-V2.md">navigation</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Farchitecture%2Fplatform-api-boundary.md">platform boundary</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Freview%2FREBORN-PRODUCT-PASS-V2.md">pass record</a>).</p>
+<h2 id="platform-changes-in-this-candidate">Platform changes in this candidate</h2>
+<table><thead><tr><th>Change</th><th>Source</th><th>Effect</th></tr></thead><tbody><tr><td>Early splash shows the Reborn mark</td><td><code>tools/graphics/reborn-splash.c</code>, <code>reborn-splash-mark.h</code>, <code>make-splash-mark.py</code></td><td>The mark is generated from Reborn&#x27;s own boot frame; a test proves the splash frame and Reborn&#x27;s hand-off frame are pixel-identical. Only the gold rule breathes while startup continues. Console policy, handoff protocol, charger/voltage gate and 60 s failure timeout unchanged.</td></tr><tr><td>Backlight off before power-down</td><td><code>tools/platform/y2_platform/power.py</code></td><td>After stopping or killing Reborn and before <code>busybox poweroff/reboot</code>, every backlight&#x27;s <code>bl_power</code> is set to 4. A crashed or hung Reborn can no longer leave the fbdev-restored buffer lit.</td></tr><tr><td>Release identity</td><td><code>tools/production/release.json</code></td><td>Release <code>1.0.0-reborn-product-ui-v2-candidate.1</code>, root <code>2025.02.18-platform-v1.10</code>, build <code>Y2LINUX-REBORN-PRODUCT-UI-V2</code>.</td></tr></tbody></table>
+<p>The kernel, its configuration and modules are the Fix03 source: the built <code>zImage</code> and <code>display.ko</code> are byte-identical to Fix03&#x27;s. In the initramfs only <code>sbin/reborn-splash</code> changed intentionally. <code>sbin/blkid</code> differs because Buildroot overwrites the build-time RPATH with <code>X</code> filler of the build directory&#x27;s length (a different worktree path). Symbols, versions and behaviour are identical. The device tree differs only in <code>/chosen/linux,initrd-end</code>.</p>
+<h2 id="identity">Identity</h2>
+<table><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody><tr><td>Linux built source</td><td><code>5cfe04cb2fe9e1177df99f3113b7a17ee7d442f5</code></td></tr><tr><td>Reborn built source</td><td><code>bd8436dd2afcdbe4a45b9140aa98e4d20307482b</code> (0.2.0)</td></tr><tr><td>Kernel</td><td><code>6.18.0-y2linux-cpu-final-fix03</code> (unchanged)</td></tr><tr><td>Root / release / build</td><td><code>2025.02.18-platform-v1.10</code> / <code>1.0.0-reborn-product-ui-v2-candidate.1</code> / <code>Y2LINUX-REBORN-PRODUCT-UI-V2</code></td></tr><tr><td>Fallback</td><td>Exact Hardware02 pair (<code>6.18.0-y2linux-hardware-02</code>, <code>2025.02.18-platform-v1.4</code>)</td></tr></tbody></table>
+<h2 id="fresh-validation">Fresh validation</h2>
+<table><thead><tr><th>Check</th><th>Result</th></tr></thead><tbody><tr><td>Reborn <code>cargo fmt --check</code>, <code>clippy --workspace --all-targets --locked -D warnings</code></td><td>PASS</td></tr><tr><td>Reborn <code>cargo test --workspace --locked</code></td><td>PASS, 211 tests (incl. architecture guard)</td></tr><tr><td>Production/platform regression (<code>tools/production/tests.sh</code>, container)</td><td>PASS, 268 tests, 3 explicit native-dependency skips</td></tr><tr><td>Native host-dependency tests (<code>test_system_update_fallback</code>)</td><td>PASS</td></tr><tr><td>Splash protocol, pixels and hand-off identity (<code>test_reborn_splash</code>)</td><td>PASS, 10 tests</td></tr><tr><td>Reborn ARM QEMU check, installed ARM modules</td><td>PASS</td></tr><tr><td>ELF dependency closure, no build RPATH</td><td>PASS</td></tr><tr><td>Release inventory, legal-info</td><td>PASS</td></tr><tr><td>Preserving package (<code>system_update.py</code>)</td><td>PASS: clean ext4, BOOTIMG/Y2ROOT only, no Y2DATA payload, exact Hardware02 fallback</td></tr></tbody></table>
+<p>A first build from Reborn <code>94e79d8</code> was superseded before sealing by a wording fix (two empty states) and documentation; its logs are kept in <code>out/reborn-product-ui-v2/superseded-94e79d8/</code>.</p>
+<h2 id="candidate">Candidate</h2>
+<p><code>out/y2linux-reborn-product-ui-v2-candidate/</code> — <code>MT6582_preserve_data_scatter.txt</code> selects only <strong>BOOTIMG</strong> and <strong>ANDROID/Y2ROOT</strong>. No Y2DATA/USRDATA, preloader, LK, NVRAM, PROTECT, calibration or factory payload. Nothing was flashed or pushed.</p>
+<table><thead><tr><th>File</th><th>SHA-256</th></tr></thead><tbody><tr><td><code>BOOTIMG.img</code></td><td><code>8a974cb5dc672dd0f2a6589a3b8da08a7225879ee7c60e929ed398bbd293e7bf</code></td></tr><tr><td><code>Y2ROOT.img</code></td><td><code>a5c2914ed688ff1bc5eecad276a071d084995b47c1ad8c2b1de21182e79f474c</code></td></tr><tr><td><code>fallback/BOOTIMG.img</code></td><td><code>b2a2c3bcb7cc7783828882e447e8b867453cb5b65846ce63577076b1ca4afeea</code></td></tr><tr><td><code>fallback/Y2ROOT.img</code></td><td><code>63dbd0a198cd86e847c10ed163fd14b2cbe269595fa1988c99ac8393160bb547</code></td></tr></tbody></table>
+<h2 id="what-the-owner-should-look-at-on-the-device">What the owner should look at on the device</h2>
+<ol><li>Power-on: stock LK logo, then the Reborn mark on a dark background with a<p>slowly breathing gold rule, no console text, no white frame, then a short dissolve into Home.</p></li><li>The wheel: one detent moves exactly one row in Settings and short lists;<p>only a sustained spin in a long library list moves faster.</p></li><li>Hold Power → Quick Settings → Power Off → Power Off: UI fades, the mark<p>shows, the screen goes black and dark, then the device turns off with no white or console frame.</p></li><li>Settings → System → Diagnostics holds every technical detail previously<p>on normal screens.</p></li></ol>
+<p>The Fix03 CPU qualification plan (<code>qualify-cpu-fix03.py</code>) is unaffected and can run on this candidate. A first boot of the new splash after flashing is the only way to measure splash-visible, Reborn first-frame and ready times.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

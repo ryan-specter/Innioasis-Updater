@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2LINUX-DEV-01 — owner manual deployment - Innioasis Updater</title>
+  <meta name="description" content="Y2LINUX-DEV-01 — owner manual deployment <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" cla">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-dev-01-deployment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2LINUX-DEV-01 — owner manual deployment - Innioasis Updater">
+  <meta property="og:description" content="Y2LINUX-DEV-01 — owner manual deployment <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" cla">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-dev-01-deployment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2LINUX-DEV-01 — owner manual deployment - Innioasis Updater">
+  <meta name="twitter:description" content="Y2LINUX-DEV-01 — owner manual deployment <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" cla">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2LINUX-DEV-01 — owner manual deployment</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-dev-01--owner-manual-deployment">Y2LINUX-DEV-01 — owner manual deployment</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Candidate files: <code>/home/luca/Dokumente/Code/Y2Linux/out/y2linux-dev-01/</code>. Linux 6.18, Buildroot 2025.02.17, rescue BOOTIMG and 512 MiB ext4 root filesystem. This candidate has passed offline validation; it has not been physically booted. Display visibility, wheel recovery, large RAM, SD root, ECM and SSH remain unproved.</p>
+<h2 id="1-verify-the-files">1. Verify the files</h2>
+<pre><code class="language-sh">cd /home/luca/Dokumente/Code/Y2Linux/out/y2linux-dev-01
+sha256sum -c SHA256SUMS</code></pre>
+<p>The rootfs contains only the explicitly supplied host public key in root&#x27;s <code>authorized_keys</code>. Fingerprint: <code>SHA256:IS9HhrmQKRtlEEbrcJjZa0XQHVwnRXRUzQQ61/7XAb8</code>. Password authentication is disabled. Device host keys are generated on first Dropbear start and persist on the SD. No host private key was accessed or packaged.</p>
+<h2 id="2-identify-the-removable-card-before-any-write">2. Identify the removable card before any write</h2>
+<p>On the host, run this <strong>before insertion and again after insertion</strong>:</p>
+<pre><code class="language-sh">lsblk -e 7 -p -o NAME,SIZE,MODEL,TRAN,RM,TYPE,FSTYPE,LABEL,UUID,MOUNTPOINTS
+ls -l /dev/disk/by-id/</code></pre>
+<p>Match the newly appeared reader/card by size, model and physical insertion. Check its parent disk is the removable card, not the system disk or Y2 internal storage. Some USB readers report RM=0; resolve any ambiguity before writing. Use an existing confirmed partition on that card, at least 512 MiB. This image is an <strong>ext4 filesystem image</strong>, not a partition-table/disk image. If the card needs partitioning, provide this listing first so commands can name the verified card. Do not guess <code>/dev/sdX</code> or <code>/dev/mmcblkX</code>.</p>
+<p>The following commands are for the owner only. Replace the placeholder with the verified persistent <strong>partition</strong> path, including its real <code>-partN</code> suffix:</p>
+<pre><code class="language-sh">ROOTPART=/dev/disk/by-id/REPLACE_WITH_VERIFIED_REMOVABLE_PARTITION
+case &quot;$ROOTPART&quot; in *REPLACE*) echo &#x27;Set the verified removable partition first&#x27;; exit 1;; esac
+test -b &quot;$ROOTPART&quot; || exit 1
+lsblk -s -p -o NAME,SIZE,MODEL,TRAN,RM,TYPE,FSTYPE,LABEL,UUID,MOUNTPOINTS &quot;$ROOTPART&quot;
+sudo blockdev --getsize64 &quot;$ROOTPART&quot;</code></pre>
+<p>Confirm that output yourself. Unmount that partition and any other mounted partitions of this same card using their verified paths. The next operation <strong>replaces all contents of ROOTPART</strong>; it must be at least 536870912 bytes:</p>
+<pre><code class="language-sh">sudo umount &quot;$ROOTPART&quot;    # skip if already unmounted
+sudo dd if=rootfs.ext4 of=&quot;$ROOTPART&quot; bs=4M conv=fsync status=progress
+sudo e2fsck -f -n &quot;$ROOTPART&quot;
+sudo blkid -p &quot;$ROOTPART&quot;
+sync</code></pre>
+<p>Expected: ext4, <code>LABEL=&quot;Y2ROOT&quot;</code>, <code>UUID=&quot;79324c69-6e75-4801-8000-000000000001&quot;</code>. Initially the filesystem remains 512 MiB even on a larger partition. Expansion is optional after first boot. Eject the reader cleanly, then put the card into the Y2. Do not unpack rootfs.tar onto the host root; it is a companion archive, not the SD-writing operation.</p>
+<h2 id="3-flash-bootimg-only">3. Flash BOOTIMG only</h2>
+<p>Use the already established SP Flash Tool / existing correct Y2 scatter workflow. Choose <strong>Download Only</strong>, select <strong>BOOTIMG only</strong>, and point it at this directory&#x27;s <code>BOOTIMG.img</code>. The assistant does not run the flasher or write any device. Never select Format/Firmware Upgrade or write PRELOADER, LK, partition tables, NVRAM/calibration, other Android partitions or internal eMMC filesystems.</p>
+<p>Keep the known recovery/stock BOOTIMG available through the existing procedure. This does not require a new ROM/donor/recovery audit.</p>
+<h2 id="4-boot-observe-and-connect">4. Boot, observe and connect</h2>
+<p>Boot <strong>USB unplugged</strong>, retaining the inherited USB power-state guard; attach USB after ten seconds or later. There is no former 295-second software shutdown or one-reconnect limit. A real USB power/ownership fault still stops that driver.</p>
+<p>Start capture on the host before attaching:</p>
+<pre><code class="language-sh">cd /home/luca/Dokumente/Code/Y2Linux
+python3 tools/observation/usb_log_capture.py --build Y2LINUX-DEV-01 \
+  --seconds 240 --output out/y2linux-dev-01/capture-01</code></pre>
+<p>The verified composite USB identity is <code>0525:a4aa</code>; ACM is its serial function. The root transition can emit a second DEV-01 header and replay the kernel ring. Retain the raw stream: replayed sequence numbers are not missing-record evidence. If you disconnect USB, the capture closes cleanly; run it again with a new output directory after reconnect. Linux should stay running throughout.</p>
+<p>The screen test is <strong>white, red, green and blue columns above a checkerboard</strong>, at 480x360. Record whether that pattern or fbcon is actually visible; independently record whether the backlight is lit. DRM/fb0 registration is not display success. Press all navigation, volume and Power buttons and turn the wheel both ways.</p>
+<p>Rescue waits 20 seconds, accepts only one ext4 Y2ROOT on removable controller <code>11240000.mmc</code>, validates the root and switches to Buildroot init. Missing, ambiguous or unusable roots stay in rescue with ACM and no reboot loop.</p>
+<p>Identify the newly appeared ECM interface on the host:</p>
+<pre><code class="language-sh">ip -br link
+lsusb -d 0525:a4aa</code></pre>
+<p>Use the actual newly appeared USB Ethernet interface; replace the placeholder:</p>
+<pre><code class="language-sh">Y2IF=REPLACE_WITH_VERIFIED_USB_ETHERNET_INTERFACE
+case &quot;$Y2IF&quot; in *REPLACE*) echo &#x27;Set the actual Y2 Ethernet interface first&#x27;; exit 1;; esac
+sudo ip address replace 10.42.0.2/24 dev &quot;$Y2IF&quot;
+sudo ip link set &quot;$Y2IF&quot; up
+ping -c 3 10.42.0.1
+ssh root@10.42.0.1</code></pre>
+<p>The matching key must be available to your host SSH agent. If selecting an agent-held identity explicitly, OpenSSH accepts <code>-o IdentityFile=/home/luca/.ssh/y2linux_ed25519.pub</code> (public path only). No password login or default route is configured. If a host network already uses 10.42.0.0/24, resolve the route conflict before connecting.</p>
+<p>Once you tell the assistant deployment is complete, it can collect ACM and SSH in the same session. A manual equivalent is:</p>
+<pre><code class="language-sh">ssh root@10.42.0.1 /usr/sbin/y2-collect &gt; out/y2linux-dev-01/runtime-01.txt
+ssh root@10.42.0.1 /usr/sbin/y2-memory-check &gt; out/y2linux-dev-01/memory-01.txt 2&gt;&amp;1</code></pre>
+<p>This collects dmesg, CPU/memory/interrupts, DRM/framebuffer, clocks, input, I2C, MMC, network and mounts; the second command tests allocator-owned memory once. After one disconnect/reconnect, verify both a fresh ACM capture and SSH again. Record visible output and wheel motion along with those files. Hardware failures remain open and should be fixed together in DEV-02, not closed on probe success.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+
