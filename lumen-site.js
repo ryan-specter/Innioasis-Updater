@@ -2356,6 +2356,16 @@
         });
         return docsViewerPromise;
     }
+    /* post_install.html lives at the site root, but guides, notices and
+       troubleshooting pages are served from a subdirectory. The docs viewer
+       builds its hrefs relative to the root, so anchor them there before use:
+       otherwise /guides/rondo-y1.html links to /guides/post_install.html. */
+    function siteHref(href) {
+        var value = String(href || "");
+        if (!value || value.charAt(0) === "/" || value.charAt(0) === "#") return value;
+        if (/^[a-z][a-z0-9+.-]*:/i.test(value)) return value;
+        return "/" + value;
+    }
     function docsPostInstallHref(value, item) {
         var D = window.InnioasisDocs;
         if (!D || typeof D.postInstallHref !== "function") return value || "";
@@ -2363,11 +2373,11 @@
            appeals on; without it this is the ordinary post_install value. */
         var target = typeof D.postInstallTarget === "function" ? D.postInstallTarget(item, value) : (value || "");
         if (!target) return "";
-        return D.postInstallHref(target, {            software: item && item.slug ? item.slug : "",
+        return siteHref(D.postInstallHref(target, {            software: item && item.slug ? item.slug : "",
             model: item && item.model ? item.model : "",
             repo: item && item.repo ? item.repo : "",
             name: item && item.name ? item.name : ""
-        });
+        }));
     }
     function siteReleaseNotesHref(item, tag) {
         if (!item || !item.slug) return "release_notes.html";
