@@ -523,7 +523,7 @@ def video_card(href: str, label: str) -> str:
             '<span class="lumen-video-frame"><img class="lumen-video-poster" src="%s" alt="" loading="lazy" decoding="async">'
             '<span class="lumen-video-play" aria-hidden="true">&#9654;</span></span>'
             '<span class="lumen-video-label">%s</span></a>'
-            % (esc(url), esc(embed), esc(label), esc(poster), label)
+            % (url, esc(embed), esc(label), esc(poster), label)
         )
     vimeo = VIMEO_RE.match(url)
     if vimeo:
@@ -534,7 +534,7 @@ def video_card(href: str, label: str) -> str:
             '<a class="lumen-video-link" href="%s" data-video-embed="%s" data-video-title="%s" target="_blank" rel="noopener noreferrer">'
             '<span class="lumen-video-frame"><span class="lumen-video-play" aria-hidden="true">&#9654;</span></span>'
             '<span class="lumen-video-label">%s</span></a>'
-            % (esc(url), esc(embed), esc(label), label)
+            % (url, esc(embed), esc(label), label)
         )
     return ""
 
