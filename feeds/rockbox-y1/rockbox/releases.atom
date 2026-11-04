@@ -211,9 +211,9 @@ License: MIT</content>
     <innioasis:tag_name>stable-v0.5</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rockbox.apk" title="rockbox.apk" length="16402741" type="application/vnd.android.package-archive" innioasis:download_count="139" innioasis:asset_id="421443278"/>
-    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom.zip" title="rom.zip" length="534484127" type="application/zip" innioasis:download_count="12523" innioasis:asset_id="421443341"/>
-    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom_type_b.zip" title="rom_type_b.zip" length="442208156" type="application/zip" innioasis:download_count="235" innioasis:asset_id="421443603"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rockbox.apk" title="rockbox.apk" length="16402741" type="application/vnd.android.package-archive" innioasis:download_count="140" innioasis:asset_id="421443278"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom.zip" title="rom.zip" length="534484127" type="application/zip" innioasis:download_count="12533" innioasis:asset_id="421443341"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom_type_b.zip" title="rom_type_b.zip" length="442208156" type="application/zip" innioasis:download_count="236" innioasis:asset_id="421443603"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/update.zip" title="update.zip" length="98160230" type="application/zip" innioasis:download_count="1236" innioasis:asset_id="421443283"/>
     <content type="text">As a preparation for eventually submitting this port to the upstream Rockbox project a lot had to change under the hood.
 
@@ -302,7 +302,7 @@ Other changes:
     <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/rockbox_240p.apk" title="rockbox_240p.apk" length="8124725" type="application/vnd.android.package-archive" innioasis:download_count="37" innioasis:asset_id="380760858"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/rockbox_360p.apk" title="rockbox_360p.apk" length="8489269" type="application/vnd.android.package-archive" innioasis:download_count="40" innioasis:asset_id="380760846"/>
-    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/rom_240p.zip" title="rom_240p.zip" length="460680702" type="application/zip" innioasis:download_count="6919" innioasis:asset_id="380761190"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/rom_240p.zip" title="rom_240p.zip" length="460680702" type="application/zip" innioasis:download_count="6920" innioasis:asset_id="380761190"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/rom_240p_type_b.zip" title="rom_240p_type_b.zip" length="425619194" type="application/zip" innioasis:download_count="81" innioasis:asset_id="380761692"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/rom_360p.zip" title="rom_360p.zip" length="462537562" type="application/zip" innioasis:download_count="3342" innioasis:asset_id="380761014"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/rom_360p_type_b.zip" title="rom_360p_type_b.zip" length="427897125" type="application/zip" innioasis:download_count="74" innioasis:asset_id="380761461"/>
@@ -480,7 +480,7 @@ And many bug fixes and general UI/UX improvements. A big thanks to all the contr
     <innioasis:tag_name>type-a-base</innioasis:tag_name>
     <innioasis:prerelease>true</innioasis:prerelease>
     <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/type-a-base/rom.zip" title="rom.zip" length="456613744" type="application/zip" innioasis:download_count="8220" innioasis:asset_id="413887377"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/type-a-base/rom.zip" title="rom.zip" length="456613744" type="application/zip" innioasis:download_count="8221" innioasis:asset_id="413887377"/>
     <content type="text">Used for building ROM releases</content>
   </entry>
   <entry>

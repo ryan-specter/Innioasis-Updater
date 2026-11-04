@@ -13,9 +13,9 @@
     <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/2.0.7"/>
     <innioasis:tag_name>2.0.7</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="154209498" type="application/x-diskcopy" innioasis:download_count="179" innioasis:asset_id="689639023"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/installer.exe" title="installer.exe" length="173282764" type="application/x-msdownload" innioasis:download_count="535" innioasis:asset_id="688792855"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/UpdaterCE.AppImage" title="UpdaterCE.AppImage" length="300337656" type="application/octet-stream" innioasis:download_count="149" innioasis:asset_id="688949138"/>
+    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="154209498" type="application/x-diskcopy" innioasis:download_count="185" innioasis:asset_id="689639023"/>
+    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/installer.exe" title="installer.exe" length="173282764" type="application/x-msdownload" innioasis:download_count="547" innioasis:asset_id="688792855"/>
+    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/UpdaterCE.AppImage" title="UpdaterCE.AppImage" length="300337656" type="application/octet-stream" innioasis:download_count="152" innioasis:asset_id="688949138"/>
     <content type="text">New rewritten Updater with features including:
 
 
@@ -54,7 +54,7 @@ Ryan - Maintainer of Updater CE.</content>
     <innioasis:tag_name>2.0.5</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.5/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="351" innioasis:asset_id="584600767"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.5/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="932" innioasis:asset_id="584600685"/>
+    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.5/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="933" innioasis:asset_id="584600685"/>
     <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.5/run_linux.sh" title="run_linux.sh" length="88880" type="text/x-shellscript" innioasis:download_count="225" innioasis:asset_id="584601397"/>
     <content type="text">This release of Innioasis Updater CE (Community Edition) improves reliability of SP Flash Tool and MTKclient installs, especially on Linux and Mac systems. 
 
@@ -133,7 +133,7 @@ curl -sL https://github.com/y1-community/Innioasis-Updater/releases/latest/downl
     <innioasis:tag_name>2.0.3</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="636" innioasis:asset_id="498780553"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.3/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="2239" innioasis:asset_id="498780685"/>
+    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.3/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="2240" innioasis:asset_id="498780685"/>
     <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.3/run_linux.sh" title="run_linux.sh" length="87903" type="text/x-shellscript" innioasis:download_count="64" innioasis:asset_id="516914711"/>
     <content type="text">**This release adds guided Y2 firmware installs for Mac users. You can now use Innioasis Updater Community Edition to get and install firmwares for your player with this new journey**
 
@@ -364,7 +364,7 @@ curl -fsSL https://innioasis.app/run_linux.sh | bash
     <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/flash_tool"/>
     <innioasis:tag_name>flash_tool</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/flash_tool/flash_tool_linux.zip" title="flash_tool_linux.zip" length="73234593" type="application/zip" innioasis:download_count="190" innioasis:asset_id="681078297"/>
+    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/flash_tool/flash_tool_linux.zip" title="flash_tool_linux.zip" length="73234593" type="application/zip" innioasis:download_count="197" innioasis:asset_id="681078297"/>
     <content type="text"></content>
   </entry>
   <entry>

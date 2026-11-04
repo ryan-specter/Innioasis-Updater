@@ -61,7 +61,7 @@
         "name": "installer.exe",
         "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/installer.exe",
         "size": 173282764,
-        "download_count": 200,
+        "download_count": 203,
         "content_type": "application/x-msdownload",
         "created_at": "2026-10-29T15:16:38Z",
         "updated_at": "2026-10-29T15:17:12Z",

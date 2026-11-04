@@ -4,7 +4,7 @@
   <title>Innioasis and Timmkoo firmware releases</title>
   <link rel="alternate" type="text/html" href="https://innioasis.app/firmware-list.html"/>
   <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/firmware-feed.xml"/>
-  <updated>2026-11-04T16:37:51Z</updated>
+  <updated>2026-11-04T19:27:19Z</updated>
   <inni:schema_version>2</inni:schema_version>
   <inni:manifest_url>https://innioasis.app/slidia_manifest.xml</inni:manifest_url>
   <inni:firmware_list_url>https://innioasis.app/firmware-list.html</inni:firmware_list_url>
@@ -2869,7 +2869,7 @@
         </inni:mirror_asset>
       </inni:release>
     </inni:mirror>
-    <inni:mirror repo="y1-community/y2player-mirror" source_repo="schulzcode/y2player" updated_at="2026-11-04T16:37:51Z">
+    <inni:mirror repo="y1-community/y2player-mirror" source_repo="schulzcode/y2player" updated_at="2026-11-04T19:27:19Z">
       <inni:release tag="ReleaseV2.3" original_tag="ReleaseV2.3" mirror_tag="ReleaseV2.3" release_name="Portable Flashing Package: Y2Player V2.3" published_at="2026-11-03T16:10:44Z">
         <inni:mirror_asset name="rom_y2-linux.zip" tag="ReleaseV2.3" original_url="" original_size="626713267" mirror_original_url="https://github.com/y1-community/y2player-mirror/releases/download/ReleaseV2.3/rom_y2-linux.zip">
         </inni:mirror_asset>
