@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<releases_backup generated_at="2026-11-04T20:26:34Z">
-  <repository name="y1-community/y1-stock-rom" downloads="43153" release_count="9" stars="6" icon="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg" icon_dark="">
+<releases_backup generated_at="2026-11-04T20:45:53Z">
+  <repository name="y1-community/y1-stock-rom" downloads="43168" release_count="9" stars="6" icon="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg" icon_dark="">
     <release id="387902888" tag_name="3.2.1" name="System Software 3.2.1 for Innioasis Y2" published_at="2026-09-13T13:11:31Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.2.1" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg" icon_dark_url="">
       <body>General performance and stability improvements</body>
       <assets>
         <asset id="561232474" name="rom_y2.zip" size="355560849" download_count="1658" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/rom_y2.zip"/>
-        <asset id="627525120" name="updater.jpg" size="30612" download_count="665" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg"/>
+        <asset id="627525120" name="updater.jpg" size="30612" download_count="666" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg"/>
       </assets>
     </release>
     <release id="387891487" tag_name="3.2.0-fm" name="System Software 3.2.0 for Innioasis Y2 with FM Radio" published_at="2026-09-13T12:42:26Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.2.0-fm" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/updater.jpg" icon_dark_url="">
@@ -28,8 +28,8 @@ This can be used to restore your Y2 back to its factory conditions and get thing
     <release id="354826587" tag_name="3.1.2" name="Original System Software 3.1.2 for Innioasis Y1" published_at="2026-07-16T02:03:48Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.1.2" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg" icon_dark_url="">
       <body>Features improved support for AirPods Pro 2, AirPods 3 and later</body>
       <assets>
-        <asset id="478638297" name="rom.zip" size="250125316" download_count="7475" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/rom.zip"/>
-        <asset id="627528645" name="updater.jpg" size="30612" download_count="1751" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg"/>
+        <asset id="478638297" name="rom.zip" size="250125316" download_count="7476" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/rom.zip"/>
+        <asset id="627528645" name="updater.jpg" size="30612" download_count="1758" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg"/>
       </assets>
     </release>
     <release id="312645750" tag_name="3.0.7" name="System Software 3.0.7 for Innioasis Y1" published_at="2026-04-23T09:52:31Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.0.7" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg" icon_dark_url="">
@@ -40,7 +40,7 @@ This release has a new E-Book reading feature and a new theme named HoloFacet.
 Theme creators that haven&#x27;t previously implemented their eBook icons are advised to do so to retain theme compatibility.</body>
       <assets>
         <asset id="404575917" name="rom.zip" size="249544334" download_count="7790" content_type="application/x-zip-compressed" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/rom.zip"/>
-        <asset id="627526526" name="updater.jpg" size="30612" download_count="1589" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg"/>
+        <asset id="627526526" name="updater.jpg" size="30612" download_count="1595" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg"/>
       </assets>
     </release>
     <release id="269918612" tag_name="3.0.2" name="System Software 3.0.2" published_at="2025-12-12T15:15:38Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.0.2" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.2/updater.jpg" icon_dark_url="">
@@ -131,7 +131,7 @@ Theme Installation: Default themes are now copied in the background to prevent c
       </assets>
     </release>
   </repository>
-  <repository name="schulzcode/y2linux" downloads="13573" release_count="86" stars="20" icon="" icon_dark="">
+  <repository name="schulzcode/y2linux" downloads="13580" release_count="86" stars="20" icon="" icon_dark="">
     <release id="433285377" tag_name="baseline-215" name="Y2Linux 1.0 Beta 9.3.7" published_at="2026-11-03T22:29:28Z" prerelease="false" html_url="https://github.com/SchulzCode/Y2Linux/releases/tag/baseline-215" icon_url="" icon_dark_url="">
       <body>**Y2Linux 1.0 Beta 9.3.7: Bluetooth rebuilt for reliability.** Linux 6.18 and the native Reborn music player for the Innioasis Y2.
 
@@ -186,11 +186,11 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, Aw
 
 </body>
       <assets>
-        <asset id="707316998" name="bootimg.img.gz" size="7539267" download_count="68" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/bootimg.img.gz"/>
-        <asset id="707317038" name="manifest.json" size="4236" download_count="218" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/manifest.json"/>
-        <asset id="707317062" name="manifest.sig" size="64" download_count="210" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/manifest.sig"/>
-        <asset id="707317105" name="recovery.img.gz" size="7539271" download_count="65" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/recovery.img.gz"/>
-        <asset id="707317422" name="rootfs.ext4.gz" size="51326456" download_count="66" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/rootfs.ext4.gz"/>
+        <asset id="707316998" name="bootimg.img.gz" size="7539267" download_count="69" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/bootimg.img.gz"/>
+        <asset id="707317038" name="manifest.json" size="4236" download_count="220" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/manifest.json"/>
+        <asset id="707317062" name="manifest.sig" size="64" download_count="212" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/manifest.sig"/>
+        <asset id="707317105" name="recovery.img.gz" size="7539271" download_count="66" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/recovery.img.gz"/>
+        <asset id="707317422" name="rootfs.ext4.gz" size="51326456" download_count="67" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/rootfs.ext4.gz"/>
         <asset id="707316997" name="SHA256SUMS" size="943" download_count="8" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/SHA256SUMS"/>
         <asset id="707316990" name="Y2Linux-1.0.0-beta.9.3.7-first-install.zip" size="67410276" download_count="26" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/Y2Linux-1.0.0-beta.9.3.7-first-install.zip"/>
         <asset id="707316991" name="Y2Linux-1.0.0-beta.9.3.7-sources-buildroot-legal-info.tar" size="19292160" download_count="8" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/Y2Linux-1.0.0-beta.9.3.7-sources-buildroot-legal-info.tar"/>
@@ -5444,7 +5444,7 @@ The firmware is built with [`firmware/build.sh`](https://github.com/jarvissax/ro
       </assets>
     </release>
   </repository>
-  <repository name="rockbox-y1/rockbox" downloads="49755" release_count="29" stars="84" icon="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" icon_dark="">
+  <repository name="rockbox-y1/rockbox" downloads="49759" release_count="29" stars="84" icon="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" icon_dark="">
     <release id="427346775" tag_name="nightly-0936ff79cff7ee5e47c6278b648d478824e709fa" name="Rockbox-Y1 Nightly-29-10-2026" published_at="2026-10-29T00:51:15Z" prerelease="true" html_url="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-0936ff79cff7ee5e47c6278b648d478824e709fa" icon_url="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" icon_dark_url="">
       <body></body>
       <assets>
@@ -5586,7 +5586,7 @@ New:
 - Minor fixes (scrobble upload)</body>
       <assets>
         <asset id="421443278" name="rockbox.apk" size="16402741" download_count="140" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rockbox.apk"/>
-        <asset id="421443341" name="rom.zip" size="534484127" download_count="12537" content_type="application/zip" browser_download_url="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom.zip"/>
+        <asset id="421443341" name="rom.zip" size="534484127" download_count="12539" content_type="application/zip" browser_download_url="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom.zip"/>
         <asset id="421443603" name="rom_type_b.zip" size="442208156" download_count="236" content_type="application/zip" browser_download_url="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom_type_b.zip"/>
         <asset id="421443283" name="update.zip" size="98160230" download_count="1236" content_type="application/zip" browser_download_url="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/update.zip"/>
       </assets>
@@ -5782,7 +5782,7 @@ And many bug fixes and general UI/UX improvements. A big thanks to all the contr
     <release id="253411921" tag_name="type-a-base" name="Rockbox-Y1 Base ROM - Type A" published_at="2025-10-09T16:55:43Z" prerelease="true" html_url="https://github.com/rockbox-y1/rockbox/releases/tag/type-a-base" icon_url="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" icon_dark_url="">
       <body>Used for building ROM releases</body>
       <assets>
-        <asset id="413887377" name="rom.zip" size="456613744" download_count="8221" content_type="application/zip" browser_download_url="https://github.com/rockbox-y1/rockbox/releases/download/type-a-base/rom.zip"/>
+        <asset id="413887377" name="rom.zip" size="456613744" download_count="8222" content_type="application/zip" browser_download_url="https://github.com/rockbox-y1/rockbox/releases/download/type-a-base/rom.zip"/>
       </assets>
     </release>
     <release id="253419009" tag_name="type-b-base" name="Rockbox-Y1 Base ROM - Type B" published_at="2025-10-09T17:20:14Z" prerelease="true" html_url="https://github.com/rockbox-y1/rockbox/releases/tag/type-b-base" icon_url="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" icon_dark_url="">
@@ -5790,7 +5790,7 @@ And many bug fixes and general UI/UX improvements. A big thanks to all the contr
 
 </body>
       <assets>
-        <asset id="317209790" name="rom.zip" size="399460715" download_count="7995" content_type="application/zip" browser_download_url="https://github.com/rockbox-y1/rockbox/releases/download/type-b-base/rom.zip"/>
+        <asset id="317209790" name="rom.zip" size="399460715" download_count="7996" content_type="application/zip" browser_download_url="https://github.com/rockbox-y1/rockbox/releases/download/type-b-base/rom.zip"/>
       </assets>
     </release>
     <release id="252796204" tag_name="stock-menu" name="Stock Menu" published_at="2025-10-07T17:44:46Z" prerelease="true" html_url="https://github.com/rockbox-y1/rockbox/releases/tag/stock-menu" icon_url="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" icon_dark_url="">
@@ -7757,7 +7757,7 @@ Features
       </assets>
     </release>
   </repository>
-  <repository name="ismileblue/y1_launcher" downloads="24273" release_count="30" stars="23" icon="" icon_dark="">
+  <repository name="ismileblue/y1_launcher" downloads="24274" release_count="30" stars="23" icon="" icon_dark="">
     <release id="381272060" tag_name="v0.11.6hotfix4" name="JJ Launcher v0.11. 6 hotfix4" published_at="2026-09-02T13:13:17Z" prerelease="false" html_url="https://github.com/ismileblue/y1_launcher/releases/tag/v0.11.6hotfix4" icon_url="" icon_dark_url="">
       <body></body>
       <assets>
@@ -7839,7 +7839,7 @@ Features
       <assets>
         <asset id="541200516" name="rom.zip" size="456271826" download_count="469" content_type="application/zip" browser_download_url="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom.zip"/>
         <asset id="541200519" name="rom_type_b.zip" size="399777849" download_count="7" content_type="application/zip" browser_download_url="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom_type_b.zip"/>
-        <asset id="541200520" name="rom_y2.zip" size="443395091" download_count="404" content_type="application/zip" browser_download_url="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom_y2.zip"/>
+        <asset id="541200520" name="rom_y2.zip" size="443395091" download_count="405" content_type="application/zip" browser_download_url="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom_y2.zip"/>
       </assets>
     </release>
     <release id="367198910" tag_name="v0.11.5" name="JJ Launcher v0.11. 5" published_at="2026-08-08T12:37:36Z" prerelease="false" html_url="https://github.com/ismileblue/y1_launcher/releases/tag/v0.11.5" icon_url="" icon_dark_url="">
@@ -8422,7 +8422,7 @@ adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS</body
       </assets>
     </release>
   </repository>
-  <repository name="FabianZettl/inniclassic" downloads="2078" release_count="13" stars="18" icon="" icon_dark="">
+  <repository name="FabianZettl/inniclassic" downloads="2080" release_count="13" stars="18" icon="" icon_dark="">
     <release id="399111592" tag_name="v1.4.5" name="InniClassic 1.4.5" published_at="2026-09-29T12:12:13Z" prerelease="false" html_url="https://github.com/FabianZettl/inniclassic/releases/tag/v1.4.5" icon_url="" icon_dark_url="">
       <body>### Fixed
 - **Theme could silently revert to the default after connecting the device as USB Mass Storage** — the selected theme was persisted only as a numeric index into the SD card&#x27;s theme folder listing, and that listing&#x27;s order isn&#x27;t guaranteed stable across a mount/unmount cycle (common FAT32 behavior). The saved index could end up pointing at a completely different theme once the card was reconnected. The theme&#x27;s name is now saved alongside the index and resolved by name on startup — independent of scan order — with the old index kept only as a fallback for upgrades.
@@ -8437,7 +8437,7 @@ Full changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG
 </body>
       <assets>
         <asset id="598138137" name="InniClassic-1.4.5.apk" size="30017796" download_count="58" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/FabianZettl/inniclassic/releases/download/v1.4.5/InniClassic-1.4.5.apk"/>
-        <asset id="598138138" name="rom.zip" size="463531481" download_count="484" content_type="application/zip" browser_download_url="https://github.com/FabianZettl/inniclassic/releases/download/v1.4.5/rom.zip"/>
+        <asset id="598138138" name="rom.zip" size="463531481" download_count="486" content_type="application/zip" browser_download_url="https://github.com/FabianZettl/inniclassic/releases/download/v1.4.5/rom.zip"/>
       </assets>
     </release>
     <release id="399100768" tag_name="v1.4.4" name="InniClassic 1.4.4" published_at="2026-09-29T11:57:38Z" prerelease="false" html_url="https://github.com/FabianZettl/inniclassic/releases/tag/v1.4.4" icon_url="" icon_dark_url="">
@@ -8767,7 +8767,7 @@ See [CHANGELOG.md](https://github.com/FabianZettl/jj-launcher-classic/blob/maste
       </assets>
     </release>
   </repository>
-  <repository name="JonaszPotoniec/inniclassic-y2" downloads="948" release_count="13" stars="8" icon="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" icon_dark="">
+  <repository name="JonaszPotoniec/inniclassic-y2" downloads="990" release_count="13" stars="8" icon="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" icon_dark="">
     <release id="434408829" tag_name="20261104" name="InniClassic 20261104" published_at="2026-11-04T20:21:02Z" prerelease="false" html_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/tag/20261104" icon_url="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" icon_dark_url="">
       <body>### InniClassic Release
 
@@ -8821,15 +8821,15 @@ Automated build with full support for **Innioasis Y1** (Type A &amp; Type B) and
 
 **Full Changelog**: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261017...20261104</body>
       <assets>
-        <asset id="710801195" name="index.html" size="30965" download_count="0" content_type="text/html" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/index.html"/>
-        <asset id="710801198" name="InniClassic-20261104.apk" size="24527493" download_count="0" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/InniClassic-20261104.apk"/>
+        <asset id="710801195" name="index.html" size="30965" download_count="1" content_type="text/html" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/index.html"/>
+        <asset id="710801198" name="InniClassic-20261104.apk" size="24527493" download_count="1" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/InniClassic-20261104.apk"/>
         <asset id="710801202" name="rom.zip" size="455462943" download_count="0" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom.zip"/>
-        <asset id="710801190" name="rom_type_b.zip" size="422466574" download_count="0" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_type_b.zip"/>
-        <asset id="710801196" name="rom_y1_type_a.zip" size="455462943" download_count="0" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y1_type_a.zip"/>
+        <asset id="710801190" name="rom_type_b.zip" size="422466574" download_count="1" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_type_b.zip"/>
+        <asset id="710801196" name="rom_y1_type_a.zip" size="455462943" download_count="1" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y1_type_a.zip"/>
         <asset id="710801197" name="rom_y1_type_b.zip" size="422466574" download_count="0" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y1_type_b.zip"/>
-        <asset id="710801191" name="rom_y2.zip" size="465901262" download_count="0" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y2.zip"/>
-        <asset id="710801194" name="SHA256SUMS.txt" size="491" download_count="0" content_type="text/plain" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/SHA256SUMS.txt"/>
-        <asset id="710801193" name="update.json" size="299" download_count="0" content_type="application/json" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/update.json"/>
+        <asset id="710801191" name="rom_y2.zip" size="465901262" download_count="1" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y2.zip"/>
+        <asset id="710801194" name="SHA256SUMS.txt" size="491" download_count="1" content_type="text/plain" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/SHA256SUMS.txt"/>
+        <asset id="710801193" name="update.json" size="299" download_count="1" content_type="application/json" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/update.json"/>
       </assets>
     </release>
     <release id="415758741" tag_name="20261017" name="InniClassic 20261017" published_at="2026-10-17T11:12:49Z" prerelease="false" html_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/tag/20261017" icon_url="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" icon_dark_url="">
@@ -8862,13 +8862,13 @@ Automated build with full support for **Innioasis Y1** (Type A &amp; Type B) and
 Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261013...20261017</body>
       <assets>
         <asset id="650267207" name="index.html" size="11442" download_count="9" content_type="text/html" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/index.html"/>
-        <asset id="650267213" name="InniClassic-20261017.apk" size="24451136" download_count="21" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/InniClassic-20261017.apk"/>
-        <asset id="650267212" name="rom.zip" size="455460055" download_count="201" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom.zip"/>
+        <asset id="650267213" name="InniClassic-20261017.apk" size="24451136" download_count="22" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/InniClassic-20261017.apk"/>
+        <asset id="650267212" name="rom.zip" size="455460055" download_count="202" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom.zip"/>
         <asset id="650267209" name="rom_type_b.zip" size="422390294" download_count="4" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_type_b.zip"/>
         <asset id="650267214" name="rom_y1_type_a.zip" size="455460055" download_count="6" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_y1_type_a.zip"/>
         <asset id="650267215" name="rom_y1_type_b.zip" size="422390294" download_count="4" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_y1_type_b.zip"/>
-        <asset id="650267210" name="rom_y2.zip" size="458640295" download_count="107" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_y2.zip"/>
-        <asset id="650267211" name="SHA256SUMS.txt" size="491" download_count="8" content_type="text/plain" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/SHA256SUMS.txt"/>
+        <asset id="650267210" name="rom_y2.zip" size="458640295" download_count="108" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_y2.zip"/>
+        <asset id="650267211" name="SHA256SUMS.txt" size="491" download_count="9" content_type="text/plain" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/SHA256SUMS.txt"/>
         <asset id="650267206" name="update.json" size="299" download_count="12" content_type="application/json" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/update.json"/>
       </assets>
     </release>
@@ -8889,14 +8889,14 @@ Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/2026101
 Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261011...20261012
 </body>
       <assets>
-        <asset id="636618066" name="InniClassic-20261013.apk" size="25302210" download_count="7" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/InniClassic-20261013.apk"/>
-        <asset id="636618069" name="rom.zip" size="455407982" download_count="72" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom.zip"/>
-        <asset id="636618071" name="rom_type_b.zip" size="423125776" download_count="2" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_type_b.zip"/>
+        <asset id="636618066" name="InniClassic-20261013.apk" size="25302210" download_count="8" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/InniClassic-20261013.apk"/>
+        <asset id="636618069" name="rom.zip" size="455407982" download_count="73" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom.zip"/>
+        <asset id="636618071" name="rom_type_b.zip" size="423125776" download_count="3" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_type_b.zip"/>
         <asset id="636618070" name="rom_y1_type_a.zip" size="455407982" download_count="2" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_y1_type_a.zip"/>
         <asset id="636618072" name="rom_y1_type_b.zip" size="423125776" download_count="2" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_y1_type_b.zip"/>
-        <asset id="636618061" name="rom_y2.zip" size="459507925" download_count="26" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_y2.zip"/>
-        <asset id="636618063" name="SHA256SUMS.txt" size="491" download_count="4" content_type="text/plain" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/SHA256SUMS.txt"/>
-        <asset id="636618058" name="update.json" size="299" download_count="7" content_type="application/json" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/update.json"/>
+        <asset id="636618061" name="rom_y2.zip" size="459507925" download_count="27" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_y2.zip"/>
+        <asset id="636618063" name="SHA256SUMS.txt" size="491" download_count="5" content_type="text/plain" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/SHA256SUMS.txt"/>
+        <asset id="636618058" name="update.json" size="299" download_count="8" content_type="application/json" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/update.json"/>
       </assets>
     </release>
     <release id="411020250" tag_name="20261012" name="InniClassic 20261012" published_at="2026-10-12T21:45:07Z" prerelease="false" html_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/tag/20261012" icon_url="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" icon_dark_url="">
@@ -8921,13 +8921,13 @@ Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/2026101
 Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261011...20261012
 </body>
       <assets>
-        <asset id="635077116" name="InniClassic-20261012.apk" size="25287379" download_count="3" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/InniClassic-20261012.apk"/>
-        <asset id="635077122" name="rom.zip" size="455407537" download_count="24" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom.zip"/>
-        <asset id="635077118" name="rom_type_b.zip" size="423165422" download_count="1" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom_type_b.zip"/>
+        <asset id="635077116" name="InniClassic-20261012.apk" size="25287379" download_count="4" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/InniClassic-20261012.apk"/>
+        <asset id="635077122" name="rom.zip" size="455407537" download_count="25" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom.zip"/>
+        <asset id="635077118" name="rom_type_b.zip" size="423165422" download_count="2" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom_type_b.zip"/>
         <asset id="635077123" name="rom_y1_type_a.zip" size="455407537" download_count="1" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom_y1_type_a.zip"/>
         <asset id="635077119" name="rom_y1_type_b.zip" size="423165422" download_count="1" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom_y1_type_b.zip"/>
-        <asset id="635077117" name="rom_y2.zip" size="459484049" download_count="7" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom_y2.zip"/>
-        <asset id="635077120" name="SHA256SUMS.txt" size="491" download_count="1" content_type="text/plain" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/SHA256SUMS.txt"/>
+        <asset id="635077117" name="rom_y2.zip" size="459484049" download_count="8" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom_y2.zip"/>
+        <asset id="635077120" name="SHA256SUMS.txt" size="491" download_count="2" content_type="text/plain" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/SHA256SUMS.txt"/>
         <asset id="635077113" name="update.json" size="299" download_count="3" content_type="application/json" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/update.json"/>
       </assets>
     </release>
@@ -8953,14 +8953,14 @@ Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/2026101
 Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261008...20261011
 </body>
       <assets>
-        <asset id="631746387" name="InniClassic-20261011.apk" size="25249278" download_count="8" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/InniClassic-20261011.apk"/>
+        <asset id="631746387" name="InniClassic-20261011.apk" size="25249278" download_count="9" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/InniClassic-20261011.apk"/>
         <asset id="631746385" name="rom.zip" size="455407764" download_count="24" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/rom.zip"/>
         <asset id="631746386" name="rom_type_b.zip" size="423133957" download_count="5" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/rom_type_b.zip"/>
-        <asset id="631746382" name="rom_y1_type_a.zip" size="455407764" download_count="6" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/rom_y1_type_a.zip"/>
-        <asset id="631746384" name="rom_y1_type_b.zip" size="423133957" download_count="5" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/rom_y1_type_b.zip"/>
-        <asset id="631746379" name="rom_y2.zip" size="459449940" download_count="8" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/rom_y2.zip"/>
+        <asset id="631746382" name="rom_y1_type_a.zip" size="455407764" download_count="7" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/rom_y1_type_a.zip"/>
+        <asset id="631746384" name="rom_y1_type_b.zip" size="423133957" download_count="6" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/rom_y1_type_b.zip"/>
+        <asset id="631746379" name="rom_y2.zip" size="459449940" download_count="9" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/rom_y2.zip"/>
         <asset id="631746380" name="SHA256SUMS.txt" size="491" download_count="6" content_type="text/plain" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/SHA256SUMS.txt"/>
-        <asset id="631746378" name="update.json" size="299" download_count="7" content_type="application/json" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/update.json"/>
+        <asset id="631746378" name="update.json" size="299" download_count="8" content_type="application/json" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/update.json"/>
       </assets>
     </release>
     <release id="406186220" tag_name="20261008" name="InniClassic 20261008" published_at="2026-10-07T21:40:39Z" prerelease="false" html_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/tag/20261008" icon_url="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" icon_dark_url="">
@@ -8982,14 +8982,14 @@ Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/2026100
 Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261007...20261008
 </body>
       <assets>
-        <asset id="619886904" name="InniClassic-20261008.apk" size="25241731" download_count="7" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261008/InniClassic-20261008.apk"/>
+        <asset id="619886904" name="InniClassic-20261008.apk" size="25241731" download_count="8" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261008/InniClassic-20261008.apk"/>
         <asset id="619886910" name="rom.zip" size="455440329" download_count="13" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261008/rom.zip"/>
-        <asset id="619886906" name="rom_type_b.zip" size="423114074" download_count="2" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261008/rom_type_b.zip"/>
-        <asset id="619886908" name="rom_y1_type_a.zip" size="455440329" download_count="4" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261008/rom_y1_type_a.zip"/>
+        <asset id="619886906" name="rom_type_b.zip" size="423114074" download_count="3" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261008/rom_type_b.zip"/>
+        <asset id="619886908" name="rom_y1_type_a.zip" size="455440329" download_count="5" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261008/rom_y1_type_a.zip"/>
         <asset id="619886911" name="rom_y1_type_b.zip" size="423114074" download_count="2" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261008/rom_y1_type_b.zip"/>
-        <asset id="619886903" name="rom_y2.zip" size="459436324" download_count="24" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261008/rom_y2.zip"/>
-        <asset id="619886909" name="SHA256SUMS.txt" size="491" download_count="3" content_type="text/plain" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261008/SHA256SUMS.txt"/>
-        <asset id="619886902" name="update.json" size="299" download_count="9" content_type="application/json" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261008/update.json"/>
+        <asset id="619886903" name="rom_y2.zip" size="459436324" download_count="25" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261008/rom_y2.zip"/>
+        <asset id="619886909" name="SHA256SUMS.txt" size="491" download_count="4" content_type="text/plain" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261008/SHA256SUMS.txt"/>
+        <asset id="619886902" name="update.json" size="299" download_count="10" content_type="application/json" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261008/update.json"/>
       </assets>
     </release>
     <release id="406053561" tag_name="20261007" name="InniClassic 20261007" published_at="2026-10-07T18:39:54Z" prerelease="false" html_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/tag/20261007" icon_url="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" icon_dark_url="">
@@ -9010,14 +9010,14 @@ Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/2026100
 Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261006...20261007
 </body>
       <assets>
-        <asset id="619490459" name="InniClassic-20261007.apk" size="25234954" download_count="5" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261007/InniClassic-20261007.apk"/>
+        <asset id="619490459" name="InniClassic-20261007.apk" size="25234954" download_count="6" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261007/InniClassic-20261007.apk"/>
         <asset id="619490463" name="rom.zip" size="455436338" download_count="4" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261007/rom.zip"/>
         <asset id="619490460" name="rom_type_b.zip" size="423114974" download_count="3" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261007/rom_type_b.zip"/>
-        <asset id="619490457" name="rom_y1_type_a.zip" size="455436338" download_count="3" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261007/rom_y1_type_a.zip"/>
-        <asset id="619490454" name="rom_y1_type_b.zip" size="423114974" download_count="3" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261007/rom_y1_type_b.zip"/>
+        <asset id="619490457" name="rom_y1_type_a.zip" size="455436338" download_count="4" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261007/rom_y1_type_a.zip"/>
+        <asset id="619490454" name="rom_y1_type_b.zip" size="423114974" download_count="4" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261007/rom_y1_type_b.zip"/>
         <asset id="619490458" name="rom_y2.zip" size="459463641" download_count="5" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261007/rom_y2.zip"/>
-        <asset id="619490456" name="SHA256SUMS.txt" size="491" download_count="3" content_type="text/plain" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261007/SHA256SUMS.txt"/>
-        <asset id="619490455" name="update.json" size="299" download_count="14" content_type="application/json" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261007/update.json"/>
+        <asset id="619490456" name="SHA256SUMS.txt" size="491" download_count="4" content_type="text/plain" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261007/SHA256SUMS.txt"/>
+        <asset id="619490455" name="update.json" size="299" download_count="15" content_type="application/json" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261007/update.json"/>
       </assets>
     </release>
     <release id="404639179" tag_name="20261006" name="InniClassic 20261006" published_at="2026-10-06T11:39:02Z" prerelease="false" html_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/tag/20261006" icon_url="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" icon_dark_url="">
@@ -9038,14 +9038,14 @@ Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/2026100
 Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261001...20261006
 </body>
       <assets>
-        <asset id="615345407" name="InniClassic-20261006.apk" size="25233311" download_count="9" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261006/InniClassic-20261006.apk"/>
-        <asset id="615345410" name="rom.zip" size="455437962" download_count="6" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261006/rom.zip"/>
-        <asset id="615345409" name="rom_type_b.zip" size="423114161" download_count="4" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261006/rom_type_b.zip"/>
+        <asset id="615345407" name="InniClassic-20261006.apk" size="25233311" download_count="10" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261006/InniClassic-20261006.apk"/>
+        <asset id="615345410" name="rom.zip" size="455437962" download_count="7" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261006/rom.zip"/>
+        <asset id="615345409" name="rom_type_b.zip" size="423114161" download_count="5" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261006/rom_type_b.zip"/>
         <asset id="615345414" name="rom_y1_type_a.zip" size="455437962" download_count="5" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261006/rom_y1_type_a.zip"/>
         <asset id="615345411" name="rom_y1_type_b.zip" size="423114161" download_count="3" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261006/rom_y1_type_b.zip"/>
         <asset id="615345413" name="rom_y2.zip" size="459424649" download_count="39" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261006/rom_y2.zip"/>
         <asset id="615345412" name="SHA256SUMS.txt" size="491" download_count="4" content_type="text/plain" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261006/SHA256SUMS.txt"/>
-        <asset id="615345408" name="update.json" size="299" download_count="7" content_type="application/json" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261006/update.json"/>
+        <asset id="615345408" name="update.json" size="299" download_count="8" content_type="application/json" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261006/update.json"/>
       </assets>
     </release>
     <release id="400766905" tag_name="20261001" name="InniClassic 20261001" published_at="2026-10-01T08:19:21Z" prerelease="false" html_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/tag/20261001" icon_url="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" icon_dark_url="">
@@ -22519,7 +22519,7 @@ Features
       </assets>
     </release>
   </repository>
-  <repository name="y1-community/Innioasis-Updater" downloads="68079" release_count="72" stars="55" icon="" icon_dark="">
+  <repository name="y1-community/Innioasis-Updater" downloads="68082" release_count="72" stars="55" icon="" icon_dark="">
     <release id="421295719" tag_name="2.0.7" name="Innioasis Updater CE 2.5.1 for Windows, macOS and Linux" published_at="2026-10-22T23:24:58Z" prerelease="false" html_url="https://github.com/y1-community/Innioasis-Updater/releases/tag/2.0.7" icon_url="" icon_dark_url="">
       <body>New rewritten Updater with features including:
 
@@ -22532,8 +22532,8 @@ Features
 </body>
       <assets>
         <asset id="689639023" name="Innioasis.Updater.for.Mac.dmg" size="154209498" download_count="187" content_type="application/x-diskcopy" browser_download_url="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/Innioasis.Updater.for.Mac.dmg"/>
-        <asset id="688792855" name="installer.exe" size="173282764" download_count="549" content_type="application/x-msdownload" browser_download_url="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/installer.exe"/>
-        <asset id="688949138" name="UpdaterCE.AppImage" size="300337656" download_count="152" content_type="application/octet-stream" browser_download_url="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/UpdaterCE.AppImage"/>
+        <asset id="688792855" name="installer.exe" size="173282764" download_count="551" content_type="application/x-msdownload" browser_download_url="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/installer.exe"/>
+        <asset id="688949138" name="UpdaterCE.AppImage" size="300337656" download_count="153" content_type="application/octet-stream" browser_download_url="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/UpdaterCE.AppImage"/>
       </assets>
     </release>
     <release id="402577132" tag_name="2.0.6" name="Innioasis Updater CE 2.0.6 Mac and Linux and 2.5 for Windows (phased re-write rollout)" published_at="2026-10-03T15:44:25Z" prerelease="false" html_url="https://github.com/y1-community/Innioasis-Updater/releases/tag/2.0.6" icon_url="" icon_dark_url="">
