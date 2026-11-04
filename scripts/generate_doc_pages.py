@@ -502,7 +502,9 @@ YOUTUBE_RE = re.compile(
     re.I,
 )
 VIMEO_RE = re.compile(r"^https?://(?:www\.)?(?:vimeo\.com/(?:video/)?|player\.vimeo\.com/video/)(\d+)", re.I)
-START_TIME_RE = re.compile(r"[?&](?:t|start)=(\d+)")
+# Hrefs are HTML-escaped before this runs, so the query separator can be a
+# bare ampersand or an entity.
+START_TIME_RE = re.compile(r"(?:[?&]|&amp;)(?:t|start)=(\d+)")
 
 
 def video_card(href: str, label: str) -> str:
