@@ -2572,14 +2572,24 @@
 
         loadAndMergeManifest().then(function () {
             initHomeFirmware();
-            initPersonalisedGuide();
-            initGuidePostInstall();
+            /* The docs viewer builds the post-install reader links, so wait for
+               it: otherwise a slow viewer load leaves the links pointing at
+               the raw GitHub page instead of the site's own reader. */
+            ensureDocsViewer().then(function () {
+                initPersonalisedGuide();
+                initGuidePostInstall();
+            });
             initSoftwareGuideLinks();
             return loadGithubTokens();
         }).catch(function () {
             initHomeFirmware();
-            initPersonalisedGuide();
-            initGuidePostInstall();
+            /* The docs viewer builds the post-install reader links, so wait for
+               it: otherwise a slow viewer load leaves the links pointing at
+               the raw GitHub page instead of the site's own reader. */
+            ensureDocsViewer().then(function () {
+                initPersonalisedGuide();
+                initGuidePostInstall();
+            });
             initSoftwareGuideLinks();
             return loadGithubTokens();
         }).then(function () {
