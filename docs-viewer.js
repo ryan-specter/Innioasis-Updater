@@ -332,12 +332,26 @@
     return true;
   }
 
+  /* Russian readers get the ordinary post-install page: the donation tie-in
+     on the alternate page points at services that are not available there. */
+  function russianReader() {
+    try {
+      var locale = (navigator.languages && navigator.languages[0]) || navigator.language || "";
+      if (/^ru\b/i.test(String(locale))) return true;
+      var zone = "";
+      try { zone = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (_) {}
+      return /^(Europe\/(Moscow|Kaliningrad|Samara|Volgograd|Saratov|Kirov)|Asia\/(Yekaterinburg|Omsk|Novosibirsk|Barnaul|Tomsk|Krasnoyarsk|Irkutsk|Chita|Yakutsk|Vladivostok|Magadan|Sakhalin|Kamchatka|Anadyr))$/i.test(zone);
+    } catch (_) {
+      return false;
+    }
+  }
+
   /* post_install2 is the page a project wants donations-enabled visitors to
      see; without one, post_install behaves exactly as before. */
   function postInstallTarget(item, fallbackUrl) {
     var info = item || {};
     var ordinary = info.post_install || fallbackUrl || "";
-    if (donationsEnabled() && info.post_install2) return info.post_install2;
+    if (donationsEnabled() && info.post_install2 && !russianReader()) return info.post_install2;
     return ordinary;
   }
 
@@ -417,7 +431,7 @@
       var variant = link.getAttribute("data-post-install2") || "";
       if (!variant) return;
       if (!link.getAttribute("data-plain-href")) link.setAttribute("data-plain-href", link.getAttribute("href") || "");
-      link.setAttribute("href", donationsEnabled() ? variant : link.getAttribute("data-plain-href"));
+      link.setAttribute("href", donationsEnabled() && !russianReader() ? variant : link.getAttribute("data-plain-href"));
     });
   }
 
