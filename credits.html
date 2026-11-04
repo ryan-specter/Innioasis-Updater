@@ -1079,8 +1079,72 @@
 
     setupDonorCredits();
 
+    /* ---- Funding goal: monthly on the month's edges, weekly in between ---- */
+    var MONTHLY_TARGET = 200.0;
+    // A week of the same running costs: one quarter of the monthly figure, so
+    // every week asks for the same $50.
+    var WEEKLY_TARGET = MONTHLY_TARGET / 4;
+
+    function fundingCurrencySymbol() {
+      // Transposed 1:1, never converted: a UK reader sees the dollar figures
+      // in pounds and a European reader in euros, so the ask reads in the
+      // currency they think in at the same size.
+      var locale = "";
+      try {
+        locale = (navigator.languages && navigator.languages[0]) || navigator.language || "";
+      } catch (ignore) {}
+      locale = String(locale || "").toLowerCase().replace(/_/g, "-");
+      var parts = locale.split("-");
+      var language = parts[0] || "";
+      var region = parts.length > 1 ? parts[parts.length - 1] : "";
+      var euroRegions = ["at", "be", "cy", "de", "ee", "es", "fi", "fr", "gr", "hr", "ie", "it", "lt", "lu", "lv", "mt", "nl", "pt", "si", "sk"];
+      var euroLanguages = ["de", "fr", "es", "it", "nl", "pt", "pl", "sv", "da", "nb", "fi", "el", "cs", "hu", "ro", "bg", "sk", "hr", "sl", "et", "lv", "lt", "ga", "is"];
+      if (region === "gb") return "£";
+      if (euroRegions.indexOf(region) !== -1) return "€";
+      if (!region && euroLanguages.indexOf(language) !== -1) return "€";
+      return "$";
+    }
+
+    /* The month's first five and last seven days name the month's costs; the
+       days between them name a week's. Only one is ever shown, and a met goal
+       is never named, only an outstanding one. */
+    function fundingGoalView(donations, monthTotal, now) {
+      now = now || new Date();
+      var daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+      var scope = "monthly";
+      var start = new Date(now.getFullYear(), now.getMonth(), 1);
+      var target = MONTHLY_TARGET;
+      if (now.getDate() > 5 && now.getDate() <= daysInMonth - 7) {
+        scope = "weekly";
+        target = WEEKLY_TARGET;
+        start = new Date(now.getFullYear(), now.getMonth(), 6 + Math.floor((now.getDate() - 6) / 7) * 7);
+      }
+      var raised = 0;
+      (donations || []).forEach(function (d) {
+        if (!d || !d.dt || !(d.amount > 0)) return;
+        if (d.dt >= start && d.dt <= now) raised += d.amount;
+      });
+      var monthMet = (monthTotal || 0) >= MONTHLY_TARGET;
+      return {
+        scope: scope,
+        periodWord: scope === "monthly" ? "month" : "week",
+        raised: raised,
+        target: target,
+        pct: Math.min(100, Math.max(0, (raised / target) * 100)),
+        remaining: Math.max(0, target - raised),
+        met: monthMet || raised >= target,
+        symbol: fundingCurrencySymbol()
+      };
+    }
+
+    function fundingGoalText(goal, withEncouragement) {
+      var raisedLabel = (goal.raised % 1 === 0) ? goal.raised.toFixed(0) : goal.raised.toFixed(2);
+      var text = "You've helped us raise " + goal.symbol + raisedLabel +
+        " of our " + goal.symbol + goal.target.toFixed(0) + " goal this " + goal.periodWord + ".";
+      return withEncouragement ? text + " All donations are appreciated." : text;
+    }
+
     function renderCreditsPage(donations) {
-      var MONTHLY_TARGET = 200.0;
       var now = new Date();
       var curMonth = now.getMonth();
       var curYear = now.getFullYear();
@@ -1123,13 +1187,14 @@
       var streamBox = document.getElementById("unified-donors-feed");
       var streamLine = document.getElementById("unified-contributor-line");
       if (streamBox && streamLine) {
-        var raisedStr = (curMonthRaised % 1 === 0) ? curMonthRaised.toFixed(0) : curMonthRaised.toFixed(2);
-        var targetStr = (MONTHLY_TARGET % 1 === 0) ? MONTHLY_TARGET.toFixed(0) : MONTHLY_TARGET.toFixed(2);
-        var pct = Math.min(100, Math.max(0, (curMonthRaised / MONTHLY_TARGET) * 100));
-        var isGoalMet = (curMonthRaised >= MONTHLY_TARGET);
+        // Only the period this day of the month names is shown, and never a
+        // goal that is already met: then the line is general encouragement.
+        var goal = fundingGoalView(donations, curMonthRaised, now);
+        var pct = goal.pct;
+        var isGoalMet = goal.met;
         var goalBarText = isGoalMet
           ? "We rely on your donations to keep running. Donate now"
-          : "You've helped us raise $" + raisedStr + " of our $" + targetStr + " goal this month. All donations are appreciated.";
+          : fundingGoalText(goal, true);
 
         var goalBarHTML = 
           '<div style="width: 100%; display: flex; flex-direction: column; gap: 4px; align-items: center;">' +
