@@ -799,7 +799,15 @@
       return token;
     });
 
-    text = text.replace(/<(https?:\/\/[^\s<>]+)>/g, "$1");
+    text = text.replace(/<(https?:\/\/[^\s<>]+)>/g, "[$1]($1)");
+    text = text.replace(/<\/?([a-zA-Z][a-zA-Z0-9-]*)((?:\s[^<>]*)?)>/g, function (match, tagName) {
+      if (ALLOWED_TAGS && ALLOWED_TAGS[String(tagName).toUpperCase()]) {
+        var token = "\u0000C" + codeSpans.length + "\u0000";
+        codeSpans.push(match);
+        return token;
+      }
+      return "";
+    });
     text = esc(text);
 
     /* Images before links: the leading ! would otherwise be swallowed. */
@@ -915,7 +923,7 @@
       }
 
       /* Raw HTML block: passed through, then sanitised at the end. */
-      if (/^\s{0,3}<[a-zA-Z!/]/.test(line)) {
+      if (/^\s{0,3}<[a-zA-Z!/]/.test(line) && !/^\s{0,3}<https?:\/\//i.test(line)) {
         var html = [];
         while (i < lines.length && lines[i].trim()) { html.push(lines[i]); i += 1; }
         out.push(html.join("\n"));

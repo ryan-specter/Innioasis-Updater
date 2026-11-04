@@ -752,10 +752,10 @@ def inline_markdown(text: str, ctx: dict | None) -> str:
         return "\x00I%d\x00" % (len(protected) - 1)
 
     text = re.sub(r"(`+)([\s\S]*?)\1", lambda m: protect("<code>%s</code>" % esc(m.group(2).strip())), text)
-    text = re.sub(r"<(https?://[^\s<>]+)>", r"\1", text)
+    text = re.sub(r"<(https?://[^\s<>]+)>", r"[\1](\1)", text)
     text = re.sub(
         r"(?is)</?([a-zA-Z][a-zA-Z0-9-]*)((?:\s[^<>]*)?)>",
-        lambda m: m.group(0) if m.group(1).lower() in ALLOWED_HTML else "",
+        lambda m: protect(clean_html(m.group(0), ctx)) if m.group(1).lower() in ALLOWED_HTML else "",
         text,
     )
     text = esc(text)
@@ -937,7 +937,7 @@ def markdown_to_html(markdown: str, ctx: dict | None = None) -> str:
             out.append("<pre><code>%s</code></pre>" % esc("\n".join(block)))
             continue
 
-        if re.match(r"^\s{0,3}<[a-zA-Z!/]", line):
+        if re.match(r"^\s{0,3}<[a-zA-Z!/]", line) and not re.match(r"^\s{0,3}<https?://", line, re.I):
             block = []
             while index < len(lines) and lines[index].strip():
                 block.append(lines[index])
