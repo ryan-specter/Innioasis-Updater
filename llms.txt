@@ -1,10 +1,10 @@
 # Innioasis Updater
 
-> Innioasis Updater is the free, open-source community tool for installing and restoring software on every Innioasis player (Y1, Y2, G1, G3, G5, Q8, R1, PR1, D1) and every Timmkoo player (A5, Q5, Q3), running on Windows, macOS, and Linux. The site also hosts the Themes Gallery and plain-English guides for custom software projects such as Rockbox, Solar, JJ Launcher, Inniclassic, Y2Player, and Koensayr. Install flows always ask the user to pick the model first and to connect the powered-off player only when Updater prompts.
+> Innioasis Updater is the free, open-source tool for installing and restoring software on every Innioasis player (Y1, Y2, G1, G3, G5, Q8, R1, PR1, D1) and every Timmkoo player (A5, Q5, Q3), running on Windows, macOS, and Linux. The site also hosts the Themes Gallery and plain-English guides for custom software projects such as Rockbox, Solar, JJ Launcher, Inniclassic, Y2Player, and Koensayr. Install flows always ask the user to pick the model first and to connect the powered-off player only when Updater prompts.
 
 ## Key pages
 
-- [Home](https://innioasis.app/): Overview of Innioasis Updater, the software catalogue, community videos, and quick-start cards.
+- [Home](https://innioasis.app/): Overview of Innioasis Updater, the software catalogue, videos, and quick-start cards.
 - [Installation guide](https://innioasis.app/guide.html): Full Windows, macOS, and Linux setup plus the model-first install steps for Updater.
 - [Software downloads](https://innioasis.app/firmware.html): Browse releases for every software project by model, with guided Updater routes and manual ZIP links.
 - [Software FAQ](https://innioasis.app/firmware-faq.html): "Which software is right for you?" — plain-English comparisons of every project and the restore path.
@@ -12,7 +12,7 @@
 - [Troubleshooting](https://innioasis.app/troubleshooting.html): Where an install stops and how to fix it — model, cable, driver, permissions, and timing.
 - [Drivers](https://innioasis.app/drivers.html): Windows MediaTek driver and Linux USB permissions.
 - [Developer guide](https://innioasis.app/developers.html): How to develop a custom firmware from a base ROM and publish it to the Updater manifest.
-- [Support](https://innioasis.app/support_devs.html): How to contribute, report issues, and support the community projects.
+- [Support](https://innioasis.app/support_devs.html): How to contribute, report issues, and support the projects.
 
 ## Install guides by software
 
@@ -48,7 +48,7 @@
 ## Optional
 
 - [SP Flash Tool recovery](https://innioasis.app/sp-flash-tool.html): Advanced manual flashing with the MediaTek scatter loader.
-- [Themes Gallery](https://themes.innioasis.app/): Community themes for the Y1 and Rockbox.
+- [Themes Gallery](https://themes.innioasis.app/): Themes for the Y1 and Rockbox.
 - [Clean install guide](https://innioasis.app/Troubleshooting/clean_install.html): Full clean-install walkthrough for Windows, macOS, and Linux.
 - [Source code](https://github.com/y1-community/Innioasis-Updater): The Updater source and this site on GitHub.
 

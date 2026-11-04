@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
-  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="author" content="Innioasis and Ryan Specter">
+  <meta name="creator" content="Innioasis and Ryan Specter">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Community support &amp; credits - Innioasis Updater</title>
   <meta name="description" content="A friendly place to support Updater CE, see the community projects it helps, and thank the people who keep it going.">
@@ -389,11 +389,11 @@
         <img class="y1-developer-avatar" id="unified-dev-avatar" src="/assets/developer.png?v=20260831" loading="eager" decoding="async" onerror="if(!this.dataset.t1){this.dataset.t1='1';this.src='/developer.png';}else if(!this.dataset.t2){this.dataset.t2='1';this.src='/assets/developer.png';}else{this.src='https://innioasis.app/mtkclient/gui/images/developer.png';this.onerror=null;}" alt="Ryan (Developer)" width="54" height="54" style="border: 0; display: block; object-fit: contain;">
         <div>
           <h2 class="y1-donate-panel-hook" style="margin: 0; font-size: 1.6rem;">It takes <span>you</span>.</h2>
-          <small style="color: var(--lumen-muted, #9aa3b5); font-weight: 600;">Our projects rely on donations from the community</small>
+          <small style="color: var(--lumen-muted, #9aa3b5); font-weight: 600;">Our projects rely on donations</small>
         </div>
       </div>
 
-      <p id="unified-dev-intro"><strong>Hi, I'm Ryan.</strong> I build Innioasis Updater CE, this firmware archive, and the Themes Gallery. I pay for them myself so they stay free for everyone. Servers, storage and domains cost about <strong>$200</strong> a month, so any support helps.</p>
+      <p id="unified-dev-intro"><strong>Hi, I'm Ryan.</strong> Together with Innioasis, I look after Innioasis Updater CE, this firmware archive, and the Themes Gallery. I pay for them myself so they stay free for everyone. Servers, storage and domains cost about <strong>$200</strong> a month, so any support helps.</p>
 
       <div class="donation-method-intro">
         <p class="lumen-kicker">Choose your way to help</p>
@@ -423,7 +423,7 @@
       </div>
       <div class="donation-impact-note">
         <strong>Small contributions make a real difference.</strong>
-        <p>They keep the archive online, help community projects ship, and make it possible to keep sharing this work without a paywall.</p>
+        <p>They keep the archive online, help projects ship, and make it possible to keep sharing this work without a paywall.</p>
       </div>
     </section>
 
@@ -461,7 +461,7 @@
           </thead>
           <tbody id="donations-table-body">
             <tr>
-              <td colspan="3" style="text-align: center; color: var(--lumen-muted);">Loading community ledger...</td>
+              <td colspan="3" style="text-align: center; color: var(--lumen-muted);">Loading ledger...</td>
             </tr>
           </tbody>
         </table>
@@ -507,7 +507,7 @@
 
   <div id="donor-credits-overlay" class="donor-credits-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="donor-credits-title">
     <div class="donor-credits-stage">
-      <p class="donor-credits-eyebrow">Innioasis Updater CE · Community credits</p>
+      <p class="donor-credits-eyebrow">Innioasis Updater CE · Credits</p>
       <h2 class="donor-credits-title" id="donor-credits-title">Thank you.</h2>
       <p class="donor-credits-subtitle">This project is here because people chose to help. To every supporter below: thank you for keeping the archive, the tools, and the community moving.</p>
       <div class="donor-credits-names" id="donor-credits-names" aria-live="polite"><p>Loading supporters…</p></div>
@@ -871,7 +871,7 @@
 
       ctx.fillStyle = "#10b981";
       ctx.font = "800 " + (portrait ? 22 : 24) + "px Arial, sans-serif";
-      ctx.fillText("INNIOASIS UPDATER CE · COMMUNITY CREDITS", layout.width / 2, portrait ? 112 : 86);
+      ctx.fillText("INNIOASIS UPDATER CE · CREDITS", layout.width / 2, portrait ? 112 : 86);
       ctx.fillStyle = "#fff";
       ctx.font = "800 " + (portrait ? 88 : 92) + "px Arial, sans-serif";
       ctx.fillText("Thank you.", layout.width / 2, portrait ? 250 : 190);
@@ -996,12 +996,12 @@
         var pageCount = donorCreditsPageCount(format);
         for (var page = 0; page < pageCount; page++) {
           var canvas = drawDonorCreditsCanvas(format, page);
-          if (canvas) files.push({ name: "innioasis-community-credits-" + format + "-" + String(page + 1).padStart(2, "0") + ".png", data: canvasBytes(canvas) });
+          if (canvas) files.push({ name: "innioasis-credits-" + format + "-" + String(page + 1).padStart(2, "0") + ".png", data: canvasBytes(canvas) });
         }
       });
       var blob = new Blob([zipBytes(files)], { type: "application/zip" });
       var link = document.createElement("a");
-      link.download = "innioasis-community-credits-png-pack.zip";
+      link.download = "innioasis-credits-png-pack.zip";
       link.href = URL.createObjectURL(blob);
       link.click();
       setTimeout(function () { URL.revokeObjectURL(link.href); }, 1000);
@@ -1100,7 +1100,7 @@
           if (isInnioasisCorporate(d.name)) {
             totalCorporateRaised += d.amount;
             corporateSponsorships.push(d);
-            // Manufacturer contributions stay out of the community credits.
+            // Corporate contributions stay out of the public credits.
           } else {
             totalCommunityRaised += d.amount;
             if (d.dt && d.dt.getMonth() === curMonth && d.dt.getFullYear() === curYear) {
@@ -1169,7 +1169,7 @@
           var aStr = "$" + (absVal % 1 === 0 ? absVal.toFixed(0) : absVal.toFixed(2));
           var tP = item.dt ? " · " + getRel(item.dt) : "";
           var mL = (item.method || "").toLowerCase();
-          var mUrl = METHOD_URLS[mL] || (isCorp ? "https://www.innioasis.com" : "https://innioasis.app");
+          var mUrl = METHOD_URLS[mL] || "https://innioasis.app";
           var tUrl = item.url || mUrl;
 
           if (isOut) {
@@ -1184,7 +1184,7 @@
           }
 
           if (isCorp) {
-            // Keep manufacturer entries out of the community donor stream.
+            // Keep corporate entries out of the supporter stream.
             return;
           }
 
