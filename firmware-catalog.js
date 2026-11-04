@@ -228,7 +228,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg",
           "size": 30612,
-          "download_count": 637,
+          "download_count": 641,
           "content_type": "image/jpeg"
         }
       ]
@@ -265,7 +265,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/updater.jpg",
           "size": 30612,
-          "download_count": 401,
+          "download_count": 404,
           "content_type": "image/jpeg"
         }
       ]
@@ -294,7 +294,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/updater.jpg",
           "size": 30612,
-          "download_count": 293,
+          "download_count": 297,
           "content_type": "image/jpeg"
         }
       ]
@@ -315,7 +315,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom.zip",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/rom.zip",
           "size": 250125316,
-          "download_count": 7459,
+          "download_count": 7461,
           "content_type": "application/zip"
         },
         {
@@ -323,7 +323,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg",
           "size": 30612,
-          "download_count": 1686,
+          "download_count": 1698,
           "content_type": "image/jpeg"
         }
       ]
@@ -352,7 +352,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg",
           "size": 30612,
-          "download_count": 1515,
+          "download_count": 1527,
           "content_type": "image/jpeg"
         }
       ]
@@ -373,7 +373,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom.zip",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.0.2/rom.zip",
           "size": 259502414,
-          "download_count": 11078,
+          "download_count": 11079,
           "content_type": "application/x-zip-compressed"
         },
         {
@@ -507,7 +507,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/manifest.json",
           "size": 4236,
-          "download_count": 183,
+          "download_count": 187,
           "content_type": "application/json"
         },
         {
@@ -515,7 +515,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/manifest.sig",
           "size": 64,
-          "download_count": 180,
+          "download_count": 183,
           "content_type": "application/pgp-signature"
         },
         {
@@ -531,7 +531,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rootfs.ext4.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/rootfs.ext4.gz",
           "size": 51326456,
-          "download_count": 61,
+          "download_count": 62,
           "content_type": "application/gzip"
         },
         {
@@ -7821,7 +7821,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom.zip",
           "browser_download_url": "https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom.zip",
           "size": 534484127,
-          "download_count": 12521,
+          "download_count": 12523,
           "content_type": "application/zip"
         },
         {
@@ -8567,7 +8567,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rockbox-y2-v2.5-release-square.png",
           "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rockbox-y2-v2.5-release-square.png",
           "size": 1585171,
-          "download_count": 198,
+          "download_count": 199,
           "content_type": "image/png"
         },
         {
@@ -8575,7 +8575,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_y2.zip",
           "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rom_y2.zip",
           "size": 361644736,
-          "download_count": 513,
+          "download_count": 514,
           "content_type": "application/zip"
         },
         {
@@ -10633,7 +10633,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_y2.zip",
           "browser_download_url": "https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom_y2.zip",
           "size": 443395091,
-          "download_count": 403,
+          "download_count": 404,
           "content_type": "application/zip"
         }
       ]
@@ -13057,7 +13057,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-01T09:49:06Z"
   },
   "ismileblue/y1_launcher": {
-    "downloads": 24270,
+    "downloads": 24271,
     "forks": 5,
     "release_count": 30,
     "stars": 23,
@@ -13085,7 +13085,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-10-05T06:12:33Z"
   },
   "rockbox-y1/rockbox": {
-    "downloads": 49735,
+    "downloads": 49737,
     "forks": 20,
     "release_count": 29,
     "stars": 84,
@@ -13099,7 +13099,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-10-15T03:03:06Z"
   },
   "schulzcode/y2linux": {
-    "downloads": 13489,
+    "downloads": 13497,
     "forks": 4,
     "release_count": 86,
     "stars": 20,
@@ -13113,7 +13113,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-01T20:29:55Z"
   },
   "spycemagic/y2-rockbox": {
-    "downloads": 2821,
+    "downloads": 2823,
     "forks": 1,
     "release_count": 3,
     "stars": 14,
@@ -13148,11 +13148,11 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-04T11:30:48Z"
   },
   "y1-community/innioasis-updater": {
-    "downloads": 68042,
+    "downloads": 68043,
     "forks": 14,
     "release_count": 72,
     "stars": 55,
-    "updated_at": "2026-11-04T16:12:31Z"
+    "updated_at": "2026-11-04T16:37:32Z"
   },
   "y1-community/koensayr-auto-mirror": {
     "downloads": 4,
@@ -13187,7 +13187,7 @@ window.INNIOASIS_REPO_STATS = {
     "forks": 0,
     "release_count": 3,
     "stars": 0,
-    "updated_at": "2026-11-04T14:22:41Z"
+    "updated_at": "2026-11-04T16:24:34Z"
   },
   "y1-community/y1-ata-rom": {
     "downloads": 633,
@@ -13218,7 +13218,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-04T05:52:57Z"
   },
   "y1-community/y1-stock-rom": {
-    "downloads": 42883,
+    "downloads": 42921,
     "forks": 0,
     "release_count": 9,
     "stars": 6,
