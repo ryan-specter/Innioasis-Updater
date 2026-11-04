@@ -24,9 +24,9 @@
     <link rel="alternate" type="text/html" href="https://github.com/ismileblue/y1_launcher/releases/tag/launcher-v0.11.6hotfix4"/>
     <innioasis:tag_name>launcher-v0.11.6hotfix4</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6hotfix4/rom.zip" title="rom.zip" length="456284202" type="application/zip" innioasis:download_count="44" innioasis:asset_id="541305499"/>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6hotfix4/rom_type_b.zip" title="rom_type_b.zip" length="399793497" type="application/zip" innioasis:download_count="10" innioasis:asset_id="541305502"/>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6hotfix4/rom_y2.zip" title="rom_y2.zip" length="443402625" type="application/zip" innioasis:download_count="93" innioasis:asset_id="541305498"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6hotfix4/rom.zip" title="rom.zip" length="456284202" type="application/zip" innioasis:download_count="45" innioasis:asset_id="541305499"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6hotfix4/rom_type_b.zip" title="rom_type_b.zip" length="399793497" type="application/zip" innioasis:download_count="11" innioasis:asset_id="541305502"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6hotfix4/rom_y2.zip" title="rom_y2.zip" length="443402625" type="application/zip" innioasis:download_count="94" innioasis:asset_id="541305498"/>
     <content type="text"></content>
   </entry>
   <entry>
@@ -76,9 +76,9 @@
     <link rel="alternate" type="text/html" href="https://github.com/ismileblue/y1_launcher/releases/tag/launcher-v0.11.6"/>
     <innioasis:tag_name>launcher-v0.11.6</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom.zip" title="rom.zip" length="456271826" type="application/zip" innioasis:download_count="469" innioasis:asset_id="541200516"/>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom_type_b.zip" title="rom_type_b.zip" length="399777849" type="application/zip" innioasis:download_count="7" innioasis:asset_id="541200519"/>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom_y2.zip" title="rom_y2.zip" length="443395091" type="application/zip" innioasis:download_count="405" innioasis:asset_id="541200520"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom.zip" title="rom.zip" length="456271826" type="application/zip" innioasis:download_count="470" innioasis:asset_id="541200516"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom_type_b.zip" title="rom_type_b.zip" length="399777849" type="application/zip" innioasis:download_count="8" innioasis:asset_id="541200519"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom_y2.zip" title="rom_y2.zip" length="443395091" type="application/zip" innioasis:download_count="406" innioasis:asset_id="541200520"/>
     <content type="text">
 ---
 
@@ -128,8 +128,8 @@
     <link rel="alternate" type="text/html" href="https://github.com/ismileblue/y1_launcher/releases/tag/launcher-v0.11.5"/>
     <innioasis:tag_name>launcher-v0.11.5</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.5/rom.zip" title="rom.zip" length="456271507" type="application/zip" innioasis:download_count="24" innioasis:asset_id="541200574"/>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.5/rom_type_b.zip" title="rom_type_b.zip" length="399797081" type="application/zip" innioasis:download_count="4" innioasis:asset_id="541200575"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.5/rom.zip" title="rom.zip" length="456271507" type="application/zip" innioasis:download_count="25" innioasis:asset_id="541200574"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.5/rom_type_b.zip" title="rom_type_b.zip" length="399797081" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541200575"/>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.5/rom_y2.zip" title="rom_y2.zip" length="443389547" type="application/zip" innioasis:download_count="25" innioasis:asset_id="541200576"/>
     <content type="text">Fixed an issue where FLAC files would not play in v0.11.4.</content>
   </entry>
@@ -141,7 +141,7 @@
     <link rel="alternate" type="text/html" href="https://github.com/ismileblue/y1_launcher/releases/tag/launcher-v0.9"/>
     <innioasis:tag_name>launcher-v0.9</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.9/rom.zip" title="rom.zip" length="456604912" type="application/zip" innioasis:download_count="4" innioasis:asset_id="541200051"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.9/rom.zip" title="rom.zip" length="456604912" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541200051"/>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.9/rom_type_b.zip" title="rom_type_b.zip" length="399539309" type="application/zip" innioasis:download_count="4" innioasis:asset_id="541200058"/>
     <content type="text">
 &lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215531&quot; src=&quot;https://github.com/user-attachments/assets/5aacc91f-efb6-4a71-acb2-01a4c241bafc&quot; /&gt;
@@ -171,8 +171,8 @@
     <link rel="alternate" type="text/html" href="https://github.com/ismileblue/y1_launcher/releases/tag/launcher-v0.8"/>
     <innioasis:tag_name>launcher-v0.8</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.8/rom.zip" title="rom.zip" length="456604601" type="application/zip" innioasis:download_count="4" innioasis:asset_id="541199921"/>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.8/rom_type_b.zip" title="rom_type_b.zip" length="399538066" type="application/zip" innioasis:download_count="3" innioasis:asset_id="541199927"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.8/rom.zip" title="rom.zip" length="456604601" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541199921"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.8/rom_type_b.zip" title="rom_type_b.zip" length="399538066" type="application/zip" innioasis:download_count="4" innioasis:asset_id="541199927"/>
     <content type="text">## 🚀 What&#x27;s New in v0.8
 
 ### 🎨 1. New Theme Engine Implemented
@@ -208,8 +208,8 @@
     <link rel="alternate" type="text/html" href="https://github.com/ismileblue/y1_launcher/releases/tag/launcher-v0.6"/>
     <innioasis:tag_name>launcher-v0.6</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.6/rom.zip" title="rom.zip" length="456567803" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541200082"/>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.6/rom_type_b.zip" title="rom_type_b.zip" length="399667887" type="application/zip" innioasis:download_count="4" innioasis:asset_id="541200083"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.6/rom.zip" title="rom.zip" length="456567803" type="application/zip" innioasis:download_count="6" innioasis:asset_id="541200082"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.6/rom_type_b.zip" title="rom_type_b.zip" length="399667887" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541200083"/>
     <content type="text">## 🚀 Installation &amp; Update Guide
 
 You can easily install the launcher using the **Innioasis Updater**.
@@ -255,7 +255,7 @@ adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS</cont
     <link rel="alternate" type="text/html" href="https://github.com/ismileblue/y1_launcher/releases/tag/launcher-v0.5"/>
     <innioasis:tag_name>launcher-v0.5</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.5/rom.zip" title="rom.zip" length="456603017" type="application/zip" innioasis:download_count="4" innioasis:asset_id="541199795"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.5/rom.zip" title="rom.zip" length="456603017" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541199795"/>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.5/rom_type_b.zip" title="rom_type_b.zip" length="399658877" type="application/zip" innioasis:download_count="3" innioasis:asset_id="541199798"/>
     <content type="text">&gt; [!WARNING]
 &gt; &lt;span style=&quot;color:#d9381e; font-weight:bold;&quot;&gt;⚠️ IMPORTANT: This has only been tested on System Software version 2.1.9. It is highly recommended to check your own firmware version before proceeding with the installation.&lt;/span&gt;
@@ -284,8 +284,8 @@ adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS</cont
     <link rel="alternate" type="text/html" href="https://github.com/ismileblue/y1_launcher/releases/tag/launcher-v0.3"/>
     <innioasis:tag_name>launcher-v0.3</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.3/rom.zip" title="rom.zip" length="456569905" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541199869"/>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.3/rom_type_b.zip" title="rom_type_b.zip" length="399645569" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541199868"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.3/rom.zip" title="rom.zip" length="456569905" type="application/zip" innioasis:download_count="6" innioasis:asset_id="541199869"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.3/rom_type_b.zip" title="rom_type_b.zip" length="399645569" type="application/zip" innioasis:download_count="6" innioasis:asset_id="541199868"/>
     <content type="text">1. 테마파일 적용(/storage/sdcard0/Y1_Themes/ 폴더에 원하는 테마 파일(.json)을 넣고 설정)
 2. 화면이 커진 상태에서 곡변경 기능 추가
 3. 셔플 재생 알고리즘 수정/아이콘 교체
@@ -299,9 +299,9 @@ adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS</cont
     <link rel="alternate" type="text/html" href="https://github.com/ismileblue/y1_launcher/releases/tag/launcher-v0.11.4"/>
     <innioasis:tag_name>launcher-v0.11.4</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.4/rom.zip" title="rom.zip" length="456287678" type="application/zip" innioasis:download_count="15" innioasis:asset_id="541199939"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.4/rom.zip" title="rom.zip" length="456287678" type="application/zip" innioasis:download_count="16" innioasis:asset_id="541199939"/>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.4/rom_type_b.zip" title="rom_type_b.zip" length="399771390" type="application/zip" innioasis:download_count="4" innioasis:asset_id="541199938"/>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.4/rom_y2.zip" title="rom_y2.zip" length="443266446" type="application/zip" innioasis:download_count="14" innioasis:asset_id="541199940"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.4/rom_y2.zip" title="rom_y2.zip" length="443266446" type="application/zip" innioasis:download_count="15" innioasis:asset_id="541199940"/>
     <content type="text">
 Here is what’s new in this release:
 
@@ -350,8 +350,8 @@ Here is what’s new in this release:
     <link rel="alternate" type="text/html" href="https://github.com/ismileblue/y1_launcher/releases/tag/launcher-v0.11.1"/>
     <innioasis:tag_name>launcher-v0.11.1</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.1/rom.zip" title="rom.zip" length="457073002" type="application/zip" innioasis:download_count="11" innioasis:asset_id="541199978"/>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.1/rom_type_b.zip" title="rom_type_b.zip" length="404526855" type="application/zip" innioasis:download_count="4" innioasis:asset_id="541199982"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.1/rom.zip" title="rom.zip" length="457073002" type="application/zip" innioasis:download_count="12" innioasis:asset_id="541199978"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.1/rom_type_b.zip" title="rom_type_b.zip" length="404526855" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541199982"/>
     <content type="text">This is a new test version that adds full support for firmware 3.1.2 and introduces the new Video Player feature!</content>
   </entry>
   <entry>
@@ -362,8 +362,8 @@ Here is what’s new in this release:
     <link rel="alternate" type="text/html" href="https://github.com/ismileblue/y1_launcher/releases/tag/launcher-v0.11"/>
     <innioasis:tag_name>launcher-v0.11</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11/rom.zip" title="rom.zip" length="457083507" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541200032"/>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11/rom_type_b.zip" title="rom_type_b.zip" length="404522629" type="application/zip" innioasis:download_count="4" innioasis:asset_id="541200031"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11/rom.zip" title="rom.zip" length="457083507" type="application/zip" innioasis:download_count="6" innioasis:asset_id="541200032"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11/rom_type_b.zip" title="rom_type_b.zip" length="404522629" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541200031"/>
     <content type="text">### 🚀 [Update] JJ Launcher v0.11 Release Notes
 
 Hi everyone!
@@ -402,8 +402,8 @@ Thank you so much for your continued interest and support! Enjoy v0.11! 🙏🚀
     <link rel="alternate" type="text/html" href="https://github.com/ismileblue/y1_launcher/releases/tag/launcher-v0.10.1"/>
     <innioasis:tag_name>launcher-v0.10.1</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.10.1/rom.zip" title="rom.zip" length="457535838" type="application/zip" innioasis:download_count="4" innioasis:asset_id="541200126"/>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.10.1/rom_type_b.zip" title="rom_type_b.zip" length="399512608" type="application/zip" innioasis:download_count="4" innioasis:asset_id="541200122"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.10.1/rom.zip" title="rom.zip" length="457535838" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541200126"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.10.1/rom_type_b.zip" title="rom_type_b.zip" length="399512608" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541200122"/>
     <content type="text">This patch fixes the error that could occur during the update process. Please update to this version to ensure a smooth installation.</content>
   </entry>
   <entry>
@@ -414,8 +414,8 @@ Thank you so much for your continued interest and support! Enjoy v0.11! 🙏🚀
     <link rel="alternate" type="text/html" href="https://github.com/ismileblue/y1_launcher/releases/tag/launcher-v0.10"/>
     <innioasis:tag_name>launcher-v0.10</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.10/rom.zip" title="rom.zip" length="457534242" type="application/zip" innioasis:download_count="8" innioasis:asset_id="541200026"/>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.10/rom_type_b.zip" title="rom_type_b.zip" length="399499884" type="application/zip" innioasis:download_count="4" innioasis:asset_id="541200023"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.10/rom.zip" title="rom.zip" length="457534242" type="application/zip" innioasis:download_count="9" innioasis:asset_id="541200026"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.10/rom_type_b.zip" title="rom_type_b.zip" length="399499884" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541200023"/>
     <content type="text">## 🎉 JJ Launcher v0.10 is Finally Here!
 
 Thanks to everyone&#x27;s incredible interest and feedback, I am thrilled to finally release version 0.10! Thank you all so much for your continuous support and encouragement.
@@ -462,8 +462,8 @@ Please continue to show your interest and support. Thank you! :D</content>
     <link rel="alternate" type="text/html" href="https://github.com/ismileblue/y1_launcher/releases/tag/launcher-v0.1"/>
     <innioasis:tag_name>launcher-v0.1</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.1/rom.zip" title="rom.zip" length="456596207" type="application/zip" innioasis:download_count="8" innioasis:asset_id="541200228"/>
-    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.1/rom_type_b.zip" title="rom_type_b.zip" length="399646396" type="application/zip" innioasis:download_count="4" innioasis:asset_id="541200230"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.1/rom.zip" title="rom.zip" length="456596207" type="application/zip" innioasis:download_count="9" innioasis:asset_id="541200228"/>
+    <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.1/rom_type_b.zip" title="rom_type_b.zip" length="399646396" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541200230"/>
     <content type="text"></content>
   </entry>
   <entry>
