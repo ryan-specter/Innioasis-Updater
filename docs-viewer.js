@@ -27,6 +27,38 @@
   var MARKDOWN_EXT = /\.(md|markdown|mdown|mkd|mdx)$/i;
   var GITHUB_HOSTS = /^(www\.)?github\.com$/i;
 
+  var GUIDE_URL = SITE + "/guide.html";
+
+  /* Sources a project README tends to cite instead of our own guide: an old
+     download page, the support page, a driver mirror and a handful of Drive
+     files. They all point at the guide, which carries the current packages
+     and drivers. */
+  var SUPERSEDED_LINKS = [
+    /^https?:\/\/(?:www\.)?innioasis\.com\/pages\/(?:download|support-center)\/?(?:[?#].*)?$/i,
+    /^https?:\/\/(?:www\.)?wooabc\.cn\/download\/MTPUSBDriverForWin10\.rar(?:[?#].*)?$/i,
+    /^https?:\/\/drive\.google\.com\/file\/d\/(?:1gJHvXXhqf9Q2fjxdy6-atErvdiyOHToh|1LJMk1cQAQkQtPszzjZTGB3--23YjdRvc|1gPFGBCdANa7atpGxKBPuXus0t-EI_byW|1mMvuX95VE_pKihilj6BSXdrZ6Y8UDxjF)\b/i
+  ];
+
+  function supersededGuideLink(href) {
+    var url = String(href || "").trim();
+    if (!url) return "";
+    for (var i = 0; i < SUPERSEDED_LINKS.length; i += 1) {
+      if (SUPERSEDED_LINKS[i].test(url)) return GUIDE_URL;
+    }
+    return "";
+  }
+
+  /* A link whose visible text is the address itself should not keep showing
+     the retired address once the target moves. */
+  function linkTextIsUrl(label, href) {
+    var text = String(label || "").replace(/<[^>]*>/g, "")
+      .replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").trim();
+    if (!/^https?:\/\//i.test(text)) return false;
+    var left = text.replace(/[?#].*$/, "").replace(/\/+$/, "").toLowerCase();
+    var right = String(href || "").replace(/[?#].*$/, "").replace(/\/+$/, "").toLowerCase();
+    return left === right;
+  }
+
   /* ------------------------------------------------------------------ *
    * Source resolution
    * ------------------------------------------------------------------ */
@@ -538,6 +570,8 @@
     if (/^(mailto:|tel:|data:)/i.test(href)) return href;
     if (href.charAt(0) === "#") return href;
     if (/^https?:/i.test(href)) {
+      var superseded = supersededGuideLink(href);
+      if (superseded) return superseded;
       /* A release's own files are never listed here, so an asset link inside
          the notes is left as plain text. */
       if (/^https?:\/\/(?:www\.)?github\.com\/[^/]+\/[^/]+\/releases\/download\//i.test(href)) {
@@ -718,10 +752,11 @@
       if (video) return videoCard(video, label);
       var resolved = resolveLink(href, ctx);
       if (!resolved) return label;
+      var shown = supersededGuideLink(href) && linkTextIsUrl(label, href) ? resolved : label;
       var external = /^https?:/i.test(resolved) && resolved.indexOf("innioasis.app") === -1;
       return '<a href="' + escapeAttr(resolved) + '"' +
         (title ? ' title="' + title + '"' : "") +
-        (external ? ' target="_blank" rel="noopener noreferrer"' : "") + ">" + label + "</a>";
+        (external ? ' target="_blank" rel="noopener noreferrer"' : "") + ">" + shown + "</a>";
     });
 
     /* Bare URLs, but not ones already inside an href attribute. Release
@@ -729,9 +764,10 @@
     text = text.replace(/(^|[\s(])(https?:\/\/[^\s<)"]+)/g, function (m, lead, url) {
       var target = resolveLink(url, null);
       if (!target) return lead + url;
+      var shownUrl = supersededGuideLink(url) ? target : url;
       var external = /^https?:/i.test(target) && target.indexOf("innioasis.app") === -1;
       return lead + '<a href="' + escapeAttr(target) + '"' +
-        (external ? ' target="_blank" rel="noopener noreferrer"' : "") + ">" + url + "</a>";
+        (external ? ' target="_blank" rel="noopener noreferrer"' : "") + ">" + shownUrl + "</a>";
     });
 
     text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
@@ -1090,6 +1126,9 @@
       if (tag === "A") {
         var rawHref = el.getAttribute("href");
         if (rawHref) el.setAttribute("href", resolveLink(rawHref, ctx));
+        if (rawHref && supersededGuideLink(rawHref) && linkTextIsUrl(el.textContent, rawHref)) {
+          el.textContent = el.getAttribute("href") || GUIDE_URL;
+        }
         var finalHref = el.getAttribute("href") || "";
         if (/^https?:/i.test(finalHref) && finalHref.indexOf("innioasis.app") === -1) {
           el.setAttribute("rel", "noopener noreferrer");

@@ -347,7 +347,15 @@ def clean_html(markup: str, ctx: dict | None = None) -> str:
         attrs = re.sub(r"(?is)\s(href|src|poster)\s*=\s*(\"|')([^\"']*)\2", rewrite_attr, attrs)
         return "<%s%s%s>" % (closing, name, attrs)
 
-    return re.sub(r"(?is)<(/?)([a-zA-Z][a-zA-Z0-9-]*)((?:\s[^<>]*)?)>", replace_tag, markup)
+    markup = re.sub(r"(?is)<(/?)([a-zA-Z][a-zA-Z0-9-]*)((?:\s[^<>]*)?)>", replace_tag, markup)
+
+    def rewrite_anchor_text(match: re.Match) -> str:
+        opening, body, closing = match.group(1), match.group(2), match.group(3)
+        if not superseded_guide_link(html.unescape(body).strip()):
+            return match.group(0)
+        return opening + esc(guide_url()) + closing
+
+    return re.sub(r"(?is)(<a\b[^>]*>)(.*?)(</a>)", rewrite_anchor_text, markup)
 
 
 def parse_source(url: str):
@@ -566,12 +574,51 @@ def release_notes_href(repo: str, tag: str = "") -> str:
     return SITE + "/release_notes.html" + ("?" + query if query else "")
 
 
+# Sources a project README tends to cite instead of our own guide.
+SUPERSEDED_LINK_RES = (
+    re.compile(r"^https?://(?:www\.)?innioasis\.com/pages/(?:download|support-center)/?(?:[?#].*)?$", re.I),
+    re.compile(r"^https?://(?:www\.)?wooabc\.cn/download/MTPUSBDriverForWin10\.rar(?:[?#].*)?$", re.I),
+    re.compile(
+        r"^https?://drive\.google\.com/file/d/"
+        r"(?:1gJHvXXhqf9Q2fjxdy6-atErvdiyOHToh|1LJMk1cQAQkQtPszzjZTGB3--23YjdRvc"
+        r"|1gPFGBCdANa7atpGxKBPuXus0t-EI_byW|1mMvuX95VE_pKihilj6BSXdrZ6Y8UDxjF)\b",
+        re.I,
+    ),
+)
+
+
+def guide_url() -> str:
+    return SITE.rstrip("/") + "/guide.html"
+
+
+def superseded_guide_link(href: str) -> str:
+    value = (href or "").strip()
+    if not value:
+        return ""
+    for pattern in SUPERSEDED_LINK_RES:
+        if pattern.match(value):
+            return guide_url()
+    return ""
+
+
+def link_text_is_url(label: str, href: str) -> bool:
+    text = html.unescape(re.sub(r"<[^>]*>", "", label or "")).strip()
+    if not re.match(r"^https?://", text, re.I):
+        return False
+    left = re.sub(r"[?#].*$", "", text).rstrip("/").lower()
+    right = re.sub(r"[?#].*$", "", href or "").rstrip("/").lower()
+    return left == right
+
+
 def resolve_link(href: str, ctx: dict | None) -> str:
     if not href:
         return "#"
     if re.match(r"^(mailto:|tel:|data:|#)", href, re.I):
         return href
     if re.match(r"^https?:", href, re.I):
+        guide = superseded_guide_link(href)
+        if guide:
+            return guide
         # A release's own files are never listed here, and a link to the
         # project's GitHub releases page becomes our release notes page.
         if ASSET_LINK_RE.match(href):
@@ -640,12 +687,13 @@ def inline_markdown(text: str, ctx: dict | None) -> str:
         resolved = resolve_link(href, ctx)
         if not resolved:
             return label
+        shown = resolved if (superseded_guide_link(href) and link_text_is_url(label, href)) else label
         external = resolved.startswith("http") and "innioasis.app" not in resolved
         return '<a href="%s"%s%s>%s</a>' % (
             esc(resolved),
             ' title="%s"' % esc(title) if title else "",
             ' target="_blank" rel="noopener noreferrer"' if external else "",
-            label,
+            shown,
         )
 
     text = re.sub(r"!\[([^\]]*)\]\(\s*([^\s)]+)(?:\s+&quot;([^&]*)&quot;)?\s*\)", image, text)
@@ -654,11 +702,12 @@ def inline_markdown(text: str, ctx: dict | None) -> str:
         target = resolve_link(match.group(2), ctx)
         if not target:
             return match.group(1) + match.group(2)
+        shown = target if superseded_guide_link(match.group(2)) else match.group(2)
         external = target.startswith("http") and "innioasis.app" not in target
         return match.group(1) + '<a href="%s"%s>%s</a>' % (
             esc(target),
             ' target="_blank" rel="noopener noreferrer"' if external else "",
-            match.group(2),
+            shown,
         )
 
     text = re.sub(r"(^|[\s(])(https?://[^\s<)\"]+)", autolink, text)
