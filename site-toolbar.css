@@ -1125,7 +1125,7 @@ body.y1-donate-panel-open .y1-dock-goal-layer {
     border-color: rgba(107, 159, 255, 0.7);
 }
 
-/* Backdrop behind the dock panels and consent banner */
+/* Backdrop behind the dock panels */
 .y1-dock-backdrop {
     position: fixed;
     inset: 0;
@@ -1139,115 +1139,6 @@ body.y1-donate-panel-open .y1-dock-goal-layer {
     display: none !important;
 }
 
-/* EU consent banner  -  fixed bottom bar, shown on visits until decided */
-.y1-consent-banner {
-    position: fixed;
-    left: 50%;
-    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-    transform: translateX(-50%);
-    z-index: 10005;
-    pointer-events: auto;
-    width: min(96vw, 760px);
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px 18px;
-    padding: 14px 18px;
-    border-radius: 16px;
-    background: linear-gradient(145deg, var(--lumen-panel, #17243a), var(--lumen-panel-soft, #1a1e28));
-    border: 1px solid var(--lumen-line-strong, rgba(159, 193, 255, 0.35));
-    box-shadow: 0 18px 52px color-mix(in oklab, var(--lumen-ink, #000) 62%, transparent);
-    color: var(--lumen-text, #d9e0ef);
-    font-family: var(--site-font, "DM Sans", system-ui, sans-serif);
-    font-size: 0.84rem;
-    line-height: 1.45;
-}
-
-.y1-consent-banner[hidden] {
-    display: none !important;
-}
-
-.y1-consent-banner-copy {
-    flex: 1 1 340px;
-    min-width: 0;
-}
-
-.y1-consent-banner-title {
-    margin: 0 0 3px;
-    font-size: 0.92rem;
-    color: var(--lumen-paper, #fff);
-}
-
-.y1-consent-banner-text {
-    margin: 0;
-    color: var(--lumen-muted, #c4ccdc);
-    max-width: 52ch;
-}
-
-.y1-consent-banner-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-}
-
-.y1-consent-btn {
-    pointer-events: auto;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 38px;
-    padding: 7px 16px;
-    border-radius: 999px;
-    border: 1px solid var(--dock-line);
-    background: color-mix(in oklab, var(--dock-ink) 8%, transparent);
-    color: var(--dock-ink);
-    font: inherit;
-    font-weight: 700;
-    font-size: 0.82rem;
-    cursor: pointer;
-    transition: background 0.15s ease, border-color 0.15s ease;
-}
-
-.y1-consent-btn:hover {
-    background: color-mix(in oklab, var(--dock-ink) 16%, transparent);
-    border-color: var(--dock-line);
-}
-
-.y1-consent-btn--accept {
-    background: rgba(107, 159, 255, 0.28);
-    border-color: rgba(107, 159, 255, 0.55);
-}
-
-.y1-consent-btn--accept:hover {
-    background: rgba(107, 159, 255, 0.4);
-}
-
-.y1-consent-btn--link {
-    background: transparent;
-    border-color: transparent;
-    color: var(--dock-muted);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-}
-
-.y1-consent-btn--link:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--lumen-paper, #fff);
-    text-decoration: none;
-}
-
-body.y1-consent-banner-open .y1-site-dock-wrap {
-    bottom: calc(118px + env(safe-area-inset-bottom, 0px));
-    z-index: 10001;
-}
-
-body.y1-consent-banner-open .y1-donate-panel,
-body.y1-consent-banner-open .y1-privacy-panel {
-    z-index: 10006;
-}
-
 body.site-dock-mode #y1-privacy-panel {
     left: 50%;
     right: auto;
@@ -1255,9 +1146,6 @@ body.site-dock-mode #y1-privacy-panel {
     bottom: calc(88px + env(safe-area-inset-bottom, 0px));
 }
 
-body.site-dock-mode.y1-consent-banner-open #y1-privacy-panel.y1-privacy-panel--open {
-    bottom: calc(140px + env(safe-area-inset-bottom, 0px));
-}
 
 /* Hide orphaned fixed chip once mounted in bottom dock. */
 body.site-dock-mode:has(#y1-site-dock-privacy-slot #y1-privacy-settings-btn) > #y1-privacy-settings-btn {
@@ -1272,11 +1160,10 @@ body.site-dock-mode:has(#y1-site-dock-privacy-slot #y1-privacy-settings-btn) > #
 :root[data-lumen-theme="light"] #support-toolbar-container .y1-site-dock-bar,
 :root[data-lumen-theme="light"] #support-toolbar-container .y1-donate-panel,
 :root[data-lumen-theme="light"] #support-toolbar-container .y1-privacy-panel,
-:root[data-lumen-theme="light"] #support-toolbar-container .y1-consent-banner,
 :root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-site-dock-bar,
 :root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-donate-panel,
 :root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-privacy-panel,
-:root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-consent-banner {
+:root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-privacy-panel {
     background: var(--lumen-panel) !important;
     color: var(--lumen-text) !important;
     border-color: var(--lumen-line-strong) !important;
@@ -1289,8 +1176,6 @@ body.site-dock-mode:has(#y1-site-dock-privacy-slot #y1-privacy-settings-btn) > #
 :root[data-lumen-theme="light"] #support-toolbar-container .y1-donate-smallprint,
 :root[data-lumen-theme="light"] #support-toolbar-container .y1-privacy-body,
 :root[data-lumen-theme="light"] #support-toolbar-container .y1-privacy-note,
-:root[data-lumen-theme="light"] #support-toolbar-container .y1-consent-banner-text,
-:root[data-lumen-theme="light"] #support-toolbar-container .y1-consent-btn--link,
 :root[data-lumen-theme="light"] #support-toolbar-container .y1-privacy-option-label small,
 :root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-dock-link,
 :root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-donate-close,
@@ -1299,8 +1184,6 @@ body.site-dock-mode:has(#y1-site-dock-privacy-slot #y1-privacy-settings-btn) > #
 :root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-donate-smallprint,
 :root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-privacy-body,
 :root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-privacy-note,
-:root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-consent-banner-text,
-:root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-consent-btn--link,
 :root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-privacy-option-label small {
     color: var(--lumen-text) !important;
 }
@@ -1326,7 +1209,7 @@ body.site-dock-mode:has(#y1-site-dock-privacy-slot #y1-privacy-settings-btn) > #
         grid-template-columns: 1fr;
     }
 
-    .y1-consent-banner {
+    .y1-privacy-panel {
         width: calc(100vw - 16px);
         bottom: calc(8px + env(safe-area-inset-bottom, 0px));
         padding: 12px 14px;
@@ -1335,15 +1218,11 @@ body.site-dock-mode:has(#y1-site-dock-privacy-slot #y1-privacy-settings-btn) > #
         gap: 10px;
     }
 
-    .y1-consent-banner-actions {
+    .y1-privacy-panel-actions {
         justify-content: stretch;
     }
 
-    .y1-consent-btn {
-        flex: 1 1 auto;
-    }
-
-    body.y1-consent-banner-open .y1-site-dock-wrap {
+    body.y1-privacy-panel-open .y1-site-dock-wrap {
         bottom: calc(185px + env(safe-area-inset-bottom, 0px));
     }
 }
@@ -1374,8 +1253,7 @@ body.site-dock-mode:has(#y1-site-dock-privacy-slot #y1-privacy-settings-btn) > #
 /* High contrast: solid borders, strong hover fills, and a track that stays
    visible on the black panel  -  accessibility over the decorative wash. */
 :root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-dock-link:hover,
-:root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-donate-close:hover,
-:root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-consent-btn:hover {
+:root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-donate-close:hover {
     background: #2a2a2a;
     border-color: #fff;
 }
@@ -1408,14 +1286,6 @@ body.site-dock-mode:has(#y1-site-dock-privacy-slot #y1-privacy-settings-btn) > #
     border-color: #fff;
 }
 
-:root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-consent-btn--accept {
-    background: #0a6bb8;
-    border-color: #fff;
-}
-
-:root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-consent-btn--accept:hover {
-    background: #0f7fd6;
-}
 
 :root[data-lumen-theme="high-contrast"] #support-toolbar-container .y1-privacy-save {
     background: #0a6bb8;
@@ -1952,4 +1822,20 @@ body.site-dock-mode:has(#y1-site-dock-privacy-slot #y1-privacy-settings-btn) > #
 .y1-donate-panel .y1-contributor-stream-box,
 #y1-contributor-stream-box {
     display: none !important;
+}
+
+/* The donation switch only exists for visitors who already opted out. */
+.y1-privacy-option[hidden] {
+    display: none !important;
+}
+
+.y1-privacy-status:empty {
+    display: none;
+}
+
+.y1-privacy-status {
+    margin: 10px 0 0;
+    color: #7ee2a8;
+    font-size: 0.82rem;
+    font-weight: 700;
 }

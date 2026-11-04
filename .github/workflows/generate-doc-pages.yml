@@ -106,6 +106,24 @@ jobs:
           python scripts/generate_sitemap.py
           python scripts/generate_sitemap.py --check
 
+      # A package listed in slidia_manifest.xml with no feed on disk has no
+      # backup: a blocked GitHub API would leave it invisible. This warns
+      # rather than failing, because a repository can legitimately have no
+      # releases yet.
+      - name: Check every manifest repository has a backup feed
+        run: |
+          python - <<'PY'
+          import pathlib, xml.etree.ElementTree as ET
+          root = pathlib.Path(".")
+          repos = sorted({(pkg.get("repo") or "").strip().lower()
+                          for pkg in ET.parse(root / "slidia_manifest.xml").getroot().iter("package")
+                          if (pkg.get("repo") or "").strip()})
+          missing = [repo for repo in repos if not (root / "feeds" / repo / "releases.json").exists()]
+          for repo in missing:
+              print("::warning::No backup feed for %s" % repo)
+          print("%d of %d manifest repositories have a backup feed." % (len(repos) - len(missing), len(repos)))
+          PY
+
       - name: Commit regenerated pages
         run: |
           git config user.name "github-actions[bot]"

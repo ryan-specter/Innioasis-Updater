@@ -1,14 +1,17 @@
 # Robots.txt for innioasis.app
-# Allow all search engines to crawl all content
+# Open to every search engine, including Yandex, Baidu, Naver and Seznam.
 
 User-agent: *
 Allow: /
+
+# Yandex. Clean-param tells it to ignore campaign and analytics parameters, so
+# tagged links are not crawled and indexed as separate copies of a page.
+User-agent: Yandex
+Allow: /
+Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&fbclid&gclid&yclid&_openstat&from /
 
 # Sitemap location
 Sitemap: https://innioasis.app/sitemap.xml
 
 # AI / LLM crawlers (llmstxt.org standard)
 # https://innioasis.app/llms.txt
-
-# Crawl-delay (optional - adjust if server load is a concern)
-# Crawl-delay: 1

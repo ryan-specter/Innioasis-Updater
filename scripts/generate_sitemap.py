@@ -41,7 +41,10 @@ SKIP_DIRS = {
     "feeds",
     "assets",
 }
-SKIP_FILES = {"404.html"}
+# 404 is not a page to index, support_toolbar.html is an HTML fragment that is
+# injected into other pages, firmware_info.html is noindex and innioasis-embed.html
+# is the bare widget that other sites iframe. None of them belong in a sitemap.
+SKIP_FILES = {"404.html", "support_toolbar.html", "firmware_info.html", "innioasis-embed.html"}
 
 URL_RE = re.compile(r"\s*<url>.*?</url>", re.S)
 

@@ -453,6 +453,53 @@
             });
     }
 
+    /* Repository names are lookup keys for the release map. GitHub and the
+       manifest do not agree on case, so every key passes through here. */
+    function repoKey(repo) {
+        return String(repo || "").trim().toLowerCase();
+    }
+
+    /* One identity per release, so the cached catalogue, the per-repo feed
+       and the GitHub answer can be merged without showing the same build
+       twice. GitHub's tag is the identity; a release without one falls back
+       to its name and date. */
+    function releaseKey(release) {
+        if (!release) return "";
+        var tag = String(release.tag_name || "").trim().toLowerCase();
+        if (tag) return "tag:" + tag;
+        return "name:" + String(release.name || "").trim().toLowerCase() +
+            "@" + String(release.published_at || release.created_at || "");
+    }
+
+    /* The key a release row is identified by across re-renders. */
+    function rowKeyFor(item, release) {
+        if (!item || !release) return "";
+        return repoKey(item.repo || item.model) + "::" + releaseKey(release);
+    }
+
+    /* Two release lists become one. The base list is what is already on
+       screen (our own feed or the catalogue snapshot), incoming is the
+       GitHub answer: a tag both carry is refreshed from GitHub, a tag only
+       GitHub has is appended, and nothing appears twice. */
+    function mergeReleaseLists(base, incoming) {
+        var merged = [];
+        var seen = Object.create(null);
+        function add(release, replace) {
+            if (!release) return;
+            var key = releaseKey(release);
+            if (!key) return;
+            if (seen[key] !== undefined) {
+                if (replace) merged[seen[key]] = release;
+                return;
+            }
+            seen[key] = merged.length;
+            merged.push(release);
+        }
+        (base || []).forEach(function (release) { add(release, false); });
+        (incoming || []).forEach(function (release) { add(release, true); });
+        return merged;
+    }
+
     /* One page of releases for a repo using token rotation and fallback. */
     function fetchReleasesPage(repo, page) {
         var url = "https://api.github.com/repos/" + repo + "/releases?per_page=100&page=" + page;
@@ -641,6 +688,19 @@
     function initFeedback(root) {
         var key = "innioasis-feedback-" + (root.getAttribute("data-feedback") || location.pathname);
         var support = root.querySelector("[data-feedback-support]");
+        /* Show the answer this browser already has, and drop it from view when
+           the visitor withdraws permission, so the prompt matches storage. */
+        function syncStoredAnswer() {
+            var allowed = !window.INNIOASIS_PRIVACY || window.INNIOASIS_PRIVACY.allows("feedback");
+            var stored = null;
+            if (allowed) { try { stored = localStorage.getItem(key); } catch (_) {} }
+            root.querySelectorAll("button[data-feedback-value]").forEach(function (button) {
+                button.setAttribute("aria-pressed", stored && button.getAttribute("data-feedback-value") === stored ? "true" : "false");
+            });
+            if (support) support.hidden = stored !== "no";
+        }
+        syncStoredAnswer();
+        window.addEventListener("innioasis-privacy-change", syncStoredAnswer);
         root.querySelectorAll("button[data-feedback-value]").forEach(function (button) {
             button.addEventListener("click", function () {
                 var value = button.getAttribute("data-feedback-value");
@@ -1267,9 +1327,11 @@
         var releaseState = {};
         var fetchedRepos = {};
         if (window.INNIOASIS_HARDCODED_RELEASES) {
-            Object.keys(window.INNIOASIS_HARDCODED_RELEASES).forEach(function (repo) {
-                releases[repo] = window.INNIOASIS_HARDCODED_RELEASES[repo].slice();
-                releaseState[repo] = "cached";
+            Object.keys(window.INNIOASIS_HARDCODED_RELEASES).forEach(function (key) {
+                var list = window.INNIOASIS_HARDCODED_RELEASES[key];
+                if (!Array.isArray(list) || !list.length) return;
+                releases[repoKey(key)] = list.slice();
+                releaseState[repoKey(key)] = "cached";
             });
         }
         /* URL filters: ?model=Y1|Y2 and ?software=slug preselect the dropdowns,
@@ -1323,6 +1385,20 @@
                 if (!window.INNIOASIS_PRIVACY || window.INNIOASIS_PRIVACY.allows("nightly")) {
                     try { localStorage.setItem("innioasis-show-nightly", showNightly ? "1" : "0"); } catch (_) {}
                 }
+                render();
+                syncUrl();
+            });
+            /* Saving the privacy panel must reach this page: once the visitor
+               withdraws the nightly preference the remembered filter is gone,
+               so fall back to the stable-only default here and now. An
+               explicit ?nightly=1 link is the visitor's current view, not a
+               stored choice, so it is left alone. */
+            window.addEventListener("innioasis-privacy-change", function (event) {
+                var detail = event && event.detail ? event.detail : null;
+                if (!detail || detail.nightly !== false) return;
+                if ((searchParams.get("nightly") || "") === "1") return;
+                showNightly = false;
+                nightly.checked = false;
                 render();
                 syncUrl();
             });
@@ -1442,7 +1518,7 @@
            repos are fetched. Shared repos (stock, Solar, JJ Launcher) hold
            releases for both models, so per-item matching still applies. */
         function activeRepos() {
-            return Array.from(new Set(matchingItems().map(function (item) { return item.repo; })));
+            return Array.from(new Set(matchingItems().map(function (item) { return repoKey(item.repo); })));
         }
 
         /* A release belongs to an item only when it actually carries that
@@ -1451,7 +1527,7 @@
            under the Y1 row or the other way round. Returns null when the
            repo has releases but none fit the selected model. */
         function releasesForItem(item) {
-            var repoReleases = releases[item.repo];
+            var repoReleases = releases[repoKey(item.repo)];
             if (!Array.isArray(repoReleases) || !repoReleases.length) return null;
             var matching = matchingReleases(repoReleases, item, typeForItem(item));
             return matching.length ? matching : null;
@@ -1460,7 +1536,7 @@
         /* How many model-matched releases the blocklist removed, so an empty
            list explains itself instead of claiming the project has none. */
         function blockedReleaseCount(item) {
-            var repoReleases = releases[item.repo];
+            var repoReleases = releases[repoKey(item.repo)];
             if (!Array.isArray(repoReleases) || !repoReleases.length) return 0;
             var type = typeForItem(item);
             return matchingReleases(repoReleases, item, type).filter(function (release) {
@@ -1679,7 +1755,7 @@
                already sets the project, so every row belongs to it. */
             /* The reader goes to our own release-notes page. Never fall back
                to a source-host URL when a release tag is missing. */
-            return '<tr data-release-tag="' + escapeHtml(release && (release.tag_name || release.name) || "") + '">' +
+            return '<tr data-release-key="' + escapeHtml(rowKeyFor(item, release)) + '" data-release-tag="' + escapeHtml(release && (release.tag_name || release.name) || "") + '">' +
                 '<td><div style="display:flex;align-items:center;gap:10px;">' + iconHtml + '<div>' + versionHtml + (release && release.published_at ? '<br><span class="lumen-meta">' + escapeHtml(release.published_at.slice(0, 10)) + '</span>' : '') + '</div></div></td>' +
                 /* The package is not shown: the Release details expander lists
                    the rom zips this release is packaged in. */
@@ -1688,33 +1764,60 @@
                 '</tr>';
         }
 
+        /* Rows already painted this session. A key in here is never animated
+           again, so changing a filter does not replay the entrance. */
+        var shownRowKeys = Object.create(null);
+        var rowsPainted = false;
+
         function render() {
             var items = matchingItems();
             if (!items.length) {
                 table.innerHTML = '<tr><td colspan="3">No software project is currently listed for this model and filter. Try another project or check the project release pages.</td></tr>';
+                rowsPainted = true;
                 return;
             }
+            /* A late GitHub answer re-renders the table; an expanded release
+               panel must survive that refresh. */
+            var openKeys = Object.create(null);
+            Array.prototype.forEach.call(table.querySelectorAll("tr[data-release-key]"), function (row) {
+                if (row.querySelector("details[open]")) openKeys[row.getAttribute("data-release-key")] = true;
+            });
             var rows = [];
+            function pushRow(html, key) {
+                rows.push(html);
+                if (key) openKeys[key] = openKeys[key] || false;
+            }
             items.forEach(function (item) {
                 var itemReleases = visibleReleases(item);
                 var modelReleases = releasesForItem(item);
                 if (itemReleases) {
-                    itemReleases.forEach(function (release) { rows.push(releaseRows(release, item, "loaded")); });
+                    itemReleases.forEach(function (release) { pushRow(releaseRows(release, item, "loaded"), rowKeyFor(item, release)); });
                 } else if (modelReleases) {
                     /* The repo has model-matched releases, but the stable
                        filter hides them all: no stable build exists yet.
                        In nightly mode every release is shown, so this
                        state can only happen when the filter is off. */
-                    rows.push(releaseRows(null, item, "filtered-stable"));
+                    pushRow(releaseRows(null, item, "filtered-stable"), "");
                 } else {
-                    var repoReleases = releases[item.repo];
+                    var repoReleases = releases[repoKey(item.repo)];
                     var repoLoaded = Array.isArray(repoReleases) && repoReleases.length > 0;
-                    var state = !repoLoaded ? (releaseState[item.repo] || "loading")
+                    var state = !repoLoaded ? (releaseState[repoKey(item.repo)] || "loading")
                         : blockedReleaseCount(item) ? "blocked" : "nomatch";
-                    rows.push(releaseRows(null, item, state));
+                    pushRow(releaseRows(null, item, state), "");
                 }
             });
             table.innerHTML = rows.join("");
+            Array.prototype.forEach.call(table.querySelectorAll("tr[data-release-key]"), function (row) {
+                var key = row.getAttribute("data-release-key");
+                if (!key) return;
+                if (openKeys[key]) {
+                    var details = row.querySelector("details.lumen-release-details");
+                    if (details) details.open = true;
+                }
+                if (rowsPainted && !shownRowKeys[key]) row.classList.add("lumen-row-new");
+                shownRowKeys[key] = true;
+            });
+            rowsPainted = true;
             /* The checkbox label follows the project that is on screen. */
             syncNightlyCopy();
             /* Model, type, software and release are all known here: hand them
@@ -1793,6 +1896,14 @@
             pending.forEach(function (repo) {
                 if (!releases[repo] || !releases[repo].length) {
                     releaseState[repo] = "loading";
+                    /* Nothing cached for this repo yet: the per-repo feed on
+                       this site puts a list on screen while GitHub is asked,
+                       and GitHub replaces or extends it when it answers. */
+                    fetchBackupReleases(repo).then(function (backup) {
+                        if (!backup || !Array.isArray(backup.releases) || !backup.releases.length) return;
+                        releases[repo] = mergeReleaseLists(releases[repo], backup.releases);
+                        render();
+                    }).catch(function () {});
                 }
             });
             Promise.all(pending.map(function (repo) {
@@ -1800,7 +1911,11 @@
                     .then(function (result) {
                         fetchedRepos[repo] = true;
                         if (result && Array.isArray(result.releases) && result.releases.length > 0) {
-                            releases[repo] = result.releases;
+                            /* GitHub is the source of truth. A tag it carries
+                               replaces our cached copy (fresh notes, assets
+                               and title); tags our feed has never seen are
+                               appended as they arrive. */
+                            releases[repo] = mergeReleaseLists(releases[repo], result.releases);
                             releaseState[repo] = result.complete ? "loaded" : "partial";
                             render();
                         } else if (!releases[repo] || !releases[repo].length) {
@@ -2415,6 +2530,7 @@
                             model: device,
                             slug: slug + "-" + device.toLowerCase(),
                             repo: repo,
+                            type: /^original/i.test(name) ? "original" : "custom",
                             icon: icon,
                             post_install: postInstall,
                             post_install2: postInstall2,

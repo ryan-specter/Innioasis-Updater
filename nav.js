@@ -46,6 +46,11 @@
   }
 
   window.isY1DonationsDisabled = isY1DonationsDisabled;
+  /* Whether this browser has actually stored a donation choice. The privacy
+     panel only offers the switch to visitors who already opted out, so the
+     first-visit copy cannot talk someone out of donating before they have
+     seen the site. */
+  window.hasY1DonationsPreference = donationsStored;
   window.setY1DonationsDisabled = function (disabled) {
     try {
       if (disabled) window.localStorage.setItem(DONATIONS_KEY, "1");
