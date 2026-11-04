@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rockbox for Y2 (Rockbox-Y2): the separate Y2 port</title>
+  <meta name="description" content="Rockbox for Y2, Rockbox-Y2 and rockbox-y2 name the same Innioasis Y2 port: a separate beta line with its own ROM package, mirror and install path.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://innioasis.app/rockbox-for-y2.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Rockbox for Y2 (Rockbox-Y2): the separate Y2 port">
+  <meta property="og:description" content="Rockbox for Y2, Rockbox-Y2 and rockbox-y2 name the same Innioasis Y2 port: a separate beta line with its own ROM package, mirror and install path.">
+  <meta property="og:url" content="https://innioasis.app/rockbox-for-y2.html">
+  <meta property="og:image" content="https://innioasis.app/assets/og-image.png">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Rockbox for Y2 (Rockbox-Y2): the separate Y2 port">
+  <meta name="twitter:description" content="Rockbox for Y2, Rockbox-Y2 and rockbox-y2 name the same Innioasis Y2 port: a separate beta line with its own ROM package, mirror and install path.">
+  <meta name="twitter:image" content="https://innioasis.app/assets/og-image.png">
+  <link rel="icon" href="y1_illustration.png">
+  <link rel="stylesheet" href="site-theme.css?v=20260803">
+  <link rel="stylesheet" href="lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="site-pages.css?v=20260818">
+  <link rel="stylesheet" href="site-toolbar.css?v=20261105dockclose">
+  <script src="site-init.js?v=20260803" defer></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Rockbox for Y2 (Rockbox-Y2): the separate Y2 port","description":"Rockbox for Y2, Rockbox-Y2 and rockbox-y2 name the same Innioasis Y2 port — a separate beta line with its own ROM package and mirror.","image":"https://innioasis.app/assets/og-image.png","author":{"@type":"Organization","name":"Innioasis Community"},"mainEntityOfPage":"https://innioasis.app/rockbox-for-y2.html"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://innioasis.app/"},{"@type":"ListItem","position":2,"name":"Firmware Downloads","item":"https://innioasis.app/firmware.html"},{"@type":"ListItem","position":3,"name":"Rockbox for Y2","item":"https://innioasis.app/rockbox-for-y2.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Rockbox for Y2 the same as Rockbox-Y2?","acceptedAnswer":{"@type":"Answer","text":"Yes. Rockbox, Rockbox-Y2, Rockbox for Y2 and rockbox-y2 all describe the Rockbox port for the Innioasis Y2. The catalogue lists it as Rockbox with device Y2."}},{"@type":"Question","name":"Can I use the Y1 Rockbox package on a Y2?","acceptedAnswer":{"@type":"Answer","text":"No. The Y2 port is a separate build with its own ROM package (rom_y2.zip) and its own mirror. Flashing the Y1 package on a Y2 is the mistake to avoid."}},{"@type":"Question","name":"Is the Y2 Rockbox build stable?","acceptedAnswer":{"@type":"Answer","text":"It is published as a beta line. Read the release notes for the tag you install before relying on a feature or a theme that changed between betas."}}]}</script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide">
+  <p class="lumen-doc-back"><a href="firmware.html?model=Y2&amp;software=rockbox-y2">← Firmware Downloads</a></p>
+  <header>
+    <p class="lumen-kicker">Rockbox-Y2 · Innioasis Y2</p>
+    <h1>Rockbox for Y2 is Rockbox-Y2</h1>
+    <p class="lead">The Y2 has its own Rockbox. It is not the Y1 build with a different label: different project, different ROM package, different mirror, and a beta line that moves at its own pace.</p>
+    <div class="lumen-actions">
+      <a class="lumen-button lumen-button--primary" href="rockbox-y2/install.html">Install Rockbox-Y2</a>
+      <a class="lumen-button" href="rockbox-y2/download.html">Download the ROM</a>
+      <a class="lumen-button" href="guides/rockbox-y2.html">Written tutorial</a>
+      <a class="lumen-button" href="rockbox-y2/">Rockbox-Y2 hub</a>
+    </div>
+  </header>
+
+  <section class="lumen-guide-section">
+    <h2>Same name, different build</h2>
+    <p>“Rockbox” is the project; “Rockbox-Y2”, “Rockbox for Y2” and <code>rockbox-y2</code> are how people name the port for this player. The catalogue lists it as <strong>Rockbox</strong> with device <code>Y2</code>, published from the <code>spycemagic/y2-rockbox</code> repository, and its ROM package is named <code>rom_y2.zip</code> — a filename worth remembering, because it is the quickest way to tell a Y2 download from a Y1 one.</p>
+    <p>The Y1 package will not appear when Y2 is selected in Updater CE. If you are downloading by hand, that file name is the check.</p>
+  </section>
+
+  <section class="lumen-guide-section">
+    <h2>What the Y2 port gives you</h2>
+    <ul class="lumen-benefits-list">
+      <li><strong>Tag-based library</strong> — albums and artists read from your files, not the folder names.</li>
+      <li><strong>Playback features</strong> — gapless playback, crossfade and the equalizer.</li>
+      <li><strong>Themes</strong> — theme support follows the build; check the release notes for the tag you install rather than assuming a Y1 theme pack applies.</li>
+      <li><strong>Offline by design</strong> — local files, no account, no subscription.</li>
+      <li><strong>A way back</strong> — the Y2 Original Software package restores the stock player.</li>
+    </ul>
+    <p>It is a beta line. That is not a warning to avoid it, but it does change how you should read release notes: features can move between builds, and a theme that worked on one beta may need the next one.</p>
+  </section>
+
+  <section class="lumen-guide-section">
+    <h2>Which Y2 build do I want?</h2>
+    <ul class="lumen-benefits-list">
+      <li>Only install builds listed for <strong>Y2</strong> — the model filter in Updater CE is the safest list you will find.</li>
+      <li>Take the newest beta unless a release note warns about something you need.</li>
+      <li>Keep the ZIP you flashed (or its tag name) so you can return to that build if a later beta misbehaves.</li>
+    </ul>
+    <p>The full history is on the <a href="release-notes/rockbox-y2/index.html">Rockbox-Y2 release notes</a>.</p>
+  </section>
+
+  <section class="lumen-guide-section">
+    <h2>Where the Rockbox-Y2 ROM zips come from</h2>
+    <p>The Y2 mirror is <a href="https://github.com/y1-community/y2-rockbox-mirror" rel="noopener">y1-community/y2-rockbox-mirror</a>. Its releases repack the port as portable flashing packages: <code>rom_y2-windows.zip</code>, <code>rom_y2-macos.zip</code>, <code>rom_y2-linux.zip</code> and a universal <code>rom_y2.zip</code>, alongside the project's own notes and guides.</p>
+    <p>Those are the same images Updater CE flashes when you install from the app. The <a href="rockbox-rom-download.html">Rockbox ROM download page</a> lists Y1 and Y2 packages together so the model is never ambiguous.</p>
+    <div class="lumen-actions">
+      <a class="lumen-button" href="rockbox-y2/download.html">Rockbox-Y2 downloads</a>
+      <a class="lumen-button" href="rockbox-y2/portable-zip.html">Portable ZIP route</a>
+    </div>
+  </section>
+
+  <section class="lumen-guide-section">
+    <h2>Install Rockbox-Y2</h2>
+    <ol class="lumen-steps">
+      <li>Open Innioasis Updater CE and set <strong>Device Model</strong> to <strong>Y2</strong>.</li>
+      <li>Choose <strong>Rockbox</strong> in <strong>Software</strong>.</li>
+      <li>Pick a release explicitly listed for Y2.</li>
+      <li>Click <strong>Install / Restore</strong> and wait for the package to prepare.</li>
+      <li>Power the Y2 fully off, then connect the USB data cable only when Updater asks.</li>
+      <li>Disconnect after the success message, then boot the player.</li>
+    </ol>
+    <p>The long version is the <a href="guides/rockbox-y2.html">Rockbox-Y2 tutorial</a>.</p>
+  </section>
+
+  <section class="lumen-guide-section">
+    <h2>Going back to the original Y2 software</h2>
+    <p>Choose <strong>Y2</strong>, choose <strong>Original Software</strong>, pick a stable release and run <strong>Install / Restore</strong>. The <a href="rockbox-y2/restore-stock.html">restore page</a> and the <a href="original-software-y2.html">Y2 stock-software page</a> have the sequence.</p>
+  </section>
+
+  <section class="lumen-guide-section">
+    <h2>Questions people ask</h2>
+    <details>
+      <summary>Can I use a Y1 Rockbox tutorial for the Y2?</summary>
+      <p>For the broad idea, yes — model first, software second, connect last. For package choice and theme notes, follow the <a href="guides/rockbox-y2.html">Y2 guide</a>.</p>
+    </details>
+    <details>
+      <summary>Why does the file name say rom_y2.zip?</summary>
+      <p>Because it is the Y2 ROM. That naming is the simplest way to confirm a manual download belongs to this player.</p>
+    </details>
+    <details>
+      <summary>Do Y1 themes work on the Y2?</summary>
+      <p>Not reliably. Theme support follows the Y2 build; check its release notes and the <a href="rockbox-y2-themes.html">Rockbox-Y2 theme page</a>.</p>
+    </details>
+    <details>
+      <summary>Is there a stable Y2 release?</summary>
+      <p>The line is published as betas. Take the newest unless a note says otherwise, and keep the tag you flashed.</p>
+    </details>
+  </section>
+
+  <section class="lumen-guide-section">
+    <h2>Keep reading</h2>
+    <div class="lumen-grid">
+      <article class="lumen-card"><h3><a href="rockbox-y2/">Rockbox-Y2 hub</a></h3><p>Every Y2 page: install, downloads, themes, restore, dual boot, troubleshooting.</p></article>
+      <article class="lumen-card"><h3><a href="rockbox-y1-vs-y2.html">Rockbox-Y1 vs Rockbox-Y2</a></h3><p>What actually differs between the two ports.</p></article>
+      <article class="lumen-card"><h3><a href="rockbox-y2-themes.html">Rockbox-Y2 themes</a></h3><p>Theme support on a beta line, and how to reset one that misbehaves.</p></article>
+      <article class="lumen-card"><h3><a href="rockbox-for-y1.html">Rockbox for Y1</a></h3><p>The other port, for the smaller player.</p></article>
+    </div>
+  </section>
+</main>
+<div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="nav.js?v=20261103brand" defer></script>
+<script src="site-i18n.js?v=20260830" defer></script>
+</body>
+</html>

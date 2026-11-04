@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rockbox-Y1 themes: 240p, 360p and applying a theme</title>
+  <meta name="description" content="Rockbox-Y1 themes explained: what 240p and 360p build labels mean for theme compatibility, where the theme library lives, and how to apply or reset a theme.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://innioasis.app/rockbox-y1-themes.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Rockbox-Y1 themes: 240p, 360p and applying a theme">
+  <meta property="og:description" content="What the 240p and 360p labels mean for Rockbox-Y1 themes, where the library lives, and how to apply or reset a theme.">
+  <meta property="og:url" content="https://innioasis.app/rockbox-y1-themes.html">
+  <meta property="og:image" content="https://innioasis.app/assets/og-image.png">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Rockbox-Y1 themes: 240p, 360p and applying a theme">
+  <meta name="twitter:description" content="What the 240p and 360p labels mean for Rockbox-Y1 themes, where the library lives, and how to apply or reset a theme.">
+  <meta name="twitter:image" content="https://innioasis.app/assets/og-image.png">
+  <link rel="icon" href="y1_illustration.png">
+  <link rel="stylesheet" href="site-theme.css?v=20260803">
+  <link rel="stylesheet" href="lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="site-pages.css?v=20260818">
+  <link rel="stylesheet" href="site-toolbar.css?v=20261105dockclose">
+  <script src="site-init.js?v=20260803" defer></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Rockbox-Y1 themes: 240p, 360p and applying a theme","description":"How Rockbox-Y1 build labels relate to theme compatibility, and how to apply or reset a theme on the Y1.","image":"https://innioasis.app/assets/og-image.png","author":{"@type":"Organization","name":"Innioasis Community"},"mainEntityOfPage":"https://innioasis.app/rockbox-y1-themes.html"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://innioasis.app/"},{"@type":"ListItem","position":2,"name":"Firmware Downloads","item":"https://innioasis.app/firmware.html"},{"@type":"ListItem","position":3,"name":"Rockbox-Y1 themes","item":"https://innioasis.app/rockbox-y1-themes.html"}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does a Rockbox-Y1 theme look wrong after installing?","acceptedAnswer":{"@type":"Answer","text":"Theme and build must share a resolution path. A theme written for 240p builds will not render correctly on a 360p build, and the reverse is also true. Match the theme label to the build label."}},{"@type":"Question","name":"Where do Rockbox-Y1 themes go on the card?","acceptedAnswer":{"@type":"Answer","text":"Inside the .rockbox folder on the MicroSD card, in its themes folder. Copy the theme's folder there, then pick it in the player's theme settings."}},{"@type":"Question","name":"How do I undo a broken theme?","acceptedAnswer":{"@type":"Answer","text":"Select a different theme from the player's theme settings. If the interface is unusable, rename or delete the .rockbox folder on the card and the build recreates it with defaults on the next boot."}}]}</script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide">
+  <p class="lumen-doc-back"><a href="rockbox-y1/">← Rockbox-Y1 hub</a></p>
+  <header>
+    <p class="lumen-kicker">Rockbox-Y1 · themes</p>
+    <h1>Rockbox-Y1 themes: pick the build, then the look</h1>
+    <p class="lead">Themes are the reason the build labels exist. A Rockbox-Y1 theme is written for a display path — 240p or 360p — and it only looks right on a build that matches.</p>
+    <div class="lumen-actions">
+      <a class="lumen-button lumen-button--primary" href="https://themes.innioasis.app/" target="_blank" rel="noopener noreferrer">Browse community themes</a>
+      <a class="lumen-button" href="theme_downloader.html">Theme tools</a>
+      <a class="lumen-button" href="rockbox-y1/resolution.html">240p vs 360p</a>
+    </div>
+  </header>
+
+  <section class="lumen-guide-section">
+    <h2>240p, 360p, and why the label is on the build</h2>
+    <p>Y1 community builds are published with a resolution label, and the theme collections carry the same label. 240p builds have the broadest compatibility with older theme packs; 360p builds are made for the newer Y1 theme path. Installing one and applying the other is not dangerous — it just looks wrong, with clipped text, missing elements, or an interface you cannot read.</p>
+    <p>If you have no theme preference yet, take the newer stable build and its default theme, then choose themes that match its label. The <a href="rockbox-y1/resolution.html">resolution page</a> goes deeper; the rule of thumb is simple: build label and theme label must agree.</p>
+  </section>
+
+  <section class="lumen-guide-section">
+    <h2>Where themes live</h2>
+    <p>Themes are files on the MicroSD card, inside the <code>.rockbox</code> folder — the same folder that holds settings and caches. The firmware itself is on internal flash, so adding, changing or removing a theme never requires reflashing.</p>
+    <ul class="lumen-benefits-list">
+      <li>Copy the theme's own folder into <code>.rockbox/themes</code> on the card.</li>
+      <li>Then choose it in the player's theme settings and reboot to see it applied.</li>
+      <li>Keep a copy of a theme you like before updating the build — it is a file, not an installation.</li>
+    </ul>
+    <p>Turn on hidden files first if you cannot see the folder: macOS <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>.</kbd>, Windows View → Hidden items, Linux <kbd>Ctrl</kbd>+<kbd>H</kbd>.</p>
+  </section>
+
+  <section class="lumen-guide-section">
+    <h2>Applying a theme, in order</h2>
+    <ol class="lumen-steps">
+      <li>Install and boot Rockbox-Y1 first; a theme needs a running build.</li>
+      <li>Copy the theme folder to <code>.rockbox/themes</code> on the card.</li>
+      <li>Open the theme settings and select the theme.</li>
+      <li>Reboot so the whole interface — not just the menu — picks it up.</li>
+      <li>If it looks broken, select another theme; the files are still there if you want to retry later.</li>
+    </ol>
+  </section>
+
+  <section class="lumen-guide-section">
+    <h2>Undoing a theme that broke the interface</h2>
+    <p>If the player boots into something unusable, you do not need to reinstall the firmware. Rename or delete the <code>.rockbox</code> folder on the card and start the player: the build recreates the folder with default settings and a default theme. Your music is untouched, and you can copy the themes you want back afterwards.</p>
+    <div class="lumen-actions">
+      <a class="lumen-button" href="rockbox-y1/sd-card.html">The .rockbox folder</a>
+      <a class="lumen-button" href="rockbox-y1/first-start.html">First start</a>
+      <a class="lumen-button" href="rockbox-y1/update.html">Updating the build</a>
+    </div>
+  </section>
+
+  <section class="lumen-guide-section">
+    <h2>Questions people ask</h2>
+    <details>
+      <summary>Will a Y2 theme work on the Y1?</summary>
+      <p>No. The ports are separate, and theme support on the Y2 follows its beta builds. See <a href="rockbox-y2-themes.html">Rockbox-Y2 themes</a>.</p>
+    </details>
+    <details>
+      <summary>Do themes survive an update?</summary>
+      <p>Usually yes, because they live on the card and the flash writes the ROM. If a new build changes the theme path, reapply a theme that matches its label.</p>
+    </details>
+    <details>
+      <summary>Why is the theme only half applied?</summary>
+      <p>A reboot normally resolves it. If not, the theme's files are incomplete — re-copy its folder rather than editing individual files.</p>
+    </details>
+  </section>
+</main>
+<div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="nav.js?v=20261103brand" defer></script>
+<script src="site-i18n.js?v=20260830" defer></script>
+</body>
+</html>

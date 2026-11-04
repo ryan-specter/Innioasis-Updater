@@ -12,6 +12,7 @@ on:
       - firmware-catalog.js
       - docs-viewer.js
       - scripts/generate_doc_pages.py
+      - scripts/generate_rockbox_pages.py
       - scripts/generate_firmware_info.py
       - config.ini
       - .github/workflows/generate-doc-pages.yml
@@ -56,6 +57,12 @@ jobs:
         run: |
           python scripts/generate_doc_pages.py ${{ inputs.refresh && '--refresh' || '' }}
 
+      - name: Render the Rockbox-Y1 and Rockbox-Y2 pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/generate_rockbox_pages.py ${{ inputs.refresh && '--refresh' || '' }}
+
       - name: Render firmware README pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -66,7 +73,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add release-notes post-install firmware-info sitemap.xml
+          git add release-notes post-install firmware-info rockbox-y1 rockbox-y2 rockbox-rom-download.html sitemap.xml llms.txt
           if git diff --cached --quiet; then
             echo "No release or post-install changes."
           else

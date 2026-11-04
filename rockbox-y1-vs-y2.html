@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rockbox-Y1 vs Rockbox-Y2: which build belongs on your player</title>
+  <meta name="description" content="Rockbox-Y1 and Rockbox-Y2 are separate ports, not two labels for one ROM. Repositories, package names, mirrors, build labels and restore paths compared.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://innioasis.app/rockbox-y1-vs-y2.html">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Rockbox-Y1 vs Rockbox-Y2: which build belongs on your player">
+  <meta property="og:description" content="Rockbox-Y1 and Rockbox-Y2 are separate ports, not two labels for one ROM. Repositories, package names, mirrors, build labels and restore paths compared.">
+  <meta property="og:url" content="https://innioasis.app/rockbox-y1-vs-y2.html">
+  <meta property="og:image" content="https://innioasis.app/assets/og-image.png">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Rockbox-Y1 vs Rockbox-Y2: which build belongs on your player">
+  <meta name="twitter:description" content="Rockbox-Y1 and Rockbox-Y2 are separate ports, not two labels for one ROM. Repositories, package names, mirrors, build labels and restore paths compared.">
+  <meta name="twitter:image" content="https://innioasis.app/assets/og-image.png">
+  <link rel="icon" href="y1_illustration.png">
+  <link rel="stylesheet" href="site-theme.css?v=20260803">
+  <link rel="stylesheet" href="lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="site-pages.css?v=20260818">
+  <link rel="stylesheet" href="site-toolbar.css?v=20261105dockclose">
+  <script src="site-init.js?v=20260803" defer></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Rockbox-Y1 vs Rockbox-Y2: which build belongs on your player","description":"The differences between the two Rockbox ports that decide which package is safe to flash.","image":"https://innioasis.app/assets/og-image.png","author":{"@type":"Organization","name":"Innioasis Community"},"mainEntityOfPage":"https://innioasis.app/rockbox-y1-vs-y2.html"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://innioasis.app/"},{"@type":"ListItem","position":2,"name":"Firmware Downloads","item":"https://innioasis.app/firmware.html"},{"@type":"ListItem","position":3,"name":"Rockbox-Y1 vs Rockbox-Y2","item":"https://innioasis.app/rockbox-y1-vs-y2.html"}]}</script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide">
+  <p class="lumen-doc-back"><a href="firmware.html?software=rockbox-y1">← Firmware Downloads</a></p>
+  <header>
+    <p class="lumen-kicker">Rockbox-Y1 · Rockbox-Y2</p>
+    <h1>Rockbox-Y1 and Rockbox-Y2 are two different builds</h1>
+    <p class="lead">They share a name, a look and a purpose, and almost nothing else. If you only remember one thing from this page: the model on the player decides the package, and the package names are different enough to check.</p>
+    <div class="lumen-actions">
+      <a class="lumen-button lumen-button--primary" href="rockbox-y1/install.html">Rockbox-Y1 install</a>
+      <a class="lumen-button" href="rockbox-y2/install.html">Rockbox-Y2 install</a>
+      <a class="lumen-button" href="rockbox-rom-download.html">Both download sets</a>
+    </div>
+  </header>
+
+  <section class="lumen-guide-section">
+    <h2>Side by side</h2>
+    <table class="lumen-table">
+      <thead><tr><th>What</th><th>Rockbox-Y1</th><th>Rockbox-Y2</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Catalogue row</th><td>Rockbox · device <code>Y1</code></td><td>Rockbox · device <code>Y2</code></td></tr>
+        <tr><th scope="row">Project repository</th><td><code>rockbox-y1/rockbox</code></td><td><code>spycemagic/y2-rockbox</code></td></tr>
+        <tr><th scope="row">ROM package</th><td><code>rom.zip</code></td><td><code>rom_y2.zip</code></td></tr>
+        <tr><th scope="row">Portable mirror</th><td><code>y1-community/rockbox-mirror</code></td><td><code>y1-community/y2-rockbox-mirror</code></td></tr>
+        <tr><th scope="row">Build labels</th><td>240p / 360p, Type A / Type B, stable and nightly</td><td>Beta releases, versioned</td></tr>
+        <tr><th scope="row">Maturity</th><td>Long stable line with nightlies</td><td>Beta line that moves between builds</td></tr>
+        <tr><th scope="row">Themes</th><td>Large library, labelled by resolution</td><td>Theme support follows the build</td></tr>
+        <tr><th scope="row">Way back</th><td>Y1 Original Software package</td><td>Y2 Original Software package</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="lumen-guide-section">
+    <h2>Why the model matters more than the name</h2>
+    <p>Both ports replace the player software, both use the same MediaTek flashing route, and both look like Rockbox when they boot. The difference is the ROM: partition layout and images are built for one player. Flashing the Y1 package on a Y2 is not an experiment that teaches you something — it is the expensive mistake.</p>
+    <p>Updater CE prevents most of it by filtering releases by the model you select. When you are downloading by hand, the file name is the check: <code>rom_y2.zip</code> and <code>rom_y2-*.zip</code> are the Y2 packages, everything else in this comparison is Y1.</p>
+  </section>
+
+  <section class="lumen-guide-section">
+    <h2>Choosing between them</h2>
+    <ul class="lumen-benefits-list">
+      <li><strong>You own a Y1</strong> — <a href="rockbox-y1/">Rockbox-Y1</a>. Pick Type A unless you know the player needs Type B, then choose the 240p or 360p theme path.</li>
+      <li><strong>You own a Y2</strong> — <a href="rockbox-y2/">Rockbox-Y2</a>. Take a build listed for Y2 and read its release notes; the line is beta.</li>
+      <li><strong>You own both</strong> — two separate installs. Nothing is shared except the fact that the app is the easiest way to flash either.</li>
+    </ul>
+  </section>
+
+  <section class="lumen-guide-section">
+    <h2>What is the same</h2>
+    <p>The reason to install either is the same: a tag-based library, gapless playback, an equalizer, themes, and an offline player that does not ask for an account. The <a href="rockbox-benefits.html">Why Rockbox</a> page covers that side; this page is only about not mixing the packages up.</p>
+    <div class="lumen-actions">
+      <a class="lumen-button" href="rockbox-for-y1.html">Rockbox for Y1</a>
+      <a class="lumen-button" href="rockbox-for-y2.html">Rockbox for Y2</a>
+      <a class="lumen-button" href="rockbox.html">Rockbox overview</a>
+    </div>
+  </section>
+</main>
+<div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="nav.js?v=20261103brand" defer></script>
+<script src="site-i18n.js?v=20260830" defer></script>
+</body>
+</html>

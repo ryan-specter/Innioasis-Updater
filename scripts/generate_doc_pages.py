@@ -80,6 +80,25 @@ def one_line(value: str, limit: int = 180) -> str:
     return text[:limit].strip()
 
 
+def software_label(item: dict) -> str:
+    """The name a software's pages should carry.
+
+    The catalogue lists the software as "Rockbox" for both players, but people
+    search for the port by model name. A project that publishes one build per
+    player is titled "Rockbox-Y1" / "Rockbox-Y2" so its release notes and
+    post-install pages name the build a reader arrived for. Anything a
+    catalogue row declares as ``label`` wins over this default.
+    """
+    declared = str(item.get("label") or "").strip()
+    if declared:
+        return declared
+    name = str(item.get("name") or item.get("slug") or "").strip()
+    model = str(item.get("model") or "").strip()
+    if name and model and name.lower() == "rockbox":
+        return "%s-%s" % (name, model)
+    return name or str(item.get("slug") or "")
+
+
 def tag_slug(tag: str) -> str:
     slug = re.sub(r"[^a-z0-9._-]+", "-", str(tag or "").lower()).strip("-")
     return slug or "release"
@@ -956,7 +975,7 @@ def source_citations(item: dict, tag: str = "") -> str:
 
 def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list[dict]) -> str:
     up = "../../"
-    name = item.get("name") or item.get("slug")
+    name = software_label(item)
     model = item.get("model") or ""
     tag = str(release.get("tag_name") or release.get("name") or "")
     version = release_version(release)
@@ -1065,7 +1084,7 @@ def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list
 
 def software_index_page(item: dict, releases: list[dict]) -> str:
     up = "../"
-    name = item.get("name") or item["slug"]
+    name = software_label(item)
     model = item.get("model") or ""
     canonical = "%s/release-notes/%s/index.html" % (SITE, item["slug"])
     cards = []
@@ -1116,7 +1135,7 @@ def master_index_page(software: list[dict], release_counts: dict[str, int], post
             % (
                 esc(item.get("model", "")),
                 " · " + esc(item.get("name", "")) if item.get("name") else "",
-                esc(parser_release_query(item.get("repo") or "", "", item["slug"])), esc(item.get("name") or item["slug"]),
+                esc(parser_release_query(item.get("repo") or "", "", item["slug"])), esc(software_label(item)),
                 esc(item.get("description") or ""),
                 esc(parser_release_query(item.get("repo") or "", "", item["slug"])), count, "" if count == 1 else "s",
             )
@@ -1126,7 +1145,7 @@ def master_index_page(software: list[dict], release_counts: dict[str, int], post
         post_cards.append(
             '<article class="lumen-card"><small>%s</small><h3><a href="../post_install.html?software=%s">%s post-install</a></h3>'
             '<p>Setup steps published by the project, shown here in the site style.</p></article>'
-            % (esc(item.get("model", "")), esc(item["slug"]), esc(item.get("name") or item["slug"]))
+            % (esc(item.get("model", "")), esc(item["slug"]), esc(software_label(item)))
         )
 
     main = (
@@ -1154,7 +1173,7 @@ def master_index_page(software: list[dict], release_counts: dict[str, int], post
 
 def post_install_page(item: dict, source: dict, markdown: str, release_tags: list[str]) -> str:
     up = "../"
-    name = item.get("name") or item["slug"]
+    name = software_label(item)
     model = item.get("model") or ""
     title = "Post-install setup for %s" % name
     heading = re.search(r"^\s{0,3}#\s+(.+)$", markdown, re.M)
@@ -1297,7 +1316,7 @@ def build(refresh: bool = False) -> None:
         post_install_cards.append(
             '<article class="lumen-card"><small>%s</small><h3><a href="../post_install.html?software=%s">%s post-install</a></h3>'
             '<p>%s</p></article>'
-            % (esc(item.get("model", "")), esc(slug), esc(item.get("name") or slug),
+            % (esc(item.get("model", "")), esc(slug), esc(software_label(item)),
                esc(one_line(markdown, 150) or "Setup steps published by the project."))
         )
 

@@ -58,3 +58,25 @@ Recovery guides:
 - https://innioasis.app/guides/y2-wont-turn-on.html
 - https://innioasis.app/guides/y1-scroll-wheel-not-working.html
 - https://innioasis.app/guides/y2-scroll-wheel-not-working.html
+
+## Rockbox-Y1 (Rockbox for Y1) and Rockbox-Y2
+
+Rockbox is the community firmware for Innioasis players. This site titles the Y1 port
+Rockbox-Y1 and the Y2 port Rockbox-Y2; "Rockbox for Y1" and "rockbox-y1" mean the
+same software. Every page below names the model, and the download pages link to the
+community portable mirror releases that hold the ROM zips.
+
+- [Rockbox-Y1 hub](https://innioasis.app/rockbox-y1/): Install, ROM downloads, themes, restore and troubleshooting for the Y1.
+- [Install Rockbox-Y1](https://innioasis.app/rockbox-y1/install.html): The model-first Updater CE install in six steps.
+- [Rockbox-Y1 ROM download](https://innioasis.app/rockbox-y1/download.html): Portable ZIPs and the universal ROM from the mirror.
+- [Rockbox for Y1](https://innioasis.app/rockbox-for-y1.html): Why the names Rockbox, Rockbox-Y1 and "Rockbox for Y1" are the same port.
+- [Rockbox-Y1 tutorial](https://innioasis.app/guides/rockbox-y1.html): The full written walkthrough.
+- [Rockbox-Y1 themes](https://innioasis.app/rockbox-y1-themes.html): Theme paths, 240p and 360p builds.
+- [Rockbox-Y2 hub](https://innioasis.app/rockbox-y2/): Install, ROM downloads, themes, restore and troubleshooting for the Y2.
+- [Install Rockbox-Y2](https://innioasis.app/rockbox-y2/install.html): The model-first Updater CE install in six steps.
+- [Rockbox-Y2 ROM download](https://innioasis.app/rockbox-y2/download.html): Portable ZIPs and the universal ROM from the mirror.
+- [Rockbox for Y2](https://innioasis.app/rockbox-for-y2.html): Why the names Rockbox, Rockbox-Y2 and "Rockbox for Y2" are the same port.
+- [Rockbox-Y2 tutorial](https://innioasis.app/guides/rockbox-y2.html): The full written walkthrough.
+- [Rockbox-Y2 themes](https://innioasis.app/rockbox-y2-themes.html): Theme paths, 240p and 360p builds.
+- [Rockbox ROM download, both models](https://innioasis.app/rockbox-rom-download.html): Y1 and Y2 packages side by side.
+- [Rockbox-Y1 vs Rockbox-Y2](https://innioasis.app/rockbox-y1-vs-y2.html): The differences that decide which build to flash.
