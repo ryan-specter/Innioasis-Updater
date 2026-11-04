@@ -396,7 +396,7 @@
         </div>
       </div>
 
-      <p id="unified-dev-intro"><strong>Hi, I'm Ryan.</strong> Together with Innioasis, I look after Innioasis Updater CE, this firmware archive, and the Themes Gallery. I pay for them myself so they stay free for everyone. Servers, storage and domains cost about <strong>$200</strong> a month, so any support helps.</p>
+      <p id="unified-dev-intro"><strong>Hi, I'm Ryan.</strong> Together with Innioasis, I look after Innioasis Updater CE, this firmware archive, and the Themes Gallery. I pay for them myself so they stay free for everyone. Servers, storage and domains cost about <strong>$200</strong> a month, and the players I buy to test each release cost more again, so any support helps.</p>
 
       <div class="donation-method-intro">
         <p class="lumen-kicker">Choose your way to help</p>
@@ -497,7 +497,7 @@
     <!-- Section 4: Financial accounting, kept at the bottom so the people and projects stay front and centre. -->
     <section class="lumen-guide-section" id="financial-accounting">
       <h2>Where the money goes</h2>
-      <p>The costs are simple. $200 a month since July 2025, plus the Apple Developer fee each year and a one-off Mac mini for testing.</p>
+      <p>Hosting is the smaller half of it. Servers, storage and domains come to about $200 a month since July 2025, plus the Apple Developer fee each year and a one-off Mac mini for testing. The larger part is hardware: a player for every model and release worth testing, and some of those players do not survive the work. Community contributions currently cover roughly <strong>15%</strong> of the real total; the rest comes out of my own pocket.</p>
       <div class="financial-accounting-grid" aria-label="Project financial summary">
         <article class="financial-accounting-card financial-accounting-card--total"><span class="financial-accounting-label">Total accounted cost</span><strong id="financial-total-cost">$0</strong><small id="financial-total-cost-detail">Calculating the ledger...</small></article>
         <article class="financial-accounting-card"><span class="financial-accounting-label">Community contributions</span><strong id="financial-community-raised">$0</strong><small>Received from community supporters. Commercial sponsorship is kept separate.</small></article>
@@ -506,6 +506,7 @@
         <article class="financial-accounting-card"><span class="financial-accounting-label">Apple Developer certification</span><strong id="financial-apple-cost">$0</strong><small>$99 per annual certification period.</small></article>
         <article class="financial-accounting-card"><span class="financial-accounting-label">Mac mini testing hardware</span><strong id="financial-hardware-cost">$599</strong><small>One-off platform testing hardware for macOS.</small></article>
       </div>
+      <p>The ledger above counts the recurring bills. It does not count the test players: those are bought per release, and some are lost to failed flashes while a build is being checked. Counting them, community support is about 15% of what the project actually costs.</p>
     </section>
   </main>
 
@@ -632,15 +633,15 @@
       var r = Math.random();
       if (r < 0.40) {
         var familyChoices = [
-          "<strong>Hey! I'm Ryan, the developer behind Innioasis Updater CE, the Innioasis Firmware Archive for every Innioasis and Timmkoo player, and the Themes Gallery.</strong> I cover the servers, firmware storage, and domain renewals out of my own pocket to keep everything free and open for the community.<br><br>Monthly upkeep comes to around $200. Any support you give not only keeps these resources alive for the next owner, but also directly helps my partner and me raise our family together. Thank you so much!",
-          "<strong>Hey there, I'm Ryan.</strong> I build and maintain Innioasis Updater CE, the Themes Gallery, and our firmware archives as hobby projects. I cover all our running costs - server bandwidth, storage, and domain renewals - with my own money so everyone has free access.<br><br>Your donations help cover our $200 monthly upkeep and directly support my partner and me as we raise our young family. Every contribution makes a real difference to us."
+          "<strong>Hey! I'm Ryan, the developer behind Innioasis Updater CE, the Innioasis Firmware Archive for every Innioasis and Timmkoo player, and the Themes Gallery.</strong> I cover the servers, firmware storage, domain renewals and the players I buy to test each release out of my own pocket, so everything stays free and open for the community.<br><br>Community donations cover roughly 15% of what all of that actually costs; the rest is hosting and hardware I pay for myself. Any support you give not only keeps these resources alive for the next owner, but also directly helps my partner and me raise our family together. Thank you so much!",
+          "<strong>Hey there, I'm Ryan.</strong> I build and maintain Innioasis Updater CE, the Themes Gallery, and our firmware archives as hobby projects. I cover hosting, storage, domains and the test players - the hardware costs more than the servers do - with my own money so everyone has free access.<br><br>Donations cover about 15% of the real cost, and they directly support my partner and me as we raise our young family. Every contribution makes a real difference to us."
         ];
         devIntro.innerHTML = familyChoices[Math.floor(Math.random() * familyChoices.length)];
       } else {
         var standardChoices = [
-          "<strong>Hey! I'm Ryan, the developer behind Innioasis Updater CE, the Innioasis Firmware Archive for every Innioasis and Timmkoo player, and the Themes Gallery.</strong> I cover the servers, firmware storage, and domain renewals out of my own pocket to keep them free and accessible for everyone.<br><br>Keeping everything running costs around $200 each month, so any support you can share helps take the weight off and keeps the project thriving for the community.",
-          "<strong>Hey, I'm Ryan.</strong> I created Innioasis Updater CE and the Firmware Archive to ensure our devices always have access to working software, custom ROMs, and themes without paywalls or ads. I pay for the servers and domain costs myself each month.<br><br>If you've found the software useful, chipping in helps cover our monthly costs and keeps these archives preserved for everyone.",
-          "<strong>Hey! I'm Ryan, and I maintain Innioasis Updater CE, the Innioasis Firmware Archive, and the Themes Gallery for the community.</strong> I fund the server infrastructure and maintenance out of my own pocket because I love this community and want to keep all tools accessible to everyone.<br><br>Monthly running costs come to about $200. Any contribution you make goes directly toward keeping these services online and maintained."
+          "<strong>Hey! I'm Ryan, the developer behind Innioasis Updater CE, the Innioasis Firmware Archive for every Innioasis and Timmkoo player, and the Themes Gallery.</strong> I cover the servers, firmware storage, domain renewals and the players each release is tested on out of my own pocket to keep them free and accessible for everyone.<br><br>Between hosting and hardware, donations cover roughly 15% of what the project costs each month, so any support you can share helps take the weight off and keeps the project thriving for the community.",
+          "<strong>Hey, I'm Ryan.</strong> I created Innioasis Updater CE and the Firmware Archive to ensure our devices always have access to working software, custom ROMs, and themes without paywalls or ads. I pay for the servers and domains myself each month, and for the players each release is tested on - some of which do not survive the testing.<br><br>If you've found the software useful, chipping in covers part of those costs (about 15% of the total today) and keeps these archives preserved for everyone.",
+          "<strong>Hey! I'm Ryan, and I maintain Innioasis Updater CE, the Innioasis Firmware Archive, and the Themes Gallery for the community.</strong> I fund the server infrastructure, the maintenance and the test hardware out of my own pocket because I love this community and want to keep all tools accessible to everyone.<br><br>Community contributions come to about 15% of the project's real costs. Any contribution you make goes toward keeping these services online, tested and maintained."
         ];
         devIntro.innerHTML = standardChoices[Math.floor(Math.random() * standardChoices.length)];
       }
