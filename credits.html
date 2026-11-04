@@ -389,7 +389,7 @@
       </div>
 
       <div class="y1-developer-profile-wrap" style="margin: 4px 0 10px; display: flex; align-items: center; gap: 14px;">
-        <img class="y1-developer-avatar" id="unified-dev-avatar" src="/assets/developer.png?v=20260831" loading="eager" decoding="async" onerror="if(!this.dataset.t1){this.dataset.t1='1';this.src='/developer.png';}else if(!this.dataset.t2){this.dataset.t2='1';this.src='/assets/developer.png';}else{this.src='https://innioasis.app/mtkclient/gui/images/developer.png';this.onerror=null;}" alt="Ryan (Developer)" width="54" height="54" style="border: 0; display: block; object-fit: contain;">
+        <img class="y1-developer-avatar" id="unified-dev-avatar" src="/assets/developer.png?v=20260831" loading="eager" decoding="async" onerror="if(!this.dataset.t1){this.dataset.t1='1';this.src='/assets/developer.png';}else if(!this.dataset.t2){this.dataset.t2='1';this.src='/assets/developer.png';}else{this.src='https://innioasis.app/assets/developer.png';this.onerror=null;}" alt="Ryan (Developer)" width="54" height="54" style="border: 0; display: block; object-fit: contain;">
         <div>
           <h2 class="y1-donate-panel-hook" style="margin: 0; font-size: 1.6rem;">It takes <span>you</span>.</h2>
           <small style="color: var(--lumen-muted, #9aa3b5); font-weight: 600;">Our projects rely on donations</small>
@@ -404,13 +404,13 @@
         <p>A coffee, a one-off gift, or simply sharing 100MB on Honeygain — it all adds up. Pick your favourite and you’ll be taken straight there.</p>
       </div>
       <div class="donation-method-grid" aria-label="Ways to make a contribution">
-        <a class="donation-method-card donation-method-card--primary" href="https://ko-fi.com/teamslide" target="_blank" rel="noopener noreferrer"><img src="./mtkclient/gui/images/icon_kofi.png" data-method-icon="icon_kofi.png" alt=""><span><strong>Donate on Ko-fi</strong><small>Support on Ko-fi</small></span></a>
+        <a class="donation-method-card donation-method-card--primary" href="https://ko-fi.com/teamslide" target="_blank" rel="noopener noreferrer"><img src="./assets/icon_kofi.png" data-method-icon="icon_kofi.png" alt=""><span><strong>Donate on Ko-fi</strong><small>Support on Ko-fi</small></span></a>
         <a class="donation-method-card donation-method-card--bmac" href="https://buymeacoffee.com/ryanspecter" target="_blank" rel="noopener noreferrer"><span aria-hidden="true" style="font-size: 1.15rem; line-height: 1;">☕</span><span><strong>Buy Me a Coffee</strong><small>Support on BMAC</small></span></a>
-        <a class="donation-method-card donation-method-card--boosty" href="https://boosty.to/ryanspecter" target="_blank" rel="noopener noreferrer" hidden><img src="./mtkclient/gui/images/icon_boosty.png" data-method-icon="icon_boosty.png" alt=""><span><strong>Donate on Boosty</strong><small>Support on Boosty</small></span></a>
-        <a class="donation-method-card" href="https://paypal.me/RyanSpecter282" target="_blank" rel="noopener noreferrer"><img src="./mtkclient/gui/images/icon_paypal.png" data-method-icon="icon_paypal.png" alt=""><span><strong>Donate by PayPal</strong></span></a>
-        <a class="donation-method-card" href="https://revolut.me/rspecter" target="_blank" rel="noopener noreferrer"><img src="./mtkclient/gui/images/icon_revolut.png" data-method-icon="icon_revolut.png" alt=""><span><strong>Donate by Revolut</strong></span></a>
-        <a class="donation-method-card" href="https://www.patreon.com/ryanspecter" target="_blank" rel="noopener noreferrer"><img src="./mtkclient/gui/images/icon_patreon.png" data-method-icon="icon_patreon.png" alt=""><span><strong>Donate by Patreon</strong></span></a>
-        <button type="button" class="donation-method-card" id="toggle-crypto-btn"><img src="./mtkclient/gui/images/icon_bitcoin.png" data-method-icon="icon_bitcoin.png" alt=""><span><strong>Use crypto</strong><small>BTC, ETH, or SHIB</small></span></button>
+        <a class="donation-method-card donation-method-card--boosty" href="https://boosty.to/ryanspecter" target="_blank" rel="noopener noreferrer" hidden><img src="./assets/icon_boosty.png" data-method-icon="icon_boosty.png" alt=""><span><strong>Donate on Boosty</strong><small>Support on Boosty</small></span></a>
+        <a class="donation-method-card" href="https://paypal.me/RyanSpecter282" target="_blank" rel="noopener noreferrer"><img src="./assets/icon_paypal.png" data-method-icon="icon_paypal.png" alt=""><span><strong>Donate by PayPal</strong></span></a>
+        <a class="donation-method-card" href="https://revolut.me/rspecter" target="_blank" rel="noopener noreferrer"><img src="./assets/icon_revolut.png" data-method-icon="icon_revolut.png" alt=""><span><strong>Donate by Revolut</strong></span></a>
+        <a class="donation-method-card" href="https://www.patreon.com/ryanspecter" target="_blank" rel="noopener noreferrer"><img src="./assets/icon_patreon.png" data-method-icon="icon_patreon.png" alt=""><span><strong>Donate by Patreon</strong></span></a>
+        <button type="button" class="donation-method-card" id="toggle-crypto-btn"><img src="./assets/icon_bitcoin.png" data-method-icon="icon_bitcoin.png" alt=""><span><strong>Use crypto</strong><small>BTC, ETH, or SHIB</small></span></button>
       </div>
       <p class="y1-donate-alt-link" style="margin-top: 10px;">Or <a href="https://join.honeygain.com/ITSRY2B5D7" target="_blank" rel="noopener noreferrer">help for free with Honeygain</a> — earn $3 by sharing 100MB of unused bandwidth.</p>
 
@@ -604,17 +604,17 @@
       var filename = Math.random() < 0.5 ? "developer.png" : "developer_2.png";
       var fallbackFilename = filename === "developer.png" ? "developer_2.png" : "developer.png";
       var candidates = [
-        "/mtkclient/gui/images/" + filename + "?v=20260831",
+        "/assets/" + filename + "?v=20260831",
         "/" + filename + "?v=20260831",
         "/assets/" + filename + "?v=20260831",
-        "mtkclient/gui/images/" + filename + "?v=20260831",
         "assets/" + filename + "?v=20260831",
-        "https://innioasis.app/mtkclient/gui/images/" + filename + "?v=20260831",
+        "assets/" + filename + "?v=20260831",
+        "https://innioasis.app/assets/" + filename + "?v=20260831",
         "https://innioasis.app/" + filename + "?v=20260831",
-        "/mtkclient/gui/images/" + fallbackFilename + "?v=20260831",
+        "/assets/" + fallbackFilename + "?v=20260831",
         "/" + fallbackFilename + "?v=20260831",
         "/assets/" + fallbackFilename + "?v=20260831",
-        "https://innioasis.app/mtkclient/gui/images/" + fallbackFilename + "?v=20260831"
+        "https://innioasis.app/assets/" + fallbackFilename + "?v=20260831"
       ];
       var testIdx = 0;
       function tryNext() {
@@ -1704,7 +1704,7 @@
           function buildMethodIcons(methods) {
             return methods.map(function (m) {
               var f = iconForMethod(m.lower);
-              return '<img class="method-icon-img" data-method-icon="' + f + '" src="./mtkclient/gui/images/' + f + '" alt="' + m.name + '" title="' + m.name + '">';
+              return '<img class="method-icon-img" data-method-icon="' + f + '" src="./assets/' + f + '" alt="' + m.name + '" title="' + m.name + '">';
             }).join("");
           }
 
@@ -1728,8 +1728,8 @@
               var useFallback = function () {
                 var file = img.dataset.methodIcon;
                 var sources = [
-                  "./mtkclient/gui/images/" + file,
-                  "/mtkclient/gui/images/" + file,
+                  "./assets/" + file,
+                  "/assets/" + file,
                   "/assets/" + fallbackIconFile(file),
                   "./assets/" + fallbackIconFile(file)
                 ];
@@ -1806,7 +1806,7 @@
             var tr = document.createElement("tr");
             var mLow = (d.method || "").toLowerCase();
             var f = iconForMethod(mLow);
-            var iconHtml = '<img class="method-icon-img" data-method-icon="' + f + '" src="./mtkclient/gui/images/' + f + '" alt="' + d.method + '" title="' + d.method + '">';
+            var iconHtml = '<img class="method-icon-img" data-method-icon="' + f + '" src="./assets/' + f + '" alt="' + d.method + '" title="' + d.method + '">';
             var absAmt = Math.abs(d.amount);
             var amtStr = "$" + (absAmt % 1 === 0 ? absAmt.toFixed(0) : absAmt.toFixed(2));
             var nameCol = '<div class="donor-cell">' +

@@ -1,4 +1,0 @@
-Try first - Drag updater.py into "Drag here" shortcut:
-This will workaround a broken / stuck update by opening the tool anyway.
- 
-if it still doesn't work. please launch the app with Skip Update and Launch, if your app still doesn't work or doesn't get updates after you click Check for Utility Updates in Innioasis Updater, please reinstall it using the shortcut provided. If it continues to not work or update itself after this please let the developers know so we can figure out why it doesn't work for you. Uninstalling and reinstalling will usually fix most updater related issues though.

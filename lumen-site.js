@@ -1643,7 +1643,7 @@
                 : state === "blocked" ? '<span class="lumen-muted-inline">Held back from this list.</span>'
                 : '';
             var guideUrl = 'guide.html?model=' + encodeURIComponent(item.model) + '&software=' + encodeURIComponent(item.slug);
-            var updater = '<a class="lumen-updater-button lumen-updater-button--table" href="' + guideUrl + '" aria-label="Get ' + escapeHtml(item.name) + ' for ' + escapeHtml(item.model) + ' on Innioasis Updater"><img src="mtkclient/gui/images/icon.png" width="28" height="28" alt=""><span><strong>Get it on Updater</strong><small>with guided install</small></span></a>';
+            var updater = '<a class="lumen-updater-button lumen-updater-button--table" href="' + guideUrl + '" aria-label="Get ' + escapeHtml(item.name) + ' for ' + escapeHtml(item.model) + ' on Innioasis Updater"><img src="assets/icon.ico" width="28" height="28" alt=""><span><strong>Get it on Updater</strong><small>with guided install</small></span></a>';
 
             var zipBtn = '';
             if (release) {

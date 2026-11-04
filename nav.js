@@ -168,7 +168,7 @@
       title: "Updater CE",
       subtitle: "One-click installer for Windows, macOS & Linux",
       href: "/",
-      icon: '<span class="lumen-app-icon lumen-app-icon--updater" style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:#181a24;border:1px solid rgba(255,255,255,0.14);box-shadow:0 2px 6px rgba(0,0,0,0.35);overflow:hidden;flex-shrink:0;" aria-hidden="true"><img src="/mtkclient/gui/images/icon.png" width="34" height="34" style="width:34px;height:34px;max-width:none;display:block;margin:-3px;" alt="" aria-hidden="true"></span>'
+      icon: '<span class="lumen-app-icon lumen-app-icon--updater" style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:#181a24;border:1px solid rgba(255,255,255,0.14);box-shadow:0 2px 6px rgba(0,0,0,0.35);overflow:hidden;flex-shrink:0;" aria-hidden="true"><img src="/assets/icon.ico" width="34" height="34" style="width:34px;height:34px;max-width:none;display:block;margin:-3px;" alt="" aria-hidden="true"></span>'
     },
     {
       id: "themes",
@@ -216,7 +216,7 @@
 
   var brandIconHtml = isFirmwarePersona
     ? '<span class="lumen-brand-icon lumen-brand-icon--firmware" style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:#141721;border:1px solid rgba(255,255,255,0.14);box-shadow:0 1px 4px rgba(0,0,0,0.3);font-size:16px;line-height:1;margin-right:8px;flex-shrink:0;" aria-hidden="true">📚</span>'
-    : '<span class="lumen-brand-icon lumen-brand-icon--updater" style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:#141721;border:1px solid rgba(255,255,255,0.14);box-shadow:0 1px 4px rgba(0,0,0,0.3);overflow:hidden;margin-right:8px;flex-shrink:0;" aria-hidden="true"><img src="/mtkclient/gui/images/icon.png" width="38" height="38" style="width:38px;height:38px;max-width:none;display:block;margin:-5px;" alt="" aria-hidden="true"></span>';
+    : '<span class="lumen-brand-icon lumen-brand-icon--updater" style="display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;background:#141721;border:1px solid rgba(255,255,255,0.14);box-shadow:0 1px 4px rgba(0,0,0,0.3);overflow:hidden;margin-right:8px;flex-shrink:0;" aria-hidden="true"><img src="/assets/icon.ico" width="38" height="38" style="width:38px;height:38px;max-width:none;display:block;margin:-5px;" alt="" aria-hidden="true"></span>';
 
   (function ensureNavStyles() {
     if (document.getElementById("lumen-nav-styles")) return;
