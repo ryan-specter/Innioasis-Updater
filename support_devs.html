@@ -1086,6 +1086,8 @@
     // A week of the same running costs: one quarter of the monthly figure, so
     // every week asks for the same $50.
     var WEEKLY_TARGET = MONTHLY_TARGET / 4;
+    var DAILY_TARGET = MONTHLY_TARGET / 20;
+    var DAILY_WEEKDAYS = [1, 2, 3, 6];  // JS getDay(): Monday, Tuesday, Wednesday, Saturday
 
     function fundingCurrencySymbol() {
       // Transposed 1:1, never converted: a UK reader sees the dollar figures
@@ -1113,36 +1115,67 @@
     function fundingGoalView(donations, monthTotal, now) {
       now = now || new Date();
       var daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-      var scope = "monthly";
-      var start = new Date(now.getFullYear(), now.getMonth(), 1);
-      var target = MONTHLY_TARGET;
-      if (now.getDate() > 5 && now.getDate() <= daysInMonth - 7) {
-        scope = "weekly";
-        target = WEEKLY_TARGET;
-        start = new Date(now.getFullYear(), now.getMonth(), 6 + Math.floor((now.getDate() - 6) / 7) * 7);
+      var base = "weekly";
+      if (now.getDate() <= 5 || now.getDate() > daysInMonth - 7) {
+        base = "monthly";
+      } else if (DAILY_WEEKDAYS.indexOf(now.getDay()) !== -1) {
+        base = "daily";
       }
-      var raised = 0;
-      (donations || []).forEach(function (d) {
-        if (!d || !d.dt || !(d.amount > 0)) return;
-        if (d.dt >= start && d.dt <= now) raised += d.amount;
-      });
-      var monthMet = (monthTotal || 0) >= MONTHLY_TARGET;
+      var ladder = base === "daily" ? ["daily", "weekly", "monthly"]
+        : base === "weekly" ? ["weekly", "daily", "monthly"] : ["monthly"];
+      var targets = { monthly: MONTHLY_TARGET, weekly: WEEKLY_TARGET, daily: DAILY_TARGET };
+      var starts = {
+        monthly: new Date(now.getFullYear(), now.getMonth(), 1),
+        weekly: new Date(now.getFullYear(), now.getMonth(), Math.max(1, 6 + Math.floor((now.getDate() - 6) / 7) * 7)),
+        daily: new Date(now.getFullYear(), now.getMonth(), now.getDate())
+      };
+      function raisedSince(start) {
+        var total = 0;
+        (donations || []).forEach(function (d) {
+          if (!d || !d.dt || !(d.amount > 0)) return;
+          if (d.dt >= start && d.dt <= now) total += d.amount;
+        });
+        return total;
+      }
+      var monthRaised = Math.max(monthTotal || 0, raisedSince(starts.monthly));
+      var raisedBy = { monthly: monthRaised, weekly: raisedSince(starts.weekly), daily: raisedSince(starts.daily) };
+      var scope = null;
+      if (monthRaised < MONTHLY_TARGET) {
+        for (var i = 0; i < ladder.length; i++) {
+          var rung = ladder[i];
+          if (targets[rung] - raisedBy[rung] >= 1) { scope = rung; break; }
+        }
+      }
+      var symbol = fundingCurrencySymbol();
+      if (!scope) {
+        return {
+          scope: null, covered: true, met: true, periodWord: "", periodSuffix: "", periodAdjective: "",
+          raised: 0, target: 0, pct: 0, remaining: 0, symbol: symbol
+        };
+      }
+      var raised = raisedBy[scope];
+      var target = targets[scope];
+      var words = { monthly: "month", weekly: "week", daily: "day" };
+    var adjectives = { monthly: "monthly", weekly: "weekly", daily: "daily" };
+      var suffixes = { monthly: "this month", weekly: "this week", daily: "today" };
       return {
-        scope: scope,
-        periodWord: scope === "monthly" ? "month" : "week",
-        raised: raised,
-        target: target,
+        scope: scope, covered: false,
+        periodWord: words[scope], periodSuffix: suffixes[scope], periodAdjective: adjectives[scope],
+        raised: raised, target: target,
         pct: Math.min(100, Math.max(0, (raised / target) * 100)),
         remaining: Math.max(0, target - raised),
-        met: monthMet || raised >= target,
-        symbol: fundingCurrencySymbol()
+        met: false,
+        symbol: symbol
       };
     }
 
     function fundingGoalText(goal, withEncouragement) {
+      if (!goal || goal.covered || !goal.scope) {
+        return "We rely on your donations to keep running. Donate now";
+      }
       var raisedLabel = (goal.raised % 1 === 0) ? goal.raised.toFixed(0) : goal.raised.toFixed(2);
       var text = "You've helped us raise " + goal.symbol + raisedLabel +
-        " of our " + goal.symbol + goal.target.toFixed(0) + " goal this " + goal.periodWord + ".";
+        " of our " + goal.symbol + goal.target.toFixed(0) + " goal " + (goal.periodSuffix || ("this " + goal.periodWord)) + ".";
       return withEncouragement ? text + " All donations are appreciated." : text;
     }
 
@@ -1198,7 +1231,7 @@
           ? "We rely on your donations to keep running. Donate now"
           : fundingGoalText(goal, true);
 
-        var goalBarHTML = 
+        var goalBarHTML = goal.covered ? "" :
           '<div style="width: 100%; display: flex; flex-direction: column; gap: 4px; align-items: center;">' +
             '<div style="font-size: 0.8rem; font-weight: bold; color: var(--lumen-text, #fff);">' +
               goalBarText +
@@ -1284,7 +1317,7 @@
         }
         shuffleDonorTicker();
 
-        var showGoal = true;
+        var showGoal = !goal.covered;
         var donorIdx = 0;
         var donorLinesSinceGoal = 0;
         var appealStep = 0;
@@ -1302,7 +1335,7 @@
                 shuffleDonorTicker();
                 donorIdx = 0;
               }
-              if (appealStep % 2 === 0) {
+              if (appealStep % 2 === 0 && !goal.covered) {
                 streamLine.innerHTML = goalBarHTML;
                 setTimeout(function () {
                   var fill = document.getElementById("unified-goal-fill");

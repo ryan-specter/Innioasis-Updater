@@ -1066,7 +1066,7 @@
         : [
             targetPhrase,
             {
-              desktop: "Only " + goal.symbol + remLabel + " more needed to reach our " + goal.symbol + goal.target.toFixed(0) + " " + goal.periodWord + "ly goal.",
+              desktop: "Only " + goal.symbol + remLabel + " more needed to reach our " + goal.symbol + goal.target.toFixed(0) + " " + (goal.periodAdjective || (goal.periodWord + "ly")) + " goal.",
               mobile: "Only " + goal.symbol + remLabel + " needed to reach " + goal.symbol + goal.target.toFixed(0) + " goal",
               isTarget: true
             },
@@ -1389,7 +1389,7 @@
     }
   }
 
-  /* -  -  Funding goal: monthly on the month's edges, weekly in between  -  -  */
+  /* -  -  Funding goal: a month / week / day ladder, one rung at a time  -  -  */
   /* A week of the same running costs is one quarter of the monthly figure, so
      every week asks for the same $50. The goal and raised figures are transposed
      1:1 into the reader's own currency (GBP for the UK, EUR for Europe, USD
@@ -1397,6 +1397,8 @@
      never named, only an outstanding one. */
   var MONTHLY_TARGET = 200.0;
   var WEEKLY_TARGET = MONTHLY_TARGET / 4;
+  var DAILY_TARGET = MONTHLY_TARGET / 20;
+  var DAILY_WEEKDAYS = [1, 2, 3, 6];  // JS getDay(): Monday, Tuesday, Wednesday, Saturday
 
   function fundingCurrencySymbol() {
     var euroRegions = ["at", "be", "cy", "de", "ee", "es", "fi", "fr", "gr", "hr", "ie", "it", "lt", "lu", "lv", "mt", "nl", "pt", "si", "sk"];
@@ -1421,34 +1423,64 @@
   function fundingGoalView(donations, monthTotal, now) {
     now = now || new Date();
     var daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-    var scope = "monthly";
-    var start = new Date(now.getFullYear(), now.getMonth(), 1);
-    var target = MONTHLY_TARGET;
-    if (now.getDate() > 5 && now.getDate() <= daysInMonth - 7) {
-      scope = "weekly";
-      target = WEEKLY_TARGET;
-      start = new Date(now.getFullYear(), now.getMonth(), 6 + Math.floor((now.getDate() - 6) / 7) * 7);
+    var base = "weekly";
+    if (now.getDate() <= 5 || now.getDate() > daysInMonth - 7) {
+      base = "monthly";
+    } else if (DAILY_WEEKDAYS.indexOf(now.getDay()) !== -1) {
+      base = "daily";
     }
-    var raised = 0;
-    (donations || []).forEach(function (d) {
-      if (!d || !d.dt || !(d.amount > 0)) return;
-      if (d.dt >= start && d.dt <= now) raised += d.amount;
-    });
-    var monthMet = (monthTotal || 0) >= MONTHLY_TARGET;
+    var ladder = base === "daily" ? ["daily", "weekly", "monthly"]
+      : base === "weekly" ? ["weekly", "daily", "monthly"] : ["monthly"];
+    var targets = { monthly: MONTHLY_TARGET, weekly: WEEKLY_TARGET, daily: DAILY_TARGET };
+    var starts = {
+      monthly: new Date(now.getFullYear(), now.getMonth(), 1),
+      weekly: new Date(now.getFullYear(), now.getMonth(), Math.max(1, 6 + Math.floor((now.getDate() - 6) / 7) * 7)),
+      daily: new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    };
+    function raisedSince(start) {
+      var total = 0;
+      (donations || []).forEach(function (d) {
+        if (!d || !d.dt || !(d.amount > 0)) return;
+        if (d.dt >= start && d.dt <= now) total += d.amount;
+      });
+      return total;
+    }
+    var monthRaised = Math.max(monthTotal || 0, raisedSince(starts.monthly));
+    var raisedBy = { monthly: monthRaised, weekly: raisedSince(starts.weekly), daily: raisedSince(starts.daily) };
+    var scope = null;
+    if (monthRaised < MONTHLY_TARGET) {
+      for (var i = 0; i < ladder.length; i++) {
+        var rung = ladder[i];
+        if (targets[rung] - raisedBy[rung] >= 1) { scope = rung; break; }
+      }
+    }
+    var symbol = fundingCurrencySymbol();
+    if (!scope) {
+      return {
+        scope: null, covered: true, met: true, periodWord: "", periodSuffix: "", periodAdjective: "",
+        raised: 0, target: 0, pct: 0, remaining: 0, symbol: symbol
+      };
+    }
+    var raised = raisedBy[scope];
+    var target = targets[scope];
+    var words = { monthly: "month", weekly: "week", daily: "day" };
+  var adjectives = { monthly: "monthly", weekly: "weekly", daily: "daily" };
+    var suffixes = { monthly: "this month", weekly: "this week", daily: "today" };
     return {
-      scope: scope,
-      periodWord: scope === "monthly" ? "month" : "week",
-      periodSuffix: scope === "monthly" ? "this month" : "this week",
-      raised: raised,
-      target: target,
+      scope: scope, covered: false,
+      periodWord: words[scope], periodSuffix: suffixes[scope], periodAdjective: adjectives[scope],
+      raised: raised, target: target,
       pct: Math.min(100, Math.max(0, (raised / target) * 100)),
       remaining: Math.max(0, target - raised),
-      met: monthMet || raised >= target,
-      symbol: fundingCurrencySymbol()
+      met: false,
+      symbol: symbol
     };
   }
 
   function fundingGoalText(goal, withEncouragement) {
+    if (!goal || goal.covered || !goal.scope) {
+      return "We rely on your donations to keep running. Donate now";
+    }
     var raisedLabel = (goal.raised % 1 === 0) ? goal.raised.toFixed(0) : goal.raised.toFixed(2);
     var text = "You've helped us raise " + goal.symbol + raisedLabel +
       " of our " + goal.symbol + goal.target.toFixed(0) + " goal " + (goal.periodSuffix || ("this " + goal.periodWord)) + ".";
@@ -1493,11 +1525,18 @@
     var legRaised = document.getElementById("y1-goal-legend-raised");
     var legRem = document.getElementById("y1-goal-legend-remaining");
 
+    // A paid ladder has no outstanding rung to name, so the title, the
+    // "raised of" sentence, the "needed" line and the bar disappear together;
+    // the donor stream is the whole display then.
     var isGoalMet = goal.met;
     var goalMsg = isGoalMet
       ? "We rely on your donations to keep running. Donate now"
       : fundingGoalText(goal, true);
-    if (titleEl) titleEl.textContent = (goal.scope === "weekly" ? "Weekly" : "Monthly") + " Running Costs";
+    [titleEl, statsEl, legRaised, legRem,
+     raisedBar && raisedBar.parentElement, remBar && remBar.parentElement].forEach(function (el) {
+      if (el) el.style.display = goal.covered ? "none" : "";
+    });
+    if (titleEl) titleEl.textContent = (goal.scope === "weekly" ? "Weekly" : goal.scope === "daily" ? "Daily" : "Monthly") + " Running Costs";
     if (statsEl) statsEl.textContent = goalMsg;
     if (raisedBar) raisedBar.style.width = raisedPct + "%";
     if (remBar) remBar.style.width = (100 - raisedPct) + "%";
@@ -1650,11 +1689,11 @@
     };
 
     // Show the annual appeal every 2 donor items so it appears more frequently.
-    var items = [goalItem, annualItem];
+    var items = goal.covered ? [annualItem] : [goalItem, annualItem];
     var appealIdx = 1;
     donorItems.forEach(function (dItem, index) {
       if (index && index % 2 === 0) {
-        items.push(appealIdx % 2 === 1 ? annualItem : goalItem);
+        items.push((goal.covered || appealIdx % 2 === 1) ? annualItem : goalItem);
         appealIdx += 1;
       }
       items.push(dItem);
