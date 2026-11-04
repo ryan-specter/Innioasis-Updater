@@ -77,6 +77,9 @@ def one_line(value: str, limit: int = 180) -> str:
     text = re.sub(r"[*_`#>\[\]|]", " ", str(value or ""))
     text = re.sub(r"\(([^)]*)\)", r"\1", text)
     text = re.sub(r"\s+", " ", text).strip()
+    swap = globals().get("superseded_text_plain")
+    if swap:
+        text = swap(text)
     return text[:limit].strip()
 
 
@@ -622,6 +625,11 @@ def linkify_superseded_text(markup: str) -> str:
                 part,
             )
     return "".join(parts)
+
+
+def superseded_text_plain(text: str) -> str:
+    """Point retired addresses in plain text (meta descriptions) at the guide."""
+    return SUPERSEDED_TEXT_RE.sub(guide_url(), text or "")
 
 
 def link_text_is_url(label: str, href: str) -> bool:
