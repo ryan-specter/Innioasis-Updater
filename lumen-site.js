@@ -1454,7 +1454,11 @@
             if (!href) return markup;
             var label = "Read the " + (item.name || "firmware") + " README";
             return '<a class="lumen-firmware-icon-link" href="' + escapeHtml(href) + '" title="' +
-                escapeHtml(label) + '" aria-label="' + escapeHtml(label) + '">' + markup + '</a>';
+                escapeHtml(label) + '" aria-label="' + escapeHtml(label) + '">' + markup + '</a>' +
+                /* The same destination as a plain glyph, so the README is
+                   reachable without guessing that the icon is a link. */
+                '<a class="lumen-readme-info" href="' + escapeHtml(href) + '" title="' +
+                escapeHtml(label) + '" aria-label="' + escapeHtml(label) + '">&#9432;</a>';
         }
 
         function resolveFirmwareIcon(release, item) {
