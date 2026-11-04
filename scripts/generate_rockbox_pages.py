@@ -1,29 +1,21 @@
 #!/usr/bin/env python3
 """Write the Rockbox-Y1 / Rockbox-Y2 search landing pages.
 
-Rockbox is listed once in ``slidia_manifest.xml`` and once in
-``firmware-catalog.js``, but people search for it by many names: Rockbox,
-Rockbox-Y1, Rockbox for Y1, "rockbox y1 install", "how to install rockbox on
-y1", "rockbox-y1 tutorial", and the same set again for the Y2. One catalogue
-row cannot answer all of those queries, so this generator writes a page for
-each intent under a stable, model-scoped URL:
+Rockbox is listed in ``slidia_manifest.xml`` and ``firmware-catalog.js``, and
+people search for it by many names: Rockbox, Rockbox-Y1, Rockbox for Y1,
+"rockbox y1 install", "how to install rockbox on y1", "rockbox-y1 tutorial",
+and the same set for the Y2. This generator writes focused, easy-to-read guide
+pages for each search topic under a stable, model-scoped URL:
 
     rockbox-y1/index.html          the Rockbox-Y1 hub
-    rockbox-y1/<topic>.html        one intent per page (install, download, …)
-    rockbox-y2/index.html          the same for Rockbox-Y2
+    rockbox-y1/<topic>.html        one topic per page (install, download, …)
+    rockbox-y2/index.html          the Rockbox-Y2 hub
     rockbox-y2/<topic>.html
     rockbox-rom-download.html      both models' ROM downloads side by side
 
-Every page links to the others, to the hand-written entity pages
-(``rockbox-for-y1.html``, ``rockbox-y1-vs-y2.html``, the theme pages), and to
-the portable mirror releases that actually hold the ROM zips, so a reader —
-or an answer engine summarising the site — lands on something that names the
-model and hands over the files.
-
-The mirror releases are read from the GitHub API at build time (with a disk
-cache), so the download tables name real assets and real tags. When the API
-is unreachable the pages still render, pointing at the release index and the
-guided updater flow.
+Updater CE always downloads firmware packages directly from the community
+firmware developers' own releases, and those developers are solely responsible
+for listing their software releases in Updater CE.
 
 Usage:
     python scripts/generate_rockbox_pages.py [--refresh]
@@ -31,18 +23,21 @@ Usage:
 from __future__ import annotations
 
 import datetime
+import hashlib
 import html
 import json
 import os
 import pathlib
 import re
 import sys
+import urllib.parse
 import urllib.request
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE = "https://innioasis.app"
 BRAND = "Innioasis Updater"
 CACHE = ROOT / ".cache" / "rockbox-pages"
+DOC_CACHE = ROOT / ".cache" / "doc-pages"
 TOKEN = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN") or ""
 TODAY = datetime.date.today().isoformat()
 
@@ -54,7 +49,7 @@ MODELS = {
         "label": "Rockbox-Y1",
         "plain": "Rockbox",
         "software": "rockbox-y1",
-        "mirror": "y1-community/rockbox-mirror",
+        "repo": "rockbox-y1/rockbox",
         "stable_tag": "stable-v0.5",
         "rom_name": "rom.zip",
         "type_b": True,
@@ -68,9 +63,9 @@ MODELS = {
         "other_label": "Rockbox-Y2",
         "other_dir": "../rockbox-y2/",
         "build_note": (
-            "Y1 community builds are labelled by resolution: 240p builds have the "
-            "broadest older-theme compatibility, 360p builds are made for the newer "
-            "Y1 theme path."
+            "Y1 community builds are labelled by screen resolution: 240p builds work "
+            "with classic iPod-style Rockbox themes, while 360p builds use higher-resolution "
+            "Y1 themes."
         ),
     },
     "y2": {
@@ -80,7 +75,7 @@ MODELS = {
         "label": "Rockbox-Y2",
         "plain": "Rockbox",
         "software": "rockbox-y2",
-        "mirror": "y1-community/y2-rockbox-mirror",
+        "repo": "spycemagic/y2-rockbox",
         "stable_tag": "v0.2.5-beta",
         "rom_name": "rom_y2.zip",
         "type_b": False,
@@ -94,9 +89,8 @@ MODELS = {
         "other_label": "Rockbox-Y1",
         "other_dir": "../rockbox-y1/",
         "build_note": (
-            "The Y2 port is its own beta line. Read the release notes for the build "
-            "you are installing before you rely on a theme or on a feature that "
-            "appeared in a later beta."
+            "Rockbox-Y2 is developed separately for the Y2 hardware. Check the release notes "
+            "for your version to see supported features and theme compatibility."
         ),
     },
 }
@@ -121,39 +115,39 @@ TOPICS = [
 ]
 
 TOPIC_TITLES = {
-    "install": "Install {L} on the Innioasis {M} (Updater guide)",
-    "download": "{L} ROM download: portable flashing packages",
-    "portable-zip": "{L} portable ZIP: install without the guided flow",
+    "install": "Install {L} on the Innioasis {M} (Updater CE guide)",
+    "download": "{L} ROM download: developer firmware packages",
+    "portable-zip": "{L} local ZIP: install from a downloaded ROM package",
     "requirements": "What you need before installing {L}",
     "first-start": "{L} first start: music, themes and settings",
     "sd-card": "{L} and the MicroSD card: .rockbox explained",
-    "update": "Update {L}: moving to a newer stable or nightly",
+    "update": "Update {L}: moving to a newer stable or nightly build",
     "restore-stock": "Undo {L}: restore the original {M} software",
-    "dual-boot": "{L} dual boot: switching back to stock software",
+    "dual-boot": "{L} dual boot: switching back to original software",
     "troubleshooting": "{L} install problems and how to fix them",
-    "resolution": "{L} 240p and 360p builds: choosing a theme path",
+    "resolution": "{L} 240p and 360p builds: choosing a theme resolution",
     "offline": "{L}: an offline music player with no account",
     "uninstall": "Remove {L} or reset it to defaults",
-    "faq": "{L} FAQ: the questions people ask first",
-    "vs-stock": "{L} vs Original Software: what actually changes",
+    "faq": "{L} FAQ: common questions answered",
+    "vs-stock": "{L} vs Original Software: what changes",
 }
 
 TOPIC_DESCRIPTIONS = {
-    "install": "Install {L} on an Innioasis {M} with Innioasis Updater CE: pick the model, choose Rockbox, take a stable release, and connect the powered-off player only at the prompt.",
-    "download": "Download {L} ROM packages from the community portable mirror: per-platform ZIPs, the universal ROM, and how to check which file belongs on your {M}.",
-    "portable-zip": "Install {L} from a portable flashing ZIP: which archive matches your computer, how to point Updater CE at it, and what the base ROM folders contain.",
-    "requirements": "Before you install {L}: the cable, the model check, the battery state, the computer requirements, and the {M} variant notes that decide which build to take.",
-    "first-start": "After {L} boots: where the .rockbox folder comes from, how music and themes are laid out, and the settings worth changing on day one.",
-    "sd-card": "How {L} uses the MicroSD card: the .rockbox folder, hidden files, FAT32 formatting, database refreshes, and how to reset settings safely.",
-    "update": "Update an existing {L} install with a newer stable or nightly build, without losing the themes and settings that live on the card.",
-    "restore-stock": "Return an Innioasis {M} to its original software after {L}: the Original Software route in Updater CE and what to check if the flash stops.",
-    "dual-boot": "Keep both systems on one player: how {L} builds hand control back to the original software and back again.",
-    "troubleshooting": "{L} install did not finish? Model mismatch, cable, driver and connection-timing checks, in the order worth trying.",
-    "resolution": "240p or 360p: how {L} build labels relate to themes, and how to avoid installing a build whose theme path does not match your player.",
-    "offline": "Why {L} suits people leaving streaming behind: local files, no account, no subscription, and a library sorted by tags instead of file names.",
-    "uninstall": "Two different jobs: restoring the original software, or resetting {L} settings by clearing the .rockbox folder. Both are reversible.",
-    "faq": "The {L} questions asked most often: is it safe, which release, Y1 or Y2, themes, updates, and how to go back to stock.",
-    "vs-stock": "A side-by-side of {L} and the Innioasis {M} Original Software: library, playback, themes, radio, podcasts, and the restore path.",
+    "install": "How to install {L} on an Innioasis {M} with Innioasis Updater CE: select {M}, choose Rockbox, pick a release from the community developer, and connect your powered-off player when prompted.",
+    "download": "Download {L} firmware ROM packages published by the community developers for the Innioasis {M}, or install directly in Innioasis Updater CE.",
+    "portable-zip": "How to install {L} on your Innioasis {M} from a downloaded ROM ZIP package using Innioasis Updater CE.",
+    "requirements": "What you need before installing {L} on an Innioasis {M}: a USB data cable, charged battery, computer setup, and model check.",
+    "first-start": "Getting started after installing {L} on your Innioasis {M}: adding music to the MicroSD card, refreshing the library database, and installing themes.",
+    "sd-card": "How {L} uses the MicroSD card on the Innioasis {M}: the hidden .rockbox folder, formatting, library updates, and resetting settings safely.",
+    "update": "How to update {L} on your Innioasis {M} to a newer stable or nightly release in Updater CE while keeping your music, themes, and settings.",
+    "restore-stock": "How to return an Innioasis {M} to its factory Original Software after installing {L} using Innioasis Updater CE.",
+    "dual-boot": "How {L} and Original Software work together on the Innioasis {M}, and how to switch between them.",
+    "troubleshooting": "Fix common {L} installation issues on the Innioasis {M}: model selection, USB data cables, drivers, and connection timing.",
+    "resolution": "Understanding 240p and 360p {L} builds on the Innioasis {M} and how to choose the right build for your themes.",
+    "offline": "Why {L} on the Innioasis {M} is ideal for offline listening: local audio files, no accounts, no subscriptions, and tag-based library browsing.",
+    "uninstall": "How to remove {L} by restoring Original Software on your Innioasis {M}, or reset {L} settings by clearing the .rockbox folder.",
+    "faq": "Frequently asked questions about {L} on the Innioasis {M}: safety, direct developer downloads in Updater CE, themes, updates, and restoring stock firmware.",
+    "vs-stock": "Compare {L} and Original Software on the Innioasis {M}: music library, gapless playback, equalizer, themes, FM radio, and restoring factory firmware.",
 }
 
 
@@ -182,7 +176,7 @@ def section(title: str, body: str, anchor: str = "") -> str:
 
 def faq_block(faqs) -> str:
     return (
-        '<section class="lumen-guide-section"><h2 id="faq">Questions people ask</h2>%s</section>'
+        '<section class="lumen-guide-section"><h2 id="faq">Frequently asked questions</h2>%s</section>'
         % "".join("<details><summary>%s</summary>%s</details>" % (q, p(a)) for q, a in faqs)
     )
 
@@ -230,6 +224,9 @@ def head(title: str, description: str, canonical: str, up: str) -> str:
 
 
 FOOT = """<div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="{up}firmware-catalog.js?v=20261104cite" defer></script>
+<script src="{up}docs-viewer.js?v=20261104cite" defer></script>
+<script src="{up}portable-zip-links.js?v=20261103direct" defer></script>
 <script src="{up}nav.js?v=20261103brand" defer></script>
 <script src="{up}site-i18n.js?v=20260830" defer></script>
 </body></html>
@@ -253,7 +250,7 @@ def article_ld(title: str, description: str, canonical: str, crumbs) -> dict:
         "author": {"@type": "Organization", "name": "Innioasis Community"},
         "publisher": {"@type": "Organization", "name": "Innioasis Updater"},
         "mainEntityOfPage": canonical,
-        "about": {"@type": "Product", "name": "Innioasis " + "player"},
+        "about": {"@type": "Product", "name": "Innioasis player"},
     }
 
 
@@ -280,7 +277,7 @@ def faq_ld(faqs) -> dict:
     }
 
 
-# ---------------------------------------------------------------- mirror data
+# ---------------------------------------------------------------- release data
 
 def _api(url: str):
     request = urllib.request.Request(
@@ -295,20 +292,33 @@ def _api(url: str):
         return json.loads(response.read().decode("utf-8", errors="replace"))
 
 
-def mirror_releases(repo: str, refresh: bool = False) -> list[dict]:
-    """Published releases of a portable mirror repo (cached on disk)."""
+def project_releases(repo: str, refresh: bool = False) -> list[dict]:
+    """Published releases of a developer firmware repo (cached on disk)."""
     CACHE.mkdir(parents=True, exist_ok=True)
     path = CACHE / (repo.replace("/", "-") + ".json")
     if path.exists() and not refresh:
         try:
-            return json.loads(path.read_text(encoding="utf-8"))
+            cached = json.loads(path.read_text(encoding="utf-8"))
+            if isinstance(cached, list) and cached:
+                return cached
         except (OSError, json.JSONDecodeError):
             pass
-    try:
-        releases = _api("https://api.github.com/repos/%s/releases?per_page=50" % repo)
-    except Exception as error:  # noqa: BLE001 - a build must not fail on the API
-        print("  ! could not read %s releases: %s" % (repo, error), file=sys.stderr)
-        return []
+    doc_url = "https://api.github.com/repos/%s/releases?per_page=100&page=1" % repo
+    doc_cache_path = DOC_CACHE / (hashlib.sha1(doc_url.encode("utf-8")).hexdigest() + ".json")
+    releases = None
+    if doc_cache_path.exists() and not refresh:
+        try:
+            candidate = json.loads(doc_cache_path.read_text(encoding="utf-8"))
+            if isinstance(candidate, list) and candidate:
+                releases = candidate
+        except (OSError, json.JSONDecodeError):
+            pass
+    if releases is None:
+        try:
+            releases = _api("https://api.github.com/repos/%s/releases?per_page=50" % repo)
+        except Exception as error:  # noqa: BLE001 - a build must not fail on the API
+            print("  ! could not read %s releases: %s" % (repo, error), file=sys.stderr)
+            return []
     if not isinstance(releases, list):
         return []
     slim = [
@@ -341,13 +351,7 @@ def version_key(tag: str) -> tuple:
 
 
 def stable_release(releases: list[dict], fallback_tag: str) -> dict:
-    """The release a visitor should download.
-
-    Newest non-nightly, non-base tag that actually carries ROM zips. Version
-    order decides, not publication time: a beta published a few minutes after
-    a newer one is still the older build, and a release whose assets are only
-    source and checksums cannot be flashed.
-    """
+    """The release a visitor should start with."""
     usable = [
         release
         for release in releases
@@ -373,64 +377,71 @@ def stable_release(releases: list[dict], fallback_tag: str) -> dict:
     return releases[0] if releases else {}
 
 
-PLATFORM_LABELS = (
-    ("windows", "Windows"),
-    ("macos", "macOS"),
-    ("linux", "Linux"),
-)
+def release_notes_url(m, tag: str, up: str = "../") -> str:
+    author, _, project = m["repo"].partition("/")
+    params = {"author": author, "project": project}
+    if tag:
+        params["version"] = tag
+    if m.get("software"):
+        params["software"] = m["software"]
+    return "%srelease_notes.html?%s" % (up, urllib.parse.urlencode(params))
 
 
-def platform_rows(release: dict, m) -> list[tuple[str, str, str]]:
-    """(label, filename, url) for each per-platform portable ZIP in ``release``."""
+def firmware_dir_url(m, up: str = "../") -> str:
+    return "%sfirmware.html?model=%s&amp;software=%s" % (up, esc(m["model"]), esc(m["software"]))
+
+
+def firmware_readme_url(m, up: str = "../") -> str:
+    return "%sfirmware_info.html?repo=%s&amp;software=%s" % (
+        up, esc(urllib.parse.quote(m["repo"], safe="")), esc(m["software"])
+    )
+
+
+def package_rows(release: dict, m) -> list[tuple[str, str, str]]:
+    """(label, filename, url) for the developer ROM packages in ``release``."""
+    tag = release.get("tag_name") or m["stable_tag"]
     assets = {asset["name"]: asset["browser_download_url"] for asset in release.get("assets") or []}
     rows = []
-    for suffix, label in PLATFORM_LABELS:
-        name = "%s-%s.zip" % (m["rom_name"][:-4], suffix)
-        if name in assets:
-            rows.append(("%s portable ZIP" % label, name, assets[name]))
-    if m["rom_name"] in assets:
-        rows.append(("Universal ROM package", m["rom_name"], assets[m["rom_name"]]))
+    rom_url = assets.get(m["rom_name"]) or (
+        "https://github.com/%s/releases/download/%s/%s" % (m["repo"], tag, m["rom_name"])
+    )
+    rows.append(("%s developer ROM package" % m["label"], m["rom_name"], rom_url))
     if m.get("type_b"):
-        for suffix, label in PLATFORM_LABELS:
-            name = "rom_type_b-%s.zip" % suffix
-            if name in assets:
-                rows.append(("%s Type B portable ZIP" % label, name, assets[name]))
-        if "rom_type_b.zip" in assets:
-            rows.append(("Type B universal ROM", "rom_type_b.zip", assets["rom_type_b.zip"]))
+        type_b_url = assets.get("rom_type_b.zip") or (
+            "https://github.com/%s/releases/download/%s/rom_type_b.zip" % (m["repo"], tag)
+        )
+        rows.append(("%s Type B developer ROM package" % m["label"], "rom_type_b.zip", type_b_url))
     return rows
 
 
-def download_table(m, release: dict) -> str:
-    rows = platform_rows(release, m)
-    if not rows:
-        return (
-            '<p class="lumen-doc-status">The mirror release index is the authoritative '
-            'list of files: <a href="https://github.com/%s/releases">%s releases</a>.</p>'
-            % (esc(m["mirror"]), esc(m["mirror"]))
-        )
+def download_table(m, release: dict, up: str = "../") -> str:
+    rows = package_rows(release, m)
+    tag = release.get("tag_name") or m["stable_tag"]
+    notes_href = release_notes_url(m, tag, up=up)
+    dir_href = firmware_dir_url(m, up=up)
+    readme_href = firmware_readme_url(m, up=up)
     body = "".join(
         '<tr><th scope="row">%s</th><td><code>%s</code></td><td><a href="%s" rel="noopener">Download</a></td></tr>'
         % (esc(label), esc(name), esc(url))
         for label, name, url in rows
     )
-    tag = release.get("tag_name") or m["stable_tag"]
     return (
         '<table class="lumen-table"><thead><tr><th>Package</th><th>File</th><th>Link</th></tr></thead><tbody>%s</tbody></table>'
-        '<p class="lumen-meta">Files come from the <a href="https://github.com/%s/releases/tag/%s" rel="noopener">'
-        "%s</a> release of the <a href=\"https://github.com/%s\" rel=\"noopener\">%s</a> portable mirror — the "
-        "community repack of the same ROM Updater CE flashes. The universal package is the one to take when "
-        "you are not sure; the per-platform ZIPs unpack to the same images.</p>"
-        % (body, esc(m["mirror"]), esc(tag), esc(tag), esc(m["mirror"]), esc(m["mirror"]))
+        '<p class="lumen-meta">Published by the <a href="%s">%s</a> developers in release '
+        '<a href="%s">%s</a> (<a href="%s">project README</a>). '
+        "Innioasis Updater CE always downloads firmware packages directly from the community firmware developers "
+        "themselves, and those developers are solely responsible for listing their releases in Updater CE.</p>"
+        % (body, dir_href, esc(m["repo"]), esc(notes_href), esc(tag), readme_href)
     )
 
 
-def download_summary(m, release: dict) -> str:
+def download_summary(m, release: dict, up: str = "../") -> str:
     tag = release.get("tag_name") or m["stable_tag"]
     return (
         '<div class="lumen-actions"><a class="lumen-button lumen-button--primary" href="download.html">%s downloads</a>'
         '<a class="lumen-button" href="%s">Get it in Updater CE</a>'
-        '<a class="lumen-button" href="https://github.com/%s/releases/tag/%s" rel="noopener">Mirror release %s</a></div>'
-        % (esc(m["label"]), esc(guide_href(m)), esc(m["mirror"]), esc(tag), esc(tag))
+        '<a class="lumen-button" href="%s">Release notes (%s)</a></div>'
+        % (esc(m["label"]), esc(guide_href(m)), esc(release_notes_url(m, tag, up=up)), esc(tag))
     )
 
 
@@ -443,51 +454,47 @@ def guide_href(m) -> str:
 def hub_body(m, release) -> tuple[str, str, list, list]:
     other = MODELS[m["other"]]
     lead = (
-        "%s is the Innioasis %s build of Rockbox: community firmware that replaces the stock "
-        "player with a tag-based library, gapless playback, an equalizer and a deep theme "
-        "library. This page is the index for everything on this site about %s — install "
-        "steps, ROM downloads from the portable mirror, themes, restoring the original "
-        "software, and the fixes worth trying when a flash stops." % (m["label"], m["model"], m["label"])
+        "%s is the community Rockbox firmware for the Innioasis %s. It adds a tag-based music "
+        "library, gapless playback, a full equalizer, and custom themes. Use this hub to install "
+        "%s with Updater CE, download ROM packages, browse themes, or restore the factory software."
+        % (m["label"], m["model"], m["label"])
     )
     sections = [
         section(
-            "Rockbox, Rockbox-%s and “Rockbox for %s” are the same software" % (m["model"], m["model"]),
+            "Rockbox, Rockbox-%s and “Rockbox for %s” are the same firmware" % (m["model"], m["model"]),
             p(
-                "The project publishes one port per player. The catalogue lists it as "
-                "<strong>Rockbox</strong> with device <code>%s</code>; search engines, videos and forum "
-                "posts call the same build <strong>%s</strong>, <strong>Rockbox for %s</strong>, or "
-                "<strong>rockbox-%s</strong> in a URL. Nothing differs between the names — only the "
-                "spelling. What does matter is the model: a %s build is not a %s build."
-                % (m["model"], m["label"], m["model"], m["model"].lower(), m["model"], other["model"]),
-                "The release notes for this software are titled %s release notes so the version "
-                "history and the search result agree on the name." % m["label"],
+                "Innioasis Updater CE lists this firmware as <strong>Rockbox</strong> under device model "
+                "<strong>%s</strong>. Guides, videos, and search results also call it <strong>%s</strong> "
+                "or <strong>Rockbox for %s</strong>. All of these names refer to the exact same %s port. "
+                "Always select <strong>%s</strong> first so you do not install a %s build by mistake."
+                % (m["model"], m["label"], m["model"], m["model"], m["model"], other["model"]),
             ),
             "names",
         ),
-        section("Start where you are", actions(
+        section("Quick links", actions(
             ("Install %s" % m["label"], "install.html"),
             ("Download the ROM", "download.html"),
             ("Full written tutorial", m["guide"]),
-            ("Restore the original software", "restore-stock.html"),
+            ("Restore Original Software", "restore-stock.html"),
         )),
         section(
-            "Downloads come from the portable mirror",
+            "Direct downloads from the community developers",
             p(
-                "Updater CE downloads and flashes the ROM for you. If you want the files in hand — "
-                "to flash from another computer, to keep an archive, or to install from a local "
-                "package — take them from the <a href=\"https://github.com/%s\" rel=\"noopener\">%s</a> "
-                "mirror. Its releases carry the same ROM as per-platform portable ZIPs, including "
-                "Type B variants where the %s needs one." % (esc(m["mirror"]), esc(m["mirror"]), m["model"])
+                "Innioasis Updater CE always downloads firmware packages directly from the community "
+                "firmware developers (<a href=\"%s\">%s</a>), who are solely responsible for publishing "
+                "and listing their software releases in Updater CE. You can let Updater CE download and "
+                "install the release for you, or download the ROM package from our firmware directory."
+                % (firmware_dir_url(m), esc(m["repo"]))
             ) + download_summary(m, release),
             "downloads",
         ),
         section(
-            "Before you flash",
+            "Before you install",
             ul([
-                "Set <strong>Device Model</strong> to <strong>%s</strong> before you pick Rockbox." % m["model"],
-                "Prefer a stable release unless you are deliberately testing a nightly build.",
-                "Use a data cable and a charged battery; connect the powered-off player only when Updater asks.",
-                "The flash replaces the player software. The matching Original Software package is the way back.",
+                "Select <strong>%s</strong> in <strong>Device Model</strong> before choosing Rockbox." % m["model"],
+                "Choose a stable release for daily use, or enable nightly builds if you want to test a preview.",
+                "Use a USB data cable and a charged player; power the player off and connect it only when Updater CE asks.",
+                "You can return to factory firmware at any time by installing <strong>Original Software</strong> for the %s." % m["model"],
             ]) + p(m["build_note"]),
             "before",
         ),
@@ -495,21 +502,25 @@ def hub_body(m, release) -> tuple[str, str, list, list]:
     faqs = [
         (
             "Is %s safe to install?" % m["label"],
-            "It runs on the same flashing path as the stock firmware, and the community has installed "
-            "it on many players. It is still custom firmware on a MediaTek device: an interrupted "
-            "flash can leave the player needing a recovery run, so use a good cable, a charged battery "
-            "and do not disturb the connection.",
+            "Yes. It uses the same MediaTek flashing process as the factory firmware, and you can restore "
+            "Original Software at any time. Always use a reliable USB data cable and keep the player charged.",
         ),
         (
-            "Can I put the %s build on a %s?" % (m["label"], other["model"]),
-            "No. The two ports are separate packages. Select %s in Updater CE and use the "
-            "<a href=\"%s\">%s pages</a> instead." % (other["model"], m["other_dir"], other["label"]),
+            "Where does Updater CE download %s from?" % m["label"],
+            "Updater CE downloads firmware packages directly from the community firmware developers' own "
+            "releases (%s). The developers themselves are solely responsible for listing their releases in Updater CE."
+            % esc(m["repo"]),
         ),
         (
-            "How do I go back to the original software?",
-            "Choose %s again, select <strong>Original Software</strong>, pick a stable release and run "
-            "<strong>Install / Restore</strong>. The <a href=\"restore-stock.html\">restore page</a> walks "
-            "through it." % m["model"],
+            "Can I install %s on an Innioasis %s?" % (m["label"], other["model"]),
+            "No. The Y1 and Y2 use different hardware and separate firmware builds. Select %s in Updater CE "
+            "and use the <a href=\"%s\">%s guide</a> instead." % (other["model"], m["other_dir"], other["label"]),
+        ),
+        (
+            "How do I return to the original factory software?",
+            "In Updater CE, select <strong>%s</strong>, choose <strong>Original Software</strong>, pick a stable "
+            "release, and click <strong>Install / Restore</strong>. See the <a href=\"restore-stock.html\">restore guide</a>."
+            % m["model"],
         ),
     ]
     howto = []
@@ -523,11 +534,11 @@ def topic_body(m, slug: str, release) -> tuple[str, str, list, list, list]:
     gui = guide_href(m)
     steps = [
         "Open Innioasis Updater CE and set <strong>Device Model</strong> to <strong>%s</strong>." % model,
-        "Choose <strong>Rockbox</strong> in <strong>Software</strong> — the release data may label it %s." % label,
-        "Choose a stable release (or the nightly you mean to test).",
-        "Click <strong>Install / Restore</strong> and let the package download and extract.",
-        "Power the %s fully off, then connect the USB data cable only when Updater asks." % model,
-        "Disconnect only after the success message, then start the player.",
+        "Select <strong>Rockbox</strong> in the <strong>Software</strong> dropdown.",
+        "Pick a stable release (or check <strong>Show nightly builds</strong> to test a preview).",
+        "Click <strong>Install / Restore</strong> so Updater CE downloads the package directly from the developer's release.",
+        "Power the %s completely off, then connect it with a USB data cable when Updater CE prompts you." % model,
+        "Wait for the completion message before unplugging and turning on your player.",
     ]
     faqs: list = []
     sections: list[str] = []
@@ -536,456 +547,401 @@ def topic_body(m, slug: str, release) -> tuple[str, str, list, list, list]:
 
     if slug == "install":
         lead = (
-            "Installing %s is a guided flow in Innioasis Updater CE. The order matters more than "
-            "the clicking: the model comes first, then the software, then the release, and the "
-            "player is connected last — powered off — only when the app asks for it." % label
+            "Install %s on your Innioasis %s in six steps with Innioasis Updater CE. Select your model "
+            "first, choose Rockbox, pick a release, and connect your powered-off player when prompted."
+            % (label, model)
         )
-        sections.append(section("The install, step by step", ol(steps), "steps"))
+        sections.append(section("Step-by-step installation", ol(steps), "steps"))
         sections.append(section(
-            "Why the model comes first",
+            "Why selecting %s first matters" % model,
             p(
-                "Updater CE filters releases by the model you select. Picking Rockbox before the model "
-                "is how people end up staring at a %s package on a %s player. The catalogue row for "
-                "this software is <code>%s</code> with device <code>%s</code>, so as long as the model "
-                "is right the release list is right."
-                % (other["model"], model, m["software"], model),
-                "If you would rather not use the app, the same ROM is available as a portable ZIP — "
-                "see <a href=\"portable-zip.html\">installing from a portable package</a>.",
+                "Updater CE shows only the firmware listed for the device model you select. Setting "
+                "<strong>Device Model</strong> to <strong>%s</strong> ensures you get the %s build "
+                "published by <strong>%s</strong> instead of a %s package."
+                % (model, label, esc(m["repo"]), other["model"]),
+                "If you already downloaded a ROM ZIP to your computer, see "
+                "<a href=\"portable-zip.html\">installing from a local ZIP package</a>.",
             ),
         ))
-        sections.append(section("What Updater does with the package", p(
-            "It downloads the ROM, unpacks the images, and writes them with MediaTek's download "
-            "protocol through either SP Flash Tool or MTKClient depending on your platform. The "
-            "player does not need to boot into anything special: it is flashed in preloader mode, "
-            "which is why it must be off and connected at the right moment."
+        sections.append(section("How Updater CE installs the firmware", p(
+            "Updater CE downloads the firmware package directly from the community developer's release "
+            "(the developer is solely responsible for listing their releases in Updater CE), unpacks it, "
+            "and flashes your player over USB while the player is powered off."
         )))
-        sections.append(section("Where to go next", actions(
+        sections.append(section("Next steps", actions(
             ("Full written tutorial", m["guide"]),
-            ("First start after install", "first-start.html"),
-            ("Downloads", "download.html"),
+            ("First start & themes", "first-start.html"),
+            ("ROM downloads", "download.html"),
         )))
         faqs += [
-            ("How long does a %s install take?" % label,
-             "Usually a few minutes once the ROM is downloaded; the download itself is the slow part "
-             "on a typical connection. Leave the player alone until Updater reports success."),
-            ("Do I need to unlock or root the %s first?" % model,
-             "No. The flash uses the MediaTek preloader, so there is nothing to unlock beforehand."),
-            ("Which release should I pick?",
-             "A stable release is the default answer. Nightlies are for testing a specific fix and are "
-             "labelled as previews in the app and on the release-notes pages."),
+            ("How long does installing %s take?" % label,
+             "Once the download finishes, flashing takes only a couple of minutes. Keep the USB cable connected until Updater CE shows the success message."),
+            ("Do I need to root or unlock the %s first?" % model,
+             "No. Updater CE flashes the player directly while it is powered off."),
+            ("Which release should I choose?",
+             "Choose the latest stable release for everyday use. Nightly builds are preview releases for testing new changes."),
         ]
         howto = [re.sub(r"<[^>]+>", "", step) for step in steps]
 
     elif slug == "download":
         tag = release.get("tag_name") or m["stable_tag"]
         lead = (
-            "%s downloads are ROM packages, not installers. The portable mirror publishes the same "
-            "ROM the app flashes, split into per-platform ZIPs, so you can keep a copy, flash from "
-            "another computer, or install from a local file." % label
+            "Download %s ROM packages for the Innioasis %s. Innioasis Updater CE always downloads "
+            "firmware packages directly from the community firmware developers, who are solely "
+            "responsible for listing their releases in Updater CE." % (label, model)
         )
         sections.append(section("%s download files" % label, download_table(m, release), "files"))
         sections.append(section(
-            "Which file do I want?",
+            "Which package should I choose?",
             ul([
-                "<strong>Windows / macOS / Linux portable ZIP</strong> — pick the one matching the computer you will flash from.",
-                "<strong>Universal ROM package</strong> — the plain <code>%s</code>; useful for archives and for Updater's local-package mode." % m["rom_name"],
-                "<strong>Type B ZIPs</strong> — only for Y1 players that need the Type B build." if m.get("type_b") else "<strong>Beta builds</strong> — earlier releases stay published so an older build can be re-flashed.",
-            ]) + p("The tag to quote when someone asks which build you are on is <strong>%s</strong>." % tag),
+                "<strong>Install with Updater CE (recommended)</strong> — Updater CE downloads the package directly from the developer's release and flashes your %s automatically." % model,
+                "<strong>Developer ROM package (<code>%s</code>)</strong> — the firmware ZIP published by the developer for offline archiving or manual installation." % m["rom_name"],
+                "<strong>Type B ROM package (<code>rom_type_b.zip</code>)</strong> — for Y1 players that shipped with pre-2.0.0 factory firmware." if m.get("type_b") else "<strong>Earlier beta builds</strong> — browse all versions in the <a href=\"%s\">firmware directory</a>." % firmware_dir_url(m),
+            ]) + p("Current recommended release tag: <strong>%s</strong>." % esc(tag)),
         ))
-        sections.append(section("Prefer the app?", p(
-            "Updater CE picks the release for your model, downloads it, verifies the archive and runs "
-            "the flash. The download pages exist for the cases the app cannot cover: offline "
-            "machines, archives, and people who want to see the files first."
-        ) + actions(("Get it in Updater CE", gui), ("Portable ZIP route", "portable-zip.html"))))
+        sections.append(section("Install with one click in Updater CE", p(
+            "You do not need to download ZIP files manually for a normal install. Open Updater CE, "
+            "select %s and Rockbox, and it will download the release directly from the developer." % model
+        ) + actions(("Get it in Updater CE", gui), ("Browse all releases", firmware_dir_url(m)))))
         faqs += [
-            ("Are these the official Rockbox files?",
-             "They are the community port for this player, repacked by the mirror release. They are "
-             "not a mainline Rockbox build for another device."),
-            ("Why are there several ZIPs with the same ROM inside?",
-             "The per-platform archives exist so the download is convenient on each system; the images "
-             "inside are the same ones Updater writes."),
-            ("Can I flash the ZIP directly?",
-             "No — it is a package for Updater or for the manual route, not a bootable image. See "
-             "<a href=\"portable-zip.html\">the portable ZIP page</a>."),
+            ("Where do %s downloads come from?" % label,
+             "Updater CE always downloads packages directly from the community firmware developer's "
+             "releases (%s). The developer is solely responsible for listing their releases in Updater CE." % esc(m["repo"])),
+            ("Can I copy the ROM ZIP onto the MicroSD card to install it?",
+             "No. Firmware ROM packages are flashed from a computer over USB using Updater CE. See "
+             "<a href=\"portable-zip.html\">installing from a downloaded ZIP</a>."),
         ]
         extra_ld.append({
             "@context": "https://schema.org",
             "@type": "DataDownload",
             "name": "%s ROM package" % label,
-            "contentUrl": "https://github.com/%s/releases/tag/%s" % (m["mirror"], tag),
+            "contentUrl": "%s/firmware.html?model=%s&software=%s" % (SITE, m["model"], m["software"]),
         })
 
     elif slug == "portable-zip":
         lead = (
-            "The portable ZIP is the no-wizard path: a release archive that contains the ROM images "
-            "for this player, arranged so Updater CE can flash them from a local folder — or so you "
-            "can hand the folder to the manual flashing tool of your choice."
+            "If you downloaded a %s ROM ZIP package ahead of time, you can install it from your "
+            "computer or let Updater CE handle the entire download and flash for you." % label
         )
-        sections.append(section("Pick the archive for your computer", ul([
-            "<code>%s-windows.zip</code>, <code>%s-macos.zip</code>, <code>%s-linux.zip</code> — the same ROM, packaged for each platform's default extraction and path handling." % (m["rom_name"][:-4], m["rom_name"][:-4], m["rom_name"][:-4]),
-            "<code>%s</code> — the universal package when you want one file for every machine." % m["rom_name"],
+        sections.append(section("Download the ROM package", ul([
+            "<code>%s</code> — the standard %s firmware package published by the developer." % (m["rom_name"], label),
+            "On our <a href=\"%s\">Firmware Downloads</a> page, the download button can also bundle platform flashing scripts for Windows, macOS, or Linux when you want a standalone web download." % firmware_dir_url(m),
         ]) + download_summary(m, release)))
-        sections.append(section("Install from the extracted folder", ol([
-            "Download the ZIP and extract it to a path with no spaces or unusual characters.",
-            "Open Updater CE, set <strong>Device Model</strong> to <strong>%s</strong>." % model,
-            "Choose the local-package / browse option and point it at the extracted folder.",
-            "Confirm the images it found, then run <strong>Install / Restore</strong>.",
-            "Power the %s off and connect it only at the prompt." % model,
+        sections.append(section("How to install from a downloaded ZIP", ol([
+            "Download the ROM ZIP and extract it to a folder on your computer (avoid folder paths with special characters).",
+            "Open Innioasis Updater CE and set <strong>Device Model</strong> to <strong>%s</strong>." % model,
+            "Select the local package option and choose your downloaded ZIP or extracted folder.",
+            "Click <strong>Install / Restore</strong>.",
+            "Power off your %s completely and connect it over USB when Updater CE prompts you." % model,
         ])))
-        sections.append(section("What is inside", p(
-            "A scatter file plus the partition images the flash writes. The scatter is what tells the "
-            "flashing tool where each image belongs, and it is why the extracted folder must stay "
-            "intact — moving a single image out breaks the mapping."
+        sections.append(section("What is inside the ROM package", p(
+            "Each ROM package contains a MediaTek scatter file and the partition images for your %s. "
+            "Keep all files in the extracted folder together so the scatter file can locate every image." % model
         )))
         faqs += [
-            ("Do I need Python or MTKClient installed?",
-             "No. Updater CE bundles what it needs; the ZIP is only the ROM."),
-            ("Can I keep the ZIP on the SD card?",
-             "You can store it there, but flashing reads it from the computer. Extract it on the "
-             "machine doing the flash."),
-            ("The folder has several images — do I flash all of them?",
-             "Yes, the flash writes the set the scatter names. Do not cherry-pick."),
+            ("Does Updater CE use the website's standalone portable ZIP mirror?",
+             "No. Updater CE always downloads firmware packages directly from the community firmware "
+             "developers themselves, who are solely responsible for listing their releases in Updater CE."),
+            ("Do I need to install Python or MediaTek tools separately?",
+             "No. Updater CE includes everything needed to flash the ROM."),
+            ("Can I flash the ZIP from the player's MicroSD card?",
+             "No. Flashing is always performed from a computer over USB while the player is powered off."),
         ]
         howto = [
-            "Download the portable ZIP for your platform.",
-            "Extract it to a path without spaces.",
-            "Select %s in Updater CE and browse to the extracted folder." % model,
-            "Run Install / Restore and connect the powered-off player at the prompt.",
+            "Download the ROM ZIP to your computer.",
+            "Open Innioasis Updater CE and select %s." % model,
+            "Load the downloaded package or choose Rockbox from the Software list.",
+            "Click Install / Restore and connect the powered-off player when prompted.",
         ]
 
     elif slug == "requirements":
         lead = (
-            "Almost every failed %s install traces back to one of five things: the wrong model, a "
-            "charge-only cable, a flat battery, a missing driver, or connecting the player before the "
-            "app was listening. Check them before you start." % label
+            "Check these five items before installing %s on your Innioasis %s: the model printed on "
+            "the player, a USB data cable, battery charge, computer drivers, and connection timing."
+            % (label, model)
         )
-        sections.append(section("Hardware and computer", ul([
-            "An Innioasis %s — check the model on the player itself, not on the box." % model,
-            "A USB <strong>data</strong> cable; charge-only cables enumerate nothing.",
-            "A charged player, and a computer that will not sleep mid-flash.",
-            "Windows: the MediaTek preloader driver. Linux: USB permissions for <code>0e8d:*</code>.",
-            "About a gigabyte of free space for the download and extraction.",
-        ]) + p("The driver and permission details live on the <a href=\"../drivers.html\">drivers page</a>, "
-               "and connection-timing failures are covered in <a href=\"troubleshooting.html\">troubleshooting</a>.")))
-        sections.append(section("Which build of %s" % label, p(m["build_note"]) + ul([
-            "Y1: Type A unless you already know the player needs Type B." if m.get("type_b") else "Y2: only builds listed for Y2; the Y1 package is a different ROM.",
-            "A stable build for everyday use; nightlies for testing.",
+        sections.append(section("What you need", ul([
+            "An Innioasis <strong>%s</strong> — verify the model name on the player." % model,
+            "A USB <strong>data</strong> cable (charge-only cables cannot transfer firmware).",
+            "A charged battery (at least 50%% recommended).",
+            "Windows: MediaTek USB drivers. Linux: udev permissions for <code>0e8d:*</code>. macOS: no extra driver needed.",
+            "About 1 GB of free disk space on your computer.",
+        ]) + p("Need help with drivers? See the <a href=\"../drivers.html\">USB drivers guide</a> "
+               "or <a href=\"troubleshooting.html\">troubleshooting</a>.")))
+        sections.append(section("Choosing the right %s build" % label, p(m["build_note"]) + ul([
+            "Y1: Choose Type A if your player shipped with software 2.0.0+, or Type B for earlier units." if m.get("type_b") else "Y2: Only install builds listed for the Y2.",
+            "Choose a stable release for everyday use, or a nightly build to test the latest changes.",
         ])))
         faqs += [
-            ("Does the player need to be charged first?",
-             "Yes — a flash that loses power mid-write is the one failure worth avoiding."),
-            ("Does it work on ARM Macs?",
-             "Yes. Updater CE ships for Apple silicon and Intel Macs, and the portable ZIP has a macOS package."),
-            ("Do I need internet on the player?",
-             "No. The download happens on the computer."),
+            ("Does my player need to be charged before flashing?",
+             "Yes. Charging your player first prevents it from losing power during the flash."),
+            ("Does Updater CE work on Apple Silicon Macs, Windows, and Linux?",
+             "Yes. Updater CE runs natively on Windows, macOS (Intel and Apple Silicon), and Linux."),
+            ("Does the player need Wi-Fi to install %s?" % label,
+             "No. Your computer downloads the firmware and flashes the player over USB."),
         ]
 
     elif slug == "first-start":
         lead = (
-            "The first boot after a %s install is not the end of the job: the player builds its "
-            "database, creates the settings folder on the card, and waits for music." % label
+            "After installing %s on your Innioasis %s, the first boot sets up the <code>.rockbox</code> "
+            "folder on your MicroSD card and indexes your music library." % (label, model)
         )
-        sections.append(section("What happens on the first boot", ol([
-            "Start the player and let it finish its first-boot routine — do not pull the card.",
-            "Insert a MicroSD card with music on it (FAT32/exFAT is the safe choice).",
-            "Let the database build; large libraries take a while the first time.",
-            "Install a theme that matches your build, then reboot to see it applied.",
+        sections.append(section("First boot checklist", ol([
+            "Turn on the player and let it finish its initial startup.",
+            "Insert a MicroSD card formatted as FAT32 or exFAT with your music files.",
+            "Allow the Rockbox database to scan your music library.",
+            "Install themes using Updater CE or copy them to the <code>.rockbox</code> folder on your card.",
         ])))
-        sections.append(section("Worth changing on day one", ul([
-            "Database → update now, once the music is on the card.",
-            "Theme settings, so the wheel and the screen match how you browse.",
-            "Playback settings: gapless and crossfade are the two people notice first.",
-            "If the build supports it, point scrobbling at your Last.fm / ListenBrainz / Maloja account.",
-        ]) + p("Themes are covered on the <a href=\"%s\">%s theme page</a>, and the card layout on "
-               "<a href=\"sd-card.html\">the MicroSD page</a>." % (m["themes"], label))))
+        sections.append(section("Useful settings on day one", ul([
+            "<strong>Database → Update Now</strong> after adding new music folders.",
+            "<strong>Theme Settings</strong> to change fonts, status bars, and Now Playing screens.",
+            "<strong>Sound Settings</strong> for gapless playback, crossfade, and the parametric equalizer.",
+        ]) + p("See the <a href=\"%s\">%s theme guide</a> and the <a href=\"sd-card.html\">MicroSD card guide</a> "
+               "for more details." % (m["themes"], label))))
         faqs += [
-            ("The player booted with no music — is the install broken?",
-             "No. Rockbox reads the card, not internal storage. Add music to the card and refresh the database."),
-            ("Can I install themes before flashing?",
-             "You can copy them to the card first, but apply them after the build is running."),
-            ("How do I get back to stock software from here?",
-             "Either from the player's own system menu when the build offers it, or by reflashing "
-             "Original Software — see <a href=\"dual-boot.html\">dual boot</a>."),
+            ("My player started with no music showing — what should I do?",
+             "Make sure your music is on the MicroSD card, then open Database in the menu and initialize or update it."),
+            ("How do I install themes?",
+             "Updater CE transfers Rockbox themes for you when it can, and walks you through copying them when manual transfer is needed. See the <a href=\"%s\">theme guide</a>." % m["themes"]),
+            ("Can I switch back to the original software?",
+             "Yes. You can reboot into the original software on builds that support dual boot, or restore Original Software in Updater CE."),
         ]
 
     elif slug == "sd-card":
         lead = (
-            "%s keeps nearly everything you can change on the MicroSD card, inside a folder called "
-            "<code>.rockbox</code>. That one fact explains most of the questions about settings, "
-            "themes and resets." % label
+            "%s stores your settings, themes, playlists, and music database on the MicroSD card inside "
+            "a hidden folder named <code>.rockbox</code>." % label
         )
-        sections.append(section("The .rockbox folder", p(
-            "Settings, themes, playlists, caches and the database live there. The firmware itself is "
-            "on the player's internal flash, so deleting the folder does not uninstall anything — it "
-            "returns the software to a clean default state and the folder is rebuilt on the next boot."
+        sections.append(section("How the .rockbox folder works", p(
+            "Because the firmware itself lives on the player's internal storage and your settings live "
+            "in <code>.rockbox</code> on the MicroSD card, renaming or deleting <code>.rockbox</code> "
+            "safely resets all settings and themes to defaults without uninstalling %s." % label
         ) + ol([
-            "Power off and remove the card, or connect the player as a USB drive.",
-            "Turn on hidden files (macOS: <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>.</kbd>; Windows: View → Hidden items).",
-            "Rename <code>.rockbox</code> to <code>.rockbox-old</code> if you might want it back.",
-            "Boot the player again and let it recreate the folder.",
+            "Connect the player over USB or put the MicroSD card into your computer.",
+            "Show hidden files (macOS: <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>.</kbd>; Windows: View → Hidden items).",
+            "Rename <code>.rockbox</code> to <code>.rockbox-backup</code> to reset your configuration.",
+            "Restart the player so it creates a fresh <code>.rockbox</code> folder.",
         ])))
-        sections.append(section("Card housekeeping", ul([
-            "Keep music in ordinary folders; the database sorts by tags, not by directory name.",
-            "Large libraries: update the database after copying, not during playback.",
-            "A card that drops out mid-playback is usually a card problem, not firmware.",
+        sections.append(section("MicroSD card tips", ul([
+            "Organize music in normal folders; Rockbox can browse both by folder and by ID3/vorbis tags.",
+            "Refresh the database after copying new albums.",
+            "Use FAT32 (or exFAT where supported) for reliable card reading.",
         ])))
         faqs += [
-            ("Will deleting .rockbox delete my music?",
-             "No. Music lives outside that folder; only settings, themes and caches are inside it."),
-            ("Why can't I see the folder?",
-             "Names starting with a dot are hidden by default on Windows, macOS and Linux."),
-            ("Does a bigger card make the player faster?",
-             "No, but a faster card makes the database build and scrolling smoother."),
+            ("Will deleting .rockbox erase my music?",
+             "No, as long as your music folders are stored outside the .rockbox folder on the card."),
+            ("Why can't I see the .rockbox folder on my computer?",
+             "Folders starting with a dot are hidden by default on Windows, macOS, and Linux. Enable hidden files in your file manager."),
         ]
 
     elif slug == "update":
         lead = (
-            "Updating %s is the same flow as installing it: model, software, release, then the "
-            "connection prompt. Settings and themes on the card normally survive, because they are "
-            "not part of the ROM." % label
+            "Updating %s on your Innioasis %s uses the exact same steps in Updater CE as a first-time "
+            "install, and keeps the music, themes, and settings stored on your MicroSD card." % (label, model)
         )
-        sections.append(section("Update to a newer build", ol([
-            "Set <strong>Device Model</strong> to <strong>%s</strong>." % model,
-            "Choose <strong>Rockbox</strong>, then the newer stable (or the nightly you want).",
-            "Run <strong>Install / Restore</strong> and connect the powered-off player at the prompt.",
-            "Boot once, then check the theme and database still look right.",
-        ]) + p("If you keep a backup of <code>.rockbox</code> from before the update, a theme that "
-               "stops working can be rolled back without losing the whole install.")))
-        sections.append(section("Stable or nightly?", p(
-            "Stable builds are what most people want: they are the ones the guides and theme notes "
-            "assume. Nightlies exist to test a specific fix and are marked as previews in the app and "
-            "on the release pages. The full history is on <a href=\"%s\">the %s release notes</a>."
-            % (m["release_notes"].replace("../", "../"), label)
+        sections.append(section("How to update to a newer release", ol([
+            "Open Innioasis Updater CE and select <strong>%s</strong> in <strong>Device Model</strong>." % model,
+            "Choose <strong>Rockbox</strong> and select the newer stable or nightly release.",
+            "Click <strong>Install / Restore</strong> and connect your powered-off player when prompted.",
+            "Turn on the player once the update finishes.",
+        ]) + p("Updater CE downloads the new release directly from the community developer's repository.")))
+        sections.append(section("Stable vs. nightly builds", p(
+            "Stable releases are recommended for everyday listening. Nightly builds let you test the "
+            "newest changes and bug fixes. You can read what changed in every version on the "
+            "<a href=\"%s\">%s release notes page</a>." % (m["release_notes"], label)
         )))
         faqs += [
-            ("Do I need to uninstall first?",
-             "No. The flash writes over the old build."),
-            ("Will my themes break?",
-             "Themes that match the build's resolution keep working; a theme built for the other "
-             "resolution will not look right."),
-            ("Can I downgrade?",
-             "Yes — the old tags stay published on the mirror, and reflashing an older build is the "
-             "same operation."),
+            ("Do I need to uninstall the old version before updating?",
+             "No. Flashing the new release overwrites the previous firmware while leaving your MicroSD card untouched."),
+            ("Can I downgrade to an earlier release?",
+             "Yes. Select any earlier release listed for your model in Updater CE and install it the same way."),
         ]
 
     elif slug == "restore-stock":
         lead = (
-            "Going back is the same route in reverse: choose %s, choose <strong>Original Software</strong>, "
-            "pick a stable release, and flash it." % model
+            "You can return your Innioasis %s to its factory Original Software at any time using "
+            "Innioasis Updater CE." % model
         )
-        sections.append(section("Restore the original %s software" % model, ol([
-            "Open Updater CE and set <strong>Device Model</strong> to <strong>%s</strong>." % model,
-            "Choose <strong>Original Software</strong> in <strong>Software</strong>.",
-            "Pick a stable release — not a Rockbox one.",
-            "Run <strong>Install / Restore</strong>, then power off and connect at the prompt.",
-            "Leave the player alone until the success message, then boot it.",
-        ]) + p("The dedicated route with screenshots is the <a href=\"%s\">%s restore guide</a>."
+        sections.append(section("Restore Original Software on the %s" % model, ol([
+            "Open Innioasis Updater CE and set <strong>Device Model</strong> to <strong>%s</strong>." % model,
+            "Select <strong>Original Software</strong> in the <strong>Software</strong> dropdown.",
+            "Pick a stable factory release for the %s." % model,
+            "Click <strong>Install / Restore</strong>, power off your player, and connect it when prompted.",
+            "Wait for the success message, then disconnect and turn on the player.",
+        ]) + p("For a full walkthrough, see the <a href=\"%s\">%s Original Software restore guide</a>."
                % (m["restore"], model))))
-        sections.append(section("Before you restore", ul([
-            "Back up anything on the card you care about; the stock software does not read <code>.rockbox</code>.",
-            "Do not delete Rockbox files first — flashing the stock ROM is the supported path.",
-            "If the flash fails after detection, stop and read <a href=\"../troubleshooting.html\">troubleshooting</a> "
-            "before trying again.",
+        sections.append(section("Good to know before restoring", ul([
+            "Your music files on the MicroSD card are not erased when restoring Original Software.",
+            "You do not need to delete Rockbox files before flashing Original Software.",
+            "If the flash does not start when you plug in the player, check our <a href=\"../troubleshooting.html\">troubleshooting guide</a>.",
         ])))
         faqs += [
-            ("Does restoring wipe my music?",
-             "No. The card is not reformatted by the ROM flash; your music files stay where they are."),
-            ("Will I lose the ability to reinstall Rockbox?",
-             "No. Rockbox remains available in the catalogue for this model."),
-            ("Which Original Software release do I pick?",
-             "A stable one listed for the same model. Choosing the other model's stock package is the "
-             "one mistake worth double-checking."),
+            ("Does restoring Original Software delete my music?",
+             "No. Flashing Original Software updates the internal firmware and leaves your MicroSD card files intact."),
+            ("Can I install %s again later?" % label,
+             "Yes. You can switch between Original Software and Rockbox whenever you like."),
         ]
 
     elif slug == "dual-boot":
         lead = (
-            "Most %s builds on this player coexist with the original software: you can start one or "
-            "the other without reflashing. How you switch depends on the build, so treat the player "
-            "menu, not a forum post, as the answer for yours." % label
+            "Many %s builds allow you to switch between Rockbox and the factory Original Software "
+            "without reflashing your player." % label
         )
-        sections.append(section("Switching between the two", ul([
-            "From the custom software, the system menu offers a restart into the original software on builds that support it.",
-            "From the original software, the community shortcut is holding <kbd>Menu/Back</kbd> + <kbd>Play/Pause</kbd> at power-on — confirm it on your build.",
-            "A build that offers no switch can still be undone by flashing Original Software.",
-        ]) + p("If you are unsure whether your build supports the switch, read the release notes for that "
-               "tag before you rely on it.")))
-        sections.append(section("When dual boot is not what you want", p(
-            "If the plan is to hand the player to someone else, flashing the original software is "
-            "cleaner than leaving two systems installed. The <a href=\"restore-stock.html\">restore page</a> "
-            "covers that path."
+        sections.append(section("How to switch between Rockbox and Original Software", ul([
+            "From Rockbox: check the System menu for an option to restart into the original player software.",
+            "From Original Software: on supported builds, hold <kbd>Menu/Back</kbd> + <kbd>Play/Pause</kbd> while powering on (check your release notes for build-specific shortcuts).",
+            "If you want to remove Rockbox completely and run only factory software, follow the <a href=\"restore-stock.html\">restore guide</a>.",
+        ])))
+        sections.append(section("When to restore instead of dual booting", p(
+            "If you are giving the player to someone else or want a clean factory setup, flash "
+            "<strong>Original Software</strong> in Updater CE."
         )))
         faqs += [
-            ("Does dual boot cost storage?",
-             "The two systems occupy the player's internal partitions; the card is shared. The exact "
-             "layout is the build's business, not something you configure."),
-            ("Can I brick the player by switching?",
-             "Switching is not flashing. An interrupted flash is the risky operation, not a reboot."),
-            ("Which system starts by default?",
-             "Whichever the installed build defaults to; the player's menu is the authority."),
+            ("Is switching between dual-boot systems safe?",
+             "Yes. Switching only reboots the player into the other system; it does not reflash the storage."),
+            ("Where can I check if my version supports dual boot?",
+             "Check the <a href=\"%s\">%s release notes</a> for the build you installed." % (m["release_notes"], label)),
         ]
 
     elif slug == "troubleshooting":
         lead = (
-            "A %s install fails in a small number of recognisable ways. Work through them in this "
-            "order — most people find their answer in the first three." % label
+            "If your %s installation does not start or stops early, check these five common causes in order."
+            % label
         )
-        sections.append(section("In the order worth trying", ol([
-            "Wrong model selected: confirm <strong>%s</strong> in Device Model before choosing Rockbox." % model,
-            "Cable: swap for a known data cable; charge-only cables never enumerate.",
-            "Timing: the preloader window is only a few seconds. Start the flash, then connect the powered-off player.",
-            "Drivers and permissions: install the MediaTek preloader driver on Windows, fix <code>0e8d:*</code> "
-            "permissions on Linux (<a href=\"../drivers.html\">drivers page</a>).",
-            "Interrupted transfer: reconnect and repeat; if the player no longer appears at all, follow the "
-            "<a href=\"../guides/recovery.html\">recovery guide</a>.",
+        sections.append(section("5 checks that fix most install issues", ol([
+            "<strong>Device Model</strong>: Confirm <strong>%s</strong> is selected in Updater CE before choosing Rockbox." % model,
+            "<strong>USB Cable</strong>: Use a known-good USB data cable; charge-only cables never connect.",
+            "<strong>Connection Timing</strong>: Click <strong>Install / Restore</strong> first, power the player completely off, and plug it in only when Updater CE asks.",
+            "<strong>USB Drivers</strong>: On Windows, install the MediaTek driver; on Linux, add udev permissions (<a href=\"../drivers.html\">drivers guide</a>).",
+            "<strong>Recovery</strong>: If an interrupted flash leaves the player unresponsive, follow the <a href=\"../guides/recovery.html\">recovery guide</a>.",
         ])))
-        sections.append(section("Where it usually stops", p(
-            "Before the USB prompt the problem is almost always the computer or the package. After the "
-            "player is detected, the problem is the connection or the ROM. That split is what "
-            "<a href=\"../troubleshooting.html\">the troubleshooting page</a> is organised around."
+        sections.append(section("More troubleshooting help", p(
+            "See the main <a href=\"../troubleshooting.html\">Innioasis Updater troubleshooting page</a> "
+            "for step-by-step diagnostics on Windows, macOS, and Linux."
         )))
         faqs += [
-            ("Updater says it cannot find the player. What now?",
-             "Connect it powered off, in the same moment the app starts listening, and check the cable "
-             "and driver first."),
-            ("The flash reached 99% and stopped. Is the player dead?",
-             "Usually not. Repeat the flash; a player that will not enumerate needs the recovery route."),
-            ("Can a bad MicroSD card break the install?",
-             "Not the flash itself, but it will break the first boot's database build. Try another card."),
+            ("Updater CE does not detect my player when I plug it in.",
+             "Make sure the player is powered completely off before connecting the USB cable, try a different USB data cable, and check your USB drivers."),
+            ("The flash stopped halfway through — is my player bricked?",
+             "Usually not. MediaTek preloader mode stays available even after an interrupted flash. Re-run Install / Restore in Updater CE."),
         ]
 
     elif slug == "resolution":
-        lead = m["build_note"] + " This page is about choosing between those labels without guessing."
-        sections.append(section("What the labels mean", p(
-            "The labels describe the screen and theme path the build targets, not the player's "
-            "hardware revision. A theme written for one resolution will render wrong — or not at all — "
-            "on the other, which is why builds and theme packs are labelled the same way."
+        lead = m["build_note"]
+        sections.append(section("What 240p and 360p mean", p(
+            "Resolution labels describe the display layout and theme format that the build uses. "
+            "A 240p theme is designed for 320×240 builds, while a 360p theme is designed for "
+            "480×360 builds."
         )))
-        sections.append(section("Choosing", ul([
-            "Match the label on the theme you intend to use first; themes are the reason the distinction exists.",
-            "If you have no theme preference, take the newer stable build and its default theme.",
-            "Read the release notes for that tag when the label is not obvious.",
+        sections.append(section("How to choose", ul([
+            "Pick the build resolution that matches the themes you want to use.",
+            "If you want the widest library of classic Rockbox themes, 240p builds have the broadest compatibility.",
+            "If you want sharper text and newer Y1-specific themes, choose a 360p build.",
         ]) + actions(("Browse themes", "../theme_downloader.html"), ("%s theme guide" % label, m["themes"]))))
         faqs += [
-            ("Will the wrong resolution brick anything?",
-             "No. It is a display and theme mismatch, not a hardware risk."),
-            ("Can I switch later?",
-             "Yes — flash the other build, the same way you installed this one."),
-            ("Do all Y1 themes follow this?",
-             "Older collections predate the labels; check the theme's own notes."),
+            ("Can installing the wrong resolution harm my player?",
+             "No. Both are safe for the hardware; you just need themes that match the build resolution you installed."),
+            ("Can I switch between 240p and 360p later?",
+             "Yes. Just select the other build in Updater CE and install it."),
         ]
 
     elif slug == "offline":
         lead = (
-            "%s plays the files on your card. There is no account, no streaming service and no "
-            "subscription — which is exactly why a lot of people install it." % label
+            "%s turns your Innioasis %s into a dedicated offline music player: local files on a "
+            "MicroSD card, no accounts, no subscriptions, and no internet connection required."
+            % (label, model)
         )
-        sections.append(section("An offline player by design", ul([
-            "The library is built from tags on your own files.",
-            "Playback, the equalizer and the themes work with no network at all.",
-            "Nothing about your listening requires a login.",
-            "Podcast and scrobbling features are optional extras, not requirements.",
-        ]) + p("If you are moving a library off a streaming service, the practical order is: copy the "
-               "files to the card, boot the player, refresh the database, then tune the settings.")))
-        sections.append(section("What it is not", p(
-            "It is not a streaming client and it does not download your subscriptions. It replaces the "
-            "player software; your music still has to exist as files."
+        sections.append(section("Built for local music libraries", ul([
+            "Plays MP3, FLAC, AAC, Ogg Vorbis, WAV, and more directly from your MicroSD card.",
+            "Indexes tracks by artist, album, genre, and year using audio tags, or lets you browse folders directly.",
+            "Includes gapless playback, ReplayGain, crossfade, and a parametric equalizer.",
+            "Works 100%% offline with zero accounts or cloud services.",
+        ])))
+        sections.append(section("Switching from streaming", p(
+            "Copy your audio files onto a MicroSD card, insert it into your %s, and run "
+            "<strong>Database → Update Now</strong>." % model
         )))
         faqs += [
-            ("Does it need Wi-Fi?",
-             "No. Wi-Fi is only used by optional features on builds that offer them."),
-            ("Which formats?",
-             "Rockbox's usual set — MP3, FLAC, AAC and Ogg among them. Check the release notes for the "
-             "build you install if you rely on an unusual format."),
-            ("Is my listening data sent anywhere?",
-             "Only if you configure scrobbling yourself."),
+            ("Does %s require Wi-Fi or an account?" % label,
+             "No. Everything runs locally from the files on your MicroSD card."),
+            ("Which audio formats are supported?",
+             "Standard lossless and lossy formats including FLAC, MP3, AAC/M4A, Ogg Vorbis, Opus, and WAV."),
         ]
 
     elif slug == "uninstall":
         lead = (
-            "“Uninstall %s” usually means one of two different things, and they have different "
-            "answers: going back to the original software, or resetting the settings the build keeps "
-            "on the card." % label
+            "Whether you want to remove %s completely and return to factory software, or simply reset "
+            "%s back to default settings, both take only a few minutes." % (label, label)
         )
-        sections.append(section("Going back to the original software", p(
-            "This is a flash, not a deletion. Select <strong>%s</strong>, choose <strong>Original "
-            "Software</strong>, pick a stable release and run <strong>Install / Restore</strong>. "
-            "The <a href=\"restore-stock.html\">restore page</a> has the full sequence." % model
+        sections.append(section("Option 1: Return to factory Original Software", p(
+            "To replace %s with the factory firmware, open Innioasis Updater CE, select "
+            "<strong>%s</strong>, choose <strong>Original Software</strong>, and click "
+            "<strong>Install / Restore</strong>. See the <a href=\"restore-stock.html\">restore guide</a>."
+            % (label, model)
         )))
-        sections.append(section("Resetting only the settings", p(
-            "Delete or rename the <code>.rockbox</code> folder on the MicroSD card and boot again. "
-            "That clears settings, themes and caches, leaves the firmware installed, and reverts the "
-            "player to defaults — see <a href=\"sd-card.html\">the MicroSD page</a>."
+        sections.append(section("Option 2: Reset %s settings to default" % label, p(
+            "To keep %s installed but reset all settings, themes, and database caches, delete or "
+            "rename the hidden <code>.rockbox</code> folder on your MicroSD card and reboot the player. "
+            "See the <a href=\"sd-card.html\">MicroSD card guide</a>." % label
         )))
         faqs += [
-            ("Does deleting .rockbox remove the firmware?",
-             "No — it removes settings and themes; the build rebuilt the folder on the next boot."),
-            ("Can I reinstall later?",
-             "Yes, the release stays in the catalogue for this model."),
-            ("Is either operation reversible?",
-             "Yes, in both directions: flashing Original Software and flashing Rockbox again."),
+            ("Does deleting .rockbox uninstall the firmware?",
+             "No. It only resets your settings and themes; the player recreates a clean .rockbox folder on the next boot."),
+            ("Can I reinstall %s after restoring Original Software?" % label,
+             "Yes, at any time through Innioasis Updater CE."),
         ]
 
     elif slug == "faq":
         lead = (
-            "The questions that come up first about %s, answered plainly — with links to the page "
-            "that goes deeper." % label
+            "Clear answers to the most common questions about installing, updating, and using %s "
+            "on the Innioasis %s." % (label, model)
         )
-        sections.append(section("Short answers", p(
-            "Rockbox, %s and “Rockbox for %s” are the same port for the Innioasis %s. You install it "
-            "with Innioasis Updater CE by selecting the model, choosing Rockbox, picking a release and "
-            "connecting the powered-off player when the app asks. You undo it by flashing Original "
-            "Software for the same model." % (label, model, model)
+        sections.append(section("At a glance", p(
+            "Rockbox, %s, and “Rockbox for %s” are the same community firmware for the Innioasis %s. "
+            "Innioasis Updater CE always downloads packages directly from the community firmware "
+            "developers (%s), who are solely responsible for listing their releases in Updater CE."
+            % (label, model, model, esc(m["repo"]))
         )))
         faqs += [
-            ("Is Rockbox the same as %s?" % label,
-             "Yes. The catalogue lists the software as Rockbox with device %s; this site titles its "
-             "release notes %s so the name matches what people search for." % (model, label)),
-            ("How do I install Rockbox on the %s?" % model,
-             "Use <a href=\"install.html\">the install page</a>: model first, then Rockbox, then a "
-             "stable release, then the USB prompt."),
-            ("Which file do I download?",
-             "The <a href=\"download.html\">download page</a> lists the portable ZIPs per platform and "
-             "the universal ROM; the app downloads the same package for you."),
-            ("Can I use the %s build on the %s?" % (label, other["model"]),
-             "No. Use <a href=\"%s\">%s</a> for that model." % (m["other_dir"], other["label"])),
-            ("Will I lose my music?",
-             "No. Music sits on the MicroSD card; flashing the ROM does not erase it."),
-            ("How do I go back?",
-             "Flash <strong>Original Software</strong> for %s — <a href=\"restore-stock.html\">restore page</a>." % model),
-            ("Is it safe?",
-             "It uses the same MediaTek flashing path as stock firmware. Use a good cable, a charged "
-             "player, and do not interrupt the flash."),
+            ("Are Rockbox, %s, and Rockbox for %s the same thing?" % (label, model),
+             "Yes. Updater CE lists it as Rockbox when %s is selected, while guides and release notes call it %s so it is clear which player model it is for." % (model, label)),
+            ("Where does Updater CE download %s from?" % label,
+             "Updater CE always downloads firmware packages directly from the community firmware developers' own releases (%s), never from a mirror archive. The developers are solely responsible for listing their software releases in Updater CE." % esc(m["repo"])),
+            ("How do I install %s?" % label,
+             "Follow the <a href=\"install.html\">6-step install guide</a> in Innioasis Updater CE."),
+            ("Can I install %s on an Innioasis %s?" % (label, other["model"]),
+             "No. Use <a href=\"%s\">%s</a> for the %s." % (m["other_dir"], other["label"], other["model"])),
+            ("Will installing %s erase my music?" % label,
+             "No. Your music lives on the MicroSD card and is not touched by flashing the firmware."),
+            ("How do I go back to factory software?",
+             "Install <strong>Original Software</strong> for %s in Updater CE (<a href=\"restore-stock.html\">restore guide</a>)." % model),
         ]
 
     elif slug == "vs-stock":
         lead = (
-            "The original %s software and %s are different players on the same hardware. This is what "
-            "actually changes, without the marketing." % (model, label)
+            "Compare %s and the factory Original Software on the Innioasis %s so you can decide "
+            "which system fits how you listen." % (label, model)
         )
-        sections.append(section("Side by side", (
-            '<table class="lumen-table"><thead><tr><th>What</th><th>Original Software</th>'
+        sections.append(section("Feature comparison", (
+            '<table class="lumen-table"><thead><tr><th>Feature</th><th>Original Software</th>'
             "<th>%s</th></tr></thead><tbody>"
-            "<tr><th scope=\"row\">Library</th><td>Browses the files you copied</td><td>Tag-based database: artist, album, genre</td></tr>"
-            "<tr><th scope=\"row\">Playback</th><td>Straightforward player</td><td>Gapless, crossfade, equalizer</td></tr>"
-            "<tr><th scope=\"row\">Themes</th><td>Stock interface</td><td>Large community theme library</td></tr>"
-            "<tr><th scope=\"row\">Radio</th><td>Included where the model has FM</td><td>FM app inside the build</td></tr>"
-            "<tr><th scope=\"row\">Extras</th><td>Stock feature set</td><td>Podcast downloads and scrobbling on builds that offer them</td></tr>"
-            "<tr><th scope=\"row\">Going back</th><td>—</td><td>Flash the matching Original Software package</td></tr>"
+            "<tr><th scope=\"row\">Music library</th><td>Folder and basic tag browsing</td><td>Full tag database (artist, album, genre, year) + folder view</td></tr>"
+            "<tr><th scope=\"row\">Playback</th><td>Standard playback</td><td>Gapless playback, crossfade, ReplayGain, parametric EQ</td></tr>"
+            "<tr><th scope=\"row\">Themes</th><td>Built-in factory themes</td><td>Hundreds of custom community themes</td></tr>"
+            "<tr><th scope=\"row\">FM radio</th><td>Built-in FM radio</td><td>Included on builds/models with FM hardware</td></tr>"
+            "<tr><th scope=\"row\">Restoring factory OS</th><td>Already installed</td><td>One-click restore via Original Software in Updater CE</td></tr>"
             "</tbody></table>" % esc(label)
         ), "table"))
-        sections.append(section("The honest trade-offs", ul([
-            "It is an experimental community build, not a vendor release.",
-            "Themes and builds are resolution-labelled; mismatches look wrong.",
-            "Stock software is the simpler choice if you do not want to think about any of this.",
+        sections.append(section("Which should you choose?", ul([
+            "Choose <strong>%s</strong> if you want gapless playback, custom themes, a faster tag database, and fine-grained audio controls." % label,
+            "Choose <strong>Original Software</strong> if you prefer the simple out-of-the-box factory interface.",
+            "You can switch back and forth at any time using Innioasis Updater CE.",
         ]) + actions(("Install %s" % label, "install.html"), ("Why Rockbox", "../rockbox-benefits.html"))))
         faqs += [
-            ("Is Rockbox faster?",
-             "Browsing is usually quicker because the library is indexed by tags instead of filenames; "
-             "it is not a different CPU."),
-            ("Do I lose the FM radio?",
-             "No — the build includes an FM app on models that have the hardware."),
-            ("Can I keep both?",
-             "Often yes; see <a href=\"dual-boot.html\">dual boot</a>."),
+            ("Does Rockbox browse large music libraries faster?",
+             "Yes. Once the tag database is built, scrolling and searching large MicroSD cards is very fast."),
+            ("Can I switch back to Original Software if I prefer how the player shipped?",
+             "Yes. Select %s and Original Software in Updater CE to restore factory firmware." % model),
         ]
 
     else:  # pragma: no cover - guarded by TOPICS
@@ -1003,7 +959,7 @@ def related_grid(m, current: str) -> str:
         cards.append('<article class="lumen-card"><h3><a href="%s.html">%s</a></h3></article>' % (slug, esc(title)))
     other = MODELS[m["other"]]
     extras = [
-        (m["for_page"], "Rockbox for %s: what the name means" % m["model"]),
+        (m["for_page"], "Rockbox for %s: overview & downloads" % m["model"]),
         ("../rockbox-y1-vs-y2.html", "Rockbox-Y1 vs Rockbox-Y2"),
         (m["themes"], "%s themes" % m["label"]),
         (m["guide"], "Full %s written tutorial" % m["label"]),
@@ -1012,7 +968,7 @@ def related_grid(m, current: str) -> str:
     ]
     cards.extend('<article class="lumen-card lumen-card--link"><h3><a href="%s">%s</a></h3></article>' % (href, esc(text))
                  for href, text in extras if href != "%s.html" % current)
-    return ('<section class="lumen-guide-section"><h2>More %s pages</h2>'
+    return ('<section class="lumen-guide-section"><h2>More %s guides</h2>'
             '<div class="lumen-grid">%s</div></section>' % (m["label"], "".join(cards)))
 
 
@@ -1039,8 +995,8 @@ def hub_page(m, release) -> None:
     canonical = "%s/%s/" % (SITE, m["dir"])
     title = "%s: install, ROM download and tutorial hub" % m["label"]
     description = (
-        "Everything for %s on the Innioasis %s: install steps, portable ROM downloads, themes, "
-        "restore-to-stock, dual boot and troubleshooting." % (m["label"], m["model"])
+        "Complete guide to %s on the Innioasis %s: install with Updater CE, download developer ROM "
+        "packages, customize themes, restore Original Software, and troubleshoot." % (m["label"], m["model"])
     )
     main = (
         '<p class="lumen-doc-back"><a href="../firmware.html?model=%s&amp;software=%s">← Firmware Downloads</a></p>'
@@ -1099,51 +1055,48 @@ def rom_download_page(releases: dict) -> None:
     canonical = SITE + "/rockbox-rom-download.html"
     title = "Rockbox ROM download for Innioasis Y1 and Y2"
     description = (
-        "Rockbox ROM downloads for the Innioasis Y1 (Rockbox-Y1) and Y2 (Rockbox-Y2): portable "
-        "flashing packages from the community mirror, per platform, with the Updater route beside them."
+        "Download Rockbox ROM firmware packages for the Innioasis Y1 (Rockbox-Y1) and Y2 (Rockbox-Y2) "
+        "directly from the community developers, or install in one click with Innioasis Updater CE."
     )
     blocks = [
         article_ld(title, description, canonical, []),
         breadcrumb_ld([("Home", SITE + "/"), ("Firmware Downloads", SITE + "/firmware.html"), (title, canonical)]),
     ]
     body = [section(
-        "Pick the model first",
+        "Choose your player model first",
         p(
-            "There is no single Rockbox ROM for both players. The Y1 port and the Y2 port are "
-            "separate builds with separate mirrors, and the model decides which one is safe to "
-            "flash. Links below go straight to the mirror release that holds the zips."
+            "Rockbox-Y1 and Rockbox-Y2 are separate firmware builds created for different hardware. "
+            "Check whether your player is an Innioasis Y1 or Y2 before downloading or flashing."
         ),
     )]
     for key in ("y1", "y2"):
         m = MODELS[key]
         release = releases.get(key) or {}
         body.append(section(
-            "%s (%s)" % (m["label"], m["model"]),
-            download_table(m, release)
+            "%s (Innioasis %s)" % (m["label"], m["model"]),
+            download_table(m, release, up="")
             + actions(("Install %s" % m["label"], "%s/install.html" % m["dir"]),
                       ("%s downloads" % m["label"], "%s/download.html" % m["dir"]),
                       ("Rockbox for %s" % m["model"], m["for_page"].replace("../", ""))),
             key,
         ))
     body.append(section(
-        "What these files are",
+        "How Updater CE downloads firmware",
         p(
-            "Each mirror release repacks the ROM from the project's own release as a portable "
-            "flashing package: a scatter file and the partition images. Updater CE downloads the "
-            "same images and writes them with MediaTek's download protocol. Nothing here is a "
-            "mainline Rockbox build for another device, and none of it is an installer."
+            "Innioasis Updater CE always downloads firmware packages directly from the community "
+            "firmware developers' own releases, and the developers themselves are solely responsible "
+            "for listing their software releases in Updater CE. Each ROM package contains the MediaTek "
+            "scatter file and partition images for that model."
         ) + ul([
-            "Universal package: one archive for every computer.",
-            "Per-platform package: the same images, packaged for Windows, macOS or Linux.",
-            "Type B package (Y1 only): for players that need the Type B build.",
+            "Rockbox-Y1 developer release package: <code>rom.zip</code> (and <code>rom_type_b.zip</code> for Type B Y1 units).",
+            "Rockbox-Y2 developer release package: <code>rom_y2.zip</code>.",
         ]),
         "what",
     ))
-    body.append(section("Install any of them with the guided flow", p(
-        "If you would rather not handle files, skip the downloads entirely: Updater CE picks the "
-        "release for your model and flashes it. The <a href=\"rockbox-y1/install.html\">Rockbox-Y1 "
-        "install guide</a> and the <a href=\"rockbox-y2/install.html\">Rockbox-Y2 install guide</a> "
-        "both assume that route."
+    body.append(section("Install automatically with Updater CE", p(
+        "For the easiest setup, open Innioasis Updater CE, select your player model and Rockbox, and "
+        "let the app download and flash the release directly. Follow the <a href=\"rockbox-y1/install.html\">Rockbox-Y1 "
+        "install guide</a> or the <a href=\"rockbox-y2/install.html\">Rockbox-Y2 install guide</a>."
     )))
     main = (
         '<p class="lumen-doc-back"><a href="firmware.html?software=rockbox-y1">← Firmware Downloads</a></p>'
@@ -1183,35 +1136,39 @@ def update_llms() -> None:
     if not path.exists():
         return
     text = path.read_text(encoding="utf-8")
-    if LLMS_MARKER in text:
-        return
     lines = [
-        "",
         LLMS_MARKER,
         "",
-        "Rockbox is the community firmware for Innioasis players. This site titles the Y1 port",
-        "Rockbox-Y1 and the Y2 port Rockbox-Y2; \"Rockbox for Y1\" and \"rockbox-y1\" mean the",
-        "same software. Every page below names the model, and the download pages link to the",
-        "community portable mirror releases that hold the ROM zips.",
+        "Rockbox is community firmware for Innioasis players. This site calls the Y1 build",
+        "Rockbox-Y1 (or \"Rockbox for Y1\") and the Y2 build Rockbox-Y2 (or \"Rockbox for Y2\").",
+        "Innioasis Updater CE always downloads firmware packages directly from the community",
+        "firmware developers themselves, and those developers are solely responsible for",
+        "listing their software releases in Updater CE.",
         "",
     ]
     for key in ("y1", "y2"):
         m = MODELS[key]
-        lines.append("- [%s hub](%s/%s/): Install, ROM downloads, themes, restore and troubleshooting for the %s."
+        lines.append("- [%s hub](%s/%s/): Install, developer ROM downloads, themes, restore and troubleshooting for the %s."
                      % (m["label"], SITE, m["dir"], m["model"]))
-        lines.append("- [Install %s](%s/%s/install.html): The model-first Updater CE install in six steps."
+        lines.append("- [Install %s](%s/%s/install.html): Step-by-step Updater CE install guide."
                      % (m["label"], SITE, m["dir"]))
-        lines.append("- [%s ROM download](%s/%s/download.html): Portable ZIPs and the universal ROM from the mirror."
-                     % (m["label"], SITE, m["dir"]))
-        lines.append("- [Rockbox for %s](%s/rockbox-for-%s.html): Why the names Rockbox, %s and \"Rockbox for %s\" are the same port."
+        lines.append("- [%s ROM download](%s/%s/download.html): Direct developer ROM packages for the %s."
+                     % (m["label"], SITE, m["dir"], m["model"]))
+        lines.append("- [Rockbox for %s](%s/rockbox-for-%s.html): Overview of %s on the Innioasis %s."
                      % (m["model"], SITE, key, m["label"], m["model"]))
-        lines.append("- [%s tutorial](%s/guides/rockbox-%s.html): The full written walkthrough."
+        lines.append("- [%s tutorial](%s/guides/rockbox-%s.html): Full written installation walkthrough."
                      % (m["label"], SITE, key))
-        lines.append("- [%s themes](%s/rockbox-%s-themes.html): Theme paths, 240p and 360p builds." % (m["label"], SITE, key))
-    lines.append("- [Rockbox ROM download, both models](%s/rockbox-rom-download.html): Y1 and Y2 packages side by side." % SITE)
-    lines.append("- [Rockbox-Y1 vs Rockbox-Y2](%s/rockbox-y1-vs-y2.html): The differences that decide which build to flash." % SITE)
-    path.write_text(text.rstrip() + "\n" + "\n".join(lines) + "\n", encoding="utf-8")
-    print("llms.txt: added the Rockbox section")
+        lines.append("- [%s themes](%s/rockbox-%s-themes.html): Theme installation, 240p and 360p builds." % (m["label"], SITE, key))
+    lines.append("- [Rockbox ROM download, both models](%s/rockbox-rom-download.html): Y1 and Y2 developer ROM packages side by side." % SITE)
+    lines.append("- [Rockbox-Y1 vs Rockbox-Y2](%s/rockbox-y1-vs-y2.html): Hardware and build comparison." % SITE)
+    new_block = "\n".join(lines) + "\n"
+    if LLMS_MARKER in text:
+        before, _, _after = text.partition(LLMS_MARKER)
+        path.write_text(before.rstrip() + "\n\n" + new_block, encoding="utf-8")
+        print("llms.txt: updated the Rockbox section")
+    else:
+        path.write_text(text.rstrip() + "\n\n" + new_block, encoding="utf-8")
+        print("llms.txt: added the Rockbox section")
 
 
 # ---------------------------------------------------------------- build
@@ -1220,18 +1177,17 @@ def build(refresh: bool = False) -> None:
     SITEMAP.clear()
     releases = {}
     for key, m in MODELS.items():
-        available = mirror_releases(m["mirror"], refresh=refresh)
+        available = project_releases(m["repo"], refresh=refresh)
         releases[key] = stable_release(available, m["stable_tag"])
         tag = releases[key].get("tag_name") or m["stable_tag"]
-        print("  %-12s mirror %s -> %s (%d assets)"
-              % (m["label"], m["mirror"], tag, len(releases[key].get("assets") or [])))
+        print("  %-12s repo %s -> %s (%d assets)"
+              % (m["label"], m["repo"], tag, len(releases[key].get("assets") or [])))
     for key, m in MODELS.items():
         hub_page(m, releases[key])
         for slug, priority in TOPICS:
             topic_page(m, slug, priority, releases[key])
         print("  %-12s wrote %d pages" % (m["label"], len(TOPICS) + 1))
     rom_download_page(releases)
-    # The hand-written entity pages are part of the same crawl surface.
     for page_name, priority in (
         ("rockbox-for-y1.html", "0.85"),
         ("rockbox-for-y2.html", "0.85"),

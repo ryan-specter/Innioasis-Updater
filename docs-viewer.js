@@ -28,6 +28,41 @@
   var GITHUB_HOSTS = /^(www\.)?github\.com$/i;
 
   var GUIDE_URL = SITE + "/guide.html";
+  var BETTER_Y_URL = SITE + "/firmware.html?model=Y1&software=better-y-y1";
+
+  /* Built-in fallback map for every repository in slidia_manifest.xml so repo
+     and install-guide links always resolve to innioasis.app even before
+     firmware-catalog.js finishes loading or if a cached catalog is stale. */
+  var MANIFEST_REPOS = {
+    "leska1337/better-y": { model: "Y1", slug: "better-y-y1", name: "Better-Y", guide: "guides/better-y-y1.html" },
+    "rockbox-y1/rockbox": { model: "Y1", slug: "rockbox-y1", name: "Rockbox-Y1", guide: "guides/rockbox-y1.html" },
+    "spycemagic/y2-rockbox": { model: "Y2", slug: "rockbox-y2", name: "Rockbox-Y2", guide: "guides/rockbox-y2.html" },
+    "schulzcode/y2linux": { model: "Y2", slug: "reborn-y2linux-y2", name: "Reborn (Y2Linux)", guide: "guides/reborn-y2linux-y2.html" },
+    "jarvissax/rondo": { model: "Y1", slug: "rondo-y1", name: "Rondo", guide: "guides/rondo-y1.html" },
+    "thesolarproject/solar": { model: "Y1", slug: "solar-y1", name: "Solar", guide: "guides/solar-y1.html" },
+    "ismileblue/y1_launcher": { model: "Y1", slug: "jj-launcher-y1", name: "JJ Launcher", guide: "guides/jj-launcher-y1.html" },
+    "fabianzettl/inniclassic": { model: "Y1", slug: "inniclassic-y1", name: "Inniclassic", guide: "guides/inniclassic-y1.html" },
+    "jonaszpotoniec/inniclassic-y2": { model: "Y2", slug: "inniclassic-y2", name: "Inniclassic", guide: "guides/inniclassic-y2.html" },
+    "schulzcode/y2player": { model: "Y2", slug: "y2player-y2", name: "Y2Player", guide: "guides/y2player-y2.html" },
+    "ryan-specter/koensayr-auto": { model: "Y1", slug: "koensayr-y1", name: "Koensayr", guide: "guides/koensayr-y1.html" },
+    "y1-community/y1-stock-rom": { model: "Y1", slug: "original-y1", name: "Original Software", guide: "guides/restore-original-y1.html" },
+    "y1-community/y1-ata-rom": { model: "Y1", slug: "android-4-2-y1", name: "Android 4.2 (Dev)", guide: "guides/android-4-2-y1.html" },
+    "y1-community/y2-ata-rom": { model: "Y2", slug: "android-4-4-y2", name: "Android 4.4 (Dev)", guide: "guides/android-4-4-y2.html" },
+    "y1-community/y1-linux-rom": { model: "Y1", slug: "linux-y1", name: "Linux for Y1 (Dev)", guide: "guides/linux-y1.html" }
+  };
+
+  function manifestEntryFor(repo) {
+    var key = String(repo || "").replace(/\.git$/i, "").replace(/^\/+|\/+$/g, "").toLowerCase();
+    if (!key) return null;
+    var catalog = global.INNIOASIS_FIRMWARE_CATALOG || [];
+    for (var i = 0; i < catalog.length; i += 1) {
+      var item = catalog[i];
+      if (item && item.repo && item.slug && String(item.repo).toLowerCase() === key) {
+        return item;
+      }
+    }
+    return MANIFEST_REPOS[key] || null;
+  }
 
   /* Sources a project README tends to cite instead of our own guide: an old
      download page, the support page, a driver mirror and a handful of Drive
@@ -53,6 +88,7 @@
   /* The same addresses can appear as visible text, either inside a link or
      on their own. Code samples keep whatever they already show. */
   var SUPERSEDED_TEXT = /(^|[^"'=\w])((?:(?:https?:\/\/)?(?:www\.)?innioasis\.com\/pages\/(?:download|support-center|support\/download-[a-z0-9-]+))|(?:(?:https?:\/\/)?(?:www\.)?wooabc\.cn\/download\/MTPUSBDriverForWin10\.rar)|(?:(?:https?:\/\/)?drive\.google\.com\/file\/d\/(?:1gJHvXXhqf9Q2fjxdy6-atErvdiyOHToh|1LJMk1cQAQkQtPszzjZTGB3--23YjdRvc|1gPFGBCdANa7atpGxKBPuXus0t-EI_byW|1mMvuX95VE_pKihilj6BSXdrZ6Y8UDxjF)\b))/gi;
+  var BETTER_Y_TEXT = /(^|[^"'=\w/-])(better-Y)(?=$|[^"'=\w/-])/gi;
   var ANCHOR_OR_CODE = /(<a\b[^>]*>[\s\S]*?<\/a>|<(?:pre|code)\b[^>]*>[\s\S]*?<\/(?:pre|code)>)/i;
 
   function linkifySupersededText(html) {
@@ -65,9 +101,13 @@
       } else if (/^<(?:pre|code)\b/i.test(part)) {
         continue;
       } else {
-        parts[i] = part.replace(SUPERSEDED_TEXT, function (_match, lead) {
+        var updated = part.replace(SUPERSEDED_TEXT, function (_match, lead) {
           return lead + '<a href="' + GUIDE_URL + '">' + GUIDE_URL + "</a>";
         });
+        updated = updated.replace(BETTER_Y_TEXT, function (_match, lead, word) {
+          return lead + '<a href="' + BETTER_Y_URL + '">' + word + "</a>";
+        });
+        parts[i] = updated;
       }
     }
     return parts.join("");
@@ -324,14 +364,7 @@
 
   /** Our release notes page for a project's GitHub releases link. */
   function internalReleasePath(repo, tag) {
-    var catalog = global.INNIOASIS_FIRMWARE_CATALOG || [];
-    var entry = null;
-    for (var i = 0; i < catalog.length; i += 1) {
-      if (catalog[i].repo && String(catalog[i].repo).toLowerCase() === String(repo || "").toLowerCase()) {
-        entry = catalog[i];
-        break;
-      }
-    }
+    var entry = manifestEntryFor(repo);
     /* The parser reads any release on demand; static copies are generated for
        search engines and are never a link target. */
     if (entry) {
@@ -341,6 +374,16 @@
       }));
     }
     return siteUrl(releaseNotesHref({ repo: repo, tag: tag }));
+  }
+
+  /** Link to our live README reader (with static SEO fallback on firmware-info/<slug>.html). */
+  function firmwareInfoHref(repo, software) {
+    var entry = manifestEntryFor(repo);
+    var slug = software || (entry && entry.slug) || "";
+    return siteUrl(buildHref("firmware_info.html", {
+      repo: repo || "",
+      software: slug
+    }));
   }
 
   /* ------------------------------------------------------------------ *
@@ -645,9 +688,14 @@
          not a hand-off to a bare GitHub page. Deeper paths (a source file, an
          issue) stay on GitHub because a release listing cannot represent
          them. */
-      var project = href.match(/^https?:\/\/(?:www\.)?github\.com\/([^/?#]+)\/([^/?#]+?)(?:\.git)?\/?(?:[?#].*)?$/i);
+      var project = href.match(/^https?:\/\/(?:www\.)?github\.com\/([^/?#]+)\/([^/?#]+?)(?:\.git)?(?:\/(?:tree\/[^/?#]+\/?|(?:blob|raw)\/[^/?#]+\/README\.(?:md|markdown|mdown|mkd|mdx))?)?\/?(?:[?#](.*))?$/i);
       if (project) {
-        var listing = firmwarePageFor(project[1] + "/" + project[2]);
+        var projRepo = project[1] + "/" + project[2];
+        var tail = String(project[3] || "");
+        if (/(?:^|#|&)[^\s]*install/i.test(tail)) {
+          return installGuideFor(projRepo, ctx);
+        }
+        var listing = firmwarePageFor(projRepo);
         if (listing) return listing;
       }
       /* A link to another Markdown file on GitHub becomes another reading
@@ -665,29 +713,19 @@
 
   /* A firmware project's listing for the repository it ships from. */
   function firmwarePageFor(repo) {
-    var key = String(repo || "").toLowerCase();
-    var catalog = global.INNIOASIS_FIRMWARE_CATALOG || [];
-    for (var i = 0; i < catalog.length; i += 1) {
-      var item = catalog[i];
-      if (!item || !item.repo || !item.slug) continue;
-      if (String(item.repo).toLowerCase() !== key) continue;
-      return siteUrl("firmware.html?model=" + encodeURIComponent(item.model || "") +
-        "&software=" + encodeURIComponent(item.slug));
-    }
-    return "";
+    var entry = manifestEntryFor(repo);
+    if (!entry || !entry.slug) return "";
+    return siteUrl("firmware.html?model=" + encodeURIComponent(entry.model || "") +
+      "&software=" + encodeURIComponent(entry.slug));
   }
 
   /* Our own firmware installation instructions for a repository. */
   function installGuideFor(repo, ctx) {
-    var key = String(repo || (ctx && ctx.repo) || "").toLowerCase();
-    var catalog = global.INNIOASIS_FIRMWARE_CATALOG || [];
-    for (var i = 0; i < catalog.length; i += 1) {
-      var item = catalog[i];
-      if (!item || !item.repo || !item.slug) continue;
-      if (String(item.repo).toLowerCase() !== key) continue;
-      if (item.guide) return siteUrl(item.guide);
-      return siteUrl("guide.html?model=" + encodeURIComponent(item.model || "") +
-        "&software=" + encodeURIComponent(item.slug));
+    var entry = manifestEntryFor(repo || (ctx && ctx.repo) || "");
+    if (entry && entry.slug) {
+      if (entry.guide) return siteUrl(entry.guide);
+      return siteUrl("guide.html?model=" + encodeURIComponent(entry.model || "") +
+        "&software=" + encodeURIComponent(entry.slug));
     }
     return GUIDE_URL;
   }
@@ -1651,9 +1689,54 @@
     return "_This release has no published notes yet._";
   }
 
+  /** Rewrite any existing <a> links inside a rendered doc container. */
+  function rewriteContainerLinks(root, ctx) {
+    var scope = root || (typeof document !== "undefined" ? document : null);
+    if (!scope || !scope.querySelectorAll) return;
+    var anchors = scope.querySelectorAll("a[href]");
+    for (var i = 0; i < anchors.length; i += 1) {
+      var link = anchors[i];
+      if (link.classList && link.classList.contains("lumen-cite")) continue;
+      var raw = link.getAttribute("href") || "";
+      if (!raw || raw.charAt(0) === "#") continue;
+      var resolved = resolveLink(raw, ctx);
+      if (!resolved) {
+        while (link.firstChild) link.parentNode.insertBefore(link.firstChild, link);
+        if (link.parentNode) link.parentNode.removeChild(link);
+        continue;
+      }
+      if (resolved !== raw) {
+        link.setAttribute("href", resolved);
+        if (resolved.indexOf("innioasis.app") !== -1) {
+          link.removeAttribute("target");
+          link.removeAttribute("rel");
+        }
+      }
+    }
+  }
+
+  if (typeof document !== "undefined" && document.addEventListener) {
+    var applyInitialRewrites = function () {
+      var containers = document.querySelectorAll(".lumen-doc-body, #release-body, #fi-body, #doc-body");
+      for (var i = 0; i < containers.length; i += 1) {
+        rewriteContainerLinks(containers[i], null);
+      }
+    };
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", applyInitialRewrites);
+    } else {
+      applyInitialRewrites();
+    }
+  }
+
   var api = {
     PORTABLE_MIRROR_REPO: PORTABLE_MIRROR_REPO,
     parseSource: parseSource,
+    resolveLink: resolveLink,
+    firmwarePageFor: firmwarePageFor,
+    installGuideFor: installGuideFor,
+    firmwareInfoHref: firmwareInfoHref,
+    rewriteContainerLinks: rewriteContainerLinks,
     postInstallHref: postInstallHref,
     postInstallHrefFor: postInstallHrefFor,
     postInstallTarget: postInstallTarget,

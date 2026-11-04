@@ -5,19 +5,19 @@
   <meta name="author" content="Ryan Specter &amp; Innioasis Community">
   <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rockbox-Y2 themes: what works on a beta build</title>
-  <meta name="description" content="Rockbox-Y2 theme support on a beta line: checking a theme against the build you installed, where themes live on the card, and how to reset one.">
+  <title>Rockbox-Y2 themes: installing and resetting themes on the Y2</title>
+  <meta name="description" content="How to install, manage, and reset Rockbox-Y2 themes on the Innioasis Y2: where themes live in the .rockbox folder and how to check build compatibility.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <link rel="canonical" href="https://innioasis.app/rockbox-y2-themes.html">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Rockbox-Y2 themes: what works on a beta build">
-  <meta property="og:description" content="Rockbox-Y2 theme support on a beta line: checking a theme against the build you installed, where themes live on the card, and how to reset one.">
+  <meta property="og:title" content="Rockbox-Y2 themes: installing and resetting themes on the Y2">
+  <meta property="og:description" content="How to install, manage, and reset Rockbox-Y2 themes on the Innioasis Y2: where themes live in the .rockbox folder and how to check build compatibility.">
   <meta property="og:url" content="https://innioasis.app/rockbox-y2-themes.html">
   <meta property="og:image" content="https://innioasis.app/assets/og-image.png">
   <meta property="og:site_name" content="Innioasis Updater">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Rockbox-Y2 themes: what works on a beta build">
-  <meta name="twitter:description" content="Rockbox-Y2 theme support on a beta line: checking a theme against the build you installed, where themes live on the card, and how to reset one.">
+  <meta name="twitter:title" content="Rockbox-Y2 themes: installing and resetting themes on the Y2">
+  <meta name="twitter:description" content="How to install, manage, and reset Rockbox-Y2 themes on the Innioasis Y2: where themes live in the .rockbox folder and how to check build compatibility.">
   <meta name="twitter:image" content="https://innioasis.app/assets/og-image.png">
   <link rel="icon" href="y1_illustration.png">
   <link rel="stylesheet" href="site-theme.css?v=20260803">
@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="site-pages.css?v=20260818">
   <link rel="stylesheet" href="site-toolbar.css?v=20261105dockclose">
   <script src="site-init.js?v=20260803" defer></script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Rockbox-Y2 themes: what works on a beta build","description":"Theme support on the Rockbox-Y2 beta line, and how to apply or reset a theme.","image":"https://innioasis.app/assets/og-image.png","author":{"@type":"Organization","name":"Innioasis Community"},"mainEntityOfPage":"https://innioasis.app/rockbox-y2-themes.html"}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Rockbox-Y2 themes: installing and resetting themes on the Y2","description":"How to install, manage, and reset Rockbox-Y2 themes on the Innioasis Y2.","image":"https://innioasis.app/assets/og-image.png","author":{"@type":"Organization","name":"Innioasis Community"},"mainEntityOfPage":"https://innioasis.app/rockbox-y2-themes.html"}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://innioasis.app/"},{"@type":"ListItem","position":2,"name":"Firmware Downloads","item":"https://innioasis.app/firmware.html"},{"@type":"ListItem","position":3,"name":"Rockbox-Y2 themes","item":"https://innioasis.app/rockbox-y2-themes.html"}]}</script>
 </head>
 <body class="site-themes-app">
@@ -35,8 +35,8 @@
   <p class="lumen-doc-back"><a href="rockbox-y2/">← Rockbox-Y2 hub</a></p>
   <header>
     <p class="lumen-kicker">Rockbox-Y2 · themes</p>
-    <h1>Rockbox-Y2 themes follow the build</h1>
-    <p class="lead">The Y2 port is a beta line, and theme support moves with it. The safe habit is the same on both players: check the release note for the tag you installed before you assume a theme pack applies.</p>
+    <h1>Rockbox-Y2 themes</h1>
+    <p class="lead">How to install themes on Rockbox-Y2, check theme compatibility with your installed build, and reset a theme if it does not display properly.</p>
     <div class="lumen-actions">
       <a class="lumen-button lumen-button--primary" href="release-notes/rockbox-y2/index.html">Rockbox-Y2 release notes</a>
       <a class="lumen-button" href="theme_downloader.html">Theme tools</a>
@@ -45,26 +45,25 @@
   </header>
 
   <section class="lumen-guide-section">
-    <h2>Start with the build you actually have</h2>
-    <p>Y2 builds are versioned betas rather than a resolution-labelled stable line. That changes the question from “which label does my theme match?” to “does this build support this theme at all?” — which the release notes answer for that tag.</p>
-    <p>Y1 theme packs are not a substitute: the two ports are separate builds with separate interfaces. See <a href="rockbox-y1-vs-y2.html">Rockbox-Y1 vs Rockbox-Y2</a> for the full comparison.</p>
+    <h2>Check theme compatibility for your build</h2>
+    <p>Rockbox-Y2 is developed separately from the Y1 port, so theme compatibility follows the Y2 build version you have installed. Check the <a href="release-notes/rockbox-y2/index.html">Rockbox-Y2 release notes</a> for your version before installing a theme pack.</p>
+    <p>See <a href="rockbox-y1-vs-y2.html">Rockbox-Y1 vs Rockbox-Y2</a> for a full comparison of the two ports.</p>
   </section>
 
   <section class="lumen-guide-section">
-    <h2>Where themes live on the Y2</h2>
-    <p>Inside the <code>.rockbox</code> folder on the MicroSD card, in its themes folder — the same arrangement as the Y1 port. Settings, themes and caches are card files; the firmware is not.</p>
+    <h2>How to install themes on the Y2</h2>
+    <p>Themes are stored on your MicroSD card inside the hidden <code>.rockbox</code> folder.</p>
     <ol class="lumen-steps">
-      <li>Boot Rockbox-Y2 once so the folder exists.</li>
-      <li>Copy the theme's folder into <code>.rockbox/themes</code>.</li>
-      <li>Select it in the theme settings and reboot.</li>
-      <li>If the build's release note warns that themes changed in that beta, use a theme made for it.</li>
+      <li>Start Rockbox-Y2 at least once so it creates the <code>.rockbox</code> folder on your MicroSD card.</li>
+      <li>Extract or copy the theme files into <code>.rockbox/</code> (so <code>themes</code>, <code>wps</code>, <code>fonts</code>, and <code>backdrops</code> merge into <code>.rockbox/</code>).</li>
+      <li>On the player, open <strong>Settings → Theme Settings → Browse Theme Files</strong> and select your theme.</li>
     </ol>
-    <p>Turn on hidden files to see the folder: macOS <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>.</kbd>, Windows View → Hidden items, Linux <kbd>Ctrl</kbd>+<kbd>H</kbd>.</p>
+    <p>To view hidden folders on your computer: press <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>.</kbd> on macOS, enable <strong>View → Hidden items</strong> on Windows, or press <kbd>Ctrl</kbd>+<kbd>H</kbd> on Linux.</p>
   </section>
 
   <section class="lumen-guide-section">
-    <h2>Resetting a theme that broke the interface</h2>
-    <p>Rename or delete <code>.rockbox</code> on the card and boot again: the build recreates it with default settings and a default theme. It does not uninstall the firmware and it does not touch your music.</p>
+    <h2>How to reset a broken theme</h2>
+    <p>If a theme makes the screen hard to read, rename or delete the <code>.rockbox</code> folder on your MicroSD card and restart the player. Rockbox-Y2 will create a fresh <code>.rockbox</code> folder with the default theme while keeping your music intact.</p>
     <div class="lumen-actions">
       <a class="lumen-button" href="rockbox-y2/sd-card.html">The .rockbox folder</a>
       <a class="lumen-button" href="rockbox-y2/update.html">Updating Rockbox-Y2</a>

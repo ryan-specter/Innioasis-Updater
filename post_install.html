@@ -46,8 +46,8 @@
   </main>
   <div id="footer-root"></div>
   <div id="support-toolbar-slot"></div>
-  <script src="firmware-catalog.js?v=20261107notes" defer></script>
-  <script src="docs-viewer.js?v=20261114video" defer></script>
+  <script src="firmware-catalog.js?v=20261104cite" defer></script>
+  <script src="docs-viewer.js?v=20261104cite" defer></script>
 <script src="portable-zip-links.js?v=20261103direct" defer></script>
   <script src="nav.js?v=20261105copyleft" defer></script>
   <script src="site-i18n.js?v=20260830" defer></script>
@@ -173,15 +173,19 @@
         if (sourceNote) {
           var repo = state.repo || "";
           if (repo) {
-            var repoUrl = "https://github.com/" + repo;
+            var projectUrl = D.firmwarePageFor(repo) || D.firmwareInfoHref(repo, state.software);
+            var readmeUrl = D.firmwareInfoHref(repo, state.software);
             var pulls = "https://github.com/y1-community/Innioasis-Updater/pulls?q=" +
               encodeURIComponent("is:pr author:" + String(repo).split("/")[0]);
-            sourceNote.innerHTML = 'Instructions published by the <a href="' + escapeHtml(repoUrl) +
-              '" rel="noopener">' + escapeHtml(repo) + '</a> project, shown here word for word ' +
-              '<a class="lumen-cite" href="' + escapeHtml(repoUrl) + '" rel="noopener" title="Project repository">[1]</a>' +
-              (state.tag ? ' <a class="lumen-cite" href="' +
-                escapeHtml(repoUrl + "/releases/tag/" + encodeURIComponent(state.tag)) +
-                '" rel="noopener" title="Release">[2]</a>' : "") +
+            var notesUrl = state.tag ? ("https://innioasis.app/" + D.releaseNotesHref({
+              repo: repo, tag: state.tag, model: state.model,
+              software: state.software, name: state.name
+            })) : "";
+            sourceNote.innerHTML = 'Instructions published by the <a href="' + escapeHtml(projectUrl) +
+              '">' + escapeHtml(repo) + '</a> project, shown here word for word ' +
+              '<a class="lumen-cite" href="' + escapeHtml(readmeUrl) + '" title="Project README">[1]</a>' +
+              (notesUrl ? ' <a class="lumen-cite" href="' + escapeHtml(notesUrl) +
+                '" title="Release notes">[2]</a>' : "") +
               ' <a class="lumen-cite" href="' + escapeHtml(pulls) + '" rel="noopener" title="Catalogue pull requests">[3]</a>';
           } else {
             sourceNote.textContent = "Instructions published by the project, shown here word for word.";

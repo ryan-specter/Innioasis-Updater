@@ -513,7 +513,10 @@ RELEASE_LINK_RE = re.compile(
     r"^https?://(?:www\.)?github\.com/([^/]+/[^/]+)/releases(?:/tag/([^?#]+))?", re.I
 )
 COMPARE_LINK_RE = re.compile(r"^https?://(?:www\.)?github\.com/([^/]+/[^/]+)/compare/", re.I)
-REPO_LINK_RE = re.compile(r"^https?://(?:www\.)?github\.com/([^/?#]+)/([^/?#]+?)(?:\.git)?/?(?:[?#].*)?$", re.I)
+REPO_LINK_RE = re.compile(
+    r"^https?://(?:www\.)?github\.com/([^/?#]+)/([^/?#]+?)(?:\.git)?(?:/(?:tree/[^?#]+|blob/[^/]+/README\.md))?/?(?:[?#].*)?$",
+    re.I,
+)
 ROCKBOX_Y1_THEMES_RE = re.compile(
     r"^https?://(?:www\.)?(?:github\.com|raw\.githubusercontent\.com)/rockbox-y1/rockbox/"
     r"(?:(?:blob|raw)/[^/]+/|[^/]+/)?THEMES\.md(?:[?#].*)?$"
@@ -622,6 +625,7 @@ SUPERSEDED_LINK_RES = (
 # Visible text can also name one of these addresses, inside a link or on its
 # own. Code samples are left verbatim.
 SUPERSEDED_TEXT_RE = re.compile(r"(?i)(?<![\"'=\w])(" + "|".join((INNIOASIS_RETIRED, WOOABC_RETIRED, DRIVE_RETIRED)) + r")")
+BETTER_Y_TEXT_RE = re.compile(r"\bbetter-y\b", re.I)
 ANCHOR_OR_CODE_RE = re.compile(r"(?is)(<a\b[^>]*>.*?</a>|<(?:pre|code)\b[^>]*>.*?</(?:pre|code)>)")
 
 
@@ -640,11 +644,13 @@ def superseded_guide_link(href: str) -> str:
 
 
 def linkify_superseded_text(markup: str) -> str:
-    """Point retired addresses in visible text at the guide.
+    """Point retired addresses in visible text at the guide, and link plain-text
+    Better-Y mentions to our firmware directory.
 
     Inside a link the address becomes the guide address; on its own it becomes
     a link to the guide. Code samples keep whatever they already show.
     """
+    better_y_url = SITE.rstrip("/") + "/firmware.html?model=Y1&software=better-y-y1"
     parts = ANCHOR_OR_CODE_RE.split(markup or "")
     for index, part in enumerate(parts):
         if not part:
@@ -654,9 +660,13 @@ def linkify_superseded_text(markup: str) -> str:
         elif re.match(r"(?is)<(?:pre|code)\b", part):
             continue
         else:
-            parts[index] = SUPERSEDED_TEXT_RE.sub(
+            step = SUPERSEDED_TEXT_RE.sub(
                 lambda _m: '<a href="%s">%s</a>' % (esc(guide_url()), esc(guide_url())),
                 part,
+            )
+            parts[index] = BETTER_Y_TEXT_RE.sub(
+                lambda m: '<a href="%s">%s</a>' % (esc(better_y_url), m.group(0)),
+                step,
             )
     return "".join(parts)
 
@@ -721,10 +731,14 @@ def resolve_link(href: str, ctx: dict | None) -> str:
         compare = COMPARE_LINK_RE.match(href)
         if compare:
             return release_notes_href(compare.group(1))
-        # A bare link to a listed project is that project's firmware listing.
+        # A bare link to a listed project is that project's firmware listing
+        # (or its install guide when the anchor names #install...).
         repo_link = REPO_LINK_RE.match(href)
         if repo_link:
-            page = firmware_page_for(repo_link.group(1) + "/" + repo_link.group(2))
+            repo_key = repo_link.group(1) + "/" + repo_link.group(2)
+            if re.search(r"#[^?\s]*install", href, re.I):
+                return install_guide_for(repo_key, ctx)
+            page = firmware_page_for(repo_key)
             if page:
                 return page
         nested = parse_source(href)
@@ -1074,8 +1088,8 @@ HEAD = """<!doctype html>
 """
 
 FOOT = """<div id="footer-root"></div><div id="support-toolbar-slot"></div>
-<script src="{up}firmware-catalog.js?v=20260803" defer></script>
-<script src="{up}docs-viewer.js?v=20261107silo" defer></script>
+<script src="{up}firmware-catalog.js?v=20261104cite" defer></script>
+<script src="{up}docs-viewer.js?v=20261104cite" defer></script>
 <script src="{up}portable-zip-links.js?v=20261103direct" defer></script>
 <script src="{up}nav.js?v=20261103brand" defer></script>
 <script src="{up}site-i18n.js?v=20260830" defer></script>
@@ -1147,25 +1161,30 @@ def release_icon_html(item: dict, release: dict) -> str:
 def source_citations(item: dict, tag: str = "") -> str:
     """Quiet numbered references to the project that publishes the firmware.
 
-    [1] the project repository, [2] the exact release, [3] the catalogue pull
-    requests that project has opened. They sit in the small print so readers
-    who need them can follow them while the page stays about the firmware.
+    [1] the project README on our site, [2] the release notes on our site,
+    [3] the catalogue pull requests that project has opened.
     """
     repo = str(item.get("repo") or "").strip()
     if "/" not in repo:
         return ""
     owner = repo.split("/")[0]
-    repo_url = "https://github.com/" + repo
+    slug = str(item.get("slug") or SLUG_BY_REPO.get(repo.lower(), "") or "").strip()
+    readme_params = {"repo": repo}
+    if slug:
+        readme_params["software"] = slug
+    readme_url = SITE + "/firmware_info.html?" + urllib.parse.urlencode(readme_params)
+    project_url = firmware_page_for(repo) or readme_url
     parts = [
         '<p class="lumen-doc-sources">Published by the '
-        '<a href="%s" rel="noopener">%s</a> project '
-        '<a class="lumen-cite" href="%s" rel="noopener" title="Project repository">[1]</a>'
-        % (esc(repo_url), esc(repo), esc(repo_url))
+        '<a href="%s">%s</a> project '
+        '<a class="lumen-cite" href="%s" title="Project README">[1]</a>'
+        % (esc(project_url), esc(repo), esc(readme_url))
     ]
     if tag:
+        notes_url = release_notes_href(repo, str(tag))
         parts.append(
-            ' <a class="lumen-cite" href="%s/releases/tag/%s" rel="noopener" title="Release">[2]</a>'
-            % (esc(repo_url), esc(urllib.parse.quote(str(tag), safe="")))
+            ' <a class="lumen-cite" href="%s" title="Release notes">[2]</a>'
+            % esc(notes_url)
         )
     pulls = "https://github.com/y1-community/Innioasis-Updater/pulls?q=" + urllib.parse.quote(
         "is:pr author:%s" % owner, safe=""
@@ -1202,9 +1221,12 @@ def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list
 
     repo_slug = str(item.get("repo") or "")
     if "/" in repo_slug:
+        project_href = firmware_page_for(repo_slug) or (
+            SITE + "/firmware_info.html?repo=" + urllib.parse.quote(repo_slug, safe="")
+        )
         meta_bits.append(
-            '<a class="lumen-release-repo" href="https://github.com/%s" rel="noopener">%s</a>'
-            % (esc(repo_slug), esc(repo_slug))
+            '<a class="lumen-release-repo" href="%s">%s</a>'
+            % (esc(project_href), esc(repo_slug))
         )
 
     icon_html = release_icon_html(item, release)
@@ -1356,7 +1378,7 @@ def master_index_page(software: list[dict], release_counts: dict[str, int], post
         '<main id="main" class="lumen-guide"><header><p class="lumen-kicker">Firmware release notes</p>'
         "<h1>Every firmware release, readable here</h1>"
         '<p class="lead">Release notes for every published build in the Innioasis Updater catalogue, '
-        "with portable ZIP downloads and a one-click install guide. These pages mirror what Updater CE shows.</p>"
+        "with direct downloads from the developers and a one-click install guide. These pages mirror what Updater CE shows.</p>"
         '<div class="lumen-actions"><a class="lumen-button lumen-button--primary" href="%sfirmware.html">Firmware Downloads</a>'
         '</div></header>'
         '<section class="lumen-guide-section"><div class="lumen-grid">%s</div></section>'

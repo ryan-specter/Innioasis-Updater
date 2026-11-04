@@ -2119,7 +2119,7 @@
             var path = window.location.pathname || "";
             var prefix = /\/guides\/|\/notices\/|\/Troubleshooting\//.test(path) ? "../" : "";
             var script = document.createElement("script");
-            script.src = prefix + "docs-viewer.js?v=20261107silo";            script.async = true;
+            script.src = prefix + "docs-viewer.js?v=20261104cite";            script.async = true;
             script.onload = function () { resolve(window.InnioasisDocs || null); };
             script.onerror = function () { resolve(null); };
             document.head.appendChild(script);

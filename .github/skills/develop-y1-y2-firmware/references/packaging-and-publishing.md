@@ -42,24 +42,19 @@ scatter and leaves the software name generic.
 - Ship a `.sha256` beside anything the app downloads directly.
 - Do not replace an existing release's assets; publish a new tag.
 
-## Mirroring (`portable_zips`)
+## Website standalone ZIPs (`portable_zips`)
 
-A mirror repo (`y1-community/<name>-mirror`) copies the upstream releases and
-adds one ready-to-run package per platform:
+Innioasis Updater CE always downloads `package_name` (`rom.zip` / `rom_<device>.zip`)
+directly from the community firmware developer's own `repo` releases, and the
+developers themselves are solely responsible for listing their releases in
+`slidia_manifest.xml`. Updater CE never downloads from a portable mirror archive.
 
-```
-rom.zip -> rom-windows.zip, rom-windows-arm64.zip, rom-linux.zip,
-           rom-linux-arm64.zip, rom-macos.zip
-```
-
-It commits an `index.json` (schema 1) describing every mirrored tag with, per
-asset: `source_asset`, `platform`, size, checksum and download URL. The app
-looks up `index.json` on `main` and falls back to the plain asset when anything
-is unresolved (no mirror, tag not mirrored yet, no build for this platform).
-
-Mirroring is what gives users the pre-selected, one-click portable experience —
-and what text links to a release's zip resolve to for their machine. These
-packages are never listed among the release's own ROM files.
+For visitors downloading standalone ZIPs from the website (`innioasis.app/firmware.html`),
+an optional `portable_zips` repo (`y1-community/<name>-mirror`) can provide
+per-platform web archives (`rom-windows.zip`, `rom-windows-arm64.zip`,
+`rom-linux.zip`, `rom-linux-arm64.zip`, `rom-macos.zip`) indexed by `index.json`
+(schema 1). When no web archive applies, the website downloads the developer's
+original release asset directly.
 
 ## Publishing checklist
 

@@ -43,16 +43,19 @@ entries whose `min_version` is newer than the running app.
 Duplicate attributes (a real typo in the shipped file) are repaired by keeping
 the first value, so one mistake cannot hide the whole catalogue.
 
-## How the app resolves a download
+## How the app and website resolve a download
 
-1. Entry → `repo` → newest release that contains `package_name`.
-2. If `portable_zips` names a mirror and that mirror's `index.json` has a build
-   for this OS/arch, download the portable package instead of the plain zip.
-   Platform keys: `windows`, `windows-arm64`, `linux`, `linux-arm64`, `macos`.
-3. Otherwise take the original asset.
-
-`*_mirror` packages exist because the app can then pre-select the firmware,
-stage only the declared images, and offer the portable completion flow.
+1. **Innioasis Updater CE** always downloads `package_name` directly from the
+   community firmware developer's own `repo` releases. Community firmware
+   developers are solely responsible for publishing their releases and listing
+   their software in `slidia_manifest.xml` — Updater CE never downloads from a
+   portable mirror archive.
+2. **Website standalone downloads (`portable_zips`)**: When a visitor clicks a
+   direct ZIP download button on `innioasis.app/firmware.html` and
+   `portable_zips` names a mirror whose `index.json` has a build for the
+   visitor's OS/arch (`windows`, `windows-arm64`, `linux`, `linux-arm64`,
+   `macos`), the website can offer a standalone web ZIP download; otherwise the
+   website downloads the developer's original asset directly.
 
 ## Keep Data rules
 

@@ -6,7 +6,7 @@
   <meta name="creator" content="Innioasis and Ryan Specter">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Firmware release notes - Innioasis Updater</title>
-  <meta name="description" content="Release notes for community firmware on Innioasis Y1 and Y2 players, with portable downloads and one-click install through Innioasis Updater CE.">
+  <meta name="description" content="Release notes for community firmware on Innioasis Y1 and Y2 players, with direct downloads from the developers and one-click install through Innioasis Updater CE.">
   <link rel="canonical" href="https://innioasis.app/release_notes.html">
   <link rel="icon" href="y1_illustration.png">
   <link rel="stylesheet" href="site-theme.css?v=20260803">
@@ -18,7 +18,7 @@
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="Innioasis Updater">
   <meta property="og:title" content="Firmware release notes - Innioasis Updater">
-  <meta property="og:description" content="Release notes for community firmware on Innioasis Y1 and Y2 players, with portable downloads and one-click install through Innioasis Updater CE.">
+  <meta property="og:description" content="Release notes for community firmware on Innioasis Y1 and Y2 players, with direct downloads from the developers and one-click install through Innioasis Updater CE.">
   <meta property="og:url" content="https://innioasis.app/release_notes.html">
   <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -55,8 +55,8 @@
   </main>
   <div id="footer-root"></div>
   <div id="support-toolbar-slot"></div>
-  <script src="firmware-catalog.js?v=20261107notes" defer></script>
-  <script src="docs-viewer.js?v=20261114video" defer></script>
+  <script src="firmware-catalog.js?v=20261104cite" defer></script>
+  <script src="docs-viewer.js?v=20261104cite" defer></script>
 <script src="portable-zip-links.js?v=20261103direct" defer></script>
   <script src="nav.js?v=20261105copyleft" defer></script>
   <script src="site-i18n.js?v=20260830" defer></script>
@@ -110,21 +110,25 @@
       }
 
       /* Quiet source links: who publishes this firmware, plus numbered
-         references (repository, release, catalogue pull requests). */
+         references (firmware directory/README, release notes, catalogue pull requests). */
       function setSource(release) {
         var node = el("release-source");
         if (!node) return;
         if (!state.repo) { node.hidden = true; node.innerHTML = ""; return; }
-        var repoUrl = "https://github.com/" + state.repo;
         var owner = String(state.repo).split("/")[0];
         var tag = (release && release.tag_name) || state.tag || "";
-        var html = 'Published by the <a href="' + escapeHtml(repoUrl) + '" rel="noopener">' +
+        var projectUrl = D.firmwarePageFor(state.repo) || D.firmwareInfoHref(state.repo, state.software);
+        var readmeUrl = D.firmwareInfoHref(state.repo, state.software);
+        var html = 'Published by the <a href="' + escapeHtml(projectUrl) + '">' +
           escapeHtml(state.repo) + '</a> project ' +
-          '<a class="lumen-cite" href="' + escapeHtml(repoUrl) + '" rel="noopener" title="Project repository">[1]</a>';
+          '<a class="lumen-cite" href="' + escapeHtml(readmeUrl) + '" title="Project README">[1]</a>';
         if (tag) {
-          html += ' <a class="lumen-cite" href="' +
-            escapeHtml(repoUrl + "/releases/tag/" + encodeURIComponent(tag)) +
-            '" rel="noopener" title="Release">[2]</a>';
+          var notesUrl = "https://innioasis.app/" + D.releaseNotesHref({
+            repo: state.repo, tag: tag, model: state.model,
+            software: state.software, name: state.name
+          });
+          html += ' <a class="lumen-cite" href="' + escapeHtml(notesUrl) +
+            '" title="Release notes">[2]</a>';
         }
         html += ' <a class="lumen-cite" href="' +
           escapeHtml("https://github.com/y1-community/Innioasis-Updater/pulls?q=" +
