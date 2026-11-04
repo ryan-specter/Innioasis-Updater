@@ -353,8 +353,8 @@ def index_page(entries: list[dict]) -> str:
         '  <header class="lumen-doc-head">\n'
         '    <p class="lumen-kicker">Firmware READMEs</p>\n'
         '    <h1>Read the project notes before you install.</h1>\n'
-        '    <p class="lumen-lead">Projects whose own README points readers at Updater CE, '
-        'published here in the site style with their release statistics. Every other project '
+        '    <p class="lumen-lead">Community firmware project READMEs published here in the site style '
+        'with their release statistics and guided Updater CE install route. Every project also '
         'opens through the live reader on <a href="../firmware_info.html">firmware_info.html</a>.</p>\n'
         '  </header>\n'
         '  <div class="lumen-grid">%s</div>\n'
@@ -362,7 +362,7 @@ def index_page(entries: list[dict]) -> str:
     ) % "".join(cards)
     return page_document(
         "Firmware READMEs - Innioasis Updater",
-        "Community firmware project READMEs that name Updater CE, with release statistics and the guided install route.",
+        "Community firmware project READMEs with release statistics and the guided Updater CE install route.",
         SITE + "/firmware-info/index.html",
         main,
         "index",
@@ -392,8 +392,11 @@ def manifest_js(entries: list[dict]) -> str:
 
 def build(refresh: bool = False, limit: int = 0) -> None:
     use_config_token()
+    gdp.DISCOVERED_MD_SOURCES.clear()
     catalog = gdp.load_catalog()
-    groups = repo_group(catalog)
+    manifest = gdp.load_manifest()
+    software = gdp.build_software(catalog, manifest)
+    groups = repo_group(software)
     out_dir = ROOT / "firmware-info"
     out_dir.mkdir(exist_ok=True)
     print("repositories: %d" % len(groups))
@@ -406,9 +409,6 @@ def build(refresh: bool = False, limit: int = 0) -> None:
         if not markdown.strip():
             print("  %-34s no README" % repo)
             continue
-        if not MENTION.search(markdown):
-            print("  %-34s README does not mention Updater CE" % repo)
-            continue
         snapshot = download_snapshot(repo, refresh=refresh)
         markup = gdp.markdown_to_html(markdown, readme_context(repo))
         slug = repo_slug(repo)
@@ -417,11 +417,17 @@ def build(refresh: bool = False, limit: int = 0) -> None:
         sitemap_urls.append("%s/firmware-info/%s.html" % (SITE, slug))
         print("  %-34s page written from %s" % (repo, path or "README"))
 
+    extra_urls, _ = gdp.render_discovered_markdown_pages(software, refresh=refresh)
+    sitemap_urls.extend(extra_urls)
+
     (out_dir / "index.html").write_text(index_page(entries), encoding="utf-8")
     (out_dir / "manifest.js").write_text(manifest_js(entries), encoding="utf-8")
     sitemap_urls.append(SITE + "/firmware-info/index.html")
     gdp.update_sitemap(sitemap_urls)
-    print("done: %d README pages (manifest: firmware-info/manifest.js)" % len(entries))
+    print(
+        "done: %d README pages, %d linked doc pages (manifest: firmware-info/manifest.js)"
+        % (len(entries), len(extra_urls))
+    )
 
 
 def main() -> int:

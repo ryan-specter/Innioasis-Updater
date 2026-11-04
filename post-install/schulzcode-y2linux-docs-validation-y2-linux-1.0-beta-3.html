@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 3 (Baseline 52) - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 3 Baseline 52 Status: PUBLISHED as GitHub release baseline-52 2026-10-15. Release 1.0.0-beta.3 , Reborn 1.0.0-beta.3 , kernel 6.18.56-y2linux-1.0.0-beta.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-3.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 3 (Baseline 52) - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 3 Baseline 52 Status: PUBLISHED as GitHub release baseline-52 2026-10-15. Release 1.0.0-beta.3 , Reborn 1.0.0-beta.3 , kernel 6.18.56-y2linux-1.0.0-beta.">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-3.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 3 (Baseline 52) - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 3 Baseline 52 Status: PUBLISHED as GitHub release baseline-52 2026-10-15. Release 1.0.0-beta.3 , Reborn 1.0.0-beta.3 , kernel 6.18.56-y2linux-1.0.0-beta.">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 3 (Baseline 52)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-3-baseline-52">Y2Linux 1.0 Beta 3 (Baseline 52)</h1>
+<p>Status: <strong>PUBLISHED as GitHub release <code>baseline-52</code></strong> (2026-10-15). Release <code>1.0.0-beta.3</code>, Reborn <code>1.0.0-beta.3</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.3</code>, update sequence 5200, Linux <code>2731169</code>, Reborn <code>8cd4362</code>, git tag <code>baseline-52</code> in both repositories. Built with <code>tools/production/release.py</code> (<code>--public</code>): container suite <strong>739 OK</strong>, all seal checks PASS, no MediaTek firmware in any image. Milestone audit: BETA-3 in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap-gap-audit</a>. First release of the new pipeline: build and all checks 119 s (build 76 s incl. BlueALSA and Reborn, checks in parallel 27 s, signing/firmware scan/assets 15 s), 158 s with the clean-up scan.</p>
+<table><thead><tr><th>Image</th><th>SHA-256</th></tr></thead><tbody><tr><td>BOOTIMG</td><td><code>ca90dda51376b0fa58da5d6950936e3faf75eccf855e0725a08e98cc05acaebd</code></td></tr><tr><td>Y2ROOT</td><td><code>1e71564d7e1e80e81c293a6f5c0dc6e8eb4cb716479c2d9c7c95fb114e01e221</code></td></tr><tr><td>RECOVERY</td><td><code>20c665edab509fb26a164ca7480e9fb9f497c664b22f29fbe73bc146420b142d</code></td></tr><tr><td>Y2DATA (no SSH key)</td><td><code>01a73f767a8883d1327c43d4cc0d05c0ea5b762092bdaca6c51b0771a091b078</code></td></tr></tbody></table>
+<h2 id="evidence-behind-the-changes-beta-2-player-2026-10-15-read-only">Evidence behind the changes (Beta 2 player, 2026-10-15, read-only)</h2>
+<ul><li>AirPods Pro connected, AAC 44.1 kHz. BlueZ&#x27;s cached endpoint <code>c0 01 8c 83 e8 00</code>: the AirPods accept AAC **VBR, up to<p>256 kbit/s<strong>; Beta 2 sent BlueALSA&#x27;s default </strong>220 kbit/s CBR** without the FDK afterburner (60-s HCI capture: 2588 packets of 651 bytes ≈ 224 kbit/s).</p></li><li>Link at close range, Wi-Fi associated and idle: median acknowledgement 46 ms, worst 78 ms, ≤ 4 packets in flight,<p>no gap above 100 ms. Encoder load ≈9 % of one core at 598 MHz (Reborn ≈14 %).</p></li><li>BlueALSA keeps a three-packet socket buffer and blocks while the radio cannot deliver; only LDAC adapts its rate<p>(ABR). A weak link therefore starved AAC headphones at the full rate.</p></li><li>Coexistence: our WMT start sends the stock shared-antenna setting (<code>01 10 02 00 01 01</code>, <code>coex_wmt_ant_mode=1</code> from the<p>owner&#x27;s <code>WMT_SOC.cfg</code>), identical to the stock sequence for this chip; nothing missing was found there.</p></li><li>Page timeout: no <code>page timeout … slots</code> line appeared on Beta 2, so the controller already used 0x2000 (5.12 s); the<p>~18 s &quot;Host is down&quot; of Beta 1 comes from BlueZ&#x27;s own sequence, and Beta 2&#x27;s 45-s reconnect deadline is the fix.</p></li></ul>
+<h2 id="since-beta-2">Since Beta 2</h2>
+<table><thead><tr><th>Change</th><th>Detail</th></tr></thead><tbody><tr><td>AAC quality</td><td><code>--aac-afterburner</code>, <code>--aac-bitrate=320000</code>, capped by the peer (AirPods 256 kbit/s) and by <strong>one packet per frame</strong> (<code>y2_aac_mtu_bitrate</code>: a 672-byte MTU keeps the tested 220 kbit/s; headsets that cannot reassemble fragmented frames keep working). CBR, not VBR (Android&#x27;s default for compatibility). Setting <code>aac_quality</code> high (default) / standard.</td></tr><tr><td>AAC adaptive rate</td><td>BlueALSA patch <code>0002-y2-aac-adaptive-bitrate.patch</code>: per frame the socket queue is read (as for LDAC ABR); two queued packets or a blocked write step the CBR rate down 8/8 → 6/8 → 5/8 → 4/8 (not below 128 kbit/s, at most every ~0.2 s), ~10 s of an empty queue steps it back up. FDK re-initialises its configuration between frames, no encoder restart. Decisions in <code>y2-aac-abr.h</code>, host-tested (<code>tests/test_bluetooth_aac_abr.py</code>). Setting <code>aac_abr</code> on (default) / off.</td></tr><tr><td>Observation</td><td><code>EncoderStats</code> now covers AAC; platform status reports <code>bitrate_bps</code>, <code>aac_abr_enabled</code>, <code>aac_abr_level</code>, <code>aac_abr_adjustments</code>.</td></tr><tr><td>SBC XQ</td><td>XQ / XQ+ selectable without the experimental switch (default stays high).</td></tr><tr><td>Reborn</td><td>Service menu rows <strong>AAC Quality</strong> and <strong>AAC Auto Rate</strong>; SBC XQ codec choice no longer tied to the experimental switch.</td></tr><tr><td>Pipeline</td><td>First release through <code>release.py</code> (one workspace, parallel checks, unchanged sources linked, prune).</td></tr></tbody></table>
+<h2 id="device-checks-owed-after-the-owners-over-the-air-install-read-only">Device checks owed (after the owner&#x27;s over-the-air install, read-only)</h2>
+<p><code>uname -r</code> = <code>6.18.56-y2linux-1.0.0-beta.3</code>; with the AirPods playing: <code>y2-platform status bluetooth</code> → <code>encoder.bitrate_bps</code> 256000 (or the MTU-capped value), <code>aac_abr_enabled</code> true, <code>aac_abr_adjustments</code> 0 at close range; bluealsad CPU (was ≈9 %); a listening comparison against Standard; a walk-away test watching <code>aac_abr_level</code> and audible dropouts.</p>
+<h2 id="known-gaps">Known gaps</h2>
+<p>Battery in sleep ≈9.4 mA vs stock ≈1.3 mA; the AAC changes are not yet heard or range-tested on the device; no headphone jack detection; rare slow display start after a restart; full install from stock run on one player only.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

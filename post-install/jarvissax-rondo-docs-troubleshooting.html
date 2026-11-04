@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Troubleshooting - Innioasis Updater</title>
+  <meta name="description" content="Troubleshooting Installing and updating Innioasis Updater CE doesn't find the Y1 - Try another cable. Many USB-C cables only charge. - Follow the Updater's steps exactly:">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/jarvissax-rondo-docs-troubleshooting.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Troubleshooting - Innioasis Updater">
+  <meta property="og:description" content="Troubleshooting Installing and updating Innioasis Updater CE doesn't find the Y1 - Try another cable. Many USB-C cables only charge. - Follow the Updater's steps exactly:">
+  <meta property="og:url" content="https://innioasis.app/post-install/jarvissax-rondo-docs-troubleshooting.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Troubleshooting - Innioasis Updater">
+  <meta name="twitter:description" content="Troubleshooting Installing and updating Innioasis Updater CE doesn't find the Y1 - Try another cable. Many USB-C cables only charge. - Follow the Updater's steps exactly:">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y1&amp;software=rondo-y1">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Rondo · Y1</p><h1>Troubleshooting</h1><p class="lumen-lead">A lightweight, custom audio operating system for the Innioasis Y1.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y1&amp;software=rondo-y1">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y1&amp;software=rondo-y1">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="troubleshooting">Troubleshooting</h1>
+<h2 id="installing-and-updating">Installing and updating</h2>
+<h3 id="innioasis-updater-ce-doesnt-find-the-y1">Innioasis Updater CE doesn&#x27;t find the Y1</h3>
+<ul><li>Try another cable. Many USB-C cables only charge.</li><li>Follow the Updater&#x27;s steps exactly: the Y1 has to be <strong>completely off</strong> before you plug it in.<p>If it&#x27;s on, hold Power and choose Shut down, or use the reset hole between the headphone and USB ports with a paperclip.</p></li><li><strong>Windows:</strong> let the Updater install its drivers, and restart the computer once.</li><li>Close other programs that use the Y1&#x27;s USB connection (adb, Android Studio).</li></ul>
+<h3 id="the-y1-stays-dark-after-installing">The Y1 stays dark after installing</h3>
+<p>It doesn&#x27;t switch itself on after an install. Press the Power button. The first start takes a couple of minutes; after the Rondo logo you&#x27;ll see a spinning click wheel until the main menu appears.</p>
+<h3 id="rondo-isnt-in-the-updaters-list-or-has-nothing-to-install">Rondo isn&#x27;t in the Updater&#x27;s list, or has nothing to install</h3>
+<p>Rondo is for the <strong>Y1, Type A</strong>. Check that the Updater is set to Y1 and Type A, or <a href="https://innioasis.app/guides/rondo-y1.html">install from a file</a>. Rondo isn&#x27;t built for the Type B, so with Type B there&#x27;s nothing to install.</p>
+<h3 id="software-update-says-rondo-needs-a-new-firmware">Software update says Rondo &quot;needs a new firmware&quot;</h3>
+<p>That release changes the firmware around Rondo, not just Rondo, so it can&#x27;t install over Wi-Fi or USB. Install it with Innioasis Updater CE, <a href="https://innioasis.app/guides/rondo-y1.html">the same way as the first time</a>. If the Updater offers <strong>Keep Data</strong>, choose it to keep your settings, Wi-Fi and server connection.</p>
+<h3 id="software-update-says-couldnt-check">Software update says &quot;Couldn&#x27;t check&quot;</h3>
+<p>The Y1 asks your Rondo server, so it needs Wi-Fi and a connected server (Settings › Server). Without a server, update <a href="https://innioasis.app/guides/rondo-y1.html">from the dashboard or over USB</a>.</p>
+<h3 id="the-update-page-doesnt-list-the-y1-or-cant-connect">The update page doesn&#x27;t list the Y1, or can&#x27;t connect</h3>
+<ul><li>Use Chrome or Edge. Firefox and Safari can&#x27;t talk to USB devices.</li><li>Only one program can use the Y1&#x27;s USB connection: close the Innioasis Updater, and run<p><code>adb kill-server</code> if you have adb. If the Y1 offers the USB drive, choose <strong>Not now</strong>. Then unplug the Y1 and plug it back in.</p></li><li><strong>Windows:</strong> install Google&#x27;s <a href="https://developer.android.com/studio/run/win-usb" target="_blank" rel="noopener noreferrer">USB driver</a><p>for the Y1; without it, the browser can&#x27;t see it.</p></li><li><strong>Linux:</strong> give your user access to USB ID <code>0bb4:0c03</code> with a udev rule.</li></ul>
+<h3 id="that-apk-isnt-signed-by-rondos-key">&quot;That APK isn&#x27;t signed by Rondo&#x27;s key&quot;</h3>
+<p>Only Rondo&#x27;s own releases install over the Rondo in the firmware. A build you made yourself is signed with your key; put it in a firmware of your own instead (<a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fbuilding.md">Building Rondo</a>).</p>
+<h2 id="youtube-music-and-youtube">YouTube Music and YouTube</h2>
+<h3 id="no-music-server-yet">&quot;No music server yet&quot;</h3>
+<p>The Y1 isn&#x27;t connected to a server. Set one up and connect it in Settings › Server (<a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fserver.md%23finish-the-setup&amp;anchor=finish-the-setup">server guide</a>).</p>
+<h3 id="settings--server-says-unreachable">Settings › Server says &quot;Unreachable&quot;</h3>
+<ul><li><strong>At home:</strong> the Y1 and the server must be on the same network, and the server&#x27;s address must<p>not have changed. Give the server a fixed address in your router.</p></li><li><strong>On a VPS:</strong> check the HTTPS from a computer with the <code>openssl</code> command in the<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fserver.md%23on-a-vps&amp;anchor=on-a-vps">server guide</a>. If you use Cloudflare, the record must be &quot;DNS only&quot;.</p></li><li>Check the address in <strong>Settings › Server</strong>: <code>http://</code> for home, <code>https://</code> for a VPS,<p>and the right port.</p></li></ul>
+<h3 id="token-refused">&quot;Token refused&quot;</h3>
+<p>The server no longer knows this Y1. Another Rondo may have been connected, or the server was set up again. Connect again with a new code from the admin page (<strong>Device › Connect a Rondo</strong>).</p>
+<h3 id="songs-or-videos-wont-play-or-stop-partway">Songs or videos won&#x27;t play, or stop partway</h3>
+<p>YouTube changes things often. On the admin page, open <strong>Resolver</strong> and press <strong>Update now</strong>, then <strong>Test playback</strong>. <strong>Activity</strong> shows the errors behind it. Settings › Server on the Y1 says &quot;Playback failing&quot; while this is the problem.</p>
+<h3 id="library-subscriptions-or-history-are-missing">Library, Subscriptions or History are missing</h3>
+<p>They only appear when the server has a YouTube account. Sign in with a code on the admin page (<a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fserver.md%23your-youtube-account-optional&amp;anchor=your-youtube-account-optional">details</a>).</p>
+<h3 id="youtube-musics-home-looks-generic">YouTube Music&#x27;s home looks generic</h3>
+<p>Your own YouTube Music home and history need a cookies.txt on the server. If you uploaded one and it stopped working, the admin page&#x27;s <strong>Activity</strong> says the cookies were signed out. Export new ones in a private window, and close the window right after.</p>
+<h2 id="the-y1">The Y1</h2>
+<h3 id="the-fm-radio-says-plug-in-wired-headphones">The FM radio says &quot;Plug in wired headphones&quot;</h3>
+<p>The radio needs wired headphones plugged in, because their cable is the antenna. Bluetooth headphones don&#x27;t work for FM.</p>
+<h3 id="the-radio-plays-but-i-hear-nothing">The radio plays but I hear nothing</h3>
+<p>The radio has its own volume, separate from music. Turn the wheel up on the FM screen. If it&#x27;s set to <strong>Speaker</strong> in the options, the sound comes from the Y1&#x27;s speaker instead.</p>
+<h3 id="my-wi-fi-network-isnt-listed">My Wi-Fi network isn&#x27;t listed</h3>
+<p>The Y1 only sees 2.4 GHz networks. Many routers can switch on 2.4 GHz alongside 5 GHz, or give it its own network name.</p>
+<h3 id="the-dashboard-wont-open">The dashboard won&#x27;t open</h3>
+<ul><li>The phone or computer must be on the same Wi-Fi as the Y1, and <strong>Settings › Dashboard</strong> must<p>stay open on the Y1.</p></li><li><strong>macOS:</strong> browsers need permission to reach devices on your network. Check System Settings ›<p>Privacy &amp; Security › Local Network, and switch it on for your browser.</p></li><li>Some guest and office networks keep devices from seeing each other. Use a home network.</li></ul>
+<h3 id="bluetooth-headphones-arent-found">Bluetooth headphones aren&#x27;t found</h3>
+<p>Put them in pairing mode first (usually by holding the power button until a light flashes), then search on the Y1 or in the dashboard.</p>
+<h3 id="the-wheel-feels-too-fast-or-too-slow">The wheel feels too fast or too slow</h3>
+<p>Try <strong>Settings › Wheel acceleration</strong>: Off moves one step per wheel pulse, Fast jumps further on long spins. <strong>Wheel vibration</strong> and <strong>Click sound</strong> change how each step feels.</p>
+<h3 id="getting-back-to-the-y1s-original-software">Getting back to the Y1&#x27;s original software</h3>
+<p>Install <strong>Original Software</strong> (or Rockbox, or another firmware) with Innioasis Updater CE, the same way you installed Rondo. See <a href="https://innioasis.app/guides/rondo-y1.html">Going back</a>.</p>
+<h2 id="still-stuck">Still stuck?</h2>
+<p><a href="https://github.com/jarvissax/rondo/issues" target="_blank" rel="noopener noreferrer">Open an issue</a>. Say what you did and what happened. If you can, include Rondo&#x27;s log. adb works on the Rondo firmware: plug the Y1 in (choose <strong>Not now</strong> when it offers the USB drive) and run</p>
+<pre><code class="language-bash">adb logcat -d -v time -s Y1 &gt; rondo-log.txt</code></pre></article><p class="lumen-doc-footer-note">These are Rondo's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/jarvissax/rondo" rel="noopener">jarvissax/rondo</a> project <a class="lumen-cite" href="https://github.com/jarvissax/rondo" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Ajarvissax" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 8.15 (Baseline 112) - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 8.15 Baseline 112 Status: PUBLISHED as GitHub release baseline-112 2026-10-20. Release 1.0.0-beta.8.15 , Reborn 1.0.0-beta.8.15 , kernel 6.18.56-y2linux-">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.15.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 8.15 (Baseline 112) - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 8.15 Baseline 112 Status: PUBLISHED as GitHub release baseline-112 2026-10-20. Release 1.0.0-beta.8.15 , Reborn 1.0.0-beta.8.15 , kernel 6.18.56-y2linux-">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.15.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 8.15 (Baseline 112) - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 8.15 Baseline 112 Status: PUBLISHED as GitHub release baseline-112 2026-10-20. Release 1.0.0-beta.8.15 , Reborn 1.0.0-beta.8.15 , kernel 6.18.56-y2linux-">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 8.15 (Baseline 112)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-815-baseline-112">Y2Linux 1.0 Beta 8.15 (Baseline 112)</h1>
+<p>Status: <strong>PUBLISHED as GitHub release <code>baseline-112</code></strong> (2026-10-20). Release <code>1.0.0-beta.8.15</code>, Reborn <code>1.0.0-beta.8.15</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.8.15</code>, update sequence 7900, Linux <code>326d924</code>, Reborn <code>2ef41d3</code>. Built with <code>tools/production/release.py</code> (133 s, resumed workspace, update based on <code>baseline-111</code>): container suite <strong>842 OK</strong>, Reborn workspace tests (with and without the CJK font), Clippy <code>-D warnings</code> and rustfmt clean; all seal checks PASS, no MediaTek firmware in any image. <strong>Not installed on a player before publishing:</strong> the owner updates the maintainer&#x27;s player over the air from the published release (&quot;dont put it on my player, i want to update with OTA&quot;). Milestone audit BETA-8.15 in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap-gap-audit</a>.</p>
+<table><thead><tr><th>Image</th><th>SHA-256</th></tr></thead><tbody><tr><td>BOOTIMG</td><td><code>95fce8ca697ddcfeb5c0e48d55b4fd7b6661eb320c2d9bff4c87c74b170f608e</code></td></tr><tr><td>Y2ROOT</td><td><code>6b4c4282135adab43beed5724689cca7e10007c4e0db4e4ef7fc0cf3efef75c9</code></td></tr><tr><td>RECOVERY</td><td><code>556f9bc7b2f5fe1cdd30126431df0ce24ae7229befa2342fd8db64844332dadf</code></td></tr><tr><td>Y2DATA (no SSH key)</td><td><code>3a09ff769199016d83c29247979ca62d80135dbf72c78ef30412ab15ed402b1f</code></td></tr></tbody></table>
+<h2 id="what-changed-since-beta-814">What changed since Beta 8.14</h2>
+<table><thead><tr><th>Request / report</th><th>Cause</th><th>Change</th></tr></thead><tbody><tr><td>&quot;Wi-Fi is on, there was an update, now there&#x27;s no Update button&quot; (user; reports 61caa81e/297f1032 from a player still on 8.12)</td><td>After a wake Wi-Fi needs 15–20 s to reconnect (the player sleeps when paused and dark). A Check for Updates in that window failed at once (&quot;Temporary failure in name resolution&quot;, &quot;handshake operation timed out&quot;), <code>download.json</code> became <code>Failed</code>, which replaced <em>Update Available</em> with <em>Connect to Wi-Fi</em>; a failed daily check also waited a whole day</td><td><code>update.stage</code> waits up to 30 s for Wi-Fi to be Online, retries a failed lookup/handshake (3 tries), and a failed check keeps the release already offered (<code>last_check_failure</code>); a failed daily check retries with the hourly attempt (Linux <code>abee0c0</code>). Reborn: the failure says <em>Couldn&#x27;t reach the update server</em> and Update Now stays; the page title is <em>Couldn&#x27;t Reach the Update Server</em> (Reborn <code>cdf8c7b</code>)</td></tr><tr><td>Bluetooth codec choice dropped while headphones connect (finding F8, same reports)</td><td>SelectCodec refused with &quot;connected A2DP peer required&quot; / &quot;operation in progress&quot; during the connection, and nothing tried again</td><td>The Bluetooth worker tries a codec choice refused for a not-ready reason again every 2 s, up to 5 times; a newer choice replaces it (Reborn <code>b8cd9a7</code>)</td></tr><tr><td>Japanese text (user request; Chinese and Korean too)</td><td>Built-in glyph pages cover Latin, Greek and Cyrillic only; CJK showed U+FFFD</td><td>Noto Sans CJK JP Regular (OFL-1.1, tag Sans2.004, 16 467 736 bytes, sha256 <code>68a3fc98…75b5</code>) at <code>/usr/share/fonts/noto-cjk/</code> (Linux <code>0b3fcb5</code>). Reborn draws missing characters from it at the face&#x27;s pixel size into a runtime 1024² glyph page (LRU shelves, glyphs of the current and previous frame kept, only changed rows uploaded, at most 48 new glyphs per frame), memory-mapped on first use: 1 MiB CPU + 2 MiB GPU once CJK appears, nothing before (Reborn <code>a3b1943</code>)</td></tr></tbody></table>
+<h2 id="checks">Checks</h2>
+<table><thead><tr><th>Check</th><th>Result</th></tr></thead><tbody><tr><td>Update check after a wake</td><td>host tests: never online → no request, offered release kept; three failed lookups → error, offered release kept; a failed download still <code>Failed</code>; daily check retried after a failure (mutation-checked)</td></tr><tr><td>Codec retry</td><td>classification test (not-ready refusals retried, &quot;music playing&quot; not)</td></tr><tr><td>CJK rendering</td><td>12 preview states (Now Playing JP/KR/mixed/long, Songs, Artists, Albums, Cover Flow, Album, Up Next, Home, Search) rendered on host and compared against host Mesa GLES (<code>gles_compare</code>); 200 glyphs ≈ 1.0–1.4 ms on the host</td></tr><tr><td>Image</td><td>font in the root filesystem; root image 42 → 55.7 MB compressed, about 16.5 MB more free space used</td></tr></tbody></table>
+<h2 id="device-results-after-publishing-owners-ota-maintainers-player-2026-10-20">Device results after publishing (owner&#x27;s OTA, maintainer&#x27;s player, 2026-10-20)</h2>
+<table><thead><tr><th>Check</th><th>Result</th></tr></thead><tbody><tr><td>OTA 8.14 → 8.15 from the published release</td><td>Acknowledged 7900 (system step ≈ 9 s), Reborn health ok, no kernel warning, no <code>Errno 22</code></td></tr><tr><td>CJK text on the player (three tagged test songs: Japanese, Korean, Chinese; removed afterwards)</td><td>Now Playing, Songs, Artists and Home drew all characters (owner); font mapped by Reborn, no glyph/texture error logged, 1 missed frame in 3051</td></tr><tr><td>Check for Updates right after a wake from sleep</td><td>waited, then <em>Up to Date</em> (owner); <code>download.json</code> <code>Checked</code>, <code>up_to_date: true</code></td></tr></tbody></table>
+<h2 id="known-gaps">Known gaps</h2>
+<ul><li>Not run on a player before publishing (owner&#x27;s choice); checked after the owner&#x27;s OTA (above). Glyph rasterising<p>time on the Cortex-A7 was not measured separately.</p></li><li>CJK draws in Regular weight inside SemiBold titles; CJK titles sort under &quot;#&quot;; the keyboard is Latin-only.</li><li>Players on 8.14 or older still have the old check: wait about 20 s after waking before Check for Updates.</li><li>Unchanged: USB DAC needs the VBUS hardware check; video not for 1.0; Strawberry itself not run; slow crystal, sleep<p>with a parked CPU, #47 confirmation, WAF rule and billing alert, sleep drain (#42), GC9503V confirmation (#45).</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

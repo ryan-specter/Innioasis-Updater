@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>README for Android 4.2 (Dev) (Y1) - Innioasis Updater</title>
+  <meta name="description" content="Android 4.2 development ROM for Innioasis Y1.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/firmware-info/y1-community-y1-ata-rom.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="README for Android 4.2 (Dev) (Y1) - Innioasis Updater">
+  <meta property="og:description" content="Android 4.2 development ROM for Innioasis Y1.">
+  <meta property="og:url" content="https://innioasis.app/firmware-info/y1-community-y1-ata-rom.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261113readme">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261113readme">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page lumen-release-page" data-firmware-info data-repo="y1-community/y1-ata-rom">
+  <p class="lumen-doc-back"><a href="../firmware.html">← Firmware Downloads</a></p>
+  <header class="lumen-doc-head">
+    <div class="lumen-release-head"><span class="lumen-release-icon lumen-release-icon--generic" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></span><div class="lumen-release-titles"><p class="lumen-kicker">Firmware README · Y1</p><h1>Android 4.2 (Dev) README</h1></div></div>
+    <p class="lumen-lead">Android 4.2 development ROM for Innioasis Y1.</p>
+    <div class="lumen-release-tag-row"><span>Y1</span></div>
+    <div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../guides/android-4-2-y1.html">Open the Android 4.2 (Dev) guide</a><a class="lumen-button" href="../firmware.html?model=Y1&amp;software=android-4-2-y1">Install with Updater CE</a></div>
+  </header>
+  <section class="lumen-firmware-stats" aria-label="Project statistics"><div class="lumen-stat"><span class="lumen-stat-label">Downloads from Firmware Archive</span><strong class="lumen-stat-value" data-stat="downloads">633</strong></div></section>
+  <p class="lumen-meta" id="fi-stats-note"></p>
+  <article class="lumen-doc-body lumen-firmware-readme" id="fi-body"><h1 id="y1-firmware-package-preparation-information">Y1 Firmware Package Preparation Information:</h1>
+<p>Step one is crucial to ensuring your firmware package can be installed with any operating system, such as macOS where MTKclient is used to install firmwares on Y1  (Y1-only for now in Updater for Mac until Y2 flashing via MTKclient is figured out)</p>
+<p>1: Ensure cache.img, userdata.img and system.img are desparsed using simg2img (MTKclient which is used to install mediatek firmwares on macOS and Linux prefers desparsed images as opposed to the sparseimages)</p>
+<ol><li>Gather all the partition images for your firmware, for Y1 these are:</li></ol>
+<p>EBR1, EBR2, MBR, kernel, kernel_g368_nyx.bin, ramdisk-recovery.img, ramdisk.img, secro.img, system.img, userdata.img, boot.img, cache.img, lk.bin, logo.bin, preloader_g368_nyx.bin for, Y2 these are: EBR1, EBR2, kernel, kernel_eastaeon82_wet_kk.bin, ramdisk-recovery.img, ramdisk.img, secro.img, system.img, userdata.img, boot.img, cache.img, lk.bin, logo.bin, preloader_eastaeon82_wet_kk.bin</p>
+<ol><li>( Zip Template Here ) Include your files as above and a copy of SP Flash Tool and the pre-configured <a href="https://www.innioasis.app/history.ini">history.ini</a> file - this offers users a portable, one-click install for SP Flash Tool on Windows systems without needing updater, they can extract directly from Zip if they like, by including these in your rom_y2.zip - Including History.ini also helps ensure that when users opt to trigger the SP Flash Tool GUI from Updater (often done for trouble shooting purposes) they&#x27;ll be presented with a pre-configured SP Flash GUI which due to history.ini&#x27;s relative file paths will correctly find the files needed for flashing without displaying any error messages about files not being found)</li><li>Compress the collective package as an appropriately named zip archive with the Deflate compression method on max settings, this will minimize a user&#x27;s download time for the ROM</li><li>Name the file as below depending on the hardware your firmware targets:</li></ol>
+<p>Y1 Type A (Most common hardware variants, came with OS 2.0.0 and later): rom.zip Y1 Type B (Early hardware revision in low numbers) rom_type_b.zip Y2: rom_y2.zip</p>
+<ol><li>Host your zip(s) on a GitHub Repository, to do this, you&#x27;ll need to fork the Innioasis-Updater repo and submit a PR with your manifest changes.</li></ol>
+<p>7, Point <a href="https://github.com/y1-community/Innioasis-Updater/blob/main/slidia_manifest.xml" target="_blank" rel="noopener noreferrer">Updater&#x27;s manifest</a>  to your Repo - this adds your firmware to the list of firmwares available - one line per model supported, all zips for each hardware model / revision can be placed in same release if you like - or as separate releases / different repos etc)</p>
+<p>Once the 6 steps are completed users and the PR merged by the maintainers of Updater, users will see their firmware listed in Updater in 24-48 hours as their Updater clients grab new manifests - this will usually happen instantly on their next launch of Updater unless they use Updater frequently.</p></article>
+</main>
+<div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../firmware-info.js?v=20261113downloads" defer></script>
+<script src="../nav.js?v=20261113noticefilter" defer></script>
+<script src="../site-i18n.js?v=20261113blocklist" defer></script>
+</body></html>

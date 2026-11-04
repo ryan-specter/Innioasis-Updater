@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Audiobooks - Innioasis Updater</title>
+  <meta name="description" content="Audiobooks Since Y2Linux 1.0 Beta 8.19 the Reborn player has a place of its own for audiobooks: it remembers where you stopped in every book, moves by chapter, plays at t">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-audiobooks.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Audiobooks - Innioasis Updater">
+  <meta property="og:description" content="Audiobooks Since Y2Linux 1.0 Beta 8.19 the Reborn player has a place of its own for audiobooks: it remembers where you stopped in every book, moves by chapter, plays at t">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-audiobooks.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Audiobooks - Innioasis Updater">
+  <meta name="twitter:description" content="Audiobooks Since Y2Linux 1.0 Beta 8.19 the Reborn player has a place of its own for audiobooks: it remembers where you stopped in every book, moves by chapter, plays at t">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Audiobooks</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="audiobooks">Audiobooks</h1>
+<p>Since <strong>Y2Linux 1.0 Beta 8.19</strong> the Reborn player has a place of its own for audiobooks: it remembers where you stopped in every book, moves by chapter, plays at the speed you like and can stop by itself when you fall asleep. Books never mix with your music.</p>
+<h2 id="where-to-put-books">Where to put books</h2>
+<p>Copy books to Internal Storage or the SD card, in any of these ways:</p>
+<ul><li><strong>A folder named <code>Audiobooks</code> or <code>Hörbücher</code></strong> (any capitals, anywhere), with one folder per<p>book inside. An author folder in between is fine: <code>Audiobooks/Michael Ende/Momo/01.mp3</code>, <code>02.mp3</code>, … Folders called <code>CD 1</code>, <code>Disc 2</code>, <code>Part 3</code> (or <code>Teil 3</code>) inside a book belong to that book.</p></li><li><strong>Any <code>.m4b</code> file</strong>, wherever it is: one file is one book. Several <code>.m4b</code> files make one book<p>only when they share the same album tag (<code>Book Part 1.m4b</code>, <code>Book Part 2.m4b</code>).</p></li><li><strong>Files tagged with the genre <code>Audiobook</code> or <code>Hörbuch</code>.</strong></li></ul>
+<p>A book&#x27;s name comes from its album tag, else its folder (or file); the author from its album artist or artist tag, else an author folder. Parts play in disc order, then folder order, then by track number (when every file has one), then by file name, where <code>2</code> comes before <code>10</code>.</p>
+<p>Books are not songs: they stay out of Songs, Albums, Artists, Genres, Folders, Cover Flow, search&#x27;s music results, Shuffle and the counts, and they are never scrobbled to Last.fm.</p>
+<h2 id="listening">Listening</h2>
+<p><strong>Home → Audiobooks</strong> appears once your library holds a book (switch it off and on under <strong>Settings → Customize → Home Menu</strong>). Books you are listening to come first, the last one you listened to at the top, with <em>Chapter 3 of 12 · 45 %</em>; new books follow A to Z, finished books come last.</p>
+<p>Open a book to see its chapters, how far you are and how long it still runs:</p>
+<table><thead><tr><th>Button</th><th>What it does</th></tr></thead><tbody><tr><td><strong>Continue</strong> (<strong>Play</strong> for a new book)</td><td>Goes on where you stopped, a little before.</td></tr><tr><td><strong>Start Over</strong></td><td>From the first chapter.</td></tr><tr><td>A chapter</td><td>Plays from the start of that chapter.</td></tr></tbody></table>
+<p>Hold Select on a book for <strong>Continue</strong>, <strong>Start Over</strong>, <strong>Mark as Finished</strong> (or <strong>Not Finished</strong>) and <strong>Forget Progress</strong>.</p>
+<p><strong>Chapters</strong> are the book&#x27;s own chapter marks when its files have them (M4B, MP3 and Ogg files usually do), otherwise each file is a chapter. While a book plays:</p>
+<ul><li><strong>Next / Previous</strong> go to the next or previous chapter. Previous more than 5 seconds into a<p>chapter goes back to that chapter&#x27;s start. Next in the last chapter does nothing: your place is never lost.</p></li><li><strong>Holding Next / Previous</strong> winds through the book: 10 seconds a step at first, then half a<p>minute, then a minute.</p></li><li>Now Playing shows the chapter, the book and its author, the chapter&#x27;s progress and how much of<p>the book is left. Bluetooth headphones and car radios see the chapter as the title.</p></li><li>Shuffle, Repeat and Crossfade never apply to books; your music settings stay as they are.</li></ul>
+<h2 id="where-you-stopped">Where you stopped</h2>
+<p>Reborn keeps your place in every book (every few seconds while it plays, when you pause, change chapter, switch to music and when the player turns off), also across restarts, updates and a library rebuild. When you continue, it goes back a little so you can find your way in again: 5 seconds after a short pause, 15 seconds after more than ten minutes, 30 seconds after a day. Renaming or moving a book&#x27;s folder keeps its place.</p>
+<p>A book that has played to its end is <strong>Finished</strong> and starts over next time.</p>
+<h2 id="speed">Speed</h2>
+<p>Hold Select on Now Playing and press <strong>Speed</strong>: 0.75×, 1×, 1.1×, 1.25×, 1.5×, 1.75×, 2×, round again. The voice keeps its pitch. Every book keeps its own speed; music always plays at normal speed.</p>
+<h2 id="sleep-timer">Sleep timer</h2>
+<p>Hold Select on Now Playing and press <strong>Sleep Timer</strong>: 15, 30, 45 or 60 minutes, <strong>End of Chapter</strong> (<strong>End of Song</strong> for music), or Off. A timed sleep fades out over its last ten seconds and pauses; <em>End of Chapter</em> pauses where the next chapter begins, so you continue right there. Now Playing shows <em>Sleeps in 23 min</em>. Restarting the player ends the timer. It works for music too.</p>
+<h2 id="good-to-know">Good to know</h2>
+<ul><li>Very long single-file books play and seek normally (tested with a 10.5-hour M4B; books up to<p>about 36 hours of AAC at 44.1 kHz). Opening such a book takes a moment more memory than a song.</p></li><li>An M4B that carries its cover as a video track plays (the video part is ignored).</li><li>A paused book with Bluetooth headphones connected keeps the player awake for 15 minutes, so the<p>headphones&#x27; own play button can continue it.</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

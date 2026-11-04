@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 8.29 (Baseline 128) - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 8.29 Baseline 128 Status: PUBLISHED as GitHub release baseline-128 2026-10-24, not installed on a player before publishing owner's decision; see Device r">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.29.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 8.29 (Baseline 128) - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 8.29 Baseline 128 Status: PUBLISHED as GitHub release baseline-128 2026-10-24, not installed on a player before publishing owner's decision; see Device r">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.29.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 8.29 (Baseline 128) - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 8.29 Baseline 128 Status: PUBLISHED as GitHub release baseline-128 2026-10-24, not installed on a player before publishing owner's decision; see Device r">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 8.29 (Baseline 128)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-829-baseline-128">Y2Linux 1.0 Beta 8.29 (Baseline 128)</h1>
+<p>Status: <strong>PUBLISHED as GitHub release <code>baseline-128</code></strong> (2026-10-24), not installed on a player before publishing (owner&#x27;s decision; see Device results). Release <code>1.0.0-beta.8.29</code>, Reborn <code>1.0.0-beta.8.29</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.8.29</code>, update sequence 9300, root <code>2026.08-platform-v1.169</code>, Linux <code>4d97301</code>, Reborn <code>e58980c</code>. Built with <code>tools/production/release.py</code> (139 s, resumed workspace, update based on <code>baseline-127</code>): container suite <strong>879 OK</strong>; host power/charger modules (<code>test_power</code>, <code>test_charger</code>, <code>test_charge_limits</code>, <code>test_power_policy</code>) 27 OK; all seal checks PASS, no MediaTek firmware in any image. Milestone audit BETA-8.29 in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap-gap-audit</a>.</p>
+<table><thead><tr><th>Image</th><th>SHA-256</th></tr></thead><tbody><tr><td>BOOTIMG</td><td><code>a95c3528fa072fc6870ab3c4053a8bbe92073abee3d09b87961061371ce37094</code></td></tr><tr><td>Y2ROOT</td><td><code>b485165600e9afd82c37d0f6bcb2215f3c8bb5debf3bcdc4e776cbef67c0d452</code></td></tr><tr><td>RECOVERY</td><td><code>f88ffa48eda1d84f7694331e78f319a53eedf755c5fa1dcc8eebd2f379d69dcb</code></td></tr><tr><td>Y2DATA (no SSH key)</td><td><code>0d6223ef27dea7180b87382aed7a407fef131170be1f831b7e1177a3a0df3d15</code></td></tr></tbody></table>
+<h2 id="why">Why</h2>
+<p>A user on Beta 8.28 could not charge at all (reports 09888d70, 8fc8eea6 and ba0bb428, install 047f2c1a, three boots on 2026-10-23). From 0.3 s after every boot the charger driver logged <code>first fault=0x3 sample_error=-61 chr=0x1</code>: the cable was detected, but BAT0 read health &quot;Unspecified failure&quot;, status Unknown, 70 mA programmed, and the battery fell 3.70 → 3.64 → 3.61 V over the day.</p>
+<p>Cause: the boot log also said <code>mt6323-auxadc: no valid die calibration; temperature unavailable</code>. This player&#x27;s MT6323 (CID <code>0x2023</code>, a known revision) does not have its die-temperature calibration-enable fuse set (efuse <code>0x63a</code> bit 1). <code>y2_pmic_calibrate</code> refused that, so the PMIC die temperature channel returned <code>-ENODATA</code>; the charger reads it in every sample, counted the failure as an ADC/IO fault and inhibited charging before it ever looked at the cable, so the fault never cleared. It is the only one of about 45 installs in the stored reports with <code>die calibration=0</code>.</p>
+<p>The stock kernel (<code>mtk_ts_pmic.c</code>, <code>pmic_cali_prepare()</code>) reads the same fuses and, when the bit is clear, uses nominal values: VTS 3698 at 25 °C, slope 0. Setting the fuse is not possible (one-time programmable; the register is a copy reloaded at power-on) and would not help: a clear bit means the calibration words were never written.</p>
+<h2 id="what-changed-since-beta-828">What changed since Beta 8.28</h2>
+<table><thead><tr><th>Change</th><th>Detail</th><th>Evidence</th></tr></thead><tbody><tr><td>A PMIC without its die calibration fuse charges again</td><td>With a known CID and the calibration fuse clear, the die sensor uses the stock nominal (VTS 3698, 25 °C, slope 0) instead of returning no data, and reads <strong>10 °C high</strong> (owner&#x27;s choice): nominal reads about 8 °C low through our own player&#x27;s fuses, so the margin makes the derating steps (60/70/80/90 °C) and both 150 °C stops act early, never late. The PMIC thermal zone is registered in that case too</td><td>Linux <code>1a51503</code>; <code>tests/test_power.py</code></td></tr><tr><td>Calibrated players unchanged</td><td>The fused path computes exactly what it did; an unknown CID still returns no data</td><td><code>test_conversion_units_calibration_and_protection</code> (27 °C at the own fuses&#x27; reference point, nominal never below own)</td></tr><tr><td>Boot log</td><td><code>die calibration=2</code> for the nominal case and a warning with the CID and both efuse words, so the next report shows the fuse contents</td><td>Linux <code>1a51503</code></td></tr></tbody></table>
+<h2 id="device-results">Device results</h2>
+<table><thead><tr><th>Check</th><th>Result</th></tr></thead><tbody><tr><td>Owner&#x27;s player</td><td>not installed before publishing: SSH to the player was not available in this session. It has its own calibration fuses, so it would only exercise the unchanged path</td></tr><tr><td>Affected player</td><td>owed: the reporter (install 047f2c1a) updates by OTA; expected boot lines <code>die calibration=2</code> and no <code>first fault</code>, BAT0 <code>Charging</code> on a cable</td></tr></tbody></table>
+<h2 id="open">Open</h2>
+<ul><li>The nominal path has not run on a player yet; confirmation from the reporter is owed.</li><li>A persistent charger fault is still not shown in Reborn (the user only sees no charging).</li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

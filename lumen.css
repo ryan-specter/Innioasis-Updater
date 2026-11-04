@@ -141,24 +141,6 @@ body.site-themes-app { overflow-x: clip; background: var(--lumen-ink); color: va
 
 :root[data-lumen-theme="2077"] .lumen-y2-pill { background: var(--lumen-ink); color: var(--lumen-accent); border-color: var(--lumen-accent); }
 
-@media (prefers-color-scheme: light) {
-    :root[data-lumen-theme="auto"] {
-        --lumen-ink: oklch(98% .008 250);
-        --lumen-ink-soft: oklch(94% .012 250);
-        --lumen-panel: oklch(100% 0 0);
-        --lumen-panel-soft: oklch(96% .012 250);
-        --lumen-paper: oklch(18% .018 260);
-        --lumen-text: oklch(18% .018 260);
-        --lumen-muted: oklch(43% .03 250);
-        --lumen-faint: oklch(52% .025 250);
-        --lumen-accent: oklch(48% .16 245);
-        --lumen-accent-strong: oklch(54% .16 245);
-        --lumen-accent-wash: oklch(88% .06 245 / .72);
-        --lumen-line: oklch(20% .02 260 / .16);
-        --lumen-line-strong: oklch(20% .02 260 / .3);
-    }
-}
-
 @media (forced-colors: active) {
     :root[data-lumen-theme="high-contrast"], :root[data-lumen-theme="auto"] {
         --lumen-line: CanvasText;
@@ -208,12 +190,6 @@ body.site-themes-app .lumen-brand-title,
 :root[data-lumen-theme="high-contrast"] body.site-themes-app .lumen-brand-home,
 :root[data-lumen-theme="high-contrast"] .lumen-brand-title,
 :root[data-lumen-theme="high-contrast"] .lumen-brand-home { color: #ffffff !important; }
-@media (prefers-color-scheme: light) {
-    :root:not([data-lumen-theme="dark"]):not([data-lumen-theme="2077"]):not([data-lumen-theme="high-contrast"]) body.site-themes-app .lumen-brand-title,
-    :root:not([data-lumen-theme="dark"]):not([data-lumen-theme="2077"]):not([data-lumen-theme="high-contrast"]) body.site-themes-app .lumen-brand-home,
-    :root:not([data-lumen-theme="dark"]):not([data-lumen-theme="2077"]):not([data-lumen-theme="high-contrast"]) .lumen-brand-title,
-    :root:not([data-lumen-theme="dark"]):not([data-lumen-theme="2077"]):not([data-lumen-theme="high-contrast"]) .lumen-brand-home { color: #0f172a !important; }
-}
 body.site-themes-app .lumen-nav-icon { display: block; flex: 0 0 auto; width: 26px; height: 26px; margin-right: .5rem; border-radius: 7px; }
 body.site-themes-app .nav-links { display: flex; align-items: center; gap: .2rem; margin: 0; padding: 0; list-style: none; }
 body.site-themes-app .nav-links a { display: inline-flex; min-height: 42px; align-items: center; padding: .55rem .72rem; border-radius: var(--lumen-pill); color: var(--lumen-muted); font-size: .86rem; text-decoration: none; white-space: nowrap; }

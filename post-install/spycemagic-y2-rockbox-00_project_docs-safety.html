@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2 Rockbox Safety Rules - Innioasis Updater</title>
+  <meta name="description" content="Y2 Rockbox Safety Rules Updated: 2026-09-06 Firmware installation can erase data or leave the player temporarily unbootable. Rockbox Y2 packages are device- and baseline-">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/spycemagic-y2-rockbox-00_project_docs-safety.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2 Rockbox Safety Rules - Innioasis Updater">
+  <meta property="og:description" content="Y2 Rockbox Safety Rules Updated: 2026-09-06 Firmware installation can erase data or leave the player temporarily unbootable. Rockbox Y2 packages are device- and baseline-">
+  <meta property="og:url" content="https://innioasis.app/post-install/spycemagic-y2-rockbox-00_project_docs-safety.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2 Rockbox Safety Rules - Innioasis Updater">
+  <meta name="twitter:description" content="Y2 Rockbox Safety Rules Updated: 2026-09-06 Firmware installation can erase data or leave the player temporarily unbootable. Rockbox Y2 packages are device- and baseline-">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=rockbox-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Rockbox-Y2 · Y2</p><h1>Y2 Rockbox Safety Rules</h1><p class="lumen-lead">The Y2 Rockbox build. Select Y2 before choosing this Software.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=rockbox-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=rockbox-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2-rockbox-safety-rules">Y2 Rockbox Safety Rules</h1>
+<p>Updated: 2026-09-06</p>
+<p>Firmware installation can erase data or leave the player temporarily unbootable. Rockbox Y2 packages are device- and baseline-specific.</p>
+<h2 id="never-do-this">Never do this</h2>
+<ul><li>Never flash a Y1 package or another device&#x27;s preloader/scatter.</li><li>Never use a package for an unknown Y2 hardware or firmware revision.</li><li>Never rename a Beta V2 archive to <code>rom_y2.zip</code>.</li><li>Never use the withdrawn Beta V2 packages or<p><code>InnioasisUpdater_Setup_1.1.2.exe</code>.</p></li><li>Never use Format All, Firmware Upgrade, whole-device erase, automatic retry,<p>or a write plan outside the five approved Beta V2 partitions.</p></li><li>Never disconnect or reset while a read or write is active.</li><li>Never publish device-unique protected data or raw private evidence.</li></ul>
+<h2 id="before-installation">Before installation</h2>
+<ul><li>Back up internal storage, microSD, and the complete hidden <code>.rockbox</code> tree.</li><li>Keep the exact official Y2 Stock 3.1.7 recovery package available.</li><li>Verify the platform asset against <code>SHA256SUMS.txt</code>.</li><li>Charge the player, use a reliable data cable, and avoid hubs.</li><li>Close software that may claim MediaTek or Android USB devices.</li></ul>
+<h2 id="beta-v2-accepted-boundary">Beta V2 accepted boundary</h2>
+<p>The only accepted assets are:</p>
+<ul><li><code>Y2-Rockbox-Beta-v0.2.0-UPDATE-ONLY.zip</code></li><li><code>Y2-Rockbox-Beta-v0.2.0-Windows-UPDATE-ONLY.zip</code></li></ul>
+<p>Both are 361,774,260 bytes with SHA-256 <code>409DDB4D2D18111FB8C3AB619F10F04B916B6B2A3FC04D1D38011324563F326A</code>.</p>
+<p>The guarded updater may write only UBOOT, BOOTIMG, RECOVERY, LOGO, and ANDROID. It must verify the device and archive, preserve omitted/protected partitions, perform no automatic retry, and complete five-range readback verification.</p>
+<h2 id="after-flashing">After flashing</h2>
+<p>After the updater reports verified completion, unplug the Y2 completely, power it off if required, and press/release the pinhole once while unplugged. Only the next clean cold boot is qualified. Temporary artifacts or broken screen sleep on an updater-attached automatic boot do not replace this reset requirement.</p>
+<h2 id="stop-and-recover">Stop and recover</h2>
+<p>Stop on an identity mismatch, checksum failure, unexpected partition, timeout, write/readback failure, persistent boot loop, repeated wrong route, missing storage, or persistent crash. Do not improvise a retry. Restore only with the official complete Y2 Stock 3.1.7 recovery package.</p>
+<h2 id="release-evidence">Release evidence</h2>
+<p>A release requires deterministic packaging, offline validation, guarded physical installation on every public route, complete readback, functional and USB regression, saved-route tests, power/sleep tests, Stock rollback, and server-side download verification. Public summaries omit device identifiers and protected partition hashes.</p></article><p class="lumen-doc-footer-note">These are Rockbox-Y2's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/spycemagic/y2-rockbox" rel="noopener">spycemagic/y2-rockbox</a> project <a class="lumen-cite" href="https://github.com/spycemagic/y2-rockbox" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aspycemagic" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

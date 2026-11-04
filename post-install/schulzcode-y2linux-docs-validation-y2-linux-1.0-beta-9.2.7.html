@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 9.2.7: wheel clicks whenever the music is not playing - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 9.2.7: wheel clicks whenever the music is not playing Release 1.0.0-beta.9.2.7 , Y2Reborn 1.0.0-beta.9.2.7 , kernel 6.18.56-y2linux-1.0.0-beta.9.2.7 , up">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-9.2.7.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 9.2.7: wheel clicks whenever the music is not playing - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 9.2.7: wheel clicks whenever the music is not playing Release 1.0.0-beta.9.2.7 , Y2Reborn 1.0.0-beta.9.2.7 , kernel 6.18.56-y2linux-1.0.0-beta.9.2.7 , up">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-9.2.7.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 9.2.7: wheel clicks whenever the music is not playing - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 9.2.7: wheel clicks whenever the music is not playing Release 1.0.0-beta.9.2.7 , Y2Reborn 1.0.0-beta.9.2.7 , kernel 6.18.56-y2linux-1.0.0-beta.9.2.7 , up">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 9.2.7: wheel clicks whenever the music is not playing</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-927-wheel-clicks-whenever-the-music-is-not-playing">Y2Linux 1.0 Beta 9.2.7: wheel clicks whenever the music is not playing</h1>
+<p>Release <code>1.0.0-beta.9.2.7</code>, Y2Reborn <code>1.0.0-beta.9.2.7</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.9.2.7</code>, update sequence 12300, root <code>2026.08-platform-v1.221</code>. Published as GitHub release <code>baseline-198</code> (test build 198). Previous release: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.2.6.md">Beta 9.2.6</a>.</p>
+<p>This report is written for people who use the player. A short technical appendix is at the end.</p>
+<h2 id="in-one-paragraph">In one paragraph</h2>
+<p>Beta 9.2.7 finishes the wheel click. It now clicks whenever no music is playing, also when no song is loaded or the song was paused long ago, on the headphones or on the speaker, whichever is in use; and quick turns of the wheel no longer crackle.</p>
+<h2 id="whats-new-and-fixed">What&#x27;s new and fixed</h2>
+<ul><li><strong>Clicks without a song</strong> (Y2Reborn #77). With Wheel Click on (Settings → Customize), the wheel now clicks<p>whenever the music is not playing: nothing loaded, paused, or paused for a long time. The player switches the headphone or speaker output on for the clicks and off again ten seconds after the last one. A song you start in those ten seconds plays in the same output, so it starts as quickly as before.</p></li><li><strong>Clicks follow the headphones.</strong> A song paused with headphones in and the headphones then pulled out clicked into<p>the empty headphone output; now the clicks move to the speaker (and back when the headphones go in).</p></li><li><strong>No more crackle</strong> when turning the wheel quickly while paused. Beta 9.2.6 threw away the silence it had queued<p>for each click to make the next one sooner, and sometimes left the output with nothing to play, which crackled. Now each click simply goes into the next bit of silence; a click waits at most about 35 ms.</p></li></ul>
+<h2 id="what-youll-notice">What you&#x27;ll notice</h2>
+<ul><li>After a long quiet time the first click can come a fraction of a second late while the sound chip wakes up; the<p>next ones are immediate. On the developer&#x27;s player the output was ready 40 ms after the wheel step.</p></li><li>The wheel stays silent while music plays, and on Bluetooth.</li><li>The click&#x27;s loudness follows the volume.</li></ul>
+<h2 id="how-it-was-tested">How it was tested</h2>
+<ul><li><strong>Before release:</strong> the platform&#x27;s full check, Reborn&#x27;s workspace tests and the tests of the finished release<p>images. New tests on a simulated headphone output: with no song, clicks open the output once, the next clicks use it, and a song started then plays in it without opening again; clicks while paused play over silence and the song goes on where it paused; a click while music plays leaves the music untouched.</p></li><li><strong>On the developer&#x27;s player:</strong> installed over the air from Beta 9.2.6 and confirmed by the player itself<p>(Acknowledged); the platform and Reborn running, health OK, kernel not tainted. With a song paused since the restart (no output open), two wheel steps opened the speaker output in 40 ms, played their clicks without an error or a gap, dropped the queued silence a second later and closed the output ten seconds after the last click.</p></li></ul>
+<h2 id="updating">Updating</h2>
+<p>Settings → About &amp; Updates → Check for Updates → <strong>Update Now</strong>. Your music, playlists, settings, Wi-Fi networks and Bluetooth pairings stay. Settings → Diagnostics → <strong>Restore Previous System</strong> goes back to Beta 9.2.6 if you need to.</p>
+<h2 id="known-issues">Known issues</h2>
+<p>Everything listed for <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.0.md%23known-issues-and-what-still-needs-your-help&amp;anchor=known-issues-and-what-still-needs-your-help">Beta 9.0</a> still applies. How loud the click should be is a first guess; tell us if it is too loud or too soft.</p>
+<h2 id="technical-appendix">Technical appendix</h2>
+<ul><li><strong>Crackle:</strong> each click while clicking rewound the queued silence (<code>snd_pcm_rewind</code> of <code>snd_pcm_rewindable</code>,<p>which rests on a hardware pointer alsa-lib had not refreshed), so the queue could end empty: bursts of <code>xrun -32</code>. Now nothing is rewound; <code>click_over_silence</code> keeps ≈ 1536 frames queued in 256-frame pieces. <code>AudioSink::rewind</code>/<code>rb_sink_rewind</code> are gone.</p></li><li><strong>Clicks without a stream:</strong> <code>Runtime::wheel_click</code> (wired output only; speaker route or headphones in) releases a<p>hold on the other route, sets the live volume and sends the wired plan (<code>click_spec</code>, planned once) with <code>Playback::click</code>; <code>SinkCommand::Click</code> wakes an idle sink thread. <code>click_while_idle</code> plays in the kept wired sink or opens one (<code>keep_for_clicks</code>, <code>sink_change</code> decides) and keeps it <code>CLICK_KEEP</code> (10 s, <code>KeptSink::until</code>) after the last click; <code>LINGER</code> (1 s) after it the queued silence is dropped (<code>discard</code>). A start reuses the sink through the usual switch. A sleep request now also closes a kept sink (<code>stop_and_wait</code>; its activity lease refused sleep).</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

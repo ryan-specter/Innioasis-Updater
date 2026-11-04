@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Player skin engine, version 2 - Innioasis Updater</title>
+  <meta name="description" content="Y2Player skin engine, version 2 Version 2 extends the declarative renderer for visual theme editors. Set formatVersion to 2 to use the new properties. Neon Grid, Pixel Ga">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2player-docs-skins-format_v2.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Player skin engine, version 2 - Innioasis Updater">
+  <meta property="og:description" content="Y2Player skin engine, version 2 Version 2 extends the declarative renderer for visual theme editors. Set formatVersion to 2 to use the new properties. Neon Grid, Pixel Ga">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2player-docs-skins-format_v2.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Player skin engine, version 2 - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Player skin engine, version 2 Version 2 extends the declarative renderer for visual theme editors. Set formatVersion to 2 to use the new properties. Neon Grid, Pixel Ga">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=y2player-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Player · Y2</p><h1>Y2Player skin engine, version 2</h1><p class="lumen-lead">A Y2 custom Software.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=y2player-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=y2player-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2player-skin-engine-version-2">Y2Player skin engine, version 2</h1>
+<p>Version 2 extends the declarative renderer for visual theme editors. Set <code>formatVersion</code> to <code>2</code> to use the new properties. Neon Grid, Pixel Garden, and Studio Deck are bundled version 2 showcases; version 1 community skins remain supported with their original behavior. Older players reject version 2 with a version error; reload failures retain the Classic fallback. Themes never execute scripts.</p>
+<p>The structural contract is <a href="https://github.com/schulzcode/Y2Player/blob/HEAD/docs/skins/skin-v2.schema.json" target="_blank" rel="noopener noreferrer">skin-v2.schema.json</a>. Semantic validation in <code>SkinParser</code> additionally checks component references, parameters, color names, bindings, focus IDs, file paths, and expansion limits. The schema allows parameter placeholders in templates; the parser validates their resolved values before a skin is published. See <a href="https://github.com/schulzcode/Y2Player/blob/HEAD/docs/skins/example-v2/skin.json" target="_blank" rel="noopener noreferrer">example-v2/skin.json</a> for an installable example. It is a development example, not another bundled skin.</p>
+<h2 id="styles-and-components">Styles and components</h2>
+<p><code>styles</code> maps names to shared visual/text properties. A node&#x27;s <code>style</code> selects one; explicit node properties override it. Supported style properties: <code>color</code>, <code>background</code>, <code>opacity</code>, <code>borderColor</code>, <code>borderWidth</code>, <code>radius</code>, <code>size</code>, <code>bold</code>, <code>font</code>, <code>lineSpacing</code>, <code>overflow</code>, <code>verticalAlign</code>. Styles do not inherit other styles. Palette references continue to use <code>colors</code>.</p>
+<p>Components can remain arrays or become objects with <code>parameters</code> and <code>nodes</code>:</p>
+<pre><code class="language-json">{
+  &quot;parameters&quot;: {&quot;label&quot;:&quot;Play&quot;, &quot;width&quot;:100},
+  &quot;nodes&quot;: [
+    {&quot;type&quot;:&quot;text&quot;, &quot;bounds&quot;:[0,0,&quot;{param.width}&quot;,40], &quot;text&quot;:&quot;{param.label}&quot;}
+  ]
+}</code></pre>
+<p>Supply <code>props</code> on a component instance to override defaults. Parameters are strings, numbers, or booleans; overrides must have the same scalar type. A whole <code>{param.name}</code> token preserves its type; tokens embedded in strings interpolate. Resolved values still undergo normal action/color/path/binding validation. Defaults are required, unknown parameters are rejected, and each instance is compiled independently. Use parameterized focus IDs when repeating components. A component instance becomes a group; its children use local coordinates. Use <code>anchor: &quot;stretch&quot;</code> or a layout container for content that should resize.</p>
+<h2 id="drawing-and-text">Drawing and text</h2>
+<table><thead><tr><th>Property</th><th>Values and behavior</th></tr></thead><tbody><tr><td><code>font</code></td><td>Per-element system family or relative font file; omitted inherits the skin font</td></tr><tr><td><code>lineSpacing</code></td><td>Font-spacing multiplier, 0.5–3; default 1</td></tr><tr><td><code>verticalAlign</code></td><td><code>top</code>, <code>center</code> (default), <code>bottom</code></td></tr><tr><td><code>overflow</code></td><td><code>ellipsis</code> (default), <code>clip</code>, <code>marquee</code></td></tr><tr><td><code>marqueeSpeed</code></td><td>8–80 logical units/second; default 24</td></tr><tr><td><code>imageFit</code></td><td><code>stretch</code> (legacy default), <code>fit</code> (contain), <code>crop</code> (cover)</td></tr><tr><td><code>imageX</code>, <code>imageY</code></td><td>Image alignment from 0 to 1; default 0.5</td></tr><tr><td><code>opacity</code></td><td>0–1, including descendants of groups</td></tr><tr><td><code>radius</code></td><td>Rounded rectangle or image clipping radius</td></tr><tr><td><code>borderColor</code>, <code>borderWidth</code></td><td>Independent outline, up to 16 units</td></tr><tr><td><code>gradient</code></td><td><code>{ &quot;endColor&quot;:&quot;accent&quot;, &quot;direction&quot;:&quot;vertical&quot; }</code>; horizontal also supported</td></tr></tbody></table>
+<p>Version 2 text honors explicit newlines. Wrapping uses font measurements, whole Unicode code points, and word boundaries. Marquee is a single-line, back-and-forth scroll with one-second pauses at the ends. Its clock resets on screen changes; hidden screens do not schedule animation. <code>clip</code> clips overflow without an ellipsis. Fonts load during reload, not during drawing.</p>
+<p>New primitives:</p>
+<ul><li><code>circle</code>: ellipse inscribed in bounds; equal width/height produces a circle.</li><li><code>line</code>: from top-left to bottom-right; use a path for other directions.</li><li><code>path</code>: restricted vector polyline/polygon using 2–128 normalized <code>[x,y]</code><p>points, each coordinate between 0 and 1. <code>closed</code> joins the endpoints. Open paths are stroked; closed paths are filled unless <code>stroke</code> is positive.</p></li></ul>
+<p>Gradients fill primitives/text; they do not tint artwork or images. Borders are rectangular/rounded except for circles. Image fit/crop is clipped to the node bounds. Touch targets use the clipped bounding rectangle.</p>
+<h2 id="layout">Layout</h2>
+<p>Groups and component instances accept <code>layout</code>:</p>
+<ul><li><code>absolute</code> (default): each child&#x27;s local bounds and anchor determine placement.</li><li><code>row</code> / <code>column</code>: children retain their specified main-axis size. Positive<p><code>weight</code> values divide remaining space proportionally; the cross-axis fills the container. This provides automatic sizing without measuring content.</p></li><li><code>grid</code>: equal cells with the specified <code>columns</code>; row count follows children.</li><li><code>stack</code>: every child fills the inner rectangle in drawing order.</li></ul>
+<p><code>padding</code> is a uniform inset and <code>gap</code> is spacing between cells. In absolute layout, <code>anchor</code> accepts <code>topLeft</code>, <code>topRight</code>, <code>bottomLeft</code>, <code>bottomRight</code>, <code>center</code>, or <code>stretch</code>. Corner offsets are margins from that corner. Center uses x/y as offsets. Stretch uses x/y as symmetric insets; width/height are ignored. Anchors are evaluated against the current parent, including resized row cells. Top-level anchors use the skin viewport. Oversized content clips; containers do not scroll unless they are row repeaters.</p>
+<h2 id="lists-and-keyboards">Lists and keyboards</h2>
+<p><code>rows</code> accepts <code>listMode</code>:</p>
+<ul><li><code>grid</code>: existing row-major grid with <code>columns</code> and <code>rowHeight</code>.</li><li><code>horizontal</code>: one horizontal strip of <code>rowWidth</code> × <code>rowHeight</code> cells.</li><li><code>carousel</code>: horizontal strip whose visible window follows selection, centered<p>when possible; end pages can have empty slots.</p></li><li><code>radial</code>: <code>columns</code> evenly spaced cells around an ellipse, clockwise from the<p>top; <code>rowWidth</code>/<code>rowHeight</code> determine each cell&#x27;s size. Up to eight slots.</p></li></ul>
+<p><code>scrolling</code> is <code>page</code> (default), <code>follow</code> (keep selection at the end once past capacity), or <code>center</code>. Carousel always uses center behavior. These are discrete selection-driven windows, not animated free-scrolling. The same cell geometry is used for drawing and hit testing; overlapping cells use last-drawn priority.</p>
+<p><code>keyboard.keyStyle</code> controls <code>gap</code>, <code>radius</code>, <code>color</code>, <code>background</code>, <code>focusColor</code>, <code>focusBackground</code>, <code>borderColor</code>, and <code>borderWidth</code>. Font, bold, and size come from the keyboard node. Key labels and wheel behavior remain owned by SearchKeyboard. Search retains its native keyboard/results navigation.</p>
+<h2 id="visual-states-and-motion">Visual states and motion</h2>
+<p><code>states</code> maps state names to overrides of <code>color</code>, <code>background</code>, <code>opacity</code>, <code>borderColor</code>, <code>borderWidth</code>, <code>radius</code>, <code>size</code>, and <code>bold</code>. Applicable states are applied in this order: <code>normal</code>, <code>paused</code>/<code>playing</code>, <code>active</code>, <code>focused</code>, <code>pressed</code>, <code>disabled</code>. Later properties win. State overrides do not alter action or geometry. <code>disabled: true</code> blocks a node and all descendant controls. Unavailable rows get disabled styling but retain row selection behavior so the player can explain availability. New visibility conditions are <code>pressed</code>, <code>disabled</code>, <code>enabled</code>, and <code>charging</code>.</p>
+<p><code>transitionMs</code> (0–500, default 0) interpolates colors, opacity, radius, and border width between visual states. Text size and weight switch immediately. Motion is limited to 30 redraws/second, stops when the view is hidden/detached, and retains at most one transition per visible node. No general animation timeline or scripts are supported.</p>
+<h2 id="controls-focus-and-seeking">Controls, focus, and seeking</h2>
+<p>Add an entry to top-level <code>navigation</code> to opt a screen into custom wheel focus:</p>
+<pre><code class="language-json">&quot;navigation&quot;: {&quot;now_playing&quot;:{&quot;initial&quot;:&quot;play&quot;, &quot;wrap&quot;:true}}</code></pre>
+<p>Focusable nodes provide an action (or are row containers) and:</p>
+<pre><code class="language-json">&quot;focus&quot;: {&quot;id&quot;:&quot;play&quot;, &quot;group&quot;:&quot;transport&quot;, &quot;order&quot;:1,
+          &quot;previous&quot;:&quot;previous&quot;, &quot;next&quot;:&quot;next&quot;}</code></pre>
+<p>IDs are unique per screen. Groups sort by name and items by order, preserving source order for ties. Optional previous/next references override wheel order. Disabled, hidden, or fully clipped controls are excluded. <code>nextGroup</code> and <code>previousGroup</code> actions move to the adjacent group. Confirm activates the focused action. A focused row container enters row navigation on Confirm; Back leaves that mode before leaving the screen. Back otherwise keeps the normal reducer behavior, including dismissing messages. Search cannot opt in.</p>
+<p>Screens without navigation entries keep all existing wheel behavior. Explicit Now Playing navigation uses the wheel for focus; add <code>volumeUp</code>/<code>volumeDown</code> controls there. Physical transport and volume shortcuts remain available. Navigation under <code>default</code> applies only to screens using the default layout.</p>
+<p>Additional actions: <code>volumeUp</code>, <code>volumeDown</code>, <code>shuffle</code>, <code>repeat</code>. They dispatch validated reducer commands and are blocked in Search/FM. Existing actions remain supported. <code>progress.seekable: true</code> seeks on tap release; horizontal progress goes left-to-right, vertical bottom-to-top, and circular clockwise from twelve o&#x27;clock. Seek fractions are clamped and ignored without a track or duration, or on Search/FM. No intermediate drag seeks are emitted.</p>
+<h2 id="additional-bindings">Additional bindings</h2>
+<table><thead><tr><th>Binding</th><th>Value</th></tr></thead><tbody><tr><td><code>volume</code></td><td>Effective system or perceptual volume percentage; <code>--</code> when unavailable</td></tr><tr><td><code>volume.mode</code></td><td>Volume mode enum name</td></tr><tr><td><code>shuffle</code>, <code>repeat</code></td><td><code>ON</code>/<code>OFF</code>, repeat mode enum name</td></tr><tr><td><code>track.codec</code></td><td>Track metadata codec</td></tr><tr><td><code>track.sampleRate</code>, <code>track.bitDepth</code>, <code>track.channels</code>, <code>track.bitrate</code></td><td>Metadata numbers, empty if unknown; Hz, bits, channels, bits/sec</td></tr><tr><td><code>device.charging</code>, <code>device.storageAvailable</code></td><td><code>true</code> or <code>false</code></td></tr><tr><td><code>device.model</code></td><td>Reported device model</td></tr><tr><td><code>display.brightness</code></td><td>Brightness percentage</td></tr></tbody></table>
+<p>These describe track metadata, not an assertion about the actual DAC output. System volume is cached for one second by the view and refreshed when drawing.</p>
+<h2 id="bounds-compatibility-and-checks">Bounds, compatibility, and checks</h2>
+<p>Manifest limit remains 256 KiB. JSON nesting is capped at 64 before parsing. Version 1 retains its 512-node source limit. Version 2 compilation has a global 4096-node budget, including validation of unused templates, and each expanded screen remains limited to 4096 nodes including repeated cells. Nested repeaters are rejected even when the outer repeater has capacity one. Source child nesting is capped at 12; component graphs must be acyclic. At most 16 font faces are loaded per skin; external font files retain the 2 MiB limit. Existing image and asset-path limits still apply.</p>
+<p>Run from the repository root:</p>
+<pre><code class="language-sh">ANDROID_SDK_ROOT=/opt/android-sdk ./gradlew testDebugUnitTest lintDebug assembleRelease
+node tools/skin-preview/check.mjs</code></pre>
+<p><a href="https://github.com/schulzcode/Y2Player/blob/HEAD/docs/skins/preview-fixtures.json" target="_blank" rel="noopener noreferrer">preview-fixtures.json</a> is consumed by Kotlin tests and the dependency-free browser module. It covers geometry, image fitting, seeking, and text wrapping with a deterministic measurement adapter. Real browser/Android font rasterization is not guaranteed identical: the editor must supply the same fonts and compare device captures for font-metric differences. This module is preview infrastructure, not the web editor UI.</p>
+<p>The debug-only <code>SkinPreviewService</code> renders synthetic state on Android and checks navigation/touch without dispatching to playback. Instructions are in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2FY2Player%2Fblob%2FHEAD%2Ftools%2Fskin-preview%2FREADME.md">the preview tools README</a>.</p></article><p class="lumen-doc-footer-note">These are Y2Player's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/Y2Player" rel="noopener">schulzcode/Y2Player</a> project <a class="lumen-cite" href="https://github.com/schulzcode/Y2Player" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Player v2.3 for the Innioasis Y2 — Up Next queue, genre/year browsing, and album art in menus - Innioasis Updater</title>
+  <meta name="description" content="Y2Player v2.3 for the Innioasis Y2 — Up Next queue, genre/year browsing, and album art in menus Version 2.3 focuses on making the queue behave the way people expect, addi">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2player-docs-y2player_v2_3_reddit_post.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Player v2.3 for the Innioasis Y2 — Up Next queue, genre/year browsing, and album art in menus - Innioasis Updater">
+  <meta property="og:description" content="Y2Player v2.3 for the Innioasis Y2 — Up Next queue, genre/year browsing, and album art in menus Version 2.3 focuses on making the queue behave the way people expect, addi">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2player-docs-y2player_v2_3_reddit_post.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Player v2.3 for the Innioasis Y2 — Up Next queue, genre/year browsing, and album art in menus - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Player v2.3 for the Innioasis Y2 — Up Next queue, genre/year browsing, and album art in menus Version 2.3 focuses on making the queue behave the way people expect, addi">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=y2player-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Player · Y2</p><h1>Y2Player v2.3 for the Innioasis Y2 — Up Next queue, genre/year browsing, and album art in menus</h1><p class="lumen-lead">A Y2 custom Software.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=y2player-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=y2player-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2player-v23-for-the-innioasis-y2--up-next-queue-genreyear-browsing-and-album-art-in-menus">Y2Player v2.3 for the Innioasis Y2 — Up Next queue, genre/year browsing, and album art in menus</h1>
+<p>Version 2.3 focuses on making the queue behave the way people expect, adding more ways to browse a music library, and displaying album artwork throughout the menus without doing unbounded image work on the Y2&#x27;s older hardware.</p>
+<p>🎵 <strong>A Proper Up Next Queue</strong></p>
+<p>The queue is now split conceptually into two parts:</p>
+<ul><li><strong>Up Next</strong> contains songs you deliberately add.</li><li><strong>Continuation</strong> contains the rest of the album, playlist, or shuffled collection that was already playing.</li></ul>
+<p><strong>Play Next</strong> places something directly after the current song. <strong>Add to Up Next</strong> appends it after the songs you already added. When those songs finish, Y2Player returns to the original album or collection.</p>
+<p>Shuffle now exposes the real upcoming order instead of saying that the next song will be decided later. Manually added songs stay ahead of the shuffled continuation and retain their order. Turning Shuffle off restores the remaining collection order without discarding Up Next.</p>
+<p>Duplicate songs are tracked as separate queue entries, so moving or removing one occurrence does not accidentally affect another copy.</p>
+<p>🎛 <strong>Wheel-Friendly Queue Controls</strong></p>
+<p>Pressing Center on a queue entry opens a circular menu with <strong>Play Now</strong>, <strong>Play Next</strong>, <strong>Move</strong>, and <strong>Remove</strong>. Move uses the wheel to choose the new position directly.</p>
+<p>The Queue Actions row provides:</p>
+<ul><li>Clear Up Next</li><li>Clear After Current</li><li>Stop &amp; Clear</li></ul>
+<p>Queue management is now available directly from the queue instead of being buried behind several nested song menus.</p>
+<p>📚 <strong>Albums, Collections, and Multi-Select</strong></p>
+<p>Holding Center on an album or another supported collection opens actions for the complete group:</p>
+<ul><li>Play Next</li><li>Add to Up Next</li><li>Add Shuffled</li></ul>
+<p>Track Options also has <strong>Select Multiple</strong>. Use Center to select or deselect songs in the current list, then hold Center to apply the same queue actions to the chosen set.</p>
+<p>This means you can start an album or Shuffle All, build a short list of songs you want to hear first, and then let the original playback continue automatically.</p>
+<p>🗂 <strong>Browse by Genre and Year</strong></p>
+<p>The Music menu now contains <strong>Genres</strong> and <strong>Years</strong>.</p>
+<p>Inside either view you can browse all matching tracks, artists, or albums. The filter stays active as you move through an artist and into an album, rather than dropping you back into the complete library.</p>
+<p>Repeated or semicolon-separated genre values become individual genres, while names such as <code>R&amp;B/Soul</code> remain intact. Missing values are still available under <strong>Unknown Genre</strong> or <strong>Unknown Year</strong>.</p>
+<p>Album sorting now supports title, artist, oldest release first, and newest release first. Year lists can be newest-first or oldest-first, and album rows display the release year when it is known. Albums with the same title but different album artists also remain separate.</p>
+<p>🖼 <strong>Album Art in Menus</strong></p>
+<p>Song lists and the rows for albums, artists, genres, years, playlists, audiobooks, and the queue can now show album-art thumbnails on the left.</p>
+<p>Embedded artwork is still preferred. The existing external <code>folder.jpg</code>, <code>folder.jpeg</code>, <code>folder.png</code>, <code>cover.jpg</code>, <code>cover.jpeg</code>, and <code>cover.png</code> files work here too.</p>
+<p>The obvious concern was lag, so the implementation is deliberately conservative:</p>
+<ul><li>only artwork for rows currently visible on screen is requested;</li><li>thumbnails use the existing bounded artwork cache;</li><li>visible images are loaded in a controlled sequence;</li><li>offscreen and stale requests are cancelled or ignored;</li><li>damaged, oversized, missing, or unavailable images fail safely.</li></ul>
+<p>Album song lists keep their track numbers instead of replacing them with thumbnails.</p>
+<p>📖 <strong>Audiobooks Stay in Audiobooks</strong></p>
+<p>Chapters under <code>AUDIOBOOKS</code> no longer appear among ordinary Songs, Albums, Artists, Genres, Years, Favorites, Recently Played, Folders, playlists, or Shuffle All.</p>
+<p>They remain fully available in the dedicated Audiobooks section with resume progress and chapter ordering.</p>
+<p>The circular menu while playing an audiobook is now limited to options that make sense there: <strong>Chapters</strong>, <strong>Queue</strong>, <strong>Sleep Timer</strong>, and <strong>Track Details</strong>.</p>
+<p>🏷 <strong>Better Ogg/Opus Artist Metadata</strong></p>
+<p>Vorbis comments can contain several separate <code>ARTIST</code> values. FFmpeg presents those values to the app separated by semicolons, which Y2Player previously displayed as one giant artist name.</p>
+<p>They are now split into individual artist entries. Duplicate values are removed, featured-artist parsing still works, and the complete credit remains available for display.</p>
+<p>🧹 <strong>Maintenance</strong></p>
+<p>This update also removes unused model fields, counters, result wrappers, and duplicate state across the playback, queue, diagnostics, Bluetooth, display, backup, and library code. The goal is to keep the application smaller and easier to reason about without removing user-facing functionality.</p>
+<p>The complete debug unit-test suite passes with the new queue, browsing, metadata, audiobook, and artwork behavior.</p>
+<p>💿 <strong>Installation</strong></p>
+<p>The release provides the existing <code>system.img</code> update path and a complete <code>rom_y2.zip</code> package for the Innioasis Updater.</p>
+<p>For the system-only method, use SP Flash Tool in <strong>Download Only</strong> mode with only the <strong>ANDROID</strong> partition selected.</p>
+<p>The <code>rom_y2.zip</code> package is a full-device installation and <strong>erases user data</strong>. Create a Y2Player backup and copy anything important off the device before using it. Please verify the supplied checksums and read the complete installation guide before flashing.</p>
+<p>🐞 <strong>Reporting Bugs</strong></p>
+<p>If you encounter a problem, enable verbose diagnostics first:</p>
+<p><strong>Settings → System → Diagnostics → Verbose Diagnostics</strong></p>
+<p>Reproduce the issue, then export the report:</p>
+<p><strong>Settings → System → Diagnostics → Export Diagnostics</strong></p>
+<p>Please attach the exported report when opening a GitHub issue. For queue problems, mention what originally started playback, which queue action you used, and whether Shuffle or Repeat was enabled. For artwork problems, mention whether the cover is embedded or external and include its filename if possible.</p>
+<p>Thanks again to everyone testing Y2Player and taking the time to write detailed reports. The queue redesign, year and genre views, audiobook separation, repeated-artist handling, and menu artwork all came directly from that feedback.</p></article><p class="lumen-doc-footer-note">These are Y2Player's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/Y2Player" rel="noopener">schulzcode/Y2Player</a> project <a class="lumen-cite" href="https://github.com/schulzcode/Y2Player" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

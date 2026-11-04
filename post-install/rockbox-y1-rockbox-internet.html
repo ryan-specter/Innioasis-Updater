@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Disclaimer - Innioasis Updater</title>
+  <meta name="description" content="Disclaimer The Innioasis Y1 runs an outdated version of Android. Going online with it has inherent risks. The connections this plugin makes should be save, as they use up">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/rockbox-y1-rockbox-internet.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Disclaimer - Innioasis Updater">
+  <meta property="og:description" content="Disclaimer The Innioasis Y1 runs an outdated version of Android. Going online with it has inherent risks. The connections this plugin makes should be save, as they use up">
+  <meta property="og:url" content="https://innioasis.app/post-install/rockbox-y1-rockbox-internet.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Disclaimer - Innioasis Updater">
+  <meta name="twitter:description" content="Disclaimer The Innioasis Y1 runs an outdated version of Android. Going online with it has inherent risks. The connections this plugin makes should be save, as they use up">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y1&amp;software=rockbox-y1">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Rockbox-Y1 · Y1</p><h1>Disclaimer</h1><p class="lumen-lead">A music-first custom Software with deep playback and theme options.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y1&amp;software=rockbox-y1">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y1&amp;software=rockbox-y1">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="disclaimer">Disclaimer</h1>
+<p>The Innioasis Y1 runs an outdated version of Android. Going online with it has inherent risks. The connections this plugin makes <em>should</em> be save, as they use up-to-date certificates and only make secure connections to official Last.fm API servers. With such old software you never know though. Please make your own judgement calls if you are fine with this risk.</p>
+<h1 id="podcasts">Podcasts</h1>
+<h2 id="adding-podcasts">Adding podcasts</h2>
+<ol><li>Find your feed URL: <a href="https://rss.com/tools/find-my-feed/" target="_blank" rel="noopener noreferrer">https://rss.com/tools/find-my-feed/</a></li><li>Download the wifi config <a href="https://github.com/rockbox-y1/rockbox/blob/y1/android/scripts/wifi.cfg" target="_blank" rel="noopener noreferrer">here</a></li><li>Follow the instructions in the <code>wifi.cfg</code> and add </li><li>Also make sure to fill your wifi credentials</li><li>Copy <code>wifi.cfg</code> to <code>.rockbox/wifi.cfg</code> on the SD card</li><li>Go to Plugins &gt; Applications &gt; podcast_downloader</li><li>Controls:</li></ol>
+<ul><li>Clicking podcast: Loads episodes</li><li>Long-press on podcast: Context menu - Download all episodes (takes a long time and shows no progress bar)</li><li>Clicking Episode: Downloads episode</li><li>Long-press on podcast: Context menu - Play, Re-download, Delete</li></ul>
+<h1 id="scrobbling-lastfm-listenbrainz-maloja">Scrobbling: Last.fm, ListenBrainz, Maloja,...</h1>
+<h3 id="lastfm">Last.fm</h3>
+<ol><li>Login to Last.fm</li><li>Create an application <a href="https://www.last.fm/api/account/create" target="_blank" rel="noopener noreferrer">here</a> (you only need to enter an application name, e.g. <code>rockbox</code>)</li><li>Save the API key and the Shared secret that is displayed after creating the application</li><li>Download the wifi config <a href="https://github.com/rockbox-y1/rockbox/blob/y1/android/scripts/wifi.cfg" target="_blank" rel="noopener noreferrer">here</a></li><li>Follow the instructions in <code>wifi.cfg</code> and fill all the values necessary</li><li>Also make sure to fill your wifi credentials</li><li>Keep this file safe, don&#x27;t share it online</li><li>Copy <code>wifi.cfg</code> to <code>.rockbox/wifi.cfg</code> on the SD card</li></ol>
+<h3 id="listenbrainz">ListenBrainz</h3>
+<ol><li>Login to ListenBrainz</li><li>Copy the user token from your settings page</li><li>Download the wifi config <a href="https://github.com/rockbox-y1/rockbox/blob/y1/android/scripts/wifi.cfg" target="_blank" rel="noopener noreferrer">here</a></li><li>Follow the instructions in <code>wifi.cfg</code> and fill all the values necessary</li><li>Also make sure to fill your wifi credentials</li><li>Keep this file safe, don&#x27;t share it online</li><li>Copy <code>wifi.cfg</code> to <code>.rockbox/wifi.cfg</code> on the SD card</li></ol>
+<p><strong>Hint:</strong> This works for ListenBrainz compatible servers too, just change the apiUrl.</p>
+<h3 id="scrobble-songs">Scrobble Songs</h3>
+<ol><li>Go to Plugins &gt; Applications &gt; lastfm_scrobbler</li><li>Follow general setup instructions</li><li>Upload Scrobbles &gt; Yes</li><li>(Listen to some music)</li><li>Press Export</li></ol>
+<p><strong>Hint:</strong> Set the timezone setting to 0 if it was configured to something else before. The time and time zone is setup automatically once you connect to the internet if you didn&#x27;t change any time/date settings in the Android System Menus.</p></article><p class="lumen-doc-footer-note">These are Rockbox-Y1's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/rockbox-y1/rockbox" rel="noopener">rockbox-y1/rockbox</a> project <a class="lumen-cite" href="https://github.com/rockbox-y1/rockbox" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Arockbox-y1" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

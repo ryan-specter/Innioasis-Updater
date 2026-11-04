@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Coding standard: Y2Linux platform and Y2Reborn - Innioasis Updater</title>
+  <meta name="description" content="Coding standard: Y2Linux platform and Y2Reborn Production code only. This is how the platform platform/crates and Reborn ../Y2Reborn are written since Beta 9.1; every rul">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-coding-standard.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Coding standard: Y2Linux platform and Y2Reborn - Innioasis Updater">
+  <meta property="og:description" content="Coding standard: Y2Linux platform and Y2Reborn Production code only. This is how the platform platform/crates and Reborn ../Y2Reborn are written since Beta 9.1; every rul">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-coding-standard.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Coding standard: Y2Linux platform and Y2Reborn - Innioasis Updater">
+  <meta name="twitter:description" content="Coding standard: Y2Linux platform and Y2Reborn Production code only. This is how the platform platform/crates and Reborn ../Y2Reborn are written since Beta 9.1; every rul">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Coding standard: Y2Linux platform and Y2Reborn</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="coding-standard-y2linux-platform-and-y2reborn">Coding standard: Y2Linux platform and Y2Reborn</h1>
+<p>Production code only. This is how the platform (<code>platform/crates</code>) and Reborn (<code>../Y2Reborn</code>) are written since Beta 9.1; every rule below is already true of the code, and the gate keeps it so. New code meets it from its first commit; old code that does not is listed in the ratchet&#x27;s baseline and only ever gets better.</p>
+<h2 id="1-what-the-gate-enforces">1. What the gate enforces</h2>
+<p><code>tools/development/platform-gate.sh</code> must print <code>GATE OK</code> before any commit (Reborn work included: the gate builds Reborn&#x27;s contract test and measures Reborn&#x27;s code). It runs:</p>
+<table><thead><tr><th>Check</th><th>Rule</th></tr></thead><tbody><tr><td><code>cargo fmt</code></td><td>formatted; and rustfmt must be able to format it (see long lines below)</td></tr><tr><td><code>cargo clippy --all-targets</code></td><td>no warning</td></tr><tr><td><code>cargo check --target armv7-unknown-linux-gnueabihf</code></td><td>builds for the player</td></tr><tr><td><code>tools/development/code-quality.py</code></td><td>the ratchet (section 2)</td></tr><tr><td><code>cargo test</code> and the golden suites</td><td>no failure; every recorded answer of every command unchanged unless re-recorded on purpose</td></tr><tr><td><code>tools/development/record-compat.py</code></td><td>an older build can still read every /data record this one writes</td></tr><tr><td>Reborn contract test</td><td>Reborn reads every recorded platform answer as before</td></tr></tbody></table>
+<p>Reborn on its own: <code>cargo fmt --all</code>, <code>cargo clippy --workspace --all-targets</code> (no warning), `cargo test --workspace` (no failure), then the gate.</p>
+<h2 id="2-the-ratchet-code-qualitypy">2. The ratchet (<code>code-quality.py</code>)</h2>
+<p>Measured on production code (tests excluded) against <code>tools/development/code-quality-baseline.json</code>. Nothing may get worse; an improvement is recorded with <code>--update</code> and its baseline diff is part of the commit.</p>
+<p>The length limits are ceilings, not targets (owner, 2026-10-31): a function or file between the aim and the ceiling passes, so a small fix never has to start with a refactor. Split code when it reads better, not to win a line back.</p>
+<table><thead><tr><th>Measure</th><th>Limit for new code</th><th>Existing exceptions</th></tr></thead><tbody><tr><td>Function length</td><td>aim for ≤ 100 lines; the gate stops at 150</td><td>over 150: listed; may only shrink</td></tr><tr><td>File length</td><td>aim for ≤ 1000 lines; the gate stops at 1500</td><td>over 1500: listed; may only shrink</td></tr><tr><td><code>unsafe</code></td><td>only in the crates that have it today, never more</td><td>per crate</td></tr><tr><td><code>.unwrap()</code> / <code>.expect(</code></td><td>none in production paths (an invariant gets <code>expect(&quot;why it holds&quot;)</code>)</td><td>per crate</td></tr><tr><td><code>panic!</code> / <code>todo!</code> / <code>unimplemented!</code> / <code>unreachable!</code></td><td>none</td><td>per crate</td></tr><tr><td><code>#[allow(…)]</code></td><td>none without a comment why</td><td>per crate</td></tr><tr><td>Raw JSON field lookups <code>[&quot;field&quot;]</code></td><td>none: read records in their types</td><td>per file</td></tr><tr><td>Code lines over 100 columns</td><td>none (rustfmt gives up on a function containing one)</td><td>per file</td></tr><tr><td><code>TODO</code> / <code>FIXME</code> / <code>XXX</code> / <code>HACK</code></td><td>none, ever</td><td>—</td></tr></tbody></table>
+<h2 id="3-shape-of-the-code">3. Shape of the code</h2>
+<p><strong>Functions do one thing and are named for it.</strong> A long sequence becomes named steps, not comments:</p>
+<ul><li><em>A loop with state</em> is a struct holding that state and a <code>pass</code> calling one method per step; an early end of<p>a pass is a <code>ControlFlow</code> value, never a <code>continue</code> hidden in a helper. Examples: <code>MainLoop::pass</code> (<code>app/reborn/src/main_loop.rs</code>), <code>SinkWorker::pass</code> (<code>app/reborn/src/playback/output.rs</code>), the Bluetooth <code>Session</code> (<code>crates/reborn-platform/src/bluetooth/worker.rs</code>).</p></li><li><em>A thread</em> is a worker struct owning what it uses, spawned as <code>move || worker.run()</code>; no 500-line closures.<p>Examples: <code>DecodeWorker</code>, <code>SinkWorker</code>, <code>BluetoothWorker</code>, <code>Watchdog</code>.</p></li><li><em>A dispatcher</em> is an exhaustive <code>match</code> with one line per case, delegating to a method named for it; the<p>compiler then names every case a new variant leaves unhandled. Example: <code>Runtime::effect_inner</code> with <code>runtime/effects/*.rs</code>. Never <code>_ =&gt;</code> over an enum we own.</p></li><li><em>One definition per fact.</em> A second copy of a dispatch, a runner or a record type is a bug waiting (the<p>skin path&#x27;s screen dispatch had lost Music; the bench runner had its own copy of the command runner).</p></li></ul>
+<p><strong>Modules are named for what they do</strong> (<code>playback/decode.rs</code>, <code>runtime/sleep.rs</code>), tests live next to them in <code>*_tests.rs</code> or a <code>tests/</code> module, and a file&#x27;s first line (<code>//!</code>) says what it is for.</p>
+<h2 id="4-records-and-the-platform-contract">4. Records and the platform contract</h2>
+<ul><li>Every record that crosses the platform/Reborn boundary is a type in <code>y2p-contract</code> (edited in Y2Linux only,<p>copied with <code>release.py sync-contract</code>). The platform writes it, Reborn reads it; neither looks up JSON fields. No device paths in the contract (Reborn&#x27;s architecture guard).</p></li><li>Read <strong>leniently</strong> where another version may have written the record (<code>lenient::*</code>: a field of another type<p>reads as absent), <strong>strictly</strong> where this build is the only writer.</p></li><li><strong>/data stays rollback-safe</strong>: keep field names and types an earlier build wrote; new fields are fine.</li><li><strong>The critical path fails closed with one reason</strong> (sleep, update, reset): an unreadable record refuses with a<p>single named reason and starts fresh next time.</p></li><li>An answer whose shape changes re-records its goldens and Reborn&#x27;s contract in the same change, reviewed.</li></ul>
+<h2 id="5-errors-unsafe-panics">5. Errors, <code>unsafe</code>, panics</h2>
+<ul><li>Errors are values with a reason the owner or Reborn can act on (<code>Failure</code>, <code>Result&lt;_, String&gt;</code> with a stable<p>reason text). No <code>unwrap</code> on input from disk, the kernel, D-Bus or the network.</p></li><li><code>unsafe</code> lives behind safe wrappers in <code>y2p-core::sys</code> (platform) and in the FFI crates (Reborn: media, audio,<p>graphics, platform native code). Every block has a <code>// SAFETY:</code> comment saying why it holds. A new wrapper is preferred to a new block (<code>sys::pipe</code>, <code>sys::signal_note</code>).</p></li><li>A panic is a bug. Reborn&#x27;s panic hook records one in its log and error report; the code is written so that<p>none can happen.</p></li></ul>
+<h2 id="6-comments-and-documentation">6. Comments and documentation</h2>
+<ul><li>Comments say <strong>why</strong> (the report, measurement or hardware behaviour behind a decision), not what the next line<p>does. Name the evidence: a report id, a test build, a ledger entry.</p></li><li>Open work goes into <code>docs/planning/</code>, not into the code.</li><li>A release has an owner-readable report in <code>docs/validation/</code> and the state documents are updated with it.</li></ul>
+<h2 id="7-changing-code">7. Changing code</h2>
+<ul><li><strong>Behaviour and structure change in separate commits.</strong> A pure move (split, extract, rename) is made<p>mechanically and verified by comparing the moved text with the original token for token; a behaviour change comes with a test that fails without it.</p></li><li>Every fix gets a test. A refactor keeps the test count; a renamed test is named in the commit.</li><li>Commit messages say what changed and why, in plain words; commit only after <code>GATE OK</code>, under the owner&#x27;s<p>identity, without attribution lines.</p></li><li>Nothing is pushed, tagged or published without the owner&#x27;s word.</li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

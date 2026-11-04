@@ -62,13 +62,6 @@
   background: rgba(15, 23, 42, .07);
 }
 
-@media (prefers-color-scheme: light) {
-  :root[data-lumen-theme="auto"] .lumen-doc-source code,
-  :root[data-lumen-theme="auto"] .lumen-doc-body code {
-    background: rgba(15, 23, 42, .07);
-  }
-}
-
 /* ---- The document body ---- */
 
 .lumen-doc-body {

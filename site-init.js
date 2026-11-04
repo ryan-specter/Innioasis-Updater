@@ -4,12 +4,17 @@
 (function (global) {
     "use strict";
 
+    function resolveEffectiveTheme(theme) {
+        if (theme === "auto" || theme === "light" || !theme) return "dark";
+        return (theme === "high-contrast" || theme === "2077") ? theme : "dark";
+    }
+
     function applyStoredTheme() {
-        var allowed = ["auto", "light", "dark", "high-contrast", "2077"];
+        var allowed = ["auto", "dark", "high-contrast", "2077"];
         var stored = null;
         try { stored = global.localStorage.getItem("lumen-theme"); } catch (_) {}
         var theme = allowed.indexOf(stored) >= 0 ? stored : "auto";
-        if (document.documentElement) document.documentElement.setAttribute("data-lumen-theme", theme);
+        if (document.documentElement) document.documentElement.setAttribute("data-lumen-theme", resolveEffectiveTheme(theme));
         return theme;
     }
 
@@ -99,12 +104,13 @@
         var control = document.createElement("label");
         control.id = "lumen-theme-fallback";
         control.className = "lumen-theme-control lumen-theme-control--fallback";
-        control.innerHTML = '<span>Theme</span><select aria-label="Choose site colour theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option><option value="high-contrast">High contrast</option><option value="2077">2077</option></select>';
+        control.innerHTML = '<span>Theme</span><select aria-label="Choose site colour theme"><option value="auto">Auto</option><option value="dark">Dark</option><option value="high-contrast">High contrast</option><option value="2077">2077</option></select>';
         var select = control.querySelector("select");
-        var current = document.documentElement.getAttribute("data-lumen-theme") || "auto";
-        select.value = current;
+        var stored = "auto";
+        try { stored = global.localStorage.getItem("lumen-theme") || "auto"; } catch (_) {}
+        select.value = ["auto", "dark", "high-contrast", "2077"].indexOf(stored) >= 0 ? stored : "auto";
         select.addEventListener("change", function () {
-            document.documentElement.setAttribute("data-lumen-theme", select.value);
+            document.documentElement.setAttribute("data-lumen-theme", resolveEffectiveTheme(select.value));
             try { global.localStorage.setItem("lumen-theme", select.value); } catch (_) {}
         });
         document.body.appendChild(control);

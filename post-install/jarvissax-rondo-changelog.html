@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What's new in Rondo - Innioasis Updater</title>
+  <meta name="description" content="What's new in Rondo Rondo's releases, newest first. Each one is on the releases page https://github.com/jarvissax/rondo/releases, with the firmware rom.zip for Innioasis">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/jarvissax-rondo-changelog.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="What's new in Rondo - Innioasis Updater">
+  <meta property="og:description" content="What's new in Rondo Rondo's releases, newest first. Each one is on the releases page https://github.com/jarvissax/rondo/releases, with the firmware rom.zip for Innioasis">
+  <meta property="og:url" content="https://innioasis.app/post-install/jarvissax-rondo-changelog.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="What's new in Rondo - Innioasis Updater">
+  <meta name="twitter:description" content="What's new in Rondo Rondo's releases, newest first. Each one is on the releases page https://github.com/jarvissax/rondo/releases, with the firmware rom.zip for Innioasis">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y1&amp;software=rondo-y1">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Rondo · Y1</p><h1>What&#x27;s new in Rondo</h1><p class="lumen-lead">A lightweight, custom audio operating system for the Innioasis Y1.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y1&amp;software=rondo-y1">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y1&amp;software=rondo-y1">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="whats-new-in-rondo">What&#x27;s new in Rondo</h1>
+<p>Rondo&#x27;s releases, newest first. Each one is on the <a href="https://innioasis.app/release_notes.html?author=jarvissax&amp;project=rondo&amp;software=rondo-y1">releases page</a>, with the firmware (<code>rom.zip</code>) for Innioasis Updater CE and the update for a Y1 that already runs Rondo.</p>
+<h2 id="102-november-3-2026">1.0.2 (November 3, 2026)</h2>
+<p>Nothing changes on the Y1 itself; this release is about the server.</p>
+<h3 id="server">Server</h3>
+<ul><li><strong>Update with one click.</strong> When a newer Rondo is out, the server&#x27;s admin page offers <strong>Update</strong>:<p>the server downloads the new version and restarts on it in a minute or two, keeping your settings, YouTube account and connected Y1. A small companion container, <code>rondo-updater</code>, does the work; it only ever touches the Rondo server&#x27;s own container.</p></li><li><strong>Ready-made server images.</strong> Installing the server now downloads it instead of building it, for<p>regular PCs and 64-bit ARM (Raspberry Pi 4 and 5, many NAS boxes), which makes the first start much quicker on small machines.</p></li><li><strong>Moving an older server over:</strong> a server set up before 1.0.2 built itself and has no updater<p>yet. Update it by hand once (<a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fserver.md%23keeping-it-running&amp;anchor=keeping-it-running">how</a>); after that, <strong>Update</strong> on the admin page does it.</p></li></ul>
+<h2 id="101-november-3-2026">1.0.1 (November 3, 2026)</h2>
+<p>An update over Wi-Fi, the dashboard or USB: no reinstall needed, and everything on your Y1 stays.</p>
+<h3 id="fixed">Fixed</h3>
+<ul><li><strong>Click sound stays off.</strong> Turning off <strong>Settings › Click sound</strong> (or the switch in the<p>dashboard) now lasts through a restart. Before, the Y1&#x27;s own sound profile turned the click back on every time it started.</p></li></ul>
+<h3 id="updates">Updates</h3>
+<ul><li><strong>Every release now comes with its firmware.</strong> The <code>rom.zip</code> that Innioasis Updater CE installs<p>is built automatically for each release, so a new install always gets the newest Rondo.</p></li><li><strong>Rondo knows which updates it can install.</strong> The firmware now carries a version of its own.<p>If a future release changes the firmware itself (not only Rondo), Settings › Software update, the dashboard and the update page say so and point you to Innioasis Updater CE, instead of offering an install that couldn&#x27;t work. The Y1 refuses such an update however it arrives.</p></li><li><strong>One place for news of a release.</strong> The Y1 (through your server), the dashboard and the update<p>page all learn about a new Rondo from the update page, and only once its firmware is ready, so they always agree with each other and with Innioasis Updater CE.</p></li></ul>
+<h3 id="server">Server</h3>
+<ul><li>The server&#x27;s version is now 1.0.1 as well. It reads Rondo&#x27;s updates from the update page and<p>tells a Y1 when a release needs a new firmware. Update it as described in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fserver.md%23keeping-it-running&amp;anchor=keeping-it-running">Keeping it running</a>.</p></li></ul>
+<h3 id="documentation">Documentation</h3>
+<ul><li>A new README with screenshots, and updated guides for installing, using, updating and the<p>dashboard.</p></li></ul>
+<h2 id="100-november-2-2026">1.0.0 (November 2, 2026)</h2>
+<p>The first release of Rondo as a firmware: the Y1 starts straight into Rondo, with nothing else on it. Install it with Innioasis Updater CE (Y1, Type A, then Rondo).</p>
+<ul><li>iPod-style menus for the click wheel, with optional vibration and a click on every step, and<p>wheel acceleration for long lists.</p></li><li>Your music and videos from the microSD card, with covers, lyrics, search and playlists, and<p>the card as a USB drive when the Y1 is plugged into a computer.</p></li><li>YouTube Music and YouTube, streamed live through your own Rondo server, including Shorts, with<p>or without a YouTube account.</p></li><li>FM radio with station names, scanning and saved stations.</li><li>Bluetooth headphones and speakers, and Wi-Fi, set up from the wheel.</li><li>A dashboard in your phone&#x27;s browser for music, playlists, settings, the theme, Wi-Fi,<p>Bluetooth, the radio and updates.</p></li><li>Light and dark looks, accent colors, text sizes and a main menu you can reorder.</li><li>Shut down and restart from Settings, or by holding the Power button.</li><li>Updates without reinstalling: from the Y1 over Wi-Fi, the dashboard, or the update page over<p>USB.</p></li></ul></article><p class="lumen-doc-footer-note">These are Rondo's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/jarvissax/rondo" rel="noopener">jarvissax/rondo</a> project <a class="lumen-cite" href="https://github.com/jarvissax/rondo" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Ajarvissax" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

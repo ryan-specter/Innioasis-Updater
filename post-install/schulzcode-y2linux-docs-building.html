@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Building Y2Linux from source - Innioasis Updater</title>
+  <meta name="description" content="Building Y2Linux from source This builds the kernel, the Buildroot root filesystem with the Y2Reborn player, and a first-install package that you flash with SP Flash Tool">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-building.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Building Y2Linux from source - Innioasis Updater">
+  <meta property="og:description" content="Building Y2Linux from source This builds the kernel, the Buildroot root filesystem with the Y2Reborn player, and a first-install package that you flash with SP Flash Tool">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-building.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Building Y2Linux from source - Innioasis Updater">
+  <meta name="twitter:description" content="Building Y2Linux from source This builds the kernel, the Buildroot root filesystem with the Y2Reborn player, and a first-install package that you flash with SP Flash Tool">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Building Y2Linux from source</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="building-y2linux-from-source">Building Y2Linux from source</h1>
+<p>This builds the kernel, the Buildroot root filesystem with the Y2Reborn player, and a <strong>first-install package</strong> that you flash with SP Flash Tool (<a href="https://innioasis.app/guides/reborn-y2linux-y2.html">INSTALL.md</a>). These are the same commands that produced 1.0 Beta 7.10 (Baseline 73) on the maintainer&#x27;s machine (an Arch-based Linux, x86_64). They have not yet been run on a second machine. If a step fails, please open an issue with the log.</p>
+<h2 id="1-host-requirements">1. Host requirements</h2>
+<ul><li>Linux x86_64 with about <strong>15 GB free disk</strong> (download cache about 4 GB, build about 7 GB,<p>compiler cache up to 5 GB).</p></li><li><strong>Python 3.12 or newer</strong>.</li><li><strong>bubblewrap</strong> (<code>bwrap</code>) and unprivileged user namespaces. The kernel build runs in a<p>locked, network-isolated Alpine userspace that the tools download and hash-check. You don&#x27;t need Docker.</p></li><li>The standard <strong>Buildroot host packages</strong>: <code>gcc</code>, <code>g++</code>, <code>make</code>, <code>binutils</code>, <code>patch</code>,<p><code>perl</code>, <code>rsync</code>, <code>cpio</code>, <code>unzip</code>, <code>bzip2</code>, <code>gzip</code>, <code>tar</code>, <code>file</code>, <code>bc</code>, <code>wget</code>, <code>which</code>, <code>diffutils</code>, <code>findutils</code>, <code>gawk</code>, <code>git</code>. The root filesystem is built on the host (not inside bubblewrap), so these must be installed.</p></li><li><strong>Rust via rustup</strong>, with toolchain <strong>1.99.0</strong> and the ARM target. The Buildroot recipe<p>calls <code>~/.cargo/bin/cargo</code>. Override that with <code>REBORN_CARGO=/path/to/cargo</code> if needed.</p></li></ul>
+<pre><code class="language-sh">  rustup toolchain install 1.99.0 --profile minimal \
+      --target armv7-unknown-linux-gnueabihf -c rustfmt -c clippy</code></pre>
+<ul><li><code>e2fsprogs</code> (<code>debugfs</code>, <code>e2fsck</code>), <code>util-linux</code> (<code>blkid</code>) and <code>simg2img</code><p>(Arch: <code>android-tools</code>; Debian/Ubuntu: <code>android-sdk-libsparse-utils</code>) for the firmware and packaging steps.</p></li><li>An <strong>ed25519 SSH key</strong> for root access over USB. The packaging step writes its<p>public half into the data partition.</p></li></ul>
+<pre><code class="language-sh">  ssh-keygen -t ed25519 -f ~/.ssh/y2linux_ed25519</code></pre>
+<h2 id="2-get-the-sources">2. Get the sources</h2>
+<p>Y2Linux and Y2Reborn must sit <strong>next to each other</strong> in the same parent folder. Buildroot builds Reborn from <code>../Y2Reborn</code>.</p>
+<pre><code class="language-sh">mkdir y2 &amp;&amp; cd y2
+git clone https://github.com/SchulzCode/Y2Linux.git
+git clone https://github.com/SchulzCode/Y2Reborn.git
+git -C Y2Linux checkout baseline-75
+git -C Y2Reborn checkout baseline-75
+cd Y2Linux</code></pre>
+<p>Use the tag of the release you want to rebuild (the newest is in the readme&#x27;s table and on the <a href="https://innioasis.app/release_notes.html?author=SchulzCode&amp;project=Y2Linux&amp;software=reborn-y2linux-y2">releases page</a>); both repositories carry the same tag.</p>
+<p>Keep both trees clean (no uncommitted changes). The build and packaging tools refuse dirty trees and record both commit IDs in the image. If you change anything, commit it first.</p>
+<h2 id="3-the-stock-innioasis-firmware-folder">3. The stock Innioasis firmware folder</h2>
+<p>Keep the Innioasis firmware package for the Y2, <strong>v3.2.0 FM (2026-08-13)</strong>, unpacked: the folder you would load into SP Flash Tool to reflash stock. Packaging (step 6) checks it by SHA-256 and takes the partition layout from its scatter file. It is also your only way back to stock.</p>
+<table><thead><tr><th>File in the stock folder</th><th>SHA-256</th></tr></thead><tbody><tr><td><code>boot.img</code></td><td><code>5ef1bdf28481ee0bf5f3528c1ddd91cf3f4d2d5f39e4d0ea049a8137a30f6af6</code></td></tr><tr><td><code>system.img</code></td><td><code>5a7a92f3a95374f31abe8b3ddbd68c5c2ce5677547db3d1cbc21653d24c76989</code></td></tr><tr><td><code>userdata.img</code></td><td><code>552e325ecf2faffeb9351022147bbfda3b7cebe25df491b2d732e85c5c68f27c</code></td></tr><tr><td><code>MT6582_Android_scatter.txt</code></td><td><code>e5fe03e9f3219cc9b5ead27892f2ddb722acc16adce3306d27feb87893cd977e</code></td></tr></tbody></table>
+<p><strong>Radio firmware (since Baseline 49).</strong> The Wi-Fi/Bluetooth chip needs proprietary MediaTek firmware that may not be redistributed. It is not in this repository, the build never downloads it, and <strong>no image contains it</strong>. Each player gets it once from its owner&#x27;s <code>system.img</code> (the <em>Firmware</em> drive, or <code>y2-platform firmware install /path/to/system.img</code>), checked file by file against the reviewed SHA-256 values (<a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/knowledge/evidence/m5-firmware-inventory.json" target="_blank" rel="noopener noreferrer">inventory</a>); a player that ran an older image keeps its copy across the update. See <a href="https://innioasis.app/guides/reborn-y2linux-y2.html">INSTALL</a>. <code>--owner-firmware</code> and <code>tools/connectivity/provision.py</code> are no longer needed for a build.</p>
+<h2 id="4-build">4. Build</h2>
+<pre><code class="language-sh">python3 tools/production/build.py --output out/y2-build            # your own image (all codecs)
+python3 tools/production/build.py --output out/y2-build --public   # as the public releases</code></pre>
+<p><code>--public</code> leaves out the codecs the public images may not carry (aptX/aptX HD); SBC, AAC (fdk-aac-free) and LDAC stay. Every build installs into an empty target directory.</p>
+<p>On the first run this:</p>
+<ol><li>Downloads and hash-checks the locked inputs (<code>tools/build/inputs.lock.json</code>:<p>Linux 6.18.56 and the Alpine 3.24 build userspace with LLVM 22; <code>buildroot/inputs.lock.json</code>: Buildroot 2026.08) into <code>.cache/</code>. Buildroot uses the Bootlin GCC 15.3 cross toolchain.</p></li><li>Builds the kernel inside bubblewrap with the overlays in <code>kernel/patches/</code>.</li><li>Builds the Buildroot toolchain and root filesystem on the host, including FFmpeg<p>9.0.2 and Y2Reborn (offline, from its vendored crates).</p></li><li>Builds the initramfs and device tree, and validates the artifacts.</li></ol>
+<p>A first build takes about 8–10 minutes on a 16-thread machine (kernel ≈2 min, Buildroot ≈6 min with the Bootlin cross toolchain). Buildroot builds packages in parallel (per-package directories) and keeps compiler output in <code>.cache/ccache</code>, so a later clean build is faster. Resume a stage of an existing build with <code>--resume kernel|buildroot|artifacts</code>: about 1 minute, because only packages whose inputs changed are rebuilt (Reborn, fdk-aac and bluez-alsa are tracked by their inputs; this project&#x27;s small helpers always rebuild). Logs for each stage are in <code>out/y2-build/*.log</code>. Don&#x27;t copy or move a build folder: it contains absolute paths, symlinks and library search paths of its own location; resume it in place or build afresh. The result is <code>out/y2-build/BOOTIMG.img</code> (kernel and rescue initramfs) and <code>out/y2-build/buildroot/images/</code> (root filesystem).</p>
+<h3 id="lastfm-app-key-optional">Last.fm app key (optional)</h3>
+<p>Last.fm needs an API account (last.fm/api/account/create). Put its key and shared secret, never in the source, into <code>~/.local/share/y2linux/lastfm-api.json</code> as <code>{&quot;api_key&quot;: &quot;…&quot;, &quot;shared_secret&quot;: &quot;…&quot;}</code> with <code>chmod 600</code>. The build copies it into the image as <code>/usr/share/reborn/lastfm-api.json</code> (mode 0600); without it Settings → Last.fm says the build has no key and only the <code>.scrobbler.log</code> file works.</p>
+<h2 id="5-test-optional-recommended">5. Test (optional, recommended)</h2>
+<pre><code class="language-sh">python3 tools/build/run.py --output out/y2-build -- sh /project/tools/production/tests.sh</code></pre>
+<p>This runs the platform test suite inside the locked environment (1.0 Beta 7.10: 766 cases, about 30 s). For a quick check while working, run the same test modules on the host in about 45 s (needs <code>clang</code>, <code>pyelftools</code> and <code>qemu-arm</code>; Arch: <code>python-pyelftools qemu-user</code>):</p>
+<pre><code class="language-sh">tools/development/host-tests.sh</code></pre>
+<p><code>python3 -m unittest discover</code> also collects retained historical tests that are not part of the release gate (<a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Ftests%2FREADME.md">tests/README</a>).</p>
+<p>Y2Reborn&#x27;s own tests run on the host (see the Y2Reborn README):</p>
+<pre><code class="language-sh">cd ../Y2Reborn &amp;&amp; cargo test --workspace --locked --offline</code></pre>
+<h2 id="6-make-the-first-install-package">6. Make the first-install package</h2>
+<pre><code class="language-sh">STOCK=/path/to/y2_v3.2.0_FM-20260813
+python3 tools/production/package.py \
+    --build out/y2-build \
+    --output out/y2-first-install \
+    --stock &quot;$STOCK&quot; \
+    --public-key ~/.ssh/y2linux_ed25519.pub
+
+python3 tools/production/validate.py out/y2-first-install --build out/y2-build</code></pre>
+<p><code>validate.py</code> should end with <code>PASS offline Production Storage v1</code>. <code>$STOCK</code> is the folder from step 3. A <strong>public</strong> package for a release (as on the GitHub releases page) uses <code>--public</code> instead of <code>--public-key</code>: its data image has no SSH key, its manifest no local paths, and its <code>MT6582_Android_scatter.txt</code> also writes the Y2 recovery image (<code>RECOVERY.img</code>), so one SP Flash Tool pass sets up everything (<a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2FRECOVERY-AND-UPDATES.md">why</a>). The package contains:</p>
+<table><thead><tr><th>File</th><th>Purpose</th></tr></thead><tbody><tr><td><code>BOOTIMG.img</code></td><td>Kernel and rescue initramfs (BOOTIMG partition)</td></tr><tr><td><code>Y2ROOT.img</code></td><td>Root filesystem (stock ANDROID partition)</td></tr><tr><td><code>Y2DATA.img</code></td><td>Empty data partition with your SSH public key (stock USRDATA partition)</td></tr><tr><td><code>MT6582_Android_scatter.txt</code></td><td>First install: BOOTIMG + ANDROID + USRDATA</td></tr><tr><td><code>MT6582_preserve_data_scatter.txt</code></td><td>Later updates: BOOTIMG + ANDROID only, keeps your data</td></tr><tr><td><code>manifest.json</code>, <code>SHA256SUMS</code>, <code>metadata/</code></td><td>Hashes, partition plan, licences and build inputs</td></tr><tr><td><code>install.md</code>, <code>recovery.md</code></td><td>The detailed flashing and recovery runbooks</td></tr></tbody></table>
+<p>The package must be created in <code>out/</code> from the exact commit you built, with a clean tree. <code>Y2DATA.img</code> carries your SSH public key, so it is personal: don&#x27;t share it.</p>
+<p>Continue with <a href="https://innioasis.app/guides/reborn-y2linux-y2.html">INSTALL.md</a>.</p>
+<h2 id="7-releases-maintainer">7. Releases (maintainer)</h2>
+<p><code>tools/production/release.py</code> does a release in three commands. Nothing reaches GitHub or a player before <code>publish</code>.</p>
+<pre><code class="language-sh">python3 tools/production/release.py bump --version 1.0.0-beta.7.10 --sequence 6300  # identity in both repositories
+# review, run the checks, commit Y2Linux and Y2Reborn
+python3 tools/production/release.py sync-contract                  # only after platform/crates/y2p-contract changed; commit Y2Reborn
+python3 tools/production/release.py build --label 73               # ≈2 min
+# write the report and docs, commit them (only docs/ and readme.md may change after the build)
+python3 tools/production/release.py publish --label 73 --title &quot;Y2Linux 1.0 Beta 7.10&quot; \
+    --notes notes.md --yes</code></pre>
+<p><code>build</code> resumes the one build workspace <code>out/build</code> (<code>--clean</code> rebuilds it from scratch), runs the container suite, the update package with its validation and privacy check, the ELF and installed-ARM checks, the release inventory, the first-install package and legal-info in parallel (≈30 s instead of ≈80 s one after another), signs the update with the release key, checks that no image contains MediaTek firmware and puts everything under <code>out/release-&lt;label&gt;/</code> (<code>summary.json</code> lists hashes, test count and the time of every step). The third-party package sources go into a reproducible archive named after its hash; <code>publish</code> uploads it and the Linux source archive only when no earlier release carries the identical file, and links that file otherwise. The base for the next update package is always the newest <strong>published</strong> release. <code>build</code> refuses to start while Y2Reborn&#x27;s <code>crates/y2p-contract</code> (the record types the platform and Reborn share) is not the same files as Y2Linux&#x27;s <code>platform/crates/y2p-contract</code>; change the crate in Y2Linux only and copy it with <code>sync-contract</code>.</p>
+<p>After every successful <code>build</code>, <code>out/</code> keeps only the workspace, the two newest release outputs (always including the newest published one) and the archives (<code>deep-sleep-final</code>, <code>rea</code>, <code>screenshots</code>); unused locked build environments in <code>.cache</code> go too. A build folder that the workspace still uses is never deleted. Preview with <code>release.py prune --dry-run</code>.</p>
+<h2 id="reference">Reference</h2>
+<ul><li><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fenvironment.md">Locked build environment</a> (what <code>tools/build/prepare.py</code> pins and isolates)</li><li><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fplatform-v1-reconstruction.md">Source reconstruction</a> (inputs, licences, reproducibility limits)</li><li><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fkernel-policy.md">Kernel policy</a>, <a href="https://github.com/schulzcode/y2linux/blob/HEAD/kernel/patches/manifest.json" target="_blank" rel="noopener noreferrer">overlay manifest</a></li><li>Byte-identical rebuilds are <strong>not</strong> claimed: host tools, paths and timestamps can change<p>bytes in the Buildroot part. Each package records the exact inputs it used.</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

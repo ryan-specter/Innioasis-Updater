@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 8.35 (Baseline 136) - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 8.35 Baseline 136 Status: PUBLISHED as GitHub release baseline-136 2026-10-25, installed on the owner's player before publishing. Release 1.0.0-beta.8.35">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.35.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 8.35 (Baseline 136) - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 8.35 Baseline 136 Status: PUBLISHED as GitHub release baseline-136 2026-10-25, installed on the owner's player before publishing. Release 1.0.0-beta.8.35">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.35.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 8.35 (Baseline 136) - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 8.35 Baseline 136 Status: PUBLISHED as GitHub release baseline-136 2026-10-25, installed on the owner's player before publishing. Release 1.0.0-beta.8.35">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 8.35 (Baseline 136)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-835-baseline-136">Y2Linux 1.0 Beta 8.35 (Baseline 136)</h1>
+<p>Status: <strong>PUBLISHED as GitHub release <code>baseline-136</code></strong> (2026-10-25), installed on the owner&#x27;s player before publishing. Release <code>1.0.0-beta.8.35</code>, Reborn <code>1.0.0-beta.8.35</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.8.35</code>, update sequence 9902, root <code>2026.08-platform-v1.178</code>, Linux <code>fc733e8</code>, Reborn <code>e0921a0</code>. Built with <code>tools/production/release.py</code> (106 s, resumed workspace, update based on <code>baseline-135</code>): container suite <strong>881 OK</strong>; all seal checks PASS, no MediaTek firmware in any image. Reborn host tests: 662 passed, strict Clippy clean. Milestone audit BETA-8.35 in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap-gap-audit</a>.</p>
+<table><thead><tr><th>Image</th><th>SHA-256</th></tr></thead><tbody><tr><td>BOOTIMG</td><td><code>060d80226afebf42e6a50c4cb74ce90413ab414808b6cb9bd0c1713b721d06ef</code></td></tr><tr><td>Y2ROOT</td><td><code>85dd97301b7e3e2c52781983ad117268e45f711e3e2c9afe4dadfc86fdce04e5</code></td></tr><tr><td>RECOVERY</td><td><code>829e5c771f6619322a60576d7f9ec1240a92e5494d5e25249335622dcfae4cec</code></td></tr><tr><td>Y2DATA (no SSH key)</td><td><code>e2a6885fcfe407b637eaa2457ea16c6f18b4ced510005a0942daf96c92257f39</code></td></tr></tbody></table>
+<h2 id="why">Why</h2>
+<p>A user with FiiO FH7 IEMs (19 Ω, report 94debfc2, install 02f46e9f, Beta 8.34): &quot;Not even the high gain setting can drive them properly … I can barely hear the song at 85.&quot; The report showed level High live and Master at −19.5 dB, volume 83 and a −6.9 dB headphone profile preamp, with no errors: 0 dBFS reached only ≈0.057 Vrms at the chip (ledger F45).</p>
+<h2 id="cause">Cause</h2>
+<p>Beta 8.5 to 8.34 held the DAC Master at −19.5 dB for every level so that nothing played louder than earlier builds. The loudest output was 0.106 / 0.149 / 0.183 Vrms (Low / Medium / High), against ≈0.71 on stock and 1.73 from the chip. The board probably also has ≈100 Ω in series with the jack (the chip&#x27;s load measurement reads every load 102 Ω high), which costs a 19 Ω IEM about 16 dB. Not measured: the owner has no meter, so the levels below are chosen to work with or without that resistance. Assessment and numbers: [headphone drive plan](../planning/HEADPHONE-DRIVE-PLAN.md).</p>
+<h2 id="what-changed-since-beta-834">What changed since Beta 8.34</h2>
+<table><thead><tr><th>Change</th><th>Detail</th><th>Evidence</th></tr></thead><tbody><tr><td>Master per level</td><td>Low −9 dB (≈0.35 Vrms at volume 100), Medium −6 dB (≈0.71, stock&#x27;s loudest), High 0 dB (1.73). The C sink sets −24 dB until the amplifier is up, then the Master of the level it really runs at (<code>rb_wired_masters</code>)</td><td>Reborn <code>5a40103</code>; core tests for the table</td></tr><tr><td>Volume in even dB steps</td><td>10–100: 0.6 dB a step (1.2 dB a wheel click); 1–9: 3 dB a step to −81 dB; 0 silence (squared curve before)</td><td><code>volume_steps_are_even_in_db_and_reach_silence</code></td></tr><tr><td>Safe-volume warning</td><td>Safe level = the old loudest output (−14.7 dBV): safe volume 90 / 80 / 67. Wired volume up stops there and asks <em>Raise the Volume?</em>; the agreement lapses after 20 h above it (volume back to safe). <code>rebornctl</code> cannot go above it</td><td>UI test for the dialog; device check below</td></tr><tr><td>No louder after the update or a restart</td><td>A saved volume moves once to the same output (<code>volume_scale</code>); a start on the jack and a return from Bluetooth are capped at the safe volume. The normal restore now also gives the wired volume back after a Bluetooth absolute-volume session, as the recovery path did</td><td>migration test over all levels and volumes (never louder, within one step)</td></tr><tr><td>A level change keeps the loudness</td><td>A higher level lowers the volume at once; a lower level raises the number only for the new stream, after the old one is released</td><td><code>a_level_change_keeps_the_output_where_the_volume_reaches_it</code></td></tr></tbody></table>
+<p>No kernel, platform, memory map, partition or packaging change.</p>
+<h2 id="device-results-owners-player-build-136">Device results (owner&#x27;s player, build 136)</h2>
+<table><thead><tr><th>Check</th><th>Result</th></tr></thead><tbody><tr><td>Install by OTA staging</td><td>sequence 9902 Acknowledged; install ≈18 s</td></tr><tr><td>Volume migration</td><td>Low, volume 80 (old scale) → 76, <code>volume_scale</code> 1</td></tr><tr><td>Low live</td><td><code>HP Output Level Live</code> Low, Master 237 = −9.0 dB, reported <code>hardware_mixer_gain_db</code> −9.0</td></tr><tr><td>Level changes while playing (owner, 6 changes Low/Medium/High)</td><td>each a clean stream restart (<code>sink_reopened</code> reason <code>wired_settings</code>), fade-in on a rise; High live with Master 255 = 0 dB</td></tr><tr><td>Warning</td><td>dialog shown at High&#x27;s safe volume 67 (screenshot); <em>Raise Volume</em> logged <code>loud_volume_allowed</code>; volume up then passed 67 (71), <code>loud_seconds</code> counting</td></tr></tbody></table>
+<h2 id="open">Open</h2>
+<ul><li>Output not measured with a meter; the series resistance is still an inference.</li><li>Not tried on a device: the 20-hour lapse, the cap on a return from Bluetooth, a restart with a volume above the<p>safe level, distortion at High full scale on a low battery.</p></li><li>Owner feedback: at the same volume it is not louder (by design: the level change and the migration keep the<p>loudness); the extra range is above the safe volume after the warning.</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

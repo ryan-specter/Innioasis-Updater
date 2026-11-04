@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AVRCP Metadata Architecture - Innioasis Updater</title>
+  <meta name="description" content="AVRCP Metadata Architecture How the Innioasis Y1 delivers AVRCP 1.3 metadata Title/Artist/Album/TrackNumber/TotalNumberOfTracks/Genre/PlayingTime to peer Controllers, giv">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/ryan-specter-koensayr-auto-docs-architecture.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="AVRCP Metadata Architecture - Innioasis Updater">
+  <meta property="og:description" content="AVRCP Metadata Architecture How the Innioasis Y1 delivers AVRCP 1.3 metadata Title/Artist/Album/TrackNumber/TotalNumberOfTracks/Genre/PlayingTime to peer Controllers, giv">
+  <meta property="og:url" content="https://innioasis.app/post-install/ryan-specter-koensayr-auto-docs-architecture.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AVRCP Metadata Architecture - Innioasis Updater">
+  <meta name="twitter:description" content="AVRCP Metadata Architecture How the Innioasis Y1 delivers AVRCP 1.3 metadata Title/Artist/Album/TrackNumber/TotalNumberOfTracks/Genre/PlayingTime to peer Controllers, giv">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y1&amp;software=koensayr-y1">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Koensayr · Y1</p><h1>AVRCP Metadata Architecture</h1><p class="lumen-lead">A Y1 custom Software maintained by the community.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y1&amp;software=koensayr-y1">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y1&amp;software=koensayr-y1">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="avrcp-metadata-architecture">AVRCP Metadata Architecture</h1>
+<p>How the Innioasis Y1 delivers AVRCP 1.3 metadata (Title/Artist/Album/TrackNumber/TotalNumberOfTracks/Genre/PlayingTime) to peer Controllers, given that the OEM Bluetooth stack is fundamentally an AVRCP 1.0 implementation that auto-rejects 1.3+ commands. We advertise 1.3 over AVCTP 1.2 (<code>patch_mtkbt.py</code> V1/V2, with ESR07 §2.1 / Erratum 4969 SDP-record clarifications applied) and implement the 1.3 metadata feature set: <code>GetCapabilities</code> 0x10, <code>InformDisplayableCharacterSet</code> 0x17, <code>InformBatteryStatusOfCT</code> 0x18, <code>GetElementAttributes</code> 0x20 (all 7 Appendix E attributes in one packed response), <code>GetPlayStatus</code> 0x30 (with <code>clock_gettime(CLOCK_BOOTTIME)</code> live-position extrapolation), and <code>RegisterNotification</code> 0x31 with INTERIM coverage of events 0x01..0x08 + 0x09..0x0c and proactive CHANGED-on-edge for 0x01 / 0x02 / 0x05 / 0x08 / 0x09. Advertised set: <code>{0x01, 0x02, 0x05, 0x08, 0x09, 0x0a, 0x0b, 0x0c}</code>. Event 0x06 BATT_STATUS has T8 INTERIM + T9 CHANGED dispatch but is not in the advertised set; T9 still emits CHANGED if a permissive CT subscribes to it. The four 1.4+ event IDs 0x09-0x0c are INTERIM-acked (zero payload for 0x09/0x0a; PlayerID/UidCounter zero for 0x0b/0x0c — Y1 has one player, no Now Playing folder, no UID database). NowPlayingContentChanged (ev=0x09) gets a CHANGED emit on every track and play-state edge — some CTs use NowPlayingContent CHANGED (not TrackChanged CHANGED) as their primary metadata-refresh trigger, falling back to ~20 s polling without it. Matches the pattern observed in reference-TG btsnoop captures (advertise + INTERIM-ack the 1.4+ events on a 1.3 profile descriptor; emit NowPlaying CHANGED per edge). F1&#x27;s MtkBt-internal-version flip is a Java-side dispatcher-unblock flag (BlueAngel internal value), not a wire-shape upgrade. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FBT-COMPLIANCE.md"><code>BT-COMPLIANCE.md</code></a> §0 for spec-citation discipline and §2 for the ICS Table 7 coverage scorecard.</p>
+<p>This document covers the <strong>full proxy architecture</strong>: the trampoline chain that intercepts inbound AVRCP commands in <code>libextavrcp_jni.so</code>, calls the existing C response-builder functions (which were never wired up by the OEM Java side), and delivers spec-compliant 1.3 responses on the wire.</p>
+<p>For <strong>per-patch byte details</strong>: see <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FPATCHES.md"><code>PATCHES.md</code></a>. For <strong>investigation history</strong> (how we got here): see <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FINVESTIGATION.md"><code>INVESTIGATION.md</code></a>. For <strong>AVRCP 1.3 spec-coverage state</strong>: see <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FBT-COMPLIANCE.md"><code>BT-COMPLIANCE.md</code></a>.</p>
+<hr>
+<h2 id="tldr">TL;DR</h2>
+<p>Two independent data paths cross this stack:</p>
+<p><strong>Inbound metadata (CT → TG response).</strong> A peer CT sends a stock AVRCP 1.3+ AV/C COMMAND → mtkbt routes it through msg-519 (P1 patch) → <code>libextavrcp_jni.so::saveRegEventSeqId</code> is intercepted at file 0x6538 (R1 patch) → a chain of trampolines (T1 / T2 stub / extended_T2 / T4 / T5 / T_charset / T_battery / T_continuation / T6 / T_papp / T8 / T9) inspects the inbound PDU byte (and event_id, for PDU 0x31), reads <code>y1-track-info</code> via <code>mmap</code> (shared inode with the music app&#x27;s writer; reads served from the kernel page cache) and trampoline state via <code>.bss</code> (zero syscalls), and calls the matching <code>btmtk_avrcp_send_*_rsp</code> PLT entry directly → mtkbt builds a real AVRCP 1.3 response frame and emits it on the wire → the CT displays the metadata.</p>
+<p><strong>AVRCP-driven control input (CT → music app).</strong> A peer CT sends an AVRCP PASSTHROUGH op_id (0x44 PLAY / 0x46 PAUSE / 0x45 STOP / 0x4B NEXT / 0x4C PREV) → mtkbt → <code>libextavrcp_jni.so</code> injects an EV_KEY into <code>/dev/input/event4</code> (uinput) → kernel input → <code>AVRCP.kl</code> → <code>KEYCODE_MEDIA_*</code> → BaseActivity (Patch H propagates discrete keys past the foreground activity) → AudioService → <code>ACTION_MEDIA_BUTTON</code> → <code>PlayControllerReceiver</code> → Patch E&#x27;s discrete-key dispatch → <code>PlayerService.play(true)</code> / <code>pause(0x12, true)</code> / <code>stop()</code>.</p>
+<p>The trampolines live in unused / repurposed JNI debug methods (<code>testparmnum</code>, <code>classInitNative</code>) and in the page-alignment padding past the original LOAD #1 segment end (extended via <code>FileSiz</code> / <code>MemSiz</code> program-header surgery). The two paths share no state — touching trampolines does not affect control-input dispatch, and touching MediaButton / RCC registration does not affect trampoline-driven metadata. The cross-component-state-dependencies table near the bottom of this doc enumerates every shared surface explicitly.</p>
+<hr>
+<h2 id="why-a-proxy">Why a proxy</h2>
+<p>mtkbt is compiled internally as <strong>AVRCP 1.0</strong> (compile-time tag, runtime <code>register activeVersion:10</code>) regardless of what we advertise in SDP. Its inbound dispatcher in <code>fn 0x144bc</code> originally silent-dropped any <code>op_code != 0x7c</code> (i.e. anything that wasn&#x27;t PASSTHROUGH). Java AVRCP TG (<code>BluetoothAvrcpService</code> / <code>BTAvrcpMusicAdapter</code> in MtkBt.apk) is essentially a stub — <code>getElementAttributesRspNative</code> is <strong>declared</strong> but <strong>never called</strong> from any Java code path in the de-odex&#x27;d dex.</p>
+<p>But the C response-builder functions exist and are correct:</p>
+<table><thead><tr><th>PLT @</th><th>Symbol</th><th>What it sends</th></tr></thead><tbody><tr><td>0x35dc</td><td><code>btmtk_avrcp_send_get_capabilities_rsp</code></td><td>msg=522 — GetCapabilities response</td></tr><tr><td>0x3384</td><td><code>btmtk_avrcp_send_reg_notievent_track_changed_rsp</code></td><td>msg=544 — RegisterNotification(TRACK_CHANGED) INTERIM</td></tr><tr><td>0x339c</td><td><code>btmtk_avrcp_send_reg_notievent_playback_rsp</code></td><td>msg=544 — RegisterNotification(PLAYBACK_STATUS_CHANGED) INTERIM</td></tr><tr><td>0x3570</td><td><code>btmtk_avrcp_send_get_element_attributes_rsp</code></td><td>msg=540 — GetElementAttributes response (multi-attribute capable)</td></tr><tr><td>0x3624</td><td><code>btmtk_avrcp_send_pass_through_rsp</code></td><td>msg=520 — PASSTHROUGH ack / NOT_IMPLEMENTED reject</td></tr></tbody></table>
+<p>The trampolines call these directly. No new IPC, no Java surgery for the core handshake.</p>
+<hr>
+<h2 id="lower-bt-profile-stack-a2dp--avdtp--avctp--gavdp">Lower BT profile stack (A2DP / AVDTP / AVCTP / GAVDP)</h2>
+<p>AVRCP doesn&#x27;t run in a vacuum. It rides on AVCTP, which rides on L2CAP. Audio rides on A2DP, which rides on AVDTP, which is signalled via GAVDP, which rides on L2CAP. All four lower profiles are implemented in a single MediaTek &quot;BlueAngel&quot; daemon (<code>/system/bin/mtkbt</code>). A handful of <code>.so</code> files surround it as adapters / shims / userspace plumbing. There is no separate <code>libavctp.so</code> / <code>libavdtp.so</code> / <code>libgavdp.so</code>; everything from L2CAP up through AVRCP TG lives inside <code>mtkbt</code>.</p>
+<h3 id="where-each-profile-lives">Where each profile lives</h3>
+<p>Source-tree fingerprint (paths embedded in <code>mtkbt</code> strings — confirms BlueAngel internal codebase):</p>
+<table><thead><tr><th>Profile</th><th>BlueAngel source files (inside mtkbt)</th><th>External adapter / shim</th></tr></thead><tbody><tr><td>L2CAP</td><td><code>btcore/btstack/stack/l2cap/{l2cap,l2cap_if,l2cap_sm,l2cap_utl}.c</code></td><td>—</td></tr><tr><td>HCI</td><td><code>btcore/btstack/stack/hci/{hci,hci_evnt,hci_proc,hci_util,hci_meta,hci_amp}.c</code></td><td>—</td></tr><tr><td>AVCTP</td><td><code>btcore/btstack/stack/avctp/{avctp,avctpcon,avctpmsg}.c</code></td><td>—</td></tr><tr><td>AVDTP</td><td><code>btcore/btstack/stack/avdtp/{avdtp,avsigmgr}.c</code></td><td>—</td></tr><tr><td>GAVDP</td><td><code>btcore/btstack/stack/gavdp/gavdp.c</code></td><td>—</td></tr><tr><td>A2DP</td><td><code>btcore/btprofiles/a2dp/a2dp.c</code></td><td><code>libmtka2dp.so</code> (userspace stream socket), <code>libmtkbtextadpa2dp.so</code> (Java↔mtkbt shim), <code>libaudio.a2dp.default.so</code> (legacy AOSP <code>a2dp.default</code> HAL)</td></tr><tr><td>AVRCP TG</td><td><code>btcore/btprofiles/avrcp/{avrcp,avrcpevent,avrcputil}.c</code> + <code>btadp_int/profiles/avrcp/bt_adp_avrcp.c</code></td><td><code>libextavrcp.so</code> (response builders), <code>libextavrcp_jni.so</code> (JNI bridge — our trampoline host)</td></tr></tbody></table>
+<p>mtkbt internal version tag: <code>[AVRCP] AVRCP V10 compiled</code> — built against AVRCP 1.0. F1&#x27;s BlueAngel-internal version flip unblocks 1.3+ command dispatch in the Java layer; the wire-shape upgrade is what our trampolines provide.</p>
+<h3 id="avctp--transport-for-avrcp">AVCTP — transport for AVRCP</h3>
+<p>L2CAP PSM 0x17 (signaling channel). Browse PSM 0x1B exists in mtkbt code paths but is dead code — Browse-related strings (<code>[AVRCP][BWS] No av/c parse</code>, <code>[AVRCP][BWS] Receive browse-packet</code>) are from a later AVRCP version that we don&#x27;t claim in our SDP record (V1 patch advertises 1.3, not 1.4+).</p>
+<p><strong>MTU bookkeeping</strong>:</p>
+<pre><code>[AVRCP] AVRCP_NUM_TX_PACKETS:4 AVRCP_MAX_PACKET_LEN:512</code></pre>
+<p>advertised at AVRCP service init. Per-packet ceiling enforced via the runtime check <code>(10 + u2MtuPayload) &lt;= 512</code> — anything above the ceiling triggers one of <code>MTU violation 1..5</code> log lines and the packet is dropped. <code>4 × 512 = 2048</code> is the practical ceiling for fragmented AVRCP responses.</p>
+<p><strong>AVCTP packet types</strong> (from <code>cmdFrame-&gt;type</code> / <code>rawFrame-&gt;type</code> log fields, and the <code>pkt_type</code> 2-bit field at byte 0 of every AVCTP frame):</p>
+<table><thead><tr><th>pkt_type</th><th>Meaning</th></tr></thead><tbody><tr><td>0</td><td>SINGLE — entire AV/C body in one AVCTP packet</td></tr><tr><td>1</td><td>START — first fragment of a multi-fragment AV/C body; byte 1 = num_packets</td></tr><tr><td>2</td><td>CONTINUE — middle fragment</td></tr><tr><td>3</td><td>END — final fragment</td></tr></tbody></table>
+<p>Fragmentation is mandatory at the AVCTP layer when the AV/C body exceeds the negotiated AVCTP MTU. mtkbt&#x27;s outbound path implements this transparently to AVRCP — the <code>AVRCP_SendMessage</code> IPC frame size (e.g., the <code>len=644 size=672</code> we observe in EXTADP_AVRCP logs for <code>GetElementAttributes</code> responses) is the IPC payload, which mtkbt then fragments into multiple AVCTP packets if the body &gt; AVCTP MTU.</p>
+<p><strong>AVCTP transaction model</strong> (events visible at the JNI boundary as <code>AVCTP_EVENT:N</code>):</p>
+<table><thead><tr><th>EVENT</th><th>Direction</th><th>Meaning</th></tr></thead><tbody><tr><td>1</td><td>inbound</td><td><code>CONNECT_IND</code> — peer opened the AVCTP signaling channel</td></tr><tr><td>2</td><td>inbound</td><td><code>DISCONNECT_IND</code> — peer closed</td></tr><tr><td>4</td><td>inbound</td><td><code>DATA_IND</code> — peer sent an AV/C COMMAND</td></tr><tr><td>7</td><td>outbound</td><td><code>DATA_CFM</code> — confirmation that our outbound write completed (verified empirically — paired 1:1 with EVENT:4 at the lib level for COMMAND/RESPONSE round-trips)</td></tr></tbody></table>
+<h3 id="avdtp--gavdp--transport--setup-for-a2dp">AVDTP + GAVDP — transport + setup for A2DP</h3>
+<p>AVDTP runs on L2CAP PSM 0x19 (separate channels for signaling and media stream). GAVDP is the role-coordinator profile that sits above AVDTP and below A2DP — it handles SEP discovery, capability negotiation, and stream lifecycle.</p>
+<p><strong>Codec scope</strong>: <code>[GAVDP][GavdpAvdtpEventCallback][AVDTP_EVENT_CAPABILITY]not AVDTP_CODEC_TYPE_SBC</code> — non-SBC stream endpoints are rejected by <code>try another SEP</code> fallback. Only SBC sinks are accepted.</p>
+<p><strong>AVDTP signal codes</strong> (sig_id field at byte 1 of every AVDTP signaling frame; only the codes we have confirmed in mtkbt code are listed):</p>
+<table><thead><tr><th>sig_id</th><th>Operation</th><th>Spec § (AVDTP 1.3)</th></tr></thead><tbody><tr><td>0x01</td><td>DISCOVER</td><td>§8.6</td></tr><tr><td>0x02</td><td>GET_CAPABILITIES</td><td>§8.7</td></tr><tr><td>0x03</td><td>SET_CONFIGURATION</td><td>§8.9</td></tr><tr><td>0x04</td><td>GET_CONFIGURATION</td><td>§8.10</td></tr><tr><td>0x05</td><td>RECONFIGURE</td><td>§8.11</td></tr><tr><td>0x06</td><td>OPEN</td><td>§8.12</td></tr><tr><td>0x07</td><td>START</td><td>§8.13</td></tr><tr><td>0x08</td><td>CLOSE</td><td>§8.14</td></tr><tr><td>0x09</td><td>SUSPEND</td><td>§8.15</td></tr><tr><td>0x0a</td><td>ABORT</td><td>§8.16</td></tr><tr><td>0x0b</td><td>SECURITY_CONTROL</td><td>§8.17</td></tr><tr><td>0x0c</td><td>GET_ALL_CAPABILITIES</td><td>§8.8 (1.3 addition)</td></tr><tr><td>0x0d</td><td>DELAYREPORT</td><td>§8.19</td></tr></tbody></table>
+<p><strong>State machine surface</strong> (visible state names from log strings — most transitions are silent):</p>
+<ul><li><code>GAVDP_STATE_DEINITIALIZING</code> (init/teardown path)</li><li><code>AVDP_STATE_SIG_PASSIVE_DISCONNECTING</code> / <code>AVDP_STATE_SIG_PASSIVE_DISCONNECTED</code> (signaling channel teardown)</li><li><code>AVDTP_EVENT_CAPABILITY</code> / <code>AVDTP_EVENT_GET_CAP_CNF</code> / <code>AVDTP_EVENT_STREAM_CLOSED</code> (event names emitted by AVDTP into GAVDP via <code>GavdpAvdtpEventCallback</code>)</li></ul>
+<p>The full state graph isn&#x27;t logged in production — confirming any transition beyond what&#x27;s visible above requires disassembly of <code>avdtp.c</code> / <code>avsigmgr.c</code> / <code>gavdp.c</code> symbols.</p>
+<h3 id="a2dp-source-state">A2DP source state</h3>
+<p>A2DP is the only one of the four lower profiles with a userspace bridge: <code>libmtka2dp.so</code> opens <code>/dev/socket/bt.a2dp.stream</code> (an abstract Unix socket created by mtkbt) and shuttles SBC-encoded audio frames from the legacy AOSP <code>a2dp.default</code> HAL to mtkbt&#x27;s AVDTP source.</p>
+<p><strong>The HAL → BT stack chain</strong>:</p>
+<pre><code>AudioFlinger (audioflinger process)
+   ↓ writes audio frames
+A2dpAudioStreamOut::write()  (libaudio.a2dp.default.so)
+   ↓ writes to /dev/socket/bt.a2dp.stream
+libmtka2dp.so (linked into the BT process)
+   ↓ MSG_ID_BT_A2DP_STREAM_DATA_*
+mtkbt internal A2DP source state machine
+   ↓ packetizes as RTP-over-AVDTP MEDIA
+peer A2DP sink</code></pre>
+<p><strong>A2DP source state machine</strong> (function names from <code>libmtkbtextadpa2dp.so</code> exports — these are the IPC entry points mtkbt uses):</p>
+<table><thead><tr><th>State change</th><th>Function</th></tr></thead><tbody><tr><td>OPEN_REQ / IND / CNF</td><td><code>btmtk_a2dp_send_stream_open_req</code> / <code>_handle_stream_open_ind</code> / <code>_handle_stream_open_cnf</code></td></tr><tr><td>START_REQ / IND / CNF</td><td><code>btmtk_a2dp_send_stream_start_req</code> / <code>_handle_stream_start_ind</code> / <code>_handle_stream_start_cnf</code></td></tr><tr><td>SUSPEND (<code>pause</code>) REQ / IND / CNF</td><td><code>btmtk_a2dp_send_stream_pause_req</code> / <code>_handle_stream_suspend_ind</code> / <code>_handle_stream_suspend_cnf</code></td></tr><tr><td>CLOSE_REQ / IND / CNF</td><td><code>btmtk_a2dp_send_stream_close_req</code> / <code>_handle_stream_close_ind</code> / <code>_handle_stream_close_cnf</code></td></tr><tr><td>ABORT_REQ / IND / CNF</td><td><code>btmtk_a2dp_send_stream_abort_req</code> / <code>_handle_stream_abort_ind</code> / <code>_handle_stream_abort_cnf</code></td></tr><tr><td>RECONFIGURE_REQ / RES</td><td><code>btmtk_a2dp_send_stream_reconfig_req</code> / <code>_send_stream_reconfig_res</code></td></tr><tr><td>Direct AVDTP SUSPEND</td><td><code>btmtk_a2dp_pause_immediately</code></td></tr></tbody></table>
+<p><code>btmtk_a2dp_send_stream_pause_req</code> emits AVDTP SUSPEND on the wire. <code>btmtk_a2dp_pause_immediately</code> is a synchronous wrapper. Both are reachable from mtkbt-internal IPC handlers — neither is called from <code>libaudio.a2dp.default.so</code> directly.</p>
+<p><strong><code>A2dpAudioStreamOut::standby_l</code> (legacy HAL)</strong> at <code>libaudio.a2dp.default.so:0x8654</code>:</p>
+<pre><code>8654: push {r3,r4,r5,lr}
+8658: mov  r4, r0
+865c: ldrb r3, [r0, #8]              ; r3 = mStandby
+...
+86a0: ldrb r5, [r4, #48]
+86a4: cmp  r5, #0
+86a8: beq  8684                      ; AH1 patches this to `b 8684` — always skip a2dp_stop
+86ac: ldr  r0, [r4, #40]
+86b0: bl   a2dp_stop@plt              ; only HAL-side path that emits AVDTP SUSPEND
+86b4: mov  r5, r0
+86b8: b    8684                      ; release_wake_lock + mStandby=1 + return r5</code></pre>
+<p><code>a2dp_stop</code> at vaddr <code>0x86b0</code> is the <strong>only</strong> HAL-side path that would emit AVDTP SUSPEND on the wire. AudioFlinger calls <code>standby_l</code> after a ~3 s silence-timeout when the music app stops writing samples. <code>patch_libaudio_a2dp.py</code> (AH1) flips the conditional <code>beq 8684</code> at <code>0x86a8</code> to an unconditional <code>b 8684</code>, making the call site at <code>0x86b0</code> unreachable. Standby still completes (release_wake_lock, mStandby = 1, return 0); the AVDTP stream is left alive across pauses. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FPATCHES.md"><code>PATCHES.md</code></a> §<code>patch_libaudio_a2dp.py</code> for the byte-level reference.</p>
+<h3 id="cross-profile-coupling-gaps-relevant-to-avrcp-13">Cross-profile coupling gaps relevant to AVRCP 1.3</h3>
+<p>These are the spec-conformance deviations that affect AVRCP-1.3-class controllers in the wild. Each is filed for the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FBT-COMPLIANCE.md"><code>BT-COMPLIANCE.md</code></a> §9 plan:</p>
+<table><thead><tr><th>#</th><th>Coupling gap</th><th>What spec says</th><th>What Y1 currently does</th></tr></thead><tbody><tr><td>1</td><td><strong>AVRCP META CONTINUING_RESPONSE (PDUs 0x40 / 0x41)</strong></td><td>AVRCP 1.3 §5.5: when a TG response exceeds the CT-buffer / AVCTP-MTU budget, TG sends packet_type=START with the first chunk and waits for CT to send <code>RequestContinuingResponse</code> (0x40). TG then sends CONTINUE / END chunks until the response is exhausted. C.2 makes this Mandatory if <code>GetElementAttributes Response</code> is supported.</td><td>T_continuation explicit-rejects 0x40 / 0x41 with AV/C NOT_IMPLEMENTED. Spec-acceptable today (TG never fragments since each attribute is capped at 240 B); a strict CT with a small buffer would lose metadata mid-fragment.</td></tr><tr><td>2</td><td><strong>AVRCP playback state ↔ AVDTP source state</strong></td><td>AVDTP 1.3 §8.14 / §8.15: when AVRCP TG transitions to PAUSED, the A2DP source should keep the AVDTP stream paused (NOT torn down); SUSPEND is reserved for explicit policy changes.</td><td><code>patch_libaudio_a2dp.py</code> (AH1) flips <code>beq 8684</code> to unconditional <code>b 8684</code> at <code>libaudio.a2dp.default.so:0x86a8</code>, making the call to <code>a2dp_stop@plt</code> inside <code>standby_l</code> unreachable. Silence-timeout standby leaves the AVDTP source stream alive; the next <code>write()</code> after PLAYING resumes pushes samples into the same session.</td></tr><tr><td>3</td><td><strong>Per-attribute size cap in <code>…send_get_element_attributes_rsp</code></strong></td><td>AVRCP 1.3 §5.3.1 Table 5.24 places no per-attribute byte cap; TG fragments via §5.5 if total response doesn&#x27;t fit.</td><td><code>libextavrcp.so:0x2188</code> enforces a 511-byte per-attribute hard cap and emits <code>[BT][AVRCP][ERR] too large attr_index:%d</code> then drops the attribute on overflow. The music app&#x27;s <code>TrackInfoWriter.putUtf8Padded</code> caps each string attribute at 240 B (codepoint-safe) before it lands in <code>y1-track-info</code>, well below the OEM 511 limit, so the silent-drop branch never fires for content we ship.</td></tr><tr><td>4</td><td><strong>AVCTP transaction-label management</strong></td><td>AVCTP 1.2 §6.1.1: TG response transaction label must match the inbound COMMAND label (4-bit field at byte 0 high nibble of the Non-Fragmented AVCTP Message header).</td><td>mtkbt routes <code>transId</code> from <code>conn[17]</code> into every response builder, but the response builders (<code>…send_*_rsp</code>) are responsible for stamping it into byte 5 of the IPC frame. This appears correct for everything we&#x27;ve shipped — flagged here for completeness, no observed deviation.</td></tr></tbody></table>
+<p>The complete cross-profile dependency table (state files, broadcasts, IBinder fields, etc.) lives in the &quot;Cross-component state dependencies&quot; section near the bottom of this doc. The four entries above are the spec-conformance deviations specifically; the table at the bottom catalogues runtime state crossings.</p>
+<hr>
+<h2 id="how-mtkbt-discovers-and-binds-to-y1bridge">How MtkBt discovers and binds to Y1Bridge</h2>
+<p>For metadata + state-event delivery to peer CTs, two things must be true at runtime:</p>
+<ol><li><strong>The trampoline chain in <code>libextavrcp_jni.so</code> reads <code>y1-track-info</code> via mmap and reads/writes trampoline edge state via <code>.bss</code>.</strong> <code>y1-track-info</code> lives at <code>/data/data/com.innioasis.y1/files/y1-track-info</code> and is mmap&#x27;d into the BT process&#x27;s address space; per-emit reads are memory loads (no syscall). Trampoline edge state (last-seen track_id / play_status / battery / repeat / shuffle) lives at vaddr <code>0xd2d6</code> in <code>libextavrcp_jni.so</code>&#x27;s <code>.bss</code>. This depends only on the music app&#x27;s <code>TrackInfoWriter</code> having created and populated <code>y1-track-info</code>; it does not depend on any Binder being bound.</li><li><strong>MtkBt&#x27;s <code>BTAvrcpMusicAdapter</code> has a live <code>IBTAvrcpMusic</code> Binder reference to <code>MediaBridgeService</code>.</strong> This is required because <code>MtkBt.odex</code> gates its 1.3-class Java dispatch on <code>sPlayServiceInterface</code>, a static byte field that&#x27;s set when the bind succeeds and reset by F2 on disable. With it false, the Java layer&#x27;s AVRCP-event-callback paths short-circuit and the AVRCP wire defaults to the compile-time AVRCP 1.0 dispatch.</li></ol>
+<h3 id="bind-action-and-resolution">Bind action and resolution</h3>
+<p><code>BTAvrcpMusicAdapter.checkAndBindPlayService(boolean)</code> (DEX method idx 1613) calls <code>Context.bindService(Intent, ServiceConnection, BIND_AUTO_CREATE)</code>. The Intent&#x27;s action is the literal string <code>&quot;com.android.music.MediaPlaybackService&quot;</code> (verified at MtkBt.dex string-pool offset <code>0x075d65</code>). No <code>setPackage</code> qualifier, no <code>setComponent</code>.</p>
+<p>PackageManager resolves via Android&#x27;s standard intent matching. Y1Bridge declares the only matching <code>&lt;service&gt;</code> on the device:</p>
+<pre><code class="language-xml">&lt;service android:name=&quot;.MediaBridgeService&quot; android:enabled=&quot;true&quot; android:exported=&quot;true&quot;&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;com.android.music.MediaPlaybackService&quot; /&gt;
+    &lt;/intent-filter&gt;
+&lt;/service&gt;</code></pre>
+<p>The music app (<code>com.innioasis.y1</code>) does NOT export any service with this action — its manifest can&#x27;t be modified safely. <code>com.innioasis.y1</code> declares <code>sharedUserId=&quot;android.uid.system&quot;</code>, which constrains the package&#x27;s signing key to the OEM platform key. Any change to AndroidManifest.xml bytes invalidates <code>META-INF/MANIFEST.MF</code>&#x27;s SHA1-Digest, causing PackageManager to reject the package at /system/app/ scan with &quot;no certificates at entry AndroidManifest.xml; ignoring!&quot;. JarVerifier doesn&#x27;t digest-check classes.dex / classes2.dex / resources at scan time, which is why our DEX-only smali edits work. So <code>bindService</code> unambiguously resolves to <code>com.koensayr.y1.bridge/.MediaBridgeService</code>, and Y1Bridge hosts the Binder — the music app&#x27;s <code>TrackInfoWriter</code> is the canonical writer for AVRCP state.</p>
+<p><strong>No <code>AudioManager</code> involvement in service discovery.</strong> A targeted dex scan of MtkBt.dex turned up zero references to <code>getMediaButtonReceiver</code>, <code>registerMediaButtonEventReceiver</code>, <code>dispatchMediaKeyEvent</code>, <code>getCurrentMediaPlaybackService</code>, or <code>getActiveMediaClient</code>. MtkBt&#x27;s AudioManager use is exclusively volume control (<code>setStreamVolume</code> / <code>getStreamVolume</code> / <code>getStreamMaxVolume</code>).</p>
+<h3 id="splayserviceinterface--the-bind-gate"><code>sPlayServiceInterface</code> — the bind gate</h3>
+<p><code>field@1267</code>, static byte (declared as <code>private static boolean</code> but written via <code>sput-byte</code> opcode). 4 writes + 5 reads across the dex. The bind site at <code>BTAvrcpMusicAdapter.startToBindPlayService()</code> follows this pattern:</p>
+<pre><code class="language-dalvik">sget-boolean v2, sPlayServiceInterface  ; @ dex 0x3df14 — gate read
+if-nez v2, +0x0003                       ; @ dex 0x3df18 — early return if already true
+return-void                               ; @ dex 0x3df1c
+sput-byte v7, sPlayServiceInterface     ; @ dex 0x3df1e — claim slot before bind
+... bindService(Intent(&quot;com.android.music.MediaPlaybackService&quot;), ...) ...</code></pre>
+<p>Within a single BT-enable cycle, the flag prevents double-init. <strong>F2 patches <code>BluetoothAvrcpService.disable()</code> to reset the flag to false</strong> so a subsequent re-enable doesn&#x27;t see stale-true and skip re-init. Without F2, the second BT-enable would call <code>notifyProfileState(STATE_ENABLED)</code> immediately (because <code>sPlayServiceInterface</code> looks already-initialized), which Android&#x27;s BT framework interprets as &quot;service is up&quot;, which causes <code>stopSelf</code> and tear-down before any peer CT can connect.</p>
+<h3 id="bind-lifecycle">Bind lifecycle</h3>
+<table><thead><tr><th>Event</th><th>What MtkBt does</th></tr></thead><tbody><tr><td>BT enable / AVRCP profile activation</td><td><code>BTAvrcpMusicAdapter.init()</code> → <code>checkAndBindPlayService(true)</code> → <code>startToBindPlayService()</code> reads <code>sPlayServiceInterface</code>. If false, sets it true and calls <code>bindService</code>.</td></tr><tr><td><code>onServiceConnected</code> callback</td><td><code>BTAvrcpMusicAdapter$4.onServiceConnected</code> (DEX class idx 1583) fires when bind completes. Stores the IBinder in <code>mMusicService</code>. Wraps as both <code>IBTAvrcpMusic.Stub.asInterface(binder)</code> and <code>IMediaPlaybackService.Stub.asInterface(binder)</code> — Y1Bridge&#x27;s <code>AvrcpBinder</code> (in <code>src/Y1Bridge/</code>) returns the same IBinder for both interfaces and dispatches <code>onTransact</code> by transact code (descriptor skipped). Invokes <code>IBTAvrcpMusic.getCapabilities()</code> (transact 5) to enumerate event support.</td></tr><tr><td>Peer CT subscribes / queries metadata</td><td>MtkBt&#x27;s Java path queries <code>getCapabilities</code> once at bind, then never transacts again (verified empirically against a permissive CT — see <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FINVESTIGATION.md"><code>INVESTIGATION.md</code></a>). The C-side trampolines deliver every CT-visible AVRCP PDU on the wire directly. <code>AvrcpBinder</code> ack-only&#x27;s every other transact code, which is sufficient. The Binder presence is what flips <code>sPlayServiceInterface=true</code> and unblocks the cardinality-NOP-driven Java native paths that wake T5 / T9 in response to the music app&#x27;s <code>metachanged</code> / <code>playstatechanged</code> broadcasts.</td></tr><tr><td>BT disable</td><td><code>BluetoothAvrcpService.disable()</code> runs → unbinds. F2 patches this method to also reset <code>sPlayServiceInterface = false</code>.</td></tr></tbody></table>
+<hr>
+<h2 id="music-app-component-lifecycle">Music app component lifecycle</h2>
+<p>The music app&#x27;s <code>Y1Application.onCreate</code> registers four in-process components that together produce every byte of <code>y1-track-info</code> and <code>y1-papp-set</code> under <code>/data/data/com.innioasis.y1/files/</code>:</p>
+<table><thead><tr><th>Component</th><th>Purpose</th></tr></thead><tbody><tr><td><code>com.koensayr.y1.trackinfo.TrackInfoWriter</code></td><td>Singleton state holder + double-buffer file writer. Owns the 2213-byte <code>y1-track-info</code> schema (1 B active_slot + 3 B RFA + 2 × 1104 B slots + 1 B RFA). <code>prepareFiles()</code> pre-sizes and chmods <code>y1-track-info</code> and <code>y1-papp-set</code> world-rw / world-readable so the BT process (different uid) can <code>mmap()</code> them. Trampoline edge state lives in <code>libextavrcp_jni.so</code> <code>.bss</code> at vaddr <code>0xd2d6</code> (zero syscalls, no on-disk artifact).</td></tr><tr><td><code>com.koensayr.y1.playback.PlaybackStateBridge</code></td><td>Stateless dispatcher hooked into <code>Static.setPlayValue</code> and the <code>PlayerService</code> listener lambdas (<code>onPrepared</code>, <code>onCompletion</code>, <code>onError</code>). Maps player state to AVRCP play-status enum and calls into TrackInfoWriter on every edge.</td></tr><tr><td><code>com.koensayr.y1.battery.BatteryReceiver</code></td><td><code>Intent.ACTION_BATTERY_CHANGED</code> receiver. Bucket-maps level + plugged-state to the AVRCP §5.4.2 Tbl 5.35 enum (NORMAL / WARNING / CRITICAL / EXTERNAL / FULL_CHARGE) and writes byte 794. Fires <code>com.android.music.playstatechanged</code> on bucket transition so T9 emits BATT_STATUS_CHANGED CHANGED.</td></tr><tr><td><code>com.koensayr.y1.papp.PappSetFileObserver</code></td><td><code>FileObserver(y1-papp-set, CLOSE_WRITE)</code>. Reads the 2-byte payload (attr_id, value), maps AVRCP enum → Y1 enum, calls <code>SharedPreferencesUtils.setMusicRepeatMode / setMusicIsShuffle</code>. Lets a CT&#x27;s PApp Set round-trip into the music app&#x27;s settings.</td></tr><tr><td><code>com.koensayr.y1.papp.PappStateBroadcaster</code></td><td><code>OnSharedPreferenceChangeListener</code>. On every <code>musicRepeatMode</code> / <code>musicIsShuffle</code> SharedPreferences change, calls <code>TrackInfoWriter.setPapp</code> to update y1-track-info bytes 795..796 and fires <code>com.android.music.playstatechanged</code> so T9 emits PApp CHANGED.</td></tr></tbody></table>
+<p>In <code>smali_classes2</code> (secondary DEX):</p>
+<table><thead><tr><th>Component</th><th>Purpose</th></tr></thead><tbody><tr><td><code>com.koensayr.y1.avrcp.AvrcpBridgeService</code></td><td>Service shell. Not declared in the music app manifest, so unreferenced at runtime.</td></tr><tr><td><code>com.koensayr.y1.avrcp.AvrcpBinder</code></td><td><code>Binder</code> implementing the <code>IBTAvrcpMusic</code> + <code>IMediaPlaybackService</code> transact protocols in smali. Not instantiated. Would only become live if MtkBt&#x27;s <code>bindService</code> ever resolved into the music-app process directly (requires either an MtkBt.odex component-bind patch or a forwarder APK — see <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FINVESTIGATION.md"><code>INVESTIGATION.md</code></a>).</td></tr></tbody></table>
+<p><strong>State-write ordering is load-bearing</strong>: PlaybackStateBridge calls <code>TrackInfoWriter.flush()</code> (which writes the inactive slot of <code>y1-track-info</code> via <code>RandomAccessFile.seek+write</code>, then atomically flips the single-byte active_slot at file[0]) BEFORE the music app&#x27;s <code>metachanged</code> / <code>playstatechanged</code> broadcast fires. The broadcast wakes T5 / T9 via the cardinality-NOP-patched Java path; if the slot flip hasn&#x27;t happened yet, T5 / T9 read the previous (stale) slot. Don&#x27;t reorder.</p>
+<h3 id="y1bridge-the-slim-binder-host">Y1Bridge (the slim Binder host)</h3>
+<p>Y1Bridge.apk stays installed for one reason: MtkBt&#x27;s <code>bindService(Intent(&quot;com.android.music.MediaPlaybackService&quot;))</code> needs a <code>&lt;service&gt;</code> declaration with that intent-filter, and the music app can&#x27;t declare it (sharedUserId / platform-key constraint described above). Y1Bridge is its own package (<code>com.koensayr.y1.bridge</code>), self-signed with the debug keystore, so its manifest is freely editable.</p>
+<p>The bridge presents the Binder and serves synchronous state queries:</p>
+<ul><li><code>MediaBridgeService.onCreate</code> is empty.</li><li><code>MediaBridgeService.onBind</code> returns an <code>AvrcpBinder</code> whose <code>onTransact</code> implements the <code>IBTAvrcpMusic</code> codes <code>BTAvrcpMusicAdapter</code> calls. Synchronous state queries (<code>getPlayStatus</code> / <code>position</code> / <code>duration</code> / <code>getAudioId</code> / <code>getTrackName</code> / <code>getAlbumName</code> / <code>getArtistName</code> / <code>getRepeatMode</code> / <code>getShuffleMode</code>) are answered live by reading <code>/data/data/com.innioasis.y1/files/y1-track-info</code> (the same 2213-byte double-buffer file <code>TrackInfoWriter</code> maintains; world-readable so the bridge&#x27;s <code>uid</code> can <code>open()</code> it). Registration / setter / passthrough codes ack with the success replies that keep <code>BTAvrcpMusicAdapter.mRegBit</code> armed and the Java mirror in sync with on-disk state.</li><li><code>BootReceiver</code> only handles <code>BOOT_COMPLETED</code> → <code>startService(MediaBridgeService)</code> so the Service is alive when MtkBt first binds.</li></ul>
+<p>All AVRCP observation, file writes, broadcast emission, and proactive-notification wake live in the music app — the bridge has no <code>LogcatMonitor</code>, no <code>BatteryReceiver</code>, no <code>RemoteControlClient</code> setup, no file writer, no callback dispatcher. Source: ~300 lines across three files in <code>src/Y1Bridge/</code>.</p>
+<hr>
+<h2 id="the-data-path-end-to-end">The data path, end-to-end</h2>
+<pre><code>                           Peer CT (AVRCP 1.3+ controller)
+                                       │
+                                       ▼
+                            ┌──────────────────────┐
+                            │ AVCTP COMMAND on the │
+                            │ Bluetooth wire       │
+                            └──────────┬───────────┘
+                                       │
+                                       ▼
+                          ┌──────────────────────────┐
+                          │ mtkbt (native daemon)    │
+                          │                          │
+                          │  fn 0x144bc op_code      │
+                          │  dispatcher              │
+                          │                          │
+                          │  ─ P1 patch at 0x144e8 ─ │
+                          │  cmp r3, #0x30           │
+                          │      ↓                   │
+                          │  b.n 0x14528 (ALWAYS,    │
+                          │     was conditional)     │
+                          │      ↓                   │
+                          │  bl 0x10404              │
+                          │      ↓                   │
+                          │  IPC msg=519 emit        │
+                          └──────────┬───────────────┘
+                                     │ (over abstract socket
+                                     │  bt.ext.adp.avrcp)
+                                     ▼
+              ┌────────────────────────────────────────────┐
+              │ libextavrcp_jni.so::saveRegEventSeqId      │
+              │   (loaded into the Bluetooth Java process) │
+              │                                            │
+              │  reads inbound CMD_FRAME_IND, then         │
+              │  dispatches on AV/C body SIZE (sp+374):    │
+              │                                            │
+              │   size==3  → PASSTHROUGH path (intact)     │
+              │   size==8  → BT-SIG vendor (intact)        │
+              │   else     → bne 0x65bc &quot;unknow&quot;           │
+              │                                            │
+              │  ─ R1 patch at file 0x6538 ─               │
+              │  bne.n 0x65bc; movs r5,#9                  │
+              │     ↓                                      │
+              │  bl.w 0x7308 (T1 entry)                    │
+              └────────────────────┬───────────────────────┘
+                                   │
+                                   ▼
+                       ┌───────────────────────┐
+                       │ T1 stub (file 0x7308) │  Overlays unused
+                       │ 4-byte `b.w           │  testparmnum slot;
+                       │  T1_extended` bridge  │  body lives in blob
+                       │  into the trampoline  │
+                       │  blob                 │
+                       └───────────┬───────────┘
+                                   │
+                                   ▼
+                       ┌───────────────────────────────┐
+                       │ T1_extended (in blob, 0xac54) │  Trampoline #1
+                       │                               │  GetCapabilities
+                       │  read PDU at sp+382           │
+                       │  if PDU == 0x10:              │
+                       │     bl clear_event_database   │
+                       │     blx 0x35dc                │
+                       │       (get_caps_rsp)          │
+                       │     b.w 0x712a (epi)          │
+                       │  else: fall through to        │
+                       │        extended_T2 in blob    │
+                       └───────────┬───────────────────┘
+                                   │
+                                   ▼
+                       ┌────────────────────────┐
+                       │ T2 stub (file 0x72d0)  │  Overlays
+                       │ 8-byte stub:           │  classInitNative;
+                       │  `movs r0, #0; bx lr`  │  preserves
+                       │  + `b.w extended_T2`   │  return-0 contract
+                       └───────────┬────────────┘
+                                   │
+                                   ▼
+                       ┌────────────────────────────────┐
+                       │ extended_T2 (in blob)          │  Trampoline #2
+                       │                                │  RegisterNotif
+                       │  PDU == 0x31:                  │  (PDU 0x31)
+                       │    save_event_seq_id()         │
+                       │    event_id (sp+386) == 2:     │
+                       │       blx 0x3384               │
+                       │       (track_changed_rsp,      │
+                       │        INTERIM, ID=0x00*8)     │
+                       │    else: b.w T8 (other events) │
+                       │  else: b.w T4 (non-RegNotif)   │
+                       └───────────┬────────────────────┘
+                                   │
+                                   ▼
+              ┌──────────────────────────────────────────┐
+              │ T4 (in blob)                             │  Trampoline #3
+              │  Universal non-RegNotif entry            │  GetElementAttributes
+              │  in LOAD #1 page-padding region          │
+              │  (LOAD #1 FileSiz / MemSiz bumped to     │
+              │   cover the assembled blob — exact end   │
+              │   computed at patch time; printed by     │
+              │   the patcher)                           │
+              │                                          │
+              │  Prologue: conn[+0x11] = sp[+0x171]      │
+              │  (universal §3.3.5 TID echo for          │
+              │   GetEA / GetPlayStatus / Charset /      │
+              │   Battery / PApp / Continuation)         │
+              │                                          │
+              │  PDU == 0x20:                            │
+              │     7 sequential calls to PLT 0x3570     │
+              │     (get_element_attributes_rsp):        │
+              │                                          │
+              │     Call 1 (idx=0, total=7, attr=Title): │
+              │        buffer reset on idx==0,           │
+              │        accumulate, no emit yet           │
+              │     Call 2 (idx=1, total=7, attr=Artist):│
+              │        accumulate, no emit               │
+              │     Call 3 (idx=2, total=7, attr=Album)  │
+              │     Call 4 (idx=3, total=7, attr=TrkNum) │
+              │     Call 5 (idx=4, total=7, attr=Total)  │
+              │     Call 6 (idx=5, total=7, attr=Genre)  │
+              │     Call 7 (idx=6, total=7, attr=PlyTime)│
+              │        idx+1 == total → EMIT msg=540     │
+              │        with all 7 attributes packed in   │
+              │     b.w 0x712a                           │
+              │                                          │
+              │  else (PDU != 0x20):                     │
+              │     restore r0 = r5+8 (conn buffer)      │
+              │     restore lr = halfword[sp+374] (SIZE) │
+              │     b.w 0x65bc                           │  → original
+              └────────────┬─────────────────────────────┘     unknow
+                           │ (only when our chain doesn&#x27;t        path
+                           │  handle this PDU)
+                           ▼
+              ┌────────────────────────────────────────┐
+              │ Original &quot;unknow indication&quot; at 0x65bc │  Default reject
+              │                                        │  (msg=520
+              │  Builds default-reject frame           │   NOT_IMPLEMENTED)
+              │  blx 0x3624 (pass_through_rsp)         │
+              │  → msg=520                             │
+              └────────────────────────────────────────┘</code></pre>
+<p>After any of these branches, <code>b.w 0x712a</code> lands on <code>mov.w r9, #1</code> (set return value = 1) → stack-canary check at 0x712e → function epilogue at 0x7154 (<code>pop {r4-r9, sl, fp, pc}</code>).</p>
+<p>The diagram above traces the original 1.0-era PDU 0x10 / 0x31 event 0x02 / 0x20 path. T4&#x27;s pre-check additionally branches PDU 0x17 → T_charset, 0x18 → T_battery, 0x30 → T6, 0x40/0x41 → T_continuation, and PDU 0x31 + event ≠ 0x02 → T8 (which dispatches per-event_id to events 0x01/0x03/0x04/0x05/0x06/0x07). Two further trampolines hook native-method entries rather than the saveRegEventSeqId chain: T5 (entered from <code>notificationTrackChangedNative</code>, emits the §5.4.2 track-edge 3-tuple proactively) and T9 (entered from <code>notificationPlayStatusChangedNative</code>, emits PLAYBACK_STATUS_CHANGED + BATT_STATUS_CHANGED + PLAYBACK_POS_CHANGED proactively). All trampolines are catalogued in the Patch summary table below.</p>
+<hr>
+<h2 id="avrcp-driven-control-input-path-ct--music-app">AVRCP-driven control input path (CT → music app)</h2>
+<p>Independent of the trampoline-driven outbound metadata path. CT-driven transport keys (PLAY / PAUSE / STOP / NEXT / PREV) reach the Y1 music app via the kernel-uinput chain, NOT via the trampolines. The two paths share no state. Touching one does not affect the other.</p>
+<pre><code>1. Peer CT sends AVRCP PASSTHROUGH command (op_id 0x44 PLAY / 0x46 PAUSE / etc.)
+
+2. mtkbt receives, parses, routes the PASSTHROUGH op_id through libextavrcp_jni.so&#x27;s
+   avrcp_input_init / avrcp_input_sendkey path.
+
+3. libextavrcp_jni.so writes the EV_KEY event to /dev/input/event4 (the AVRCP
+   virtual keyboard created by avrcp_input_init at boot). The op_id maps to a
+   Linux key code per the shipped AVRCP.kl key-layout file:
+       0x44 PLAY      → KEY_PLAYCD       (Linux 200)
+       0x45 STOP      → KEY_STOPCD       (Linux 166)
+       0x46 PAUSE     → KEY_PAUSECD      (Linux 201)
+       0x4B FORWARD   → KEY_NEXTSONG     (Linux 163)
+       0x4C BACKWARD  → KEY_PREVIOUSSONG (Linux 165)
+
+   U1 patch NOPs the UI_SET_EVBIT(EV_REP) ioctl in avrcp_input_init so the kernel
+   never enables auto-repeat for this uinput device — strict CTs that drop a
+   PASSTHROUGH RELEASE no longer trigger held-key cascades.
+
+4. Kernel input subsystem dispatches the EV_KEY event. Android&#x27;s InputManager
+   reads /system/usr/keylayout/AVRCP.kl, translates to KeyEvent with
+   KEYCODE_MEDIA_PLAY (0x7e) / _STOP (0x56) / _PAUSE (0x7f) / _NEXT (0x57) /
+   _PREVIOUS (0x58).
+
+5. WindowManager → ViewRootImpl → Activity hierarchy. Foreground music-app
+   activities extend BaseActivity, OR — for the music player screen —
+   BasePlayerActivity (which itself extends BaseActivity but overrides
+   dispatchKeyEvent and never delegates up). dispatchKeyEvent receives the
+   KeyEvent. Patches H + H′ + H″ together apply the same early-return logic
+   in both classes for keycodes 0x7e / 0x7f / 0x56 / 0x57 / 0x58:
+       repeatCount == 0 → return false → propagate to framework fallback
+       repeatCount  &gt; 0 → return true  → silent consume (collapse synthetic
+                                          repeats from
+                                          InputDispatcher::synthesizeKeyRepeatLocked
+                                          to a single one-shot per genuine press)
+
+6. PhoneFallbackEventHandler.handleMediaKeyEvent → AudioManager.dispatchMediaKeyEvent
+   → AudioService routes ACTION_MEDIA_BUTTON.
+
+7. Either via PendingIntent fire (if a MediaButton receiver is registered with
+   AudioManager) or via ordered broadcast (manifest filter, fallback). The music
+   app&#x27;s PlayControllerReceiver declares an ACTION_MEDIA_BUTTON intent-filter at
+   priority MAX_VALUE, so it wins ordered-broadcast dispatch.
+
+8. PlayControllerReceiver.onReceive runs Patch E&#x27;s discrete-key dispatch:
+       KEYCODE_MEDIA_PLAY_PAUSE (85) → playOrPause() (toggle, legacy MediaButton path)
+       KEYCODE_MEDIA_PLAY (126)      → play(true)        (discrete PLAY)
+       KEYCODE_MEDIA_PAUSE (127)     → pause(0x12, true) (discrete PAUSE)
+       KEYCODE_MEDIA_STOP (86)       → stop()            (discrete STOP)
+       KEYCODE_MEDIA_NEXT (87)       → nextSong()        (discrete NEXT)
+       KEYCODE_MEDIA_PREVIOUS (88)   → prevSong()        (discrete PREV)
+       others fall through to original receiver logic.
+
+9. PlayerService method runs → IjkMediaPlayer / MediaPlayer state change → audio
+   plays / pauses / stops on the Y1.</code></pre>
+<p>Steps 1-5 are verified end-to-end via <code>getevent</code> + Y1Patch debug-log instrumentation in <code>BaseActivity.dispatchKeyEvent</code>. Steps 6-8 (framework-side <code>AudioService.dispatchMediaKeyEvent</code> → <code>PlayControllerReceiver</code>) are not currently traced; see <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FINVESTIGATION.md"><code>INVESTIGATION.md</code></a> for per-CT empirical state.</p>
+<hr>
+<h2 id="inbound-frame-layout-saveregeventseqid-stack-frame">Inbound frame layout (saveRegEventSeqId stack frame)</h2>
+<p>When <code>_Z17saveRegEventSeqIdhh</code> runs (entry symbol at file 0x5ee4, body at 0x5f0c), the inbound msg-519 IPC payload is laid out at:</p>
+<table><thead><tr><th>Offset</th><th>Field</th></tr></thead><tbody><tr><td><code>sp+368</code></td><td>transId (jbyte) — also auto-extracted from <code>conn[17]</code> by response builders</td></tr><tr><td><code>sp+369</code></td><td>(sub_unit byte)</td></tr><tr><td><code>sp+374</code></td><td><strong>SIZE</strong> halfword. AV/C body length: 3=PASSTHROUGH, 9=size9 (e.g. GetCapabilities), 13=RegisterNotification, 45=GetElementAttributes-w/-7-attrs. Loaded into <code>lr</code> at file 0x644e for the original size dispatch.</td></tr><tr><td><code>sp+376</code></td><td>(halfword)</td></tr><tr><td><code>sp+378</code></td><td>AV/C body byte 0 (op_code: 0x00=VENDOR_DEPENDENT, 0x7c=PASSTHROUGH)</td></tr><tr><td><code>sp+379-381</code></td><td>company_id BE = <code>00 19 58</code> for BT-SIG</td></tr><tr><td><code>sp+382</code></td><td><strong>PDU byte</strong> — every trampoline reads this first</td></tr><tr><td><code>sp+383</code></td><td>packet_type</td></tr><tr><td><code>sp+384-385</code></td><td>param_length BE</td></tr><tr><td><code>sp+386</code></td><td>For PDU 0x31 RegisterNotification: <strong>event_id</strong> (1 byte) — extended_T2 / T8 read this to dispatch. For PDU 0x20 GetElementAttributes: first byte of the 8-byte <strong>identifier</strong> (track_id; sp+386..393).</td></tr><tr><td><code>sp+387-390</code></td><td>For PDU 0x31 event 0x05 only: <strong>playback_interval</strong> (4 bytes BE — CT-supplied notification cadence). Currently unread by the trampolines (T9 emits PLAYBACK_POS_CHANGED at a fixed 1 s rate regardless of CT-requested interval — spec-permissible since &quot;shall be emitted at this interval&quot; defines a max-interval ceiling, not a min cadence floor). For PDU 0x20: continuation of the identifier.</td></tr><tr><td><code>sp+394</code></td><td>num_attributes (PDU 0x20 GetElementAttributes only)</td></tr><tr><td><code>sp+395+</code></td><td>attribute_ids, 4 bytes BE each (PDU 0x20; last byte is the LSB we dispatch on)</td></tr></tbody></table>
+<p><code>r5</code> in saveRegEventSeqId&#x27;s frame holds the conn-buffer base. <strong><code>r5+8</code> is the conn buffer pointer</strong> that all <code>btmtk_avrcp_send_*_rsp</code> functions take as their first arg.</p>
+<hr>
+<h2 id="the-unknow-indication-path-0x65bc-onwards">The &quot;unknow indication&quot; path (0x65bc onwards)</h2>
+<p>This is the original code that handled &quot;size != 3 AND size != 8&quot; — i.e., everything we now intercept. It&#x27;s also what we want our trampolines to fall through to for unhandled PDUs (so unhandled commands still get a proper msg=520 NOT_IMPLEMENTED reject instead of disappearing).</p>
+<pre><code>0x65bc: mov.w ip, #9
+0x65c0: movs r4, #8
+0x65c2: add.w r5, sp, #378           ; r5 → AV/C body ptr (clobbers our r5 use!)
+0x65c6: stmia.w sp, {r4, ip}          ; sp[0]=8, sp[4]=9
+0x65ca: str r5, [sp, #16]             ; sp[16] = body ptr
+0x65cc: movs r4, #0
+0x65d4: str.w lr, [sp, #12]           ; sp[12] = SIZE   ← REQUIRES lr=SIZE!
+0x65d8: …
+0x65de: blx 0x3624 (pass_through_rsp)</code></pre>
+<p><strong>Critical preconditions</strong> (inherited from original 0x6528-0x6534):</p>
+<ol><li><code>r0 = r5+8</code> (conn buffer) — set 16 bytes earlier; the 0x65bc code does NOT re-derive it.</li><li><code>r1 = byte at sp+368</code>, <code>r2 = byte at sp+369</code>, <code>r3 = halfword at sp+376</code>.</li><li><code>lr = halfword at sp+374</code> (= SIZE) — set 380 bytes earlier at file 0x644e via <code>ldrh.w lr, [sp, #374]</code>.</li></ol>
+<p>When our trampoline chain falls through to 0x65bc, items (1) and (3) need to be <strong>restored</strong> because <code>bl.w 0x7308</code> clobbers <code>lr</code> and the trampolines clobber <code>r0</code> (with PDU/event_id). r1/r2/r3 stay valid since we don&#x27;t touch them.</p>
+<p>That&#x27;s why T4&#x27;s fall-through pre-amble is:</p>
+<pre><code>0xac5c: ldrh.w lr, [sp, #374]    ; restore lr=SIZE
+0xac60: add.w r0, r5, #8         ; restore r0=conn buffer
+0xac64: b.w 0x65bc                ; → original unknow indication</code></pre>
+<p>Both <code>r0</code> and <code>lr</code> need to be restored before falling through. Restoring only <code>r0</code> leaves <code>pass_through_rsp</code> reading <code>lr=0x653c</code> (the stale bl return address) as its SIZE arg and silently dropping the response; the AVRCP service then restart-loops every 2 seconds waiting on responses that never come. Restoring <code>lr</code> from the saved canary at <code>[sp+374]</code> makes msg=520 flow correctly.</p>
+<hr>
+<h2 id="elf-program-header-surgery--extending-load-1">ELF program-header surgery — extending LOAD #1</h2>
+<p>The original <code>libextavrcp_jni.so</code> has two LOAD segments:</p>
+<pre><code>LOAD #1: file 0x0..0xac54, vaddr 0x0..0xac54,  R+E
+LOAD #2: file 0xbc08..0xc2a4, vaddr 0xcc08..0xd548, R+W</code></pre>
+<p>Between LOAD #1&#x27;s end at file <code>0xac54</code> and LOAD #2&#x27;s start at file <code>0xbc08</code>, the file contains <strong>4020 zero bytes of page-alignment padding</strong> (<code>0xbc08 - 0xac54</code>). We can write code into that padding and bump LOAD #1&#x27;s <code>FileSiz</code>/<code>MemSiz</code> (program-header at file offset <code>0x54</code>, fields at +16 and +20 within the phdr) to extend the executable mapping over our new code. <strong>No other section/segment offsets shift</strong> — <code>.dynsym</code>/<code>.text</code>/<code>.rodata</code>/<code>.dynamic</code>/<code>.rel.plt</code> etc. all stay byte-identical. The dynamic linker just maps slightly more file content as R+E.</p>
+<p>The patcher does this with three PATCHES entries:</p>
+<ol><li>Write the trampoline blob at file 0xac54. The blob holds (in assembly order) T1_extended (relocated from <code>testparmnum</code> to host the wider event table), T4, extended_T2, T5, T_charset, T_battery, T_continuation, T6, T_papp, T8, T9, four shared subroutines (<code>restore_conn_tid</code> / <code>save_event_seq_id</code> / <code>event_subscribed</code> / <code>clear_event_database</code>), path strings, sentinels, and PApp data tables. Cap is hard-locked at 4020 bytes; the patcher asserts on overflow and prints the exact post-build size on every run. U1 is a separate 4-byte NOP elsewhere in the binary that doesn&#x27;t grow the blob.</li><li>Update LOAD #1 program-header <code>p_filesz</code> at file 0x64 from <code>0xac54</code> to whatever value the post-build size lands at.</li><li>Update LOAD #1 program-header <code>p_memsz</code> at file 0x68 to the same value as <code>p_filesz</code>.</li></ol>
+<p>The trampoline at 0xac54 is reachable from the existing trampolines via <code>b.w</code> (24-bit signed offset, ±16 MB range — distance from 0x72f4 to 0xac54 is ~0x395c, well within range).</p>
+<hr>
+<h2 id="reverse-engineered-semantics-btmtkavrcpsendgetelementattributesrsp">Reverse-engineered semantics: <code>btmtk_avrcp_send_get_element_attributes_rsp</code></h2>
+<p>Lives at <code>libextavrcp.so:0x2188</code>, called via PLT 0x3570 in <code>libextavrcp_jni.so</code>. Argument layout is <strong>non-obvious</strong> and was deduced by disassembling the function:</p>
+<pre><code class="language-c">void btmtk_avrcp_send_get_element_attributes_rsp(
+    void* conn,        // r0 = conn buffer (= r5+8 in saveRegEventSeqId frame)
+    uint8_t arg1,      // r1 = &quot;with-string / reset&quot; flag:
+                       //      0   = with string, append to internal buffer
+                       //     !=0  = no-string finalize/reset
+    uint8_t index,     // r2 = attribute INDEX in this response (0..N-1)
+                       //      NOT transId
+    uint8_t total,     // r3 = TOTAL number of attributes in this response
+    uint8_t attr_id,   // sp[0] = attribute_id LSB (1=Title, 2=Artist, 3=Album, ...)
+    uint16_t charset,  // sp[4] = 0x6a (UTF-8) — JNI hardcodes this
+    uint16_t length,   // sp[8] = string length in bytes
+    char*    str       // sp[12] = pointer to UTF-8 string data
+);</code></pre>
+<p><strong>Buffer reset logic</strong> (lines 0x21ca onwards):</p>
+<pre><code>r3 = (arg1 != 0) OR (arg2 == 0)
+if r3 != 0:
+    memset(internal_static_buffer, 0, 644)   ; 644 = full IPC payload size
+    *internal_counter = 0</code></pre>
+<p>The buffer is zeroed when <strong>either</strong> <code>arg1</code> is nonzero (explicit reset / finalize) <strong>or</strong> <code>arg2 == 0</code> (first attribute in a new response).</p>
+<p><strong>Send trigger</strong> (lines 0x22ee–0x2310):</p>
+<pre><code>r5 = arg2 + 1
+if (arg2 + 1) == arg3 AND arg3 != 0:
+    GOTO send         ; last attribute path
+
+if (arg1 != 0) OR (arg3 == 0):
+    GOTO send         ; finalize / legacy path
+
+return without sending   ; arg1==0 AND arg3 != 0 AND (arg2+1) &lt; arg3
+
+send:
+    AVRCP_SendMessage(conn, msg_id=540, buffer, size=644)</code></pre>
+<p>So the function emits an IPC msg=540 frame when:</p>
+<ul><li><code>(arg2 + 1) == arg3 AND arg3 != 0</code> — last attribute in a multi-attribute response</li><li>OR <code>arg1 != 0</code> — explicit finalize call</li><li>OR <code>arg3 == 0</code> — single-shot / legacy mode (one frame per attribute)</li></ul>
+<p>It only <strong>accumulates without emitting</strong> when <code>arg1 == 0 AND arg3 != 0 AND (arg2+1) &lt; arg3</code>.</p>
+<p><strong>transId</strong> is NOT one of the args. The function reads it from <code>conn[17]</code> (line 0x21f2: <code>ldrb r2, [r0, #17]</code>) and copies into the response&#x27;s wire frame. Passing <code>transId</code> as <code>arg2</code> would be miscoding the attribute INDEX as the transId value — Title would land in <code>slot[transId]</code> of the response buffer with all other slots zero, leaving the CT to scan for the one valid attribute.</p>
+<h3 id="calling-pattern-for-a-7-attribute-response-current">Calling pattern for a 7-attribute response (current)</h3>
+<pre><code class="language-c">// All seven calls share: conn=r5+8, arg1=0, arg3=7, charset=0x6a
+send_rsp(conn, 0, idx=0, total=7, attr=0x01, len, &quot;Y1 Title&quot;);       // accumulate
+send_rsp(conn, 0, idx=1, total=7, attr=0x02, len, &quot;Y1 Artist&quot;);      // accumulate
+send_rsp(conn, 0, idx=2, total=7, attr=0x03, len, &quot;Y1 Album&quot;);       // accumulate
+send_rsp(conn, 0, idx=3, total=7, attr=0x04, len, &quot;3&quot;);              // accumulate (TrackNumber)
+send_rsp(conn, 0, idx=4, total=7, attr=0x05, len, &quot;12&quot;);             // accumulate (TotalNumberOfTracks)
+send_rsp(conn, 0, idx=5, total=7, attr=0x06, len, &quot;Rock&quot;);           // accumulate (Genre)
+send_rsp(conn, 0, idx=6, total=7, attr=0x07, len, &quot;180000&quot;);         // (idx+1==total) → EMIT</code></pre>
+<p>Per AVRCP 1.3 §5.3.1 Table 5.24 a missing attribute is signalled by <code>AttributeValueLength=0</code> — <code>TrackInfoWriter</code> writes empty UTF-8 string slots when the underlying tag is absent (e.g., a flat audio file with no Genre tag), strlen returns 0, and the response builder packs an attribute header with no value bytes for that entry.</p>
+<p><strong>One</strong> msg=540 IPC frame outbound containing all seven attributes.</p>
+<h3 id="calling-pattern-for-sendregnotieventtrackchangedrsp-plt-0x3384-used-by-extendedt2--t4--t5">Calling pattern for <code>…send_reg_notievent_track_changed_rsp</code> (PLT 0x3384, used by extended_T2 / T4 / T5)</h3>
+<pre><code class="language-c">void btmtk_avrcp_send_reg_notievent_track_changed_rsp(
+    void* conn,           // r0 = r5+8
+    uint8_t reject,       // r1 = 0 for success (event-payload path); non-zero takes
+                          //      the reject path that omits the 8-byte track_id payload.
+                          //      See &quot;Note on the arg1==0 / arg1!=0 dispatch shared by all
+                          //      reg_notievent_*_rsp functions&quot; below.
+    uint8_t reasonCode,   // r2 = 0x0F (INTERIM) or 0x0D (CHANGED)
+    void* track_id_ptr    // r3 = pointer to 8-byte BE track_id
+);</code></pre>
+<p><strong>transId is NOT an arg.</strong> The function reads it from <code>conn[17]</code> (the per-conn struct that mtkbt set up for the inbound RegisterNotification command) and writes it into the response&#x27;s wire frame at offset 5. Passing <code>transId</code> as <code>r1</code> would route into the reject-shape path that omits the event payload — see the historical note in the bottom subsection of this Reverse-engineered semantics block.</p>
+<p>Cross-referenced with <code>notificationTrackChangedNative</code> at libextavrcp_jni.so:0x3bc0 which calls the same PLT with the same arg shape. extended_T2 (reached via the T2 stub at 0x72d4) and T5 both pass <code>track_id_ptr</code> → 8 bytes of <code>0x00</code> (the &quot;SELECTED&quot; sentinel per AVRCP 1.6 §6.7.2 Table 6.32 + the strict AVRCP 1.6 §6.7.2 reading; see &quot;Wire-level <code>Identifier</code> choice&quot; below for the rationale).</p>
+<h3 id="calling-pattern-for-sendgetcapabilitiesrsp-plt-0x35dc-used-by-t1">Calling pattern for <code>…send_get_capabilities_rsp</code> (PLT 0x35dc, used by T1)</h3>
+<pre><code class="language-c">void btmtk_avrcp_send_get_capabilities_rsp(
+    void* conn,         // r0 = r5+8
+    uint8_t cap_id,     // r1 = 0 (we always pass 0 — likely capability-id type)
+    uint8_t count,      // r2 = events count (currently 7)
+    void* events_ptr    // r3 = pointer to N-byte events array
+);</code></pre>
+<p>T1 advertises 8 events <code>[0x01, 0x02, 0x05, 0x08, 0x09, 0x0a, 0x0b, 0x0c]</code>, paired with T8 INTERIM coverage so the NOT_IMPLEMENTED rejects don&#x27;t fire for any advertised event. Five advertised events carry live state and emit CHANGED on edge: 0x01 PLAYBACK_STATUS (T9), 0x02 TRACK_CHANGED (T5), 0x05 PLAYBACK_POS_CHANGED (T5 / T9), 0x08 PLAYER_APPLICATION_SETTING_CHANGED (T9), 0x09 NOW_PLAYING_CONTENT_CHANGED (T5) — 0x09 in particular is what several strict CTs use as their primary metadata-refresh trigger instead of TrackChanged. Event 0x06 BATT_STATUS_CHANGED also has T8 INTERIM + T9 CHANGED dispatch in the blob but is not in T1&#x27;s advertised set; T9 still emits CHANGED if a permissive CT subscribes to it. The remaining three (0x0a AVAILABLE_PLAYERS_CHANGED, 0x0b ADDRESSED_PLAYER_CHANGED, 0x0c UIDS_CHANGED) are 1.4+ event IDs whose response builders ship in <code>libextavrcp.so</code> and whose PLT stubs are already linked into <code>libextavrcp_jni.so</code>; T8 acks each INTERIM-only with zero/empty payload and no CHANGED ever fires for them (Y1 has one player, no Now Playing folder, no UID database). Advertising 0x09-0x0c from a 1.3-declared TG is what strict CT metadata-pane render empirically gates on.</p>
+<h3 id="calling-pattern-for-sendgetplaystatusrsp-plt-0x3564-used-by-t6">Calling pattern for <code>…send_get_playstatus_rsp</code> (PLT 0x3564, used by T6)</h3>
+<p>From disassembly of <code>libextavrcp.so:0x2354</code> plus cross-reference with the stock JNI caller <code>_Z46BluetoothAvrcpService_getPlayerstatusRspNativeP7_JNIEnvP8_jobjectaiia</code> at <code>libextavrcp_jni.so:0x5680</code>.</p>
+<pre><code class="language-c">void btmtk_avrcp_send_get_playstatus_rsp(
+    void* conn,           // r0 = r5+8
+    uint8_t arg1,         // r1 = 0 for the success path that writes the
+                          //      song_length / song_position / play_status fields.
+                          //      Non-zero takes a path that only sets sp+10/+11 in
+                          //      the IPC frame (interpreted by mtkbt as a reject).
+    uint32_t song_length, // r2 = track duration in milliseconds
+    uint32_t song_position,// r3 = current playback position in milliseconds
+    uint8_t play_status   // sp[0] = 0x00 STOPPED / 0x01 PLAYING / 0x02 PAUSED /
+                          //         0x03 FWD_SEEK / 0x04 REV_SEEK / 0xFF ERROR
+);</code></pre>
+<p>Outbound IPC: <code>msg_id=542</code>, frame size 20 B. transId auto-extracted from <code>conn[17]</code> and written at frame offset 5. song_length at offset 8 (u32), song_position at offset 12 (u32), play_status at offset 16 (u8). The stock JNI (<code>PlayerstatusRspNative</code>) always passes <code>arg1=0</code> and stores a <code>getSavedSeqId(541)</code> result into <code>conn[25]</code> before the call — we don&#x27;t need the latter because the conn struct is set up by mtkbt&#x27;s inbound dispatch already, not by Java.</p>
+<h3 id="calling-pattern-for-sendregnotieventplaybackrsp-plt-0x339c-used-by-t8--t9">Calling pattern for <code>…send_reg_notievent_playback_rsp</code> (PLT 0x339c, used by T8 + T9)</h3>
+<pre><code class="language-c">void btmtk_avrcp_send_reg_notievent_playback_rsp(
+    void* conn,           // r0 = r5+8
+    uint8_t arg1,         // r1 = 0 for success (the path that writes reasonCode +
+                          //      play_status into the frame); non-zero takes the
+                          //      reject path.
+    uint8_t reasonCode,   // r2 = 0x0F (INTERIM) or 0x0D (CHANGED)
+    uint8_t play_status   // r3 = 0=STOPPED, 1=PLAYING, 2=PAUSED, 3=FWD_SEEK,
+                          //      4=REV_SEEK, 0xFF=ERROR
+);</code></pre>
+<p>Outbound IPC: <code>msg_id=544</code>, frame size 40 B. transId at offset 5; reasonCode at offset 8; event_id constant <code>0x01</code> at offset 9 (function bakes this in — distinguishes from track_changed_rsp&#x27;s <code>0x02</code> and pos_changed_rsp&#x27;s <code>0x05</code>); play_status at offset 10.</p>
+<h3 id="calling-pattern-for-sendregnotieventposchangedrsp-plt-0x3360-used-by-t8--t9">Calling pattern for <code>…send_reg_notievent_pos_changed_rsp</code> (PLT 0x3360, used by T8 + T9)</h3>
+<pre><code class="language-c">void btmtk_avrcp_send_reg_notievent_pos_changed_rsp(
+    void* conn,           // r0 = r5+8
+    uint8_t arg1,         // r1 = 0 for success
+    uint8_t reasonCode,   // r2 = 0x0F INTERIM / 0x0D CHANGED
+    uint32_t position_ms  // r3 = current playback position in milliseconds (u32)
+);</code></pre>
+<p>Outbound IPC: <code>msg_id=544</code>, frame size 40 B. transId at offset 5; reasonCode at offset 8; event_id constant <code>0x05</code> at offset 9; position_ms u32 at offset 36 (note the offset jump — pos_changed buffers the u32 near the tail of the 40-byte frame, unlike track_changed which puts the 8-byte track_id at offset 11).</p>
+<h3 id="note-on-the-arg10--arg10-dispatch-shared-by-all-regnotieventrsp-functions">Note on the arg1==0 / arg1!=0 dispatch shared by all <code>reg_notievent_*_rsp</code> functions</h3>
+<p>All <code>…reg_notievent_*_rsp</code> builders in <code>libextavrcp.so</code> are templated on the same shape (40-byte buffer, msg=544, conn[17]→transId at sp+9). Each function bakes in its event-specific constant at sp+13 (1=playback, 2=track_changed, 5=pos_changed, ...). The <code>cbnz</code> test on r1 is shared: r1==0 = &quot;write event payload&quot;, r1!=0 = &quot;write reject flag (sp+10=1) + reject code (sp+11=arg1) and skip event payload&quot;.</p>
+<p>All currently shipped trampolines (extended_T2 / T4 / T5 / T6 / T8 / T9 — anything that calls a <code>reg_notievent_*_rsp</code> PLT) pass <code>r1 = 0</code> to take the spec-correct event-payload path.</p>
+<h3 id="playerapplicationsettings-response-builders-pdus-0x11-0x16-and-event-0x08-builder">PlayerApplicationSettings response builders (PDUs 0x11-0x16) and event 0x08 builder</h3>
+<p>Reverse-engineered calling conventions for the PApp builders linked through <code>libextavrcp_jni.so</code>. Trampolines for these PDUs are not yet shipped; disassembly notes in <code>INVESTIGATION.md</code>.</p>
+<table><thead><tr><th>PDU</th><th>Builder</th><th>PLT</th><th>Signature</th></tr></thead><tbody><tr><td>0x11</td><td><code>…send_list_player_attrs_rsp</code></td><td>0x35d0</td><td><code>(conn, reject, n_attrs, *attr_id_array)</code> — payload 14 B, msg_id 524</td></tr><tr><td>0x12</td><td><code>…send_list_player_values_rsp</code></td><td>0x35c4</td><td><code>(conn, reject, attr_id, n_values, *value_array)</code> — payload 14 B, msg_id 526. arg5 on stack.</td></tr><tr><td>0x13</td><td><code>…send_get_curplayer_value_rsp</code></td><td>0x35b8</td><td><code>(conn, reject, n_pairs, *attr_id_array, *value_array)</code> — payload 18 B, msg_id 528. arg5 on stack.</td></tr><tr><td>0x14</td><td><code>…send_set_player_value_rsp</code></td><td>0x3594</td><td><code>(conn, reject_status)</code> — payload 8 B, msg_id 530. ACK if reject==0, else reject with status.</td></tr><tr><td>0x15</td><td><code>…send_get_player_attr_text_rsp</code></td><td>0x35ac</td><td><code>(conn, reject, idx, total, attr_id, charset, length, *str)</code> — accumulator pattern (parallel to <code>…send_get_element_attributes_rsp</code>); emits when idx+1==total. Per-attribute text capped at 79 B. msg_id 532. args5-8 on stack. Static buffer at vaddr 0x5ea4.</td></tr><tr><td>0x16</td><td><code>…send_get_player_value_text_value_rsp</code></td><td>0x35a0</td><td><code>(conn, reject, idx, total, attr_id, value_id, charset, length, *str)</code> — accumulator pattern. msg_id 534. args5-9 on stack. Static buffer at vaddr 0x5ffe.</td></tr><tr><td>event 0x08</td><td><code>…send_reg_notievent_player_appsettings_changed_rsp</code></td><td>0x345c</td><td><code>(conn, reject, type, n, *attr_ids, *values)</code> — payload 40 B, msg_id 544. type: 0=INTERIM, 1=CHANGED. n is capped at 4 internally. args5-6 on stack. event_id 0x08 baked at offset 13.</td></tr></tbody></table>
+<p>For all six PDU builders + the event builder: arg2 (reject) follows the same shape as <code>reg_notievent_*_rsp</code> — 0 = success path with full payload, !=0 = reject status with truncated payload. transId is auto-sourced from <code>conn[17]</code> in every builder.</p>
+<hr>
+<h2 id="patch-summary">Patch summary</h2>
+<table><thead><tr><th>Patch</th><th>File / addr</th><th>Description</th></tr></thead><tbody><tr><td><strong>mtkbt patches</strong> (in <code>patch_mtkbt.py</code>)</td><td></td><td></td></tr><tr><td>V1</td><td>mtkbt 0x0eba58</td><td>AVRCP version SDP attribute: 1.0 → 1.3</td></tr><tr><td>V2</td><td>mtkbt 0x0eba6d</td><td>AVCTP version SDP attribute: 1.0 → 1.2</td></tr><tr><td>S1</td><td>mtkbt 0x0f97ec</td><td>Replace 0x0311 SupportedFeatures slot with 0x0100 ServiceName pointing at &quot;Advanced Audio&quot;</td></tr><tr><td>P_PN0</td><td>mtkbt 0x0eb938</td><td>Write SDP TEXT_STR_8 <code>&quot; &quot;</code> (4 bytes: <code>25 02 20 00</code>) into a zero-padded gap in the SDP data area. Dormant — no entry slot currently references the descriptor. Bytes left in place so a future patch can wire them in once the AVRCP 1.3 TG record&#x27;s 6-slot entry table can safely be extended.</td></tr><tr><td>P1</td><td>mtkbt 0x144e8</td><td><code>cmp r3, #0x30</code> → <code>b.n 0x14528</code> (route VENDOR_DEPENDENT through msg-519 emit instead of silent-drop)</td></tr><tr><td>M1</td><td>mtkbt 0x12230</td><td>RegNotif response discriminator cmp constant widened from 1 to 0x0F. Stock mtkbt&#x27;s <code>fcn.000121d8</code> reads <code>ctxt[8]</code> (the byte where libextavrcp.so&#x27;s <code>btmtk_avrcp_send_reg_notievent_*_rsp</code> helpers write the reasonCode arg) and compares against 1 — fails for both 0x0F and 0x0D, so dispatch always lands on the CHANGED branch. M1 changes the cmp to 0x0F: <code>ctxt[8] == 0x0F</code> (T2/T8 INTERIM arms) → INTERIM branch → wire ctype 0x0F; <code>ctxt[8] != 0x0F</code> (T5/T9 CHANGED edge emits) → CHANGED branch → wire ctype 0x0D.</td></tr><tr><td>M2</td><td>mtkbt 0x6d06e</td><td>NOP <code>beq 0x6d0e0</code> in <code>fcn.0x6d048</code> (outbound-frame builder, reached from <code>fcn.0xf0bc → fcn.0xed50 → fcn.0x6d048 → fcn.0x6df20 → fcn.0xae5e4</code> for short-frame responses). Stock returns 0xd if the conn isn&#x27;t in <code>g_active_conn_list</code> (a chip-readiness heuristic). After M2 the function always builds the wire frame and tail-calls <code>fcn.0x6df20</code>.</td></tr><tr><td>M3</td><td>mtkbt 0x6df42</td><td>NOP <code>strb.w r0, [r4, #0xf2]</code> (4 bytes → two NOPs) in <code>fcn.0x6df20</code>. Eliminates one of two writers of the <code>chan+0xf2</code> gate flag (the outbound serialization SET). The other writer at <code>fcn.0x6da50:0x6dda8</code> (fires when inbound RegisterNotification callback returns CType=0x0F INTERIM) is preserved — some CTs&#x27; inbound state machines depend on it. M3 alone leaves the gate able to trip for sparse-re-registration CTs; M10 (below) completes the bypass.</td></tr><tr><td>M4</td><td>mtkbt 0x6d0f0</td><td>NOP the Path B list-contains check (companion to M2 on the multi-frame outbound path). Same chip-readiness heuristic — bypassed so multi-frame responses ship regardless of <code>g_active_conn_list</code> membership.</td></tr><tr><td>M5</td><td>mtkbt 0x6d186 + 0xf3680</td><td>Path B TID-echo cave. Replaces an outbound <code>strb.w r0, [r4, 0x29]</code> with <code>b.w</code> into a 24-byte LOAD #1 code-cave that conditionally skips the write when <code>packet[+0xd] == 0</code> (outbound; allocator-zeroed) and lets it fire when nonzero (inbound; per-channel stash). Preserves per-event TID echo per AVRCP 1.3 §3.3.5 / AVCTP 1.2 §6.1.1.</td></tr><tr><td>M6</td><td>mtkbt 0x121f4</td><td>Paired NOP of the hard-coded CHANGED ctype write in <code>libextavrcp.so</code>&#x27;s <code>reg_notievent_*_rsp</code> builders&#x27; CHANGED branch — makes the branch a pure pass-through so the M1-widened ctype dispatch ships the JNI-supplied reasonCode unchanged.</td></tr><tr><td>M8</td><td>mtkbt 0xfa38</td><td>NOP <code>AVRCP_HandleA2DPInfo</code>&#x27;s info=1 disconnect call so the AVCTP control channel survives AVDTP CLOSE/REOPEN cycles per AVRCP 1.3 §4 transport independence.</td></tr><tr><td>M10</td><td>mtkbt 0x6df3a</td><td>NOP <code>cbnz r3, 0x6df52</code> (2 bytes → one NOP) in <code>fcn.0x6df20</code>. Removes the GATE CHECK rather than the SET. After M3+M10, <code>fcn.0x6df20</code> unconditionally proceeds to <code>fcn.0xae5e4</code> regardless of <code>chan+0xf2</code>. Fixes silent PSC CHANGED drops on sparse-re-registration CTs where the inbound INTERIM SET at <code>0x6dda8</code> is never naturally cleared before the outbound CHANGED arrives. Safe: mtkbt&#x27;s IPC dispatcher is single-threaded and <code>fcn.0xae5e4</code>&#x27;s downstream chain is synchronous, so removing the gate doesn&#x27;t introduce races.</td></tr><tr><td><strong>JNI patches</strong> (in <code>patch_libextavrcp_jni.py</code>)</td><td></td><td></td></tr><tr><td>R1</td><td>jni 0x6538 (4 B)</td><td><code>bne.n 0x65bc; movs r5, #9</code> → <code>bl.w 0x7308</code> (redirect into T1 stub)</td></tr><tr><td>T1 stub</td><td>jni 0x7308 (40 B slot)</td><td>Overwrites unused <code>testparmnum</code>. 4-byte <code>b.w T1_extended</code> bridge; remaining 36 B zero-padded. GetCapabilities body lives in the blob (see T1_extended below).</td></tr><tr><td>T2 stub</td><td>jni 0x72d0 (8 B)</td><td>Overwrites <code>classInitNative</code>. 4-byte <code>return 0</code> stub at 0x72d0 + 4-byte <code>b.w extended_T2</code> at 0x72d4</td></tr><tr><td>T1_extended + T4 + extended_T2 + T5 + T_charset + T_battery + T_continuation + T6 + T_papp + T8 + T9 + shared subroutines</td><td>jni 0xac54</td><td>New LOAD #1 extension, dynamically assembled by <code>_trampolines.py</code> (order above matches the assembly order). Blob size is computed at patch time; current release ~3156 B / debug ~3312 B against a 4020 B hard cap. T4&#x27;s prologue writes <code>conn[+0x11] = sp[+0x171]</code> for §3.3.5 strict TID echo on all non-RegNotif PDUs (RegNotif uses the per-event database via <code>restore_conn_tid</code>). Per-trampoline behavior + entry conditions: see <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FPATCHES.md"><code>PATCHES.md</code></a> <code>## patch_libextavrcp_jni.py</code> (one <code>###</code> subsection per trampoline).</td></tr><tr><td>Track-change native stub</td><td>jni 0x3bc0 (4 B)</td><td>First instruction of <code>notificationTrackChangedNative</code> rewritten to <code>b.w T5</code>. The Java side (after the MtkBt.odex sswitch_1a3 cardinality NOP) calls this native on every <code>metachanged</code> broadcast emitted by the music app; T5 emits CHANGED on the AVRCP wire asynchronously to any inbound query. The remaining 196 B of the original native body are unreachable.</td></tr><tr><td>Play-status native stub</td><td>jni 0x3c88 (4 B)</td><td>First instruction of <code>notificationPlayStatusChangedNative</code> rewritten to <code>b.w T9</code>. Paired with the MtkBt.odex sswitch_18a cardinality NOP at 0x3c4fe so every <code>playstatechanged</code> broadcast emitted by the music app lands in T9.</td></tr><tr><td>LOAD#1 filesz</td><td>jni 0x64</td><td>Extended to cover the assembled blob. New size computed at patch time.</td></tr><tr><td>LOAD#1 memsz</td><td>jni 0x68</td><td>Same</td></tr></tbody></table>
+<p>Stock md5s and patcher-output md5s are baked into the patcher headers; check them before quoting.</p>
+<p>The JNI trampoline blob is built dynamically by <code>src/patches/_trampolines.py</code> using a tiny Thumb-2 assembler in <code>src/patches/_thumb2asm.py</code>. Both files are imported by <code>patch_libextavrcp_jni.py</code> at run time. Self-tests in <code>_thumb2asm.py</code> verify several encodings against known-good byte sequences (b.w, blx, addw, movw, ldrb.w, add immediate T3).</p>
+<p><strong>Wire-level <code>Identifier</code> choice.</strong></p>
+<p>The wire-level <code>Identifier</code> field in TRACK_CHANGED INTERIM / CHANGED notifications is <code>0x0000000000000000</code> (8 zero bytes) — AVRCP 1.6 §6.7.2 Table 6.32 &quot;SELECTED&quot; semantic (&quot;the currently playing track, no specific UID&quot;). This is the strict AVRCP 1.6 §6.7.2 Table 6.32 reading (&quot;Identifier shall always be set to 0x00…00&quot; for TGs that don&#x27;t support Browseable Player UIDs), matches Y1&#x27;s advertised SDP version, and matches what a reference 1.3-as-TG implementation ships when no Now-Playing queue is in scope. Backed by a static 8-byte buffer (<code>selected_track_id</code>) in the trampoline data block; referenced from all three emit sites: T4 reactive CHANGED, extended_T2 INTERIM, T5 proactive CHANGED.</p>
+<p>Per-track CHANGED edge information is delivered by T4 / T5 detecting divergence between the active slot&#x27;s <code>track_id</code> field in <code>y1-track-info</code> (file offset <code>4 + active_slot*1104</code>, slot-local bytes <code>0..7</code>) and the trampoline&#x27;s <code>.bss</code> state block at <code>G_Y1_TRAMPOLINE_STATE_VADDR + 0</code> (also 8 bytes). Both buffers still hold the per-track audio_id — only the wire payload is constrained to spec. The trampoline-state audio_id is the synthetic value derived in <code>TrackInfoWriter.syntheticAudioId</code> (= <code>(path.hashCode() &amp; 0xFFFFFFFFL) | 0x100000000L</code>).</p>
+<p>See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FINVESTIGATION.md"><code>INVESTIGATION.md</code></a> &quot;Hardware test history per CT&quot; for the empirical observations that drove this design choice.</p>
+<h3 id="music-app--trampoline-file-contract">Music-app ↔ trampoline file contract</h3>
+<p>Two files, both in <code>/data/data/com.innioasis.y1/files/</code>:</p>
+<ul><li><strong>y1-track-info</strong> (2213 B, mode 0644 so the BT process can open + mmap it). Written by <code>TrackInfoWriter</code> on every state change in place via <code>RandomAccessFile.seek+write</code> into the inactive slot, then atomic single-byte flip of the active_slot indicator at file[0]. Reader (<code>libextavrcp_jni.so</code> trampolines) lazy-mmaps the file once per process and dispatches by reading file[0] on each access — no syscall per emit, no <code>tmpfile + rename</code> race window. Schema: <code>[0]=active_slot, [1..3]=RFA, [4..1107]=slot[0], [1108..2211]=slot[1], [2212]=RFA</code>. Per-field byte offsets within each slot match the legacy <code>[0..1103]</code> layout in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FBT-COMPLIANCE.md"><code>BT-COMPLIANCE.md</code></a> §4.</li><li><strong>y1-papp-set</strong> (2 B, mode 0666). Written by T_papp 0x14 with <code>[attr_id, value]</code> on every PApp Set; consumed by <code>PappSetFileObserver</code> in the music app, which dispatches to <code>SharedPreferencesUtils.setMusicRepeatMode</code> / <code>setMusicIsShuffle</code>.</li></ul>
+<p>Trampoline edge state (last-emitted track_id, play_status, battery, repeat, shuffle) lives in <code>libextavrcp_jni.so</code> <code>.bss</code> at <code>G_Y1_TRAMPOLINE_STATE_VADDR = 0xd2d6</code> (13 B, session-scope, zero-init at process load). Per-event subscription gates + TIDs live in <code>g_avrcp_req_event_database</code> at <code>.bss</code> vaddr <code>0xd2b5</code> (15 B). No on-disk artifact.</p>
+<p><code>TrackInfoWriter.prepareFiles()</code> ensures the BT process can reach both files: <code>setExecutable(true, false)</code> on the files dir adds world-x for traversal; each file is created with <code>setReadable(true, false)</code> and (for the writable one) <code>setWritable(true, false)</code>.</p>
+<h3 id="code-cave-inventory">Code-cave inventory</h3>
+<table><thead><tr><th>Region</th><th>Address</th><th>Size</th><th>Used by</th></tr></thead><tbody><tr><td><code>testparmnum</code></td><td>0x7308</td><td>40 bytes</td><td>T1 redirect (4 bytes used — <code>b.w</code> into the in-blob T1_extended; remaining 36 bytes idle but preserved)</td></tr><tr><td><code>classInitNative</code></td><td>0x72d0</td><td>48 bytes</td><td>T2 stub (8 bytes used; remaining 40 zero-filled, unreachable)</td></tr><tr><td><code>notificationTrackChangedNative</code></td><td>0x3bc0</td><td>200 bytes</td><td>T5 entry stub (4 bytes <code>b.w T5</code> used; remaining 196 unreachable)</td></tr><tr><td><code>notificationPlayStatusChangedNative</code></td><td>0x3c88</td><td>200 bytes</td><td>T9 entry stub (4 bytes <code>b.w T9</code> used; remaining unreachable)</td></tr><tr><td>LOAD #1 padding</td><td>0xac54..0xbc07</td><td>4020 bytes</td><td>full trampoline blob (in assembly order): T1_extended (relocated from <code>testparmnum</code> to free up the bigger event table), T4, extended_T2, T5, T_charset, T_battery, T_continuation, T6, T_papp, T8, T9 + four shared subroutines (<code>restore_conn_tid</code>, <code>save_event_seq_id</code>, <code>event_subscribed</code>, <code>clear_event_database</code>). Patcher asserts on overflow; the assert is currently armed at the 4020-byte ceiling.</td></tr><tr><td><code>.bss</code> (existing)</td><td>0xd2b5..0xd2c3</td><td>15 bytes</td><td><code>g_avrcp_req_event_database</code> — per-event subscription / TID table. Session-scope (cleared on every T1 GetCapabilities via <code>clear_event_database</code>).</td></tr><tr><td><code>getPlayerId</code></td><td>0x7300</td><td>4 bytes</td><td>(preserved, returns 0 — not touched)</td></tr><tr><td><code>getMaxPlayerNum</code></td><td>0x7304</td><td>4 bytes</td><td>(preserved, returns 20 — not touched)</td></tr></tbody></table>
+<hr>
+<h2 id="msg-id-taxonomy-mtkbts-ipc-visible-in-extadpavrcp-logs">msg-id taxonomy (mtkbt&#x27;s IPC, visible in EXTADP_AVRCP logs)</h2>
+<p>These are mtkbt-internal IPC IDs over the abstract socket <code>bt.ext.adp.avrcp</code>. NOT visible on the BT wire.</p>
+<table><thead><tr><th>msg_id</th><th>Direction</th><th>Meaning</th></tr></thead><tbody><tr><td>500</td><td>various</td><td><code>AVRCP_HandleA2DPInfo</code></td></tr><tr><td>502, 507</td><td>various</td><td>Connection lifecycle</td></tr><tr><td>519</td><td>mtkbt → JNI</td><td><code>CMD_FRAME_IND</code> — inbound AVRCP COMMAND from peer</td></tr><tr><td>520</td><td>JNI → mtkbt</td><td><code>CMD_FRAME_RSP</code> generic ack / reject (PASSTHROUGH ack OR NOT_IMPLEMENTED)</td></tr><tr><td>522</td><td>JNI → mtkbt</td><td>GetCapabilities response (from <code>…send_get_capabilities_rsp</code>)</td></tr><tr><td>540</td><td>JNI → mtkbt</td><td>GetElementAttributes response (from <code>…send_get_element_attributes_rsp</code>)</td></tr><tr><td>544</td><td>JNI → mtkbt</td><td>RegisterNotification response (from <code>…send_reg_notievent_*_rsp</code>)</td></tr></tbody></table>
+<hr>
+<h2 id="arm--thumb-2-instruction-encoding-gotchas-lessons-from-this-work">ARM / Thumb-2 instruction encoding gotchas (lessons from this work)</h2>
+<p>Patches add up — these tripped us up at least once each:</p>
+<ul><li><strong>ADR T1</strong> (16-bit) requires offset to be a multiple of 4 AND target to be 4-byte aligned. When emitting strings of non-4-aligned length, pad each string to the next 4-byte boundary so subsequent ADR targets stay aligned. ADR.W (32-bit) is more flexible.</li><li><strong>POP {r4, lr}</strong> is NOT 16-bit. Only <code>POP {regs, pc}</code> (which RETURNS) and <code>POP {low_regs}</code> are 16-bit. Restoring <code>lr</code> without returning needs <code>POP.W</code> (32-bit, 4 bytes). We solved this in T4 by not pushing / popping at all — <code>r4-r9</code> are restored by saveRegEventSeqId&#x27;s epilogue at 0x7154 (<code>pop {r4-r9, sl, fp, pc}</code>).</li><li><strong>ADD Rd, SP, #imm</strong> (16-bit T1) requires imm to be a multiple of 4 AND in 0..1020. For arbitrary 12-bit immediates use <code>ADDW Rd, SP, #imm12</code> (T4, 32-bit, no rotation / alignment requirement).</li><li><strong>bl.w</strong> clobbers <code>lr</code>. <strong>b.w</strong> doesn&#x27;t. <strong>blx</strong> changes ARM / Thumb mode based on the target&#x27;s bit 0 (PLT stubs are at even addresses → switches to ARM, which is what we want).</li><li><strong>AAPCS callee-saved regs (r4-r11)</strong>: saveRegEventSeqId pushes them in its prologue and restores them in the epilogue at 0x7154. Our trampolines can trash r4-r9 freely without local push/pop — they&#x27;ll be restored by the parent function&#x27;s epilogue when we <code>b.w 0x712a</code>.</li></ul>
+<hr>
+<h2 id="adding-a-new-pdu-handler-a-recipe">Adding a new PDU handler (a recipe)</h2>
+<p>When adding a new T-trampoline (e.g., GetPlayStatus PDU 0x30):</p>
+<ol><li><strong>Find the response builder PLT entry</strong> in <code>libextavrcp_jni.so</code> via <code>objdump -R … | grep &lt;name&gt;</code> and follow the GOT entry to its PLT stub.</li><li><strong>Disassemble the C function</strong> in <code>libextavrcp.so</code> to learn its real argument semantics. Don&#x27;t assume — the names (<code>arg1</code> etc.) don&#x27;t tell you what the args mean. Look for:<ul><li>Buffer reset condition (when does it <code>memset</code> the internal buffer?)</li><li>Send trigger condition (which args make it call <code>AVRCP_SendMessage</code>?)</li><li>Where transId comes from (usually <code>conn[17]</code>, not an arg)</li></ul></li><li><strong>Allocate cave space</strong> in the LOAD #1 padding region (4020 B total, ending at LOAD #2&#x27;s start at 0xbc08). The patcher prints the post-build trampoline size on every run; remaining headroom is <code>4020 - blob_size</code>. The hard-cap assert in <code>patch_libextavrcp_jni.py</code> will fail the build before it can corrupt LOAD #2&#x27;s GOT.</li><li><strong>Wire it into the chain</strong>: change the previous trampoline&#x27;s &quot;unknown&quot; branch (the <code>b.w</code> to <code>0x65bc</code> or to the next trampoline) to point at your new entry.</li><li><strong>End with</strong>:<ul><li><code>b.w 0x712a</code> for the success path (lands on stack-canary check + epilogue).</li><li>For the fall-through path: restore <code>r0 = r5+8</code> and <code>lr = halfword[sp+374]</code> before <code>b.w 0x65bc</code>.</li></ul></li><li><strong>Bump LOAD #1 <code>FileSiz</code>/<code>MemSiz</code></strong> to cover your new bytes.</li><li><strong>Verify with objdump</strong> before committing — disassemble your bytes and confirm every branch resolves to the intended target.</li></ol>
+<hr>
+<h2 id="cross-component-state-dependencies">Cross-component state dependencies</h2>
+<p>Every state read or write that crosses process boundaries. Consult this table before touching any of these surfaces — every entry is a potential regression source.</p>
+<table><thead><tr><th>State</th><th>Owner</th><th>Read by</th><th>Set by</th><th>Reset by</th><th>Notes</th></tr></thead><tbody><tr><td><code>sPlayServiceInterface</code> (byte field@1267)</td><td><code>MtkBt.odex</code> (Java, in BT process)</td><td><code>BTAvrcpMusicAdapter.startToBindPlayService</code> (gate read), other adapter methods</td><td><code>BTAvrcpMusicAdapter.startToBindPlayService</code> (set true at bind start)</td><td>F2 patches <code>BluetoothAvrcpService.disable()</code> to set false</td><td>Critical. If false → AVRCP wire degrades to compile-time 1.0 dispatch + no Java callbacks.</td></tr><tr><td><code>mMusicService</code> (IBinder field)</td><td><code>BTAvrcpMusicAdapter</code> (Java, in BT process)</td><td>All adapter methods that delegate to the bridge (transact codes 1 / 3 / 4 / 13-31)</td><td><code>BTAvrcpMusicAdapter$4.onServiceConnected</code> after <code>bindService</code> succeeds</td><td><code>onServiceDisconnected</code> (sets null), <code>disable</code></td><td>Required even though the trampolines bypass the Java path for most queries — MtkBt&#x27;s <code>mMusicService != null</code> checks gate the cardinality-NOP-driven Java callback path.</td></tr><tr><td><code>y1-track-info</code> (2213 B file)</td><td>Music app <code>TrackInfoWriter</code></td><td>T4 / T5 / T6 / T8 / T9 / extended_T2 / T_papp — all in BT process, via lazy-mmap of file[0..2212]</td><td><code>TrackInfoWriter.flush()</code> on every state change (driven by <code>PlaybackStateBridge</code> edges, <code>BatteryReceiver</code>, <code>PappStateBroadcaster</code>)</td><td>Process shutdown / OS reboot</td><td>Mode <code>0644</code>, world-readable. Path: <code>/data/data/com.innioasis.y1/files/y1-track-info</code>. Double-buffer (file[0]=active_slot + 2 × 1104 B slots); music app writes inactive slot then atomically flips file[0]. <strong>Must be written before the corresponding broadcast fires.</strong></td></tr><tr><td>Trampoline edge state (13 B)</td><td><code>libextavrcp_jni.so</code> <code>.bss</code> at vaddr <code>0xd2d6</code></td><td>T4 / extended_T2 / T5 / T9 edge detect</td><td>T4 / extended_T2 / T5 (after CHANGED emit) and T9 (after edge fires)</td><td>Zero-init at every process load</td><td>Session-scope only. PC-relative loads, no syscalls.</td></tr><tr><td><code>y1-papp-set</code> (2 B file)</td><td>Music app <code>TrackInfoWriter.prepareFiles</code> (initial create) + T_papp 0x14 (write on PApp Set)</td><td>Music app <code>PappSetFileObserver</code></td><td>T_papp 0x14 writes <code>[attr_id, value]</code> on every CT-initiated PApp Set</td><td>—</td><td>Mode <code>0666</code>, world-rw. Path: <code>/data/data/com.innioasis.y1/files/y1-papp-set</code>. CT → Y1 side of the Repeat / Shuffle round-trip.</td></tr><tr><td><code>metachanged</code> broadcast</td><td>Music app <code>PlayerService</code> fires; MtkBt&#x27;s <code>BluetoothAvrcpReceiver</code> consumes</td><td><code>BluetoothAvrcpReceiver</code> (manifest-declared in MtkBt.apk)</td><td>Music app&#x27;s track-load path sends <code>com.android.music.metachanged</code> on track change</td><td>n/a</td><td>Wakes the chain into <code>notificationTrackChangedNative</code> → T5 (proactive TRACK_CHANGED 3-tuple). MtkBt.odex cardinality NOP at file 0x3c530 makes the Java callback fire unconditionally.</td></tr><tr><td><code>playstatechanged</code> broadcast</td><td>Music app <code>PlayerService</code> + <code>PappStateBroadcaster</code> fire; MtkBt&#x27;s <code>BluetoothAvrcpReceiver</code> consumes</td><td>Same as above</td><td>Fires on play/pause/stop edge, on battery bucket transition, on the 1 s position tick while playing, and on every <code>musicRepeatMode</code> / <code>musicIsShuffle</code> change</td><td>n/a</td><td>Wakes <code>notificationPlayStatusChangedNative</code> → T9. MtkBt.odex cardinality NOP at file 0x3c4fe makes it fire unconditionally on event 0x01.</td></tr><tr><td><code>mMediaButtonReceiver</code> slot (AudioManager)</td><td>Android system service</td><td>AudioService for ACTION_MEDIA_BUTTON dispatch routing</td><td>Not actively registered; music app&#x27;s manifest-declared <code>PlayControllerReceiver</code> (priority=MAX_INT for ACTION_MEDIA_BUTTON) is what receives via ordered broadcast</td><td>—</td><td><strong>Not consulted by MtkBt</strong> for service discovery — verified via dex string scan. The RCC subsystem on Android 4.2 falls back to ordered broadcast when no PendingIntent receiver is registered, which is the active path since Y1Bridge does not call <code>registerMediaButtonEventReceiver</code>.</td></tr><tr><td><code>IBTAvrcpMusic</code> / <code>IMediaPlaybackService</code> Binder</td><td><code>Y1Bridge.MediaBridgeService</code> (<code>com.koensayr.y1.bridge</code>)</td><td>MtkBt <code>BTAvrcpMusicAdapter</code> post-bind</td><td>Y1Bridge&#x27;s own manifest declares the service with the <code>com.android.music.MediaPlaybackService</code> intent-filter; <code>bindService</code> cold-starts the bridge process.</td><td><code>onUnbind</code></td><td>C-side trampolines deliver real metadata + control on the AVRCP wire; the Binder exists so <code>mMusicService != null</code> checks pass and MtkBt issues REGISTER_NOTIFICATION.</td></tr></tbody></table>
+<p>Touching any of these requires (a) tracing what depends on it, (b) confirming the change won&#x27;t break the dependent path, (c) capturing on-device evidence post-flash.</p>
+<hr>
+<h2 id="see-also">See also</h2>
+<ul><li><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FBT-COMPLIANCE.md"><code>BT-COMPLIANCE.md</code></a> — current ICS Table 7 coverage scorecard (every Mandatory + every Optional row).</li><li><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FPATCHES.md"><code>PATCHES.md</code></a> — per-patch byte-level reference.</li><li><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FINVESTIGATION.md"><code>INVESTIGATION.md</code></a> — chronological investigation history including the gdbserver capture work and dead-end paths.</li><li><code>src/patches/patch_libextavrcp_jni.py</code> — the patcher containing R1 / T1 / T2 / T4. Header comments and PATCHES list are the source of truth for byte-level details.</li></ul></article><p class="lumen-doc-footer-note">These are Koensayr's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/ryan-specter/koensayr-auto" rel="noopener">ryan-specter/koensayr-auto</a> project <a class="lumen-cite" href="https://github.com/ryan-specter/koensayr-auto" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aryan-specter" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -209,13 +209,29 @@ def build_software(catalog: list[dict], manifest: list[dict]) -> list[dict]:
         item["model"] = (item.get("model") or "").upper()
         seen[slug] = item
     result = sorted(seen.values(), key=lambda entry: (entry.get("model", ""), entry.get("name", "")))
+    FIRMWARE_PAGE_BY_REPO.clear()
+    SLUG_BY_REPO.clear()
+    GUIDE_BY_REPO.clear()
     for item in result:
         repo = (item.get("repo") or "").lower()
-        if repo and repo not in FIRMWARE_PAGE_BY_REPO:
-            FIRMWARE_PAGE_BY_REPO[repo] = "firmware.html?model=%s&software=%s" % (
+        if not repo:
+            continue
+        if repo not in FIRMWARE_PAGE_BY_REPO:
+            FIRMWARE_PAGE_BY_REPO[repo] = SITE + "/firmware.html?model=%s&software=%s" % (
                 urllib.parse.quote(item.get("model") or ""),
                 urllib.parse.quote(item.get("slug") or ""),
             )
+        if repo not in SLUG_BY_REPO and item.get("slug"):
+            SLUG_BY_REPO[repo] = str(item["slug"])
+        if repo not in GUIDE_BY_REPO:
+            guide_rel = str(item.get("guide") or "").strip().lstrip("./")
+            if guide_rel:
+                GUIDE_BY_REPO[repo] = SITE + "/" + guide_rel
+            else:
+                GUIDE_BY_REPO[repo] = SITE + "/guide.html?model=%s&software=%s" % (
+                    urllib.parse.quote(item.get("model") or ""),
+                    urllib.parse.quote(item.get("slug") or ""),
+                )
     return result
 
 
@@ -489,6 +505,8 @@ def resolve_asset(href: str, ctx: dict | None) -> str:
 # Repo -> catalogue slug, filled in by build(), so a note that links to the
 # project's own releases can point at our release notes page instead.
 SLUG_BY_REPO: dict[str, str] = {}
+GUIDE_BY_REPO: dict[str, str] = {}
+DISCOVERED_MD_SOURCES: dict[str, dict] = {}
 
 ASSET_LINK_RE = re.compile(r"^https?://(?:www\.)?github\.com/[^/]+/[^/]+/releases/download/", re.I)
 RELEASE_LINK_RE = re.compile(
@@ -496,6 +514,17 @@ RELEASE_LINK_RE = re.compile(
 )
 COMPARE_LINK_RE = re.compile(r"^https?://(?:www\.)?github\.com/([^/]+/[^/]+)/compare/", re.I)
 REPO_LINK_RE = re.compile(r"^https?://(?:www\.)?github\.com/([^/?#]+)/([^/?#]+?)(?:\.git)?/?(?:[?#].*)?$", re.I)
+ROCKBOX_Y1_THEMES_RE = re.compile(
+    r"^https?://(?:www\.)?(?:github\.com|raw\.githubusercontent\.com)/rockbox-y1/rockbox/"
+    r"(?:(?:blob|raw)/[^/]+/|[^/]+/)?THEMES\.md(?:[?#].*)?$"
+    r"|^https?://(?:www\.)?github\.com/rockbox-y1/themes(?:/|$)",
+    re.I,
+)
+INSTALL_MD_RE = re.compile(r"(?:^|/)[^?#]*install[^?#]*\.(?:md|markdown|mdown|mkd|mdx)$", re.I)
+GH_REPO_FROM_URL_RE = re.compile(
+    r"^https?://(?:www\.)?(?:github\.com|raw\.githubusercontent\.com)/([^/?#]+/[^/?#]+)",
+    re.I,
+)
 
 # Every listed repository points at its own firmware listing, so a README
 # that names another project links to our releases for it.
@@ -545,6 +574,11 @@ def video_card(href: str, label: str) -> str:
 
 def firmware_page_for(repo: str) -> str:
     return FIRMWARE_PAGE_BY_REPO.get((repo or "").lower(), "")
+
+
+def install_guide_for(repo: str, ctx: dict | None = None) -> str:
+    key = (repo or (ctx.get("repo") if ctx else "") or "").lower()
+    return GUIDE_BY_REPO.get(key) or guide_url()
 
 
 def parser_release_query(repo: str, tag: str = "", software: str = "") -> str:
@@ -644,12 +678,37 @@ def link_text_is_url(label: str, href: str) -> bool:
 def resolve_link(href: str, ctx: dict | None) -> str:
     if not href:
         return "#"
+    href = html.unescape(str(href)).strip()
+    if not href:
+        return "#"
     if re.match(r"^(mailto:|tel:|data:|#)", href, re.I):
         return href
+    if re.match(r"^https?://(?:www\.)?innioasis\.app(?:/|$)", href, re.I):
+        return href
+    if not re.match(r"^https?:", href, re.I):
+        if not ctx:
+            return href
+        if href.startswith("/") and ctx.get("repo") and ctx.get("ref"):
+            href = "https://github.com/%s/blob/%s%s" % (ctx["repo"], ctx["ref"], href)
+        else:
+            base = ctx.get("blob_dir") or ctx.get("dirBlob") or ""
+            href = urllib.parse.urljoin(base, href) if base else href
     if re.match(r"^https?:", href, re.I):
         guide = superseded_guide_link(href)
         if guide:
             return guide
+        # Rockbox-Y1 theme documentation links point to our static Updater CE
+        # theme transfer guide.
+        if ROCKBOX_Y1_THEMES_RE.match(href):
+            return SITE + "/rockbox-y1-themes.html"
+        # Any Markdown link whose path contains both "install" and ".md"
+        # (e.g. INSTALLATION.md, docs/install.md) routes to our own firmware
+        # installation instructions for that project.
+        path_only = re.split(r"[?#]", href, 1)[0]
+        if INSTALL_MD_RE.search(path_only):
+            gh_repo = GH_REPO_FROM_URL_RE.match(href)
+            target_repo = (gh_repo.group(1) if gh_repo else "") or (ctx.get("repo") if ctx else "") or ""
+            return install_guide_for(target_repo, ctx)
         # A release's own files are never listed here, and a link to the
         # project's GitHub releases page becomes our release notes page.
         if ASSET_LINK_RE.match(href):
@@ -670,17 +729,14 @@ def resolve_link(href: str, ctx: dict | None) -> str:
                 return page
         nested = parse_source(href)
         if nested and nested["kind"] == "github":
+            if nested.get("raw_url"):
+                DISCOVERED_MD_SOURCES[nested["raw_url"]] = nested
             query = {"url": href}
             if nested.get("anchor"):
                 query["anchor"] = nested["anchor"].lstrip("#")
             return SITE + "/post_install.html?" + urllib.parse.urlencode(query)
         return href
-    if not ctx:
-        return href
-    if href.startswith("/") and ctx.get("repo") and ctx.get("ref"):
-        return "https://github.com/%s/blob/%s%s" % (ctx["repo"], ctx["ref"], href)
-    base = ctx.get("blob_dir") or ""
-    return urllib.parse.urljoin(base, href) if base else href
+    return href
 
 
 TOKEN_RE = re.compile(r"\x00([A-Z])(\d+)\x00")
@@ -696,6 +752,7 @@ def inline_markdown(text: str, ctx: dict | None) -> str:
         return "\x00I%d\x00" % (len(protected) - 1)
 
     text = re.sub(r"(`+)([\s\S]*?)\1", lambda m: protect("<code>%s</code>" % esc(m.group(2).strip())), text)
+    text = re.sub(r"<(https?://[^\s<>]+)>", r"\1", text)
     text = re.sub(
         r"(?is)</?([a-zA-Z][a-zA-Z0-9-]*)((?:\s[^<>]*)?)>",
         lambda m: m.group(0) if m.group(1).lower() in ALLOWED_HTML else "",
@@ -1318,7 +1375,7 @@ def master_index_page(software: list[dict], release_counts: dict[str, int], post
     }, main, up)
 
 
-def post_install_page(item: dict, source: dict, markdown: str, release_tags: list[str]) -> str:
+def post_install_page(item: dict, source: dict, markdown: str, release_tags: list[str], slug_override: str = "") -> str:
     up = "../"
     name = software_label(item)
     model = item.get("model") or ""
@@ -1326,7 +1383,8 @@ def post_install_page(item: dict, source: dict, markdown: str, release_tags: lis
     heading = re.search(r"^\s{0,3}#\s+(.+)$", markdown, re.M)
     if heading:
         title = re.sub(r"[`*_]", "", heading.group(1)).strip()
-    canonical = "%s/post-install/%s.html" % (SITE, item["slug"])
+    page_slug = slug_override or item["slug"]
+    canonical = "%s/post-install/%s.html" % (SITE, page_slug)
     body = markdown_to_html(markdown, source)
     description = one_line(markdown, 170) or ("Post-install setup instructions for %s on the Innioasis %s." % (name, model))
     latest = release_tags[0] if release_tags else ""
@@ -1397,17 +1455,61 @@ def update_sitemap(urls: list[str]) -> None:
     print("sitemap: %d new URLs" % added)
 
 
+def render_discovered_markdown_pages(
+    software: list[dict],
+    refresh: bool = False,
+    written_slugs: set[str] | None = None,
+) -> tuple[list[str], list[str]]:
+    """Render static HTML pages in post-install/ for linked GitHub Markdown docs."""
+    post_root = ROOT / "post-install"
+    post_root.mkdir(exist_ok=True)
+    by_repo = {(entry.get("repo") or "").lower(): entry for entry in software if entry.get("repo")}
+    seen_slugs = set(written_slugs or set())
+    urls: list[str] = []
+    cards: list[str] = []
+    for raw_url, source in list(DISCOVERED_MD_SOURCES.items()):
+        path = str(source.get("path") or "")
+        if not path or re.search(r"(?:^|/)readme\.(?:md|markdown|mdown|mkd|mdx)$", path, re.I):
+            continue
+        repo = str(source.get("repo") or "")
+        item = by_repo.get(repo.lower())
+        if not item:
+            continue
+        stem = re.sub(r"\.(?:md|markdown|mdown|mkd|mdx)$", "", path, flags=re.I)
+        doc_slug = tag_slug(repo.replace("/", "-") + "-" + stem)
+        if not doc_slug or doc_slug in seen_slugs:
+            continue
+        seen_slugs.add(doc_slug)
+        markdown = load_markdown(source, refresh=refresh)
+        if not markdown.strip():
+            continue
+        (post_root / (doc_slug + ".html")).write_text(
+            post_install_page(item, source, markdown, [], slug_override=doc_slug),
+            encoding="utf-8",
+        )
+        urls.append("%s/post-install/%s.html" % (SITE, doc_slug))
+        doc_label = "%s · %s" % (software_label(item), path)
+        cards.append(
+            '<article class="lumen-card"><small>%s</small><h3><a href="../post_install.html?url=%s">%s</a></h3>'
+            '<p>%s</p></article>'
+            % (
+                esc(item.get("model", "")),
+                esc(urllib.parse.quote(source.get("blob_url") or raw_url, safe="")),
+                esc(doc_label),
+                esc(one_line(markdown, 150) or "Documentation published by the project."),
+            )
+        )
+    return urls, cards
+
+
 # ---------------------------------------------------------------- build
 
 
 def build(refresh: bool = False) -> None:
+    DISCOVERED_MD_SOURCES.clear()
     catalog = load_catalog()
     manifest = load_manifest()
     software = build_software(catalog, manifest)
-    SLUG_BY_REPO.clear()
-    for entry in software:
-        if entry.get("repo"):
-            SLUG_BY_REPO[entry["repo"].lower()] = entry["slug"]
     mirror = mirror_index(refresh=refresh)
     print("software entries: %d" % len(software))
 
@@ -1420,6 +1522,7 @@ def build(refresh: bool = False) -> None:
     release_counts: dict[str, int] = {}
     post_install_items: list[tuple[dict, dict]] = []
     post_install_cards: list[str] = []
+    written_post_slugs: set[str] = set()
 
     for item in software:
         repo = item.get("repo") or ""
@@ -1458,6 +1561,7 @@ def build(refresh: bool = False) -> None:
         (post_root / (slug + ".html")).write_text(
             post_install_page(item, source, markdown, tags), encoding="utf-8"
         )
+        written_post_slugs.add(slug)
         sitemap_urls.append("%s/post-install/%s.html" % (SITE, slug))
         post_install_items.append((item, source))
         post_install_cards.append(
@@ -1467,12 +1571,21 @@ def build(refresh: bool = False) -> None:
                esc(one_line(markdown, 150) or "Setup steps published by the project."))
         )
 
+    extra_urls, extra_cards = render_discovered_markdown_pages(
+        software, refresh=refresh, written_slugs=written_post_slugs
+    )
+    sitemap_urls.extend(extra_urls)
+    post_install_cards.extend(extra_cards)
+
     (release_root / "index.html").write_text(
         master_index_page(software, release_counts, post_install_items), encoding="utf-8"
     )
     (post_root / "index.html").write_text(post_install_index_page(post_install_cards), encoding="utf-8")
     update_sitemap(sitemap_urls)
-    print("done: %d release pages, %d post-install pages" % (sum(release_counts.values()), len(post_install_items)))
+    print(
+        "done: %d release pages, %d post-install pages, %d linked doc pages"
+        % (sum(release_counts.values()), len(post_install_items), len(extra_urls))
+    )
 
 
 def main() -> int:

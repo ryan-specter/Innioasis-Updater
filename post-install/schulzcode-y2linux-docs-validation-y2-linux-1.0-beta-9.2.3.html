@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 9.2.3: album years, hidden Wi-Fi, clearer Cover Flow - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 9.2.3: album years, hidden Wi-Fi, clearer Cover Flow Release 1.0.0-beta.9.2.3 , Y2Reborn 1.0.0-beta.9.2.3 , kernel 6.18.56-y2linux-1.0.0-beta.9.2.3 , upd">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-9.2.3.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 9.2.3: album years, hidden Wi-Fi, clearer Cover Flow - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 9.2.3: album years, hidden Wi-Fi, clearer Cover Flow Release 1.0.0-beta.9.2.3 , Y2Reborn 1.0.0-beta.9.2.3 , kernel 6.18.56-y2linux-1.0.0-beta.9.2.3 , upd">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-9.2.3.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 9.2.3: album years, hidden Wi-Fi, clearer Cover Flow - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 9.2.3: album years, hidden Wi-Fi, clearer Cover Flow Release 1.0.0-beta.9.2.3 , Y2Reborn 1.0.0-beta.9.2.3 , kernel 6.18.56-y2linux-1.0.0-beta.9.2.3 , upd">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 9.2.3: album years, hidden Wi-Fi, clearer Cover Flow</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-923-album-years-hidden-wi-fi-clearer-cover-flow">Y2Linux 1.0 Beta 9.2.3: album years, hidden Wi-Fi, clearer Cover Flow</h1>
+<p>Release <code>1.0.0-beta.9.2.3</code>, Y2Reborn <code>1.0.0-beta.9.2.3</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.9.2.3</code>, update sequence 11900, root <code>2026.08-platform-v1.217</code>. Published as GitHub release <code>baseline-194</code> (test build 194). Previous release: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.2.2.md">Beta 9.2.2</a>.</p>
+<p>This report is written for people who use the player. A short technical appendix is at the end.</p>
+<h2 id="in-one-paragraph">In one paragraph</h2>
+<p>Beta 9.2.3 makes five requests from the GitHub issues the player&#x27;s default, without new settings. Albums know their release year: an artist&#x27;s albums go oldest first and show their year. You can join a Wi-Fi network that is hidden. Cover Flow shows where you are in its title bar and has bigger text below the covers. Every skin numbers the songs of an album. And the grey text is a little brighter, so it reads better with the screen turned down.</p>
+<h2 id="whats-new">What&#x27;s new</h2>
+<ul><li><strong>Album years</strong> (Y2Reborn #66). The player now reads each song&#x27;s year. An artist&#x27;s albums are listed oldest<p>first (albums without a year come last), album rows say &quot;Artist · 1979&quot;, and the album page and Cover Flow say &quot;1979 · 12 songs · 48 min&quot;. With <strong>Album Order: Artist</strong> (Settings → Customize), each artist&#x27;s albums are in year order too.</p></li><li><strong>Hidden Wi-Fi networks</strong> (Y2Reborn #61). At the bottom of the Wi-Fi list, <strong>Other Network…</strong> asks for the<p>network&#x27;s name, then its password (leave it empty for an open network). The player looks for that name directly. A wrong password opens the keyboard again with what you typed, as for other networks.</p></li><li><strong>Cover Flow</strong> (Y2Reborn #70). &quot;25 of 100&quot; moved up into the title bar next to the screen&#x27;s name, and the artist<p>and album details below the covers are bigger.</p></li><li><strong>Track numbers in every skin</strong> (Y2Linux #75). The standard look already numbered an album&#x27;s songs; skins showed<p>the album&#x27;s cover on every song instead. Now every skin shows the number there.</p></li><li><strong>Brighter grey text</strong> (Y2Reborn #59). Secondary text (the values on the right of Settings, hints, details) is a<p>step brighter, so it reads better at low brightness. The white text is still clearly the brightest.</p></li></ul>
+<h2 id="what-youll-notice">What you&#x27;ll notice</h2>
+<ul><li><strong>After the update, the player reads your songs&#x27; tags once more</strong> in the background, to learn their years. You<p>can use the player meanwhile; years appear as it goes. On a very large library this takes a while once (at the same speed as a normal first scan). Nothing else changes in your library.</p></li><li>Album years on artist pages and in Cover Flow; Other Network… in the Wi-Fi list.</li></ul>
+<h2 id="how-it-was-tested">How it was tested</h2>
+<ul><li><strong>Before release:</strong> the platform&#x27;s full check on every change, Reborn&#x27;s workspace tests and the tests of the<p>finished release images. New tests: the year from date tags and a library from before this release reading it once; an artist&#x27;s albums oldest first with their year and Album Order by artist; Other Network… with both keyboards, an open hidden network and a too-short password, and the player probing a hidden network by name; Cover Flow&#x27;s title; numbered album songs in a skin and every shipped skin.</p></li><li><strong>Speed on large libraries:</strong> on the computer with 150 000 songs, the album lists take the same time with years<p>as before (albums by artist 28 ms, an artist page 2.5 ms, the album line 7.3 ms).</p></li><li><strong>Skins:</strong> every skin drawn on the computer; album pages, Cover Flow and Settings checked by eye.</li><li><strong>On the developer&#x27;s player:</strong> installed over the air from Beta 9.2.2 and confirmed by the player itself<p>(Acknowledged); all four services and Reborn running, health OK (Bluetooth was switched off), the music player ready 37.5 s after the restart, kernel not tainted, Wi-Fi online. The first scan re-read all 323 songs&#x27; tags in 3.1 s; 311 of them now have a year (38 albums).</p></li></ul>
+<h2 id="updating">Updating</h2>
+<p>Settings → About &amp; Updates → Check for Updates → <strong>Update Now</strong>. Your music, playlists, settings, Wi-Fi networks and Bluetooth pairings stay. Settings → Diagnostics → <strong>Restore Previous System</strong> goes back to Beta 9.2.2 if you need to; the older version reads your library as before (it reads the tags once more itself).</p>
+<h2 id="known-issues">Known issues</h2>
+<p>Everything listed for <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.0.md%23known-issues-and-what-still-needs-your-help&amp;anchor=known-issues-and-what-still-needs-your-help">Beta 9.0</a> still applies.</p>
+<h2 id="technical-appendix">Technical appendix</h2>
+<ul><li><strong>Year:</strong> <code>Track.year</code> from the <code>date</code> tag (<code>year_of</code>: the first four digits, 1000–2999); additive column <code>year</code>,<p><code>METADATA_REVISION</code> 5 (each row re-reads its tags once; quick scans walk again once because the volume&#x27;s revision changed). An album&#x27;s year is its earliest song&#x27;s; the album totals carry it (<code>AlbumTotal</code>), the catalog sorts with <code>year_key</code> (unknown last). Host profile <code>profile_albums_150k</code> (ignored test).</p></li><li><strong>Hidden Wi-Fi:</strong> <code>Purpose::WifiName</code>, <code>WifiPassword { hidden }</code>, <code>Effect::WifiConnect { hidden }</code>,<p><code>wifi::Command::Connect { hidden }</code>; a hidden join sets <code>scan_ssid 1</code>. The Wi-Fi worker commands share <code>send_wifi</code>.</p></li><li><strong>Cover Flow:</strong> the position joins the status bar title; skins have <code>{position}</code> (Classic&#x27;s Cover Flow title uses<p>it).</p></li><li><strong>Skins:</strong> row flag <code>numbered</code> and <code>{track_number}</code> in rows; <code>build_skins.py add_numbers</code>.</li><li><strong>Theme:</strong> <code>MUTED</code> #A0A4AE → #B4B8C2 (contrast 8.1 → 10.1), <code>DIM</code> #848894 → #989CA8 (5.7 → 7.3).</li><li><strong>Library migrations</strong> share <code>has_column</code>.</li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 7 (Baseline 61) - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 7 Baseline 61 Status: PUBLISHED as GitHub release baseline-61 2026-10-16. Release 1.0.0-beta.7 , Reborn 1.0.0-beta.7 , kernel 6.18.56-y2linux-1.0.0-beta.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-7.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 7 (Baseline 61) - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 7 Baseline 61 Status: PUBLISHED as GitHub release baseline-61 2026-10-16. Release 1.0.0-beta.7 , Reborn 1.0.0-beta.7 , kernel 6.18.56-y2linux-1.0.0-beta.">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-7.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 7 (Baseline 61) - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 7 Baseline 61 Status: PUBLISHED as GitHub release baseline-61 2026-10-16. Release 1.0.0-beta.7 , Reborn 1.0.0-beta.7 , kernel 6.18.56-y2linux-1.0.0-beta.">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 7 (Baseline 61)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-7-baseline-61">Y2Linux 1.0 Beta 7 (Baseline 61)</h1>
+<p>Status: <strong>PUBLISHED as GitHub release <code>baseline-61</code></strong> (2026-10-16). Release <code>1.0.0-beta.7</code>, Reborn <code>1.0.0-beta.7</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.7</code>, update sequence 5800, Linux <code>7c0ee9f</code>, Reborn <code>7ade64b</code>, git tag <code>baseline-61</code> in both repositories. Built with <code>tools/production/release.py</code> in 94 s: container suite <strong>743 OK</strong>, all seal checks PASS, no MediaTek firmware in any image. Milestone audit: UI-V4 and BETA-7 in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap-gap-audit</a>.</p>
+<table><thead><tr><th>Image</th><th>SHA-256</th></tr></thead><tbody><tr><td>BOOTIMG</td><td><code>328574ce484e319e4e6404bdfe52be54e22011ae7d01a42b225a75c869f631f7</code></td></tr><tr><td>Y2ROOT</td><td><code>38c19cc310c69c2ffe87d36fe2a1b003906f80c04585a7298e9c8cf5f50762a7</code></td></tr><tr><td>RECOVERY</td><td><code>c0c96adafa18b6c0b2ed9021935e18ec7f45956fe53295eabbf5c23f2443e719</code></td></tr><tr><td>Y2DATA (no SSH key)</td><td><code>958d3135b0827facd6d411d8305794f02272f68a8c43c8ac3d2b829100b9ca59</code></td></tr></tbody></table>
+<h2 id="since-beta-63">Since Beta 6.3</h2>
+<h3 id="reborn-ui-v4-one-strict-system">Reborn: UI v4, one strict system</h3>
+<p>Owner (2026-10-16): since playlists, search and radio the UI &quot;looks kind full&quot;; the default look is liked but &quot;still a little rough&quot;; make it consistent everywhere, for listeners rather than developers, and remove what users would not need. Review of all 92 interactive screens (host renders, one device capture), the plan, the owner&#x27;s four decisions and every phase are recorded in Reborn&#x27;s <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Fui%2FREBORN-PRODUCT-UI-V4.md">Product UI v4</a>.</p>
+<table><thead><tr><th>Part</th><th>Change</th></tr></thead><tbody><tr><td>Colour</td><td>One fixed accent for every control and state; the cover&#x27;s colour only on Now Playing and the Home cover card. Skins keep their own accent.</td></tr><tr><td>Components</td><td>One focus row (neutral glass) in every list, page and menu; one button; one empty/info state (icon, title, sentence); one LIVE badge. Wi-Fi/Bluetooth lists in a grouped card, switches in the accent.</td></tr><tr><td>Home</td><td>Now Playing, Music, Playlists, Radio, Search, Settings (was ten items with counts). Music lists Artists, Albums, Songs, Genres and Folders with counts; Settings → Display → Home Menu pins any of them back on Home.</td></tr><tr><td>Less on screen</td><td>No hint lines (the hold-Select menus already name every action); no &quot;NOW PLAYING&quot; label, gapless icon or radio codec tags; stations read &quot;Country · Genre&quot; without ranks; Bluetooth Connected/Paired, Wi-Fi Saved/Secured/Open; folders show songs, not free space; theme picker shows each look&#x27;s colours; Storage has bars and Scan; About shows &quot;1.0 Beta 7&quot; and the library size.</td></tr></tbody></table>
+<p>Host evidence: 479 Reborn tests, strict Clippy, fmt; before/after previews of all 114 states and of all 16 skins compared by eye (skins change only where they show Reborn&#x27;s own keyboard, rows or texts).</p>
+<h3 id="platform-two-fixes-from-the-beta-63-overnight-test-archive-156">Platform: two fixes from the Beta 6.3 overnight test (archive 156)</h3>
+<table><thead><tr><th>Part</th><th>Detail</th></tr></thead><tbody><tr><td>Overnight</td><td>Beta 6.3, 14 h asleep (01:13–15:21), 27 maintenance wakes, all SPM/INFRA/PMIC/wheel/PHY counters clean, INFRA lost 0; drain <strong>≈7.8 mA</strong> (8.3 build 26, 9.4 Beta 1).</td></tr><tr><td>CPU thermal zone</td><td>The 1100b000 monitor was programmed only at probe; INFRA power-down in sleep wipes it (monitor/period/filter/poll read 0), <code>y2_soc_temp</code> returned -ENODATA and the thermal core disabled <code>cpu-thermal</code> (passive 110 °C, critical 120 °C) until the next boot. Seen in archives 124, 125, 155 and 156. <code>kernel/platform/thermal.c</code> now programs the monitor again on resume when it is off.</td></tr><tr><td>Refused Power sleep</td><td>A routine BAT0 notification during sleep preparation invalidated the wakeup count (<code>wake_event_in_progress</code>; the screen went off for 4 s and came back; Beta 1&#x27;s 06:38 self-wake had the same cause). <code>product_sleep</code> takes a fresh count up to two times; Power/RTC interrupts and the cable are checked again on each pass. 3 new host tests.</td></tr></tbody></table>
+<h2 id="device-checks-owed-after-the-owners-over-the-air-install">Device checks owed (after the owner&#x27;s over-the-air install)</h2>
+<ol><li>A tour of every screen with screen capture while the owner presses the buttons (UI v4 phase 4): Home, Music, Home Menu<p>pins, Now Playing (song and station), lists, menus, keyboard, Settings, Wi-Fi/Bluetooth, theme picker, About.</p></li><li>After a night asleep: <code>/sys/class/thermal/thermal_zone1/mode</code> is <code>enabled</code> and <code>temp</code> reads a value.</li><li>Wake with Power and press Power again within a few seconds: the player sleeps (no <code>wake_event_in_progress</code> refusal).</li><li>Still open: Beta 6.3 sleep while paused on battery, Beta 6.1/6.2 checks.</li></ol>
+<h2 id="known-gaps">Known gaps</h2>
+<p>FM radio (next beta, Beta 8); no 12/24-hour switch; in-place decoder seek (≈1 s on Bluetooth); sleep ≈7.8–9.4 mA vs stock ≈1.3 mA; Bluetooth range hardware-limited; no headphone-jack detection.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

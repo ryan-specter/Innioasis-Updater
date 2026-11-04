@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Format support matrix - Innioasis Updater</title>
+  <meta name="description" content="Format support matrix All advertised formats use the same FFmpeg decoder and AudioTrack lifecycle. There is no platform-decoder fallback. Extension/container Codec Status">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2player-docs-format_support_matrix.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Format support matrix - Innioasis Updater">
+  <meta property="og:description" content="Format support matrix All advertised formats use the same FFmpeg decoder and AudioTrack lifecycle. There is no platform-decoder fallback. Extension/container Codec Status">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2player-docs-format_support_matrix.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Format support matrix - Innioasis Updater">
+  <meta name="twitter:description" content="Format support matrix All advertised formats use the same FFmpeg decoder and AudioTrack lifecycle. There is no platform-decoder fallback. Extension/container Codec Status">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=y2player-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Player · Y2</p><h1>Format support matrix</h1><p class="lumen-lead">A Y2 custom Software.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=y2player-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=y2player-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="format-support-matrix">Format support matrix</h1>
+<p>All advertised formats use the same FFmpeg decoder and AudioTrack lifecycle. There is no platform-decoder fallback.</p>
+<table><thead><tr><th>Extension/container</th><th>Codec</th><th>Status</th></tr></thead><tbody><tr><td><code>.mp3</code></td><td>MPEG Layer III</td><td>Enabled</td></tr><tr><td><code>.aac</code></td><td>AAC/ADTS</td><td>Enabled</td></tr><tr><td><code>.m4a</code>, <code>.m4b</code>, <code>.m4r</code></td><td>AAC in MOV/MP4</td><td>Enabled</td></tr><tr><td><code>.m4a</code>, <code>.m4b</code>, <code>.m4r</code></td><td>ALAC in MOV/MP4</td><td>Enabled</td></tr><tr><td><code>.flac</code></td><td>FLAC</td><td>Enabled</td></tr><tr><td><code>.wav</code>, <code>.wave</code></td><td>Allowlisted integer/float PCM</td><td>Enabled</td></tr><tr><td><code>.ogg</code>, <code>.oga</code></td><td>Vorbis</td><td>Enabled</td></tr><tr><td><code>.opus</code>, <code>.ogg</code>, <code>.oga</code></td><td>Opus</td><td>Enabled</td></tr><tr><td><code>.aif</code>, <code>.aiff</code>, <code>.aifc</code></td><td>Allowlisted AIFF PCM</td><td>Enabled</td></tr><tr><td>WMA, APE, MP2, AMR, WavPack, AC-3, MKA</td><td>Various</td><td>Not enabled</td></tr><tr><td>DSF/DFF/native DSD</td><td>DSD</td><td>Not enabled and no verified output path</td></tr></tbody></table>
+<p>The library scanner indexes only the enabled extension set. Metadata for every indexed format comes from FFmpeg. The build also carries the ASF demuxer so the same metadata API can inspect WMA containers, but WMA remains unadvertised and unplayable because no WMA decoder is enabled.</p>
+<p>Embedded chapter metadata in an M4B does not prevent indexing or playback. The current audiobook model presents one physical file as one playable item; it does not expose embedded chapter boundaries as separate chapter rows.</p>
+<p>There is no runtime format probe: support is a build property checked against the native configure allowlists by unit tests. Database migration version 9 clears old framework-specific playback failures and probe rows; version 10 drops the obsolete probe table. Version 11 stores the unified FFmpeg metadata record and schedules one refresh of existing library rows.</p>
+<p>All formats decode through the same 44.1 kHz stereo float32 internal path. Sources at other rates or layouts are converted by <code>libswresample</code>; application gain, ReplayGain, balance, fades, ducking, and crossfade retain float precision. The final AudioTrack output remains 44.1 kHz stereo PCM16 because that is the only normal primary format verified in the stock Y2 audio policy. This is not a claim of bit-perfect or high-rate hardware output.</p></article><p class="lumen-doc-footer-note">These are Y2Player's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/Y2Player" rel="noopener">schulzcode/Y2Player</a> project <a class="lumen-cite" href="https://github.com/schulzcode/Y2Player" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

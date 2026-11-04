@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Changelog - Innioasis Updater</title>
+  <meta name="description" content="Changelog All notable changes to this project will be documented in this file. Format: Keep a Changelog https://keepachangelog.com/en/1.1.0/. Versioning: SemVer https://s">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/ryan-specter-koensayr-auto-changelog.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Changelog - Innioasis Updater">
+  <meta property="og:description" content="Changelog All notable changes to this project will be documented in this file. Format: Keep a Changelog https://keepachangelog.com/en/1.1.0/. Versioning: SemVer https://s">
+  <meta property="og:url" content="https://innioasis.app/post-install/ryan-specter-koensayr-auto-changelog.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Changelog - Innioasis Updater">
+  <meta name="twitter:description" content="Changelog All notable changes to this project will be documented in this file. Format: Keep a Changelog https://keepachangelog.com/en/1.1.0/. Versioning: SemVer https://s">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y1&amp;software=koensayr-y1">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Koensayr · Y1</p><h1>Changelog</h1><p class="lumen-lead">A Y1 custom Software maintained by the community.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y1&amp;software=koensayr-y1">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y1&amp;software=koensayr-y1">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="changelog">Changelog</h1>
+<p>All notable changes to this project will be documented in this file.</p>
+<p>Format: <a href="https://keepachangelog.com/en/1.1.0/" target="_blank" rel="noopener noreferrer">Keep a Changelog</a>. Versioning: <a href="https://semver.org/spec/v2.0.0.html" target="_blank" rel="noopener noreferrer">SemVer</a>. For full prose detail on any entry, see <code>git log</code>.</p>
+<h2 id="240---2026-05-22">[2.4.0] - 2026-05-22</h2>
+<h3 id="fixed">Fixed</h3>
+<ul><li>Broader head-unit coverage for live metadata. Continuous notifications across track, play-state, position, and repeat/shuffle edges; head units detect each new track even when titles repeat; clean subscription state on every fresh connection.</li><li>Metadata + play / pause indicators now work on the broad class of head units and speakers that strictly require their AVRCP transaction IDs be echoed back. Previously, those head units silently rejected every response Y1 sent and fell back to key-press-only mode — metadata panes stayed blank and play-state indicators drifted out of sync.</li><li>Head units that gate metadata on AVRCP browse capability now enter full metadata mode. Restored the public-browse-group SDP attribute that some head units use as a &quot;this peer supports full AVRCP&quot; discriminator.</li><li>Metadata no longer freezes on head units that close the audio stream between tracks. The AVRCP control channel now survives audio open/close cycles, so the metadata view stays in sync without re-handshaking after every skip.</li><li>Head-unit play / pause glyphs flip reliably after a head-unit-initiated PAUSE. The music-player Activity was seeding a PLAYING announcement immediately after its own startup-reset PAUSE, racing out to the AVRCP wire as PAUSED → PLAYING; head units saw the trailing PLAYING and refused to flip.</li><li>Discrete PAUSE on head units with separate Play and Pause buttons pauses idempotently instead of toggling.</li><li>Spurious paused-state blips during track changes no longer interrupt head-unit playback indicators.</li></ul>
+<h3 id="changed">Changed</h3>
+<ul><li>Lower-latency metadata responses under sustained head-unit polling. Track-info exchange between the music app and the Bluetooth stack now uses shared memory (single-digit-ms reads vs ~25 ms before) with no torn reads at track edges.</li></ul>
+<h3 id="added">Added</h3>
+<ul><li><code>apply.bash --debug</code> build emits per-emit wire-side markers (<code>Y1T :</code> logcat tag) for diagnosing head-unit-specific AVRCP issues. Pair <code>tools/avrcp-wire-trace.py</code> with <code>tools/btlog-parse.py --avrcp</code> on a simultaneously-captured <code>btlog.bin</code> for the matching mtkbt-internal view.</li></ul>
+<h2 id="230---2026-05-16">[2.3.0] - 2026-05-16</h2>
+<h3 id="added">Added</h3>
+<ul><li>Stock firmware v3.0.7 support. <code>KNOWN_FIRMWARES</code> enrols the new build; <code>patch_y1_apk.py</code> accepts both 3.0.2 and 3.0.7 stock music APKs. MediaTek BT stack binaries (<code>mtkbt</code>, <code>libextavrcp*.so</code>, <code>libaudio.a2dp.default.so</code>, <code>MtkBt.odex</code>) are byte-identical between the two builds — <code>--avrcp</code> and <code>--bluetooth</code> patches apply unchanged. The music APK differs (resource-ID shifts, additional methods in <code>Y1Repository</code>); every smali anchor in <code>patch_y1_apk.py</code> (literal-text + the <code>AlbumsActivity.initView</code> regex) handles both builds.</li></ul>
+<h2 id="220---2026-05-16">[2.2.0] - 2026-05-16</h2>
+<h3 id="changed">Changed</h3>
+<ul><li>AVRCP 1.3 §5.4.2 strict subscription gating in the trampoline chain — one CHANGED per CT registration; CT re-registers to receive the next. Matches reference-TG observed cadence on spec-compliant Controllers.</li><li><code>mtkbt</code> outbound-frame drop bypass — every T9 / T5 CHANGED emit reaches the wire under sustained traffic (stock dropped silently under A2DP saturation).</li><li>TRACK_CHANGED <code>Identifier</code> carries the per-track audio ID so strict 1.4+ Controllers invalidate their <code>GetElementAttributes</code> cache on every track edge instead of serving stale metadata.</li><li>Faster perceived metadata refresh — TRACK_CHANGED pre-emits at <code>setDataSource</code> and at <code>playerPrepared</code> tail (was: <code>OnPreparedListener</code>, ~100-500 ms later). PLAYBACK_STATUS_CHANGED fresh-track edge fires ~260 ms earlier.</li><li><code>GetCapabilities(EventsSupported)</code> advertises the 1.4+ event IDs (0x09-0x0c) alongside the 1.3 set — INTERIM-acked with zero payload. Strict Controllers gate metadata-pane render on these even from a 1.3-declared TG.</li><li><code>--bluetooth</code> <code>ro.bluetooth.class</code> accurately advertises the Y1 as Audio/Video Major / Portable Audio Minor with Audio + Information service bits.</li><li><code>T_charset</code> rejects <code>InformDisplayableCharacterSet</code> with AV/C <code>NOT_IMPLEMENTED</code> (spec-permissible per AVRCP 1.3 §5.2.7, Optional) — avoids a multi-second pre-subscription stall some Controllers exhibit.</li></ul>
+<h3 id="added">Added</h3>
+<ul><li><code>GetElementAttributes</code> synthesises a <code>PlayingTime</code> via a synchronous <code>MediaMetadataRetriever</code> fallback for responses that arrive before <code>prepareAsync</code> completes — Controllers no longer see &quot;0:00 duration&quot; on track transitions.</li><li><code>--debug</code> build path (<code>KOENSAYR_DEBUG=1</code>): native <code>__android_log_print</code> injection in <code>libextavrcp_jni.so</code> plus smali-side instrumentation in the metadata pipeline. Release builds are byte-identical without the env var.</li><li><code>tools/btlog-hci-extract.py</code> decodes <code>mtkbt</code>&#x27;s <code>btlog.bin</code> as AVRCP frames for offline trace inspection.</li></ul>
+<h3 id="fixed">Fixed</h3>
+<ul><li><code>TrackInfoWriter.onSeek()</code> no longer treats the music app&#x27;s post-<code>prepareAsync</code> &quot;resume from saved progress&quot; seek as a user seek (was: spurious wire-side <code>setSeekStatus</code>). Real user seeks (drag the seek bar) propagate unchanged.</li><li>TRACK_CHANGED no longer re-emits on the music app&#x27;s same-track <code>prepareAsync</code> cycles (now dedup&#x27;d on audio ID).</li></ul>
+<h2 id="210---2026-05-13">[2.1.0] - 2026-05-13</h2>
+<p>AVRCP 1.3 metadata + control pipeline over Bluetooth. A peer Controller now sees full track metadata, live play status, and play-state changes from the Y1, and can drive Repeat / Shuffle from its own UI. Reference docs: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FBT-COMPLIANCE.md"><code>docs/BT-COMPLIANCE.md</code></a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FARCHITECTURE.md"><code>docs/ARCHITECTURE.md</code></a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FPATCHES.md"><code>docs/PATCHES.md</code></a>. Investigation history: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2Fdocs%2FINVESTIGATION.md"><code>docs/INVESTIGATION.md</code></a>.</p>
+<h3 id="added">Added</h3>
+<ul><li>AVRCP 1.3 metadata (Title / Artist / Album / Genre / TrackNumber / TotalNumberOfTracks / PlayingTime), with UTF-8 codepoint-safe text truncation.</li><li>Live play status with millisecond-precision playhead, track-edge anchoring, end-of-track freeze + reset.</li><li>Track-change notifications, including TRACK_REACHED_END (on natural end-of-track) and TRACK_REACHED_START.</li><li>Battery-status notifications with bucketed change-on-edge semantics.</li><li>Seek-bar propagation — the music app&#x27;s in-UI seek lands on the CT&#x27;s playhead immediately.</li><li>Bidirectional Repeat / Shuffle. CT and Y1 UI stay in sync without navigating away and back.</li><li>Discrete PASSTHROUGH routing (PLAY / PAUSE / STOP / NEXT / PREVIOUS) for CTs that don&#x27;t tolerate toggle behaviour, plus PLAY-while-playing → pause-toggle for non-spec CTs.</li><li>A2DP stream survives pauses — AudioFlinger silence-timeout no longer tears down the AVDTP source.</li><li>Per-subscription notification gating (AVRCP 1.3 §5.4.2) — one INTERIM + one CHANGED per registration, matching spec-compliant TG semantics.</li><li><code>Y1Bridge</code> Android service satisfies MtkBt&#x27;s <code>bindService(MediaPlaybackService)</code> and answers synchronous queries from the music-app-owned state file.</li><li>Spec-compliant <code>GetElementAttributes</code> response shape — TG emits exactly the requested attribute IDs in the requested order; unsupported IDs emit with length 0.</li></ul>
+<h3 id="changed">Changed</h3>
+<ul><li>GitHub repository renamed <code>y1-mods</code> → <code>koensayr</code>.</li><li><code>--all</code> now includes <code>--avrcp</code>. The AVRCP 1.3 pipeline is spec-mature; the prebuild requirement (<code>./gradlew assembleDebug</code> in <code>src/Y1Bridge/</code>) mirrors <code>--root</code>&#x27;s <code>make</code> in <code>src/su/</code>.</li><li><code>tools/release.sh --push</code> now pushes the current branch instead of hardcoded <code>main</code>. Bails with a clear error if invoked from a detached HEAD.</li></ul>
+<h3 id="removed">Removed</h3>
+<ul><li>Legacy SDP-only byte-patch attempts (regressed PASSTHROUGH without delivering metadata).</li><li>Legacy adbd byte-patch attempts (superseded by <code>src/su/</code>).</li></ul>
+<h2 id="200---2026-05-04">[2.0.0] - 2026-05-04</h2>
+<p>Foundational rebrand + diagnostic tooling release. The <code>--avrcp</code> flag is documented as known-broken pending the user-space proxy work that becomes the [Unreleased] pipeline.</p>
+<h3 id="added">Added</h3>
+<ul><li><code>src/btlog-dump/</code> — minimal ARM ELF that taps mtkbt&#x27;s <code>@btlog</code> socket; pulls AVRCP / AVCTP / L2CAP traces invisible to <code>logcat</code>.</li><li><code>tools/dual-capture.sh</code> + <code>tools/btlog-parse.py</code> — captures and decodes the btlog stream alongside <code>logcat</code>.</li><li><code>tools/probe-postroot.sh</code> — one-shot device probe enumerating mtkbt internals, btsnoop paths, ptrace policy, abstract sockets.</li><li><code>tools/release.sh</code> — release helper (version bump, CHANGELOG rewrite, tag).</li><li><code>tools/install-android-sdk.sh</code> — auto-installs Android SDK for the <code>Y1Bridge</code> build.</li><li><code>LICENSE</code> — canonical GPLv3 text (project has claimed GPLv3 since v1.0.8).</li></ul>
+<h3 id="changed">Changed</h3>
+<ul><li>Project rebrand <code>Innioasis Y1 Firmware Fixes</code> → <code>Koensayr</code>. GitHub repo name stays for discoverability.</li><li>Orchestration script renamed <code>innioasis-y1-fixes.bash</code> → <code>apply.bash</code>.</li><li><code>--all</code> redefined as <code>--adb</code> + <code>--bluetooth</code> + <code>--music-apk</code> + <code>--remove-apps</code> + <code>--root</code>. <code>--avrcp</code> excluded.</li><li><code>--avrcp</code> documented as known-broken on the byte-patch path; runs only on explicit opt-in with a startup warning.</li><li><code>--bluetooth</code> no longer sets <code>persist.bluetooth.avrcpversion</code> (mtkbt can&#x27;t deliver the claimed version). Pairing-essential edits remain.</li><li><code>--artifacts-dir</code> is optional; defaults to <code>./staging/</code> inside the repo. <code>cp rom.zip staging/</code> is enough.</li><li>Project is now unambiguously Linux-only. macOS support removed (uses <code>mount -o loop</code> and GNU <code>sed -i</code>).</li><li>README, sub-READMEs, and <code>apply.bash --help</code> rewritten end to end for the new state.</li></ul>
+<h3 id="fixed">Fixed</h3>
+<ul><li>Defensive hardening across <code>apply.bash</code> and helper scripts: pre-checks for <code>python3</code> / <code>sudo</code> / git config, exit-code checks on <code>simg2img</code> / <code>cp</code> / <code>mount</code> / <code>umount</code> / MTKClient flash, cleanup trap unmounts on EXIT, <code>--help</code> no longer triggers side effects in tools that previously ran setup work on it.</li><li><code>--remove-apps</code> now actually removes apps (glob expansion was suppressed by quoting for the project&#x27;s entire history).</li><li>Patcher <code>OUTPUT_MD5</code> mismatch now exits non-zero (was silently exit 0).</li><li><code>tools/install-android-sdk.sh</code> license accept no longer fails silently under <code>set -o pipefail</code> (SIGPIPE on <code>yes</code>); partial-state downloads recover cleanly across re-runs.</li><li><code>tools/setup.sh</code> partial-state bug — incomplete venvs are detected via a marker file and retried rather than appearing complete.</li></ul>
+<h2 id="1100---2026-05-03">[1.10.0] - 2026-05-03</h2>
+<h3 id="added">Added</h3>
+<ul><li><code>tools/setup.sh</code> — clones MTKClient at a pinned ref, builds the patcher&#x27;s Python venv. Idempotent.</li><li><code>--mtkclient-dir</code> / <code>--python-venv</code> flags + <code>MTKCLIENT_DIR</code> env var to override the in-tree tooling.</li></ul>
+<h3 id="changed">Changed</h3>
+<ul><li>Bash no longer assumes <code>/opt/mtkclient-2.1.4.1</code> paths. Resolution order: flag → env var → <code>tools/</code> default.</li></ul>
+<h3 id="fixed">Fixed</h3>
+<ul><li><code>src/Y1MediaBridge/</code> missing <code>local.properties</code> ignore + missing Gradle wrapper that prevented <code>./gradlew assembleDebug</code> from running.</li></ul>
+<h2 id="191---2026-05-03">[1.9.1] - 2026-05-03</h2>
+<h3 id="fixed">Fixed</h3>
+<ul><li>Switch <code>Y1MediaBridge</code> build target from <code>assembleRelease</code> to <code>assembleDebug</code> (avoids <code>lintVitalReportRelease</code> requiring a configured SDK path; both targets produce structurally identical APKs here).</li></ul>
+<h2 id="190---2026-05-03">[1.9.0] - 2026-05-03</h2>
+<h3 id="changed">Changed</h3>
+<ul><li><code>--avrcp</code> builds <code>Y1MediaBridge.apk</code> from in-tree source via Gradle. Previously expected a pre-staged APK.</li><li><code>rom.zip</code> is the only required staged artifact.</li></ul>
+<h2 id="18x---2026-05-03">[1.8.x] - 2026-05-03</h2>
+<h3 id="changed">Changed</h3>
+<ul><li>Monorepo layout: <code>su/</code> → <code>src/su/</code>; byte/smali patchers → <code>src/patches/</code>; <code>Y1MediaBridge</code> imported as <code>src/Y1MediaBridge/</code>.</li><li><code>apply.bash</code> <code>show_help</code> and in-source comments trimmed to single-screen output. Authoritative detail moved to README + docs.</li></ul>
+<h3 id="added">Added</h3>
+<ul><li><code>CHANGELOG.md</code> (this file).</li><li><code>docs/PATCHES.md</code> — per-patch byte-level reference.</li></ul>
+<h2 id="180---2026-05-03">[1.8.0] - 2026-05-03</h2>
+<h3 id="added">Added</h3>
+<ul><li><code>--root</code> flag (current form): installs a minimal setuid-root <code>/system/xbin/su</code>. Stock <code>/sbin/adbd</code> stays untouched. <code>adb shell /system/xbin/su</code> gives root.</li><li><code>src/su/</code> — ~900-byte direct-syscall ARM-EABI ELF, no libc, no manager APK.</li></ul>
+<h2 id="170---2026-05-03">[1.7.0] - 2026-05-03</h2>
+<h3 id="removed">Removed</h3>
+<ul><li>Previous <code>--root</code> flag (boot.img <code>adbd</code> byte-patch). Hardware testing produced &quot;device offline&quot; — patched adbd brought up the USB endpoint but never completed the ADB handshake.</li></ul>
+<h2 id="160---2026-05-03">[1.6.0] - 2026-05-03</h2>
+<h3 id="changed">Changed</h3>
+<ul><li>Accept the official OTA <code>rom.zip</code> as the primary firmware input. Bash MD5-validates against <code>KNOWN_FIRMWARES</code>, then extracts what each flag needs.</li></ul>
+<h2 id="150---2026-05-03">[1.5.0] - 2026-05-03</h2>
+<h3 id="changed">Changed</h3>
+<ul><li>Stock-firmware MD5 validation against a <code>KNOWN_FIRMWARES</code> manifest (version, system.img, boot.img, rom.zip, music-APK basename). Replaces the previous hardcoded version constant.</li></ul>
+<h2 id="14x---2026-05-03">[1.4.x] - 2026-05-03</h2>
+<h3 id="changed">Changed</h3>
+<ul><li><code>--avrcp</code> and <code>--music-apk</code> extract stock binaries from the mounted <code>system.img</code>, patch in place, and write back. Only <code>rom.zip</code> (and the <code>Y1MediaBridge.apk</code> build output) need staging.</li><li>Sparse-<code>system.img</code> auto-detection via <code>simg2img</code>.</li></ul>
+<h2 id="13x---2026-05-03">[1.3.x] - 2026-05-03</h2>
+<h3 id="changed">Changed</h3>
+<ul><li>Initial boot.img-based <code>--root</code> (later superseded by the setuid-su approach in 1.8.0). Direct cpio mutation in pure Python; no shell-side <code>dd</code> / <code>mkbootimg</code>.</li></ul>
+<h2 id="12x---2026-04-26--2026-05-01">[1.2.x] - 2026-04-26 → 2026-05-01</h2>
+<h3 id="added">Added</h3>
+<ul><li>Initial byte-patcher trio: <code>patch_mtkbt.py</code>, <code>patch_mtkbt_odex.py</code>, <code>patch_libextavrcp_jni.py</code>. Legacy SDP-shape byte-patch attempt (later determined inadequate and removed in 2.0.0).</li></ul>
+<h2 id="11x---2026-04-26">[1.1.x] - 2026-04-26</h2>
+<h3 id="added">Added</h3>
+<ul><li><code>--root</code> flag (ramdisk-based; broke at 1.2.0, reintroduced differently at 1.3.0, broken again, finally reworked at 1.8.0).</li></ul>
+<h2 id="10x---2026-04-23--2026-04-25">[1.0.x] - 2026-04-23 → 2026-04-25</h2>
+<h3 id="added">Added</h3>
+<ul><li>Initial release: Artist→Album navigation patch on the music app, Bluetooth pairing config (audio.conf / auto_pairing.conf / blacklist.conf / build.prop), preinstalled-bloatware removal, system patch dispatch via <code>apply.bash</code> flags.</li></ul></article><p class="lumen-doc-footer-note">These are Koensayr's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/ryan-specter/koensayr-auto" rel="noopener">ryan-specter/koensayr-auto</a> project <a class="lumen-cite" href="https://github.com/ryan-specter/koensayr-auto" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aryan-specter" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

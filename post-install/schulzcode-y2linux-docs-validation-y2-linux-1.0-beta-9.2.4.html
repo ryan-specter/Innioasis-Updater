@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 9.2.4: your own Home order, playlist order, wheel clicks - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 9.2.4: your own Home order, playlist order, wheel clicks Release 1.0.0-beta.9.2.4 , Y2Reborn 1.0.0-beta.9.2.4 , kernel 6.18.56-y2linux-1.0.0-beta.9.2.4 ,">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-9.2.4.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 9.2.4: your own Home order, playlist order, wheel clicks - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 9.2.4: your own Home order, playlist order, wheel clicks Release 1.0.0-beta.9.2.4 , Y2Reborn 1.0.0-beta.9.2.4 , kernel 6.18.56-y2linux-1.0.0-beta.9.2.4 ,">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-9.2.4.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 9.2.4: your own Home order, playlist order, wheel clicks - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 9.2.4: your own Home order, playlist order, wheel clicks Release 1.0.0-beta.9.2.4 , Y2Reborn 1.0.0-beta.9.2.4 , kernel 6.18.56-y2linux-1.0.0-beta.9.2.4 ,">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 9.2.4: your own Home order, playlist order, wheel clicks</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-924-your-own-home-order-playlist-order-wheel-clicks">Y2Linux 1.0 Beta 9.2.4: your own Home order, playlist order, wheel clicks</h1>
+<p>Release <code>1.0.0-beta.9.2.4</code>, Y2Reborn <code>1.0.0-beta.9.2.4</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.9.2.4</code>, update sequence 12000, root <code>2026.08-platform-v1.218</code>. Published as GitHub release <code>baseline-195</code> (test build 195). Previous release: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.2.3.md">Beta 9.2.3</a>.</p>
+<p>This report is written for people who use the player. A short technical appendix is at the end.</p>
+<h2 id="in-one-paragraph">In one paragraph</h2>
+<p>Beta 9.2.4 lets you put Home&#x27;s items and your playlists in the order you want, adds an optional click on each turn of the wheel, and makes Cover Flow&#x27;s text move with the covers. Everything new is off or unchanged until you choose it.</p>
+<h2 id="whats-new">What&#x27;s new</h2>
+<ul><li><strong>Home in your order</strong> (Y2Reborn #53). Settings → Customize → <strong>Home Menu</strong> lists Home&#x27;s items in Home&#x27;s order.<p>Hold the centre button on one, turn the wheel to move it, and press the centre button to put it there (Back leaves it where it was). Home follows at once. Showing and hiding items works as before.</p></li><li><strong>Playlists in your order</strong> (Y2Reborn #33). A playlist&#x27;s menu (hold the centre button on it) has <strong>Move</strong>: turn the<p>wheel, press the centre button to put it there. The Playlists list keeps that order; new playlists come at the end.</p></li><li><strong>Wheel click</strong> (Y2Reborn #67). Settings → Customize → <strong>Wheel Click</strong>: Off (as before), <strong>When Paused</strong> or<p><strong>Always</strong>. Each step of the wheel gives a short tick through the headphones or the speaker, following the volume. While music plays the tick sits on top of it without taking anything away from the song; while paused, the music goes on exactly where it stopped.</p></li><li><strong>Cover Flow</strong> (Y2Reborn #71). While the covers glide, the album&#x27;s title, artist and details travel with their<p>cover and fade a little, instead of standing still in the middle. At rest Cover Flow looks as before.</p></li></ul>
+<h2 id="what-youll-notice">What you&#x27;ll notice</h2>
+<ul><li>Nothing changes until you use the new settings; Home and the Playlists list keep their usual order.</li><li><strong>The wheel click needs a song loaded:</strong> it sounds while a song plays, or while it is paused (for the first three<p>minutes of a pause, while the player keeps the headphones ready). With nothing loaded there is no click: the player would have to power the headphone chip up just for it. It is never played over Bluetooth, whose delay would make the click come late.</p></li><li>After <strong>Restore Previous System</strong>, Beta 9.2.3 shows the standard orders (it does not know the new settings).</li></ul>
+<h2 id="how-it-was-tested">How it was tested</h2>
+<ul><li><strong>Before release:</strong> the platform&#x27;s full check on every change, Reborn&#x27;s workspace tests and the tests of the<p>finished release images. New tests: a Home item moved to the end and Home following it, Back leaving it in place; a playlist moved up and the list keeping that order, the playlist menu&#x27;s Move; Cover Flow&#x27;s text standing with the incoming cover mid-glide; the click&#x27;s shape, volume and end; on a simulated headphone output, clicks while playing changing only the click itself and not one sample of music lost or repeated, and clicks while paused playing over silence with the music going on where it paused; Wheel Click stepping Off, When Paused, Always; only wheel steps on a lit screen click.</p></li><li><strong>On the developer&#x27;s player:</strong> installed over the air from Beta 9.2.3 and confirmed by the player itself<p>(Acknowledged); the platform and Reborn running, health OK, kernel not tainted. How the click sounds and how loud it is still needs listening on a player.</p></li></ul>
+<h2 id="updating">Updating</h2>
+<p>Settings → About &amp; Updates → Check for Updates → <strong>Update Now</strong>. Your music, playlists, settings, Wi-Fi networks and Bluetooth pairings stay. Settings → Diagnostics → <strong>Restore Previous System</strong> goes back to Beta 9.2.3 if you need to.</p>
+<h2 id="known-issues">Known issues</h2>
+<p>Everything listed for <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.0.md%23known-issues-and-what-still-needs-your-help&amp;anchor=known-issues-and-what-still-needs-your-help">Beta 9.0</a> still applies. How loud the click should be is a first guess; tell us if it is too loud or too soft.</p>
+<h2 id="technical-appendix">Technical appendix</h2>
+<ul><li><strong>Order:</strong> settings <code>home_order</code> and <code>playlist_order</code> (place keys and playlist paths; empty: the standard order;<p>items not listed follow in the standard order, names no longer there are skipped). reborn-core <code>home.rs</code> (<code>HOME_PLACES</code>, <code>ordered</code>, <code>moved</code>), reborn-ui <code>reorder.rs</code> (<code>Carry</code>; <code>mode_input</code> takes the wheel for the Brightness card and both moves), <code>Effect::SetHomeOrder</code>, <code>Effect::SetPlaylistOrder</code>.</p></li><li><strong>Wheel click:</strong> <code>WheelClick</code> Off/WhenPaused/Always, <code>Playback::click</code>. The sink thread mixes a 4 ms, 3 kHz tick<p>(0.3 of full scale times the volume&#x27;s gain) into the wired sink only. Playing: <code>AudioSink::rewind</code> (<code>rb_sink_rewind</code>, <code>snd_pcm_rewind</code> leaving 256 frames for the DMA; the AFE reads its pointer from <code>AFE_DL1_CUR</code>) takes back the unplayed frames, which <code>playback/click.rs</code> <code>Tail</code> (the last 8192 written frames with positions) writes again with the tick at their start. Held: the unplayed music goes back to the pending block, the stream plays the tick over silence and pauses again 1 s after the last tick; the resume rewinds the silence.</p></li><li><strong>Cover Flow:</strong> <code>flow::centre_x</code> places the text under the travelling cover, faded by its distance.</li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -26,7 +26,7 @@ on:
         type: boolean
         default: false
   schedule:
-    - cron: "23 3 * * *"
+    - cron: "23 */6 * * *"
 
 permissions:
   contents: write
@@ -73,9 +73,9 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add release-notes post-install firmware-info rockbox-y1 rockbox-y2 rockbox-rom-download.html sitemap.xml llms.txt
+          git add release-notes post-install firmware-info rockbox-y1 rockbox-y2 rockbox-rom-download.html rockbox-y1-themes.html sitemap.xml llms.txt
           if git diff --cached --quiet; then
-            echo "No release or post-install changes."
+            echo "No release, post-install or README changes."
           else
             git commit -m "Regenerate static release notes, post-install and README pages"
             git push

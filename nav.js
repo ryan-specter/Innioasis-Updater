@@ -228,49 +228,41 @@
       ':root[data-lumen-theme="dark"] .lumen-brand-title, :root[data-lumen-theme="dark"] .lumen-brand-home { color: #f8fafc !important; }' +
       ':root[data-lumen-theme="2077"] .lumen-brand-title, :root[data-lumen-theme="2077"] .lumen-brand-home { color: #00f0ff !important; }' +
       ':root[data-lumen-theme="high-contrast"] .lumen-brand-title, :root[data-lumen-theme="high-contrast"] .lumen-brand-home { color: #ffffff !important; }' +
-      '@media (prefers-color-scheme: light) { :root:not([data-lumen-theme="dark"]):not([data-lumen-theme="2077"]):not([data-lumen-theme="high-contrast"]) .lumen-brand-title, :root:not([data-lumen-theme="dark"]):not([data-lumen-theme="2077"]):not([data-lumen-theme="high-contrast"]) .lumen-brand-home { color: #0f172a !important; } }' +
       '.lumen-site-switcher-toggle { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; margin-left: 6px; padding: 0; border-radius: 6px; border: 1px solid var(--lumen-line, rgba(255,255,255,0.14)); background: var(--lumen-panel-soft, rgba(255,255,255,0.06)); color: var(--lumen-muted, #94a3b8); cursor: pointer; transition: all 0.15s ease; flex-shrink: 0 !important; }' +
       '.lumen-site-switcher-toggle:hover { background: var(--lumen-accent-wash, rgba(99,102,241,0.15)); color: var(--lumen-paper, #fff); border-color: var(--lumen-accent, #6366f1); }' +
       ':root[data-lumen-theme="light"] .lumen-site-switcher-toggle { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.12); color: #475569; }' +
       ':root[data-lumen-theme="light"] .lumen-site-switcher-toggle:hover { background: rgba(0,0,0,0.08); color: #0f172a; }' +
       ':root[data-lumen-theme="2077"] .lumen-site-switcher-toggle { background: rgba(35,230,224,0.08); border-color: rgba(35,230,224,0.3); color: #23e6e0; }' +
       ':root[data-lumen-theme="2077"] .lumen-site-switcher-toggle:hover { background: rgba(255,30,60,0.18); border-color: #ff1e3c; color: #ff1e3c; }' +
-      '@media (prefers-color-scheme: light) { :root[data-lumen-theme="auto"] .lumen-site-switcher-toggle { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.12); color: #475569; } }' +
-      '.lumen-site-switcher-tray { position: absolute; top: calc(100% + 8px); left: 0; width: max-content; min-width: min(320px, calc(100vw - 1.5rem)); max-width: min(400px, calc(100vw - 1.5rem)); background: var(--lumen-panel, #12141c); border: 1px solid var(--lumen-line-strong, rgba(255,255,255,0.18)); border-radius: 14px; padding: 12px; box-shadow: 0 12px 36px rgba(0,0,0,0.45); z-index: 10002; box-sizing: border-box; }' +
+      '.lumen-site-switcher-tray { position: absolute; top: calc(100% + 8px); left: 0; width: 360px; max-width: calc(100vw - 24px); white-space: normal; background: var(--lumen-panel, #12141c); border: 1px solid var(--lumen-line-strong, rgba(255,255,255,0.18)); border-radius: 14px; padding: 12px; box-shadow: 0 12px 36px rgba(0,0,0,0.45); z-index: 10002; box-sizing: border-box; }' +
       ':root[data-lumen-theme="light"] .lumen-site-switcher-tray { background: #ffffff; border-color: rgba(0,0,0,0.12); box-shadow: 0 12px 36px rgba(0,0,0,0.15); }' +
       ':root[data-lumen-theme="2077"] .lumen-site-switcher-tray { background: #0c0d14; border-color: rgba(35,230,224,0.45); box-shadow: 0 12px 36px rgba(0,0,0,0.65), 0 0 16px rgba(35,230,224,0.2); }' +
-      '@media (prefers-color-scheme: light) { :root[data-lumen-theme="auto"] .lumen-site-switcher-tray { background: #ffffff; border-color: rgba(0,0,0,0.12); box-shadow: 0 12px 36px rgba(0,0,0,0.15); } }' +
       '.lumen-site-switcher-heading { margin: 0 0 8px 4px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--lumen-muted, #94a3b8); }' +
       ':root[data-lumen-theme="light"] .lumen-site-switcher-heading { color: #64748b; }' +
       ':root[data-lumen-theme="2077"] .lumen-site-switcher-heading { color: #ff1e3c; }' +
-      '@media (prefers-color-scheme: light) { :root[data-lumen-theme="auto"] .lumen-site-switcher-heading { color: #64748b; } }' +
       '.lumen-site-switcher-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }' +
       '.lumen-site-switcher-item { display: flex; align-items: center; gap: 12px; padding: 8px 10px; border-radius: 9px; text-decoration: none; background: transparent; border: 1px solid transparent; transition: all 0.15s ease; }' +
       '.lumen-site-switcher-item:hover { background: var(--lumen-accent-wash, rgba(99,102,241,0.1)); border-color: var(--lumen-line, rgba(255,255,255,0.1)); }' +
       ':root[data-lumen-theme="light"] .lumen-site-switcher-item:hover { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.08); }' +
-      '@media (prefers-color-scheme: light) { :root[data-lumen-theme="auto"] .lumen-site-switcher-item:hover { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.08); } }' +
       '.lumen-site-switcher-item-icon { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }' +
-      '.lumen-site-switcher-item-copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }' +
+      '.lumen-site-switcher-item-copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1 1 auto; }' +
       '.lumen-site-switcher-item-copy strong { font-size: 0.92rem; font-weight: 700; color: var(--lumen-text, #f8fafc); line-height: 1.2; }' +
-      '.lumen-site-switcher-item-copy small { font-size: 0.78rem; color: var(--lumen-muted, #94a3b8); line-height: 1.25; white-space: normal; overflow-wrap: break-word; }' +
+      '.lumen-site-switcher-item-copy small { display: block; font-size: 0.78rem; color: var(--lumen-muted, #94a3b8); line-height: 1.3; white-space: normal; overflow-wrap: break-word; }' +
       ':root[data-lumen-theme="light"] .lumen-site-switcher-item-copy strong { color: #0f172a; }' +
       ':root[data-lumen-theme="light"] .lumen-site-switcher-item-copy small { color: #64748b; }' +
       ':root[data-lumen-theme="2077"] .lumen-site-switcher-item-copy strong { color: #e9f0f5; }' +
       ':root[data-lumen-theme="2077"] .lumen-site-switcher-item-copy small { color: #aab8c8; }' +
-      '@media (prefers-color-scheme: light) { :root[data-lumen-theme="auto"] .lumen-site-switcher-item-copy strong { color: #0f172a; } :root[data-lumen-theme="auto"] .lumen-site-switcher-item-copy small { color: #64748b; } }' +
       '.lumen-nav-install-cta { display: inline-flex !important; align-items: center !important; justify-content: center !important; padding: 6px 14px !important; border-radius: 9999px !important; font-weight: 700 !important; font-size: 0.85rem !important; line-height: 1.2 !important; text-decoration: none !important; background: linear-gradient(135deg, rgba(56, 189, 248, 0.28), rgba(99, 102, 241, 0.36)) !important; border: 1px solid rgba(56, 189, 248, 0.55) !important; color: #f0f9ff !important; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important; transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important; flex-shrink: 0 !important; }' +
       '.lumen-nav-install-cta:hover { transform: translateY(-1px) !important; background: linear-gradient(135deg, rgba(56, 189, 248, 0.42), rgba(99, 102, 241, 0.52)) !important; border-color: rgba(56, 189, 248, 0.8) !important; color: #ffffff !important; box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35) !important; }' +
       ':root[data-lumen-theme="light"] .lumen-nav-install-cta { background: linear-gradient(135deg, #0284c7, #4f46e5) !important; border-color: #0284c7 !important; color: #ffffff !important; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25) !important; }' +
       ':root[data-lumen-theme="light"] .lumen-nav-install-cta:hover { background: linear-gradient(135deg, #0369a1, #4338ca) !important; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4) !important; }' +
       ':root[data-lumen-theme="2077"] .lumen-nav-install-cta { background: rgba(255, 30, 60, 0.18) !important; border-color: #ff1e3c !important; color: #ff1e3c !important; box-shadow: 0 0 10px rgba(255, 30, 60, 0.35) !important; }' +
       ':root[data-lumen-theme="2077"] .lumen-nav-install-cta:hover { background: #ff1e3c !important; color: #0d0e15 !important; box-shadow: 0 0 18px rgba(255, 30, 60, 0.7) !important; }' +
-      '@media (prefers-color-scheme: light) { :root[data-lumen-theme="auto"] .lumen-nav-install-cta { background: linear-gradient(135deg, #0284c7, #4f46e5) !important; border-color: #0284c7 !important; color: #ffffff !important; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25) !important; } }' +
       '.lumen-notices-wrap { position: relative; display: inline-flex; align-items: center; }' +
       '.lumen-notices-btn { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--lumen-line, rgba(255,255,255,0.14)); background: var(--lumen-panel-soft, rgba(255,255,255,0.06)); color: var(--lumen-text, #f8fafc); cursor: pointer; position: relative; transition: all 0.15s ease; }' +
       '.lumen-notices-btn:hover { background: rgba(255,255,255,0.12); color: var(--lumen-text, #fff); }' +
       ':root[data-lumen-theme="light"] .lumen-notices-btn { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.12); color: #0f172a; }' +
       ':root[data-lumen-theme="light"] .lumen-notices-btn:hover { background: rgba(0,0,0,0.08); color: #0f172a; }' +
-      '@media (prefers-color-scheme: light) { :root:not([data-lumen-theme="dark"]):not([data-lumen-theme="2077"]):not([data-lumen-theme="high-contrast"]) .lumen-notices-btn { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.12); color: #0f172a; } :root:not([data-lumen-theme="dark"]):not([data-lumen-theme="2077"]):not([data-lumen-theme="high-contrast"]) .lumen-notices-btn:hover { background: rgba(0,0,0,0.08); color: #0f172a; } }' +
       ':root[data-lumen-theme="2077"] .lumen-notices-btn { background: rgba(35,230,224,0.08); border-color: rgba(35,230,224,0.35); color: #23e6e0; }' +
       ':root[data-lumen-theme="2077"] .lumen-notices-btn:hover { background: rgba(255,30,60,0.18); border-color: #ff1e3c; color: #ff1e3c; }' +
       '.lumen-notices-badge { position: absolute; top: -3px; right: -3px; min-width: 16px; height: 16px; border-radius: 9999px; background: #ef4444; color: #fff; font-size: 0.68rem; font-weight: 800; display: flex; align-items: center; justify-content: center; padding: 0 4px; box-sizing: border-box; pointer-events: none; }' +
@@ -287,13 +279,6 @@
       ':root[data-lumen-theme="high-contrast"] .lumen-notice-title { color: #ffffff; }' +
       ':root[data-lumen-theme="high-contrast"] .lumen-notice-summary { color: #e2e8f0; }' +
       ':root[data-lumen-theme="high-contrast"] .lumen-notice-link { color: #ffff00; }' +
-      '@media (prefers-color-scheme: light) {' +
-      '  :root[data-lumen-theme="auto"] .lumen-notices-tray { background: #ffffff; border-color: rgba(0,0,0,0.12); box-shadow: 0 16px 48px rgba(0,0,0,0.18); color: #0f172a; }' +
-      '  :root[data-lumen-theme="auto"] .lumen-notices-tray-header strong { color: #0f172a; }' +
-      '  :root[data-lumen-theme="auto"] .lumen-notice-card { background: #f8fafc; border-color: #e2e8f0; }' +
-      '  :root[data-lumen-theme="auto"] .lumen-notice-title { color: #0f172a; }' +
-      '  :root[data-lumen-theme="auto"] .lumen-notice-summary { color: #475569; }' +
-      '}' +
       '.lumen-notices-tray-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--lumen-line, rgba(255,255,255,0.1)); }' +
       '.lumen-notices-tray-header strong { font-size: 0.9rem; font-weight: 700; letter-spacing: -0.01em; color: var(--lumen-text, #f8fafc); }' +
       ':root[data-lumen-theme="light"] .lumen-notices-tray-header strong { color: #0f172a; }' +
@@ -448,7 +433,7 @@
       '</div>' +
       '</div>' +
       '</div>' +
-      '<label class="lumen-theme-control"><span>Theme</span><select id="lumen-theme-select" aria-label="Choose site colour theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option><option value="high-contrast">High contrast</option><option value="2077">2077</option></select></label>' +
+      '<label class="lumen-theme-control"><span>Theme</span><select id="lumen-theme-select" aria-label="Choose site colour theme"><option value="auto">Auto</option><option value="dark">Dark</option><option value="high-contrast">High contrast</option><option value="2077">2077</option></select></label>' +
       '<button class="hamburger" id="hamburger" type="button" aria-label="Open navigation menu" aria-controls="navLinks" aria-expanded="false"><span></span><span></span><span></span></button>' +
       '</div>' +
       '<ul class="nav-links" id="navLinks">' +
@@ -1157,20 +1142,25 @@
     }
   });
 
-  /* Theme Switcher Logic */
+  /* Theme Switcher Logic - dark is the automatic appearance; light is temporarily disabled. */
   var themeSelect = document.getElementById("lumen-theme-select");
+  var SITE_THEMES = ["auto", "dark", "high-contrast", "2077"];
+  function resolveEffectiveTheme(theme) {
+    if (theme === "auto" || theme === "light" || !theme) return "dark";
+    return (theme === "high-contrast" || theme === "2077") ? theme : "dark";
+  }
   var storedTheme = "auto";
   try {
     storedTheme = localStorage.getItem("lumen-theme") || "auto";
   } catch (_) {}
+  if (SITE_THEMES.indexOf(storedTheme) < 0) storedTheme = "auto";
+  var effectiveTheme = resolveEffectiveTheme(storedTheme);
+  document.documentElement.setAttribute("data-lumen-theme", effectiveTheme);
   if (themeSelect) {
-    themeSelect.value =
-      ["auto", "light", "dark", "high-contrast", "2077"].indexOf(storedTheme) >= 0
-        ? storedTheme
-        : "auto";
+    themeSelect.value = storedTheme;
     themeSelect.addEventListener("change", function () {
       var value = themeSelect.value;
-      document.documentElement.setAttribute("data-lumen-theme", value);
+      document.documentElement.setAttribute("data-lumen-theme", resolveEffectiveTheme(value));
       try {
         localStorage.setItem("lumen-theme", value);
       } catch (_) {}
@@ -1330,12 +1320,15 @@
       ) +
       '<a href="' + escapeHtml(decorateMainSiteHref("/rockbox-benefits.html")) + '">Rockbox on Innioasis</a>' +
       '<a href="' + escapeHtml(decorateMainSiteHref("/reborn-y2linux-benefits.html")) + '">Reborn (Y2Linux) for Y2</a>' +
+      '<a href="' + escapeHtml(decorateMainSiteHref("/rondo-benefits.html")) + '">Rondo for Y1</a>' +
       '<a href="' + escapeHtml(decorateMainSiteHref("/updater-comparison.html")) + '">Which tool should I use?</a>' +
       '<a href="' + escapeHtml(decorateMainSiteHref("/troubleshooting.html")) + '">Troubleshooting</a>' +
       '</div>' +
       '<div class="footer-col">' +
       '<h4>Developers</h4>' +
       '<a href="' + escapeHtml(decorateMainSiteHref("/developers.html")) + '">Developer Guide &amp; Tooling</a>' +
+      '<a href="' + escapeHtml(decorateCrossDomainHref("https://innioasis.app/")) + '">Updater CE</a>' +
+      '<a href="' + escapeHtml(decorateMainSiteHref("/firmware.html")) + '">Firmware Archive</a>' +
       '<a href="' + escapeHtml(decorateCrossDomainHref("https://themes.innioasis.app/")) + '" data-cross-site-link="1">Themes Gallery</a>' +
       '<a href="https://discord.gg/zHrT2zrcek" target="_blank" rel="noopener noreferrer">Discord Server</a>' +
       '<a href="https://reddit.com/r/innioasis" target="_blank" rel="noopener noreferrer">r/innioasis on Reddit</a>' +

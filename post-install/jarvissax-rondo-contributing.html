@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contributing to Rondo - Innioasis Updater</title>
+  <meta name="description" content="Contributing to Rondo Thanks for taking a look. Rondo is a small project for a small music player, and right now the most useful thing anyone can do is try it on their ow">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/jarvissax-rondo-contributing.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Contributing to Rondo - Innioasis Updater">
+  <meta property="og:description" content="Contributing to Rondo Thanks for taking a look. Rondo is a small project for a small music player, and right now the most useful thing anyone can do is try it on their ow">
+  <meta property="og:url" content="https://innioasis.app/post-install/jarvissax-rondo-contributing.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Contributing to Rondo - Innioasis Updater">
+  <meta name="twitter:description" content="Contributing to Rondo Thanks for taking a look. Rondo is a small project for a small music player, and right now the most useful thing anyone can do is try it on their ow">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y1&amp;software=rondo-y1">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Rondo · Y1</p><h1>Contributing to Rondo</h1><p class="lumen-lead">A lightweight, custom audio operating system for the Innioasis Y1.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y1&amp;software=rondo-y1">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y1&amp;software=rondo-y1">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="contributing-to-rondo">Contributing to Rondo</h1>
+<p>Thanks for taking a look. Rondo is a small project for a small music player, and right now the most useful thing anyone can do is try it on their own Y1 and say how it went. Code, docs and ideas are welcome too.</p>
+<h2 id="trying-it-and-telling-me-how-it-went">Trying it and telling me how it went</h2>
+<p>If you install Rondo, I&#x27;d love to hear about it, good or bad. Things that help the most:</p>
+<ul><li><strong>The install and updates.</strong> Did Innioasis Updater CE install Rondo without trouble? Which<p>computer? Did an update work, and which way (Settings › Software update, the dashboard, USB)?</p></li><li><strong>What broke or felt wrong.</strong> A screen that misbehaves, a song that won&#x27;t play, a button that<p>does the wrong thing.</p></li><li><strong>How the wheel feels.</strong> Too fast, too slow, the vibration, the click sound.</li><li><strong>Your setup.</strong> Server at home or on a VPS, with or without a YouTube account, Bluetooth<p>headphones, FM radio.</p></li><li><strong>Battery life</strong>, if you notice how long a charge lasts while streaming or playing from the card.</li></ul>
+<p>Open an <a href="https://github.com/jarvissax/rondo/issues/new/choose" target="_blank" rel="noopener noreferrer">issue</a> for anything you find. There are short forms for problems and for ideas.</p>
+<h2 id="reporting-a-problem">Reporting a problem</h2>
+<p>The more of this you include, the faster it gets fixed:</p>
+<ul><li>what you did, what you expected, and what happened instead,</li><li>Rondo&#x27;s version (Settings › About on the Y1),</li><li>whether YouTube goes through a server at home or on a VPS, or you only use the card,</li><li>Rondo&#x27;s log, if you can get it with the Y1 plugged in:</li></ul>
+<pre><code class="language-bash">  adb logcat -d -v time -s Y1 &gt; rondo-log.txt</code></pre>
+<ul><li>for server problems, the server&#x27;s log: <code>docker logs rondo 2&gt;&amp;1 | tail -200</code>.</li></ul>
+<p>Please don&#x27;t paste your <code>cookies.txt</code>, tokens or passwords anywhere. Neither log contains them, but have a quick look before you post one anyway. Leave out your server&#x27;s address too, if you&#x27;d rather keep it to yourself.</p>
+<p>A screenshot of the Y1 says a lot:</p>
+<pre><code class="language-bash">adb shell screencap -p /data/local/tmp/shot.png &amp;&amp; adb pull /data/local/tmp/shot.png</code></pre>
+<h2 id="suggesting-a-feature">Suggesting a feature</h2>
+<p>Describe what you&#x27;d like to do on the Y1, not only the fix you have in mind. Some things are out of reach on purpose or by necessity:</p>
+<ul><li><strong>No downloads.</strong> Rondo streams YouTube live and never saves audio or video from it. That stays.</li><li><strong>Wheel and five buttons only.</strong> The Y1 has no touchscreen, so every screen has to work with<p>the wheel.</p></li><li><strong>Android 4.2.</strong> Anything that needs a newer Android can&#x27;t run on the Y1.</li></ul>
+<h2 id="working-on-the-code">Working on the code</h2>
+<p>Start with <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fbuilding.md">Building Rondo</a>. It explains where everything lives, how to build and run each part, and the mock servers for working on the dashboard and admin page without a Y1.</p>
+<p>The ground rules:</p>
+<ul><li><strong>API 17.</strong> The app runs on Android 4.2. Every library has to work there, which rules out<p>Jetpack Compose, Media3, OkHttp 4 and anything else that needs API 21 or newer.</p></li><li><strong>No media caching.</strong> The server passes audio and video through as they&#x27;re requested and the<p>app never downloads them. Caching metadata (stream URLs, index ranges, thumbnails) is fine.</p></li><li><strong>The Y1 only talks to its own server.</strong> No request from the app goes to Google directly.</li><li><strong>Two YouTube libraries, one job each.</strong> youtubei.js for everything you see (home pages, search,<p>playlists, up next). yt-dlp only to turn a video ID into stream URLs.</p></li><li><strong>Test app changes on a real Y1.</strong> There&#x27;s no emulator for the wheel. For the server, run<p><code>npm test</code> and <code>npm run typecheck</code> in <code>server/</code>. For the update page, <code>npm run build</code> in <code>web-updater/</code>.</p></li><li><strong>Match the code around you.</strong> Kotlin with classic Views in the app, TypeScript on the server.<p>Comments say why, not what. Text the user sees is short, plain and in American English.</p></li><li><strong>Never commit secrets:</strong> <code>cookies.txt</code>, tokens, <code>.env</code> files or signing keys.</li></ul>
+<h3 id="pull-requests">Pull requests</h3>
+<ul><li>Keep each one to one change.</li><li>Say what changes for someone using Rondo, and how you tested it. For app changes, a screenshot<p>from the Y1 helps.</p></li><li>The checks on GitHub (the app build, the server tests, the installer build) have to pass.</li><li>Write commit messages as a short summary of the change, with details underneath if they&#x27;re<p>needed.</p></li></ul>
+<h2 id="docs">Docs</h2>
+<p>Fixes to the docs are as welcome as code. Keep them plain and short, written to the reader (&quot;you&quot;), in American English. If you followed a guide and got stuck, telling me where is already a big help.</p>
+<h2 id="be-kind">Be kind</h2>
+<p>Everyone here is doing this in their spare time. Be patient and friendly, in issues and in reviews.</p>
+<h2 id="license">License</h2>
+<p>By contributing, you agree that your contribution is released under the project&#x27;s <a href="https://github.com/jarvissax/rondo/blob/HEAD/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a>.</p></article><p class="lumen-doc-footer-note">These are Rondo's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/jarvissax/rondo" rel="noopener">jarvissax/rondo</a> project <a class="lumen-cite" href="https://github.com/jarvissax/rondo" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Ajarvissax" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

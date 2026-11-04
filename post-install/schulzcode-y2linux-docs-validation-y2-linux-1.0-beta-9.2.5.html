@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 9.2.5: Wi-Fi finds your network again after a wake - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 9.2.5: Wi-Fi finds your network again after a wake Release 1.0.0-beta.9.2.5 , Y2Reborn 1.0.0-beta.9.2.5 , kernel 6.18.56-y2linux-1.0.0-beta.9.2.5 , updat">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-9.2.5.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 9.2.5: Wi-Fi finds your network again after a wake - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 9.2.5: Wi-Fi finds your network again after a wake Release 1.0.0-beta.9.2.5 , Y2Reborn 1.0.0-beta.9.2.5 , kernel 6.18.56-y2linux-1.0.0-beta.9.2.5 , updat">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-9.2.5.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 9.2.5: Wi-Fi finds your network again after a wake - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 9.2.5: Wi-Fi finds your network again after a wake Release 1.0.0-beta.9.2.5 , Y2Reborn 1.0.0-beta.9.2.5 , kernel 6.18.56-y2linux-1.0.0-beta.9.2.5 , updat">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 9.2.5: Wi-Fi finds your network again after a wake</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-925-wi-fi-finds-your-network-again-after-a-wake">Y2Linux 1.0 Beta 9.2.5: Wi-Fi finds your network again after a wake</h1>
+<p>Release <code>1.0.0-beta.9.2.5</code>, Y2Reborn <code>1.0.0-beta.9.2.5</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.9.2.5</code>, update sequence 12100, root <code>2026.08-platform-v1.219</code>. Published as GitHub release <code>baseline-196</code> (test build 196). Previous release: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.2.4.md">Beta 9.2.4</a>.</p>
+<p>This report is written for people who use the player. A short technical appendix is at the end.</p>
+<h2 id="in-one-paragraph">In one paragraph</h2>
+<p>Beta 9.2.5 fixes one Wi-Fi problem from an error report (Y2Linux #83): after the player woke up, Wi-Fi sometimes kept looking for your network without ever seeing it, and neither waiting nor Connect helped; only switching Wi-Fi off and on did. The player now does that itself when it happens.</p>
+<h2 id="whats-fixed">What&#x27;s fixed</h2>
+<ul><li><strong>Wi-Fi that does not find your network after a wake</strong> (Y2Linux #83, finding F60). The player turns Wi-Fi off<p>after five minutes in the dark to save battery and on again when you wake it. In the report, the Wi-Fi then searched for 45 seconds, saw four other networks but never the owner&#x27;s, and Connect said &quot;not found&quot;. Switching Wi-Fi off and on in Settings connected within 5 seconds, with a good signal (−59 dBm). Now, when Wi-Fi has searched at least four times over a minute without seeing any saved network, the player switches it off and on once by itself, at most every ten minutes until it connects. Your Wi-Fi setting stays as you set it.</p></li></ul>
+<h2 id="what-youll-notice">What you&#x27;ll notice</h2>
+<ul><li>Usually nothing. If it happens, the Wi-Fi icon goes off for a moment about a minute after the wake and the player<p>connects shortly after.</p></li><li>Out of range of every saved network, the player does this once and then every ten minutes at most; it costs a<p>few seconds of the radio each time.</p></li></ul>
+<h2 id="about-wi-fi-range">About Wi-Fi range</h2>
+<p>The report also asked about range. The logs show a good signal once connected (−59 dBm), so the reconnect problem was not range. The Y2&#x27;s small antenna does reach less far than a phone or laptop; that is a limit of the hardware that software cannot change.</p>
+<h2 id="how-it-was-tested">How it was tested</h2>
+<ul><li><strong>Before release:</strong> the platform&#x27;s full check on every change, Reborn&#x27;s workspace tests and the tests of the<p>finished release images. New tests: four searches over a minute that never see the saved network switch Wi-Fi off and on once, not again within ten minutes, again after a connect; a network that is seen, a wrong password, your own Disconnect and a connection in progress never do.</p></li><li><strong>On the developer&#x27;s player:</strong> switching Wi-Fi off and on the way the player now does: the Wi-Fi interface was<p>gone 20 ms after the switch-off, and Wi-Fi was connected again 12 s after the switch-on. The update was installed over the air from Beta 9.2.4 and confirmed by the player itself (Acknowledged); the platform and Reborn running, health OK, kernel not tainted. The failure itself could not be made to happen on purpose; it is tested with the report&#x27;s sequence of events.</p></li></ul>
+<h2 id="updating">Updating</h2>
+<p>Settings → About &amp; Updates → Check for Updates → <strong>Update Now</strong>. Your music, playlists, settings, Wi-Fi networks and Bluetooth pairings stay. Settings → Diagnostics → <strong>Restore Previous System</strong> goes back to Beta 9.2.4 if you need to.</p>
+<h2 id="known-issues">Known issues</h2>
+<p>Everything listed for <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.0.md%23known-issues-and-what-still-needs-your-help&amp;anchor=known-issues-and-what-still-needs-your-help">Beta 9.0</a> still applies. Why the Wi-Fi misses the network after a wake is not proven; both times in the report the Bluetooth headphones were reconnecting at the same moment, and Wi-Fi and Bluetooth share one radio. This release works around it.</p>
+<h2 id="technical-appendix">Technical appendix</h2>
+<ul><li><strong>F60:</strong> <code>WifiRecovery::restart_unseen</code> (connectivity <code>wifi/recovery.rs</code>): with the radio present and unblocked,<p>state SCANNING, DISCONNECTED or INACTIVE, no credential verdict and no held Disconnect, ≥ 4 <code>NETWORK-NOT-FOUND</code> (<code>EventMonitor::total</code>) over ≥ 60 s and no saved network in <code>scan_results</code> → write <code>1</code> to Wi-Fi&#x27;s rfkill <code>soft</code> (<code>network::wlan_rfkill_soft</code>), wait ≤ 3 s for <code>wlan0</code> to go (the driver&#x27;s <code>radio_work</code> coalesces a block undone before it runs), write <code>0</code>. At most every 600 s until CONNECTED. Journal row <code>wifi_restart</code> {unseen_s, not_found, saved, scan_entries, blocked, gone, unblocked, events}. The F52 self-heal never acted in the report because the supplicant stayed SCANNING.</p></li><li><strong>Structure:</strong> the F52 lookup is <code>Look</code>; <code>network::wlan_rfkill</code> lists Wi-Fi&#x27;s rfkill entries.</li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

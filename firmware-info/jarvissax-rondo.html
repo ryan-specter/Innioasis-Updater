@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>README for Rondo (Y1) - Innioasis Updater</title>
+  <meta name="description" content="A lightweight, custom audio operating system for the Innioasis Y1.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/firmware-info/jarvissax-rondo.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="README for Rondo (Y1) - Innioasis Updater">
+  <meta property="og:description" content="A lightweight, custom audio operating system for the Innioasis Y1.">
+  <meta property="og:url" content="https://innioasis.app/firmware-info/jarvissax-rondo.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261113readme">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261113readme">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page lumen-release-page" data-firmware-info data-repo="jarvissax/rondo">
+  <p class="lumen-doc-back"><a href="../firmware.html">← Firmware Downloads</a></p>
+  <header class="lumen-doc-head">
+    <div class="lumen-release-head"><span class="lumen-release-icon" aria-hidden="true"><img src="https://innioasis.app/assets/rondo_icon.jpg" width="40" height="40" alt="" loading="lazy" style="width:40px;height:40px;object-fit:cover;border-radius:10px;display:block;"></span><div class="lumen-release-titles"><p class="lumen-kicker">Firmware README · Y1</p><h1>Rondo README</h1></div></div>
+    <p class="lumen-lead">A lightweight, custom audio operating system for the Innioasis Y1.</p>
+    <div class="lumen-release-tag-row"><span>Y1</span></div>
+    <div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../guides/rondo-y1.html">Open the Rondo guide</a><a class="lumen-button" href="../firmware.html?model=Y1&amp;software=rondo-y1">Install with Updater CE</a><a class="lumen-button" href="../rondo-benefits.html">Why Rondo?</a></div>
+  </header>
+  <section class="lumen-firmware-stats" aria-label="Project statistics"><div class="lumen-stat"><span class="lumen-stat-label">Downloads from Firmware Archive</span><strong class="lumen-stat-value" data-stat="downloads">132</strong></div></section>
+  <p class="lumen-meta" id="fi-stats-note"></p>
+  <article class="lumen-doc-body lumen-firmware-readme" id="fi-body"><h1 id="rondo">Rondo</h1>
+<p>**A click-wheel firmware for the Innioasis Y1: the music on your card, YouTube Music, YouTube and FM radio, all from the wheel.**</p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/jarvissax/rondo/HEAD/docs/images/main-menu.png" width="400" alt="Rondo's main menu, with the song that's playing on the right">
+  <img src="https://raw.githubusercontent.com/jarvissax/rondo/HEAD/docs/images/now-playing.png" width="400" alt="Now Playing, with the album cover and what's up next">
+</p>
+<p align="center">
+  <a href="https://innioasis.app/guides/rondo-y1.html"><b>Install</b></a> ·
+  <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fusing.md"><b>Use</b></a> ·
+  <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fserver.md"><b>Server</b></a> ·
+  <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fdashboard.md"><b>Dashboard</b></a> ·
+  <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Ftroubleshooting.md"><b>Help</b></a> ·
+  <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2FCHANGELOG.md"><b>What's new</b></a>
+</p>
+<p>The Innioasis Y1 is a small music player with an iPod-style click wheel. Underneath, it runs Android 4.2. Rondo is a firmware for it, built from the community&#x27;s Android 4.2 base: everything else is taken out, and the Y1 starts straight into menus made for the wheel. Play the music on your microSD card, stream YouTube Music and YouTube, and listen to FM radio, all without a touchscreen. You install it with Innioasis Updater CE, the same way as Rockbox or the Y1&#x27;s original software, and you can always go back.</p>
+<h2 id="what-it-does">What it does</h2>
+<h3 id="your-music-from-the-card">Your music, from the card</h3>
+<p>Copy music onto the microSD card and Rondo sorts it by song, artist and album, using the files&#x27; tags. You get covers, lyrics that scroll along with the song, search as you type, and playlists you can make on the Y1 or in your browser. Videos on the card play too, and plugging the Y1 into a computer turns the card into a USB drive.</p>
+<table>
+  <tr>
+    <td align="center"><img src="https://raw.githubusercontent.com/jarvissax/rondo/HEAD/docs/images/library.png" width="260" alt="The library: songs, artists, albums, playlists and search"><br>The library</td>
+    <td align="center"><img src="https://raw.githubusercontent.com/jarvissax/rondo/HEAD/docs/images/playlist.png" width="260" alt="A playlist with album covers"><br>A playlist</td>
+    <td align="center"><img src="https://raw.githubusercontent.com/jarvissax/rondo/HEAD/docs/images/lyrics.png" width="260" alt="Lyrics following the song"><br>Lyrics that follow the song</td>
+  </tr>
+</table>
+<p>FLAC, MP3, M4A, AAC, OGG, Opus and WAV. Lyrics come from the file&#x27;s tags or an <code>.lrc</code> file next to it. Nothing on the card ever needs the internet.</p>
+<h3 id="youtube-music-and-youtube">YouTube Music and YouTube</h3>
+<p>With a small server you run yourself, the Y1 streams YouTube Music and YouTube: home, search, artists, albums, playlists, lyrics, Shorts, and video up to 720p. Sign the server in to your YouTube account for your own library, subscriptions and history, or use it without an account.</p>
+<table>
+  <tr>
+    <td align="center"><img src="https://raw.githubusercontent.com/jarvissax/rondo/HEAD/docs/images/youtube-music-search.png" width="400" alt="Searching YouTube Music"><br>Searching YouTube Music</td>
+    <td align="center"><img src="https://raw.githubusercontent.com/jarvissax/rondo/HEAD/docs/images/youtube-music-playing.png" width="400" alt="A song streaming from YouTube Music"><br>Streaming a song</td>
+  </tr>
+  <tr>
+    <td align="center"><img src="https://raw.githubusercontent.com/jarvissax/rondo/HEAD/docs/images/youtube-search.png" width="400" alt="Searching YouTube"><br>Searching YouTube</td>
+    <td align="center"><img src="https://raw.githubusercontent.com/jarvissax/rondo/HEAD/docs/images/video.png" width="400" alt="A video playing, scrubbing with the wheel"><br>Watching a video</td>
+  </tr>
+</table>
+<p>Streams play as they arrive: neither the Y1 nor the server ever stores audio or video from YouTube. (In the pictures: Kevin MacLeod&#x27;s music and Blender Studio&#x27;s open movie <em>Spring</em>, both openly licensed.)</p>
+<h3 id="made-for-the-wheel">Made for the wheel</h3>
+<p>Every screen works with the wheel and five buttons. Each wheel pulse is one step, like Rockbox, with an optional buzz and click on every step and acceleration for long lists. Searches, Wi-Fi passwords and playlist names are typed on a keyboard you move through with the wheel or the buttons. Choose a light or dark look, an accent color and a text size, and which entries the main menu shows, in which order.</p>
+<table>
+  <tr>
+    <td align="center"><img src="https://raw.githubusercontent.com/jarvissax/rondo/HEAD/docs/images/keyboard.png" width="260" alt="The on-screen keyboard"><br>The wheel keyboard</td>
+    <td align="center"><img src="https://raw.githubusercontent.com/jarvissax/rondo/HEAD/docs/images/main-menu-light.png" width="260" alt="The main menu in the light look with the Mint accent"><br>Light look, Mint accent</td>
+    <td align="center"><img src="https://raw.githubusercontent.com/jarvissax/rondo/HEAD/docs/images/settings.png" width="260" alt="Settings"><br>Settings</td>
+  </tr>
+</table>
+<h3 id="fm-radio-bluetooth-and-wi-fi">FM radio, Bluetooth and Wi-Fi</h3>
+<p>The Y1&#x27;s FM radio, with station names, a scan of the whole band, saved stations and a speaker option; wired headphones are the antenna. Bluetooth headphones and speakers, and Wi-Fi networks, are set up from the wheel as well.</p>
+<h3 id="a-dashboard-in-your-browser">A dashboard in your browser</h3>
+<p>Open <strong>Settings › Dashboard</strong> on the Y1, then the address it shows on your phone or computer. From there you can upload music, make playlists, control what&#x27;s playing, change the theme and every setting, manage Wi-Fi, Bluetooth and the radio, and shut down, restart or update the Y1. It runs on the Y1 itself, over your Wi-Fi, and needs no internet.</p>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/jarvissax/rondo/HEAD/docs/images/dashboard.png" width="560" alt="The dashboard's Overview page on a computer">
+  <img src="https://raw.githubusercontent.com/jarvissax/rondo/HEAD/docs/images/dashboard-phone.png" width="180" alt="The dashboard on a phone">
+</p>
+<h3 id="updates-that-keep-everything">Updates that keep everything</h3>
+<p>A new Rondo installs in about a minute, without reinstalling the firmware: from **Settings › Software update<strong> over Wi-Fi, with </strong>Install** in the dashboard, or over USB from <a href="https://jarvissax.github.io/rondo/" target="_blank" rel="noopener noreferrer">the update page</a>. Your settings, Wi-Fi, server connection, playlists and music stay as they are. The rare release that changes the firmware itself says so, and installs with Innioasis Updater CE instead.</p>
+<h2 id="what-you-need">What you need</h2>
+<ul><li>An <strong>Innioasis Y1, Type A</strong>: one that shipped with software 2.0.0 or later. Not sure which type<p>yours is? See <a href="https://innioasis.app/guides/rondo-y1.html">Before you start</a>.</p></li><li>A <strong>computer</strong> (macOS, Windows or Linux) with <strong>Innioasis Updater CE</strong>, and a USB-C cable that<p>carries data, for the install.</p></li><li><strong>2.4 GHz Wi-Fi.</strong> The Y1 can&#x27;t see 5 GHz networks.</li><li>For YouTube Music and YouTube, a <strong>Rondo server</strong>: a computer at home that stays on (a 64-bit<p>Raspberry Pi or a NAS is fine), or a small VPS. Your music card, the radio and Bluetooth work without it.</p></li></ul>
+<h2 id="getting-started">Getting started</h2>
+<ol><li><strong><a href="https://innioasis.app/guides/rondo-y1.html">Install Rondo</a></strong> with Innioasis Updater CE: choose the Y1, Type A, then<p>Rondo. It takes about 10 minutes, and your microSD card isn&#x27;t touched.</p></li><li><strong><a href="https://innioasis.app/guides/rondo-y1.html">First start</a>:</strong> join Wi-Fi, copy your music onto the card, and<p>look through Settings.</p></li><li><strong><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fserver.md">Set up a server</a></strong> if you want YouTube Music and YouTube. About 15 minutes<p>with Docker.</p></li><li><strong><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fusing.md">Learn the controls</a></strong>, and open the <strong><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fdashboard.md">dashboard</a></strong> on<p>your phone.</p></li></ol>
+<h3 id="the-controls-at-a-glance">The controls at a glance</h3>
+<table><thead><tr><th>Control</th><th>What it does</th></tr></thead><tbody><tr><td><strong>Wheel</strong></td><td>Moves through lists. On Now Playing, a video or the radio, it changes the volume.</td></tr><tr><td><strong>Center</strong></td><td>Opens or selects. <strong>Hold</strong> it for options.</td></tr><tr><td><strong>Menu</strong> (top)</td><td>Back.</td></tr><tr><td><strong>Play/Pause</strong> (bottom)</td><td>Plays and pauses, from any screen.</td></tr><tr><td><strong>Next / Previous</strong></td><td>Next or previous song. <strong>Hold</strong> to fast-forward or rewind.</td></tr><tr><td><strong>Power</strong></td><td>Screen off and on. <strong>Hold</strong> it to shut down or restart.</td></tr></tbody></table>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fusing.md">Using Rondo</a> has the details for every screen, and every setting.</p>
+<h2 id="your-own-server">Your own server</h2>
+<p align="center"><img src="https://raw.githubusercontent.com/jarvissax/rondo/HEAD/docs/images/admin.png" width="640" alt="The server's admin page"></p>
+<p>The Y1 is too old to talk to YouTube directly: Android 4.2 can&#x27;t handle today&#x27;s YouTube pages, video formats or encryption. So a small server does that part. You run it with Docker at home or on a VPS, set it up from its admin page in the browser, connect your Y1 with a six-digit code, and optionally sign it in to your YouTube account. It keeps yt-dlp up to date by itself, its admin page tells you when something needs attention, and a new version of the server installs with one click there. One server serves one Y1. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fserver.md">Setting up a Rondo server</a>.</p>
+<h2 id="how-it-works">How it works</h2>
+<pre><code> Innioasis Y1                 your Rondo server                YouTube
+┌──────────────┐   Wi-Fi    ┌───────────────────┐   internet  ┌─────────┐
+│ Rondo        │ ─────────▶ │ browse + stream   │ ──────────▶ │         │
+│ music on SD  │ ◀───────── │ (Node, yt-dlp)    │ ◀────────── │         │
+│ FM, Bluetooth│   audio,   └───────────────────┘             └─────────┘
+└──────────────┘   video</code></pre>
+<p>The server browses YouTube for the Y1 with <a href="https://github.com/LuanRT/YouTube.js" target="_blank" rel="noopener noreferrer">youtubei.js</a>, finds the streams with <a href="https://github.com/yt-dlp/yt-dlp" target="_blank" rel="noopener noreferrer">yt-dlp</a>, and passes audio and video through to the Y1 in a form it can play. The Y1 only ever talks to your server.</p>
+<h2 id="the-project">The project</h2>
+<table><thead><tr><th>Folder</th><th>What&#x27;s in it</th></tr></thead><tbody><tr><td><code>app/</code></td><td>Rondo itself, the Android app at the heart of the firmware (Kotlin, classic Views, ExoPlayer 2)</td></tr><tr><td><code>firmware/</code></td><td>The script that builds the firmware (<code>rom.zip</code>) from the community&#x27;s base ROM</td></tr><tr><td><code>server/</code></td><td>The Rondo server (Node 22, TypeScript, Fastify)</td></tr><tr><td><code>infra/</code></td><td>Docker and Caddy files for running the server</td></tr><tr><td><code>web-updater/</code></td><td>The update page (WebUSB), published on GitHub Pages</td></tr><tr><td><code>tools/</code></td><td>Mock servers for UI work, the boot screen generator, the version script</td></tr><tr><td><code>docs/</code></td><td>Guides, plus <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fdevice%2FREADME.md">notes on the Y1&#x27;s internals</a> and <a href="https://github.com/jarvissax/rondo/blob/HEAD/docs/dev/" target="_blank" rel="noopener noreferrer">API references</a></td></tr></tbody></table>
+<p>Every release is built the same way: the signed app goes up, and GitHub Actions builds the firmware from it and publishes the update page. To build it yourself, start with <strong><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fbuilding.md">Building Rondo</a></strong>.</p>
+<h2 id="feedback-and-contributing">Feedback and contributing</h2>
+<p>If you try Rondo on your Y1, I&#x27;d love to hear how it went, good or bad.</p>
+<ul><li><strong><a href="https://github.com/jarvissax/rondo/issues/new?template=bug_report.yml" target="_blank" rel="noopener noreferrer">Report a problem</a></strong><p>if something doesn&#x27;t work.</p></li><li><strong><a href="https://github.com/jarvissax/rondo/issues/new?template=idea.yml" target="_blank" rel="noopener noreferrer">Share an idea</a></strong> for<p>something you&#x27;d like Rondo to do.</p></li><li><strong><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2FCONTRIBUTING.md">CONTRIBUTING.md</a></strong> says what feedback helps most, how to get Rondo&#x27;s log,<p>and how to work on the code.</p></li></ul>
+<h2 id="thanks">Thanks</h2>
+<p>Rondo stands on other people&#x27;s work:</p>
+<ul><li>The <strong><a href="https://github.com/y1-community" target="_blank" rel="noopener noreferrer">y1-community</a></strong>: its<p><a href="https://github.com/y1-community/Innioasis-Updater" target="_blank" rel="noopener noreferrer">Innioasis Updater CE</a>, which installs Rondo, and its <a href="https://innioasis.app/firmware.html?model=Y1&amp;software=android-4-2-y1">Android 4.2 base ROM</a>, with the Y1&#x27;s Wi-Fi switched on, which Rondo&#x27;s firmware is built from.</p></li><li><strong><a href="https://github.com/multiwirth/rockbox-y1" target="_blank" rel="noopener noreferrer">Rockbox&#x27;s Y1 port</a></strong>, whose wheel handling Rondo<p>copies, and the <strong><a href="https://innioasis.app/firmware.html?model=Y1&amp;software=jj-launcher-y1">JJ Launcher</a></strong> and <strong><a href="https://innioasis.app/firmware.html?model=Y1&amp;software=inniclassic-y1">Inniclassic</a></strong> launchers, which showed how the Y1&#x27;s buttons behave.</p></li><li><strong>youtubei.js</strong>, <strong>yt-dlp</strong>, <strong>ExoPlayer</strong>, <strong>OkHttp</strong>, <strong>NanoHTTPD</strong>, <strong>ZXing</strong>, <strong>Fastify</strong>,<p><strong>sharp</strong> and the <strong>Roboto</strong> font. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2FTHIRD_PARTY_NOTICES.md">THIRD_PARTY_NOTICES.md</a>.</p></li></ul>
+<h2 id="license-and-fine-print">License and fine print</h2>
+<p>Rondo is released under the <a href="https://github.com/jarvissax/rondo/blob/HEAD/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a>.</p>
+<p>Rondo is an independent project. It isn&#x27;t affiliated with or endorsed by Innioasis, Google or YouTube. YouTube and YouTube Music are trademarks of Google LLC. Rondo reaches YouTube the same way other unofficial clients do, which YouTube&#x27;s terms don&#x27;t allow and which YouTube can break at any time. Use your own account, and use it at your own risk. The songs and albums in the pictures of the card&#x27;s library are made up for the screenshots.</p></article>
+</main>
+<div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../firmware-info.js?v=20261113downloads" defer></script>
+<script src="../nav.js?v=20261113noticefilter" defer></script>
+<script src="../site-i18n.js?v=20261113blocklist" defer></script>
+</body></html>

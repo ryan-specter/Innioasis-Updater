@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>InniClassic 1.4.3 release candidate review - Innioasis Updater</title>
+  <meta name="description" content="InniClassic 1.4.3 release candidate review The source version is 1.4.3 143. This is a locally built, debug-signed test candidate, not a published release or a ROM image.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/fabianzettl-inniclassic-docs-release-review-1.4.3.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="InniClassic 1.4.3 release candidate review - Innioasis Updater">
+  <meta property="og:description" content="InniClassic 1.4.3 release candidate review The source version is 1.4.3 143. This is a locally built, debug-signed test candidate, not a published release or a ROM image.">
+  <meta property="og:url" content="https://innioasis.app/post-install/fabianzettl-inniclassic-docs-release-review-1.4.3.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="InniClassic 1.4.3 release candidate review - Innioasis Updater">
+  <meta name="twitter:description" content="InniClassic 1.4.3 release candidate review The source version is 1.4.3 143. This is a locally built, debug-signed test candidate, not a published release or a ROM image.">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y1&amp;software=inniclassic-y1">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Inniclassic · Y1</p><h1>InniClassic 1.4.3 release candidate review</h1><p class="lumen-lead">A classic-style Y1 Software.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y1&amp;software=inniclassic-y1">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y1&amp;software=inniclassic-y1">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="inniclassic-143-release-candidate-review">InniClassic 1.4.3 release candidate review</h1>
+<p>The source version is 1.4.3 (143). This is a locally built, debug-signed test candidate, not a published release or a ROM image.</p>
+<h2 id="verified">Verified</h2>
+<ul><li><code>JAVA_HOME=/usr/lib/jvm/java-17-openjdk ./gradlew assembleDebug testDebugUnitTest lintDebug</code>: successful.</li><li>Lint: 0 errors, 463 warnings. The legacy receiver helper has one narrowly scoped suppression because API 17 has no receiver-flags overload; Android 33+ uses the explicit flags overload.</li><li><code>SafeFilesTest</code>: traversal, absolute paths, sibling-prefix escape, symlink escape, invalid names, interrupted writes, replacement, empty saves and temporary-file cleanup.</li><li><code>Y1WebServerTest</code>: actual socket requests for uploads, truncated bodies, traversal, root deletion, cross-origin writes, rename/readback, unknown routes and shutdown.</li><li>Both generated browser scripts pass <code>node --check</code>.</li><li><code>git diff --check</code>: clean.</li><li>No device is connected to ADB. Current Android screens have not been visually inspected on hardware.</li></ul>
+<h2 id="design-basis">Design basis</h2>
+<p>The checked-in screenshots were reviewed alongside the menu/status-bar description in <a href="https://cdsassets.apple.com/live/6GJYWVAV/user/ma1195_ipod_classic_160gb_user_guide.pdf" target="_blank" rel="noopener noreferrer">Apple&#x27;s iPod classic guide</a>. This change is a closer interpretation, not a verified pixel-perfect reproduction. Existing Nimbus Sans regular and bold files remain; Classic row typography is centralized and the main-menu selection now uses the same gradient as other lists. Theme version migration will reinstall bundled themes on first launch of version 143.</p>
+<p>Last.fm response handling follows the distinction between HTTP status and API responses in the <a href="https://www.last.fm/api/scrobbling" target="_blank" rel="noopener noreferrer">official scrobbling documentation</a>.</p>
+<h2 id="architecture-and-remaining-limits">Architecture and remaining limits</h2>
+<p><code>MainActivity</code> remains about 17,000 lines and owns navigation, library operations, playback coordination and UI rendering. This pass extracts independently testable file operations and centralizes dynamic IDs; it does not replace the application architecture. A future incremental split should separate library indexing and navigation before moving screen controllers.</p>
+<p>The Wi-Fi server remains an unauthenticated local-network feature and must be treated as access to the shared SD card while enabled. Canonical path checks and origin checks are not authentication. Its existing HTTP Last.fm password page remains; the device&#x27;s browser-based token flow is preferable. HTTP range seeking is not implemented, and the server no longer advertises range support. Renames use same-directory temporary files for complete uploads; abrupt power loss and concurrent edits are not covered by host tests.</p>
+<p>Other existing limitations remain: gapless playback has queue/format restrictions, native decoders and FM hardware are device-specific, album art extraction still uses background threads and static activity coupling, and the lint warnings have not all been resolved. Last.fm live authentication/submission was not tested against a real account.</p>
+<h2 id="before-publishing">Before publishing</h2>
+<ol><li>Install on a Y1 with the intended signing certificate; verify the previous release&#x27;s certificate before choosing update versus uninstall. Do not uninstall merely to bypass an unknown signing mismatch, because that clears private settings.</li><li>Inspect Main Menu, Music, Artists, Albums, Songs, Settings and Now Playing in light and dark themes. Check long titles, accented/CJK text, focus arrows and cover reflection on the actual display.</li><li>Exercise wheel focus/wrap, Menu/Center/hold, Cover Flow navigation and equalizer focus after the ID migration.</li><li>Play MP3, FLAC, Ogg/Opus, ALAC and a short gapless album; check shuffle/repeat, resume, headphone removal, sleep/wake, Bluetooth reconnect, video sync and FM.</li><li>Check audiobook resume, podcasts/downloads, library rescans, Last.fm offline-to-online retries and theme upgrades with existing settings.</li><li>Upload a directory containing more than 100 files, interrupt an overwrite, verify the old file, and stop/restart the server.</li><li>Capture fresh device screenshots, finalize release notes and sign/package the approved APK. Build a ROM separately if one is to be distributed.</li></ol></article><p class="lumen-doc-footer-note">These are Inniclassic's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/FabianZettl/inniclassic" rel="noopener">FabianZettl/inniclassic</a> project <a class="lumen-cite" href="https://github.com/FabianZettl/inniclassic" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3AFabianZettl" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

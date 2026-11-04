@@ -2,6 +2,35 @@
    Repositories whose README names Updater CE, mapped to their static page.
    Release-table icons link here; anything missing opens firmware_info.html. */
 window.INNIOASIS_README_PAGES = {
+  "fabianzettl/inniclassic": {
+    "name": "Inniclassic",
+    "page": "firmware-info/fabianzettl-inniclassic.html",
+    "slugs": [
+      "inniclassic-y1"
+    ]
+  },
+  "ismileblue/y1_launcher": {
+    "name": "JJ Launcher",
+    "page": "firmware-info/ismileblue-y1-launcher.html",
+    "slugs": [
+      "jj-launcher-y1",
+      "jj-launcher-y2"
+    ]
+  },
+  "jarvissax/rondo": {
+    "name": "Rondo",
+    "page": "firmware-info/jarvissax-rondo.html",
+    "slugs": [
+      "rondo-y1"
+    ]
+  },
+  "jonaszpotoniec/inniclassic-y2": {
+    "name": "Inniclassic",
+    "page": "firmware-info/jonaszpotoniec-inniclassic-y2.html",
+    "slugs": [
+      "inniclassic-y2"
+    ]
+  },
   "leska1337/better-y": {
     "name": "Better-Y",
     "page": "firmware-info/leska1337-better-y.html",
@@ -9,11 +38,76 @@ window.INNIOASIS_README_PAGES = {
       "better-y-y1"
     ]
   },
+  "rockbox-y1/rockbox": {
+    "name": "Rockbox",
+    "page": "firmware-info/rockbox-y1-rockbox.html",
+    "slugs": [
+      "rockbox-y1"
+    ]
+  },
+  "ryan-specter/koensayr-auto": {
+    "name": "Koensayr",
+    "page": "firmware-info/ryan-specter-koensayr-auto.html",
+    "slugs": [
+      "koensayr-y1"
+    ]
+  },
+  "schulzcode/y2linux": {
+    "name": "Reborn (Y2Linux)",
+    "page": "firmware-info/schulzcode-y2linux.html",
+    "slugs": [
+      "reborn-y2linux-y2"
+    ]
+  },
+  "schulzcode/y2player": {
+    "name": "Y2Player",
+    "page": "firmware-info/schulzcode-y2player.html",
+    "slugs": [
+      "y2player-y2"
+    ]
+  },
   "spycemagic/y2-rockbox": {
     "name": "Rockbox",
     "page": "firmware-info/spycemagic-y2-rockbox.html",
     "slugs": [
       "rockbox-y2"
+    ]
+  },
+  "thesolarproject/solar": {
+    "name": "Solar",
+    "page": "firmware-info/thesolarproject-solar.html",
+    "slugs": [
+      "solar-y1",
+      "solar-y2"
+    ]
+  },
+  "y1-community/y1-ata-rom": {
+    "name": "Android 4.2 (Dev)",
+    "page": "firmware-info/y1-community-y1-ata-rom.html",
+    "slugs": [
+      "android-4-2-y1"
+    ]
+  },
+  "y1-community/y1-linux-rom": {
+    "name": "Linux for Y1 (Dev)",
+    "page": "firmware-info/y1-community-y1-linux-rom.html",
+    "slugs": [
+      "linux-y1"
+    ]
+  },
+  "y1-community/y1-stock-rom": {
+    "name": "Original Software",
+    "page": "firmware-info/y1-community-y1-stock-rom.html",
+    "slugs": [
+      "original-y1",
+      "original-y2"
+    ]
+  },
+  "y1-community/y2-ata-rom": {
+    "name": "Android 4.4 (Dev)",
+    "page": "firmware-info/y1-community-y2-ata-rom.html",
+    "slugs": [
+      "android-4-4-y2"
     ]
   }
 };

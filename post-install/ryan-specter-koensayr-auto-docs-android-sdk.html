@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Android SDK setup - Innioasis Updater</title>
+  <meta name="description" content="Android SDK setup The Android SDK is required only for the --avrcp flag, which builds src/Y1Bridge/ via Gradle. Gradle itself is bootstrapped by the in-tree wrapper src/Y">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/ryan-specter-koensayr-auto-docs-android-sdk.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Android SDK setup - Innioasis Updater">
+  <meta property="og:description" content="Android SDK setup The Android SDK is required only for the --avrcp flag, which builds src/Y1Bridge/ via Gradle. Gradle itself is bootstrapped by the in-tree wrapper src/Y">
+  <meta property="og:url" content="https://innioasis.app/post-install/ryan-specter-koensayr-auto-docs-android-sdk.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Android SDK setup - Innioasis Updater">
+  <meta name="twitter:description" content="Android SDK setup The Android SDK is required only for the --avrcp flag, which builds src/Y1Bridge/ via Gradle. Gradle itself is bootstrapped by the in-tree wrapper src/Y">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y1&amp;software=koensayr-y1">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Koensayr · Y1</p><h1>Android SDK setup</h1><p class="lumen-lead">A Y1 custom Software maintained by the community.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y1&amp;software=koensayr-y1">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y1&amp;software=koensayr-y1">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="android-sdk-setup">Android SDK setup</h1>
+<p>The Android SDK is required only for the <code>--avrcp</code> flag, which builds <code>src/Y1Bridge/</code> via Gradle. Gradle itself is bootstrapped by the in-tree wrapper (<code>src/Y1Bridge/gradlew</code>) — no separate Gradle install needed — but the wrapper still needs the SDK to compile against and locate <code>aapt</code> / <code>d8</code> / etc.</p>
+<p>This project (apply.bash flash flow) is <strong>Linux-only</strong>, so all instructions below target Linux. There is <strong>no Linux distribution package for the Android SDK</strong> (Google&#x27;s licensing prevents redistribution, so it&#x27;s not in DNF / APT / EPEL / RPMFusion). Everything below ends up at the same end state: an SDK directory containing <code>cmdline-tools/</code>, <code>platform-tools/</code>, <code>platforms/android-34/</code>, and <code>build-tools/34.0.0/</code>, with <code>ANDROID_HOME</code> pointing at it (or <code>sdk.dir</code> set in <code>src/Y1Bridge/local.properties</code>).</p>
+<h2 id="easy-path-toolsinstall-android-sdksh">Easy path: <code>tools/install-android-sdk.sh</code></h2>
+<p>The repo provides an idempotent installer that downloads and provisions everything:</p>
+<pre><code class="language-bash">./tools/install-android-sdk.sh</code></pre>
+<p>It will:</p>
+<ol><li>Detect an existing SDK at <code>$ANDROID_HOME</code> or <code>tools/android-sdk/</code> — if either is usable (has <code>platforms/android-34/</code>), reuse it without re-downloading.</li><li>Otherwise: download Google&#x27;s <code>commandlinetools-linux-XXXXXXX_latest.zip</code> (pinned build) into <code>tools/android-sdk/cmdline-tools/latest/</code>, accept licenses (<code>yes | sdkmanager --licenses</code> — running this script is your acceptance, see the script header), install <code>platforms;android-34</code> + <code>build-tools;34.0.0</code> + <code>platform-tools</code>.</li><li><strong>Always</strong> (re-runnable / heals partial-state from prior runs):<ul><li>Write <code>sdk.dir=&lt;path&gt;</code> into <code>src/Y1Bridge/local.properties</code> so Gradle finds the SDK without <code>ANDROID_HOME</code> in your shell.</li><li>Write <code>tools/android-sdk-env.sh</code> (sourceable). Contains <code>export ANDROID_HOME=…; export PATH=…:cmdline-tools/latest/bin:platform-tools</code>. Source it (<code>source tools/android-sdk-env.sh</code>) when you want <code>adb</code> / <code>sdkmanager</code> on PATH for interactive shell use. Gradle doesn&#x27;t need this — it reads <code>local.properties</code> directly.</li></ul></li></ol>
+<p>Disk: ~1.5–2 GB. Network: ~1.7 GB total. JDK 17+ is a prereq (the script bails early with install instructions if it&#x27;s missing).</p>
+<p>The two outputs serve different consumers:</p>
+<table><thead><tr><th>File</th><th>Read by</th><th>Required for</th></tr></thead><tbody><tr><td><code>src/Y1Bridge/local.properties</code></td><td>Gradle (build time)</td><td><code>./gradlew assembleDebug</code></td></tr><tr><td><code>tools/android-sdk-env.sh</code></td><td>Your interactive shell (after <code>source …</code>)</td><td><code>adb shell …</code>, <code>sdkmanager --list_installed</code>, etc.</td></tr></tbody></table>
+<p>If you want <code>ANDROID_HOME</code> persisted across shells, append the contents of <code>tools/android-sdk-env.sh</code> to your <code>~/.bashrc</code> / <code>~/.zshrc</code>.</p>
+<p>Bumping the pinned cmdline-tools build: edit <code>CMDLINE_TOOLS_BUILD</code> at the top of <code>tools/install-android-sdk.sh</code>, <code>rm -rf tools/android-sdk/</code>, re-run.</p>
+<p>Everything below is the <strong>manual fallback</strong>: how to install the SDK by hand if the script doesn&#x27;t fit your situation (existing system-wide install you&#x27;d rather configure, supply-chain policy that doesn&#x27;t allow scripted downloads, etc.).</p>
+<h2 id="components-needed-for-this-project">Components needed for this project</h2>
+<table><thead><tr><th>Component</th><th>Why</th></tr></thead><tbody><tr><td><code>platforms;android-34</code></td><td><code>compileSdk 34</code> in <code>src/Y1Bridge/app/build.gradle</code></td></tr><tr><td><code>build-tools;34.0.0</code></td><td>AGP 9.2.0 invokes <code>aapt2</code>, <code>d8</code>, <code>zipalign</code> from this version</td></tr><tr><td><code>platform-tools</code></td><td><code>adb</code> for device interaction. Optional for <em>building</em>, mandatory for the post-flash verification steps.</td></tr></tbody></table>
+<p>Total fresh install (cmdline-tools + the three components above): <strong>~1.5–2 GB</strong> before Gradle pulls its own dependency cache (another ~500 MB on first <code>./gradlew assembleDebug</code>).</p>
+<h2 id="already-have-it">Already have it?</h2>
+<p>Skip ahead if these already work:</p>
+<pre><code class="language-bash">echo &quot;$ANDROID_HOME&quot;                                 # should print a path
+ls &quot;$ANDROID_HOME/platforms/android-34&quot;              # should list non-empty
+ls &quot;$ANDROID_HOME/build-tools/34.0.0&quot;                # should list non-empty
+&quot;$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager&quot; --version    # should print a version</code></pre>
+<p>If <code>ANDROID_HOME</code> is unset but Android Studio is installed, the SDK is typically at <code>~/Android/Sdk</code> — set <code>ANDROID_HOME</code> to that path and you&#x27;re done.</p>
+<h2 id="manual-install-rocky--alma--rhel--fedora--debian--ubuntu--arch">Manual install (Rocky / Alma / RHEL / Fedora / Debian / Ubuntu / Arch)</h2>
+<p>Same steps regardless of distro — the cmdline-tools are platform-agnostic Java + scripts, distributed only by Google.</p>
+<pre><code class="language-bash"># 1. Download the standalone cmdline-tools (~150 MB).
+#    Browse https://developer.android.com/studio#command-tools and grab the
+#    &quot;Command line tools only&quot; Linux zip.
+mkdir -p ~/Android/Sdk/cmdline-tools
+cd ~/Android/Sdk/cmdline-tools
+unzip ~/Downloads/commandlinetools-linux-*_latest.zip
+
+# 2. Move into the canonical layout. sdkmanager expects to live at
+#    cmdline-tools/latest/bin/sdkmanager, NOT cmdline-tools/cmdline-tools/...
+mv cmdline-tools latest
+
+# 3. Install the components. Accept licenses when prompted (or run
+#    `yes | ~/Android/Sdk/cmdline-tools/latest/bin/sdkmanager --licenses`).
+~/Android/Sdk/cmdline-tools/latest/bin/sdkmanager \
+    --install &quot;platforms;android-34&quot; &quot;build-tools;34.0.0&quot; &quot;platform-tools&quot;
+
+# 4. Persist ANDROID_HOME (bash; for zsh use ~/.zshrc, fish use ~/.config/fish/config.fish).
+cat &gt;&gt; ~/.bashrc &lt;&lt;&#x27;EOF&#x27;
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
+EOF
+source ~/.bashrc</code></pre>
+<h2 id="jdk-requirement">JDK requirement</h2>
+<p><strong>Gradle (this doc&#x27;s setup): JDK 17 minimum.</strong> Confirmed working: JDK 17, 21, and 25 with the in-tree AGP 9.2.0 + Gradle 9.5.0.</p>
+<p><strong><code>patch_y1_apk.py</code> (invoked under <code>--music-apk</code>, and by extension <code>--all</code>): JDK 11–21 only.</strong> apktool 2.9.3&#x27;s bundled smali assembler silently drops patches on Java 22+, so the patcher warns on a newer JDK and its DEX-signature check will fail. If you only have JDK 22+ installed, install a 17 or 21 alongside it and point <code>JAVA_HOME</code> at the older one before running <code>--music-apk</code>.</p>
+<p>Install whatever you prefer (within the appropriate range):</p>
+<ul><li>Rocky / Alma / RHEL / Fedora: <code>sudo dnf install -y java-17-openjdk-devel</code> (or <code>java-21-openjdk-devel</code>)</li><li>Debian / Ubuntu: <code>sudo apt install -y openjdk-17-jdk</code> (or <code>openjdk-21-jdk</code>)</li><li>Arch: <code>sudo pacman -S jdk17-openjdk</code> (or <code>jdk21-openjdk</code>)</li></ul>
+<p><strong>The <code>-devel</code> (Rocky/Fedora) / <code>-jdk</code> (Debian) package suffix matters</strong> — the plain <code>java-N-openjdk</code> / <code>openjdk-N-jre</code> packages ship the JRE only, no <code>javac</code>. Gradle reports <code>Toolchain ... does not provide the required capabilities: [JAVA_COMPILER]</code> if you only have the JRE. Install the dev/JDK variant.</p>
+<pre><code class="language-bash"># Adjust path per distro; example for Rocky/Fedora with JDK 25:
+export JAVA_HOME=/usr/lib/jvm/java-25-openjdk
+$JAVA_HOME/bin/javac -version    # verify: javac 25.x.x
+
+# Persist for new shells:
+echo &#x27;export JAVA_HOME=/usr/lib/jvm/java-25-openjdk&#x27; &gt;&gt; ~/.bashrc</code></pre>
+<p><strong>Gotcha — gradle daemon caching:</strong> Gradle keeps its build daemon alive across invocations. If you change <code>JAVA_HOME</code> (or upgrade the underlying JDK install) after a build has run, the cached daemon keeps the <em>old</em> JVM. You&#x27;ll get the same <code>[JAVA_COMPILER]</code> error even though the new <code>JAVA_HOME</code> is fine. Stop the daemon before rebuilding:</p>
+<pre><code class="language-bash">( cd src/Y1Bridge &amp;&amp; ./gradlew --stop &amp;&amp; ./gradlew assembleDebug )</code></pre>
+<p><code>./gradlew --version</code> shows the current daemon JVM under <code>Daemon JVM:</code>; if that doesn&#x27;t match your <code>JAVA_HOME</code>, run <code>--stop</code>.</p>
+<h2 id="verify-the-install">Verify the install</h2>
+<p>After the steps above, in a fresh shell:</p>
+<pre><code class="language-bash">echo $ANDROID_HOME                                       # → your SDK path
+sdkmanager --list_installed                              # → lists platforms;android-34, build-tools;34.0.0, platform-tools
+java -version                                            # → 17 or newer
+( cd src/Y1Bridge &amp;&amp; ./gradlew --version )          # → Gradle 9.5.0, JVM 17+</code></pre>
+<p>If those four pass, <code>./apply.bash --avrcp</code> will resolve the SDK and Gradle correctly (with <code>rom.zip</code> staged in <code>staging/</code> or pointed at via <code>--artifacts-dir &lt;path&gt;</code>).</p>
+<h2 id="license-acceptance">License acceptance</h2>
+<p><code>sdkmanager --install …</code> will prompt to accept Google&#x27;s licenses on first run. To accept up-front (e.g. in a script), use:</p>
+<pre><code class="language-bash">yes | sdkmanager --licenses</code></pre>
+<p>The licenses live at <code>$ANDROID_HOME/licenses/</code> after acceptance — back them up if you want to short-circuit license re-acceptance on a fresh machine.</p>
+<h2 id="bumping-the-sdk-pins">Bumping the SDK pins</h2>
+<p>If the project bumps <code>compileSdk</code> or AGP:</p>
+<ol><li>Update the corresponding pin in <code>src/Y1Bridge/app/build.gradle</code> (<code>compileSdk</code>).</li><li>Re-run <code>sdkmanager --install &quot;platforms;android-XX&quot; &quot;build-tools;XX.Y.Z&quot;</code>.</li><li>Update the <strong>Components needed</strong> table at the top of this file.</li></ol></article><p class="lumen-doc-footer-note">These are Koensayr's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/ryan-specter/koensayr-auto" rel="noopener">ryan-specter/koensayr-auto</a> project <a class="lumen-cite" href="https://github.com/ryan-specter/koensayr-auto" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aryan-specter" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

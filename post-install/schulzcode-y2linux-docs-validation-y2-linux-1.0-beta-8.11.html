@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 8.11 (Baseline 106) - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 8.11 Baseline 106 Status: PUBLISHED as GitHub release baseline-106 2026-10-20. Release 1.0.0-beta.8.11 , Reborn 1.0.0-beta.8.11 , kernel 6.18.56-y2linux-">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.11.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 8.11 (Baseline 106) - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 8.11 Baseline 106 Status: PUBLISHED as GitHub release baseline-106 2026-10-20. Release 1.0.0-beta.8.11 , Reborn 1.0.0-beta.8.11 , kernel 6.18.56-y2linux-">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.11.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 8.11 (Baseline 106) - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 8.11 Baseline 106 Status: PUBLISHED as GitHub release baseline-106 2026-10-20. Release 1.0.0-beta.8.11 , Reborn 1.0.0-beta.8.11 , kernel 6.18.56-y2linux-">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 8.11 (Baseline 106)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-811-baseline-106">Y2Linux 1.0 Beta 8.11 (Baseline 106)</h1>
+<p>Status: <strong>PUBLISHED as GitHub release <code>baseline-106</code></strong> (2026-10-20). Release <code>1.0.0-beta.8.11</code>, Reborn <code>1.0.0-beta.8.11</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.8.11</code>, update sequence 7500, Linux <code>9c7f079</code>, Reborn <code>727fd47</code>. Built with <code>tools/production/release.py</code> (133 s, resumed workspace, update based on <code>baseline-105</code>): container suite <strong>827 OK</strong>, host suite 854 OK, Reborn workspace tests and Clippy clean; all seal checks PASS, no MediaTek firmware in any image. Not installed on a player before publishing (owner: &quot;do fix 1 and 2 and publish as 8.11&quot;). Milestone audit BETA-8.11 in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap-gap-audit</a>.</p>
+<table><thead><tr><th>Image</th><th>SHA-256</th></tr></thead><tbody><tr><td>BOOTIMG</td><td><code>359be61e86baf6e2db67b2ae0a6958e414abf3ccce842beaa2d2f3cd33a8e44e</code></td></tr><tr><td>Y2ROOT</td><td><code>03f0cefbdc31fc94946b498a7ed93b8fd557d71026e60abfa3c4fe703e6641c3</code></td></tr><tr><td>RECOVERY</td><td><code>d86ccccdd125cced1d206d0c794337e0a64c1025993241e64dca51f4306e2faf</code></td></tr><tr><td>Y2DATA (no SSH key)</td><td><code>0e381ca55fc30337a054c9dfd4d4f1d9724c0307190e68fb688867a2bfd73e71</code></td></tr></tbody></table>
+<h2 id="the-report">The report</h2>
+<p>A user wrote &quot;My internal storage is still 700 mb after multiple restarts&quot; with error report <code>y2linux-report-20261019-153610</code> (Beta 8.10):</p>
+<table><thead><tr><th>Evidence</th><th>Value</th></tr></thead><tbody><tr><td><code>/run/y2/internal-media.json</code></td><td><code>Unavailable</code>, <code>filesystem_identity_not_y2media</code>: p8 is still the stock FAT</td></tr><tr><td><code>/run/y2/internal-media-setup.json</code></td><td><code>Pending</code>, reason <code>battery_low</code></td></tr><tr><td>What they saw as storage</td><td>Y2DATA only: 789 MB, 729 MB free (the MTP drive &quot;Firmware&quot;)</td></tr><tr><td>Every logged start</td><td>On battery, no charger: 3.54–3.59 V at 0.3 s; the charger came later (68 s, 105 s)</td></tr><tr><td>Power-on OCV / shown</td><td>BAT0 <code>voltage_ocv</code> 3.621 V (24.8 % on the stock curve) / 21 %</td></tr></tbody></table>
+<p>Two faults:</p>
+<ol><li><strong>Reborn dropped the reason.</strong> Every <code>Pending</code> said <em>Restart to finish setting up</em>, so the user restarted on<p>battery again and again, and each start refused the setup for the same reason.</p></li><li><strong>The battery gate read the wrong voltage.</strong> <code>internal_media.automatic_blocked</code> compared <code>voltage_now</code> during the<p>boot load with 3.7 V. 3.7 V at rest is ≈39 % on the stock curve; with the boot sag (≈60–120 mV, ledger F30) a player needed roughly 45 % or more. The plan (STORAGE-SETUP) had said &quot;battery ≥ 25 % or charging&quot;.</p></li></ol>
+<h2 id="what-changed-since-beta-810">What changed since Beta 8.10</h2>
+<table><thead><tr><th>Part</th><th>Change</th></tr></thead><tbody><tr><td>Setup battery gate</td><td>On battery the setup now needs 25 % read from BAT0 <code>voltage_ocv</code> (PMIC power-on OCV, latched before the boot load; the same value the shown percentage starts from, stock <code>oam_init</code>) through the stock battery profile; <code>voltage_now</code> only when no OCV was latched; no profile → <code>battery_unknown</code>. Charging or USB input online still skips the check. Linux <code>fee6b36</code>.</td></tr><tr><td>Storage screen</td><td><code>InternalSetup::Pending</code> carries <code>SetupWait</code>: <code>battery_low</code>/<code>battery_unknown</code> say <strong>Connect a charger and restart</strong>; an update&#x27;s health boot keeps <em>Restart to finish setting up</em>. Preview <code>32-storage-setup-battery</code>. Reborn <code>f649609</code>.</td></tr><tr><td>User guide</td><td><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2FSTORAGE.md">Storage</a>: the setup waits below 25 % without a charger and what the screen says.</td></tr></tbody></table>
+<p>The reporter&#x27;s own player would still wait on battery (24.8 % at power-on); it now tells them to connect a charger.</p>
+<h2 id="device-results">Device results</h2>
+<p>None: this build was not installed on a player before publishing. Host evidence: tests for the reporter&#x27;s values (OCV 3.621 V → <code>battery_low</code>), an OCV above 25 % with <code>voltage_now</code> under load at 3.56 V → setup runs, missing OCV/voltage/profile → <code>battery_unknown</code>; Reborn parses the reasons and draws the new line (preview checked by eye).</p>
+<h2 id="known-gaps">Known gaps</h2>
+<ul><li>Owed on a player: the setup on battery above 25 % on a stock-FAT player, and the new storage line.</li><li>A <code>system.img</code> copied after the radio firmware is already installed is never removed (<code>radiofw.scan</code> returns at<p><code>installed()</code> first); a second user asked whether the leftover copy may be deleted (it may).</p></li><li>Unchanged from 8.10: #47 confirmation, WAF rule and billing alert, sleep drain (#42), GC9503V confirmation (#45).</li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

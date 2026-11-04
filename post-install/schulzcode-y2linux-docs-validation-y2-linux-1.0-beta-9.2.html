@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 9.2: waking up at once - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 9.2: waking up at once Release 1.0.0-beta.9.2 , Y2Reborn 1.0.0-beta.9.2 , kernel 6.18.56-y2linux-1.0.0-beta.9.2 , update sequence 11600, root 2026.08-pla">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-9.2.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 9.2: waking up at once - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 9.2: waking up at once Release 1.0.0-beta.9.2 , Y2Reborn 1.0.0-beta.9.2 , kernel 6.18.56-y2linux-1.0.0-beta.9.2 , update sequence 11600, root 2026.08-pla">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-9.2.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 9.2: waking up at once - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 9.2: waking up at once Release 1.0.0-beta.9.2 , Y2Reborn 1.0.0-beta.9.2 , kernel 6.18.56-y2linux-1.0.0-beta.9.2 , update sequence 11600, root 2026.08-pla">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 9.2: waking up at once</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-92-waking-up-at-once">Y2Linux 1.0 Beta 9.2: waking up at once</h1>
+<p>Release <code>1.0.0-beta.9.2</code>, Y2Reborn <code>1.0.0-beta.9.2</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.9.2</code>, update sequence 11600, root <code>2026.08-platform-v1.214</code>. Published as GitHub release <code>baseline-191</code> (test build 191). Previous release: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.1.md">Beta 9.1</a>.</p>
+<p>This report is written for people who use the player. A short technical appendix is at the end.</p>
+<h2 id="in-one-paragraph">In one paragraph</h2>
+<p>If you pressed Power to put the player to sleep and then pressed it again to wake it, the screen could stay dark for up to about 20 seconds. This happened when the player had Bluetooth headphones saved that were switched off or out of reach. Beta 9.2 fixes that: a press to wake now lights the screen at once, and the player no longer waits for the headphones before it goes to sleep. Beta 9.2 also fixes a rare case where <strong>Reset</strong> refused with &quot;the plan changed&quot; although nothing had changed.</p>
+<h2 id="what-was-wrong-with-sleep-and-wake">What was wrong with sleep and wake</h2>
+<p>After every wake the player tries to reconnect your saved Bluetooth headphones. When they are off, each try takes about 20 seconds before it gives up. During that time the Bluetooth radio is busy.</p>
+<p>If you pressed Power to sleep while such a try was running, the screen went dark at once, as it should. But before the player can really sleep it has to switch the radios off, and it waited for the headphone try to finish first. While it waited, it did not look at the Power button. A second press to wake was only noticed once the headphone try had given up: on the developer&#x27;s player that took 6 to 18 seconds.</p>
+<p>Beta 9.2 changes two things:</p>
+<ol><li><strong>A press to wake is noticed at once</strong>, also while the radios are being switched off. The screen comes back<p>immediately and the player stays awake.</p></li><li><strong>The player no longer waits for the headphones.</strong> When it wants to switch Bluetooth off and a headphone try is<p>running, it asks for that try to be cancelled (the same way the Bluetooth page already did when you switched Bluetooth off yourself). Going to sleep takes 1–2 seconds again instead of up to 20.</p></li></ol>
+<p>Your headphones still reconnect automatically after a wake when they are switched on.</p>
+<h2 id="the-reset-fix">The Reset fix</h2>
+<p><strong>Settings → Diagnostics → Reset</strong> first shows what it will remove and then asks you to confirm. To make sure nothing changed in between, the player compares the plan it showed you with the plan it saved. For about one plan in 450, a number in the saved plan was read back very slightly differently (in its last binary digit), and the reset refused with <em>&quot;reset plan changed&quot;</em>. Trying again usually worked. Numbers are now read back exactly.</p>
+<h2 id="also-in-this-release">Also in this release</h2>
+<ul><li>In a skin without its own Music page, <strong>Music</strong> opens the Music menu again instead of a plain system page.</li><li>Code clean-ups in the player and the system services that do not change what they do.</li></ul>
+<h2 id="what-youll-notice">What you&#x27;ll notice</h2>
+<ul><li>Power to sleep, Power to wake: the screen lights at once, even with your headphones off.</li><li>Nothing else should look or behave differently. If something does, please send an error report<p>(Settings → Diagnostics).</p></li></ul>
+<h2 id="how-it-was-tested">How it was tested</h2>
+<ul><li><strong>Before release:</strong> the platform&#x27;s full check on every change (formatting, code checks, the ARM build, the host<p>tests, the recorded answers of every command, old records still readable, Reborn&#x27;s contract), new tests for a wake press while Bluetooth is busy, while the radio chip switches off, for the cancelled headphone try and for the Reset plan, Reborn&#x27;s workspace tests, and the tests of the finished release images.</p></li><li><strong>On the developer&#x27;s player:</strong> installed over the air from test build 190 and confirmed by the player itself<p>(Acknowledged); all four services and Reborn running, health OK, the music player on screen 20.7 s after the restart. With the saved headphones switched off and the player paging them, switching Bluetooth off the way sleep does was refused once, the page was cancelled and the second try went through 1.1 s after the first (before: up to ≈20 s). Bluetooth came back on and went on trying to reconnect the headphones.</p></li><li><strong>Not yet checked on the player:</strong> the press to wake during that moment itself, because sleep needs the USB<p>cable out and the developer&#x27;s checks run over it. The new tests cover it.</p></li><li><strong>Not repeated for this release:</strong> overnight sleep, a low-battery shutdown, an SD card repair or format, and a<p>reset on the player (see Known issues).</p></li></ul>
+<h2 id="updating">Updating</h2>
+<p>Settings → About &amp; Updates → Check for Updates → <strong>Update Now</strong>. Your music, playlists, settings, Wi-Fi networks and Bluetooth pairings stay. Settings → Diagnostics → <strong>Restore Previous System</strong> goes back to Beta 9.1 if you need to.</p>
+<h2 id="known-issues">Known issues</h2>
+<p>Everything listed for <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.0.md%23known-issues-and-what-still-needs-your-help&amp;anchor=known-issues-and-what-still-needs-your-help">Beta 9.0</a> still applies.</p>
+<h2 id="technical-appendix">Technical appendix</h2>
+<ul><li><strong>Cause (power journal of test build 190):</strong> <code>suspend_quiescing_radios</code> → `suspend_product_refused<p>wake_event_in_progress<code>took 17.6, 17.7, 6.4 and 15.6 s, each ending with bluetoothd&#x27;s</code>avdtp_connect_cb … Host is down<code>for the saved headset.</code>y2-bt-reconnect<code>holds</code>/run/y2/bt-operation.lock` for its page; <code>bluetooth-power off</code> refused as busy and the sleep helper retried once a second for up to 25 s without reading the wake IRQs. The Python platform behaved the same; the rewrite did not cause it.</p></li><li><strong>Fixes:</strong> the sleep helper&#x27;s wake check is one function (<code>woken</code>) and now also runs in the radio quiesce retry<p>and while waiting for the connectivity chip to power down; a busy <code>bluetooth-power on|off</code> writes the <code>power_pending</code> intent, which makes <code>y2-bt-reconnect</code> cancel its page (<code>Device1.Disconnect</code>) and hold automatic attempts until the intent&#x27;s deadline.</p></li><li><strong>Reset:</strong> serde_json now has <code>float_roundtrip</code>; without it about 1 in 450 numbers read back one ULP off, and the<p>reset plan&#x27;s confirmation is a hash over the plan as read from /data.</p></li><li><strong>Tests:</strong> the reset goldens&#x27; target identity <code>device</code> (the host&#x27;s st_dev of the fixture copy) is volatile like<p><code>inode</code>; <code>record-compat.py</code> treats the <code>&lt;volatile&gt;</code> placeholder like null.</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

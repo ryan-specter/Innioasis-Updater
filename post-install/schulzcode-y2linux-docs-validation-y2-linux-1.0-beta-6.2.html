@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 6.2 (Baseline 59) - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 6.2 Baseline 59 Status: PUBLISHED as GitHub release baseline-59 2026-10-16. Release 1.0.0-beta.6.2 , Reborn 1.0.0-beta.6.2 , kernel 6.18.56-y2linux-1.0.0">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-6.2.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 6.2 (Baseline 59) - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 6.2 Baseline 59 Status: PUBLISHED as GitHub release baseline-59 2026-10-16. Release 1.0.0-beta.6.2 , Reborn 1.0.0-beta.6.2 , kernel 6.18.56-y2linux-1.0.0">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-6.2.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 6.2 (Baseline 59) - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 6.2 Baseline 59 Status: PUBLISHED as GitHub release baseline-59 2026-10-16. Release 1.0.0-beta.6.2 , Reborn 1.0.0-beta.6.2 , kernel 6.18.56-y2linux-1.0.0">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 6.2 (Baseline 59)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-62-baseline-59">Y2Linux 1.0 Beta 6.2 (Baseline 59)</h1>
+<p>Status: <strong>PUBLISHED as GitHub release <code>baseline-59</code></strong> (2026-10-16). Release <code>1.0.0-beta.6.2</code>, Reborn <code>1.0.0-beta.6.2</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.6.2</code>, update sequence 5700, Linux <code>8e07f47</code>, Reborn <code>f0f1091</code>, git tag <code>baseline-59</code> in both repositories. Built with <code>tools/production/release.py</code> (<code>--public</code>) in 125 s: container suite <strong>740 OK</strong>, all seal checks PASS, no MediaTek firmware in any image. Milestone audit: BETA-6.2 in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap-gap-audit</a>.</p>
+<table><thead><tr><th>Image</th><th>SHA-256</th></tr></thead><tbody><tr><td>BOOTIMG</td><td><code>2ee211b267169e502ef09ed82da71d76ef2402c1b58d12007ba8c057d2c74b4a</code></td></tr><tr><td>Y2ROOT</td><td><code>d6ad7e339f5fe2abaaf5530af9226beeb1365e23bc45c48c64ff85d1c1284284</code></td></tr><tr><td>RECOVERY</td><td><code>eaf77c7fd8effa2dfeb28f4327719bf429ed08d8c494743dd1e65a1ff1a7922a</code></td></tr><tr><td>Y2DATA (no SSH key)</td><td><code>290732bb65151486350fd3a3b55370421266c12b05295fdbd494965c3f4c207b</code></td></tr></tbody></table>
+<h2 id="since-beta-61-reborn">Since Beta 6.1 (Reborn)</h2>
+<p>Owner (2026-10-16): &quot;do pull request 10 and add a clock in a nice way fitting for all skins&quot;; &quot;check that this is optimized and does not intruce do much drain or redraws&quot;; &quot;update all the other skins for the ui work we did today&quot;; a skin &quot;modelled after&quot; the Rockbox theme bunnyPod, &quot;cute / hello kitty style&quot;; &quot;yes publish&quot;.</p>
+<table><thead><tr><th>Part</th><th>Detail</th></tr></thead><tbody><tr><td>Clock (PR #10, samanz)</td><td>Status-bar time in a chosen zone (Settings → Display → Time Zone; built-in POSIX TZ rules, no zone database on the image; hidden until the clock is set). Reviewed: DST and unusual rules checked.</td></tr><tr><td>Clock in skins</td><td>Skins draw their own title bars, so the clock showed only in Reborn&#x27;s own look. New skin value <code>{clock}</code> and condition <code>has_clock</code>; every shipped skin places it in its own style.</td></tr><tr><td>Cost</td><td>Clock text made once per minute and zone (host: 337 → 16 ns per call), picker zones once per minute (167 → 25 µs per frame). No new wakeups; one redraw per minute with the screen on, none with it off.</td></tr><tr><td>Today&#x27;s screens in skins</td><td>Radio Now Playing (song/artist as announced, LIVE, full bar, logo or initials, no &quot;1 of 1&quot;), Station Info facts (<code>station_facts</code>), station logos in rows, a <code>keyboard</code> overlay layout under each skin&#x27;s title bar, a <code>favorite</code> condition and <code>heart</code> icon, layout names for search/playlists/radio. Reborn&#x27;s own look: 110 of 110 previews pixel-identical.</td></tr><tr><td>Bunny Bow</td><td>New skin: pastel pixel art (bunny with a red bow, cloud clock, sparkles, hearts, pill bars), all drawn by <code>tools/assets/build_skins.py</code>; inspired by bunnyPod (CC-BY-SA), none of its art or its font copied. Font Pixelify Sans (OFL 1.1; sources and hashes in Y2Reborn <code>assets/fonts/pixelify</code>, licence in legal-info via <code>reborn.mk</code>).</td></tr><tr><td>Skin generator</td><td>The clock/radio/keyboard/heart changes are finishing steps of <code>build_skins.py</code>, which reproduces all 14 generated skins byte for byte.</td></tr></tbody></table>
+<p>Host evidence: 474 Reborn tests (new: every shipped skin loads without warnings with clock, keyboard layout and no queue position for a station; time zone picker and clock), strict Clippy, fmt; preview renders of all 16 skins; 767 Y2Linux host tests.</p>
+<h2 id="device-checks-owed-after-the-owners-over-the-air-install">Device checks owed (after the owner&#x27;s over-the-air install)</h2>
+<p>Time Zone picker and the clock in Reborn&#x27;s look and in skins; Bunny Bow on every main screen; radio Now Playing and Station Info in a skin; the keyboard in a skin; the Favorites heart; skin load time of Bunny Bow; plus the Beta 6.1 checks (AirPods sound after pause, skipping while a song starts).</p>
+<h2 id="known-gaps">Known gaps</h2>
+<p>FM radio (next beta); no 12/24-hour switch (the zone decides); in-place decoder seek (≈1 s on Bluetooth); sleep ≈9.4 mA vs stock ≈1.3 mA; Bluetooth range hardware-limited; no headphone-jack detection.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

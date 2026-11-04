@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Last.fm scrobbling - Innioasis Updater</title>
+  <meta name="description" content="Last.fm scrobbling Since Y2Linux 1.0 Beta 7.7 the Reborn player can send the songs you listen to to your Last.fm https://www.last.fm profile "scrobbling", straight from t">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-lastfm.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Last.fm scrobbling - Innioasis Updater">
+  <meta property="og:description" content="Last.fm scrobbling Since Y2Linux 1.0 Beta 7.7 the Reborn player can send the songs you listen to to your Last.fm https://www.last.fm profile "scrobbling", straight from t">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-lastfm.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Last.fm scrobbling - Innioasis Updater">
+  <meta name="twitter:description" content="Last.fm scrobbling Since Y2Linux 1.0 Beta 7.7 the Reborn player can send the songs you listen to to your Last.fm https://www.last.fm profile "scrobbling", straight from t">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Last.fm scrobbling</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="lastfm-scrobbling">Last.fm scrobbling</h1>
+<p>Since <strong>Y2Linux 1.0 Beta 7.7</strong> the Reborn player can send the songs you listen to to your <a href="https://www.last.fm" target="_blank" rel="noopener noreferrer">Last.fm</a> profile (&quot;scrobbling&quot;), straight from the player: no computer, no phone app, no extra service. It also works without Wi-Fi: plays are kept on the player and sent later.</p>
+<h2 id="set-up">Set up</h2>
+<ol><li><strong>Settings → Library → Last.fm → Connect with Your Phone.</strong> The player shows a QR code.</li><li>Scan it with your phone&#x27;s camera. Last.fm&#x27;s own page opens and asks whether <strong>Y2Reborn</strong> may<p>scrobble for you (log in there first if needed). Choose <strong>Allow</strong>.</p></li><li>The player notices by itself within a few seconds: <em>Scrobbling to Last.fm as …</em>.</li></ol>
+<p>No phone at hand? <strong>Sign In with Password</strong> types your Last.fm username and password on the player&#x27;s keyboard instead (see <a href="#your-password">Your password</a> for how it is handled).</p>
+<p>Settings → Library → Last.fm then shows your account and:</p>
+<table><thead><tr><th>Setting</th><th>What it does</th></tr></thead><tbody><tr><td><strong>Scrobble</strong></td><td>Send counted plays (on by default).</td></tr><tr><td><strong>Show Now Playing</strong></td><td>Show the song you are listening to on your profile while it plays (on by default). It is sent again when you continue after a pause or play the song again.</td></tr><tr><td><strong>Send Now</strong></td><td>Send waiting plays at once; the line shows how many are waiting.</td></tr><tr><td><strong>Also Write .scrobbler.log</strong></td><td>Also keep a classic scrobbler log file (below); works without an account.</td></tr><tr><td><strong>Disconnect</strong></td><td>Sign out; forgets the sign-in and the plays still waiting.</td></tr></tbody></table>
+<h2 id="what-counts-as-a-play">What counts as a play</h2>
+<p>Reborn follows Last.fm&#x27;s rules:</p>
+<ul><li>A song counts once you have <strong>heard half of it, or 4 minutes</strong>, whichever comes first.</li><li>Songs <strong>shorter than 30 seconds</strong> never count.</li><li>Only time you actually listened counts: <strong>paused time and skipping ahead add nothing</strong>. Going<p>back to the start of a song (Repeat, Previous) is a new play.</p></li><li>Each play carries the moment the song started.</li><li><strong>Internet radio is not scrobbled</strong>, and neither are files without an artist and title tag<p>(fix the tags on a computer to have them counted).</p></li></ul>
+<h2 id="offline-and-sending">Offline and sending</h2>
+<ul><li>A play is written to the player&#x27;s storage <strong>the moment it counts</strong>, so sleep, an empty battery<p>or a system update lose nothing.</p></li><li>When Wi-Fi is connected, waiting plays are sent in groups of up to 50. Sending **never wakes the<p>player and never keeps Wi-Fi on** just for this: plays simply wait until the player is online anyway.</p></li><li>Last.fm only accepts plays from about the <strong>last two weeks</strong>; older waiting plays are dropped<p>when sent. For players that are rarely online, switch on the scrobbler log.</p></li><li>A play is only stamped once the player&#x27;s clock is trustworthy (set from the internet or<p>continued by the clock chip since). Plays during an unknown clock are dated later or left out, never sent with a wrong date.</p></li><li>If Last.fm is unreachable, the player waits and tries again: 1 minute, then 2, 4 … up to an hour,<p>with a little random extra so that players do not all retry in the same second after an outage.</p></li><li>A play Last.fm refuses as invalid is left out, so it cannot hold back the plays after it.</li></ul>
+<h2 id="the-scrobbler-log-scrobblerlog">The scrobbler log (<code>.scrobbler.log</code>)</h2>
+<p>With <strong>Also Write .scrobbler.log</strong> on, every counted play is also appended to <code>.scrobbler.log</code> at the top of <strong>Internal Storage</strong>, in the AUDIOSCROBBLER/1.1 format that Rockbox players use. Copy it to a computer over USB and upload it with any tool that reads that format (to Last.fm, Libre.fm or ListenBrainz). It needs no account. Delete or replace the file after uploading; the player starts a new one.</p>
+<h2 id="your-data-and-privacy">Your data and privacy</h2>
+<ul><li><strong>Nothing is recorded until you choose it</strong>: connect Last.fm or switch on the log.</li><li>What is sent per play: **artist, song title, album, album artist (when different), track<p>number, length and the start time**. Nothing else: no file names, no location, no device data. Now Playing sends the same for the current song.</p></li><li>The waiting plays live in the player&#x27;s private data partition (not visible over USB); the log<p>file, if you switch it on, is on Internal Storage where you can see it.</p></li><li><strong>Disconnect</strong>, <strong>Settings → System → Reset &amp; Maintenance → Reset Reborn Settings</strong> and the platform&#x27;s settings reset forget the<p>sign-in and every waiting play.</p></li><li>You can also remove the player&#x27;s access on Last.fm at any time: last.fm → **Settings →<p>Applications → Y2Reborn → Revoke**. The player then says <em>Sign in to Last.fm again</em> and keeps the waiting plays for when the same account signs in again. If a <em>different</em> account signs in, they are discarded, never sent to the wrong person.</p></li></ul>
+<h2 id="security">Security</h2>
+<h3 id="your-password">Your password</h3>
+<p>With the QR code (recommended), <strong>the player never sees your password</strong>: you type it only into Last.fm&#x27;s own page on your phone. With <strong>Sign In with Password</strong>, the password is sent <strong>once</strong>, over an encrypted connection, to Last.fm&#x27;s sign-in service, and then forgotten: it is never saved, never written to a log, never shown on screen (the keyboard shows dots), and it never appears in the list of running programs.</p>
+<h3 id="your-sign-in-on-the-player">Your sign-in on the player</h3>
+<p>Last.fm gives the player a <strong>session key</strong> for your account. It is stored in one file in the player&#x27;s private data partition, readable only by the system:</p>
+<ul><li>it is <strong>not reachable over USB</strong> (the computer only sees Internal Storage, the SD card and,<p>when needed, the Firmware drive or the read-only Old Storage);</p></li><li>it is <strong>never</strong> written to logs, diagnostics or update images (the release checks refuse any<p>image that contains it);</p></li><li>it only allows what Last.fm allows apps: scrobbling, Now Playing and similar music actions.<p>It <strong>cannot</strong> read or change your password or e-mail address;</p></li><li>Disconnect, a settings reset or revoking the app on last.fm ends it.</li></ul>
+<h3 id="the-connection">The connection</h3>
+<p>Every request goes to Last.fm over <strong>HTTPS with certificate checking</strong> only; a connection that cannot be verified is refused, and requests are only made once the clock is trustworthy (which certificate checks depend on). Each request is signed the way Last.fm requires. The keys and your data travel in the body of the request, never on a command line other programs could read. Nothing from outside can make the player scrobble: only plays that happen on the player count.</p>
+<h3 id="the-apps-key">The app&#x27;s key</h3>
+<p>Every app that talks to Last.fm identifies itself with an <strong>API key and a shared secret</strong> that its developer registered. Y2Reborn&#x27;s are <strong>not in the public source code</strong>; the maintainer&#x27;s build puts them into the player&#x27;s system as a file only the system can read.</p>
+<p>To be honest about the limits: like every music app that scrobbles directly (phone apps, desktop players, browser extensions), the released system image necessarily <em>contains</em> this key, so a determined person could extract it from a downloaded update. With it they could send requests in the name &quot;Y2Reborn&quot;. They would <strong>not</strong> get access to anyone&#x27;s account, password, sign-in or player. If the key were ever misused, the maintainer resets it and the next update carries the new one (players then sign in again).</p>
+<h2 id="limits">Limits</h2>
+<p>Normal listening makes about <strong>two requests per song</strong> (Now Playing and the scrobble), plus one Now Playing when you continue after a pause (at most every 30 seconds); a backlog is sent 50 plays per request; signing in asks Last.fm every 3 seconds for at most 15 minutes, only while the code is shown. That is far below what Last.fm allows, and every player has its own budget. Y2Linux is free, non-commercial software, as Last.fm&#x27;s API terms require.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<table><thead><tr><th>You see</th><th>Meaning</th></tr></thead><tbody><tr><td><em>Last.fm Isn&#x27;t Available</em></td><td>This build has no Last.fm key (for example your own build); the scrobbler log still works.</td></tr><tr><td><em>Connect to Wi-Fi first</em></td><td>Signing in needs Wi-Fi; plays are counted offline once you are signed in.</td></tr><tr><td><em>The clock isn&#x27;t set yet</em></td><td>Right after Wi-Fi connects the player may still be setting its clock (secure connections need the right date); try again in a moment.</td></tr><tr><td><em>N plays waiting</em></td><td>They go out when Wi-Fi is connected; <strong>Send Now</strong> tries at once.</td></tr><tr><td><em>Sign in to Last.fm again</em></td><td>Last.fm ended the sign-in (for example you revoked it); waiting plays are kept for the same account.</td></tr><tr><td><em>The Last.fm sign-in timed out</em></td><td>The code was not approved within 15 minutes; start again.</td></tr><tr><td>A song did not count</td><td>It was shorter than 30 s, was heard less than half (and under 4 minutes), had no artist/title tag, or was internet radio.</td></tr></tbody></table>
+<h2 id="for-people-who-build-y2linux-themselves">For people who build Y2Linux themselves</h2>
+<p>A build only has Last.fm when it is given a key. Register your own API account at</p>
+<https://www.last.fm/api/account/create> (use your own application name), then put the key and
+secret into `~/.local/share/y2linux/lastfm-api.json` as
+`{"api_key": "…", "shared_secret": "…"}` and run `chmod 600` on it. The build checks the format and
+the permissions and installs it as `/usr/share/reborn/lastfm-api.json` (root, mode 0600). Never
+commit this file. Details: [BUILDING](BUILDING.md); design and evidence:
+[Last.fm plan](planning/LASTFM-SCROBBLE-PLAN.md) and the
+[Beta 7.7](validation/Y2-LINUX-1.0-BETA-7.7.md) and [Beta 7.8](validation/Y2-LINUX-1.0-BETA-7.8.md) reports. The code is in Y2Reborn:
+`crates/reborn-core/src/scrobble.rs` (rules), `crates/reborn-platform/src/scrobble.rs` (queue and
+log), `crates/reborn-platform/src/lastfm.rs` (Last.fm API) and `app/reborn/src/scrobbling.rs`.</article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

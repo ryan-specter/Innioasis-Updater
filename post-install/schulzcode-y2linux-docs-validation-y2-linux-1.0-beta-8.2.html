@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 8.2 (Baseline 88) - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 8.2 Baseline 88 Status: PUBLISHED as GitHub release baseline-88 2026-10-18, after the device check on the owner's player. Release 1.0.0-beta.8.2 , Reborn">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.2.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 8.2 (Baseline 88) - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 8.2 Baseline 88 Status: PUBLISHED as GitHub release baseline-88 2026-10-18, after the device check on the owner's player. Release 1.0.0-beta.8.2 , Reborn">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.2.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 8.2 (Baseline 88) - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 8.2 Baseline 88 Status: PUBLISHED as GitHub release baseline-88 2026-10-18, after the device check on the owner's player. Release 1.0.0-beta.8.2 , Reborn">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 8.2 (Baseline 88)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-82-baseline-88">Y2Linux 1.0 Beta 8.2 (Baseline 88)</h1>
+<p>Status: <strong>PUBLISHED as GitHub release <code>baseline-88</code></strong> (2026-10-18), after the device check on the owner&#x27;s player. Release <code>1.0.0-beta.8.2</code>, Reborn <code>1.0.0-beta.8.2</code> (identity only), kernel <code>6.18.56-y2linux-1.0.0-beta.8.2</code>, update sequence 6501, Linux <code>1d463f6</code>, Reborn <code>5aad5f1</code>. Built with <code>tools/production/release.py</code>: container suite <strong>774 OK</strong>, host suite 801 OK, update suite (<code>tests.test_platform_update</code>) 34 OK, also under ThreadSanitizer and AddressSanitizer/UBSan; all seal checks PASS, no MediaTek firmware in any image. Baseline 87 (sequence</p>
+<ol><li>was the first test build of this release, never published. Milestone audit BETA-8.2 in</li></ol>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap-gap-audit</a>.</p>
+<table><thead><tr><th>Image</th><th>SHA-256</th></tr></thead><tbody><tr><td>BOOTIMG</td><td><code>27dc7112de60bdd606694b93a23d78b97ef2f974c2abec0aa93b2bb33bbdd869</code></td></tr><tr><td>Y2ROOT</td><td><code>b0bd1b88cbfc691bdd71a417cabe2744e050f65fa46d0c839cd3055c6f4a6e7e</code></td></tr><tr><td>RECOVERY</td><td><code>184411f4097a5c75468aed0dc8bbecb7492bf81f9fd58b7ddb2ed543dea2cd22</code></td></tr><tr><td>Y2DATA (no SSH key)</td><td><code>34da6864bb12b562b3959db8b8576b1bf68c4caf38a6b88c2bc06482512633f8</code></td></tr></tbody></table>
+<h2 id="faster-updates-ota-50">Faster updates (OTA-50)</h2>
+<p>The owner asked whether the update could be faster. The Beta 8.1 installer log showed where the time went: verify 1.9 s, <strong>backup 30.8 s</strong>, system 12.9 s, check 4.8 s, boot 1.1 s (53.5 s, plus a 4 s pause). Measured on the player: reading the 512 MiB root takes 3.7 s, zlib level 1 compression of it 20.4 s and inflating it 10.7 s on one core. The recovery has four cores online and used one.</p>
+<table><thead><tr><th>Part</th><th>Change (Linux <code>f9c1eae</code>)</th></tr></thead><tbody><tr><td>Root payload layout</td><td><code>rootfs.ext4.gz</code> is one gzip member of independent 1 MiB raw-deflate segments (<code>pigz -i</code> layout); the signed manifest adds <code>segment_bytes</code>, <code>segments</code> and <code>raw_crc32</code>. Any gzip reader still decodes it as one stream (Beta 8.1&#x27;s own core queued it unchanged). At level 9 it is 41.8 MB (Beta 8.1&#x27;s single stream: 41.6 MB). <code>package.py</code> decodes every segment on its own before signing.</td></tr><tr><td>Four cores</td><td>The recovery decodes the root, compresses the live-root backup and checksums the readback on four threads while the main thread does the I/O. Writes still compare each 128 KiB chunk with the medium and skip equal ones. A segment index that does not fit refuses the package.</td></tr><tr><td>Kept package</td><td>After the health ack the installed package stays in <code>/data/updates/current/</code> (manifest, signature, root payload; boot payloads deleted). The next queue keeps it only if it is the running release (signature, sequence = running compat sequence, both source commits = <code>versions.json</code>); the recovery checks it again (queued manifest hash, extent, SHA-256) and moves its root payload into place as the rollback copy. Anything else falls back to the four-core backup of the live root. The root keeps no state of its own, so the signed image of the running release is a complete way back.</td></tr><tr><td>Space</td><td>The kept package (about 42 MB) is the last thing the download cleanup removes; without it the next install is only slower. <code>/data/updates</code> holds about 87 MB between updates (before: about 56 MB).</td></tr><tr><td>Restart</td><td>The <em>Update installed</em> screen restarts after 1 s instead of 4 s.</td></tr><tr><td>Found on the way</td><td><code>restore()</code> kept a pointer to the journal&#x27;s own failure text across a journal update and read it after it was freed (found with ThreadSanitizer). Fixed by copying it.</td></tr></tbody></table>
+<p>Docs: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Farchitecture%2Fplatform-ota-v2.md">platform OTA v2</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2FRECOVERY-AND-UPDATES.md">Recovery and updates</a>.</p>
+<h2 id="device-result-owners-player-2026-10-18">Device result (owner&#x27;s player, 2026-10-18)</h2>
+<table><thead><tr><th>Install</th><th>verify</th><th>backup</th><th>system</th><th>check</th><th>boot</th><th>Installer</th></tr></thead><tbody><tr><td>Beta 8.1 (before)</td><td>1.9 s</td><td>30.8 s</td><td>12.9 s</td><td>4.8 s</td><td>1.1 s</td><td>53.5 s</td></tr><tr><td>8.1 → 6500 (live root, four cores)</td><td>1.8 s</td><td>12.5 s</td><td>4.5 s</td><td>3.9 s</td><td>0.8 s</td><td><strong>23.6 s</strong></td></tr><tr><td>6500 → 6501 (kept package)</td><td>3.2 s</td><td>1.8 s</td><td>5.3 s</td><td>3.9 s</td><td>0.8 s</td><td><strong>14.9 s</strong></td></tr></tbody></table>
+<ul><li>Both installs acknowledged by the platform on their own; <em>apply</em> to the running new system: 66 s.</li><li>6501&#x27;s backup record says <code>source: package</code> with 6500&#x27;s root payload; after the ack <code>current/</code> holds 6501.</li><li>The queue&#x27;s decoding check (before the restart) took 7.6 s instead of 15.8 s.</li><li>The readback (check) is bound by the eMMC: 512 MiB ≈ 3.7 s.</li></ul>
+<h2 id="after-publishing-rollback-from-a-kept-package-and-the-32-s-verify-2026-10-18">After publishing: rollback from a kept package, and the 3.2 s verify (2026-10-18)</h2>
+<p><strong>Owner rollback on the player</strong> (<code>y2-platform update rollback</code> on 6501, whose rollback copy was 6500&#x27;s kept package, <code>source: package</code>): command at 15:41:35, player back on 6500 and healthy at 15:42:44 (69 s). Recovery log: <code>restore</code> 1.85 s → <code>check</code> 9.27 s → <code>restore</code> (BOOTIMG) 13.22 s → <code>restored</code> 14.01 s, i.e. both backups checked and the root written in 7.4 s (four-core decode, 128 KiB compare), readback 3.9 s, BOOTIMG 0.8 s. Journal <code>RolledBack</code>, <code>accepted.json</code> <code>current_sequence</code> 6500 (high-water mark stays 6501), Reborn <code>healthy</code>, panel power-down armed. 6501&#x27;s package stays in <code>current/</code> and is dropped by the next queue (not the running release). Logs: <code>out/ota50-rollback-88/{before,after}</code> (local).</p>
+<p><strong>Why verify took 3.2 s:</strong> not the verify. In <code>backup()</code> the kept-package check (signature, SHA-256 of the 41.8 MB root, rename) ran before <code>step=backup</code> was logged, so its time counted under <em>verify</em>, and *backup 1.8 s* was the BOOTIMG backup alone. Measured on the player: cold read of the kept root 0.31 s, SHA-256 0.93 s, one after the other. Fixed after the release (Linux <code>9c7dae7</code>, not yet in a release): the backup step is logged where it starts, the kept root is hashed on its own core while verify hashes the new package (its three payloads now in parallel too), and every install and restore phase records its milliseconds in the journal (<code>timings</code>).</p>
+<h2 id="known-gaps">Known gaps</h2>
+<ul><li>The parallel hashing of <code>9c7dae7</code> is host-tested only (34 tests, ThreadSanitizer, AddressSanitizer/UBSan).</li><li>Unchanged from 8.1: the sleep drain with the panel powered down is not measured yet (#42); the GC9503V<p>panel path awaits a GC9503V owner (#45).</p></li><li><code>tests.test_platform_update</code> is not part of the container release gate (as before); it ran on the host.</li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CI firmware builds - Innioasis Updater</title>
+  <meta name="description" content="CI firmware builds GitHub Actions workflow build-firmware-releases.yml ../.github/workflows/build-firmware-releases.yml produces patched rom.zip releases on ryan-specter/">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/ryan-specter-koensayr-auto-docs-supported-firmware-ci.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="CI firmware builds - Innioasis Updater">
+  <meta property="og:description" content="CI firmware builds GitHub Actions workflow build-firmware-releases.yml ../.github/workflows/build-firmware-releases.yml produces patched rom.zip releases on ryan-specter/">
+  <meta property="og:url" content="https://innioasis.app/post-install/ryan-specter-koensayr-auto-docs-supported-firmware-ci.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CI firmware builds - Innioasis Updater">
+  <meta name="twitter:description" content="CI firmware builds GitHub Actions workflow build-firmware-releases.yml ../.github/workflows/build-firmware-releases.yml produces patched rom.zip releases on ryan-specter/">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y1&amp;software=koensayr-y1">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Koensayr · Y1</p><h1>CI firmware builds</h1><p class="lumen-lead">A Y1 custom Software maintained by the community.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y1&amp;software=koensayr-y1">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y1&amp;software=koensayr-y1">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="ci-firmware-builds">CI firmware builds</h1>
+<p>GitHub Actions workflow <a href="https://github.com/ryan-specter/koensayr-auto/blob/HEAD/.github/workflows/build-firmware-releases.yml" target="_blank" rel="noopener noreferrer"><code>build-firmware-releases.yml</code></a> produces patched <strong><code>rom.zip</code></strong> releases on <a href="https://innioasis.app/release_notes.html?author=ryan-specter&amp;project=koensayr-auto&amp;software=koensayr-y1">ryan-specter/koensayr-auto</a>.</p>
+<h2 id="upstream-sources-allowlist">Upstream sources (allowlist)</h2>
+<p>CI only builds these upstream tags (see <a href="https://github.com/ryan-specter/koensayr-auto/blob/HEAD/tools/ci/discover-inputs.sh" target="_blank" rel="noopener noreferrer"><code>tools/ci/discover-inputs.sh</code></a>):</p>
+<table><thead><tr><th>Repository</th><th>Upstream tags</th><th>Asset</th></tr></thead><tbody><tr><td><a href="https://innioasis.app/firmware.html?model=Y1&amp;software=original-y1">y1-community/y1-stock-rom</a></td><td><strong>3.0.2</strong>, <strong>Latest-3.0.7</strong></td><td><code>rom.zip</code></td></tr></tbody></table>
+<p><strong>Koensayr release tags:</strong> <code>{koensayr-version}-koensayr-{stock-firmware}</code> (e.g. <code>2.4.0-koensayr-3.0.7</code>) so Innioasis Updater can read the stock OS version from the suffix. Stock <strong>3.0.7</strong> is built from upstream tag <code>Latest-3.0.7</code>. User-facing copy comes from <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2F.github%2Fworkflows%2Fworkflow.md"><code>.github/workflows/workflow.md</code></a>; commits by <strong>SeanathanVT</strong> append a <strong>Detailed notes:</strong> section with the latest commit message.</p>
+<p><strong>Not built by CI:</strong> other stock tags (<code>2.8.2</code>, <code>ADB-2.1.9</code>, <code>type-b-1.7.6</code>, …), <code>rom_type_b.zip</code>, <code>rom_240p.zip</code>, <code>update.zip</code>, voice packs, and other assets.</p>
+<p>Rockbox-Y1 <code>rom.zip</code> is out of scope: the image has no Innioasis <code>com.innioasis.y1</code> music APK, so the stock patch pipeline does not apply. Build Rockbox releases manually if needed.</p>
+<p>To add another stock tag, extend <code>Y1_UPSTREAM_TAGS</code> in <code>discover-inputs.sh</code>.</p>
+<h2 id="output-naming">Output naming</h2>
+<ul><li><strong>GitHub release tag / title:</strong> <code>{koensayr-version}-koensayr-{firmware-version}</code> (e.g. <code>2.4.0-koensayr-3.0.2</code>, <code>2.4.0-koensayr-3.0.7</code>)</li><li><strong>Internal firmware slug</strong> (<code>--firmware-slug</code>): <code>@</code> replaced with <code>-</code> (e.g. <code>y1-stock-rom-3.0.2</code>) for <code>system-*-devel.img</code> naming</li></ul>
+<h2 id="patch-set">Patch set</h2>
+<p>Every green CI build verifies upstream <code>rom.zip</code> SHA256 and MD5 against <a href="https://github.com/ryan-specter/koensayr-auto/blob/HEAD/apply.bash" target="_blank" rel="noopener noreferrer"><code>KNOWN_FIRMWARES</code></a>, then runs <code>./apply.bash --all --no-flash</code> (strict manifest match — no <code>--accept-any-firmware</code>):</p>
+<ul><li>Music-player UX (<code>--music-apk</code>)</li><li>Bluetooth pairing (<code>--bluetooth</code>)</li><li>ADB + bloat removal (<code>--adb</code>, <code>--remove-apps</code>)</li><li>Root (<code>--root</code>)</li><li>AVRCP 1.3 + Y1Bridge (<code>--avrcp</code>)</li></ul>
+<p>Diagnostic tooling under <code>tools/</code> is <strong>not</strong> embedded in the ROM.</p>
+<h2 id="expectations-by-upstream">Expectations by upstream</h2>
+<table><thead><tr><th>Input</th><th>CI expectation</th></tr></thead><tbody><tr><td>y1-stock-rom <strong>3.0.2</strong> / <strong>3.0.7</strong></td><td>Supported; matches <a href="https://github.com/ryan-specter/koensayr-auto/blob/HEAD/apply.bash" target="_blank" rel="noopener noreferrer"><code>KNOWN_FIRMWARES</code></a> (3.0.7 accepts both Innioasis and y1-community <code>system.img</code> layouts)</td></tr></tbody></table>
+<p>Failed matrix jobs do not block other releases (<code>fail-fast: false</code>).</p>
+<h2 id="idempotency">Idempotency</h2>
+<ul><li><strong>Push to <code>main</code>:</strong> always rebuilds and republishes (<code>--force</code>), so patched <code>com.innioasis.y1</code> APKs and other <code>--all</code> changes land in the latest <code>rom.zip</code> releases. Each publish <strong>deletes</strong> the prior GitHub release tag and recreates it (no leftover assets such as older <code>rom-koensayr.zip</code> names).</li><li><strong>Weekly schedule:</strong> skips a matrix entry only when <code>build-manifest.json</code> on the existing release matches both the upstream <code>rom.zip</code> SHA256 and the current koensayr git revision (<code>koensayr_git_sha</code>).</li><li><strong><code>workflow_dispatch</code>:</strong> set <strong>force</strong> to rebuild regardless.</li></ul>
+<h2 id="scripts">Scripts</h2>
+<table><thead><tr><th>Script</th><th>Role</th></tr></thead><tbody><tr><td><a href="https://github.com/ryan-specter/koensayr-auto/blob/HEAD/tools/ci/discover-inputs.sh" target="_blank" rel="noopener noreferrer"><code>tools/ci/discover-inputs.sh</code></a></td><td>Emit JSON matrix for allowlisted upstream <code>rom.zip</code> assets</td></tr><tr><td><a href="https://github.com/ryan-specter/koensayr-auto/blob/HEAD/tools/ci/build-one.sh" target="_blank" rel="noopener noreferrer"><code>tools/ci/build-one.sh</code></a></td><td>Download → MD5/SHA256 gate → patch → repack → <code>gh release</code></td></tr><tr><td><a href="https://github.com/ryan-specter/koensayr-auto/blob/HEAD/tools/ci/firmware-manifest.sh" target="_blank" rel="noopener noreferrer"><code>tools/ci/firmware-manifest.sh</code></a></td><td>Read <code>KNOWN_FIRMWARES</code> rows from <code>apply.bash</code></td></tr><tr><td><a href="https://github.com/ryan-specter/koensayr-auto/blob/HEAD/tools/ci/patch-revision.sh" target="_blank" rel="noopener noreferrer"><code>tools/ci/patch-revision.sh</code></a></td><td>Current git SHA recorded in <code>build-manifest.json</code></td></tr><tr><td><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fryan-specter%2Fkoensayr-auto%2Fblob%2FHEAD%2F.github%2Fworkflows%2Fworkflow.md"><code>.github/workflows/workflow.md</code></a></td><td>User-facing intro prepended to each GitHub release (edit for new features)</td></tr><tr><td><a href="https://github.com/ryan-specter/koensayr-auto/blob/HEAD/tools/ci/extract-rom.sh" target="_blank" rel="noopener noreferrer"><code>tools/ci/extract-rom.sh</code></a></td><td>Unzip upstream ROM; record sparse <code>system.img</code></td></tr><tr><td><a href="https://github.com/ryan-specter/koensayr-auto/blob/HEAD/tools/ci/repack-rom.sh" target="_blank" rel="noopener noreferrer"><code>tools/ci/repack-rom.sh</code></a></td><td>Replace <code>system.img</code> and zip patched <code>rom.zip</code></td></tr></tbody></table></article><p class="lumen-doc-footer-note">These are Koensayr's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/ryan-specter/koensayr-auto" rel="noopener">ryan-specter/koensayr-auto</a> project <a class="lumen-cite" href="https://github.com/ryan-specter/koensayr-auto" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aryan-specter" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1264,12 +1264,6 @@ body.site-dock-mode:has(#y1-site-dock-privacy-slot #y1-privacy-settings-btn) > #
     display: none !important;
 }
 
-@media (prefers-color-scheme: light) {
-    :root[data-lumen-theme="auto"] #support-toolbar-container,
-    :root[data-lumen-theme="auto"] #support-toolbar-container .y1-site-dock-bar,
-    :root[data-lumen-theme="auto"] #support-toolbar-container .y1-donate-panel { color-scheme: light; }
-}
-
 :root[data-lumen-theme="light"] #support-toolbar-container,
 :root[data-lumen-theme="high-contrast"] #support-toolbar-container {
     color-scheme: light;

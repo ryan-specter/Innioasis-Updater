@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Beta V2 Updater Package Formats - Innioasis Updater</title>
+  <meta name="description" content="Beta V2 Updater Package Formats Updated: 2026-09-06 Distribution decision Beta V2 is distributed only as a Class A state-preserving update: Platform Filename Size SHA-256">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/spycemagic-y2-rockbox-00_project_docs-y2_beta_v2_updater_formats.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Beta V2 Updater Package Formats - Innioasis Updater">
+  <meta property="og:description" content="Beta V2 Updater Package Formats Updated: 2026-09-06 Distribution decision Beta V2 is distributed only as a Class A state-preserving update: Platform Filename Size SHA-256">
+  <meta property="og:url" content="https://innioasis.app/post-install/spycemagic-y2-rockbox-00_project_docs-y2_beta_v2_updater_formats.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Beta V2 Updater Package Formats - Innioasis Updater">
+  <meta name="twitter:description" content="Beta V2 Updater Package Formats Updated: 2026-09-06 Distribution decision Beta V2 is distributed only as a Class A state-preserving update: Platform Filename Size SHA-256">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=rockbox-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Rockbox-Y2 · Y2</p><h1>Beta V2 Updater Package Formats</h1><p class="lumen-lead">The Y2 Rockbox build. Select Y2 before choosing this Software.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=rockbox-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=rockbox-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="beta-v2-updater-package-formats">Beta V2 Updater Package Formats</h1>
+<p>Updated: 2026-09-06</p>
+<h2 id="distribution-decision">Distribution decision</h2>
+<p>Beta V2 is distributed only as a Class A state-preserving update:</p>
+<table><thead><tr><th>Platform</th><th>Filename</th><th style="text-align:right">Size</th><th>SHA-256</th></tr></thead><tbody><tr><td>macOS</td><td><code>Y2-Rockbox-Beta-v0.2.0-UPDATE-ONLY.zip</code></td><td style="text-align:right">361,774,260</td><td><code>409DDB4D2D18111FB8C3AB619F10F04B916B6B2A3FC04D1D38011324563F326A</code></td></tr><tr><td>Windows</td><td><code>Y2-Rockbox-Beta-v0.2.0-Windows-UPDATE-ONLY.zip</code></td><td style="text-align:right">361,774,260</td><td><code>409DDB4D2D18111FB8C3AB619F10F04B916B6B2A3FC04D1D38011324563F326A</code></td></tr></tbody></table>
+<p>The files are byte-identical. Different filenames let each guarded updater bind to an exact platform-qualified contract without relying on a generic filename.</p>
+<h2 id="archive-contract">Archive contract</h2>
+<p>The ZIP contains exactly eight members:</p>
+<ul><li><code>MT6582_Android_scatter.txt</code></li><li><code>lk.bin</code></li><li><code>boot.img</code></li><li><code>recovery.img</code></li><li><code>logo.bin</code></li><li><code>system.img</code></li><li><code>UPDATE-MANIFEST.json</code></li><li><code>SHA256SUMS.txt</code></li></ul>
+<p>It excludes PRELOADER, MBR, EBR1, SEC_RO, EBR2, CACHE, USRDATA, and every protected/runtime partition. The only permitted write set is UBOOT, BOOTIMG, RECOVERY, LOGO, and ANDROID.</p>
+<p>Format All, Firmware Upgrade, whole-device erase, omitted-partition cleanup, protected-partition writes, and automatic retry are forbidden. The updater must verify the exact release repository, tag, filename, size, digest, device identity, and Stock 3.1.7 layout before writing. It must then complete all five readbacks before reporting success.</p>
+<h2 id="why-romy2zip-is-forbidden">Why <code>rom_y2.zip</code> is forbidden</h2>
+<p><code>rom_y2.zip</code> is not a Beta V2 asset. Testing proved that the legacy name enters an unqualified generic full-firmware path. That path produced non-booting and looping devices even though the underlying Rockbox runtime itself was valid. The withdrawn packages and old <code>InnioasisUpdater_Setup_1.1.2.exe</code> must not be used.</p>
+<p>The reviewed Updater CE V30 route accepts only:</p>
+<ul><li>repository <code>SPYCEMAGIC/Y2-Rockbox</code>;</li><li>release <code>v0.2.0-beta</code>;</li><li>Windows filename <code>Y2-Rockbox-Beta-v0.2.0-Windows-UPDATE-ONLY.zip</code>;</li><li>size 361,774,260 bytes; and</li><li>SHA-256 <code>409DDB4D2D18111FB8C3AB619F10F04B916B6B2A3FC04D1D38011324563F326A</code>.</li></ul>
+<p>It explicitly rejects the retired community mirror, <code>rom_y2.zip</code>, any changed payload identity, and any write plan outside the five permitted targets.</p>
+<h2 id="qualification">Qualification</h2>
+<p>The macOS and Windows routes each passed from a fresh official Stock 3.1.7 restore through write, full readback, mandatory unplugged pinhole reset, and the complete functional matrix. The Windows source correction compiled and passed 25/25 focused tests plus a final offline Windows publication-source receipt.</p></article><p class="lumen-doc-footer-note">These are Rockbox-Y2's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/spycemagic/y2-rockbox" rel="noopener">spycemagic/y2-rockbox</a> project <a class="lumen-cite" href="https://github.com/spycemagic/y2-rockbox" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aspycemagic" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

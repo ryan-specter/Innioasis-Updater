@@ -234,9 +234,20 @@
     box-shadow: 0 3px 10px rgba(0, 0, 0, .16);
   }
   #support-toolbar-container .y1-donate-btn--kofi { background: #ff5e5b !important; }
+  #support-toolbar-container .y1-donate-btn--bmac { background: #ffdd00 !important; color: #0d0c22 !important; }
   #support-toolbar-container .y1-donate-btn--paypal { background: #0070ba !important; }
   #support-toolbar-container .y1-donate-btn--revolut { background: #5850ec !important; }
   #support-toolbar-container .y1-donate-btn--patreon { background: #e0533c !important; }
+  #support-toolbar-container .y1-donate-btn--boosty { background: #f15f2c !important; grid-column: 1 / -1; }
+  #support-toolbar-container .y1-donate-btn[hidden] { display: none !important; }
+  html.y1-region-ru #support-toolbar-container .y1-donate-btn:not(.y1-donate-btn--boosty),
+  html.y1-region-ru #support-toolbar-container .y1-donate-alt-link,
+  html.y1-region-ru #support-toolbar-container .y1-crypto-dropdown {
+    display: none !important;
+  }
+  html.y1-region-ru #support-toolbar-container .y1-donate-btn--boosty {
+    display: inline-flex !important;
+  }
   #support-toolbar-container .y1-donate-btn:hover,
   #support-toolbar-container .y1-donate-btn:focus-visible {
     filter: brightness(1.08);
@@ -369,9 +380,8 @@
         <button class="y1-donate-close" type="button" data-donate-close aria-label="Close donation options" style="position: static; flex-shrink: 0; margin-left: 8px;">×</button>
       </div>
 
-      <p>Hi, I'm Ryan. I build Innioasis Updater CE, this firmware archive, and the Themes Gallery. I pay for them myself so they stay free for everyone.</p>
+      <p class="y1-donate-panel-intro" id="y1-donate-panel-intro">Hi, I'm Ryan. I build Innioasis Updater CE, this firmware archive, and the Themes Gallery. I pay for them myself so they stay free for everyone.</p>
 
-      <!-- Quick Method Buttons -->
       <div class="y1-donate-grid">
         <a class="y1-donate-btn y1-donate-btn--kofi" href="https://ko-fi.com/teamslide" target="_blank" rel="noopener noreferrer">
           <img class="y1-donate-btn-icon" src="/assets/icon_kofi.png" onerror="if(this.src.indexOf('https://')===-1)this.src='https://innioasis.app/mtkclient/gui/images/icon_kofi.png';" data-method-icon="icon_kofi.png" width="20" height="20" alt="">
@@ -392,6 +402,9 @@
         <a class="y1-donate-btn y1-donate-btn--patreon" href="https://www.patreon.com/ryanspecter" target="_blank" rel="noopener noreferrer">
           <img class="y1-donate-btn-icon" src="/assets/icon_patreon.png" onerror="if(this.src.indexOf('https://')===-1)this.src='https://innioasis.app/mtkclient/gui/images/icon_patreon.png';" data-method-icon="icon_patreon.png" width="20" height="20" alt="">
           Donate by Patreon
+        </a>
+        <a class="y1-donate-btn y1-donate-btn--boosty" href="https://boosty.to/ryanspecter" target="_blank" rel="noopener noreferrer" hidden>
+          Donate on Boosty
         </a>
       </div>
 
@@ -449,11 +462,11 @@
             <input type="checkbox" class="y1-privacy-toggle" data-privacy-nightly>
           </label>
           <label class="y1-privacy-option">
-            <span class="y1-privacy-option-label"><strong>Show donation appeals and the funding goal</strong><small>Turn this off to hide every request for support.</small></span>
+            <span class="y1-privacy-option-label"><strong>Show donation appeals and running costs</strong><small>Turn this off to hide every request for support.</small></span>
             <input type="checkbox" class="y1-privacy-toggle" data-privacy-donations>
           </label>
         </div>
-        <p class="y1-privacy-note">Your site theme and text size are always remembered  -  they are the look and readability you chose. Links to YouTube, Discord, Ko-fi, PayPal, Revolut, and Patreon open those sites' own pages, which have their own policies.</p>
+        <p class="y1-privacy-note">Your site theme and text size are always remembered  -  they are the look and readability you chose. Links to YouTube, Discord, Ko-fi, Buy Me a Coffee, PayPal, Revolut, Patreon, and Boosty open those sites' own pages, which have their own policies.</p>
       </div>
       <div class="y1-privacy-actions">
         <button type="button" class="y1-privacy-save" data-privacy-save>Save choices</button>
@@ -461,7 +474,6 @@
     </div>
 
     <nav class="y1-site-dock-bar" id="y1-site-dock-bar" aria-label="Site shortcuts">
-      <!-- Shortcut layer remains visible above the permanent donation line. -->
       <div class="y1-dock-buttons-layer" id="y1-dock-buttons-layer">
         <a class="y1-dock-link" href="https://reddit.com/r/innioasis" target="_blank" rel="noopener noreferrer"><svg class="y1-dock-icon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>Reddit</a>
         <span class="y1-dock-sep" aria-hidden="true">·</span>
@@ -482,12 +494,11 @@
         <button class="y1-dock-link y1-dock-close-btn" type="button" data-dock-close aria-label="Close bottom toolbar" title="Close toolbar" style="font-size: 1.25rem; line-height: 1; padding: 0 5px; cursor: pointer; background: transparent; border: none; color: inherit; opacity: 0.72; transition: opacity 0.15s ease;">&times;</button>
         <span class="y1-font-live" id="y1-font-live" aria-live="polite"></span>
       </div>
-      <!-- The donation appeal is always a calm, readable second line below the shortcuts. -->
-      <div class="y1-dock-secondary-line" id="y1-dock-secondary-line" aria-label="Support goal and community contributions - click to support" role="button" tabindex="0">
+      <div class="y1-dock-secondary-line" id="y1-dock-secondary-line" aria-label="Running costs and community contributions - click to support" role="button" tabindex="0">
         <div class="y1-dock-secondary-goal-view" id="y1-dock-secondary-goal-view">
           <span class="y1-dock-secondary-text" id="y1-dock-secondary-text">
             <span class="y1-dock-text-desktop">You've helped us cover $0 of our $200 costs this month.</span>
-            <span class="y1-dock-text-mobile">$0 of $200 raised this month</span>
+            <span class="y1-dock-text-mobile">$0 of $200 costs covered this month</span>
           </span>
           <div class="y1-dock-secondary-bar-wrap" id="y1-dock-secondary-bar-wrap" aria-hidden="true"><div class="y1-dock-secondary-bar-fill" id="y1-dock-secondary-bar-fill"></div></div>
         </div>
@@ -495,15 +506,13 @@
           <span class="y1-dock-secondary-ticker" id="y1-dock-secondary-ticker-text">Loading supporters...</span>
         </div>
       </div>
-      <!-- Retained as a compatibility shell for older scripts; the permanent
-           second-line appeal above is the only visible donation display. -->
       <div class="y1-dock-goal-layer is-goal-view" id="y1-dock-goal-layer" aria-hidden="true" hidden tabindex="-1">
         <div class="y1-dock-idle-goal-view" id="y1-dock-idle-goal-view">
           <span class="y1-dock-idle-heart" id="y1-dock-idle-goal-heading">Help us cover our running costs for the month</span>
           <div class="y1-dock-goal-bar-wrap" aria-hidden="true">
             <div class="y1-dock-goal-bar-fill" id="y1-dock-idle-bar-fill"></div>
           </div>
-          <span class="y1-dock-goal-text" id="y1-dock-idle-goal-text">You've helped us raise $0 of $200 for this month.</span>
+          <span class="y1-dock-goal-text" id="y1-dock-idle-goal-text">You've helped us cover $0 of our $200 costs this month.</span>
         </div>
         <div class="y1-dock-idle-ticker-view" id="y1-dock-idle-ticker-view" aria-live="polite" hidden>
           <span class="y1-dock-idle-ticker" id="y1-dock-idle-ticker-text">Loading...</span>
@@ -526,15 +535,292 @@
   </div>
 </div>
 <script>
+
 (function () {
   "use strict";
   var consent = window.INNIOASIS_PRIVACY;
 
-  // Donation appeals can be turned off by a link (?donations=false) or
-  // by the visitor, who then sees no ask, no goal line and no donors.
   function donationsOff() {
     return typeof window.isY1DonationsDisabled === "function" ? window.isY1DonationsDisabled() : false;
   }
+
+  var RU_TIMEZONES = {
+    "europe/moscow": true,
+    "europe/kaliningrad": true,
+    "europe/samara": true,
+    "asia/yekaterinburg": true,
+    "asia/omsk": true,
+    "asia/novosibirsk": true,
+    "asia/krasnoyarsk": true,
+    "asia/irkutsk": true,
+    "asia/yakutsk": true,
+    "asia/vladivostok": true,
+    "asia/magadan": true,
+    "asia/kamchatka": true
+  };
+
+  function detectTerritory() {
+    var locales = [];
+    try {
+      if (navigator.languages && navigator.languages.length) {
+        locales = locales.concat(Array.prototype.slice.call(navigator.languages));
+      }
+      if (navigator.language) locales.push(navigator.language);
+      if (typeof Intl !== "undefined" && Intl.DateTimeFormat) {
+        var resolved = Intl.DateTimeFormat().resolvedOptions();
+        if (resolved && resolved.locale) locales.push(resolved.locale);
+      }
+    } catch (_) {}
+    for (var i = 0; i < locales.length; i++) {
+      var loc = String(locales[i] || "").replace(/_/g, "-").trim();
+      var parts = loc.split("-");
+      for (var j = 1; j < parts.length; j++) {
+        var sub = parts[j].toUpperCase();
+        if (sub.length === 2 && /^[A-Z]{2}$/.test(sub)) return sub;
+      }
+    }
+    try {
+      if (typeof Intl !== "undefined" && Intl.DateTimeFormat) {
+        var tz = String((Intl.DateTimeFormat().resolvedOptions() || {}).timeZone || "").toLowerCase();
+        if (RU_TIMEZONES[tz]) return "RU";
+      }
+    } catch (_) {}
+    return "";
+  }
+
+  function isRussianVisitor() {
+    if (detectTerritory() === "RU") return true;
+    try {
+      if (typeof Intl !== "undefined" && Intl.DateTimeFormat) {
+        var tz = String((Intl.DateTimeFormat().resolvedOptions() || {}).timeZone || "").toLowerCase();
+        if (RU_TIMEZONES[tz]) return true;
+      }
+    } catch (_) {}
+    return false;
+  }
+
+  function applyRegionalRouting() {
+    if (!isRussianVisitor()) return;
+    document.documentElement.classList.add("y1-region-ru");
+    var boostyBtn = document.querySelector(".y1-donate-btn--boosty");
+    if (boostyBtn) boostyBtn.hidden = false;
+    document.querySelectorAll("#y1-donate-panel .y1-donate-btn:not(.y1-donate-btn--boosty)").forEach(function (el) {
+      el.hidden = true;
+    });
+    document.querySelectorAll("#y1-donate-panel .y1-donate-sep").forEach(function (el) {
+      el.hidden = true;
+    });
+    var cToggle = document.querySelector("[data-crypto-toggle]");
+    var cGrid = document.getElementById("y1-crypto-panel");
+    if (cToggle) cToggle.hidden = true;
+    if (cGrid) cGrid.hidden = true;
+    var smallprint = document.querySelector("#y1-donate-panel .y1-donate-smallprint");
+    if (smallprint) smallprint.textContent = "Donations are processed through Boosty";
+  }
+
+  applyRegionalRouting();
+
+  function makeTable(text, asFloat) {
+    var parts = String(text || "").trim().split(/\s+/);
+    var map = {};
+    for (var i = 0; i < parts.length - 1; i += 2) {
+      map[parts[i]] = asFloat ? parseFloat(parts[i + 1]) : parts[i + 1];
+    }
+    return map;
+  }
+
+  var FX_BAKED = makeTable(
+    "USD 1.000 EUR 0.8934 GBP 0.7454 JPY 158.4 CNY 6.684 INR 94.83 AUD 1.434 CAD 1.399 " +
+    "CHF 0.8200 SEK 9.791 NOK 9.281 DKK 6.680 PLN 3.945 CZK 21.76 HUF 325.9 RON 4.772 " +
+    "BGN 1.748 TRY 50.04 BRL 5.486 MXN 18.74 ARS 1550 CLP 978.1 COP 3221 PEN 3.465 " +
+    "ZAR 16.62 NGN 1346 KES 130.0 EGP 55.37 ILS 3.164 AED 3.6725 SAR 3.750 QAR 3.640 " +
+    "KWD 0.3112 BHD 0.3760 OMR 0.3845 JOD 0.7090 HKD 7.846 SGD 1.281 TWD 32.77 " +
+    "KRW 1344 THB 33.76 MYR 4.077 IDR 18140 PHP 63.52 VND 25769 PKR 276.5 BDT 124.5 " +
+    "LKR 332.4 NPR 151.7 UAH 45.68 RUB 81.42 KZT 452.7 UZS 11911 GEL 2.595 AMD 360.2 " +
+    "AZN 1.701 MAD 9.823 TND 3.004 DZD 136.0 GHS 11.68 TZS 2640 UGX 4092 RWF 1479 " +
+    "ETB 161.7 MZN 63.75 ZMW 20.26 BWP 14.09 MUR 47.58 ISK 121.7 HRK 6.732 RSD 108.0 " +
+    "BAM 1.748 MKD 61.50 ALL 92.50 MDL 17.80 BYN 3.200 XPF 119.3 XOF 655.96 XAF 655.96 " +
+    "CDF 2900 AOA 950.0 GMD 73.00 GNF 8700 SLE 22.80 LRD 200.0 SDG 600.0 LYD 6.600 " +
+    "SOS 570.0 NAD 16.62 LSL 16.62 SZL 16.62 MWK 1750 MGA 4600 SCR 14.50 CVE 100.4 " +
+    "BTN 94.83 MMK 2100 KHR 4075 LAK 21500 MNT 3400 MOP 8.080 BND 1.281 MVR 15.40 " +
+    "AFN 65.00 PGK 4.200 FJD 2.240 SBD 8.500 VUV 120.0 WST 2.700 TOP 2.350 BOB 6.900 " +
+    "PYG 7300 UYU 40.00 VES 60.00 CRC 500.0 PAB 1.000 GTQ 7.700 HNL 25.00 NIO 36.80 " +
+    "DOP 60.00 CUP 24.00 JMD 157.0 TTD 6.800 BBD 2.000 BSD 1.000 BZD 2.000 GYD 209.0 " +
+    "SRD 36.00 HTG 130.0 IRR 42000 IQD 1310 LBP 89500 SYP 13000 YER 250.0 TMT 3.500 " +
+    "KGS 87.00 TJS 10.80 ZWL 360.0 ERN 15.00 DJF 178.0 BIF 2900 KMF 440.0 MRU 39.60 " +
+    "STN 22.00 SSP 1300 XCD 2.700 AWG 1.790 ANG 1.800 BMD 1.000 KYD 0.830 FKP 0.7454 " +
+    "GIP 0.7454",
+    true
+  );
+
+  var FX_ZERO = {};
+  "JPY KRW VND IDR CLP ISK HUF PYG UGX RWF XAF XOF XPF KMF DJF GNF BIF VUV MGA".split(" ").forEach(function (c) {
+    FX_ZERO[c] = true;
+  });
+
+  var FX_SYM = makeTable(
+    "USD $ EUR € GBP £ JPY ¥ CNY ¥ INR ₹ AUD A$ CAD CA$ CHF CHF SEK kr NOK kr DKK kr " +
+    "PLN zł CZK Kč HUF Ft RON lei BGN лв TRY ₺ BRL R$ MXN MX$ ARS AR$ CLP CL$ COP COL$ " +
+    "PEN S/ ZAR R NGN ₦ KES KSh EGP E£ ILS ₪ AED د.إ SAR ﷼ QAR ﷼ KWD د.ك BHD د.ب " +
+    "OMR ﷼ JOD د.ا HKD HK$ SGD S$ TWD NT$ KRW ₩ THB ฿ MYR RM IDR Rp PHP ₱ VND ₫ " +
+    "PKR Rs BDT ৳ LKR Rs NPR Rs UAH ₴ RUB ₽ KZT ₸ UZS soʻm GEL ₾ AMD ֏ AZN ₼ MAD DH " +
+    "TND DT DZD DA GHS ₵ TZS TSh UGX USh RWF FRw ETB Br MZN MT ZMW ZK BWP P MUR Rs " +
+    "ISK kr HRK € RSD дин BAM KM MKD ден ALL L MDL L BYN Br XPF F XOF FCFA XAF FCFA " +
+    "CDF FC AOA Kz GMD D GNF FG SLE Le LRD L$ SDG ج.س LYD ل.د SOS Sh NAD N$ LSL L " +
+    "SZL E MWK MK MGA Ar SCR ₨ CVE Esc BTN Nu. MMK K KHR ៛ LAK ₭ MNT ₮ MOP MOP$ " +
+    "BND B$ MVR Rf AFN ؋ PGK K FJD FJ$ SBD SI$ VUV VT WST WS$ TOP T$ BOB Bs PYG ₲ " +
+    "UYU $U VES Bs. CRC ₡ PAB B/. GTQ Q HNL L NIO C$ DOP RD$ CUP $ JMD J$ TTD TT$ " +
+    "BBD Bds$ BSD B$ BZD BZ$ GYD G$ SRD Sr$ HTG G IQD ع.د LBP ل.ل SYP £ YER ﷼ " +
+    "TMT m KGS сом TJS SM ZWL Z$ ERN Nfk DJF Fdj BIF FBu KMF CF MRU UM STN Db " +
+    "SSP £ XCD EC$ AWG ƒ ANG ƒ KYD CI$ FKP £ GIP £",
+    false
+  );
+
+  var FX_REGION = makeTable(
+    "US USD GB GBP IE EUR FR EUR DE EUR AT EUR BE EUR NL EUR LU EUR ES EUR PT EUR IT EUR " +
+    "GR EUR FI EUR EE EUR LV EUR LT EUR CY EUR MT EUR SK EUR SI EUR HR EUR AD EUR MC EUR " +
+    "SM EUR VA EUR XK EUR ME EUR NO NOK SE SEK DK DKK IS ISK CH CHF LI CHF PL PLN CZ CZK " +
+    "HU HUF RO RON BG BGN RS RSD BA BAM MK MKD AL ALL MD MDL UA UAH BY BYN RU RUB TR TRY " +
+    "GE GEL AM AMD AZ AZN KZ KZT UZ UZS KG KGS TJ TJS TM TMT CA CAD MX MXN BR BRL AR ARS " +
+    "CL CLP CO COP PE PEN UY UYU PY PYG BO BOB VE VES EC USD SV USD PA PAB GT GTQ HN HNL " +
+    "NI NIO CR CRC DO DOP CU CUP JM JMD TT TTD BB BBD BS BSD BZ BZD GY GYD SR SRD HT HTG " +
+    "PR USD IL ILS PS ILS AE AED SA SAR QA QAR KW KWD BH BHD OM OMR JO JOD LB LBP IQ IQD " +
+    "IR IRR SY SYP YE YER EG EGP MA MAD TN TND DZ DZD LY LYD SD SDG ET ETB ER ERN DJ DJF " +
+    "SO SOS KE KES TZ TZS UG UGX RW RWF BI BIF CD CDF CG XAF GA XAF CM XAF CF XAF TD XAF " +
+    "NE XOF ML XOF BF XOF SN XOF CI XOF TG XOF BJ XOF GW XOF GM GMD GN GNF SL SLE LR LRD " +
+    "GH GHS NG NGN ZA ZAR NA NAD BW BWP LS LSL SZ SZL ZW ZWL MZ MZN ZM ZMW MW MWK MU MUR " +
+    "SC SCR MG MGA KM KMF AO AOA CV CVE ST STN MR MRU SS SSP JP JPY CN CNY HK HKD MO MOP " +
+    "TW TWD KR KRW SG SGD MY MYR TH THB ID IDR PH PHP VN VND IN INR PK PKR BD BDT LK LKR " +
+    "NP NPR BT BTN MM MMK KH KHR LA LAK MN MNT BN BND MV MVR AU AUD NZ NZD PG PGK FJ FJD " +
+    "SB SBD VU VUV WS WST TO TOP NC XPF PF XPF",
+    false
+  );
+
+  var FX_CACHE_KEY = "y1_fx_rates_v1";
+  var FX_TTL_MS = 43200000;
+  var FX_FEEDS = [
+    "https://open.er-api.com/v6/latest/USD",
+    "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json",
+    "https://api.frankfurter.dev/v1/latest?base=USD"
+  ];
+  var fxState = { rates: {}, at: 0, warm: false, busy: false };
+  var lastDonations = null;
+
+  function warmFxCache() {
+    if (fxState.warm) return;
+    fxState.warm = true;
+    try {
+      var raw = localStorage.getItem(FX_CACHE_KEY);
+      if (!raw) return;
+      var parsed = JSON.parse(raw);
+      if (parsed && parsed.rates && typeof parsed.rates === "object") {
+        fxState.rates = parsed.rates;
+        fxState.at = Number(parsed.at) || 0;
+      }
+    } catch (_) {}
+  }
+
+  function parseFxPayload(blob) {
+    if (!blob || typeof blob !== "object") return null;
+    var keys = ["rates", "usd"];
+    for (var i = 0; i < keys.length; i++) {
+      var inner = blob[keys[i]];
+      if (!inner || typeof inner !== "object") continue;
+      var out = {};
+      Object.keys(inner).forEach(function (k) {
+        var val = Number(inner[k]);
+        if (isFinite(val) && val > 0) out[String(k).toUpperCase()] = val;
+      });
+      if (out.USD) return out;
+    }
+    return null;
+  }
+
+  function refreshFxRates(onReady) {
+    warmFxCache();
+    if (fxState.busy) return;
+    if (Date.now() - fxState.at < FX_TTL_MS && Object.keys(fxState.rates).length > 0) return;
+    fxState.busy = true;
+    var idx = 0;
+    function tryNextFeed() {
+      if (idx >= FX_FEEDS.length) {
+        fxState.busy = false;
+        return;
+      }
+      var url = FX_FEEDS[idx++];
+      fetch(url, { cache: "no-store" })
+        .then(function (r) {
+          if (!r.ok) throw new Error("HTTP " + r.status);
+          return r.json();
+        })
+        .then(function (json) {
+          var rates = parseFxPayload(json);
+          if (!rates) throw new Error("Unusable FX payload");
+          fxState.rates = rates;
+          fxState.at = Date.now();
+          fxState.busy = false;
+          try {
+            localStorage.setItem(FX_CACHE_KEY, JSON.stringify({ at: fxState.at, rates: rates }));
+          } catch (_) {}
+          if (typeof onReady === "function") onReady();
+        })
+        .catch(function () {
+          tryNextFeed();
+        });
+    }
+    tryNextFeed();
+  }
+
+  function detectCurrencyCode() {
+    var region = detectTerritory();
+    if (region && FX_REGION[region]) return FX_REGION[region];
+    try {
+      if (typeof Intl !== "undefined" && Intl.DateTimeFormat) {
+        var tz = String((Intl.DateTimeFormat().resolvedOptions() || {}).timeZone || "").toLowerCase();
+        if (tz.indexOf("tokyo") !== -1) return "JPY";
+        if (tz.indexOf("london") !== -1) return "GBP";
+        if (tz.indexOf("berlin") !== -1 || tz.indexOf("paris") !== -1 || tz.indexOf("rome") !== -1 || tz.indexOf("madrid") !== -1 || tz.indexOf("amsterdam") !== -1) return "EUR";
+      }
+    } catch (_) {}
+    return "USD";
+  }
+
+  function fxSymbol(code) {
+    code = String(code || "USD").toUpperCase();
+    return FX_SYM[code] || (code + "\u00a0");
+  }
+
+  function fxRate(code) {
+    warmFxCache();
+    code = String(code || "USD").toUpperCase();
+    var r = Number(fxState.rates[code] || FX_BAKED[code] || 1.0);
+    return (isFinite(r) && r > 0) ? r : 1.0;
+  }
+
+  function fxUnit(code) {
+    code = String(code || "USD").toUpperCase();
+    var r = fxRate(code);
+    if (FX_ZERO[code] || r >= 0.5) return 1.0;
+    return 0.01;
+  }
+
+  function fxLocal(usd, code) {
+    var q = fxUnit(code);
+    return Math.round((Number(usd || 0) * fxRate(code)) / q) * q;
+  }
+
+  function fxGoal(usd, code) {
+    var r = fxRate(code);
+    var value = Number(usd || 0) * (r > 1.0 ? r : 1.0);
+    var q = value >= 20000 ? 1000.0 : (value >= 2000 ? 100.0 : (value >= 200 ? 10.0 : 1.0));
+    return Math.ceil(value / q - 1e-9) * q;
+  }
+
+  function fxShare(raised, target) {
+    if (!(target > 0)) return 0.0;
+    return Math.min(100.0, Math.max(0.0, (Number(raised) / Number(target)) * 100.0));
+  }
+
   var donatePanel = document.getElementById("y1-donate-panel");
   var donateOpen = document.querySelector("[data-donate-open]");
   var donateClose = document.querySelector("[data-donate-close]");
@@ -627,14 +913,9 @@
   function renderToolbarThankYou(donations) {
     var groups = {};
     var anonymousSeen = 0;
-    // Thank You is exclusively for money received by this project. Keep the
-    // outgoing-project ledger out before grouping so recipients can never be
-    // turned into positive-looking credit entries by a later formatter.
     donations.filter(isReceivedCommunityDonation).forEach(function (donation) {
       var rawName = String((donation && donation.name) || "").trim();
       if (isAnonymous(rawName)) {
-        // Each anonymous gift is a different person: its own entry and amount,
-        // never one merged supporter total.
         anonymousSeen += 1;
         groups["__anonymous_" + anonymousSeen] = {
           name: cleanSupporterName(rawName),
@@ -698,7 +979,6 @@
     });
   }
 
-  /* Text size control */
   var FONT_KEY = "lumen-font-scale";
   var fontScale = 1;
   try {
@@ -722,7 +1002,7 @@
   if (!donatePanel || !privacyPanel || !donateOpen || !privacyOpen) return;
 
   function hasDecided() {
-    return !!(consent && consent.hasDecided());
+    return !!(consent && consent.hasDecided && consent.hasDecided());
   }
 
   function syncBackdrop() {
@@ -730,14 +1010,92 @@
     if (backdrop) backdrop.hidden = !anyOpen;
   }
 
+  var GENERAL_APPEAL_POOL = [
+    "<b>Donations directly help me support my family and fund the test devices</b> that make this free service possible for everyone. If this tool saved you time or rescued your player today, please consider a small donation, it truly means the world to us.",
+    "<b>Servers, storage and domains are paid for out of pocket.</b> A coffee keeps the downloads online for the next owner.",
+    "<b>Every release here is built in evenings and weekends.</b> A small donation buys more of that time.",
+    "<b>No ads, no tracking and no paid tier.</b> Independence is funded by people this helped.",
+    "<b>Donations buy the test players and cables</b> used to check each release before anyone flashes it.",
+    "<b>The firmware archive moves terabytes every month.</b> Donations pay for the bandwidth that delivers it.",
+    "<b>Running costs come to about $200 a month.</b> Whatever you can add closes the gap.",
+    "<b>A few dollars goes a long way here:</b> it covers the bandwidth for hundreds of installs.",
+    "<b>Bugs get fixed because someone stayed up with your model on the bench.</b> A donation keeps that going.",
+    "<b>No company behind this, just one developer, a workbench and a donation page.</b> Everything goes to running costs.",
+    "<b>The tools, the guides and the archive are all free.</b> A tip funds the next feature.",
+    "<b>If this worked for you, pass the kindness on.</b> It keeps the project free for whoever comes next.",
+    "<b>Some of the players this supports were written off as broken.</b> A donation keeps the rescue service running.",
+    "<b>No subscription, no deadline, just a page like this one.</b> Give only if it helped.",
+    "<b>One person answers the issues, writes the guides and pays the bills.</b> Donations make that sustainable.",
+    "<b>Firmware vanishes when hosts shut down.</b> Donations keep the copies that rescued your player online.",
+    "<b>One coffee roughly covers the bandwidth of a download.</b> It keeps the next fix within reach."
+  ];
+
+  var FAMILY_APPEAL_POOL = [
+    "<b>Ryan and his partner are expecting a baby.</b> Donations towards the project's running costs and our new family are massively appreciated.",
+    "<b>There's a new arrival on the way in Ryan's house.</b> Every donation towards the servers and our growing family means a great deal.",
+    "<b>Ryan and his partner are getting ready for their child.</b> If this tool has been useful, a donation for the running costs and our growing family would help more than you know."
+  ];
+
+  var FAMILY_COHORT_STORAGE_KEY = "y1_family_appeal_cohort";
+  var recentAppeals = [];
+
+  function inFamilyCohort() {
+    try {
+      var raw = localStorage.getItem(FAMILY_COHORT_STORAGE_KEY);
+      if (raw === null) {
+        var chosen = Math.random() < 0.30;
+        localStorage.setItem(FAMILY_COHORT_STORAGE_KEY, chosen ? "1" : "0");
+        return chosen;
+      }
+      return raw === "1";
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function familyWindowOpen(now) {
+    now = now || new Date();
+    var cutoff = new Date(2027, 3, 17, 23, 59, 59, 999);
+    return now.getTime() <= cutoff.getTime();
+  }
+
+  function hasDonationToday(donations, now) {
+    now = now || new Date();
+    var y = now.getFullYear();
+    var m = now.getMonth();
+    var d = now.getDate();
+    var list = donations || [];
+    for (var i = 0; i < list.length; i++) {
+      var row = list[i];
+      if (!row || !row.dt || !(row.amount > 0)) continue;
+      if (row.dt.getFullYear() === y && row.dt.getMonth() === m && row.dt.getDate() === d) return true;
+    }
+    return false;
+  }
+
+  function pickFromPool(pool) {
+    var fresh = pool.filter(function (item) { return recentAppeals.indexOf(item) === -1; });
+    var source = fresh.length ? fresh : pool;
+    var chosen = source[Math.floor(Math.random() * source.length)];
+    recentAppeals.push(chosen);
+    if (recentAppeals.length > 4) recentAppeals.splice(0, recentAppeals.length - 4);
+    return chosen;
+  }
+
   function getRotatingAppealCopy() {
-    var appealChoices = [
-      "Hey! I'm Ryan, the developer behind <a href=\"https://innioasis.app\" style=\"color: inherit; text-decoration: underline;\">Innioasis Updater</a>, the <a href=\"https://innioasis.app/firmware.html\" style=\"color: inherit; text-decoration: underline;\">Innioasis Firmware Archive</a>, and the <a href=\"https://themes.innioasis.app\" style=\"color: inherit; text-decoration: underline;\">Themes Gallery</a>. I cover the servers, download bandwidth, and domain renewals out of my own pocket so everything stays free and open for the community.<br><br>Monthly running costs come to around $200. Over 90% of our infrastructure is funded by small community contributions of $3 to $5. If this software saved your device or helped you enjoy your player today, chipping in the price of a coffee makes an enormous difference!",
-      "Hey there, I'm Ryan. I build and maintain <a href=\"https://innioasis.app\" style=\"color: inherit; text-decoration: underline;\">Innioasis Updater</a>, the Themes Gallery, and our firmware archives as independent community tools. We have zero ads, no paywalls, and no sponsored trackers - just pure community software.<br><br>Keeping the servers and archive online costs around $200 each month. Your donations cover our upkeep directly and help my partner and me as we raise our young family. Every contribution, big or small, keeps these resources preserved for the next owner.",
-      "Did Updater CE or the Firmware Archive help unbrick your device or install custom software today? Official download links come and go, but our archive keeps every firmware, restore package and theme.<br><br>It takes around $200 a month to host these multi-gigabyte downloads and tools without paywalls. If just 1 in 50 visitors chipped in the price of a single coffee, our servers would be fully funded all year round. Thank you for supporting open audio!",
-      "Hey! I'm Ryan, and I maintain <a href=\"https://innioasis.app\" style=\"color: inherit; text-decoration: underline;\">Innioasis Updater</a>, the Firmware Archive, and the Themes Gallery. I cover our server bills out of my own pocket because I believe everyone deserves free, reliable access to their device's software.<br><br>Any donation you share directly funds fast, unthrottled download mirrors and ongoing development for new Innioasis and Timmkoo firmware builds."
-    ];
-    return appealChoices[Math.floor(Math.random() * appealChoices.length)];
+    var now = new Date();
+    var donations = lastDonations || [];
+    var weight = 0;
+    if (familyWindowOpen(now) && inFamilyCohort()) {
+      weight = 3.0;
+      if (!hasDonationToday(donations, now)) weight *= 2.0;
+      var goal = fundingGoalView(donations, 0, now);
+      if (goal && (goal.scope === "daily" || goal.scope === "weekly")) weight *= 1.8;
+    }
+    if (weight > 0 && Math.random() < (weight / (weight + GENERAL_APPEAL_POOL.length))) {
+      return pickFromPool(FAMILY_APPEAL_POOL);
+    }
+    return pickFromPool(GENERAL_APPEAL_POOL);
   }
 
   function setPanel(panel, button, value, closeButton) {
@@ -752,8 +1110,6 @@
     if (value) {
       panel.scrollTop = 0;
     }
-    // Keep the modal's donor stream as the only donation display while it is
-    // open; the dock appeal is hidden until the modal closes.
     document.body.classList.toggle("y1-donate-panel-open", value && panel === donatePanel);
     button.setAttribute("aria-expanded", value ? "true" : "false");
     if (value && closeButton) closeButton.focus();
@@ -793,8 +1149,6 @@
   var devAvatar = document.getElementById("y1-developer-avatar-img");
   function rotateDeveloperAvatar() {
     if (!devAvatar) return;
-    // Choose either supplied profile photo for each visit, then fall back cleanly
-    // through the other copy and the published package paths if needed.
     var filename = Math.random() < 0.5 ? "developer.png" : "developer_2.png";
     var fallbackFilename = filename === "developer.png" ? "developer_2.png" : "developer.png";
     var candidates = [
@@ -884,10 +1238,6 @@
   });
   if (privacySave) privacySave.addEventListener("click", saveFromPanel);
 
-  function hasDecided() {
-    return !!(consent && consent.hasDecided && consent.hasDecided());
-  }
-
   if (cryptoToggle && cryptoGrid) {
     cryptoToggle.addEventListener("click", function (event) {
       event.preventDefault();
@@ -975,8 +1325,6 @@
   function hideSupportToolbar() {
     var container = document.getElementById("support-toolbar-container");
     if (!container) return;
-    /* The container's own stylesheet says display:flex !important, so a plain
-       inline style would lose that fight. Class + important both stick. */
     container.classList.add("y1-toolbar-hidden");
     container.style.setProperty("display", "none", "important");
     container.setAttribute("aria-hidden", "true");
@@ -995,7 +1343,6 @@
     }
   } catch (_) {}
 
-  /* - - - - - Permanent second-line donation appeal - - - - - */
   (function () {
     var secondaryLine = document.getElementById("y1-dock-secondary-line");
     var secondaryText = document.getElementById("y1-dock-secondary-text");
@@ -1004,11 +1351,8 @@
     var secondaryTickerView = document.getElementById("y1-dock-secondary-ticker-view");
     var secondaryTickerEl = document.getElementById("y1-dock-secondary-ticker-text");
 
-    // The second line is permanent; this interval only controls its content
-    // crossfade and never hides or replaces the shortcut row.
     var donationLineInterval = null;
 
-    // Clicking the permanent appeal line opens the existing donation modal.
     function openDonationFromAppeal() {
       var donateOpenBtn = document.querySelector("[data-donate-open]");
       if (donateOpenBtn) donateOpenBtn.click();
@@ -1023,7 +1367,6 @@
       });
     }
 
-    // Expose updater so renderGoalAndDonors can feed the permanent line live data
     window._y1UpdateDonationLine = function (goal, tickerHtml) {
       if (secondaryBarFill) {
         requestAnimationFrame(function () { secondaryBarFill.style.width = Math.min(100, goal.pct).toFixed(1) + "%"; });
@@ -1043,8 +1386,6 @@
         };
       }
 
-      // A met goal is never named, only an outstanding one: the line then
-      // carries the donor stream and general encouragement.
       var periodSuffix = goal.periodSuffix || ("this " + goal.periodWord);
       var targetPhrase = goal.met
         ? null
@@ -1106,7 +1447,6 @@
             }
           ];
 
-      // Shuffle the rotating phrases once per page view.
       var rotatingPhrases = generalPhrases.slice();
       for (var pi = rotatingPhrases.length - 1; pi > 0; pi--) {
         var pj = Math.floor(Math.random() * (pi + 1));
@@ -1190,21 +1530,28 @@
 
   })();
 
-  /*  -  -  -  -  -  Donors CSV Data & Monthly Goal Engine  -  -  -  -  -  */
   var METHOD_URLS = {
     "ko-fi": "https://ko-fi.com/teamslide",
     "kofi": "https://ko-fi.com/teamslide",
     "bmac": "https://buymeacoffee.com/ryanspecter",
+    "buymeacoffee": "https://buymeacoffee.com/ryanspecter",
     "buy me a coffee": "https://buymeacoffee.com/ryanspecter",
     "paypal": "https://paypal.me/ryanspecter282",
     "revolut": "https://revolut.me/rspecter",
     "revolut pay": "https://revolut.me/rspecter",
     "patreon": "https://www.patreon.com/ryanspecter",
-    "boosty": "https://boosty.to",
+    "boosty": "https://boosty.to/ryanspecter",
     "honeygain": "https://join.honeygain.com/ITSRY2B5D7",
     "bitcoin": "https://www.blockchain.com/explorer/addresses/BTC/bc1qv4gjkqczqy4wdl297k7ak5swtkusgaz5au6c6g",
     "btc": "https://www.blockchain.com/explorer/addresses/BTC/bc1qv4gjkqczqy4wdl297k7ak5swtkusgaz5au6c6g"
   };
+
+  function coffeeMethod(method) {
+    var low = String(method || "").toLowerCase().replace(/\s+/g, " ").trim();
+    if (low.indexOf("bmac") !== -1 || low.indexOf("buymeacoffee") !== -1 || low.indexOf("buy me a coffee") !== -1) return "bmac";
+    if (low.indexOf("ko-fi") !== -1 || low.indexOf("kofi") !== -1 || low.indexOf("ko fi") !== -1) return "kofi";
+    return "";
+  }
 
   function parseDate(dateStr) {
     if (!dateStr) return null;
@@ -1252,10 +1599,7 @@
       }
       cols.push(cur.trim());
       if (!cols[0] && !cols[1]) continue;
-      // Keep the ledger's own name; display cleaning happens at render time so
-      // anonymous rows stay recognisable as separate people here.
       var name = (cols[0] || "").trim();
-      // Keep the minus sign: negative rows are project expenditure, not money raised.
       var amt = parseFloat((cols[1] || "0").replace(/[$£€\s,]/g, "")) || 0;
       var dateStr = cols[2] || "";
       var url = cols[3] || "";
@@ -1273,9 +1617,6 @@
     return records;
   }
 
-  // Anonymous rows represent different people who gave without a name. Treat
-  // every label the feed can carry (including the display label) as anonymous
-  // so those people are never merged into a single supporter.
   var ANONYMOUS_SUPPORTER_NAMES = { "": true, "supporter": true, "supporters": true, "a supporter": true, "top supporter": true, "a top supporter": true, "someone": true, "anonymous": true, "anon": true, "none": true, "n/a": true, "unknown": true, "null": true };
   function isAnonymous(n) {
     var low = String(n == null ? "" : n).toLowerCase().replace(/\s+/g, " ").trim();
@@ -1298,8 +1639,6 @@
     return /(?:\band\b|[+&])/i.test(cleanName) ? label + "s" : label;
   }
 
-  // Highlight repeat contributors and gifts at least twice the average without duplicating
-  // their individual entries in the ticker.
   function getTopSupporterGroups(donations) {
     var groups = {};
     var amounts = [];
@@ -1340,11 +1679,13 @@
     var amtStr = "$" + formatAmount(absAmt);
     var method = item.method || "Donation";
     var mLower = method.toLowerCase().trim();
+    var cKind = coffeeMethod(method);
+    var displayMethod = cKind === "bmac" ? "Buy Me a Coffee" : (cKind === "kofi" ? "Ko-fi" : method);
     var url = item.url || "";
     var relTime = getRelativeTime(item.dt);
     var timePart = relTime ? " · " + relTime : "";
 
-    var defaultMethodUrl = METHOD_URLS[mLower] || METHOD_URLS[mLower.replace(" pay", "")] || "https://ko-fi.com/teamslide";
+    var defaultMethodUrl = METHOD_URLS[mLower] || METHOD_URLS[cKind] || METHOD_URLS[mLower.replace(" pay", "")] || "https://ko-fi.com/teamslide";
     var methodUrl = ((mLower.indexOf("bitcoin") !== -1 || mLower.indexOf("btc") !== -1) && url && url.indexOf("http") === 0)
       ? url
       : defaultMethodUrl;
@@ -1354,7 +1695,7 @@
     if (isOutgoing) {
       var projHTML = '<a href="' + targetUrl + '" target="_blank" rel="noopener noreferrer"><strong>' + rawName + '</strong></a>';
       var outAmtHTML = '<a href="' + targetUrl + '" target="_blank" rel="noopener noreferrer">' + amtStr + '</a>';
-      var outMethodHTML = '<a href="' + methodUrl + '" target="_blank" rel="noopener noreferrer">' + method + '</a>';
+      var outMethodHTML = '<a href="' + methodUrl + '" target="_blank" rel="noopener noreferrer">' + displayMethod + '</a>';
       return "We donated " + outAmtHTML + " to " + projHTML + " on " + outMethodHTML + timePart;
     }
 
@@ -1373,11 +1714,17 @@
     }
 
     var amtHTML = '<a href="' + targetUrl + '" target="_blank" rel="noopener noreferrer">' + amtStr + '</a>';
-    var methodHTML = '<a href="' + methodUrl + '" target="_blank" rel="noopener noreferrer">' + method + '</a>';
+    var methodHTML = '<a href="' + methodUrl + '" target="_blank" rel="noopener noreferrer">' + displayMethod + '</a>';
 
     if (isRegular) {
       if (methodCount && methodCount > 1) {
         return supporterHTML + " has donated " + amtHTML + timePart;
+      }
+      if (cKind) {
+        var regCoffees = Math.max(1, Math.round(absAmt));
+        var regWord = (regCoffees === 1) ? "a coffee" : (regCoffees + " coffees");
+        var regCoffeesHTML = '<a href="' + targetUrl + '" target="_blank" rel="noopener noreferrer">' + regWord + '</a>';
+        return supporterHTML + " bought us " + regCoffeesHTML + timePart;
       }
       return supporterHTML + " donated " + amtHTML + " by " + methodHTML + timePart;
     }
@@ -1385,47 +1732,22 @@
     if (mLower === "honeygain") {
       var hgUrl = METHOD_URLS["honeygain"];
       return supporterHTML + ' contributed ' + amtHTML + ' for free by sharing 100MB on <a href="' + hgUrl + '" target="_blank" rel="noopener noreferrer">Honeygain</a>' + timePart;
-    } else if (mLower.indexOf("ko-fi") !== -1 || mLower.indexOf("kofi") !== -1) {
+    } else if (cKind) {
       var coffees = Math.max(1, Math.round(absAmt));
       var cWord = (coffees === 1) ? "a coffee" : (coffees + " coffees");
       var coffeesHTML = '<a href="' + targetUrl + '" target="_blank" rel="noopener noreferrer">' + cWord + '</a>';
-      return supporterHTML + " bought us " + coffeesHTML + " on " + methodHTML + timePart;
+      return supporterHTML + " bought us " + coffeesHTML + timePart;
     } else {
       return supporterHTML + " donated " + amtHTML + " by " + methodHTML + timePart;
     }
   }
 
-  /* -  -  Funding goal: a month / week / day ladder, one rung at a time  -  -  */
-  /* A week of the same running costs is one quarter of the monthly figure, so
-     every week asks for the same $50. The goal and raised figures are transposed
-     1:1 into the reader's own currency (GBP for the UK, EUR for Europe, USD
-     elsewhere), never converted. Only one period is ever shown, and a met goal is
-     never named, only an outstanding one. */
   var MONTHLY_TARGET = 200.0;
   var WEEKLY_TARGET = MONTHLY_TARGET / 4;
   var DAILY_TARGET = MONTHLY_TARGET / 20;
-  var DAILY_WEEKDAYS = [1, 2, 3, 6];  // JS getDay(): Monday, Tuesday, Wednesday, Saturday
+  var DAILY_WEEKDAYS = [1, 2, 3, 6];
+  var WIDE_MAX_PERCENT = 25.0;
 
-  function fundingCurrencySymbol() {
-    var euroRegions = ["at", "be", "cy", "de", "ee", "es", "fi", "fr", "gr", "hr", "ie", "it", "lt", "lu", "lv", "mt", "nl", "pt", "si", "sk"];
-    var euroLanguages = ["de", "fr", "es", "it", "nl", "pt", "pl", "sv", "da", "nb", "fi", "el", "cs", "hu", "ro", "bg", "sk", "hr", "sl", "et", "lv", "lt", "ga", "is"];
-    var locale = "";
-    try {
-      locale = (navigator.languages && navigator.languages[0]) || navigator.language || "";
-    } catch (ignore) {}
-    locale = String(locale || "").toLowerCase().replace(/_/g, "-");
-    var parts = locale.split("-");
-    var language = parts[0] || "";
-    var region = parts.length > 1 ? parts[parts.length - 1] : "";
-    if (region === "gb") return "£";
-    if (euroRegions.indexOf(region) !== -1) return "€";
-    if (!region && euroLanguages.indexOf(language) !== -1) return "€";
-    return "$";
-  }
-
-  /* The month's first five and last seven days name the month's costs; the days
-     between them name a week's. Only one is ever shown, and a met goal is never
-     named, only an outstanding one. */
   function fundingGoalView(donations, monthTotal, now) {
     now = now || new Date();
     var daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
@@ -1435,8 +1757,8 @@
     } else if (DAILY_WEEKDAYS.indexOf(now.getDay()) !== -1) {
       base = "daily";
     }
-    var ladder = base === "daily" ? ["daily", "weekly", "monthly"]
-      : base === "weekly" ? ["weekly", "daily", "monthly"] : ["monthly"];
+    var ladder = base === "daily" ? ["daily"]
+      : base === "weekly" ? ["weekly", "daily"] : ["monthly", "weekly", "daily"];
     var targets = { monthly: MONTHLY_TARGET, weekly: WEEKLY_TARGET, daily: DAILY_TARGET };
     var starts = {
       monthly: new Date(now.getFullYear(), now.getMonth(), 1),
@@ -1457,29 +1779,37 @@
     if (monthRaised < MONTHLY_TARGET) {
       for (var i = 0; i < ladder.length; i++) {
         var rung = ladder[i];
-        if (targets[rung] - raisedBy[rung] >= 1) { scope = rung; break; }
+        if (targets[rung] - raisedBy[rung] < 1) continue;
+        if (rung !== "daily" && (raisedBy[rung] / targets[rung]) * 100 > WIDE_MAX_PERCENT) continue;
+        scope = rung;
+        break;
       }
     }
-    var symbol = fundingCurrencySymbol();
+    var code = detectCurrencyCode();
+    var symbol = fxSymbol(code);
     if (!scope) {
       return {
         scope: null, covered: true, met: true, periodWord: "", periodSuffix: "", periodAdjective: "",
-        raised: 0, target: 0, pct: 0, remaining: 0, symbol: symbol
+        raised: 0, target: 0, pct: 0, remaining: 0, symbol: symbol, code: code
       };
     }
-    var raised = raisedBy[scope];
-    var target = targets[scope];
+    var usdRaised = raisedBy[scope];
+    var usdTarget = targets[scope];
+    var shownRaised = fxLocal(usdRaised, code);
+    var shownTarget = fxGoal(usdTarget, code);
     var words = { monthly: "month", weekly: "week", daily: "day" };
-  var adjectives = { monthly: "monthly", weekly: "weekly", daily: "daily" };
+    var adjectives = { monthly: "monthly", weekly: "weekly", daily: "daily" };
     var suffixes = { monthly: "this month", weekly: "this week", daily: "today" };
     return {
       scope: scope, covered: false,
       periodWord: words[scope], periodSuffix: suffixes[scope], periodAdjective: adjectives[scope],
-      raised: raised, target: target,
-      pct: Math.min(100, Math.max(0, (raised / target) * 100)),
-      remaining: Math.max(0, target - raised),
+      raised: shownRaised, target: shownTarget,
+      usdRaised: usdRaised, usdTarget: usdTarget,
+      pct: fxShare(shownRaised, shownTarget),
+      remaining: Math.max(0, shownTarget - shownRaised),
       met: false,
-      symbol: symbol
+      symbol: symbol,
+      code: code
     };
   }
 
@@ -1494,6 +1824,7 @@
   }
 
   function renderGoalAndDonors(donations) {
+    lastDonations = donations;
     renderToolbarThankYou(donations);
     var now = new Date();
     var curMonth = now.getMonth();
@@ -1509,7 +1840,6 @@
       if (d.dt && d.dt.getMonth() === curMonth && d.dt.getFullYear() === curYear && d.amount > 0) {
         currentMonthTotal += d.amount;
       }
-      // Exclude Innioasis from community donor stream - it appears in financials only
       var isCorpEntry = d.name && (d.name.toLowerCase().trim() === "innioasis" || d.name.toLowerCase().trim().indexOf("innioasis") === 0);
       if (d.amount > 0 && !isAnonymous(d.name) && !isCorpEntry) {
         var key = d.name.toLowerCase().trim();
@@ -1518,12 +1848,9 @@
       }
     }
 
-    // The period this day of the month names: the month's costs on the month's
-    // edge days, a week's (a quarter of the same costs) on the days between.
     var goal = fundingGoalView(donations, currentMonthTotal, now);
     var raisedPct = goal.pct;
 
-    /* Update Goal Bar elements with the period this day names */
     var titleEl = document.getElementById("y1-goal-title");
     var statsEl = document.getElementById("y1-goal-stats");
     var raisedBar = document.getElementById("y1-goal-bar-raised");
@@ -1531,9 +1858,6 @@
     var legRaised = document.getElementById("y1-goal-legend-raised");
     var legRem = document.getElementById("y1-goal-legend-remaining");
 
-    // A paid ladder has no outstanding rung to name, so the title, the
-    // "raised of" sentence, the "needed" line and the bar disappear together;
-    // the donor stream is the whole display then.
     var isGoalMet = goal.met;
     var goalMsg = isGoalMet
       ? "We rely on your donations to keep running. Donate now"
@@ -1549,9 +1873,6 @@
     if (legRaised) legRaised.textContent = goalMsg;
     if (legRem) legRem.textContent = "";
 
-
-    /* Populate Single-Line Rotating Contributor Stream inside panel */
-    var streamLine = document.getElementById("y1-contributor-stream-line");
     var donorsCountEl = document.getElementById("y1-donors-count");
     if (donorsCountEl) {
       var receivedCount = donations.filter(function (donation) {
@@ -1572,18 +1893,13 @@
     });
 
     donations.slice().sort(function (a, b) { return (b.dt ? b.dt.getTime() : 0) - (a.dt ? a.dt.getTime() : 0); }).forEach(function (item) {
-      // Only received community donations belong in this stream. Outgoing
-      // project payments must never reach the credit formatter.
       if (!isReceivedCommunityDonation(item)) return;
-      // Skip already summarised Top Supporters from the ticker.
       var isAnon = isAnonymous(item.name);
       var key = String(item.name || "").toLowerCase().trim();
       if (!isAnon && topSupporterKeys[key]) return;
       rawDonorLines.push(buildCreditHTML(item, false, 0, 1, false));
     });
 
-    // The ranked sponsor table is intentionally separate from the live ticker.
-    // Shuffle this sampler so the same Top Supporter does not always lead.
     for (var rawShuffleI = rawDonorLines.length - 1; rawShuffleI > 0; rawShuffleI--) {
       var rawShuffleJ = Math.floor(Math.random() * (rawShuffleI + 1));
       var rawShuffleValue = rawDonorLines[rawShuffleI];
@@ -1596,16 +1912,10 @@
       window._y1StreamInterval = null;
     }
 
-    /* Start rotating dock ticker (alternates between Twitch/Wiki-style Goal Bar and single/multi donor lines) */
     setupRotatingTicker(donations, goal, bySupporter, curMonthName);
 
-    // Feed the permanent second line with a rotating mix of supporters and
-    // the monthly goal, keeping the appeal readable without changing layout.
     if (window._y1UpdateDonationLine) {
       var donorTickerLines = rawDonorLines.slice();
-      donations.slice().sort(function (a, b) { return (b.dt ? b.dt.getTime() : 0) - (a.dt ? a.dt.getTime() : 0); }).forEach(function (item) {
-        var itemName = (item.name || "").toLowerCase().trim();
-      });
       window._y1UpdateDonationLine(goal, donorTickerLines);
     }
   }
@@ -1634,7 +1944,7 @@
       ? "We rely on your donations to keep running. Donate now"
       : fundingGoalText(goal, false);
     var goalItem = {
-      html: '<span class="y1-dock-ticker-badge y1-dock-ticker-badge--goal">Goal</span>' +
+      html: '<span class="y1-dock-ticker-badge y1-dock-ticker-badge--goal">Costs</span>' +
             '<div class="y1-dock-mini-bar" title="' + Math.round(raisedPct) + '% covered" style="display: inline-block; width: 50px; height: 6px; background: rgba(156,163,175,0.2); border: 1px solid rgba(156,163,175,0.35); border-radius: 4px; overflow: hidden; vertical-align: middle; margin-right: 6px;">' +
               '<div class="y1-dock-mini-raised" data-target-width="' + raisedPct + '%" style="width: 0%; height: 100%; background: #10b981; border-radius: 3px; transition: width 0.85s cubic-bezier(0.16, 1, 0.3, 1);"></div>' +
             '</div>' +
@@ -1642,37 +1952,34 @@
     };
 
     var donorItems = [];
-    /* Top Supporters: largest total first, including gifts at least twice the average. */
     var topSupporterKeys = {};
     getTopSupporterGroups(donations).forEach(function (group) {
       topSupporterKeys[group.name.toLowerCase()] = true;
       var list = group.items;
       var methods = Array.from(new Set(list.map(function (item) { return item.method; })));
       donorItems.push({
-        html:              '<span class="y1-dock-ticker-badge y1-dock-ticker-badge--goal">' + contributorLabel(list[list.length - 1].name, true) + '</span>' +
+        html: '<span class="y1-dock-ticker-badge y1-dock-ticker-badge--goal">' + contributorLabel(list[list.length - 1].name, true) + '</span>' +
               '<span>' + buildCreditHTML(list[list.length - 1], true, group.total, methods.length) + '</span>'
       });
     });
 
-    /* Remaining individual credits, newest first. */
     donations.slice().sort(function (a, b) { return (b.dt ? b.dt.getTime() : 0) - (a.dt ? a.dt.getTime() : 0); }).forEach(function (item) {
       var itemName = (item.name || "").toLowerCase().trim();
       if (itemName === "innioasis" || itemName.indexOf("innioasis ") === 0) return;
-      // The global donor/Thank You display is for received contributions only.
       if (item.amount <= 0) return;
       if (!isAnonymous(item.name) && topSupporterKeys[itemName]) return;
-      var badgeClass = "y1-dock-ticker-badge";
       var badgeText = item.method || contributorLabel(item.name, false);
       var mLow = (item.method || "").toLowerCase();
+      var cKind = coffeeMethod(item.method);
       var extraStyle = "";
       if (mLow === "honeygain") {
         badgeText = "Free contribution";
         extraStyle = ' style="background: rgba(16,185,129,0.25); color: #10b981; border-color: rgba(16,185,129,0.5);"';
-      } else if (mLow.indexOf("ko-fi") !== -1 || mLow.indexOf("kofi") !== -1) {
+      } else if (cKind === "bmac") {
+        badgeText = "Buy Me a Coffee";
+      } else if (cKind === "kofi") {
         badgeText = "Ko-fi";
       }
-
-      var isAnon = isAnonymous(item.name);
 
       donorItems.push({
         html: '<span class="y1-dock-ticker-badge"' + extraStyle + '>' + badgeText + '</span>' +
@@ -1680,8 +1987,6 @@
       });
     });
 
-    // The supporter table is ranked; the live ticker is intentionally not.
-    // Shuffle the donor sampler so the same Top Supporter does not always lead.
     for (var shuffleI = donorItems.length - 1; shuffleI > 0; shuffleI--) {
       var shuffleJ = Math.floor(Math.random() * (shuffleI + 1));
       var shuffleValue = donorItems[shuffleI];
@@ -1690,11 +1995,10 @@
     }
 
     var annualItem = {
-      html: '<span class="y1-dock-ticker-badge y1-dock-ticker-badge--goal">Goal</span>' +
+      html: '<span class="y1-dock-ticker-badge y1-dock-ticker-badge--goal">Costs</span>' +
             '<span>If everyone visiting today donated, we\'d be able to run for a year</span>'
     };
 
-    // Show the annual appeal every 2 donor items so it appears more frequently.
     var items = goal.covered ? [annualItem] : [goalItem, annualItem];
     var appealIdx = 1;
     donorItems.forEach(function (dItem, index) {
@@ -1773,8 +2077,6 @@
     tryNext();
   }
 
-  // The static markup carries the last-rendered shape; bring it onto the period
-  // this day of the month names before the first fetch resolves.
   (function paintInitialGoal() {
     var goal = fundingGoalView([], 0, new Date());
     var desktop = document.querySelector("#y1-dock-secondary-text .y1-dock-text-desktop");
@@ -1782,10 +2084,15 @@
     if (desktop) desktop.textContent = fundingGoalText(goal, true);
     if (mobile) {
       mobile.textContent = goal.symbol + "0 of " + goal.symbol + goal.target.toFixed(0) +
-        " raised this " + goal.periodWord;
+        " costs " + (goal.periodSuffix || ("this " + goal.periodWord));
     }
   })();
 
+  refreshFxRates(function () {
+    if (lastDonations && lastDonations.length) {
+      renderGoalAndDonors(lastDonations);
+    }
+  });
   fetchDonors();
   setInterval(fetchDonors, 60000);
 })();

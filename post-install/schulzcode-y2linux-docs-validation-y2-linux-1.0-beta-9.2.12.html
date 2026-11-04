@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 9.2.12: Bluetooth switches off at once, readable grey text in light skins - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 9.2.12: Bluetooth switches off at once, readable grey text in light skins Release 1.0.0-beta.9.2.12 , Y2Reborn 1.0.0-beta.9.2.12 , kernel 6.18.56-y2linux">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-9.2.12.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 9.2.12: Bluetooth switches off at once, readable grey text in light skins - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 9.2.12: Bluetooth switches off at once, readable grey text in light skins Release 1.0.0-beta.9.2.12 , Y2Reborn 1.0.0-beta.9.2.12 , kernel 6.18.56-y2linux">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-9.2.12.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 9.2.12: Bluetooth switches off at once, readable grey text in light skins - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 9.2.12: Bluetooth switches off at once, readable grey text in light skins Release 1.0.0-beta.9.2.12 , Y2Reborn 1.0.0-beta.9.2.12 , kernel 6.18.56-y2linux">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 9.2.12: Bluetooth switches off at once, readable grey text in light skins</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-9212-bluetooth-switches-off-at-once-readable-grey-text-in-light-skins">Y2Linux 1.0 Beta 9.2.12: Bluetooth switches off at once, readable grey text in light skins</h1>
+<p>Release <code>1.0.0-beta.9.2.12</code>, Y2Reborn <code>1.0.0-beta.9.2.12</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.9.2.12</code>, update sequence 12800, root <code>2026.08-platform-v1.226</code>. Published as GitHub release <code>baseline-203</code> (test build 203). Previous release: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.2.11.md">Beta 9.2.11</a>.</p>
+<p>This report is written for people who use the player. A short technical appendix is at the end.</p>
+<h2 id="in-one-paragraph">In one paragraph</h2>
+<p>Switching Bluetooth off could take up to 20 seconds while your saved headphones were off, and pressing the switch again in the meantime turned Bluetooth back on, so it kept cycling on and off. It now switches off at once. And since Beta 9.2.3 the grey text (Cover Flow&#x27;s details, hints, values) in light skins such as Bunny Bow was the light grey of the dark design instead of the skin&#x27;s own grey, which made it harder to read; it is the skin&#x27;s colour again (Y2Reborn #76).</p>
+<h2 id="what-changed">What changed</h2>
+<ul><li><strong>Bluetooth off:</strong> while Bluetooth is on, the player keeps trying to reach your saved headphones; when they are<p>switched off, each try takes about 18–20 seconds to fail. Switching Bluetooth off waited for that try to end, the switch did not move, and further presses were queued: once the switch-off went through, the next press turned Bluetooth on again. Now switching off goes through immediately and stops the try. Switching on waits as before.</p></li><li><strong>Going to sleep</strong> switches Bluetooth off first; that was slow for the same reason and is quicker too.</li><li><strong>Grey text in light skins</strong> (Y2Reborn #76): Beta 9.2.3 made the grey text brighter for dark screens, but skins<p>kept getting that new brighter grey instead of their own. In Bunny Bow, Paper, Cassette, Classic and the Mini skins it was pale on a pale background. Every skin&#x27;s grey text uses the skin&#x27;s colours again.</p></li></ul>
+<h2 id="how-it-was-tested">How it was tested</h2>
+<ul><li><strong>Before release:</strong> the platform&#x27;s full check, Reborn&#x27;s workspace tests and the tests of the finished release<p>images. New tests: switching Bluetooth off while a reconnect try is running goes through at once and stops the try, switching on still waits; Reborn&#x27;s text, grey and dim colours all take a light skin&#x27;s colours (this test fails without the fix).</p></li><li><strong>On the developer&#x27;s player (Beta 9.2.11):</strong> switching Bluetooth off in the middle of a reconnect try took<p>0.1 seconds instead of about 20; the try ended at once and the reconnect carried on normally afterwards.</p></li></ul>
+<h2 id="updating">Updating</h2>
+<p>Settings → System → Software Update → <strong>Update Now</strong>. Your music, playlists, settings, Wi-Fi networks and Bluetooth pairings stay. <strong>Restore Previous System</strong> (Settings → System → About, tap Version seven times, then Diagnostics) goes back to Beta 9.2.11.</p>
+<h2 id="known-issues">Known issues</h2>
+<p>Everything listed for <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.0.md%23known-issues-and-what-still-needs-your-help&amp;anchor=known-issues-and-what-still-needs-your-help">Beta 9.0</a> still applies.</p>
+<h2 id="technical-appendix">Technical appendix</h2>
+<ul><li>Linux <code>3a839b94</code>: <code>y2-bt-reconnect</code> pages an absent device for ~20 s holding <code>bt-operation.lock</code>; the<p><code>power_pending</code> Disconnect abort does not end the page on the MT6582 controller, so <code>bluetooth-power off</code> answered busy until the page timed out and Reborn retried (up to 45 s). Power off now writes <code>power_off</code> and runs <code>bluetoothctl power off</code> without the lock; on still waits. The sleep helper&#x27;s radio quiesce gains the same.</p></li><li>Reborn <code>34e3d26</code>: <code>skin::remap</code>&#x27;s table had the pre-9.2.3 <code>#A0A4AE</code> / <code>#848894</code>; it now takes <code>color::MUTED</code> and<p><code>color::DIM</code> from the theme.</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

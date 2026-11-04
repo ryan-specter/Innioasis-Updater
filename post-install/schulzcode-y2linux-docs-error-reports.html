@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Error reports - Innioasis Updater</title>
+  <meta name="description" content="Error reports When something goes wrong on your player no charging, a crash, sound or display trouble, an error report gives the maintainer the player's logs and technica">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-error-reports.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Error reports - Innioasis Updater">
+  <meta property="og:description" content="Error reports When something goes wrong on your player no charging, a crash, sound or display trouble, an error report gives the maintainer the player's logs and technica">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-error-reports.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Error reports - Innioasis Updater">
+  <meta name="twitter:description" content="Error reports When something goes wrong on your player no charging, a crash, sound or display trouble, an error report gives the maintainer the player's logs and technica">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Error reports</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="error-reports">Error reports</h1>
+<p>When something goes wrong on your player (no charging, a crash, sound or display trouble), an error report gives the maintainer the player&#x27;s logs and technical details in one file. You decide whether reports are sent: since Beta 8.10 the player can send them over Wi-Fi if you turn that on, and you can always save one and send it yourself.</p>
+<h2 id="send-reports-over-wi-fi-beta-810-and-later">Send reports over Wi-Fi (Beta 8.10 and later)</h2>
+<p>After updating to Beta 8.10 the player asks once: <strong>Help Improve Y2Linux?</strong> Choose <strong>Send Reports</strong> or <strong>No Thanks</strong>. You can change it any time under Settings → <strong>System</strong> → <strong>Error Reports</strong> → <strong>Send Error Reports</strong>.</p>
+<p>With it on:</p>
+<ul><li>When something goes wrong (a crash, an unexpected restart, a failed update, sleep, display, Wi-Fi/Bluetooth or<p>storage problem), the player makes a report and sends it in the background. At most five a day.</p></li><li><strong>Send Report Now</strong> makes one at once and sends it, with its progress on screen (Collect · Clean · Send). Then<p>write in your GitHub issue what went wrong and when; the <strong>Install ID</strong> shown on the page lets the maintainer find your reports.</p></li><li>Reports go out only on Wi-Fi, never during an update and never below 15 % battery unless the player is charging.<p>Without Wi-Fi they wait (up to three days) and go out later.</p></li><li>They are sent encrypted (HTTPS) to the maintainer&#x27;s private storage and deleted there after 180 days. Your IP<p>address is not stored. To have your reports deleted earlier, open an issue with your Install ID; <strong>New ID</strong> on the page starts a new one.</p></li></ul>
+<p>With it off, nothing is collected or sent.</p>
+<h2 id="save-a-report">Save a report</h2>
+<ol><li>Settings → <strong>System</strong> → <strong>Error Reports</strong> → <strong>Save Report</strong>.</li><li>Choose <strong>Internal Storage</strong> or <strong>SD Card</strong> (only the ones the player can write to right now are listed).</li></ol>
+<p>The report is saved straight away and holds everything; say what went wrong in the GitHub issue you attach it to. The screen shows the progress (Collect · Clean · Save). (Beta 8.8 also asks what the problem is about; any answer is fine.)</p>
+<p>The player collects its logs and removes personal details, which takes about ten seconds. The file goes into an <strong>Error Reports</strong> folder on the storage you chose:</p>
+<pre><code>Internal Storage/Error Reports/y2linux-report-20261019-143205.tar.gz
+SD Card/Error Reports/y2linux-report-20261019-143205.tar.gz</code></pre>
+<h2 id="send-a-saved-report">Send a saved report</h2>
+<p>Connect the player to a computer, copy the file from the <strong>Error Reports</strong> folder over MTP (or take out the SD card) and attach it to your issue on <a href="https://github.com/SchulzCode/Y2Linux/issues" target="_blank" rel="noopener noreferrer">GitHub</a>. A report is usually about half a megabyte. A saved report never leaves the player on its own.</p>
+<h2 id="what-is-in-a-report">What is in a report</h2>
+<ul><li><strong>System:</strong> the kernel log, the crash record of the previous start, the system log, memory, processor, sleep,<p>power and storage statistics, the state of every driver and service.</p></li><li><strong>Power:</strong> battery and charger readings (voltage, charger state and faults), the power and sleep journals.</li><li><strong>Bluetooth (Beta 9.3 on):</strong> the radio daemon&#x27;s journal (every connect, disconnect with whose side ended it,<p>codec choice, recovery step) and its last state (device names and addresses replaced like everywhere else).</p></li><li><strong>Updates:</strong> update and recovery state and logs.</li><li><strong>Reborn:</strong> its logs, its last crash, its live status, and your settings (volume, EQ, output and so on).</li><li><strong>Hardware:</strong> the processor, display, storage chip and bootloader versions of your player.</li></ul>
+<h2 id="what-is-never-in-a-report">What is never in a report</h2>
+<p>Your music (no titles, artists, albums, file or folder names), playlists, Wi-Fi network names and passwords, Bluetooth device names, your Last.fm account, SSH keys, serial numbers, your IP addresses and device addresses (only the maker part of a Wi-Fi or Bluetooth address stays). The player looks up these values before it writes a report and replaces them everywhere they appear, then also replaces anything that looks like an address, an e-mail, a path to your music or a serial number. A replaced value becomes a token such as <code>&lt;ssid#3fa2c1&gt;</code>: the same value gets the same token within one report, so a log still shows that, for example, the same network came back, but the token can&#x27;t be turned back into the name.</p>
+<p>The report is a normal <code>.tar.gz</code> archive of text and JSON files. You can open it and read everything before you send it.</p>
+<h2 id="for-developers">For developers</h2>
+<pre><code class="language-sh">y2-platform report save --to internal|sd   # what Save Report runs (--topic is optional, only a label)
+y2-platform report send                    # what Send Report Now runs: build, then upload
+y2-platform report status
+y2-platform report work                    # what the platform service runs: triggers, then the upload queue</code></pre>
+<p>Design and privacy rules: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2FERROR-REPORTS-PLAN.md">ERROR-REPORTS-PLAN</a>; the receiver, its limits and costs: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Ftools%2Freports%2FREADME.md">tools/reports</a>.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

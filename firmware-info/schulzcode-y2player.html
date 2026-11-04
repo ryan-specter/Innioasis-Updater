@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>README for Y2Player (Y2) - Innioasis Updater</title>
+  <meta name="description" content="A Y2 custom Software.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/firmware-info/schulzcode-y2player.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="README for Y2Player (Y2) - Innioasis Updater">
+  <meta property="og:description" content="A Y2 custom Software.">
+  <meta property="og:url" content="https://innioasis.app/firmware-info/schulzcode-y2player.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261113readme">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261113readme">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page lumen-release-page" data-firmware-info data-repo="schulzcode/Y2Player">
+  <p class="lumen-doc-back"><a href="../firmware.html">← Firmware Downloads</a></p>
+  <header class="lumen-doc-head">
+    <div class="lumen-release-head"><span class="lumen-release-icon lumen-release-icon--generic" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></span><div class="lumen-release-titles"><p class="lumen-kicker">Firmware README · Y2</p><h1>Y2Player README</h1></div></div>
+    <p class="lumen-lead">A Y2 custom Software.</p>
+    <div class="lumen-release-tag-row"><span>Y2</span></div>
+    <div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../guides/y2player-y2.html">Open the Y2Player guide</a><a class="lumen-button" href="../firmware.html?model=Y2&amp;software=y2player-y2">Install with Updater CE</a><a class="lumen-button" href="../y2player-benefits.html">Why Y2Player?</a></div>
+  </header>
+  <section class="lumen-firmware-stats" aria-label="Project statistics"><div class="lumen-stat"><span class="lumen-stat-label">Downloads from Firmware Archive</span><strong class="lumen-stat-value" data-stat="downloads">1,759</strong></div></section>
+  <p class="lumen-meta" id="fi-stats-note"></p>
+  <article class="lumen-doc-body lumen-firmware-readme" id="fi-body"><h1 id="y2player">Y2Player</h1>
+<p><strong>Y2Player 2.3 is an offline music player and HOME launcher built specifically for the Innioasis Y2.</strong> It turns the Android 4.4 device into a focused, click-wheel-driven music player with local library browsing, a persistent playback queue, album artwork, Bluetooth audio, and a compact interface designed for the Y2&#x27;s 480 × 360 landscape display.</p>
+<p>Y2Player is for Y2 owners, firmware modders, and contributors who want a lightweight music-first replacement for the stock launcher. It works without an internet connection and does not include streaming, search, video, or cloud services.</p>
+<h2 id="project-status-and-bug-reports">Project status and bug reports</h2>
+<p>Y2Player is my first Android app. Although I test each release, the app will likely contain bugs, device-specific issues, or edge cases that I have not found yet.</p>
+<p>If you encounter a problem, please:</p>
+<ol><li>note what you were doing when the issue occurred and whether it can be reproduced;</li><li>export the diagnostics log from Y2Player as soon as possible;</li><li>open a <a href="https://github.com/SchulzCode/Y2Player/issues" target="_blank" rel="noopener noreferrer">GitHub issue</a> and attach the diagnostics log together with your Y2Player version, firmware version, and a short description of the problem.</li></ol>
+<p>The diagnostics log is especially helpful because many playback, audio-effect, Bluetooth, storage, and firmware-related problems cannot be reproduced reliably on another device. Please review the exported file before posting it publicly.</p>
+<h2 id="highlights">Highlights</h2>
+<ul><li>Browse local music by <strong>Songs, Albums, Artists, Genres, Years, Folders, Playlists, Favorites, and Recently Played</strong>.</li><li>Keep your place in <strong>Audiobooks</strong>, which are grouped by folder and resume at the minute you stopped.</li><li>Decode every advertised format through one pinned FFmpeg engine, including MP3, AAC/M4A/M4B, ALAC/M4A/M4B, FLAC, WAV/PCM, AIFF/PCM, Ogg Vorbis, and Opus.</li><li>Play individual tracks, selected batches, or complete collections and manage an explicit Up Next queue with Play Next, reordering, and removal.</li><li>Use repeat-one/repeat-all, configurable seeking, playback resume, gapless transitions, crossfade, and resume fades.</li><li>Set a sleep timer for 15, 30, or 60 minutes, or stop at the end of the current track, album, or queue.</li><li>Navigate entirely with the Y2 click wheel and hardware buttons.</li><li>Choose between the original dark interface and a light theme, and adjust left/right audio balance independently of firmware effects.</li><li>View embedded or external album artwork in library menus and on Now Playing alongside metadata, progress, output status, and playback controls.</li><li>Scan internal storage and removable SD cards, including M3U/M3U8 playlist import and export.</li><li>Pair and manage Bluetooth A2DP audio devices.</li></ul>
+<h2 id="version-23">Version 2.3</h2>
+<p>Version 2.3 makes the upcoming playback order explicit, expands library browsing, and adds bounded album-art thumbnails throughout the menu system.</p>
+<p>The release includes:</p>
+<ul><li>a rebuilt queue that keeps deliberate Up Next entries ahead of the remaining album, playlist, or shuffled collection;</li><li>queue rows that show the real upcoming order under Shuffle, with wheel-friendly Play Now, Play Next, Move, and Remove actions;</li><li>batch queue actions for albums, collections, and manually selected groups of songs;</li><li>new Genres and Years views with matching track, artist, and album navigation;</li><li>independent track, album, and year-list sorting, including chronological album order;</li><li>album-art thumbnails for visible song, album, artist, genre, year, playlist, audiobook, and queue rows;</li><li>audiobook chapters removed from ordinary music views while remaining available in the dedicated Audiobooks section;</li><li>correct parsing of repeated Vorbis <code>ARTIST</code> values exposed by FFmpeg as semicolon-separated metadata;</li><li>internal model, diagnostics, playback, queue, and controller cleanup with the complete unit-test suite passing.</li></ul>
+<p>The complete release write-up is available in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2FY2Player%2Fblob%2FHEAD%2Fdocs%2FY2PLAYER_V2_3_RELEASE_POST.md"><code>docs/Y2PLAYER_V2_3_RELEASE_POST.md</code></a>. The shorter <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2FY2Player%2Fblob%2FHEAD%2Fdocs%2FY2PLAYER_V2_3_REDDIT_POST.md">Reddit release post</a> is also kept in the repository.</p>
+<h2 id="version-221">Version 2.2.1</h2>
+<p>Version 2.2.1 improves playback and volume stability, particularly while the screen is locked, and refines navigation and the Now Playing interface.</p>
+<p>The release includes:</p>
+<ul><li>corrected volume ownership and mode transitions to prevent brief output peaks;</li><li>reliable held and screen-off volume control through an updated firmware key layout;</li><li>improved paused-session lifetime and shuffle-queue progression;</li><li>consistent Previous and Next behavior for Left and Right across every menu;</li><li>wheel acceleration, optional list wrapping, and clearer active-state indicators;</li><li>a redesigned Now Playing footer and animated circular playback-options menu;</li><li>improved metadata layout, text scrolling, album labels, and audiobook ordering.</li></ul>
+<h2 id="version-22">Version 2.2</h2>
+<p>Version 2.2 adds audiobook support and rebuilds the menu structure around the four rows the display shows at once.</p>
+<p>The release includes:</p>
+<ul><li>audiobooks on the main menu, grouped by folder, resuming at the saved position inside a chapter rather than at its start;</li><li>a chapter list, Start from Beginning, and a confirmed Clear Progress for every book;</li><li>47 vector row icons drawn as strokes with no per-frame allocation;</li><li>a reorganised main menu, Music section, and Settings tree;</li><li>menus ordered by how often each entry is opened, with reference screens such as About at the bottom;</li><li>confirmation prompts on all six irreversible actions, including Delete Playlist, Clear History, and Clear Queue;</li><li>featured artists as their own entries, and albums that no longer lose tracks when browsed by artist;</li><li>a Shuffle row on album track lists, matching every other collection;</li><li>a repository-wide comment cleanup verified to leave the compiled behaviour unchanged.</li></ul>
+<p>The complete technical release write-up is available in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2FY2Player%2Fblob%2FHEAD%2Fdocs%2FY2PLAYER_V2_2_RELEASE_POST.md"><code>docs/Y2PLAYER_V2_2_RELEASE_POST.md</code></a>.</p>
+<p>Version 2.1 improved the library scanner and refined the FFmpeg media engine using measurements collected directly on physical Y2 hardware, including a collation-correct SQLite index that made the largest measured scanner lookup 98.4% faster on a synthetic 9,178-file library.</p>
+<p>See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2FY2Player%2Fblob%2FHEAD%2FCHANGELOG.md">CHANGELOG.md</a> for the complete release history.</p>
+<h2 id="music-library-and-playback">Music library and playback</h2>
+<p>The library is built from audio files on the Y2&#x27;s internal music storage and removable SD card. FFmpeg is the sole metadata backend as well as the playback engine; metadata is stored locally in SQLite, and incremental rescans extract metadata only for new or changed files. Scans inspect bounded container data without opening a decoder, while embedded artwork is extracted and downsampled only when requested.</p>
+<p>Scanning runs on a dedicated background worker, reports visible progress, and holds a scan-only partial wake lock so a long index is not interrupted when the screen turns off. The lock is released when scanning completes. The 2.1 database index and larger bounded batches reduce the dominant large-library lookup by 98.4%; an unchanged synthetic 9,178-file library measured 19.070 seconds instead of 42.106 seconds on the physical device.</p>
+<p>Library views include:</p>
+<ul><li>all songs, albums, artists, and folders;</li><li>Favorites and Recently Played smart lists;</li><li>user-created playlists;</li><li>M3U and M3U8 playlist import/export, including relocation of portable Windows, macOS, and Linux paths;</li><li>configurable title, artist, album, recently-added, or file-modified sorting where applicable.</li></ul>
+<p>Playback includes a persistent queue, shuffle, repeat one/all, previous/next behavior, short and held seeking, saved resume position, audio-focus handling, and safe pause when storage or a protected audio route disappears. Shuffle All plays one complete randomized pass of the library, then automatically creates a fresh pass. Gapless playback preloads the next track; configurable crossfade takes priority when enabled.</p>
+<h2 id="controls">Controls</h2>
+<table><thead><tr><th>Control</th><th>Library and menus</th><th>Now Playing</th></tr></thead><tbody><tr><td>Wheel counterclockwise / clockwise</td><td>Move focus up / down</td><td>Adjust volume</td></tr><tr><td>Center</td><td>Open or confirm</td><td>Play / pause</td></tr><tr><td>Hold Center</td><td>Open contextual track options</td><td>Open playback options</td></tr><tr><td>Left / Right</td><td>Back / open contextual destination</td><td>Previous / next track</td></tr><tr><td>Hold Left / Right</td><td>—</td><td>Seek backward / forward repeatedly</td></tr><tr><td>Back button</td><td>Return to the previous screen</td><td>Return to the previous screen</td></tr><tr><td>Play button</td><td>Play / pause</td><td>Play / pause</td></tr><tr><td>Volume Up / Down</td><td>Adjust the configured system or in-app volume</td><td>Adjust the configured system or in-app volume</td></tr></tbody></table>
+<h3 id="screen-off-and-lock-behavior">Screen-off and lock behavior</h3>
+<p>When the display is off or Android&#x27;s keyguard is locked, Y2Player blocks the device&#x27;s click wheel, navigation buttons, and local Play button by default. <strong>Power, Volume, and genuine Bluetooth headset controls remain active.</strong> The optional <strong>Wheel When Screen Off</strong> setting also keeps the local controls active, at the cost of allowing accidental pocket presses. Playback itself continues with the display off.</p>
+<h2 id="interface-and-artwork">Interface and artwork</h2>
+<p>The main interface is a low-overhead custom-drawn view sized around the Y2&#x27;s landscape panel and physical focus navigation. Home keeps four primary destinations: Music, Shuffle All, Audio, and Settings. Music contains the library views; Audio groups Playback and Sound; Settings contains Bluetooth and separates Interface, Library, and System preferences. Now Playing shows embedded artwork when available, a fallback graphic otherwise, title/artist/album information, progress and time, playback state, output-route warnings, and cautious DAC information.</p>
+<h3 id="screenshots">Screenshots</h3>
+<table>
+  <tr>
+    <th align="center">Library</th>
+    <th align="center">Now Playing</th>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="https://github.com/user-attachments/assets/239abe49-dc50-4fdc-83db-b6b2faca1ab3" alt="Y2Player library screen" width="100%" />
+    </td>
+    <td align="center" width="50%">
+      <img src="https://github.com/user-attachments/assets/ca908848-3149-4b7f-8b3a-b9b1e27a9ae0" alt="Y2Player Now Playing screen" width="100%" />
+    </td>
+  </tr>
+</table>
+<h2 id="bluetooth-audio">Bluetooth audio</h2>
+<p>Y2Player integrates with Android 4.4&#x27;s Bluetooth A2DP and legacy remote-control APIs. The in-app Bluetooth screen can enable Bluetooth, discover audio devices, pair, connect/disconnect, forget bonds, and refresh the A2DP service.</p>
+<p>Transport buttons and AVRCP metadata are supported through the API 19 media-button and remote-control interfaces. Losing an active Bluetooth route pauses playback rather than leaking audio to the speaker; reconnecting requires an explicit Play command.</p>
+<h2 id="audio-quality-and-sound-effects">Audio quality and sound effects</h2>
+<p>ReplayGain is available under Playback in three modes:</p>
+<ul><li><strong>Album Gain</strong> preserves the intended loudness differences within an album;</li><li><strong>Track Gain</strong> normalizes each track independently;</li><li><strong>Track Gain while shuffling</strong> uses Album Gain in normal queue order and Track Gain while shuffle is active.</li></ul>
+<p>Y2Player reads the standard track/album gain and peak tags exported by FFmpeg. If the selected gain is missing, it falls back to the other tagged gain; if neither is present, that track plays unchanged. Matching peak tags cap positive gain where possible. Audio remains float32 through ReplayGain, balance, fades, ducking, and crossfade, then clips and quantizes once at the final PCM16 AudioTrack boundary. Y2Player does not calculate ReplayGain itself, so untagged files must be analyzed and tagged by another tool. Files without peak tags cannot receive metadata-based clipping prevention.</p>
+<p>Two output preferences are available:</p>
+<ul><li><strong>Balanced</strong> uses the normal Android audio path and can enable supported app-session effects.</li><li><strong>Direct DAC (experimental)</strong> records the requested profile but currently falls back explicitly to the same standard AudioTrack output. It is not a mixer-bypass or direct PCM path.</li></ul>
+<p>Equalizer presets, custom equalizer bands, bass boost, and loudness appear only when Android reports compatible effects for the playback session. Availability and behavior therefore depend on the installed firmware.</p>
+<p>The generated 2.1 firmware contains an audited, guarded primary-audio HAL hook for the recovered 44.1/48 kHz CS43131 frequency command. This is controlled groundwork only: Y2Player still renders 44.1 kHz stereo PCM16 through AudioTrack, AudioFlinger, the MediaTek audio HAL, and the kernel driver. Direct DAC is not a bit-perfect, high-resolution, native-DSD, or Android-mixer-bypass guarantee.</p>
+<h2 id="storage-diagnostics-and-recovery">Storage, diagnostics, and recovery</h2>
+<ul><li>Scans common Y2 internal-storage and removable-SD mount points and retains metadata when a volume is temporarily unavailable.</li><li>Reacts safely to Android mount, unmount, and media-scanner events. USB/storage status is diagnostic and read-only; Y2Player does not switch USB modes.</li><li>Provides manual library rescanning, bounded structured logs, confirmed diagnostic clearing, local diagnostic export, and a build-derived report of the native decoder and output capabilities.</li><li>Provides a manual, versioned Backup &amp; Restore file on the removable card (or the existing writable Y2Player export location).</li><li>Supports standard Linux <code>adb</code> tools for device installation and live diagnostics.</li><li>Enters Safe Mode after repeated incomplete launcher starts, or on request. Safe Mode suppresses automatic scanning, Bluetooth management, and session restoration so the UI can recover.</li></ul>
+<h3 id="backup-contents">Backup contents</h3>
+<p>The backup includes Y2Player interface, playback, volume, audio-effect and control settings; favorites; Y2Player-created playlists and their track order; audiobook progress; recently-played timestamps and counts; the saved queue/session; and the bounded listening-history file. Media references use normalized storage-volume and relative-path identities so they can be reconciled after a rescan changes database IDs or an SD card is mounted under a different alias.</p>
+<p>It intentionally excludes the scanned library/metadata database, scanner-owned M3U playlists, artwork and temporary caches, diagnostics, APK/native files, database recovery copies, media files, safe-mode crash counters, and Android-owned settings. Card M3U files remain authoritative and are preserved while user-created playlists are restored transactionally.</p>
+<h2 id="privacy-and-offline-operation">Privacy and offline operation</h2>
+<p>Y2Player has no <code>INTERNET</code> permission. Music, metadata, preferences, playlists, playback state, artwork, and diagnostics stay on the device. There is no account, analytics SDK, telemetry service, cloud library, or automatic upload. Exported diagnostics are files created locally for the user to inspect or copy.</p>
+<h2 id="compatibility">Compatibility</h2>
+<table><thead><tr><th>Item</th><th>Support</th></tr></thead><tbody><tr><td>Primary device</td><td>Innioasis Y2, MediaTek MT6582 family</td></tr><tr><td>Display target</td><td>480 × 360 landscape</td></tr><tr><td>Android</td><td>Android 4.4.2 / API 19 (<code>minSdk</code> and <code>targetSdk</code> 19)</td></tr><tr><td>Navigation</td><td>Y2 click wheel and physical buttons</td></tr><tr><td>Storage</td><td>Internal music storage and removable SD card</td></tr><tr><td>Network</td><td>Not required; the app has no internet permission</td></tr></tbody></table>
+<p>Every playable format uses the same pinned FFmpeg engine. The scanner, playback engine, and capabilities screen share one support contract:</p>
+<table><thead><tr><th>Extensions</th><th>Container / codec</th><th>Status</th></tr></thead><tbody><tr><td><code>.mp3</code></td><td>MP3</td><td>Playable</td></tr><tr><td><code>.aac</code></td><td>ADTS AAC-LC</td><td>Playable</td></tr><tr><td><code>.m4a</code>, <code>.m4b</code>, <code>.m4r</code></td><td>AAC-LC or ALAC in MOV/MP4</td><td>Playable</td></tr><tr><td><code>.flac</code></td><td>FLAC</td><td>Playable</td></tr><tr><td><code>.wav</code>, <code>.wave</code></td><td>Allowlisted integer/float PCM</td><td>Playable</td></tr><tr><td><code>.ogg</code>, <code>.oga</code></td><td>Vorbis or Opus</td><td>Playable</td></tr><tr><td><code>.opus</code></td><td>Opus</td><td>Playable</td></tr><tr><td><code>.aif</code>, <code>.aiff</code>, <code>.aifc</code></td><td>Allowlisted AIFF PCM</td><td>Playable</td></tr><tr><td>A-law WAV</td><td>G.711 A-law</td><td>Indexed, decoder not included</td></tr><tr><td>WMA, APE, MP2, AMR, WavPack, AC-3, MKA</td><td>Various</td><td>Not enabled</td></tr></tbody></table>
+<p>The precise codec and container policy is maintained in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2FY2Player%2Fblob%2FHEAD%2Fdocs%2FFORMAT_SUPPORT_MATRIX.md">docs/FORMAT_SUPPORT_MATRIX.md</a>. A recognized extension alone does not make a malformed or unsupported variant playable.</p>
+<h2 id="build-the-app">Build the app</h2>
+<h3 id="requirements">Requirements</h3>
+<ul><li>JDK 17 or newer;</li><li>Android SDK Platform 36 and Android Build Tools;</li><li>an SDK path in <code>local.properties</code> (see <code>local.properties.example</code>);</li><li>Linux with <code>bash</code>, <code>make</code>, <code>unzip</code>, <code>patch</code>, <code>curl</code>, and <code>sha256sum</code>;</li><li>Internet access for the first verified native bootstrap; later builds use the cache.</li></ul>
+<p>Build the pinned API-19 ARMv7 runtime, then test, lint, and package a debug APK:</p>
+<pre><code class="language-bash">./tools/build-linux.sh native
+./tools/build-linux.sh app</code></pre>
+<p>The APK is written to:</p>
+<pre><code class="language-text">app/build/outputs/apk/debug/app-debug.apk</code></pre>
+<p>The maintained build and firmware toolchain targets Linux.</p>
+<h3 id="build-a-signed-release-apk">Build a signed release APK</h3>
+<p>Copy <code>keystore.properties.example</code> to <code>keystore.properties</code>, create and back up a release keystore, and replace every example value with your own path and credentials. Android 4.4 requires the v1/JAR signature produced by the configured release build.</p>
+<p>Then run:</p>
+<pre><code class="language-bash">./tools/build-linux.sh release</code></pre>
+<p>The verified APK and checksum are staged under <code>dist/firmware/</code>. Signing material and generated release artifacts are intentionally ignored by Git.</p>
+<h3 id="build-the-secure-adb-development-image">Build the secure ADB development image</h3>
+<p>The optional ADB pipeline is separate from the release <code>system.img</code> pipeline. It builds a static API-19 ARM <code>adbd</code> from pinned official Android 4.4.2 sources and inserts it into a verified copy of the stock MediaTek boot image. The result keeps USB mass storage, RSA authorization, a non-root shell, and the production security properties.</p>
+<pre><code class="language-bash">./tools/build-linux.sh adb-boot</code></pre>
+<p>Outputs and verification reports are written to <code>out/boot-adb/</code>. This image is for development and requires its own BOOTIMG-only flashing procedure; it is not generated or flashed by the normal firmware build. Read <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2FY2Player%2Fblob%2FHEAD%2Fdocs%2FADB_BOOT_IMAGE.md">docs/ADB_BOOT_IMAGE.md</a> before using it.</p>
+<h2 id="install-on-a-device">Install on a device</h2>
+<h3 id="flash-the-modified-system-image-with-sp-flash-tool">Flash the modified system image with SP Flash Tool</h3>
+<blockquote><p>[!WARNING] Flashing modified firmware can permanently damage or brick your device if the wrong file, partition, or flashing mode is selected. Proceed entirely at your own risk. I am not responsible for damaged devices, lost data, failed flashes, or any other consequences.</p>
+<p><strong>Read this entire guide carefully before starting. Do not continue until you understand every step. Work slowly, verify every selection, and never guess.</strong></p></blockquote>
+<h4 id="downloads">Downloads</h4>
+<ul><li><a href="https://spflashtool.com/" target="_blank" rel="noopener noreferrer">SP Flash Tool</a></li><li>MediaTek Driver </li><li><a href="https://innioasis.app/release_notes.html?author=y1-community&amp;project=y1-stock-rom&amp;version=3.1.7&amp;software=original-y1">Original Y2 stock firmware 3.1.7</a></li></ul>
+<h4 id="requirements">Requirements</h4>
+<ul><li>an <strong>Innioasis Y2</strong> with the matching stock firmware version;</li><li>the modified <code>system.img</code> from the Y2Player GitHub Release;</li><li>the matching original <code>MT6582_Android_scatter.txt</code> file from the <a href="https://innioasis.app/release_notes.html?author=y1-community&amp;project=y1-stock-rom&amp;version=3.1.7&amp;software=original-y1">original Y2 stock firmware</a>;</li><li><a href="https://spflashtool.com/" target="_blank" rel="noopener noreferrer">SP Flash Tool</a>;</li><li>the required MediaTek USB drivers;</li><li>a verified copy of the complete original firmware so the device can be restored if necessary.</li></ul>
+<h4 id="before-flashing">Before flashing</h4>
+<ol><li>Back up any important files from the Y2.</li><li>Keep the complete original firmware and matching scatter file in a safe location.</li><li>Confirm that the downloaded release is intended for the Innioasis Y2 and your firmware base.</li><li>Verify the SHA-256 checksum supplied with the release.</li><li>Fully charge the Y2 before beginning.</li><li>Read all remaining steps before opening SP Flash Tool.</li></ol>
+<p>The current image retains Android&#x27;s <code>Provision.apk</code>, and Y2Player deliberately does not outrank the provisioning activity during a blank-userdata first boot. A device whose <code>userdata</code> was previously reset can therefore complete initial provisioning directly with Y2Player installed; booting the stock launcher first is no longer required. For an ordinary upgrade, leave <code>userdata</code> untouched and flash only <code>system.img</code> as described below.</p>
+<h4 id="flashing-steps">Flashing steps</h4>
+<ol><li>Extract the Y2Player release ZIP.</li><li>Install the MediaTek Driver MediaTek Driver</li><li>Open <a href="https://spflashtool.com/" target="_blank" rel="noopener noreferrer">SP Flash Tool</a>.</li><li>Load the matching original <code>MT6582_Android_scatter.txt</code> file.</li><li>Select <strong>Download Only</strong> from the flashing-mode menu.</li><li>Remove every partition checkmark.</li><li>Enable <strong>only</strong> the <code>ANDROID</code> partition.</li><li>In the <code>ANDROID</code> row, select the modified Y2Player <code>system.img</code>.</li><li>Carefully verify the configuration before continuing:<ul><li>mode is <strong>Download Only</strong>;</li><li>only <code>ANDROID</code> is checked;</li><li><code>ANDROID</code> points to the modified Y2Player <code>system.img</code>;</li><li>no other partition is selected.</li></ul></li><li>Turn the Y2 completely off.</li><li>Click <strong>Download</strong> in SP Flash Tool.</li><li>Connect the powered-off Y2 to the computer with a reliable USB data cable.</li><li>Wait until SP Flash Tool displays the green success indicator.</li><li>Disconnect the USB cable and start the Y2.</li><li>Allow extra time for the first boot.</li></ol>
+<h4 id="never-select-these-partitions">Never select these partitions</h4>
+<p>Do not flash or format any unrelated partition, including:</p>
+<pre><code class="language-text">PRELOADER
+MBR
+EBR1
+EBR2
+UBOOT
+BOOTIMG
+RECOVERY
+SEC_RO
+LOGO
+CACHE
+USRDATA
+NVRAM</code></pre>
+<p>Do not use <strong>Format All + Download</strong> or <strong>Firmware Upgrade</strong>. For this installation, use <strong>Download Only</strong> and flash only <code>ANDROID</code>.</p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b1a7c479-ff63-4ce0-995a-f83b826f535c" alt="SP Flash Tool configured to flash only the ANDROID partition" width="900" />
+</p>
+<p align="center"><em>SP Flash Tool configured with only the ANDROID partition selected.</em></p>
+<h4 id="restoring-the-original-firmware">Restoring the original firmware</h4>
+<p>If the modified system does not boot or function correctly:</p>
+<ol><li>Turn the device off.</li><li>Open SP Flash Tool.</li><li>Load the matching original scatter file.</li><li>Select <strong>Download Only</strong>.</li><li>Select only the original <code>ANDROID</code> partition and original <code>system.img</code>.</li><li>Flash it using the same careful procedure described above.</li></ol>
+<p>Do not restore additional partitions unless a verified device-specific recovery guide explicitly requires them.</p>
+<h3 id="build-the-system-image-yourself">Build the system image yourself</h3>
+<p>The repository can also build a minimized, system-partition-only image from your own matching stock firmware. It replaces the stock launcher with the signed APK at <code>/system/priv-app/Y2Player.apk</code>, installs the byte-identical Android 4.4 runtime at <code>/system/lib/liby2audio.so</code>, applies the exact-hash-guarded primary-audio HAL frequency-hook patch described above, and prunes 35 standalone media, utility, wallpaper, phone-UI, and engineering packages that are not used by the player appliance.</p>
+<p>The package policy is intentionally conservative. Provisioning, Settings, SystemUI, Keyguard, storage/media providers, Bluetooth, input, package-management, thermal/battery, and underlying framework services remain in the image. Both the integrator and independent verifier use the same policy: optional APK/ODEX files must be absent, critical APKs must be present, and freed ext4 blocks must be zero before sparse repacking.</p>
+<p>Provide:</p>
+<pre><code class="language-text">OriginalFirmware/system.img
+OriginalFirmware/MT6582_Android_scatter.txt</code></pre>
+<p>Validate the host environment without producing an image:</p>
+<pre><code class="language-bash">./tools/build-linux.sh firmware-validate</code></pre>
+<p>Build and verify the release APK and replacement system image:</p>
+<pre><code class="language-bash">./tools/build-linux.sh system-image</code></pre>
+<p>This requires Python 3 and Linux <code>e2fsprogs</code> in addition to the Android build requirements. Successful outputs are written to <code>out/firmware/</code>, including <code>Y2Player.apk</code>, <code>system.img</code>, checksums, a manifest, and an independent verification report. The verifier reopens the sparse image and checks the embedded APK, native runtime, patched HAL, package-pruning policy, retained critical packages, ext4 structure, partition size, ownership, modes, SELinux labels, uniqueness, and SHA-256 readback.</p>
+<p>The build script only creates files. It never flashes, pushes, reboots, emits a boot image, or modifies the original firmware inputs.</p>
+<h3 id="build-an-innioasis-updater-release">Build an Innioasis Updater release</h3>
+<p>To create the complete release archive accepted by the <a href="https://github.com/y1-community/Innioasis-Updater" target="_blank" rel="noopener noreferrer">Innioasis Updater</a>, run:</p>
+<pre><code class="language-bash">./tools/build-linux.sh firmware</code></pre>
+<p>This single command first runs the Linux system-image pipeline, so the signed APK and <code>system.img</code> are always rebuilt from the current source. It then combines the new system image with the guarded stock Y2 partition set, converts the filesystem images to raw form, adds the portable flashing tool, and produces a maximum-Deflate flat archive at <code>out/updater/rom_y2.zip</code>. The known-good flashing-tool template is downloaded and SHA-256 verified on the first run, then kept under <code>build/downloads/</code> for subsequent releases. The underlying <code>tools/firmware/build_full_package.py</code> command also accepts <code>--template</code> for an offline copy.</p>
+<p>The output directory contains:</p>
+<pre><code class="language-text">rom_y2.zip
+checksums.txt
+build-manifest.txt
+verification-report.txt</code></pre>
+<p>Upload <code>rom_y2.zip</code> to the GitHub release without renaming it. The updater only recognizes the Y2 package under that exact name. The script never uploads or flashes anything itself.</p>
+<blockquote><p>[!WARNING] <code>rom_y2.zip</code> is a full-device ROM package and its installation erases user data. The separate sparse <code>out/firmware/system.img</code> remains available for the existing system-only SP Flash Tool update procedure.</p></blockquote>
+<p>Validate all local ROM inputs and tools without building or downloading the template:</p>
+<pre><code class="language-bash">./tools/build-linux.sh firmware-validate</code></pre>
+<h2 id="known-limitations">Known limitations</h2>
+<ul><li>Y2Player is designed for the Innioasis Y2 and is not presented as a general-purpose Android player or launcher.</li><li>Decoder and container support is the pinned FFmpeg allowlist above; malformed or unsupported content can still fail despite a recognized extension.</li><li>An unchanged-library scan still traverses directories, stats files, updates scan-generation state, and reloads the index. Avoiding that work safely requires a larger change-detection design.</li><li>Bluetooth on stock KitKat is limited by the firmware stack: typically SBC A2DP, one sink at a time, no BLE Audio, and no synchronized absolute volume. Some connection-management operations depend on hidden OEM APIs and may require Android Settings.</li><li>Bluetooth discovery can briefly degrade active A2DP audio on older hardware.</li><li>The Direct DAC preference still uses standard 44.1 kHz stereo PCM16 AudioTrack output. The guarded HAL frequency hook is groundwork and does not enable bit-perfect playback, native DSD, high-rate PCM, or an Android-mixer bypass.</li><li>Equalizer, bass boost, loudness, haptics, storage aliases, route reporting, and final audio-output behavior are hardware/firmware dependent.</li><li>The firmware pipeline requires the correct stock Y2 <code>system.img</code> and scatter file; these proprietary inputs are not generated by the project.</li><li>Prebuilt system images are firmware-specific and must only be flashed on the supported Innioasis Y2 firmware base identified by the release.</li></ul>
+<h2 id="contributing">Contributing</h2>
+<p>Contributions should preserve Android 4.4/API 19 compatibility, physical-control navigation, offline operation, and the project&#x27;s small CPU/heap footprint. Before submitting a change, run:</p>
+<pre><code class="language-bash">./tools/build-linux.sh app</code></pre>
+<p>Hardware-dependent changes should describe the Y2 firmware version and include diagnostic evidence where possible.</p>
+<h2 id="license">License</h2>
+<p>Y2Player is available under the <a href="https://github.com/schulzcode/Y2Player/blob/HEAD/LICENSE" target="_blank" rel="noopener noreferrer">MIT License</a>. Copyright © 2026 Luca Schulz.</p>
+<h2 id="community-skins">Community skins</h2>
+<p>Y2Player includes three file-driven version 2 skins: <strong>Neon Grid</strong>, <strong>Pixel Garden</strong>, and <strong>Studio Deck</strong>. Choose one under Settings → Interface → Display → Skin. Custom skin folders go in <code>Y2Player/Skins</code> on readable internal storage or SD card; use <strong>Reload Skins</strong> after editing. Classic remains available as a fallback. See the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2FY2Player%2Fblob%2FHEAD%2Fapp%2Fsrc%2Fmain%2Fassets%2Fskins%2FREADME.md">skin authoring guide</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2FY2Player%2Fblob%2FHEAD%2Fdocs%2Fskins%2FFORMAT_V2.md">version 2 reference</a>, and <a href="https://github.com/schulzcode/Y2Player/blob/HEAD/app/src/main/assets/skins/neon-grid/skin.json" target="_blank" rel="noopener noreferrer">Neon Grid example</a>.</p></article>
+</main>
+<div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../firmware-info.js?v=20261113downloads" defer></script>
+<script src="../nav.js?v=20261113noticefilter" defer></script>
+<script src="../site-i18n.js?v=20261113blocklist" defer></script>
+</body></html>

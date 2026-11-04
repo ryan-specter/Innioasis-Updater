@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2 Rockbox Beta V2 Release - Innioasis Updater</title>
+  <meta name="description" content="Y2 Rockbox Beta V2 Release Updated: 2026-09-06 Tag: v0.2.0-beta Public release: <https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/tag/v0.2.0-beta Immutable release ident">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/spycemagic-y2-rockbox-00_project_docs-y2_rockbox_beta_v2_release.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2 Rockbox Beta V2 Release - Innioasis Updater">
+  <meta property="og:description" content="Y2 Rockbox Beta V2 Release Updated: 2026-09-06 Tag: v0.2.0-beta Public release: <https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/tag/v0.2.0-beta Immutable release ident">
+  <meta property="og:url" content="https://innioasis.app/post-install/spycemagic-y2-rockbox-00_project_docs-y2_rockbox_beta_v2_release.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2 Rockbox Beta V2 Release - Innioasis Updater">
+  <meta name="twitter:description" content="Y2 Rockbox Beta V2 Release Updated: 2026-09-06 Tag: v0.2.0-beta Public release: <https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/tag/v0.2.0-beta Immutable release ident">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=rockbox-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Rockbox-Y2 · Y2</p><h1>Y2 Rockbox Beta V2 Release</h1><p class="lumen-lead">The Y2 Rockbox build. Select Y2 before choosing this Software.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=rockbox-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=rockbox-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2-rockbox-beta-v2-release">Y2 Rockbox Beta V2 Release</h1>
+<p>Updated: 2026-09-06</p>
+<p>Tag: <code>v0.2.0-beta</code></p>
+<p>Public release:</p>
+<https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/tag/v0.2.0-beta>
+<h2 id="immutable-release-identity">Immutable release identity</h2>
+<ul><li>Candidate parent commit: <code>7E50B1A8FAABC810669B0753282A89206371D20B</code></li><li>Rockbox source commit: <code>5073CC9D380F8D01016ACE6DCEEA89E0684038C1</code></li><li>macOS asset: <code>Y2-Rockbox-Beta-v0.2.0-UPDATE-ONLY.zip</code></li><li>Windows asset: <code>Y2-Rockbox-Beta-v0.2.0-Windows-UPDATE-ONLY.zip</code></li><li>Size: 361,774,260 bytes each</li><li>SHA-256: <code>409DDB4D2D18111FB8C3AB619F10F04B916B6B2A3FC04D1D38011324563F326A</code></li></ul>
+<p>The two platform files are byte-identical Class A state-preserving updates. Their separate names let each guarded updater bind to the exact qualified delivery contract. This corrected identity replaces every earlier Beta V2 flash archive.</p>
+<p>The archive contains only the Y2 scatter, UBOOT, BOOTIMG, RECOVERY, LOGO, ANDROID, its signed update contract, and internal checksums. PRELOADER, partition-table images, SEC_RO, CACHE, USRDATA, and protected/runtime partitions are absent.</p>
+<h2 id="highlights-since-beta-v1">Highlights since Beta V1</h2>
+<ul><li>Bluetooth Settings, pairing, A2DP playback, controls, disconnect, and<p>reconnect from Rockbox and Stock.</p></li><li>Held Previous/Next seeking and optional held-Volume track skipping.</li><li>Persistent time/date without UI freeze.</li><li>Adjustable Rockbox wheel haptics, including true-off, independent from Stock.</li><li>Reliable first-connect and repeated USB Storage lifecycle on both routes.</li><li>Cleaner boot presentation and reliable saved Rockbox/Stock routing.</li><li>Centre wake, long-Centre Now Playing context, and improved Back/Database<p>navigation.</p></li><li>PictureFlow cache recovery and a functional album carousel.</li></ul>
+<h2 id="physical-qualification">Physical qualification</h2>
+<p>The exact firmware passed separate end-to-end macOS and Windows updater routes, each beginning from freshly restored official Stock 3.1.7. Both routes wrote only UBOOT, BOOTIMG, RECOVERY, LOGO, and ANDROID and completed mandatory five-range readback verification.</p>
+<p>After the required complete unplug and one unplugged pinhole reset, the full functional matrix passed on both platforms: clean 28-second Rockbox boot, playback, controls, seeking, track navigation, screen and power sleep/wake, USB lifecycle, Stock, Boot Settings, saved routes, and shutdown.</p>
+<h2 id="required-post-flash-reset">Required post-flash reset</h2>
+<p>After verified completion, unplug the Y2 completely, power it off if necessary, and press/release the pinhole once while unplugged before normal boot. The updater-attached automatic boot can inherit temporary loader/display state and is not the qualified first boot.</p>
+<h2 id="withdrawn-routes">Withdrawn routes</h2>
+<p>Do not use or recreate <code>rom_y2.zip</code>, the old <code>InnioasisUpdater_Setup_1.1.2.exe</code>, or an earlier Beta V2 ZIP. The legacy name enters an unqualified generic full-install path. Public delivery requires the reviewed fail-closed Y2 Class A route and the exact platform assets above.</p>
+<h2 id="known-limitation-and-beta-v3">Known limitation and Beta V3</h2>
+<p>The final power-down animation can look imperfect; shutdown itself works. Beta V3 priorities include that polish, lyrics and 480x360 theme diagnostics, high-resolution FLAC stability, DAC and wired-audio qualification, PictureFlow polish, and database/playlist presentation controls. FM remains gated on a Y2 vendor baseline with a demonstrably working tuner.</p>
+<p>Device-unique readbacks and raw physical-test logs remain private. Public summaries omit device identifiers and protected partition hashes.</p></article><p class="lumen-doc-footer-note">These are Rockbox-Y2's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/spycemagic/y2-rockbox" rel="noopener">spycemagic/y2-rockbox</a> project <a class="lumen-cite" href="https://github.com/spycemagic/y2-rockbox" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aspycemagic" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Setting up a Rondo server - Innioasis Updater</title>
+  <meta name="description" content="Setting up a Rondo server Your music card and the FM radio work without a server. YouTube Music and YouTube need one: a small service that browses YouTube for the Y1 and">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/jarvissax-rondo-docs-server.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Setting up a Rondo server - Innioasis Updater">
+  <meta property="og:description" content="Setting up a Rondo server Your music card and the FM radio work without a server. YouTube Music and YouTube need one: a small service that browses YouTube for the Y1 and">
+  <meta property="og:url" content="https://innioasis.app/post-install/jarvissax-rondo-docs-server.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Setting up a Rondo server - Innioasis Updater">
+  <meta name="twitter:description" content="Setting up a Rondo server Your music card and the FM radio work without a server. YouTube Music and YouTube need one: a small service that browses YouTube for the Y1 and">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y1&amp;software=rondo-y1">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Rondo · Y1</p><h1>Setting up a Rondo server</h1><p class="lumen-lead">A lightweight, custom audio operating system for the Innioasis Y1.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y1&amp;software=rondo-y1">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y1&amp;software=rondo-y1">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="setting-up-a-rondo-server">Setting up a Rondo server</h1>
+<p>Your music card and the FM radio work without a server. YouTube Music and YouTube need one: a small service that browses YouTube for the Y1 and passes the audio and video through in a form Android 4.2 can play. You run it yourself, so it uses your own YouTube account (or none), and nothing goes through anyone else&#x27;s computer.</p>
+<p>One server serves one Y1. It needs <a href="https://docs.docker.com/get-docker/" target="_blank" rel="noopener noreferrer">Docker</a> with Compose, about 1 GB of disk, and has to stay on while you listen.</p>
+<p>It runs on regular PCs and servers (x86-64) and on 64-bit ARM, such as a Raspberry Pi 4 or 5 with the 64-bit Raspberry Pi OS, or most NAS boxes. 32-bit systems don&#x27;t work, because the tools it uses to reach YouTube aren&#x27;t made for them. So far it has been tested on x86-64 only.</p>
+<h2 id="where-to-run-it">Where to run it</h2>
+<table><thead><tr><th></th><th>At home</th><th>On a VPS</th></tr></thead><tbody><tr><td>Runs on</td><td>a computer, NAS or Raspberry Pi on your Wi-Fi (see below)</td><td>a rented server, with a domain name</td></tr><tr><td>The Y1 can use it</td><td>on your home Wi-Fi</td><td>anywhere it has Wi-Fi</td></tr><tr><td>Address</td><td><code>http://192.168.1.10:3000</code></td><td><code>https://music.example.com</code></td></tr><tr><td>Compose file</td><td><code>infra/compose.home.yaml</code></td><td><code>infra/compose.vps.yaml</code></td></tr></tbody></table>
+<p>At home is simplest. Pick a VPS if you want YouTube on the Y1 away from home too.</p>
+<h2 id="at-home">At home</h2>
+<p>Install Docker, then in a terminal:</p>
+<pre><code class="language-bash">git clone https://github.com/jarvissax/rondo.git
+cd rondo
+docker compose -f infra/compose.home.yaml up -d</code></pre>
+<p>Docker downloads the ready-made server (for regular PCs and 64-bit ARM like a Raspberry Pi 4 or 5) and starts it, with a small companion that installs its updates later. When it&#x27;s running, get the one-time setup code:</p>
+<pre><code class="language-bash">docker logs rondo | grep &quot;Rondo setup&quot;</code></pre>
+<p>You&#x27;ll also need this computer&#x27;s address on your network (something like <code>192.168.1.10</code>). Give it a fixed address in your router&#x27;s settings, often called a &quot;DHCP reservation&quot;. Otherwise it can change one day and the Y1 loses the server.</p>
+<p>Your server&#x27;s address is <code>http://&lt;that address&gt;:3000</code>. Carry on with [Finish the setup](#finish-the-setup).</p>
+<h2 id="on-a-vps">On a VPS</h2>
+<p>You need:</p>
+<ul><li>a VPS with Docker; a small one is enough,</li><li>a domain or subdomain whose DNS <code>A</code> record points at the VPS (for example<p><code>music.example.com</code>),</p></li><li>ports 80 and 443 free on the VPS.</li></ul>
+<pre><code class="language-bash">git clone https://github.com/jarvissax/rondo.git
+cd rondo
+echo &quot;RONDO_DOMAIN=music.example.com&quot; &gt; infra/.env
+docker compose -f infra/compose.vps.yaml up -d
+docker logs rondo | grep &quot;Rondo setup&quot;</code></pre>
+<p>This starts the server and <a href="https://caddyserver.com" target="_blank" rel="noopener noreferrer">Caddy</a> in front of it. Caddy gets a certificate from Let&#x27;s Encrypt and speaks the older kind of HTTPS that Android 4.2 still understands (see the comments in <code>infra/Caddyfile</code>). You can check that from any computer:</p>
+<pre><code class="language-bash">openssl s_client -connect music.example.com:443 -tls1_2 -cipher ECDHE-RSA-AES128-SHA &lt;/dev/null</code></pre>
+<p>It should print a certificate chain and <code>Verify return code: 0 (ok)</code>.</p>
+<p>Two things that break the Y1&#x27;s connection:</p>
+<ul><li><strong>Cloudflare&#x27;s proxy.</strong> If your DNS is on Cloudflare, set the record to &quot;DNS only&quot; (grey cloud).<p>Cloudflare&#x27;s HTTPS doesn&#x27;t offer what Android 4.2 needs.</p></li><li><strong>Another web server&#x27;s defaults.</strong> If the VPS already runs Caddy or nginx on 80/443, use<p><code>compose.home.yaml</code> behind it instead, and give your site the <code>tls</code> settings from <code>infra/Caddyfile</code>. For nginx, allow TLS 1.2 with <code>ECDHE-RSA-AES128-SHA</code> and use an RSA certificate.</p></li></ul>
+<p>Your server&#x27;s address is <code>https://music.example.com</code>.</p>
+<h2 id="finish-the-setup">Finish the setup</h2>
+<ol><li><strong>Admin page:</strong> open <code>&lt;your server&#x27;s address&gt;/admin</code> in a browser. Enter the setup code from<p>the log and choose an admin password.</p></li><li><strong>Connect the Y1:</strong> on the admin page, go to <strong>Device</strong> and press <strong>Connect a Rondo</strong>. It shows<p>a 6-digit code, good for 10 minutes.</p></li><li>On the Y1, open <strong>Settings › Server › Connect to a server</strong>. Type your server&#x27;s address and,<p>on the next screen, the code from step 2. (Typing is quicker in the dashboard: open **Settings › Dashboard<strong> on the Y1, the address it shows on your phone or computer, then its </strong>Server** page.)</p></li></ol>
+<p><strong>Settings › Server</strong> on the Y1 now says it&#x27;s connected; <strong>Connection test</strong> checks it. YouTube Music and YouTube are ready.</p>
+<h2 id="the-admin-page">The admin page</h2>
+<p align="center"><img src="https://raw.githubusercontent.com/jarvissax/rondo/HEAD/docs/images/admin.png" width="720" alt="The server's admin page"></p>
+<p>Open <code>&lt;your server&#x27;s address&gt;/admin</code> any time to see how things are going. A sign-in lasts 12 hours.</p>
+<ul><li><strong>Overview:</strong> whether everything works, from the Y1 through the server to YouTube, and what<p>to do when something doesn&#x27;t.</p></li><li><strong>YouTube account:</strong> sign in with a code, add or replace cookies.txt, or sign out.</li><li><strong>Device:</strong> the connected Y1, when it was last seen, and buttons to connect a different one or<p>disconnect it.</p></li><li><strong>Resolver:</strong> the yt-dlp version, <strong>Update now</strong>, and <strong>Test playback</strong>, which checks that a<p>video can be found the way the Y1 would ask for it.</p></li><li><strong>Updates:</strong> the Overview says when a newer Rondo or yt-dlp is out. The server checks every 6<p>hours: Rondo&#x27;s update page for Rondo, GitHub for yt-dlp. <code>UPDATE_CHECK=0</code> in its environment turns that off.</p></li><li><strong>Activity:</strong> the last 100 warnings and errors, newest first.</li><li><strong>Admin account:</strong> change the password or sign out.</li></ul>
+<h2 id="your-youtube-account-optional">Your YouTube account (optional)</h2>
+<p>Without an account you can still search and play anything, open artists, albums and public playlists, and see a general home page. Rondo hides Library, Subscriptions and History until an account is connected.</p>
+<table><thead><tr><th></th><th>No account</th><th>Sign in with a code</th><th>Plus cookies.txt</th></tr></thead><tbody><tr><td>Search, play, artists, albums, public playlists</td><td>yes</td><td>yes</td><td>yes</td></tr><tr><td>YouTube home</td><td>general</td><td>yours</td><td>yours</td></tr><tr><td>YouTube subscriptions and history</td><td>hidden</td><td>yes</td><td>yes</td></tr><tr><td>YouTube Music playlists and liked songs</td><td>hidden</td><td>yes</td><td>yes</td></tr><tr><td>YouTube Music home and history</td><td>general</td><td>general</td><td>yours</td></tr></tbody></table>
+<p><strong>Sign in with a code</strong> works like signing in a smart TV. On the admin page, go to **YouTube account<strong> and press </strong>Get a code**. Open google.com/device on your phone, enter the code and allow access. It renews itself and keeps working when you use the same account in a browser. **Sign out** on the admin page undoes it, at Google too.</p>
+<p><strong>cookies.txt</strong> adds YouTube Music&#x27;s own home and history. YouTube only gives those to a browser session:</p>
+<ol><li>Open a <strong>private window</strong> and sign in at youtube.com. A separate Google account for Rondo is<p>the safest choice, because YouTube sometimes flags accounts used by servers.</p></li><li>Export the cookies with a &quot;cookies.txt&quot; browser extension (Netscape format).</li><li><strong>Close the private window right away.</strong> If the browser keeps using that session, Google<p>replaces it and the server gets signed out.</p></li><li>On the admin page, press <strong>Upload cookies.txt</strong>. It says who&#x27;s signed in when it worked, and<p><strong>Activity</strong> warns you if the cookies stop working later.</p></li></ol>
+<h2 id="keeping-it-running">Keeping it running</h2>
+<ul><li><strong>yt-dlp updates itself</strong> every day. When YouTube changes something and playback stops, press<p><strong>Update now</strong> on the admin page&#x27;s <strong>Resolver</strong> page.</p></li><li><strong>Updating the server:</strong> when a newer Rondo is out, the admin page&#x27;s Overview says so. Press<p><strong>Update</strong>: the server downloads the new version and restarts on it, in a minute or two. Your admin password, account and connected Y1 stay; sign in to the admin page again afterwards. This is the job of the <code>rondo-updater</code> container next to the server, which needs Docker&#x27;s socket and only ever touches the <code>rondo</code> container. If you&#x27;d rather update by hand:</p></li></ul>
+<pre><code class="language-bash">  cd rondo
+  git pull
+  docker compose -f infra/compose.home.yaml pull           # or compose.vps.yaml
+  docker compose -f infra/compose.home.yaml up -d</code></pre>
+<p>  A server set up before 1.0.2 built itself and has no updater yet; those four lines move it to the   ready-made images, with <strong>Update</strong> from then on. Your admin password, account and connected Y1   are kept on a Docker volume and survive updates either way.</p>
+<ul><li><strong>Updating the Y1:</strong> the server also hands the Y1 its updates. <strong>Settings › Software update</strong> on<p>the Y1 shows a newer Rondo and installs it; the server fetches it from Rondo&#x27;s update page and passes it on. When a release needs a new firmware, the Y1 says so and points to Innioasis Updater CE instead.</p></li><li><strong>The server and Rondo share a version number.</strong> When the admin page says a newer Rondo is out,<p>update the server too (above), even if only the Y1 changed; that keeps them in step.</p></li><li><strong>One Y1 per server.</strong> Connecting another Rondo disconnects the previous one.</li><li><strong>Forgot the admin password?</strong> Remove it and restart. The server prints a new setup code, and<p>your Y1 stays connected:</p></li></ul>
+<pre><code class="language-bash">  docker exec rondo node -e &#x27;const f=&quot;/data/config.json&quot;,fs=require(&quot;fs&quot;),d=JSON.parse(fs.readFileSync(f));delete d.adminHash;fs.writeFileSync(f,JSON.stringify(d,null,2))&#x27;
+  docker restart rondo
+  docker logs rondo | grep &quot;Rondo setup&quot;</code></pre>
+<h2 id="privacy">Privacy</h2>
+<p>The server doesn&#x27;t store audio or video; it passes streams through as they play. Your cookies and the code sign-in stay on the server&#x27;s Docker volume, readable only by the server, and are never shown or written to the logs. The Y1 talks only to your server, never to Google.</p>
+<p>How the server works, and its API, are described in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fdev%2Fserver-api.md">docs/dev/server-api.md</a>.</p></article><p class="lumen-doc-footer-note">These are Rondo's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/jarvissax/rondo" rel="noopener">jarvissax/rondo</a> project <a class="lumen-cite" href="https://github.com/jarvissax/rondo" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Ajarvissax" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

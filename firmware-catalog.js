@@ -35,7 +35,7 @@ window.INNIOASIS_FIRMWARE_CATALOG = [
         "slug": "rondo-y1",
         "name": "Rondo",
         "model": "Y1",
-        "repo": "y1-community/y1-ata-rom",
+        "repo": "jarvissax/rondo",
         "packageName": "rom.zip",
         "benefits": "rondo-benefits.html",
         "guide": "guides/rondo-y1.html",

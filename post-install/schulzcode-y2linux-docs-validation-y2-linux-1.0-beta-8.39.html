@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 8.39 (Baseline 153) - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 8.39 Baseline 153 Status: PUBLISHED as GitHub release baseline-153 2026-10-26, installed on the owner's player before publishing. Release 1.0.0-beta.8.39">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.39.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 8.39 (Baseline 153) - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 8.39 Baseline 153 Status: PUBLISHED as GitHub release baseline-153 2026-10-26, installed on the owner's player before publishing. Release 1.0.0-beta.8.39">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.39.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 8.39 (Baseline 153) - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 8.39 Baseline 153 Status: PUBLISHED as GitHub release baseline-153 2026-10-26, installed on the owner's player before publishing. Release 1.0.0-beta.8.39">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 8.39 (Baseline 153)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-839-baseline-153">Y2Linux 1.0 Beta 8.39 (Baseline 153)</h1>
+<p>Status: <strong>PUBLISHED as GitHub release <code>baseline-153</code></strong> (2026-10-26), installed on the owner&#x27;s player before publishing. Release <code>1.0.0-beta.8.39</code>, Reborn <code>1.0.0-beta.8.39</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.8.39</code>, update sequence 10470, root <code>2026.08-platform-v1.195</code>, Linux <code>1c599c5</code>, Reborn <code>7cf527d</code>. Built with <code>tools/production/release.py</code> (142 s, resumed workspace, update based on <code>baseline-146</code>): container suite <strong>883 OK</strong>; all seal checks PASS, no MediaTek firmware in any image. Reborn host tests: 691 passed, strict Clippy clean. Labels 147–152 (sequences 10410–10460) were device test builds. Milestone audit BETA-8.39 in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap-gap-audit</a>.</p>
+<table><thead><tr><th>Image</th><th>SHA-256</th></tr></thead><tbody><tr><td>BOOTIMG</td><td><code>ea434c43b78d46db1fa3ae7251c153c6befd777d11572327e507d375328730d2</code></td></tr><tr><td>Y2ROOT</td><td><code>b467c78ef69e41bc6b75ecbf03b9cb0c218d62f2c229a85e324d4ba29319ff8e</code></td></tr><tr><td>RECOVERY</td><td><code>d658a09e67e14ff4c13e2ebb2026b3d641a31e443b8930efa15fa0bca35767e1</code></td></tr><tr><td>Y2DATA (no SSH key)</td><td><code>c8fe7d3f819081d21980212973e05a665c1500f5dc0ccc7672eb36fbe34a6bed</code></td></tr></tbody></table>
+<h2 id="what-changed-since-beta-838">What changed since Beta 8.38</h2>
+<p>From a user report (Reddit, 2026-10-26): 512 GB SD card, 33 000 MP3s on the way to about 120 000, browses by folder because the folders are tidier than the tags.</p>
+<table><thead><tr><th>Change</th><th>Detail</th><th>Evidence</th></tr></thead><tbody><tr><td>Folders as a file manager shows them</td><td>A folder lists its folders, then its songs, both by name (case and accents folded, numbers as numbers: &quot;2 - Intro&quot; before &quot;10 - Outro&quot;). Songs show their file name, not the title tag, and are no longer in library order (artist, album), which put a loose &quot;Skydivin&#x27; - Darren Styles.mp3&quot; among that artist&#x27;s songs and a compilation without an album artist in artist order. Picking a song plays that folder&#x27;s songs in the order shown (it played the whole subtree in library order); Play on a folder plays its folders first, then its songs, all the way down. Storages are titled SD Card and Internal Storage</td><td>UI tests (order, labels, queue, group order); previews 13, 13b; on device: Clubland 01, 02, 03 by file name, Next after 02 plays 03 from a 40-song queue</td></tr><tr><td>Shuffle Off, Songs, Albums</td><td>Settings → Playback and Now Playing step through them. Shuffle Albums plays whole albums in random order, each in disc/track/file order; an album is its folder (CD 1 / Disc 2 folders fold into it) and its album tag. Picked with it on, that song&#x27;s album plays first from that song on; turned on while playing, the album playing goes on. Shuffle Albums is also in the menus of folders, artists, genres, playlists and an artist&#x27;s Play. Skins get <code>shuffle_albums</code>; older sessions read <code>shuffle</code> as Songs</td><td>core tests (whole albums, order, lead song, disc folders, on/off); on device on a 5 000-song queue: 135–278 ms</td></tr><tr><td>Sort for playlists</td><td>Playlist Order, Album, Artist, Title or File Name, in a playlist&#x27;s menus (and on holding its Play or Shuffle); the page shows and plays in that order, the file keeps its own; kept per playlist; Move only in Playlist Order</td><td>UI tests; on device: Sort steps in the open menu, Move hides, the list re-sorts, kept across a restart</td></tr><tr><td>A 120 000-song library</td><td>Measured on the player with 120 829 songs (9 518 albums, 11 760 folders, exFAT card), see below. A folder index per library (each folder&#x27;s songs, folders and song count), album totals for Cover Flow&#x27;s album line, Songs/Albums/Artists/Genres kept per library, a menu&#x27;s song count counted once, cheaper queue building; while the screen is off the long lists, the search index and the playlists&#x27; songs are made ahead</td><td>device performance traces before/after (below)</td></tr><tr><td>Playlists without a walk of the card</td><td>The library scan keeps the playlist files it meets; Playlists reads those (and each storage&#x27;s Playlists folder) instead of walking every folder on every visit (94 s on that card), and keeps them across restarts. A playlist copied from a computer shows after the scan that follows the copy, as songs do</td><td>worker tests; on device: Playlists in about 1 s, also during the startup scan</td></tr></tbody></table>
+<p>No kernel, platform, memory map, partition or packaging change. Settings gain <code>shuffle_albums</code> and <code>playlist_sort</code> (older sessions read as before); metrics gain <code>ui_action_ms</code> and <code>ui_layout_ms</code>.</p>
+<h2 id="120-000-songs-on-the-player">120 000 songs on the player</h2>
+<p>Synthetic library on the owner&#x27;s SD card (1-s MP3s at 128 kbps with ID3 tags, compilations without album artist, loose files, CD folders, 4 % untagged; plus 500 full-length 4-min MP3s), timed with Reborn&#x27;s performance trace.</p>
+<table><thead><tr><th>Measure</th><th>Result</th></tr></thead><tbody><tr><td>First full scan, 120 000 new files</td><td>370 s (325 files/s)</td></tr><tr><td>Rescan, nothing changed</td><td>88–104 s: walking the card (<code>find</code> alone: 94 s, 70 s of it in the kernel)</td></tr><tr><td>500 full-length MP3s</td><td>3.9 ms and 33 KB read each</td></tr><tr><td>Start with the library</td><td>first frame 7.4 s, library ready 13–14 s; Reborn ≈130 MB of 928 MB, database 102 MB</td></tr><tr><td>Scrolling Songs, Artists, Cover Flow, a folder</td><td>54–73 fps, no frame over 33 ms</td></tr><tr><td>Opening a folder</td><td>250–380 ms → under 1 ms</td></tr><tr><td>A whole card&#x27;s hold menu</td><td>2.2 s a frame → 30 ms</td></tr><tr><td>Play / Shuffle / Shuffle Albums on the whole card</td><td>4.5–6.6 s, once a playback error → about 0.2 s (1.7 s the first time after a start)</td></tr><tr><td>Cover Flow spinning</td><td>15 → 71 fps</td></tr><tr><td>First Songs / Artists / Albums / Genres / Search / Playlists after the screen was off</td><td>0.4–2.6 s → 20–50 ms</td></tr><tr><td>Playlists</td><td>about 90 s every visit → about 1 s</td></tr></tbody></table>
+<h2 id="open">Open</h2>
+<ul><li>Lists are made ahead only while the screen is off: browsing right after a start can still take up to about a<p>second on a list&#x27;s first opening with 120 000 songs, and a few seconds while the startup scan runs.</p></li><li>The test songs were 1 s long; playback was not listened to by ear. Holds were sent with <code>rebornctl action</code>.</li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

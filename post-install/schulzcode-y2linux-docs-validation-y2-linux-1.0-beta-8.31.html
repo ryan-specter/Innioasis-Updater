@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 8.31 (Baseline 130) - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 8.31 Baseline 130 Status: PUBLISHED as GitHub release baseline-130 2026-10-24, installed on the owner's player before publishing. Release 1.0.0-beta.8.31">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.31.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 8.31 (Baseline 130) - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 8.31 Baseline 130 Status: PUBLISHED as GitHub release baseline-130 2026-10-24, installed on the owner's player before publishing. Release 1.0.0-beta.8.31">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.31.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 8.31 (Baseline 130) - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 8.31 Baseline 130 Status: PUBLISHED as GitHub release baseline-130 2026-10-24, installed on the owner's player before publishing. Release 1.0.0-beta.8.31">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 8.31 (Baseline 130)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-831-baseline-130">Y2Linux 1.0 Beta 8.31 (Baseline 130)</h1>
+<p>Status: <strong>PUBLISHED as GitHub release <code>baseline-130</code></strong> (2026-10-24), installed on the owner&#x27;s player before publishing. Release <code>1.0.0-beta.8.31</code>, Reborn <code>1.0.0-beta.8.31</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.8.31</code>, update sequence 9500, root <code>2026.08-platform-v1.172</code>, Linux <code>b0b8ae6</code>, Reborn <code>b07cb9d</code>. Built with <code>tools/production/release.py</code> (147 s, resumed workspace, update based on <code>baseline-129</code>): container suite <strong>880 OK</strong>; Reborn workspace tests, <code>clippy -D warnings</code> and <code>fmt --check</code> clean; all seal checks PASS, no MediaTek firmware in any image. Milestone audit BETA-8.31 in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap-gap-audit</a>.</p>
+<table><thead><tr><th>Image</th><th>SHA-256</th></tr></thead><tbody><tr><td>BOOTIMG</td><td><code>2c65908857a4b245577c7832c05aa9bab1dc9b7fab4178dc824b9c96f3f817f4</code></td></tr><tr><td>Y2ROOT</td><td><code>20d0fa8fbe2a367dbf5915b5e4a657a8462aa63a91d7988e9e894e251c9a6814</code></td></tr><tr><td>RECOVERY</td><td><code>a3c185404771bba65a3803312179e88157df6833281fa2971eca4e360584ad7d</code></td></tr><tr><td>Y2DATA (no SSH key)</td><td><code>5fd7c202065699212376ddc63627068f67aac610fbb3f5f6541e6b9baaca26a3</code></td></tr></tbody></table>
+<h2 id="why">Why</h2>
+<p>A user request: &quot;Sometimes I go a bit deaf in my left ear, so I adjust the left side by -1 to compensate.&quot;</p>
+<h2 id="what-changed-since-beta-830">What changed since Beta 8.30</h2>
+<table><thead><tr><th>Change</th><th>Detail</th><th>Evidence</th></tr></thead><tbody><tr><td>Settings → Sound → Balance</td><td>Left +10 dB … Center … Right +10 dB in 1 dB steps (<code>settings.balance</code>, -10..=10, negative = left louder, clamped on load). The louder side is reached by lowering the other side&#x27;s samples at the live sink gain (<code>VolumeRamp::balance</code>), never by raising one, so it cannot clip; jack and Bluetooth alike, live while playing (an atomic like the volume, no reopen). The list opens on the current value</td><td>Reborn <code>b12a1ee</code>; <code>balance_lowers_only_the_other_side</code> (-1 dB: 10 000 → 8913 on the right), <code>balance_opens_on_the_current_side_and_sets_it</code></td></tr><tr><td>Sound page layout</td><td>Six rows no longer fit: once the focus reaches Balance the first row scrolls away, as on Display, so the Output card stays on screen</td><td>previews 27, 29d, 29e</td></tr></tbody></table>
+<h2 id="device-results">Device results</h2>
+<table><thead><tr><th>Check</th><th>Result</th></tr></thead><tbody><tr><td>Install by OTA staging (owner&#x27;s player)</td><td>sequence 9500 Acknowledged after a normal update restart</td></tr><tr><td>Settings → Sound → Balance, driven with button events over SSH</td><td>Sound page and Balance list as in the previews; Left +1 dB selected → <code>session.json</code> <code>&quot;balance&quot;:-1</code>; playback 4 s with it on: playing, 0 xruns, 0 playback errors; set back to Center (<code>&quot;balance&quot;:0</code>)</td></tr><tr><td>Listening check of the shift</td><td>not done by ear in this session</td></tr></tbody></table>
+<h2 id="open">Open</h2>
+<ul><li>The left/right shift was checked in host tests (sample values) and on the device as a setting, not by ear.</li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

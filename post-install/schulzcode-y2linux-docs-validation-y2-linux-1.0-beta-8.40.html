@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 8.40 (Baseline 154) - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 8.40 Baseline 154 Status: PUBLISHED as GitHub release baseline-154 2026-10-27 at the owner's word "do the fix and push as 8.40", then installed and check">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.40.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 8.40 (Baseline 154) - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 8.40 Baseline 154 Status: PUBLISHED as GitHub release baseline-154 2026-10-27 at the owner's word "do the fix and push as 8.40", then installed and check">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-8.40.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 8.40 (Baseline 154) - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 8.40 Baseline 154 Status: PUBLISHED as GitHub release baseline-154 2026-10-27 at the owner's word "do the fix and push as 8.40", then installed and check">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 8.40 (Baseline 154)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-840-baseline-154">Y2Linux 1.0 Beta 8.40 (Baseline 154)</h1>
+<p>Status: <strong>PUBLISHED as GitHub release <code>baseline-154</code></strong> (2026-10-27) at the owner&#x27;s word (&quot;do the fix and push as 8.40&quot;), then installed and checked on the owner&#x27;s player (see <a href="#on-the-player">On the player</a>). Release <code>1.0.0-beta.8.40</code>, Reborn <code>1.0.0-beta.8.40</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.8.40</code>, update sequence 10500, root <code>2026.08-platform-v1.196</code>, Linux <code>1b09963</code>, Reborn <code>77c54e2</code>. Built with <code>tools/production/release.py</code> (107 s, resumed workspace, update based on <code>baseline-153</code>): container suite <strong>885 OK</strong>, host suite 912 OK; all seal checks PASS, no MediaTek firmware in any image. Milestone audit BETA-8.40 in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap-gap-audit</a>.</p>
+<table><thead><tr><th>Image</th><th>SHA-256</th></tr></thead><tbody><tr><td>BOOTIMG</td><td><code>f5c6992d9fd9b38a6ee1578d77415ad85b0295f48ee7429f8fc395a9fac470c9</code></td></tr><tr><td>Y2ROOT</td><td><code>313305ef9dfcee77a98b80603283737ed5434b224885311a765df55bae135e0a</code></td></tr><tr><td>RECOVERY</td><td><code>15baf379bed46d094ecb695ccd417965c46acfa3c21eb49f0833d539d15dd2da</code></td></tr><tr><td>Y2DATA (no SSH key)</td><td><code>1464783324f7644909ab887de0f4d660ffa03607ec65fb36a3ba6d7b001a53b2</code></td></tr></tbody></table>
+<h2 id="what-changed-since-beta-839">What changed since Beta 8.39</h2>
+<table><thead><tr><th>Change</th><th>Detail</th><th>Evidence</th></tr></thead><tbody><tr><td>Power off on a charger opens the charging screen (ledger F46, install 02f46e9f)</td><td>Before, Power Off with a cable plugged in switched the player fully off and it never charged until the cable was plugged in again: the MT6323 power-down left the charger detected with no new plug-in to wake it. Now, as on stock, a charger at power-off restarts the player into the bootloader&#x27;s charging mode, which shows the Y2Linux charging screen; unplugging there switches off, a Power hold starts the player. Without a charger, power off is unchanged</td><td>report 149a9d81 (off at 40 % while charging, 40 % again 39 min later); fleet power journals (74 → 74 % after 14 h, 71 → 71 % after 12 h, 57 → 57 % after 9 h off on a charger); REA below; <code>tests/test_poweroff_charger.py</code></td></tr></tbody></table>
+<h3 id="how-the-restart-reaches-the-charging-screen">How the restart reaches the charging screen</h3>
+<ul><li>Stock <code>mt_power_off</code> (FM kernel 0xc04a1100) loops on <code>pmic_chrdet_status()</code> and calls <code>arch_reset</code>; the stock<p><code>charger</code> restart (0xc049622c → <code>wd_sw_reset(0)</code> → <code>wdt_arch_reset</code> 0xc0541d10) clears EN, IRQ, AUTO_RESTART and DUAL in WDT_MODE (bic 0x59), keeps the external PMIC reset and resets the SoC.</p></li><li>The stock preloader reports such a reset as &quot;SW reset without bypass power key flag&quot;, i.e. boot reason 3. Our<p>ordinary restart keeps AUTO_RESTART set (patch 0037), which gives reason 4.</p></li><li>Stock LK <code>is_force_boot</code> (0x81e166f4) forces a normal boot only for an alarm, META, a held Power key, reason 4 or<p>reason 6. Otherwise <code>kernel_power_off_charging_detection</code> (0x81e16778) picks mode 8 while a charger is present, or powers off. Mode 8 is Y2Linux&#x27;s offline charging (<code>y2-offline-charge</code>).</p></li><li>Kernel: <code>y2_charger_power_off</code> (<code>kernel/platform/mt6323-charger.c</code>) is a high-priority power-off handler. It<p>runs after every driver&#x27;s shutdown, so charging is already inhibited. It reads CHR_CON0 bit 5 and, with a charger, writes the stock reset (<code>kernel/platform/poweroff-policy.h</code>). Otherwise it does nothing and the BBPU power-off follows. The charger node references the RGU (<code>innioasis,rgu = &lt;&amp;rgu&gt;</code>). It maps the RGU without claiming it, since the watchdog driver owns it.</p></li></ul>
+<p>No platform userspace, Reborn (identity only), memory map, partition or packaging change.</p>
+<h2 id="on-the-player">On the player</h2>
+<p>Owner&#x27;s player (ST7701S panel, stock LK), 8.39 → 8.40 by staged OTA: install 18.1 s, back in ≈70 s, Acknowledged on health boot 1, no &quot;stays off&quot; warning from the charger driver.</p>
+<table><thead><tr><th>Step</th><th>Result</th></tr></thead><tbody><tr><td>Power Off (<code>y2-platform shutdown poweroff --reason user</code>) while Charging</td><td>Host USB: the gadget left, 5.6 s later the MediaTek preloader (<code>0e8d:2000</code>) enumerated for 2.8 s (a restart; before the fix nothing appeared). The owner saw the charging screen</td></tr><tr><td>Hold Power on that screen</td><td><code>Y2BOOT: loader metadata valid=1 mode=8 reason=3 offline=1</code>, <code>Y2CHARGE: offline mode=8 reason=3 battery=4117016uV</code>, <code>deliberate Power release; normal boot</code>; the previous boot&#x27;s log ends with <code>charger attached: restart into charging mode</code></td></tr><tr><td>Power Off on the charger again, unplug on the charging screen, plug in again</td><td>The next start was <code>mode=8 reason=1</code>: a fresh power-on from the plug-in, so the player had really switched off after the unplug</td></tr></tbody></table>
+<h2 id="open">Open</h2>
+<ul><li>The reporter (02f46e9f) also sees a Rockbox boot picture before Y2Linux. Y2Linux never writes LOGO or UBOOT, and<p>that player&#x27;s LK is not the stock v3.2.0 one (prefix SHA-256 <code>bd001af2…</code>). Advice: flash the stock <code>logo.bin</code> to LOGO only.</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

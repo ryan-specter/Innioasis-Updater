@@ -590,11 +590,41 @@
 
   function resolveLink(href, ctx) {
     if (!href) return "#";
+    href = String(href).replace(/&amp;/gi, "&").trim();
+    if (!href) return "#";
     if (/^(mailto:|tel:|data:)/i.test(href)) return href;
     if (href.charAt(0) === "#") return href;
+    if (/^https?:\/\/(?:www\.)?innioasis\.app(?:\/|$)/i.test(href)) return href;
+    if (!/^https?:/i.test(href)) {
+      if (!ctx) return href;
+      if (href.charAt(0) === "/") {
+        if (ctx.repo && ctx.ref) {
+          href = "https://github.com/" + ctx.repo + "/blob/" + ctx.ref + href;
+        } else {
+          return href;
+        }
+      } else {
+        href = joinUrl(ctx.dirBlob || ctx.dirRaw, href);
+      }
+    }
     if (/^https?:/i.test(href)) {
       var superseded = supersededGuideLink(href);
       if (superseded) return superseded;
+      /* Rockbox-Y1 theme documentation links point to our static Updater CE
+         theme transfer guide. */
+      if (/^https?:\/\/(?:www\.)?(?:github\.com|raw\.githubusercontent\.com)\/rockbox-y1\/rockbox\/(?:(?:blob|raw)\/[^/]+\/|[^/]+\/)?THEMES\.md(?:[?#].*)?$/i.test(href) ||
+          /^https?:\/\/(?:www\.)?github\.com\/rockbox-y1\/themes(?:\/|$)/i.test(href)) {
+        return siteUrl("rockbox-y1-themes.html");
+      }
+      /* Any Markdown link whose path contains both "install" and ".md"
+         (e.g. INSTALLATION.md, docs/install.md) routes to our own firmware
+         installation instructions for that project. */
+      var pathOnly = href.split(/[?#]/)[0];
+      if (/(?:^|\/)[^?#]*install[^?#]*\.(?:md|markdown|mdown|mkd|mdx)$/i.test(pathOnly)) {
+        var ghRepoMatch = href.match(/^https?:\/\/(?:www\.)?(?:github\.com|raw\.githubusercontent\.com)\/([^/?#]+\/[^/?#]+)/i);
+        var targetRepo = (ghRepoMatch && ghRepoMatch[1]) || (ctx && ctx.repo) || "";
+        return installGuideFor(targetRepo, ctx);
+      }
       /* A release's own files are never listed here, so an asset link inside
          the notes is left as plain text. */
       if (/^https?:\/\/(?:www\.)?github\.com\/[^/]+\/[^/]+\/releases\/download\//i.test(href)) {
@@ -630,14 +660,7 @@
       }
       return href;
     }
-    if (!ctx) return href;
-    if (href.charAt(0) === "/") {
-      if (ctx.repo && ctx.ref) {
-        return "https://github.com/" + ctx.repo + "/blob/" + ctx.ref + href;
-      }
-      return href;
-    }
-    return joinUrl(ctx.dirBlob || ctx.dirRaw, href);
+    return href;
   }
 
   /* A firmware project's listing for the repository it ships from. */
@@ -648,10 +671,25 @@
       var item = catalog[i];
       if (!item || !item.repo || !item.slug) continue;
       if (String(item.repo).toLowerCase() !== key) continue;
-      return "firmware.html?model=" + encodeURIComponent(item.model || "") +
-        "&software=" + encodeURIComponent(item.slug);
+      return siteUrl("firmware.html?model=" + encodeURIComponent(item.model || "") +
+        "&software=" + encodeURIComponent(item.slug));
     }
     return "";
+  }
+
+  /* Our own firmware installation instructions for a repository. */
+  function installGuideFor(repo, ctx) {
+    var key = String(repo || (ctx && ctx.repo) || "").toLowerCase();
+    var catalog = global.INNIOASIS_FIRMWARE_CATALOG || [];
+    for (var i = 0; i < catalog.length; i += 1) {
+      var item = catalog[i];
+      if (!item || !item.repo || !item.slug) continue;
+      if (String(item.repo).toLowerCase() !== key) continue;
+      if (item.guide) return siteUrl(item.guide);
+      return siteUrl("guide.html?model=" + encodeURIComponent(item.model || "") +
+        "&software=" + encodeURIComponent(item.slug));
+    }
+    return GUIDE_URL;
   }
 
   /* Embeddable video links become a thumbnail card that opens a player here,
@@ -761,6 +799,7 @@
       return token;
     });
 
+    text = text.replace(/<(https?:\/\/[^\s<>]+)>/g, "$1");
     text = esc(text);
 
     /* Images before links: the leading ! would otherwise be swallowed. */
@@ -785,7 +824,7 @@
     /* Bare URLs, but not ones already inside an href attribute. Release
        assets stay as plain text; release pages point at our own notes. */
     text = text.replace(/(^|[\s(])(https?:\/\/[^\s<)"]+)/g, function (m, lead, url) {
-      var target = resolveLink(url, null);
+      var target = resolveLink(url, ctx);
       if (!target) return lead + url;
       var shownUrl = supersededGuideLink(url) ? target : url;
       var external = /^https?:/i.test(target) && target.indexOf("innioasis.app") === -1;

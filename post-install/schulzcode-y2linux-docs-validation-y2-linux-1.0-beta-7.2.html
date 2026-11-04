@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 7.2 (Baseline 63) - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 7.2 Baseline 63 Status: PUBLISHED as GitHub release baseline-63 2026-10-16. Release 1.0.0-beta.7.2 , Reborn 1.0.0-beta.7.2 , kernel 6.18.56-y2linux-1.0.0">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-7.2.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 7.2 (Baseline 63) - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 7.2 Baseline 63 Status: PUBLISHED as GitHub release baseline-63 2026-10-16. Release 1.0.0-beta.7.2 , Reborn 1.0.0-beta.7.2 , kernel 6.18.56-y2linux-1.0.0">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-7.2.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 7.2 (Baseline 63) - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 7.2 Baseline 63 Status: PUBLISHED as GitHub release baseline-63 2026-10-16. Release 1.0.0-beta.7.2 , Reborn 1.0.0-beta.7.2 , kernel 6.18.56-y2linux-1.0.0">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 7.2 (Baseline 63)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-72-baseline-63">Y2Linux 1.0 Beta 7.2 (Baseline 63)</h1>
+<p>Status: <strong>PUBLISHED as GitHub release <code>baseline-63</code></strong> (2026-10-16). Release <code>1.0.0-beta.7.2</code>, Reborn <code>1.0.0-beta.7.2</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.7.2</code>, update sequence 5900, Linux <code>78b548b</code>, Reborn <code>846da2d</code>, git tag <code>baseline-63</code> in both repositories. Built with <code>tools/production/release.py</code> in 122 s: container suite <strong>743 OK</strong>, all seal checks PASS, no MediaTek firmware in any image. Milestone audit: BETA-7.2 in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap-gap-audit</a>.</p>
+<table><thead><tr><th>Image</th><th>SHA-256</th></tr></thead><tbody><tr><td>BOOTIMG</td><td><code>498a26488000935b7812a61121cc809158e92aa07f25624805a64b89eb0fa865</code></td></tr><tr><td>Y2ROOT</td><td><code>ac93c8ce42a83e2c1421ff7f2b4770034483639ce4c3b8541c7fff93c8e0f31d</code></td></tr><tr><td>RECOVERY</td><td><code>996f62eafbc662bbc0b1b40a763a5c144712dbe8e7a16dfdbe77ca3bf97671ee</code></td></tr><tr><td>Y2DATA (no SSH key)</td><td><code>4cf9d40d85717e8bdf7a4a380f83ee3671d6b6c0baa1765040f34c7a57a11873</code></td></tr></tbody></table>
+<h2 id="since-beta-71-reborn">Since Beta 7.1 (Reborn)</h2>
+<p>Owner (2026-10-16): more animation to make the UI feel polished and responsive, at 60 fps; the Now Playing progress as a &quot;cool&quot; wave, not a perfect sine. Reborn <code>634f83a</code>.</p>
+<table><thead><tr><th>Part</th><th>Detail</th></tr></thead><tbody><tr><td>Motion system</td><td><code>crates/reborn-ui/src/motion.rs</code>: per-key eased values (exponential, ≈125–190 ms), retargetable at any moment, frame-rate independent, settled values stop all redrawing. Anything moving keeps Cover Flow&#x27;s 60-fps path (12-ms frame gap, Interactive CPU lease). Off in previews and tests (<code>Ui::ui_motion</code>); <code>reborn-preview --motion</code> captures frames mid-animation.</td></tr><tr><td>Lists and focus</td><td>Shared components mark moving quads (<code>canvas::Moving</code>): the focus row and Home&#x27;s marker glide; Artists, Songs, Genres, search, Up Next, Folders, Playlists and the radio lists scroll smoothly (one row more on each side, hidden at rest; the status bar stays above); a long wheel jump glides only its last row.</td></tr><tr><td>Screens, menus, messages</td><td>New screens slide in from the right, Back slides out (200 ms, ease-out); sheets rise over a fading scrim; dialogs and toasts fade in; switches slide their knob and blend their colour.</td></tr><tr><td>Now Playing</td><td>The position moves on between reports; the progress is a travelling wave (two sines, breathing height, tapered ends, opaque 2.6-px strokes with a faint 5-px edge) that lies flat when paused; a new song fades in; the play button dips on a change. Continuous 60 fps while playing and visible.</td></tr></tbody></table>
+<p>Host evidence: 487 Reborn tests (new: motion springs, wave while playing / flat when paused, focus glide, slide with one focus target, long jumps), strict Clippy, fmt; mid-animation captures compared by eye. Device frame rate not yet measured.</p>
+<h2 id="device-frame-rate-measured-on-beta-73-2026-10-16">Device frame rate (measured on Beta 7.3, 2026-10-16)</h2>
+<p>Sampled with the cable in (Beta 7.3 removed the covering computer screen) by polling <code>rebornctl metrics</code> and <code>status</code> every 0.5 s for 4 minutes while the owner navigated (archive <code>out/deep-sleep-final/evidence/20261016/157-beta73-fps-sample</code>, <code>fps2.jsonl</code>, sampler <code>fps-sampler.py</code>):</p>
+<table><thead><tr><th>Situation</th><th>Result</th></tr></thead><tbody><tr><td>Motion (113 busy half-seconds: focus glide, slides, menus, playlists)</td><td>median <strong>62 fps</strong>, up to 66 (the panel&#x27;s ≈64 Hz); frames vsync-paced at ≈14.7 ms; <strong>0 missed frames</strong></td></tr><tr><td>Now Playing while playing (wave), 22 s</td><td>steady <strong>64–65 fps</strong>, every half-second</td></tr><tr><td>Continuous wheel on Home, 6 s</td><td>steady <strong>64 fps</strong> (≈8 ms CPU per frame)</td></tr><tr><td>At rest (Home, Now Playing paused)</td><td><strong>0 fps</strong>: nothing is redrawn</td></tr><tr><td>Isolated calm-rate frames on Home</td><td>up to 23 ms CPU, at most a few per second, never during motion</td></tr></tbody></table>
+<p>Not yet sampled: smooth scrolling in the Songs list (the owner&#x27;s path did not pass it); battery while Now Playing plays with the screen on.</p>
+<h2 id="device-checks-owed-after-the-owners-over-the-air-install">Device checks owed (after the owner&#x27;s over-the-air install)</h2>
+<ol><li>Frame rate: measured (above); the Songs list scroll is still to be sampled.</li><li>The wave travels while playing and lies flat on pause; fast wheel scrolling stays immediate.</li><li>Battery: Now Playing visible while playing redraws continuously; check the CPU lease ends when the screen is off.</li><li>Still open: Beta 7.1 checks (USB screen, update answer, automatic time zone), Beta 7 checks.</li></ol>
+<h2 id="known-gaps">Known gaps</h2>
+<p>FM radio (Beta 8); no 12/24-hour switch; sleep ≈7.8–9.4 mA vs stock ≈1.3 mA; Bluetooth range hardware-limited; no headphone-jack detection.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/schulzcode/y2linux" rel="noopener">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://github.com/schulzcode/y2linux" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

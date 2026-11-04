@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Collection of technical information and quirks - Innioasis Updater</title>
+  <meta name="description" content="Collection of technical information and quirks Replacing vibration motor with Taptic Engine An iPhone 12 Mini taptic engine fits the housing when the internal speaker is">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/rockbox-y1-rockbox-misc.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Collection of technical information and quirks - Innioasis Updater">
+  <meta property="og:description" content="Collection of technical information and quirks Replacing vibration motor with Taptic Engine An iPhone 12 Mini taptic engine fits the housing when the internal speaker is">
+  <meta property="og:url" content="https://innioasis.app/post-install/rockbox-y1-rockbox-misc.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Collection of technical information and quirks - Innioasis Updater">
+  <meta name="twitter:description" content="Collection of technical information and quirks Replacing vibration motor with Taptic Engine An iPhone 12 Mini taptic engine fits the housing when the internal speaker is">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y1&amp;software=rockbox-y1">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Rockbox-Y1 · Y1</p><h1>Collection of technical information and quirks</h1><p class="lumen-lead">A music-first custom Software with deep playback and theme options.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y1&amp;software=rockbox-y1">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y1&amp;software=rockbox-y1">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="collection-of-technical-information-and-quirks">Collection of technical information and quirks</h1>
+<h2 id="replacing-vibration-motor-with-taptic-engine">Replacing vibration motor with Taptic Engine</h2>
+<p>An iPhone 12 Mini taptic engine fits the housing when the internal speaker is removed. You can roughly follow <a class="lumen-video-link" href="https://www.youtube.com/watch?v=zDgUktwXOa0" data-video-embed="https://www.youtube-nocookie.com/embed/zDgUktwXOa0?autoplay=1&amp;rel=0" data-video-title="this video" target="_blank" rel="noopener noreferrer"><span class="lumen-video-frame"><img class="lumen-video-poster" src="https://i.ytimg.com/vi/zDgUktwXOa0/hqdefault.jpg" alt="" loading="lazy" decoding="async"><span class="lumen-video-play" aria-hidden="true">&#9654;</span></span><span class="lumen-video-label">this video</span></a>.</p>
+<p>The haptic feedback is a lot better since it responds quicker to the vibration signal compared to the original vibration motor. It is recommended to enable Settings &gt; General Settings &gt; Keyclick &gt; Taptic Engine Mode.</p>
+<h2 id="keylock-exemptions-are-weird">Keylock exemptions are weird</h2>
+<p>Sometimes keylock exemptions take some time to work or need a second press. It seems like this is a limitation that will be hard to fully solve without the touch wheel driver sources or access to the AOSP source used for this ROM. Once the device is in sleep mode for a while the touch wheel simply stops sending button presses to the kernel. This is likely a power-saving setting that an app has no control over. Feel free to contribute a fix for this if you have one.</p>
+<h2 id="overwriting-files-usually-found-in-rockbox-language-files-and-others">Overwriting files usually found in .rockbox (language files and others)</h2>
+<p>To for example edit <code>.lang</code> files you will want to access the respective files, usually found .rockbox. Currently these files are not populated in the .rockbox folder on the SD card of the device but instead on the internal storage (<code>/data/data/org.rockbox/app_rockbox/rockbox/langs</code>) . If you place these files in the .rockbox folder however Rockbox will use these instead of the files in the internal storage.</p>
+<p><strong>So where can you find and edit these files easily?</strong></p>
+<ul><li>download <code>update.zip</code> of the Rockbox release you are using</li><li>extract <code>update.zip</code></li><li>rename <code>/data/data/org.rockbox/app_rockbox/rockbox/langs/libmisc.so</code> to libmisc.zip and extract it</li><li>modify the files in the .rockbox folder you just extracted from <code>libmisc</code> and place them in the .rockbox folder on the SD card</li><li>restart Rockbox</li></ul>
+<h2 id="time-cant-be-adjusted-when-connected-to-wi-fi">Time can&#x27;t be adjusted when connected to Wi-Fi</h2>
+<p>The time should be set to the correct time and time zone automatically if you are connected to the internet. If you still want to adjust the time manually, deactivate the automatic time setting in the Android System Menu.</p></article><p class="lumen-doc-footer-note">These are Rockbox-Y1's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://github.com/rockbox-y1/rockbox" rel="noopener">rockbox-y1/rockbox</a> project <a class="lumen-cite" href="https://github.com/rockbox-y1/rockbox" rel="noopener" title="Project repository">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Arockbox-y1" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20260803" defer></script>
+<script src="../docs-viewer.js?v=20261107silo" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+
