@@ -1041,7 +1041,7 @@
 
       // A met goal is never named, only an outstanding one: the line then
       // carries the donor stream and general encouragement.
-      var periodSuffix = goal.periodSuffix || (goal.scope === "daily" ? "today" : ("this " + goal.periodWord));
+      var periodSuffix = goal.periodSuffix || ("this " + goal.periodWord);
       var targetPhrase = goal.met
         ? null
         : {
