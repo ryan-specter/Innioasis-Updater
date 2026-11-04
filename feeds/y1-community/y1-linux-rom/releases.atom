@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:innioasis="https://innioasis.app/ns/feeds/1.0">
+  <id>https://innioasis.app/feeds/y1-community/y1-linux-rom/releases.atom</id>
+  <title>Release notes from y1-community/y1-linux-rom</title>
+  <link rel="alternate" type="text/html" href="https://innioasis.app/firmware.html"/>
+  <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/y1-community/y1-linux-rom/releases.atom"/>
+  <updated>2026-10-03T15:29:58Z</updated>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1-linux-rom/0.0.1</id>
+    <updated>2026-10-03T15:29:58Z</updated>
+    <published>2026-10-03T15:29:58Z</published>
+    <title>Linux ROM for Y1 Developers / Modders</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1-linux-rom/releases/tag/0.0.1"/>
+    <innioasis:tag_name>0.0.1</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-linux-rom/releases/download/0.0.1/rom.zip" title="rom.zip" length="270175226" type="application/zip" innioasis:download_count="34" innioasis:asset_id="608039598"/>
+    <content type="text">This is a release of Linux for the Innioasis Y1 intended for developers to create novel experiences on the Innioasis Y1 audio player.
+
+Credit to @palutenfan123 for building this.</content>
+  </entry>
+</feed>

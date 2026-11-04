@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:innioasis="https://innioasis.app/ns/feeds/1.0">
+  <id>https://innioasis.app/feeds/spycemagic/y2-rockbox/releases.atom</id>
+  <title>Release notes from spycemagic/y2-rockbox</title>
+  <link rel="alternate" type="text/html" href="https://innioasis.app/firmware.html"/>
+  <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/spycemagic/y2-rockbox/releases.atom"/>
+  <updated>2026-09-29T12:16:14Z</updated>
+  <entry>
+    <id>tag:innioasis.app,2026:spycemagic/y2-rockbox/v0.2.5-beta</id>
+    <updated>2026-09-29T12:16:14Z</updated>
+    <published>2026-09-29T12:16:14Z</published>
+    <title>V2.5</title>
+    <link rel="alternate" type="text/html" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/tag/v0.2.5-beta"/>
+    <innioasis:tag_name>v0.2.5-beta</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/INSTALL-GUIDE.md" title="INSTALL-GUIDE.md" length="4237" type="application/octet-stream" innioasis:download_count="69" innioasis:asset_id="598138113"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/LICENSE.txt" title="LICENSE.txt" length="15127" type="text/plain; charset=utf-8" innioasis:download_count="5" innioasis:asset_id="598138112"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/NOTICE.txt" title="NOTICE.txt" length="1010" type="text/plain; charset=utf-8" innioasis:download_count="11" innioasis:asset_id="598138142"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/README-FIRST.md" title="README-FIRST.md" length="1061" type="application/octet-stream" innioasis:download_count="36" innioasis:asset_id="598138114"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/RELEASE-NOTES.md" title="RELEASE-NOTES.md" length="2108" type="application/octet-stream" innioasis:download_count="18" innioasis:asset_id="598159552"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rockbox-y2-v2.5-release-square.png" title="rockbox-y2-v2.5-release-square.png" length="1585171" type="image/png" innioasis:download_count="196" innioasis:asset_id="598138148"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rom_y2.zip" title="rom_y2.zip" length="361644736" type="application/zip" innioasis:download_count="509" innioasis:asset_id="598138117"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/SHA256SUMS.txt" title="SHA256SUMS.txt" length="674" type="text/plain; charset=utf-8" innioasis:download_count="13" innioasis:asset_id="598138145"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/Y2-Rockbox-V2.5-Source.zip" title="Y2-Rockbox-V2.5-Source.zip" length="72256082" type="application/zip" innioasis:download_count="26" innioasis:asset_id="598138115"/>
+    <content type="text"># Rockbox Y2 V2.5
+
+V2.5 updates the Y2 dual-boot firmware to the official Innioasis **Stock 3.2FM**
+baseline while retaining Rockbox and Stock boot routes.
+
+## What changed from V2
+
+- Stock mode is updated to version `3.2` from the 3.2FM firmware release.
+- Clean installs default to MacClassic-Dark with a black Rockbox title screen.
+- Boot presentation and route handoff were requalified to prevent persistent
+  upper-screen artifacts.
+- The Community Updater asset is now a complete 3.2FM-based full-ROM package,
+  compatible with the public updater&#x27;s clean-install route.
+
+## Qualified V2.5 behavior
+
+The five V2.5 firmware images have passed the full hands-on matrix on macOS and
+Windows:
+
+- Clean, responsive Rockbox root in about 28 seconds on normal cold boots.
+- Clean dark Rockbox title with no persistent upper artifacts.
+- Automatic screen timeout, centre wake, and power-button sleep/wake.
+- USB-storage mount, safe eject, clean return, and foreground retention.
+- Boot Settings switching between Rockbox and Stock.
+- Responsive Stock root reporting version `3.2` from Stock 3.2FM.
+- No microSD card required for installation or normal boot testing.
+
+The exact public full-ROM archive passed clean Stock 3.2FM installation and the
+complete functional matrix on both macOS and Windows.
+
+## Exact public candidate
+
+| Asset | Bytes | SHA-256 |
+|---|---:|---|
+| `rom_y2.zip` | 361,644,736 | `bbdd139a9a52f90570ef04dec4aeb143a361a1d28a90f7be6d37d44c554bee9a` |
+
+This archive contains the complete official Stock 3.2FM support set. UBOOT,
+BOOTIMG, RECOVERY, LOGO, and ANDROID are the exact V2.5 images already qualified
+on both platforms. MBR, EBR1, EBR2, preloader, SEC_RO, cache, userdata, and the
+scatter remain byte-identical to the official 3.2FM baseline.
+
+## Important installation behavior
+
+V2.5 performs a clean full installation and erases internal user data. Back up
+first. On macOS, public Updater CE hands the install to the Innioasis Y2 Install
+Tool. On Windows, Updater CE uses its full Y2 installation route. Follow every
+connection prompt and wait for an explicit completion message.
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:spycemagic/y2-rockbox/v0.2.0-beta</id>
+    <updated>2026-09-06T12:59:48Z</updated>
+    <published>2026-09-06T12:59:48Z</published>
+    <title>Rockbox Y2 Beta V2</title>
+    <link rel="alternate" type="text/html" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/tag/v0.2.0-beta"/>
+    <innioasis:tag_name>v0.2.0-beta</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/INSTALL-GUIDE.md" title="INSTALL-GUIDE.md" length="2008" type="application/octet-stream" innioasis:download_count="156" innioasis:asset_id="547171158"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/LICENSE.txt" title="LICENSE.txt" length="15127" type="text/plain; charset=utf-8" innioasis:download_count="7" innioasis:asset_id="547171156"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/NOTICE.txt" title="NOTICE.txt" length="1010" type="text/plain; charset=utf-8" innioasis:download_count="14" innioasis:asset_id="547171159"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/README-FIRST.txt" title="README-FIRST.txt" length="925" type="text/plain; charset=utf-8" innioasis:download_count="76" innioasis:asset_id="547171157"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/RELEASE-NOTES.md" title="RELEASE-NOTES.md" length="1345" type="application/octet-stream" innioasis:download_count="13" innioasis:asset_id="547171161"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/rockbox-y2-beta-v2-release-portrait.png" title="rockbox-y2-beta-v2-release-portrait.png" length="2135412" type="image/png" innioasis:download_count="16" innioasis:asset_id="547171191"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/rockbox-y2-beta-v2-release-square.png" title="rockbox-y2-beta-v2-release-square.png" length="1758566" type="image/png" innioasis:download_count="25" innioasis:asset_id="547171195"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/SHA256SUMS.txt" title="SHA256SUMS.txt" length="1109" type="text/plain; charset=utf-8" innioasis:download_count="16" innioasis:asset_id="547171167"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/UPDATE-ONLY-MANIFEST.json" title="UPDATE-ONLY-MANIFEST.json" length="1304" type="application/json" innioasis:download_count="17" innioasis:asset_id="547171170"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/UPDATER-FORMATS.md" title="UPDATER-FORMATS.md" length="1095" type="application/octet-stream" innioasis:download_count="37" innioasis:asset_id="547171169"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/Y2-Rockbox-Beta-v0.2.0-Source.zip" title="Y2-Rockbox-Beta-v0.2.0-Source.zip" length="72561786" type="application/zip" innioasis:download_count="36" innioasis:asset_id="547171168"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/Y2-Rockbox-Beta-v0.2.0-UPDATE-ONLY.zip" title="Y2-Rockbox-Beta-v0.2.0-UPDATE-ONLY.zip" length="361774260" type="application/zip" innioasis:download_count="73" innioasis:asset_id="547171171"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/Y2-Rockbox-Beta-v0.2.0-Windows-UPDATE-ONLY.zip" title="Y2-Rockbox-Beta-v0.2.0-Windows-UPDATE-ONLY.zip" length="361774260" type="application/zip" innioasis:download_count="122" innioasis:asset_id="547171189"/>
+    <content type="text"># Y2 Rockbox Beta V2
+
+Beta V2 is a state-preserving update for Innioasis Y2 players on the official
+Stock 3.1.7 lineage. This corrected release has passed separate end-to-end
+macOS and Windows updater qualifications, complete readback verification, and
+the full physical functional matrix.
+
+&gt; **Manual-download release:** the files below are public for users who want to
+&gt; download and verify them manually. Direct installation through the public
+&gt; Updater CE catalogue is still pending
+&gt; [Updater CE PR #45](https://github.com/y1-community/Innioasis-Updater/pull/45).
+&gt; Downloading a ZIP manually does not make an old or generic updater safe; use
+&gt; only an updater explicitly carrying the guarded Y2 Class A route.
+
+## Download the exact platform asset
+
+| Platform | Asset | Size | SHA-256 |
+|---|---|---:|---|
+| macOS | `Y2-Rockbox-Beta-v0.2.0-UPDATE-ONLY.zip` | 361,774,260 | `409DDB4D2D18111FB8C3AB619F10F04B916B6B2A3FC04D1D38011324563F326A` |
+| Windows | `Y2-Rockbox-Beta-v0.2.0-Windows-UPDATE-ONLY.zip` | 361,774,260 | `409DDB4D2D18111FB8C3AB619F10F04B916B6B2A3FC04D1D38011324563F326A` |
+
+Do not rename either archive to `rom_y2.zip`. Do not use the withdrawn Beta V2
+archives, the old `InnioasisUpdater_Setup_1.1.2.exe`, or a generic full-format
+route. Follow `INSTALL-GUIDE.md` and use only an updater explicitly carrying the
+guarded Y2 Class A update path.
+
+## Highlights since Beta V1
+
+- Bluetooth access, pairing and A2DP playback from Rockbox and Stock.
+- Hold Previous/Next to seek; optional held-Volume track skipping.
+- Persistent time/date and independently adjustable Rockbox wheel vibration.
+- Stable Rockbox and Stock USB-storage lifecycle.
+- Cleaner boot presentation and reliable saved Rockbox/Stock routing.
+- Centre wake, long-Centre Now Playing context menu, and improved Back/Database navigation.
+- PictureFlow recovery and functional album carousel.
+
+## Physical acceptance
+
+Both platform routes began from freshly restored official Stock 3.1.7, wrote
+only UBOOT, BOOTIMG, RECOVERY, LOGO, and ANDROID, and completed mandatory
+readback verification. After the required complete unplug and one unplugged
+pinhole reset, Rockbox reached a clean responsive root in 28 seconds with no
+upper artifacts. Playback, controls, sleep/wake, USB, Stock, Boot Settings,
+saved routes, and shutdown passed.
+
+## Known limitation and Beta V3
+
+The final power-down animation can look imperfect; shutdown itself works. Beta
+V3 is expected to cover that presentation polish plus lyrics/theme diagnostics,
+high-resolution FLAC stability, DAC/wired-audio qualification, PictureFlow
+polish, and database/playlist presentation controls.
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:spycemagic/y2-rockbox/v0.1.0-beta</id>
+    <updated>2026-07-29T08:52:57Z</updated>
+    <published>2026-07-29T08:52:57Z</published>
+    <title>Y2 Rockbox Beta v0.1.0</title>
+    <link rel="alternate" type="text/html" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/tag/v0.1.0-beta"/>
+    <innioasis:tag_name>v0.1.0-beta</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/InnioasisUpdater_Setup_1.1.2.exe" title="InnioasisUpdater_Setup_1.1.2.exe" length="76812094" type="application/x-msdownload" innioasis:download_count="123" innioasis:asset_id="493822757"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/LICENSE.txt" title="LICENSE.txt" length="15407" type="text/plain; charset=utf-8" innioasis:download_count="11" innioasis:asset_id="493822769"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/NOTICE.txt" title="NOTICE.txt" length="1010" type="text/plain; charset=utf-8" innioasis:download_count="11" innioasis:asset_id="493822789"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/README-FIRST.txt" title="README-FIRST.txt" length="3453" type="text/plain; charset=utf-8" innioasis:download_count="74" innioasis:asset_id="493822745"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/rom_y2.zip" title="rom_y2.zip" length="366781486" type="application/zip" innioasis:download_count="652" innioasis:asset_id="598141451"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/SHA256SUMS.txt" title="SHA256SUMS.txt" length="650" type="text/plain; charset=utf-8" innioasis:download_count="35" innioasis:asset_id="493822756"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/Y2-Rockbox-Beta-v0.1.0-Guide.pdf" title="Y2-Rockbox-Beta-v0.1.0-Guide.pdf" length="1061516" type="application/pdf" innioasis:download_count="105" innioasis:asset_id="493822744"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/Y2-Rockbox-Beta-v0.1.0-Source.zip" title="Y2-Rockbox-Beta-v0.1.0-Source.zip" length="68049228" type="application/zip" innioasis:download_count="55" innioasis:asset_id="493822746"/>
+    <link rel="enclosure" href="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/Y2-Rockbox-Beta-v0.1.0-V88-InnioasisUpdater.zip" title="Y2-Rockbox-Beta-v0.1.0-V88-InnioasisUpdater.zip" length="366781486" type="application/zip" innioasis:download_count="258" innioasis:asset_id="493824493"/>
+    <content type="text">Y2 Rockbox Beta v0.1.0 for the Innioasis Y2.
+
+This beta uses the physically tested V88 firmware base. The release filename is new, but the firmware ZIP is byte-for-byte identical to the tested V88 package.
+
+## Important
+
+Flashing uses InnioasisUpdater 1.1.2 in full format-download mode and erases the complete player. Back up internal storage, microSD content, settings, playlists, and the complete `.rockbox` folder before flashing. Keep the official Y2 stock-recovery package available.
+
+Read `README-FIRST.txt` and the illustrated PDF guide before starting. Verify every download against `SHA256SUMS.txt`.
+
+## Physically tested
+
+- Rockbox and Stock cold-boot routes
+- Boot Settings save, verification, restart, and repeated cold boots
+- 15-minute audio playback and hardware controls
+- Sleep and wake
+- Theme selection and persistence
+- Internal-storage and microSD playback
+- USB storage transfer, safe eject, and automatic Rockbox return
+- Normal power off
+- Official-stock rollback
+
+## Beta limitations
+
+- Bluetooth playback is untested.
+- The both-volume fastboot chord did not open fastboot; do not rely on it.
+- Date/time changes did not persist during testing; the relationship to stock firmware is unresolved.
+- SNAZZ3 deliberately uses visible 30-pixel margins. This is theme layout, not display scaling.
+- The Windows updater executable is unsigned; verify its SHA-256 before running it.
+
+## Firmware SHA-256
+
+`40636D86943F6F0A1461B6D8C9285A1A50252253447B3DC7D11743533A88E4DE`
+
+The release includes the complete corresponding source, GPL license, and project notice. Innioasis updater and firmware components remain third-party materials.</content>
+  </entry>
+</feed>

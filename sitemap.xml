@@ -412,7 +412,7 @@
   <url><loc>https://innioasis.app/firmware-info/index.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://innioasis.app/firmware-info/spycemagic-y2-rockbox.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://innioasis.app/firmware-info/leska1337-better-y.html</loc><changefreq>weekly</changefreq></url>
-  <url><loc>https://innioasis.app/rockbox-y1/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://innioasis.app/rockbox-y1/index.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://innioasis.app/rockbox-y1/install.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://innioasis.app/rockbox-y1/download.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://innioasis.app/rockbox-y1/portable-zip.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -428,7 +428,7 @@
   <url><loc>https://innioasis.app/rockbox-y1/uninstall.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://innioasis.app/rockbox-y1/faq.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://innioasis.app/rockbox-y1/vs-stock.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://innioasis.app/rockbox-y2/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://innioasis.app/rockbox-y2/index.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://innioasis.app/rockbox-y2/install.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://innioasis.app/rockbox-y2/download.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://innioasis.app/rockbox-y2/portable-zip.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -587,4 +587,48 @@
   <url><loc>https://innioasis.app/post-install/schulzcode-y2player-changelog.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://innioasis.app/post-install/schulzcode-y2player-docs-format_support_matrix.html</loc><changefreq>weekly</changefreq></url>
   <url><loc>https://innioasis.app/post-install/schulzcode-y2player-docs-skins-format_v2.html</loc><changefreq>weekly</changefreq></url>
+  <url><loc>https://innioasis.app/firmware-list.html</loc><lastmod>2026-11-04</lastmod><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://innioasis.app/android-4-2-y1-software.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/android-4-4-y2-software.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/better-y-benefits.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/better-y-y1-software.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/credits.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/embed-snippet.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/firmware-benefits.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/firmware-y1.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/firmware-y2.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/firmware_info.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/guides/android-4-2-y1.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/guides/android-4-4-y2.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/guides/better-y-y1.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/guides/inniclassic-y2.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/guides/linux-y1.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/guides/reborn-y2linux-y2.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/guides/restore-original-a5.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/guides/restore-original-g5.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/guides/rondo-y1.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/inniclassic-y2-software.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/innioasis-a5-firmware.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/innioasis-embed.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/innioasis-g3-firmware.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/innioasis-g5-firmware.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/innioasis-integration-snippet.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/linux-y1-software.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/mtkclient.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/notices.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/notices/index.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/original-software-benefits.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/post_install.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/projects-supported.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/reborn-y2linux-benefits.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/reborn-y2linux-y2-software.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/release_notes.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/rondo-benefits.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/rondo-y1-software.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/slidia.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/special-thanks.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/support_toolbar.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/universal-flash-tool.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/updater-comparison.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://innioasis.app/y2reborn_wifibt.html</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

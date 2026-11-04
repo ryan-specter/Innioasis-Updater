@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:innioasis="https://innioasis.app/ns/feeds/1.0">
+  <id>https://innioasis.app/feeds/leska1337/better-y/releases.atom</id>
+  <title>Release notes from Leska1337/better-Y</title>
+  <link rel="alternate" type="text/html" href="https://innioasis.app/firmware.html"/>
+  <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/leska1337/better-y/releases.atom"/>
+  <updated>2026-09-25T18:39:12Z</updated>
+  <entry>
+    <id>tag:innioasis.app,2026:Leska1337/better-Y/v1.1.0</id>
+    <updated>2026-09-25T18:39:12Z</updated>
+    <published>2026-09-25T18:39:12Z</published>
+    <title>Version 1.1.0</title>
+    <link rel="alternate" type="text/html" href="https://github.com/Leska1337/better-Y/releases/tag/v1.1.0"/>
+    <innioasis:tag_name>v1.1.0</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://github.com/Leska1337/better-Y/raw/main/screenshots/plus_logo.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/Leska1337/better-Y/releases/download/v1.1.0/better-Y_3.1.2_v1.1.0.apk" title="better-Y_3.1.2_v1.1.0.apk" length="60200797" type="application/vnd.android.package-archive" innioasis:download_count="19" innioasis:asset_id="589006754"/>
+    <link rel="enclosure" href="https://github.com/Leska1337/better-Y/releases/download/v1.1.0/rom.zip" title="rom.zip" length="181243963" type="application/x-zip-compressed" innioasis:download_count="333" innioasis:asset_id="588998617"/>
+    <content type="text">![Image](https://github.com/Leska1337/better-Y/raw/v1.1.0/screenshots/themes_support.png &quot;Logo&quot;)
+
+Settings marked with ⚙️ are new rows in the better-Y menu.
+
+### System
+
+&lt;details&gt;
+&lt;summary&gt;⚙️ &lt;b&gt;Data backup&lt;/b&gt; — settings, likes, playlists, bookmarks and reading progress&lt;/summary&gt;
+&lt;div&gt;
+&lt;p&gt;&lt;/p&gt;
+
+Updating the firmware with an updater wipes the user data, so in order to keep it after an update you can use &quot;Data backup&quot; button. 
+It saves everything to `/better-Y/backup/` on the SD card and you can load it back after you updated to a newer version.
+
+Along with the better-Y settings, the archive keeps the theme, the stock settings, the library with
+playlists, bookmarks and audiobook progress, the e-book reader progress. Bluetooth pairings can&#x27;t be saved.
+
+&lt;/div&gt;
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;&lt;b&gt;Extended themes support&lt;/b&gt; — screens that were previously hardcoded now use the theme designs&lt;/summary&gt;
+&lt;div&gt;
+&lt;p&gt;&lt;/p&gt;
+
+- **USB connected**
+- **Loading windows**
+- **Equalizer**
+- **FM Radio**
+- **Photos**
+- **Wallpaper**
+- **Search** and the **on-screen keyboard**
+- **Brightness**
+- **Bluetooth**
+
+&lt;/div&gt;
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;&lt;b&gt;Equalizer now shows each band&#x27;s level in dB instead of just &quot;-15&quot; and &quot;15&quot;&lt;/b&gt;&lt;/summary&gt;
+&lt;div&gt;
+&lt;p&gt;&lt;/p&gt;
+
+&lt;table border=&quot;0&quot; style=&quot;border-collapse: collapse; border: none;&quot;&gt;
+  &lt;tr style=&quot;border: none; background: transparent; vertical-align: top;&quot;&gt;
+    &lt;td width=&quot;400&quot; align=&quot;center&quot; valign=&quot;top&quot; style=&quot;border: none; padding: 0 15px 0 0; width: 1px;&quot;&gt;
+      &lt;img src=&quot;https://github.com/Leska1337/better-Y/raw/v1.1.0/screenshots/equalizer.png&quot; alt=&quot;Updated equalizer window&quot; width=&quot;373&quot; style=&quot;display: block; max-width: none; margin: 0 auto;&quot;&gt;
+    &lt;/td&gt;
+&lt;/table&gt;
+
+&lt;/div&gt;
+&lt;/details&gt;
+
+&lt;p&gt;&amp;#9679;&amp;ensp;&lt;b&gt;Disabled scroll wheel sounds while the screen is off&lt;/b&gt; — no more clicks in a pocket when Key lock is off&lt;/p&gt;
+
+&lt;p&gt;&amp;#9679;&amp;ensp;&lt;b&gt;Fixed a bug where the song order was reset when a song was added to the queue&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;#9679;&amp;ensp;&lt;b&gt;Files of better-Y on the SD card are sorted into folders&lt;/b&gt; — &lt;code&gt;/better-Y/logs/&lt;/code&gt; and &lt;code&gt;/better-Y/backup/&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;#9679;&amp;ensp;&lt;b&gt;E-book → Local files no longer lists the files of the /better-Y/ folder&lt;/b&gt;
+
+&lt;p&gt;&amp;#9679;&amp;ensp;&lt;b&gt;Translation fixes and some other minor changes&lt;/b&gt;&lt;/p&gt;
+
+### Now Playing
+
+&lt;details&gt;
+&lt;summary&gt;⚙️ &lt;b&gt;Option to change text and lyrics color&lt;/b&gt; — Light / Dark / Theme color&lt;/summary&gt;
+&lt;div&gt;
+&lt;p&gt;&lt;/p&gt;
+
+&lt;table border=&quot;0&quot; style=&quot;border-collapse: collapse; border: none; margin: 0; width: auto;&quot;&gt;
+  &lt;!-- ВЕРХНИЙ РЯД: ДВЕ КАРТИНКИ --&gt;
+  &lt;tr style=&quot;border: none; background: transparent; vertical-align: top;&quot;&gt;
+    &lt;!-- Первая колонка (без отступа слева) --&gt;
+    &lt;td width=&quot;400&quot; align=&quot;center&quot; valign=&quot;top&quot; style=&quot;border: none; padding: 0 15px 0 0; width: 1px;&quot;&gt;
+      &lt;img src=&quot;https://github.com/Leska1337/better-Y/raw/v1.1.0/screenshots/color_change_1.png&quot; alt=&quot;Icons and text color changed to `Light`&quot; width=&quot;373&quot; style=&quot;display: block; max-width: none; margin: 0;&quot;&gt;
+      &lt;div align=&quot;center&quot; style=&quot;padding-top: 8px; font-size: 14px; line-height: 1.4; text-align: center;&quot;&gt;
+        Icons and text color changed to `Light`
+      &lt;/div&gt;
+    &lt;/td&gt;
+    &lt;!-- Вторая колонка --&gt;
+    &lt;td width=&quot;400&quot; align=&quot;center&quot; valign=&quot;top&quot; style=&quot;border: none; padding: 0 0 0 15px; width: 1px;&quot;&gt;
+      &lt;img src=&quot;https://github.com/Leska1337/better-Y/raw/v1.1.0/screenshots/color_change_2.png&quot; alt=&quot;Icons and text color changed to `Theme color`&quot; width=&quot;373&quot; style=&quot;display: block; max-width: none; margin: 0;&quot;&gt;
+      &lt;div align=&quot;center&quot; style=&quot;padding-top: 8px; font-size: 14px; line-height: 1.4; text-align: center;&quot;&gt;
+        Icons and text color changed to `Theme color`
+      &lt;/div&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;!-- ОТСТУП МЕЖДУ РЯДАМИ --&gt;
+  &lt;tr style=&quot;border: none; background: transparent; height: 20px;&quot;&gt;
+    &lt;td colspan=&quot;2&quot; valign=&quot;top&quot; style=&quot;border: none; padding: 0;&quot;&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+
+  &lt;!-- НИЖНИЙ РЯД: ТРЕТЬЯ КАРТИНКА ПО ЦЕНТРУ ПЕРВЫХ ДВУХ --&gt;
+  &lt;tr style=&quot;border: none; background: transparent; vertical-align: top;&quot;&gt;
+    &lt;td colspan=&quot;2&quot; align=&quot;center&quot; valign=&quot;top&quot; style=&quot;border: none; padding: 0; text-align: center;&quot;&gt;
+      &lt;div style=&quot;display: inline-block; text-align: center;&quot;&gt;
+        &lt;img src=&quot;https://github.com/Leska1337/better-Y/raw/v1.1.0/screenshots/color_change_3.png&quot; alt=&quot;Lyrics color changed to `Theme color`&quot; width=&quot;373&quot; style=&quot;display: block; max-width: none; margin: 0 auto;&quot;&gt;
+        &lt;div align=&quot;center&quot; style=&quot;padding-top: 8px; font-size: 14px; line-height: 1.4; text-align: center;&quot;&gt;
+          Lyrics color changed to `Theme color`
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;/div&gt;
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;⚙️ &lt;b&gt;Long artist/album scroll&lt;/b&gt; — Off / Artists / Albums / Both&lt;/summary&gt;
+&lt;div&gt;
+&lt;p&gt;&lt;/p&gt;
+
+Long artist and album lines in the player can now scroll too. Long song titles always scroll,
+regardless of the setting.
+
+&lt;/div&gt;
+&lt;/details&gt;
+
+### Menu
+
+&lt;details&gt;
+&lt;summary&gt;&lt;b&gt;More sorting options&lt;/b&gt; — in Folders and Audiobooks&lt;/summary&gt;
+&lt;div&gt;
+&lt;p&gt;&lt;/p&gt;
+
+- **Music/Audiobooks/Videos → Folders** — &quot;Sort by File name&quot;.
+- **Audiobooks → All audiobooks** and the chapters of a book — &quot;Sort by File name&quot;.
+- **Audiobooks → Artists** and **Albums** — &quot;Sort by&quot; → A-Z / Z-A.
+
+&lt;/div&gt;
+&lt;/details&gt;
+
+&lt;details&gt;
+&lt;summary&gt;&lt;b&gt;Photos section rework&lt;/b&gt; — revised to reflect the changes and align with the other sections&lt;/summary&gt;
+&lt;div&gt;
+&lt;p&gt;&lt;/p&gt;
+
+- &quot;Set as wallpaper&quot; is no longer offered for a folder.
+- Leaving a folder returns the grid to where it was, without scrolling down from the top.
+- Opening a folder or a picture no longer shows a loading window.
+
+&lt;/div&gt;
+&lt;/details&gt;
+
+&lt;p&gt;&amp;#9679;&amp;ensp;&lt;b&gt;Faster and even more responsive scrolling&lt;/b&gt; — up to 4x faster&lt;/p&gt;
+
+&lt;p&gt;&amp;#9679;&amp;ensp;&lt;b&gt;Queue, better-Y, Bluetooth, Themes gallery redesign&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;#9679;&amp;ensp;&lt;b&gt;Folders are listed above files in Videos → Folders&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;#9679;&amp;ensp;&lt;b&gt;New default folder and file icons in Folders&lt;/b&gt; — they also follow the theme colors&lt;/p&gt;
+
+&lt;p&gt;&amp;#9679;&amp;ensp;&lt;b&gt;The song number column fix&lt;/b&gt; — no longer cuts off with wide theme fonts and dynamically changes depending on the theme&#x27;s font size&lt;/p&gt;
+
+&lt;p&gt;&amp;#9679;&amp;ensp;&lt;b&gt;&quot;MultiSelect&quot; is back in the menu while songs are selected&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;#9679;&amp;ensp;&lt;b&gt;The alphabetical scroll letter no longer gets bigger with wide theme fonts&lt;/b&gt;&lt;/p&gt;
+
+&lt;p&gt;&amp;#9679;&amp;ensp;&lt;b&gt;Settings and equalizer previews change right after a scroll&lt;/b&gt; — without a delay&lt;/p&gt;
+
+### Metadata
+
+&lt;details&gt;
+&lt;summary&gt;&lt;b&gt;Tags of MP3s with big embedded covers are read correctly&lt;/b&gt; — titles, album artist, disc number and the cover itself&lt;/summary&gt;
+&lt;div&gt;
+&lt;p&gt;&lt;/p&gt;
+
+The stock firmware refuses to read an ID3 tag larger than 3 MB and silently falls back to the old ID3v1
+tag. That tag has titles cut to 30 characters, no album artist, no disc
+number, no cover — and no text encoding, so Cyrillic turned into hieroglyphs.
+
+better-Y now reads such tags itself (ID3v2.2, 2.3 and 2.4). FLAC, M4A and OGG never had this
+problem.
+
+A library scanned by an older version is fixed once by pressing &quot;Update library&quot;: on its first run
+it re-reads every MP3 whose tag is over the limit, even if the file has not changed.
+
+&lt;/div&gt;
+&lt;/details&gt;
+
+&gt; [!TIP]
+&gt; If you&#x27;re updating from version 1.0.0 and don&#x27;t want to lose your user data (settings, likes, playlists, bookmarks and reading progress), there are instructions in the Update section on how to update without losing your user data. Starting with this version you can back up your data using `Data backup` button in the better-Y menu and load it back after you updated to a newer version using Updater CE or any other option.</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:Leska1337/better-Y/v1.0.0</id>
+    <updated>2026-09-04T05:09:02Z</updated>
+    <published>2026-09-04T05:09:02Z</published>
+    <title>Version 1.0.0 - Initial release</title>
+    <link rel="alternate" type="text/html" href="https://github.com/Leska1337/better-Y/releases/tag/v1.0.0"/>
+    <innioasis:tag_name>v1.0.0</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://github.com/Leska1337/better-Y/raw/main/screenshots/plus_logo.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/Leska1337/better-Y/releases/download/v1.0.0/rom.zip" title="rom.zip" length="181072948" type="application/x-zip-compressed" innioasis:download_count="177" innioasis:asset_id="543801871"/>
+    <content type="text">&gt; [!WARNING]
+&gt; Y1, type A only</content>
+  </entry>
+</feed>

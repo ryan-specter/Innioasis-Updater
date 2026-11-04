@@ -108,11 +108,19 @@
     entries.forEach(function (entry) {
       if (entry.model && models.indexOf(entry.model) === -1) models.push(entry.model);
     });
-    document.title = "README for " + name + (models.length ? " (" + models.join(", ") + ")" : "") + " - Innioasis Updater";
+    var repoShort = repo.split("/").pop();
+    /* The heading names the software; the alias line under it carries the
+       README filename and repository, so searching for either finds this page. */
+    var aliases = ["README.md", repo, repoShort, name].filter(function (part, index, list) {
+      return part && list.indexOf(part) === index;
+    });
+    document.title = "About " + name + (models.length ? " (" + models.join(", ") + ")" : "") + " - README.md - Innioasis Updater";
     var title = document.getElementById("fi-title");
-    if (title) title.textContent = name + " README";
+    if (title) title.textContent = "About " + name;
     var kicker = document.getElementById("fi-kicker");
     if (kicker) kicker.textContent = "Firmware README · " + (models.join(" · ") || "project");
+    var readmeLine = document.getElementById("fi-readme-line");
+    if (readmeLine) readmeLine.textContent = "Also known as: " + aliases.join(" · ");
     var lead = document.getElementById("fi-lead");
     if (lead) {
       lead.textContent = primary.description ||
@@ -224,21 +232,54 @@
     setStat("downloads", number(downloads));
   }
 
+  function fallbackStatsFromBackup() {
+    var lower = String(repo || "").toLowerCase();
+    var statsMap = window.INNIOASIS_REPO_STATS || {};
+    if (statsMap[lower] && typeof statsMap[lower].downloads === "number") {
+      setStat("downloads", number(statsMap[lower].downloads));
+      return;
+    }
+    var hardcoded = window.INNIOASIS_HARDCODED_RELEASES || {};
+    var key = Object.keys(hardcoded).find(function (k) { return k.toLowerCase() === lower; });
+    if (key && Array.isArray(hardcoded[key]) && hardcoded[key].length) {
+      paintDownloads(hardcoded[key]);
+      return;
+    }
+    var feedUrl = relative("feeds/" + lower + "/releases.json");
+    fetch(feedUrl, { cache: "no-store" })
+      .then(function (res) { return res.ok ? res.json() : null; })
+      .then(function (list) {
+        if (Array.isArray(list) && list.length) {
+          paintDownloads(list);
+          return;
+        }
+        var note = document.getElementById("fi-stats-note");
+        if (note) note.textContent = "Download totals are unavailable right now.";
+      })
+      .catch(function () {
+        var note = document.getElementById("fi-stats-note");
+        if (note) note.textContent = "Download totals are unavailable right now.";
+      });
+  }
+
   function loadStats() {
     var collected = [];
     function page(index) {
       if (index > 3) { paintDownloads(collected); return; }
       apiJson("https://api.github.com/repos/" + repo + "/releases?per_page=100&page=" + index)
         .then(function (batch) {
-          if (!Array.isArray(batch) || !batch.length) { paintDownloads(collected); return; }
+          if (!Array.isArray(batch) || !batch.length) {
+            if (collected.length) paintDownloads(collected);
+            else fallbackStatsFromBackup();
+            return;
+          }
           collected = collected.concat(batch);
           if (batch.length < 100) { paintDownloads(collected); return; }
           page(index + 1);
         })
         .catch(function () {
           if (collected.length) { paintDownloads(collected); return; }
-          var note = document.getElementById("fi-stats-note");
-          if (note) note.textContent = "Download totals are unavailable right now.";
+          fallbackStatsFromBackup();
         });
     }
     page(1);

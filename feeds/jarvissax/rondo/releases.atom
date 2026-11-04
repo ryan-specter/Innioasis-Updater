@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:innioasis="https://innioasis.app/ns/feeds/1.0">
+  <id>https://innioasis.app/feeds/jarvissax/rondo/releases.atom</id>
+  <title>Release notes from jarvissax/rondo</title>
+  <link rel="alternate" type="text/html" href="https://innioasis.app/firmware.html"/>
+  <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/jarvissax/rondo/releases.atom"/>
+  <updated>2026-11-03T08:34:35Z</updated>
+  <entry>
+    <id>tag:innioasis.app,2026:jarvissax/rondo/v1.0.2</id>
+    <updated>2026-11-03T08:34:35Z</updated>
+    <published>2026-11-03T08:34:35Z</published>
+    <title>Rondo 1.0.2</title>
+    <link rel="alternate" type="text/html" href="https://github.com/jarvissax/rondo/releases/tag/v1.0.2"/>
+    <innioasis:tag_name>v1.0.2</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://github.com/jarvissax/rondo/releases/download/v1.0.2/updater.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/jarvissax/rondo/releases/download/v1.0.2/rom.zip" title="rom.zip" length="528028371" type="application/zip" innioasis:download_count="11" innioasis:asset_id="704945383"/>
+    <link rel="enclosure" href="https://github.com/jarvissax/rondo/releases/download/v1.0.2/rondo-1.0.2.apk" title="rondo-1.0.2.apk" length="6423022" type="application/vnd.android.package-archive" innioasis:download_count="6" innioasis:asset_id="704898289"/>
+    <link rel="enclosure" href="https://github.com/jarvissax/rondo/releases/download/v1.0.2/updater.png" title="updater.png" length="12952" type="image/png" innioasis:download_count="35" innioasis:asset_id="704945379"/>
+    <content type="text">Rondo 1.0.2 is about the server: it now updates itself with one click from its admin page. **Nothing changes on the Y1 itself**; it still offers this version as an update so the Y1 and the server stay on the same number.
+
+## What&#x27;s new
+
+- **Update the server with one click.** When a newer Rondo is out, the server&#x27;s admin page offers **Update**: the server downloads the new version and restarts on it in a minute or two, keeping your settings, YouTube account and connected Y1. A small companion container, `rondo-updater`, does the work; it only ever touches the Rondo server&#x27;s own container, and if the new version doesn&#x27;t start, the old one comes back by itself.
+- **Ready-made server images.** Installing the server now downloads it instead of building it on your machine, for regular PCs and 64-bit ARM (Raspberry Pi 4 and 5, many NAS boxes). The first start is much quicker on small machines.
+
+The full list is in [CHANGELOG.md](https://github.com/jarvissax/rondo/blob/main/CHANGELOG.md).
+
+## Moving your server over
+
+A server set up before 1.0.2 built itself and has no updater yet. Update it by hand once, and **Update** on the admin page does it from then on:
+
+```bash
+cd rondo
+git pull
+docker compose -f infra/compose.home.yaml pull      # or compose.vps.yaml
+docker compose -f infra/compose.home.yaml up -d
+```
+
+Your admin password, YouTube account and connected Y1 stay. Details: [Keeping it running](https://github.com/jarvissax/rondo/blob/main/docs/server.md#keeping-it-running).
+
+## The Y1
+
+If your Y1 runs Rondo 1.0.1, **Settings › Software update**, **Install** in the dashboard or [the update page](https://jarvissax.github.io/rondo/) bring it to 1.0.2 in a minute; nothing else changes. New to Rondo: choose **Rondo** in [Innioasis Updater CE](https://innioasis.app) (Y1, then Type A), or install `rom.zip` below with the Updater&#x27;s **Settings › Install from a file…**. Only for the **Y1 Type A**.
+
+## Files
+
+- `rom.zip`: the firmware, for Innioasis Updater CE (Y1 Type A), built from `rondo-1.0.2.apk` by the release workflow.
+- `rondo-1.0.2.apk`: the update, for a Y1 that already runs the Rondo firmware.
+- `updater.png`: the picture Innioasis Updater CE shows for this release.
+- The server images: `ghcr.io/jarvissax/rondo-server:1.0.2` and `ghcr.io/jarvissax/rondo-updater:1.0.2` (also `latest`).
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:jarvissax/rondo/v1.0.1</id>
+    <updated>2026-11-03T07:52:27Z</updated>
+    <published>2026-11-03T07:52:27Z</published>
+    <title>Rondo 1.0.1</title>
+    <link rel="alternate" type="text/html" href="https://github.com/jarvissax/rondo/releases/tag/v1.0.1"/>
+    <innioasis:tag_name>v1.0.1</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://github.com/jarvissax/rondo/releases/download/v1.0.1/updater.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/jarvissax/rondo/releases/download/v1.0.1/rom.zip" title="rom.zip" length="528031354" type="application/zip" innioasis:download_count="6" innioasis:asset_id="704788605"/>
+    <link rel="enclosure" href="https://github.com/jarvissax/rondo/releases/download/v1.0.1/rondo-1.0.1.apk" title="rondo-1.0.1.apk" length="6423015" type="application/vnd.android.package-archive" innioasis:download_count="4" innioasis:asset_id="704784362"/>
+    <link rel="enclosure" href="https://github.com/jarvissax/rondo/releases/download/v1.0.1/updater.png" title="updater.png" length="12952" type="image/png" innioasis:download_count="19" innioasis:asset_id="704788606"/>
+    <content type="text">A small update to Rondo for the **Innioasis Y1, Type A**. If your Y1 already runs Rondo, it installs over the one you have in about a minute, and everything stays: settings, Wi-Fi, server connection, playlists and music.
+
+## What&#x27;s new
+
+- **Click sound stays off.** Turning off **Settings › Click sound** (or the switch in the dashboard) now lasts through a restart. Before, the Y1&#x27;s own sound profile turned the click back on every time it started.
+- **Every release now comes with its firmware.** The `rom.zip` that Innioasis Updater CE installs is built automatically for each release, so a new install always gets the newest Rondo.
+- **Rondo knows which updates it can install.** The firmware now carries a version of its own. If a future release changes the firmware itself, not only Rondo, Settings › Software update, the dashboard and the update page say so and point you to Innioasis Updater CE, instead of offering an install that couldn&#x27;t work.
+- **One place for news of a release.** The Y1 (through your server), the dashboard and the update page all learn about a new Rondo from the update page, once its firmware is ready, so they always agree with each other and with Innioasis Updater CE.
+- **New README and guides**, with screenshots.
+
+The full list is in [CHANGELOG.md](https://github.com/jarvissax/rondo/blob/main/CHANGELOG.md).
+
+## Updating from 1.0.0
+
+Pick whichever is handiest; none of them reinstalls the firmware:
+
+- **On the Y1:** Settings › Software update, then **Install now** (needs your Rondo server).
+- **In the dashboard:** Settings › Dashboard on the Y1, open it on your phone, press **Install**.
+- **Over USB:** open [the update page](https://jarvissax.github.io/rondo/) in Chrome or Edge and plug the Y1 in.
+
+If you run a Rondo server, update it too ([how](https://github.com/jarvissax/rondo/blob/main/docs/server.md#keeping-it-running)); it&#x27;s 1.0.1 as well.
+
+## Installing for the first time
+
+Choose **Rondo** in [Innioasis Updater CE](https://innioasis.app) (Y1, then Type A), or download `rom.zip` below and use the Updater&#x27;s **Settings › Install from a file…**. Installing replaces everything on the Y1 itself; **the microSD card isn&#x27;t touched**. The [install guide](https://github.com/jarvissax/rondo/blob/main/docs/install.md) has the details.
+
+Only for the **Y1 Type A** (players that shipped with software 2.0.0 or later), not the Type B or the Y2.
+
+## Files
+
+- `rom.zip`: the firmware, for Innioasis Updater CE (Y1 Type A). Built from `rondo-1.0.1.apk` by this repository&#x27;s release workflow, a few minutes after publishing.
+- `rondo-1.0.1.apk`: the update, for a Y1 that already runs the Rondo firmware.
+- `updater.png`: the picture Innioasis Updater CE shows for this release.
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:jarvissax/rondo/v1.0.0</id>
+    <updated>2026-11-02T12:24:15Z</updated>
+    <published>2026-11-02T12:24:15Z</published>
+    <title>Rondo 1.0.0</title>
+    <link rel="alternate" type="text/html" href="https://github.com/jarvissax/rondo/releases/tag/v1.0.0"/>
+    <innioasis:tag_name>v1.0.0</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://github.com/jarvissax/rondo/releases/download/v1.0.0/updater.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/jarvissax/rondo/releases/download/v1.0.0/rom.zip" title="rom.zip" length="528038771" type="application/zip" innioasis:download_count="9" innioasis:asset_id="701648157"/>
+    <link rel="enclosure" href="https://github.com/jarvissax/rondo/releases/download/v1.0.0/rondo-1.0.0.apk" title="rondo-1.0.0.apk" length="6421197" type="application/vnd.android.package-archive" innioasis:download_count="5" innioasis:asset_id="701646360"/>
+    <link rel="enclosure" href="https://github.com/jarvissax/rondo/releases/download/v1.0.0/updater.png" title="updater.png" length="12952" type="image/png" innioasis:download_count="41" innioasis:asset_id="701647593"/>
+    <content type="text">Rondo is now a firmware for the Innioasis Y1: the Y1 starts straight into Rondo&#x27;s click-wheel menus, with nothing else on it.
+
+**For the Y1, Type A only** (players that shipped with software 2.0.0 or later). Not for the Type B or the Y2.
+
+## Install
+
+Choose **Rondo** in [Innioasis Updater CE](https://innioasis.app) (Y1, Type A). Or download `rom.zip` below and use the Updater&#x27;s **Settings › Install from a file…**.
+
+Installing replaces everything on the Y1 itself: the original player, Rockbox, settings. **The microSD card isn&#x27;t touched**, so your music stays. When the Updater is done, press the Y1&#x27;s Power button; the first start takes a couple of minutes. The [install guide](https://github.com/jarvissax/rondo/blob/main/docs/install.md) has the details and the first steps after it.
+
+For YouTube Music and YouTube, [set up a Rondo server](https://github.com/jarvissax/rondo/blob/main/docs/server.md) with Docker, at home or on a VPS.
+
+## Updates
+
+Later versions install over this one in a minute, without flashing again, keeping your settings, Wi-Fi, playlists and music: **Settings › Software update** on the Y1, **Install** in the dashboard, or [the update page](https://jarvissax.github.io/rondo/) over USB.
+
+## What&#x27;s in it
+
+- iPod-style menus for the click wheel, with optional vibration and a click on every step
+- Your music and videos from the microSD card, with covers, lyrics, search and playlists
+- The card as a USB drive when the Y1 is plugged into a computer
+- YouTube Music and YouTube, streamed live through your own server, including Shorts, with or without a YouTube account
+- FM radio with station names, scanning and saved stations
+- Bluetooth headphones and speakers, and Wi-Fi, set up from the wheel
+- A dashboard in your phone&#x27;s browser for music, playlists, settings, the theme, Wi-Fi, Bluetooth, the radio and updates
+- Shut down and restart from Settings, or by holding the Power button
+
+## Good to know
+
+- Only the Y1 Type A is supported; the Type B and Y2 haven&#x27;t been tested.
+- Rockbox, the original player and Android&#x27;s own Settings aren&#x27;t part of Rondo. Innioasis Updater CE puts any of them back.
+- YouTube Music and YouTube need your own Rondo server; the card, the radio and Bluetooth don&#x27;t.
+
+## Files
+
+| File | What it is | SHA-256 |
+| --- | --- | --- |
+| `rom.zip` | The firmware, for Innioasis Updater CE (Y1 Type A) | `97855240680f2f71f0e33147bd6f7567f4bf17e2efb082d495dc55b2877a0b6c` |
+| `rondo-1.0.0.apk` | Rondo by itself: updates a Y1 that runs the Rondo firmware | `911edd65b8f375e452c05e2004c1c817215a65f9a56d023c5acfb9a7d0857edd` |
+| `updater.png` | The picture Innioasis Updater CE shows for this release | `40b9f5679e2f84b4dd7c6fda968abf702df3ccb6b743fcb88e142eeb8b52047e` |
+
+The firmware is built with [`firmware/build.sh`](https://github.com/jarvissax/rondo/blob/main/firmware/build.sh) from the y1-community&#x27;s [Android 4.2 base ROM](https://github.com/y1-community/y1-ata-rom) (0.1, Type A). Its scatter file, preloader and flashing files are the base ROM&#x27;s, unchanged.</content>
+  </entry>
+</feed>

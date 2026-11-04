@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:innioasis="https://innioasis.app/ns/feeds/1.0">
+  <id>https://innioasis.app/feeds/y1-community/inniclassic-mirror/releases.atom</id>
+  <title>Release notes from y1-community/inniclassic-mirror</title>
+  <link rel="alternate" type="text/html" href="https://innioasis.app/firmware.html"/>
+  <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/y1-community/inniclassic-mirror/releases.atom"/>
+  <updated>2026-11-03T15:36:33Z</updated>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/inniclassic-mirror/v1.4.5</id>
+    <updated>2026-11-03T15:36:33Z</updated>
+    <published>2026-11-03T15:36:33Z</published>
+    <title>Portable Flashing Package: InniClassic 1.4.5</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/inniclassic-mirror/releases/tag/v1.4.5"/>
+    <innioasis:tag_name>v1.4.5</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.5/InniClassic-1.4.5.apk" title="InniClassic-1.4.5.apk" length="30017796" type="application/vnd.android.package-archive" innioasis:download_count="1" innioasis:asset_id="706114458"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.5/rom.zip" title="rom.zip" length="463531481" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706114462"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.5/rom-linux.zip" title="rom-linux.zip" length="851122251" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707198365"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.5/rom-windows.zip" title="rom-windows.zip" length="699811532" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707198368"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.5/stats.txt" title="stats.txt" length="2164" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707808275"/>
+    <content type="text">### Fixed
+- **Theme could silently revert to the default after connecting the device as USB Mass Storage** — the selected theme was persisted only as a numeric index into the SD card&#x27;s theme folder listing, and that listing&#x27;s order isn&#x27;t guaranteed stable across a mount/unmount cycle (common FAT32 behavior). The saved index could end up pointing at a completely different theme once the card was reconnected. The theme&#x27;s name is now saved alongside the index and resolved by name on startup — independent of scan order — with the old index kept only as a fallback for upgrades.
+- **`.scrobbler.log` declared its timestamps as `#TZ/UNKNOWN`** even though they&#x27;re genuinely UTC (`System.currentTimeMillis()` is always UTC epoch time, regardless of the device&#x27;s local timezone setting). Now correctly declared as `#TZ/UTC`, so any tool that imports the log trusts the timestamps instead of asking or guessing. Only affects newly created log files — an existing `.scrobbler.log`&#x27;s header isn&#x27;t rewritten.
+- **On-screen keyboard was missing common punctuation**, making some Wi-Fi passwords (and anything else typed through it — podcast search, Last.fm login, etc.) impossible to enter. Added `; : , / \ ( ) [ ] { } &lt; &gt; &#x27; ~` `` ` `` and `|`.
+
+### Install
+- **`rom.zip`** — flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.
+- **`InniClassic-1.4.5.apk`** — install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.4.5.apk`.
+
+Full changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;3084b8e2b8f436d0aca858282598af0f5c587bf7b0966f813ff3d66f961594b0&quot;,&quot;size&quot;:699811532,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;8778702df9d6b0985e40d02c2b9341e54e94df1f47204496bb9aa22914710fff&quot;,&quot;size&quot;:851122251,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;d1c0465cc2c91f1a423b1d603e6c1ee0943d3210a28b5d9d276a16de287b23fe&quot;,&quot;size&quot;:650235021,&quot;source_asset&quot;:&quot;rom.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:45:23Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;bc3b8a94f42be1ee3a01a6bdb5f4487ff95a6dc972b288c08be8f6be78f440e4&quot;,&quot;original_assets&quot;:[&quot;InniClassic-1.4.5.apk&quot;,&quot;rom.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;InniClassic-1.4.5.apk&quot;:2,&quot;rom-linux.zip&quot;:2,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:2,&quot;rom.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:45:23Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/inniclassic-mirror/v1.4.4</id>
+    <updated>2026-11-03T16:30:05Z</updated>
+    <published>2026-11-03T16:30:05Z</published>
+    <title>Portable Flashing Package: InniClassic 1.4.4</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/inniclassic-mirror/releases/tag/v1.4.4"/>
+    <innioasis:tag_name>v1.4.4</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.4/InniClassic-1.4.4.apk" title="InniClassic-1.4.4.apk" length="30000629" type="application/vnd.android.package-archive" innioasis:download_count="1" innioasis:asset_id="706288406"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.4/rom.zip" title="rom.zip" length="463523953" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706288412"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.4/rom-windows.zip" title="rom-windows.zip" length="699823249" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707191383"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.4/rom-linux.zip" title="rom-linux.zip" length="851133968" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707191389"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.4/rom-macos.zip" title="rom-macos.zip" length="650246738" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707191390"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.4/stats.txt" title="stats.txt" length="2161" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707808234"/>
+    <content type="text">A hardware-input overhaul: a real Hold/lock switch, a proper video/music handoff, and a round of Now Playing and Videos polish.
+
+### Added
+- **Hold (key lock)** — hold Center for 0.8s to lock the wheel/buttons (and physically turn the display off); hold Center again to unlock. This is the real fix for &quot;screen wakes up randomly in my pocket&quot;: instead of guessing which button presses are accidental, you can now lock input entirely, matching the real iPod Classic&#x27;s Hold switch.
+- **Toggle Favorite is back in the Now Playing hold-menu** (long-press Play/Pause) — caught and fixed before release: the redesigned Center gesture handling below removed the old &quot;double-click Center&quot; favorite shortcut without anywhere else to reach it.
+
+### Fixed
+- **Video Play/Pause was starting music instead of pausing the video.** Two compounding bugs: the hardware media-button receiver didn&#x27;t know about video and would call the music player regardless of what was on screen (with &quot;Screen Off Control&quot; enabled), and opening a video didn&#x27;t stop any music that was already playing. Both fixed.
+- **Videos list ignored the wheel/Center** in some cases — the screen was unconditionally swallowing every key before the shared list-navigation code could see it.
+- **Now Playing wheel seeking** is now a real preview-then-confirm: turning the wheel in Seek mode moves a pending position in 5-second steps without touching actual playback, applied only once you press Center again. The preview no longer gets silently overwritten by the background progress update.
+- Center-button handling is now centralized in one place — fixes a hold sometimes also registering as a select, and holding Center no longer opens the song menu or toggles video seek mode (that&#x27;s long Play/Pause and short Center respectively now).
+- Pausing on the Classic theme no longer dims the album artwork or leaves a leftover audio-format overlay on screen; the selected Now Playing bottom-bar mode survives a pause/resume.
+- Removed a duplicate progress-callback registration.
+
+### Changed
+- More compact Now Playing progress/volume bars, fixed-width time labels, and evenly spaced rating marks.
+- Video now seeks via Previous/Next (±10s); the wheel is volume-only during video playback.
+- Classic Videos list shares the same background/row styling as every other list.
+
+Full engineering write-up: [`docs/release-review-1.4.4.md`](https://github.com/FabianZettl/inniclassic/blob/master/docs/release-review-1.4.4.md).
+
+### Install
+- **`rom.zip`** — flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.
+- **`InniClassic-1.4.4.apk`** — install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.4.4.apk`.
+
+Full changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;44398772402670326a2c52f0a2e55712dfc5767604eb4a877f591bb496562c54&quot;,&quot;size&quot;:699823249,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;a545c74005e9b5e8944b11490cec8d4c2ae64e35de56dbd7bf7b73fd3f8a55f4&quot;,&quot;size&quot;:851133968,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;954ede0aa78cbaa63f89f5799d866c7c6e1859288fbe193c07808908eaf06951&quot;,&quot;size&quot;:650246738,&quot;source_asset&quot;:&quot;rom.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:42:29Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;de3fd985925283dcd0d1315d0137c5dcc1f568844d9ae7f8ba9b90d2eb4f6c9a&quot;,&quot;original_assets&quot;:[&quot;InniClassic-1.4.4.apk&quot;,&quot;rom.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;InniClassic-1.4.4.apk&quot;:2,&quot;rom-linux.zip&quot;:2,&quot;rom-macos.zip&quot;:4,&quot;rom-windows.zip&quot;:2,&quot;rom.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:42:29Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/inniclassic-mirror/v1.4.3</id>
+    <updated>2026-11-03T16:27:06Z</updated>
+    <published>2026-11-03T16:27:06Z</published>
+    <title>Portable Flashing Package: InniClassic 1.4.3</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/inniclassic-mirror/releases/tag/v1.4.3"/>
+    <innioasis:tag_name>v1.4.3</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.3/InniClassic-1.4.3.apk" title="InniClassic-1.4.3.apk" length="29869268" type="application/vnd.android.package-archive" innioasis:download_count="1" innioasis:asset_id="706278249"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.3/rom.zip" title="rom.zip" length="463538077" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706278257"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.3/rom-linux.zip" title="rom-linux.zip" length="851136463" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707184887"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.3/rom-macos.zip" title="rom-macos.zip" length="650249233" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707184898"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.3/rom-windows.zip" title="rom-windows.zip" length="699825744" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707184901"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.3/stats.txt" title="stats.txt" length="2164" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707808186"/>
+    <content type="text">A theme-consistency pass plus a round of real correctness/security fixes underneath, including a Last.fm crash and a Wireless PC Upload path-traversal issue.
+
+### Changed
+- **Classic themes tightened up**: edge-to-edge, tighter main-menu rows; consistent 21dp bold list type; saturated blue selection gradient shared by both the dynamic menus and library lists; silver status-bar gradient, darker secondary text, and more compact chevrons.
+- Battery silhouette is more rectangular, and battery percentage is now clamped to 0–100.
+- Main Menu, Cover Flow, Wi-Fi and equalizer views now use generated Android view IDs with a stable logical-key mapping instead of ad hoc constants.
+
+### Fixed
+- **Last.fm scrobbling could crash its background worker outright** — the pending-scrobble queue called `JSONArray.remove(int)`, which doesn&#x27;t exist on the Y1&#x27;s Android API 17 (added in API 19). Also, Last.fm can return HTTP 200 with an API-level error payload, which was previously treated as a successful scrobble and silently dropped instead of retried.
+- **Wireless PC Upload (the web server) had a path-traversal weakness** — file operations now canonicalize and confine paths to the shared root, reject cross-origin writes, and render filenames as plain text. Interrupted uploads now write to a temp file and atomically replace the target only once complete, so a dropped connection can no longer corrupt an existing file. Server connections now have timeouts and a bounded worker pool; shutdown properly closes active sockets.
+- Recycled album rows in the library list could show a stale cover thumbnail if an in-flight request finished after the row was recycled for a different album.
+- Removed a duplicate broadcast-receiver registration and duplicate manifest permission entries; added the newer Android receiver-flags overload with an API 17 fallback and additional Bluetooth/location permission checks.
+- Sound Check no longer calls an API-19-only method unguarded on this API-17 device.
+- Launcher icons switched from WebP to PNG for reliable API 17 rendering; fixed a malformed vector icon path.
+- Audiobook bookmark saving now checks the playlist index is still valid before writing.
+
+Full engineering write-up: [`docs/release-review-1.4.3.md`](https://github.com/FabianZettl/inniclassic/blob/master/docs/release-review-1.4.3.md).
+
+### Install
+- **`rom.zip`** — flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.
+- **`InniClassic-1.4.3.apk`** — install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.4.3.apk`.
+
+Full changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;1537da97e4ed36fda73f39ca5571826020116d00883b08354b2f68e7b4250e4e&quot;,&quot;size&quot;:699825744,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;5af70eede4a0e9aae5a428b8cc965cbf8eae36ecbdb4deff582c0eabd73c7b82&quot;,&quot;size&quot;:851136463,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;ee80ee79f240368102cc5e0d65bf00d4b8fd2b888accef02e76bc81464b5e96b&quot;,&quot;size&quot;:650249233,&quot;source_asset&quot;:&quot;rom.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:39:34Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;8a9c21c932d8347d6cecf112502bed1ff620805c5397d4656ebf38b1a5c3342e&quot;,&quot;original_assets&quot;:[&quot;InniClassic-1.4.3.apk&quot;,&quot;rom.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;InniClassic-1.4.3.apk&quot;:2,&quot;rom-linux.zip&quot;:2,&quot;rom-macos.zip&quot;:4,&quot;rom-windows.zip&quot;:2,&quot;rom.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:39:34Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/inniclassic-mirror/v1.4.2</id>
+    <updated>2026-11-03T16:24:41Z</updated>
+    <published>2026-11-03T16:24:41Z</published>
+    <title>Portable Flashing Package: InniClassic 1.4.2</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/inniclassic-mirror/releases/tag/v1.4.2"/>
+    <innioasis:tag_name>v1.4.2</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.2/rom.zip" title="rom.zip" length="463673525" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706270789"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.2/InniClassic-1.4.2.apk" title="InniClassic-1.4.2.apk" length="27225340" type="application/vnd.android.package-archive" innioasis:download_count="1" innioasis:asset_id="706270799"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.2/rom-macos.zip" title="rom-macos.zip" length="650375057" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707177902"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.2/rom-windows.zip" title="rom-windows.zip" length="699951568" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707177906"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.2/rom-linux.zip" title="rom-linux.zip" length="851262287" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707177908"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.2/stats.txt" title="stats.txt" length="2164" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707808127"/>
+    <content type="text">Theme-consistency and Podcasts fixes from user feedback.
+
+### Fixed
+- **Status bar headphone/Bluetooth icons were hardcoded white**, making them nearly invisible on the light iPod Classic theme&#x27;s light gray status bar. Now use the theme&#x27;s own text color like the rest of the status bar.
+- **On-screen keyboard&#x27;s selected character was unreadable on the light theme** — pure white text on a barely-tinted overlay meant it could blend into a light background almost completely. The keyboard panel&#x27;s backdrop is now solidly dark so the white text always has real contrast, regardless of theme.
+- **Podcast episode loading always said &quot;No internet connection&quot;** even when the real problem was something else entirely (a bad feed URL, a server error, an expired certificate, malformed XML, etc.) — the actual error was being silently discarded. The toast now shows the real failure reason so it&#x27;s actually possible to diagnose.
+
+### Added
+- **[`tools/airpods_fix/`](https://github.com/FabianZettl/inniclassic/tree/master/tools/airpods_fix)** — an experimental, opt-in fix for AirPods Pro 2 connecting over Bluetooth but staying silent, ported from [Semy0nBu/y1-airpods-rtpfix](https://github.com/Semy0nBu/y1-airpods-rtpfix) (all credit for the original fix goes there). Not bundled into the ROM or APK — it replaces a system-level Bluetooth driver, which is riskier and affects all Bluetooth devices, not just AirPods, so it ships as a separate, clearly-documented install/uninstall script pair instead of being forced on everyone. Read its README for the exact risk tradeoffs before using it.
+
+### Install
+- **`rom.zip`** — flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.
+- **`InniClassic-1.4.2.apk`** — install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.4.2.apk`.
+
+Full changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;5a515caba74898bf74ad96c2e4daaa85a86f85ca9e8fdabaa6ebdd4955e2805a&quot;,&quot;size&quot;:699951568,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;d425b63a282c7218287fd5f880701de538e91261c1ba9732d6f55d35cb338c03&quot;,&quot;size&quot;:851262287,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;4aa4350bf4fe60081bc406c71c2b1891500f42249a5efec628fbb76e69b854e5&quot;,&quot;size&quot;:650375057,&quot;source_asset&quot;:&quot;rom.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:36:44Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;2c2f0d0627257c6e9f6fc8b2e77e62f6904bfb25ee832e5f71c28b55e4114bb5&quot;,&quot;original_assets&quot;:[&quot;InniClassic-1.4.2.apk&quot;,&quot;rom.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;InniClassic-1.4.2.apk&quot;:2,&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:3,&quot;rom-windows.zip&quot;:3,&quot;rom.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:36:44Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/inniclassic-mirror/v1.4.1</id>
+    <updated>2026-11-03T16:21:42Z</updated>
+    <published>2026-11-03T16:21:42Z</published>
+    <title>Portable Flashing Package: InniClassic 1.4.1</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/inniclassic-mirror/releases/tag/v1.4.1"/>
+    <innioasis:tag_name>v1.4.1</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.1/InniClassic-1.4.1.apk" title="InniClassic-1.4.1.apk" length="27225053" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="706260049"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.1/rom.zip" title="rom.zip" length="463673952" type="application/zip" innioasis:download_count="2" innioasis:asset_id="706260050"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.1/rom-macos.zip" title="rom-macos.zip" length="650374370" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707170033"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.1/rom-windows.zip" title="rom-windows.zip" length="699950881" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707170039"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.1/rom-linux.zip" title="rom-linux.zip" length="851261600" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707170047"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.4.1/stats.txt" title="stats.txt" length="2165" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707808087"/>
+    <content type="text">Video feature catch-up, a new boot logo, and another round of Reddit-reported fixes.
+
+### Added
+- **Video thumbnails** — the Videos list shows a real frame from each file instead of a generic icon, loaded in the background.
+- **Video resume-position** — playback remembers where you left off and jumps back there next time you open that file.
+- **Fill Video Screen** setting — Settings → Fill Video Screen lets you choose between the original aspect ratio (letterboxed) or filling the whole screen. Direct response to a GitHub issue request.
+- **New boot logo** — replaces the Rockbox-branded splash the ROM&#x27;s `LOGO` partition had carried over since this project&#x27;s very first release with a plain black screen showing &quot;InniClassic&quot;.
+
+### Changed
+- **Larger list/settings text** — Songs/Albums/Artists/Genres/Composers rows, folder browsing, and every Settings row are a bit bigger.
+- **Cover Flow now groups by artist** — previously sorted purely alphabetically by album title; now sorted by artist first, album second, matching the real iPod Classic.
+
+### Fixed
+- **Folders with many files lagged noticeably when opened** — rows now build in chunks instead of all at once, so the screen stays responsive.
+- **Screen could randomly wake up in a pocket while listening to music** — only the Center button now wakes the real display back up (was any key before, which pocket pressure on the wheel could trigger).
+
+### Install
+- **`rom.zip`** — flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.
+- **`InniClassic-1.4.1.apk`** — install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.4.1.apk`.
+
+Full changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;533a103315a7add7a007355b6dc278c0bcbf0affeda7d66bf0fa3212e96f116f&quot;,&quot;size&quot;:699950881,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;e4abfdcbefe82f3e38d1b7b3b880dc6dcbabaf4195e4df0bc281794a8a11c195&quot;,&quot;size&quot;:851261600,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;a1915a2b124910acd7b68e6cc5c1349f1e3fa535146330e09aa137c8a240bea7&quot;,&quot;size&quot;:650374370,&quot;source_asset&quot;:&quot;rom.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:33:46Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;385a3ae272d545ad7a6c92ec74ffb26f0c9a59653bdb9b0d83d27bfe0bb42820&quot;,&quot;original_assets&quot;:[&quot;InniClassic-1.4.1.apk&quot;,&quot;rom.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;InniClassic-1.4.1.apk&quot;:2,&quot;rom-linux.zip&quot;:3,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:4,&quot;rom.zip&quot;:4},&quot;generated_at&quot;:&quot;2026-11-03T21:33:46Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/inniclassic-mirror/v1.3.2</id>
+    <updated>2026-11-03T16:19:05Z</updated>
+    <published>2026-11-03T16:19:05Z</published>
+    <title>Portable Flashing Package: InniClassic 1.3.2</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/inniclassic-mirror/releases/tag/v1.3.2"/>
+    <innioasis:tag_name>v1.3.2</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.2/InniClassic-1.3.2.apk" title="InniClassic-1.3.2.apk" length="27222719" type="application/vnd.android.package-archive" innioasis:download_count="1" innioasis:asset_id="706252600"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.2/rom.zip" title="rom.zip" length="463770674" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706252606"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.2/rom-linux.zip" title="rom-linux.zip" length="851356690" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707162232"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.2/rom-macos.zip" title="rom-macos.zip" length="650469459" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707162233"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.2/rom-windows.zip" title="rom-windows.zip" length="700045971" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707162240"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.2/stats.txt" title="stats.txt" length="2164" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707808032"/>
+    <content type="text">Small follow-up polish release.
+
+### Fixed
+- **Videos screen looked out of place** compared to every other menu (Settings, Bluetooth, Wi-Fi) — it was missing the uppercase title header those screens have. Added, matching the existing look exactly.
+
+### Install
+- **`rom.zip`** — flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.
+- **`InniClassic-1.3.2.apk`** — install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.3.2.apk`.
+
+Full changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;81d735bd02579ab20da62032f0b029e3cd830810c8f185fdbab04d1b0b7ed6b4&quot;,&quot;size&quot;:700045971,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;fdf9d65aae4cc0e0be33bccfa0babd97784ad796fc3ed004d2617d79ec302891&quot;,&quot;size&quot;:851356690,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;991de0a6b3b4fd5104183f228c19bf5c99388c91b4fd1eb8f67190b125764c6d&quot;,&quot;size&quot;:650469459,&quot;source_asset&quot;:&quot;rom.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:31:06Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;5bf28ae8d10d5e471e3f8d4db04162812b7ee8fe0df50d913443827e9d107c11&quot;,&quot;original_assets&quot;:[&quot;InniClassic-1.3.2.apk&quot;,&quot;rom.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;InniClassic-1.3.2.apk&quot;:2,&quot;rom-linux.zip&quot;:2,&quot;rom-macos.zip&quot;:4,&quot;rom-windows.zip&quot;:2,&quot;rom.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:31:06Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/inniclassic-mirror/v1.3.1</id>
+    <updated>2026-11-03T16:16:39Z</updated>
+    <published>2026-11-03T16:16:39Z</published>
+    <title>Portable Flashing Package: InniClassic 1.3.1</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/inniclassic-mirror/releases/tag/v1.3.1"/>
+    <innioasis:tag_name>v1.3.1</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.1/rom.zip" title="rom.zip" length="463770936" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706244730"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.1/InniClassic-1.3.1.apk" title="InniClassic-1.3.1.apk" length="27222661" type="application/vnd.android.package-archive" innioasis:download_count="1" innioasis:asset_id="706244738"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.1/rom-windows.zip" title="rom-windows.zip" length="700045877" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707153678"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.1/rom-macos.zip" title="rom-macos.zip" length="650469366" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707153679"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.1/rom-linux.zip" title="rom-linux.zip" length="851356596" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707153681"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.1/stats.txt" title="stats.txt" length="2164" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707807970"/>
+    <content type="text">Another round of Reddit-reported bugs, mostly around the Music library screens.
+
+### Fixed
+- **&quot;Albums&quot; was completely broken** — tapping into it either showed a black screen, froze, or silently bounced back to the Music menu. The row renderer was doing a full library scan plus a synchronous `MediaMetadataRetriever` lookup on the UI thread for every row, every time it scrolled into view — fine for a handful of albums, but an ANR/freeze risk for a real-sized library. Cover art lookup now runs on a background thread (placeholder shown immediately, real art swapped in once ready), and the per-album file lookup is precomputed once instead of rescanning the whole library per row.
+- **Videos screen: nothing could be selected or played** — rows were added to the list but never given initial focus, so spinning the wheel had no &quot;current&quot; row to move from (you&#x27;d hear the click sound but nothing would highlight or respond). Now the first row gets focus like every other list in the app.
+- **Some FLAC albums showed no cover art in &quot;Albums&quot;** (but did show it correctly on Now Playing/Cover Flow) — the Albums screen&#x27;s cover lookup skipped embedded art entirely for FLAC files with no fallback, so only albums with a folder `cover.jpg`/`folder.jpg` showed anything. It now uses the same dedicated FLAC metadata parser Now Playing already relies on.
+- **Confusion around Last.fm scrobbling / &quot;where&#x27;s my .scrobbler.log?&quot;** — the local scrobble log was silently gated behind the &quot;Scrobble to Last.fm&quot; toggle (off by default) even though it&#x27;s just a private text file that needs no account. It&#x27;s now written automatically for every played track, no setup required; the Settings toggle (renamed **Sync Scrobbles to Last.fm**) now only controls whether scrobbles are *also* sent to a real Last.fm account. Also documented in the README that `.scrobbler.log` is a dotfile and hidden by default in most file managers.
+- **Cover art looking noticeably blurry/soft while panning** on the Main Menu and Music menu — cover art was always decoded at half resolution regardless of its actual size, which compounded badly for anyone using smaller (e.g. 300×300) cover images against a pan panel rendered near full screen height. Downsampling now only kicks in for genuinely large source images; small covers are decoded at full resolution. README now recommends 600×600 minimum, 1000×1000+ ideally.
+
+### Install
+- **`rom.zip`** — flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.
+- **`InniClassic-1.3.1.apk`** — install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.3.1.apk`.
+
+Full changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;8f6e5417d6f433362bc69267caaf66622d1cd4a38acd1e3e6a4bd4117d4c1f96&quot;,&quot;size&quot;:700045877,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;2e1d4df7ceaec10cd25ba66bc6dd12af3a71a40a6cb0dfd2dc88480372e98c11&quot;,&quot;size&quot;:851356596,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;f0fdbf4ea5641f5f73cd6a70e5c421187d8a662b610362ad10b86c163d8ffba5&quot;,&quot;size&quot;:650469366,&quot;source_asset&quot;:&quot;rom.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:28:08Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;320b336d3cf0ca047ed37965fbd169302404b4b3b9e0042bfea872a3c070eeff&quot;,&quot;original_assets&quot;:[&quot;InniClassic-1.3.1.apk&quot;,&quot;rom.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;InniClassic-1.3.1.apk&quot;:2,&quot;rom-linux.zip&quot;:2,&quot;rom-macos.zip&quot;:4,&quot;rom-windows.zip&quot;:2,&quot;rom.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:28:08Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/inniclassic-mirror/v1.3.0</id>
+    <updated>2026-11-03T16:14:01Z</updated>
+    <published>2026-11-03T16:14:01Z</published>
+    <title>Portable Flashing Package: InniClassic 1.3.0</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/inniclassic-mirror/releases/tag/v1.3.0"/>
+    <innioasis:tag_name>v1.3.0</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.0/InniClassic-1.3.0.apk" title="InniClassic-1.3.0.apk" length="27221900" type="application/vnd.android.package-archive" innioasis:download_count="1" innioasis:asset_id="706235542"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.0/rom.zip" title="rom.zip" length="463775055" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706235550"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.0/rom-windows.zip" title="rom-windows.zip" length="700051322" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707145647"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.0/rom-macos.zip" title="rom-macos.zip" length="650474810" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707145654"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.0/rom-linux.zip" title="rom-linux.zip" length="851362041" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707145675"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.3.0/stats.txt" title="stats.txt" length="2164" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707807936"/>
+    <content type="text">A Music Quiz overhaul, a Now Playing polish pass, and another batch of Reddit-reported bugs — mostly sleep/wake and audio.
+
+### Added
+- **Music Quiz: five new question types** — alongside &quot;What song is playing?&quot;, it can now ask which artist released a track, which album it&#x27;s from, what year it came out, and what genre it is (each only offered when your library actually has enough distinct values to make a fair question). Also new: a visual question type showing 3 album covers side by side to pick from instead of text answers.
+- **Music Quiz: all 4 answers now fit on screen at once**, no more scrolling to see the other options.
+
+### Changed
+- **Now Playing**: the album cover sits slightly lower, spacing between Title/Artist/Album is now perfectly consistent, the star rating moved between Album and the track counter, and the &quot;X of Y&quot; track counter is bold at the same size as the rest of the info block.
+- Documented the existing (but easy-to-miss) **synced lyrics** support: drop a `.lrc` file next to a song (same filename) or embed lyrics in ID3/FLAC/ALAC tags, then long-press Center on Now Playing → Toggle Visualizer to see them scroll in sync with playback.
+
+### Fixed
+- **Screen never came back on after the backlight timer put it to sleep** — two separate bugs:
+  - The &quot;virtual&quot; sleep used while FM Radio or the web server is running (so the CPU stays alive) never had any code path that turned it back off. Once triggered, the screen stayed black forever (vibration/click feedback still worked) until a full reboot.
+  - The &quot;real&quot; sleep used during ordinary music playback simulates a power-button press to turn the display off, but nothing ever simulated a second press to turn it back on.
+- **Full device lockup (required a paperclip reset) playing FM Radio through wired headphones for a few minutes** — the backlight timer&#x27;s &quot;virtual sleep&quot; path was also toggling Wi-Fi off while the FM tuner was active. On this chipset, FM/Wi-Fi/Bluetooth share the same combo radio hardware; killing Wi-Fi mid-session could wedge it badly enough to need a hard reset. Wi-Fi is now left alone whenever the radio is on.
+- **Screen dimming during active use** — the default Backlight Timer was 10 seconds. Now 1 minute (still adjustable down to 10s in Settings).
+- **Bluetooth headphones (reported with AirPods) noticeably quiet** — a known AVRCP &quot;absolute volume&quot; quirk. Absolute volume is now disabled on connect, so headphones use their own physical volume control.
+- **Some FLAC files failed with &quot;Legacy Player Error: 262&quot;** — failing files now automatically retry once through ExoPlayer&#x27;s FLAC extension instead of giving up outright.
+
+### Install
+- **`rom.zip`** — flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.
+- **`InniClassic-1.3.0.apk`** — install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.3.0.apk`.
+
+Full changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;b2b0ab817e2b33ecd8c081a351cf8b4305baf1d5d06753b863adc17eefe92c0d&quot;,&quot;size&quot;:700051322,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;be766678d2563d681a9ffbab76df5303259d0e80cde4cf9be22aa2152cab14de&quot;,&quot;size&quot;:851362041,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;9ebe358e4f3d9cf225ffdfdc1381eaf500af9675afa61db22defdb29fecd3023&quot;,&quot;size&quot;:650474810,&quot;source_asset&quot;:&quot;rom.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:25:25Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;d73aa748cbde152dc57f982d32db6b960c97d7b9dab4179bcb60acca5d61a934&quot;,&quot;original_assets&quot;:[&quot;InniClassic-1.3.0.apk&quot;,&quot;rom.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;InniClassic-1.3.0.apk&quot;:2,&quot;rom-linux.zip&quot;:2,&quot;rom-macos.zip&quot;:3,&quot;rom-windows.zip&quot;:2,&quot;rom.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:25:25Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/inniclassic-mirror/v1.2.0</id>
+    <updated>2026-11-03T16:11:28Z</updated>
+    <published>2026-11-03T16:11:28Z</published>
+    <title>Portable Flashing Package: InniClassic 1.2.0</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/inniclassic-mirror/releases/tag/v1.2.0"/>
+    <innioasis:tag_name>v1.2.0</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.2.0/InniClassic-1.2.0.apk" title="InniClassic-1.2.0.apk" length="31349729" type="application/vnd.android.package-archive" innioasis:download_count="1" innioasis:asset_id="706227512"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.2.0/rom.zip" title="rom.zip" length="463513542" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706227513"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.2.0/rom-linux.zip" title="rom-linux.zip" length="851110266" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707138156"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.2.0/rom-macos.zip" title="rom-macos.zip" length="650223035" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707138158"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.2.0/rom-windows.zip" title="rom-windows.zip" length="699799547" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707138163"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.2.0/stats.txt" title="stats.txt" length="2164" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707807903"/>
+    <content type="text">Video playback, gapless playback, and a full visual consistency pass across every screen.
+
+### Added
+- **Video playback** - new &quot;Videos&quot; entry in the Main Menu, its own folder on the SD card (`/storage/sdcard0/Videos`), full-screen player with wheel-driven volume/seek. **Now powered by libVLC instead of ExoPlayer** - ExoPlayer&#x27;s precise frame-timing API only exists from Android API 21 onward, and its fallback for older devices turned out to be broken on the Y1&#x27;s API 17 (audio and the position clock stayed correct, but picture played back several times faster than real time). libVLC brings its own native AV-sync engine independent of that Android API, giving stable, correctly-synced playback. Audio-only playback is untouched and still runs on ExoPlayer. Thumbnails in the video list and resume-position are still unaddressed for now - see `tools/handbrake_y1_preset.json` for a ready-to-import HandBrake preset tuned for smooth playback on the Y1&#x27;s chip.
+- **Gapless playback** - automatically kicks in for albums/playlists of 15 tracks or fewer, with shuffle off and no FLAC in the queue. Track transitions inside a gapless queue no longer stop and reload.
+- **Favorites are always visible now** on Now Playing - hollow heart normally, filled red heart when favorited, instead of nothing at all unless already a favorite.
+
+### Changed
+- Unified font sizes, left alignment, and row spacing across every menu (Main Menu, Music menu, Artists, Albums, Songs, Settings/Bluetooth/Wi-Fi).
+- Right-arrow indicator now only shows on the focused row, everywhere.
+- Thinner status bar matching real iPod proportions; narrows to the left column on both Main Menu and Music menu so the album cover bleeds behind it.
+- Main Menu and Music menu covers now share the exact same slow &quot;Ken Burns&quot; panning animation.
+- Bigger Now Playing album cover, bolder track counter, marquee-scrolling long titles, glass-look progress bar.
+- Larger album cover thumbnails in the Albums list.
+
+### Fixed
+- Focus arrow color was theme-dependent instead of fixed white.
+- A recycled list row&#x27;s blue focused background could get incorrectly reset regardless of actual focus state.
+- Now Playing&#x27;s progress ticker and the clock/widget refresh loop kept doing full work every 0.5-1s even when not visible (or during virtual screen-off) - both now sit idle unless actually needed. Should help battery life.
+
+### Install
+- **`rom.zip`** - flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.
+- **`InniClassic-1.2.0.apk`** - install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.2.0.apk`.
+
+Full changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;3b11946cfa5b658077b5b278b8f9be6e1c0a97d0c4d0e5449d3b3125dfb3a130&quot;,&quot;size&quot;:699799547,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;89e28f481c183096edc25414a547105a2b4a9fe8f2a470f4f3c6ea13cf0ca676&quot;,&quot;size&quot;:851110266,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;ec074a94b57cf2e31a9bc87d038c527235e6145d15f221cdb0b88e5d118379ab&quot;,&quot;size&quot;:650223035,&quot;source_asset&quot;:&quot;rom.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:22:31Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;374770207f3b1a47515016de4666143eaf13b9ddeda295d3a0683866e6f93627&quot;,&quot;original_assets&quot;:[&quot;InniClassic-1.2.0.apk&quot;,&quot;rom.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;InniClassic-1.2.0.apk&quot;:2,&quot;rom-linux.zip&quot;:2,&quot;rom-macos.zip&quot;:4,&quot;rom-windows.zip&quot;:2,&quot;rom.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:22:31Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/inniclassic-mirror/v1.1.2</id>
+    <updated>2026-11-03T16:08:57Z</updated>
+    <published>2026-11-03T16:08:57Z</published>
+    <title>Portable Flashing Package: InniClassic 1.1.2</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/inniclassic-mirror/releases/tag/v1.1.2"/>
+    <innioasis:tag_name>v1.1.2</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.1.2/rom.zip" title="rom.zip" length="457809513" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706218783"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.1.2/InniClassic-1.1.2.apk" title="InniClassic-1.1.2.apk" length="7020639" type="application/vnd.android.package-archive" innioasis:download_count="1" innioasis:asset_id="706218788"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.1.2/rom-macos.zip" title="rom-macos.zip" length="644494915" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707130528"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.1.2/rom-windows.zip" title="rom-windows.zip" length="694071426" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707130531"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.1.2/rom-linux.zip" title="rom-linux.zip" length="845382145" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707130532"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.1.2/stats.txt" title="stats.txt" length="2162" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707807858"/>
+    <content type="text">Bug-fix release based on more Reddit feedback from multiple users.
+
+### Fixed
+- **Crash browsing Artists, Album Artists, Albums, Songs, or Genres** - songs with a missing artist/album tag could carry a `null` value that crashed the launcher wherever it was later compared. Every song now always gets a safe &quot;Unknown Artist&quot;/&quot;Unknown Album&quot; fallback.
+- **FLAC files stuck at 0:00** - the fallback engine that FLAC was supposed to use was never actually being switched on.
+- **Screen turning off during active use** - spinning the wheel now correctly resets the auto-lock timer.
+- **Charging indicator** - the battery icon now actually draws a lightning bolt while charging (the code for it existed but was never enabled).
+- Long album/track names no longer overlap the battery/Bluetooth icons in the status bar.
+
+### Added
+- **Shuffle** row at the top of All Songs, matching the stock Y1 firmware.
+- **FM Radio** is back in the Main Menu (it had quietly disappeared from the theme config).
+
+### Install
+- **rom.zip** - flash via the Innioasis Updater, no ADB required. Must keep the filename exactly rom.zip. Ships the latest Y1 Firmware 3.1.2 with InniClassic pre-installed.
+- **InniClassic-1.1.2.apk** - install over an existing JJ Launcher / InniClassic install via adb install InniClassic-1.1.2.apk.
+
+Full changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;1a627c13334f3528c89649da9248815033a62ccb39a21a884c13d3416cc77904&quot;,&quot;size&quot;:694071426,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;1a0924e1e4b9af20169f7ae1b903e2fe63b6d45459a9eb2adb2e7871049334b5&quot;,&quot;size&quot;:845382145,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;58a61badd651a3359eff6c88c0ac052a6e97f1a05cb5eaaf498cf99862840d44&quot;,&quot;size&quot;:644494915,&quot;source_asset&quot;:&quot;rom.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:19:24Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;d7ec3b358be1b6f22ed0658e07cf96a3ff3df9e816d9b0520cb9f100145f5631&quot;,&quot;original_assets&quot;:[&quot;InniClassic-1.1.2.apk&quot;,&quot;rom.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;InniClassic-1.1.2.apk&quot;:2,&quot;rom-linux.zip&quot;:3,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:3,&quot;rom.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:19:24Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/inniclassic-mirror/v1.1.1</id>
+    <updated>2026-11-03T16:06:14Z</updated>
+    <published>2026-11-03T16:06:14Z</published>
+    <title>Portable Flashing Package: v1.1.1 - InniClassic: now flashable via Innioasis Updater</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/inniclassic-mirror/releases/tag/v1.1.1"/>
+    <innioasis:tag_name>v1.1.1</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.1.1/InniClassic-1.1.1.apk" title="InniClassic-1.1.1.apk" length="8795490" type="application/vnd.android.package-archive" innioasis:download_count="1" innioasis:asset_id="706209922"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.1.1/rom.zip" title="rom.zip" length="457676727" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706209923"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.1.1/rom-macos.zip" title="rom-macos.zip" length="644386545" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707122620"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.1.1/rom-windows.zip" title="rom-windows.zip" length="693963082" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707122623"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.1.1/rom-linux.zip" title="rom-linux.zip" length="845273801" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707122625"/>
+    <link rel="enclosure" href="https://github.com/y1-community/inniclassic-mirror/releases/download/v1.1.1/stats.txt" title="stats.txt" length="2162" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707807799"/>
+    <content type="text">The project is now named **InniClassic** (still based on and credited to [JJ Launcher](https://github.com/ismileblue/y1_launcher) — see README). Same 1.1.1 build as before, no functional version bump for the rename itself.
+
+### 🆕 Now installable as a full ROM
+`rom.zip` flashes directly via the [Innioasis Updater](https://www.innioasis.com/pages/download) — no ADB, no manual uninstall step. It ships the latest **Y1 Firmware 3.1.2** with InniClassic pre-installed as the system launcher. Just select the zip in the Updater and follow the prompts (the Updater expects this exact filename, so don&#x27;t rename it after downloading).
+
+The APK (`InniClassic-1.1.1.apk`) is still available too, for updating an existing JJ Launcher-based install via ADB — see the README&#x27;s Method 2.
+
+### Also in this build
+- New **iPod Classic (Dark)** theme
+- iPod Classic is now the true first-launch default theme
+- Fixed Bluetooth A2DP `connect()` failing on some speakers (missing `BLUETOOTH_PRIVILEGED`/`WRITE_SECURE_SETTINGS`, now self-granted at startup)
+- New **Album Cover Tilt** setting to turn off the Now Playing 3D tilt
+- Fixed track titles sometimes showing their file extension (`.ogg`, `.wav`, etc.)
+- Music menu: split &quot;Artists&quot; into **Artists** (track artist) and **Album Artists** (album artist), matching real iPod Classic
+- Music Quiz restructured into 5 rounds of 8 questions, with round-complete and victory screens
+- A PC-side script ([`tools/build_library_cache.py`](https://github.com/FabianZettl/inniclassic/blob/master/tools/build_library_cache.py)) to pre-build the library scan cache for large libraries, so the device doesn&#x27;t have to re-tag everything on next boot
+- Plus the two Reddit-reported fixes from the original 1.1.1 (invisible web server text, wheel active while locked) — see below
+
+### Fixed (original 1.1.1 fixes)
+- Wireless PC Upload (web server) status text was hardcoded white, invisible against the iPod Classic theme&#x27;s white background. Same issue fixed on the Bluetooth/Wi-Fi/Brightness/Storage/Settings screen titles.
+- The wheel stayed active while the device was locked (screen off) and could still change the volume — the guard for this existed but lived in a method that never actually ran on this device; moved to where it&#x27;s effective.
+
+Full changelog: [CHANGELOG.md](https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md)
+
+&gt; [!WARNING]
+&gt; Updating from an older APK install? Uninstall it first (`adb uninstall com.themoon.y1` or `adb shell pm uninstall --user 0 com.themoon.y1`) — see the README&#x27;s Installation section. The ROM method doesn&#x27;t need this.
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;9febc01fe34d67184aa3002ab99707892f9974256f341915c22c726ad0db453b&quot;,&quot;size&quot;:693963082,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;9ac1abd5fdad497b6991ee2eee8a7696dee1854c11f8914e1f6c918968cc579a&quot;,&quot;size&quot;:845273801,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;a71233fd8146da06d542fe504db2d0cbfa00e8b6bf319a66bf152c9d97b832f9&quot;,&quot;size&quot;:644386545,&quot;source_asset&quot;:&quot;rom.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:16:19Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;566c2a7aff51bba07c0a2401fdb6cf47c2c060146d56862745f9358078af28e5&quot;,&quot;original_assets&quot;:[&quot;InniClassic-1.1.1.apk&quot;,&quot;rom.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;InniClassic-1.1.1.apk&quot;:2,&quot;rom-linux.zip&quot;:3,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:3,&quot;rom.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:16:19Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+</feed>

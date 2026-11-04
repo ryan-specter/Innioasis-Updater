@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:innioasis="https://innioasis.app/ns/feeds/1.0">
+  <id>https://innioasis.app/feeds/rockbox-y1/rockbox/releases.atom</id>
+  <title>Release notes from rockbox-y1/rockbox</title>
+  <link rel="alternate" type="text/html" href="https://innioasis.app/firmware.html"/>
+  <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/rockbox-y1/rockbox/releases.atom"/>
+  <updated>2026-10-29T00:51:15Z</updated>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-0936ff79cff7ee5e47c6278b648d478824e709fa</id>
+    <updated>2026-10-29T00:51:15Z</updated>
+    <published>2026-10-29T00:51:15Z</published>
+    <title>Rockbox-Y1 Nightly-29-10-2026</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-0936ff79cff7ee5e47c6278b648d478824e709fa"/>
+    <innioasis:tag_name>nightly-0936ff79cff7ee5e47c6278b648d478824e709fa</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-0936ff79cff7ee5e47c6278b648d478824e709fa/rockbox.apk" title="rockbox.apk" length="16537976" type="application/vnd.android.package-archive" innioasis:download_count="8" innioasis:asset_id="686875556"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-0936ff79cff7ee5e47c6278b648d478824e709fa/rom.zip" title="rom.zip" length="588795445" type="application/zip" innioasis:download_count="22" innioasis:asset_id="686875882"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-0936ff79cff7ee5e47c6278b648d478824e709fa/rom_type_b.zip" title="rom_type_b.zip" length="502333716" type="application/zip" innioasis:download_count="6" innioasis:asset_id="686876719"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-0936ff79cff7ee5e47c6278b648d478824e709fa/update.zip" title="update.zip" length="99371269" type="application/zip" innioasis:download_count="13" innioasis:asset_id="686875658"/>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-9c92b93a5d582b3819a119162a14ad0b4178d2cd</id>
+    <updated>2026-10-25T03:09:09Z</updated>
+    <published>2026-10-25T03:09:09Z</published>
+    <title>Rockbox-Y1 Nightly-25-10-2026</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-9c92b93a5d582b3819a119162a14ad0b4178d2cd"/>
+    <innioasis:tag_name>nightly-9c92b93a5d582b3819a119162a14ad0b4178d2cd</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-9c92b93a5d582b3819a119162a14ad0b4178d2cd/rockbox.apk" title="rockbox.apk" length="16476536" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="673951155"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-9c92b93a5d582b3819a119162a14ad0b4178d2cd/rom.zip" title="rom.zip" length="584666672" type="application/zip" innioasis:download_count="25" innioasis:asset_id="673951259"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-9c92b93a5d582b3819a119162a14ad0b4178d2cd/rom_type_b.zip" title="rom_type_b.zip" length="499243368" type="application/zip" innioasis:download_count="4" innioasis:asset_id="673951672"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-9c92b93a5d582b3819a119162a14ad0b4178d2cd/update.zip" title="update.zip" length="99241893" type="application/zip" innioasis:download_count="9" innioasis:asset_id="673951191"/>
+    <content type="text">Adds seamless switching between Rockbox and better-Y without reboot</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-11d9072b8ae950dfe76b8d867f67ff1a048a8c24</id>
+    <updated>2026-10-23T17:26:30Z</updated>
+    <published>2026-10-23T17:26:30Z</published>
+    <title>Rockbox-Y1 Nightly-23-10-2026</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-11d9072b8ae950dfe76b8d867f67ff1a048a8c24"/>
+    <innioasis:tag_name>nightly-11d9072b8ae950dfe76b8d867f67ff1a048a8c24</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-11d9072b8ae950dfe76b8d867f67ff1a048a8c24/rockbox.apk" title="rockbox.apk" length="16476536" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="669851654"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-11d9072b8ae950dfe76b8d867f67ff1a048a8c24/rom.zip" title="rom.zip" length="533108576" type="application/zip" innioasis:download_count="9" innioasis:asset_id="669851848"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-11d9072b8ae950dfe76b8d867f67ff1a048a8c24/rom_type_b.zip" title="rom_type_b.zip" length="442359999" type="application/zip" innioasis:download_count="2" innioasis:asset_id="669852478"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-11d9072b8ae950dfe76b8d867f67ff1a048a8c24/update.zip" title="update.zip" length="98341687" type="application/zip" innioasis:download_count="5" innioasis:asset_id="669851724"/>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-9733397325a7c3239cac067d86ca7682b11136b2</id>
+    <updated>2026-10-18T17:48:11Z</updated>
+    <published>2026-10-18T17:48:11Z</published>
+    <title>Rockbox-Y1 Nightly-18-10-2026</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-9733397325a7c3239cac067d86ca7682b11136b2"/>
+    <innioasis:tag_name>nightly-9733397325a7c3239cac067d86ca7682b11136b2</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-9733397325a7c3239cac067d86ca7682b11136b2/rockbox.apk" title="rockbox.apk" length="16476536" type="application/vnd.android.package-archive" innioasis:download_count="5" innioasis:asset_id="654087553"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-9733397325a7c3239cac067d86ca7682b11136b2/rom.zip" title="rom.zip" length="537868454" type="application/zip" innioasis:download_count="47" innioasis:asset_id="654087671"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-9733397325a7c3239cac067d86ca7682b11136b2/rom_type_b.zip" title="rom_type_b.zip" length="445484013" type="application/zip" innioasis:download_count="4" innioasis:asset_id="654088138"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-9733397325a7c3239cac067d86ca7682b11136b2/update.zip" title="update.zip" length="98336154" type="application/zip" innioasis:download_count="12" innioasis:asset_id="654087583"/>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-e879e4813d025c07d66dd89e17065fdedd3ba5c5</id>
+    <updated>2026-10-05T20:32:29Z</updated>
+    <published>2026-10-05T20:32:29Z</published>
+    <title>Rockbox-Y1 Nightly-05-10-2026</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-e879e4813d025c07d66dd89e17065fdedd3ba5c5"/>
+    <innioasis:tag_name>nightly-e879e4813d025c07d66dd89e17065fdedd3ba5c5</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-e879e4813d025c07d66dd89e17065fdedd3ba5c5/rockbox.apk" title="rockbox.apk" length="16451893" type="application/vnd.android.package-archive" innioasis:download_count="6" innioasis:asset_id="613566017"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-e879e4813d025c07d66dd89e17065fdedd3ba5c5/rom.zip" title="rom.zip" length="533260668" type="application/zip" innioasis:download_count="99" innioasis:asset_id="613566130"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-e879e4813d025c07d66dd89e17065fdedd3ba5c5/rom_type_b.zip" title="rom_type_b.zip" length="449565981" type="application/zip" innioasis:download_count="8" innioasis:asset_id="613566383"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-e879e4813d025c07d66dd89e17065fdedd3ba5c5/update.zip" title="update.zip" length="98300851" type="application/zip" innioasis:download_count="19" innioasis:asset_id="613566049"/>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-107480ccb359ec26a8f9d161d4e86efd3d6b1144</id>
+    <updated>2026-09-24T22:57:19Z</updated>
+    <published>2026-09-24T22:57:19Z</published>
+    <title>Rockbox-Y1 Nightly-24-09-2026</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-107480ccb359ec26a8f9d161d4e86efd3d6b1144"/>
+    <innioasis:tag_name>nightly-107480ccb359ec26a8f9d161d4e86efd3d6b1144</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-107480ccb359ec26a8f9d161d4e86efd3d6b1144/rockbox.apk" title="rockbox.apk" length="16439605" type="application/vnd.android.package-archive" innioasis:download_count="6" innioasis:asset_id="587019913"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-107480ccb359ec26a8f9d161d4e86efd3d6b1144/rom.zip" title="rom.zip" length="535153959" type="application/zip" innioasis:download_count="71" innioasis:asset_id="587020009"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-107480ccb359ec26a8f9d161d4e86efd3d6b1144/rom_type_b.zip" title="rom_type_b.zip" length="442648964" type="application/zip" innioasis:download_count="3" innioasis:asset_id="587020324"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-107480ccb359ec26a8f9d161d4e86efd3d6b1144/update.zip" title="update.zip" length="98277748" type="application/zip" innioasis:download_count="13" innioasis:asset_id="587019940"/>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b</id>
+    <updated>2026-09-09T21:28:44Z</updated>
+    <published>2026-09-09T21:28:44Z</published>
+    <title>Rockbox-Y1 Nightly-09-09-2026</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b"/>
+    <innioasis:tag_name>nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rockbox.apk" title="rockbox.apk" length="16439605" type="application/vnd.android.package-archive" innioasis:download_count="5" innioasis:asset_id="553609848"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rom.zip" title="rom.zip" length="535140170" type="application/zip" innioasis:download_count="127" innioasis:asset_id="553609970"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rom_type_b.zip" title="rom_type_b.zip" length="451220956" type="application/zip" innioasis:download_count="4" innioasis:asset_id="553610406"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/update.zip" title="update.zip" length="98277218" type="application/zip" innioasis:download_count="19" innioasis:asset_id="553609880"/>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40</id>
+    <updated>2026-08-24T22:14:10Z</updated>
+    <published>2026-08-24T22:14:10Z</published>
+    <title>Rockbox-Y1 Nightly-24-08-2026</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40"/>
+    <innioasis:tag_name>nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/rockbox.apk" title="rockbox.apk" length="16439605" type="application/vnd.android.package-archive" innioasis:download_count="7" innioasis:asset_id="528255686"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/rom.zip" title="rom.zip" length="534355449" type="application/zip" innioasis:download_count="152" innioasis:asset_id="528255733"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/rom_type_b.zip" title="rom_type_b.zip" length="450325466" type="application/zip" innioasis:download_count="4" innioasis:asset_id="528256103"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/update.zip" title="update.zip" length="98278096" type="application/zip" innioasis:download_count="20" innioasis:asset_id="528255698"/>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-ec32a663dfb8396080227de03846c30f07dc258d</id>
+    <updated>2026-07-29T20:39:55Z</updated>
+    <published>2026-07-29T20:39:55Z</published>
+    <title>Rockbox-Y1 Nightly-29-07-2026</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-ec32a663dfb8396080227de03846c30f07dc258d"/>
+    <innioasis:tag_name>nightly-ec32a663dfb8396080227de03846c30f07dc258d</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rockbox.apk" title="rockbox.apk" length="16410933" type="application/vnd.android.package-archive" innioasis:download_count="5" innioasis:asset_id="494509016"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rom.zip" title="rom.zip" length="533121549" type="application/zip" innioasis:download_count="278" innioasis:asset_id="494509103"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rom_type_b.zip" title="rom_type_b.zip" length="451061510" type="application/zip" innioasis:download_count="10" innioasis:asset_id="494509324"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/update.zip" title="update.zip" length="98180643" type="application/zip" innioasis:download_count="31" innioasis:asset_id="494509050"/>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-12f5649748fb4f0a31e385c65ec6e2933bca9fef</id>
+    <updated>2026-07-08T23:26:26Z</updated>
+    <published>2026-07-08T23:26:26Z</published>
+    <title>Rockbox-Y1 Nightly-08-07-2026</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-12f5649748fb4f0a31e385c65ec6e2933bca9fef"/>
+    <innioasis:tag_name>nightly-12f5649748fb4f0a31e385c65ec6e2933bca9fef</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-12f5649748fb4f0a31e385c65ec6e2933bca9fef/rockbox.apk" title="rockbox.apk" length="16410933" type="application/vnd.android.package-archive" innioasis:download_count="15" innioasis:asset_id="470781567"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-12f5649748fb4f0a31e385c65ec6e2933bca9fef/rom.zip" title="rom.zip" length="535072637" type="application/zip" innioasis:download_count="480" innioasis:asset_id="470781611"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-12f5649748fb4f0a31e385c65ec6e2933bca9fef/rom_type_b.zip" title="rom_type_b.zip" length="443210525" type="application/zip" innioasis:download_count="11" innioasis:asset_id="470781776"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-12f5649748fb4f0a31e385c65ec6e2933bca9fef/update.zip" title="update.zip" length="98176945" type="application/zip" innioasis:download_count="42" innioasis:asset_id="470781581"/>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-1a8c1fcd2e7a3e7eae0673030c9e173805d4636f</id>
+    <updated>2026-07-06T19:14:39Z</updated>
+    <published>2026-07-06T19:14:39Z</published>
+    <title>Rockbox-Y1 Nightly-06-07-2026</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-1a8c1fcd2e7a3e7eae0673030c9e173805d4636f"/>
+    <innioasis:tag_name>nightly-1a8c1fcd2e7a3e7eae0673030c9e173805d4636f</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-1a8c1fcd2e7a3e7eae0673030c9e173805d4636f/rockbox.apk" title="rockbox.apk" length="16406837" type="application/vnd.android.package-archive" innioasis:download_count="6" innioasis:asset_id="468387765"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-1a8c1fcd2e7a3e7eae0673030c9e173805d4636f/rom.zip" title="rom.zip" length="534340490" type="application/zip" innioasis:download_count="66" innioasis:asset_id="468387814"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-1a8c1fcd2e7a3e7eae0673030c9e173805d4636f/rom_type_b.zip" title="rom_type_b.zip" length="443191253" type="application/zip" innioasis:download_count="7" innioasis:asset_id="468388002"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-1a8c1fcd2e7a3e7eae0673030c9e173805d4636f/update.zip" title="update.zip" length="98175799" type="application/zip" innioasis:download_count="14" innioasis:asset_id="468387784"/>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/airpods-2-fix</id>
+    <updated>2026-07-08T23:00:26Z</updated>
+    <published>2026-07-08T23:00:26Z</published>
+    <title>airpods-2-fix</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/airpods-2-fix"/>
+    <innioasis:tag_name>airpods-2-fix</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/airpods-2-fix/libbluetoothdrv.so" title="libbluetoothdrv.so" length="8736" type="application/x-sharedlib" innioasis:download_count="19" innioasis:asset_id="470754717"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/airpods-2-fix/libbluetoothdrv_real.so" title="libbluetoothdrv_real.so" length="9280" type="application/x-sharedlib" innioasis:download_count="19" innioasis:asset_id="470754756"/>
+    <content type="text">Courtesy of @Semy0nBu (https://github.com/Semy0nBu/y1-airpods-rtpfix/releases/tag/v1.0.0)
+
+Release for use in pipelines.
+
+License: MIT</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-abc6ac2fc4700171a3402d41714d618321895ce9</id>
+    <updated>2026-07-01T22:52:46Z</updated>
+    <published>2026-07-01T22:52:46Z</published>
+    <title>Rockbox-Y1 Nightly-01-07-2026</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-abc6ac2fc4700171a3402d41714d618321895ce9"/>
+    <innioasis:tag_name>nightly-abc6ac2fc4700171a3402d41714d618321895ce9</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-abc6ac2fc4700171a3402d41714d618321895ce9/rockbox.apk" title="rockbox.apk" length="16406837" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="463688554"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-abc6ac2fc4700171a3402d41714d618321895ce9/rom.zip" title="rom.zip" length="534319225" type="application/zip" innioasis:download_count="95" innioasis:asset_id="463688632"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-abc6ac2fc4700171a3402d41714d618321895ce9/rom_type_b.zip" title="rom_type_b.zip" length="451143977" type="application/zip" innioasis:download_count="3" innioasis:asset_id="463688836"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-abc6ac2fc4700171a3402d41714d618321895ce9/update.zip" title="update.zip" length="98169257" type="application/zip" innioasis:download_count="13" innioasis:asset_id="463688610"/>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/stable-v0.5</id>
+    <updated>2026-05-16T00:19:43Z</updated>
+    <published>2026-05-16T00:19:43Z</published>
+    <title>Rockbox-Y1 v0.5</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/stable-v0.5"/>
+    <innioasis:tag_name>stable-v0.5</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rockbox.apk" title="rockbox.apk" length="16402741" type="application/vnd.android.package-archive" innioasis:download_count="139" innioasis:asset_id="421443278"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom.zip" title="rom.zip" length="534484127" type="application/zip" innioasis:download_count="12517" innioasis:asset_id="421443341"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom_type_b.zip" title="rom_type_b.zip" length="442208156" type="application/zip" innioasis:download_count="235" innioasis:asset_id="421443603"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/update.zip" title="update.zip" length="98160230" type="application/zip" innioasis:download_count="1235" innioasis:asset_id="421443283"/>
+    <content type="text">As a preparation for eventually submitting this port to the upstream Rockbox project a lot had to change under the hood.
+
+For now this means the removal of very specific and rarely used features like the Apps menu. It also means simpler merges of new upstream features. 360p only, there won&#x27;t be any future 240p releases.
+
+If you have issues, try these steps:
+1. Full flash of the new ROM.
+2. Delete `.rockbox` on your SD card, this should fix any weird path issues you might encounter (especially shortcuts)
+3. Themes have been updated, see here: https://github.com/rockbox-y1/themes/releases/tag/for_the_gays_and_the_theys
+4. If you want to use any custom themes that worked for older Rockbox-Y1 versions, you will need to change paths in the theme files from `/.rockbox` to `/sdcard/.rockbox`
+5. Install font pack: https://download.rockbox.org/release/4.0/rockbox-fonts-4.0.zip
+
+New:
+- Discontinuation of the 240p versions
+- Updated stock app
+- Support for devices that came with stock firmware 3.0.7
+- Black screen bug mitigations
+- Fixes plugins as start screen
+- Fixes audio not pausing on BT disconnect
+- Minor fixes (scrobble upload)</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-051dece4e43d9ec5c35ab2809d28cfa3b9251e0d</id>
+    <updated>2026-05-08T02:31:09Z</updated>
+    <published>2026-05-08T02:31:09Z</published>
+    <title>Rockbox-Y1 Nightly-08-05-2026</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-051dece4e43d9ec5c35ab2809d28cfa3b9251e0d"/>
+    <innioasis:tag_name>nightly-051dece4e43d9ec5c35ab2809d28cfa3b9251e0d</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-051dece4e43d9ec5c35ab2809d28cfa3b9251e0d/rockbox.apk" title="rockbox.apk" length="16402741" type="application/vnd.android.package-archive" innioasis:download_count="23" innioasis:asset_id="414905751"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-051dece4e43d9ec5c35ab2809d28cfa3b9251e0d/rom.zip" title="rom.zip" length="535108830" type="application/zip" innioasis:download_count="1881" innioasis:asset_id="414905798"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-051dece4e43d9ec5c35ab2809d28cfa3b9251e0d/rom_type_b.zip" title="rom_type_b.zip" length="443151244" type="application/zip" innioasis:download_count="33" innioasis:asset_id="414905968"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-051dece4e43d9ec5c35ab2809d28cfa3b9251e0d/update.zip" title="update.zip" length="98161403" type="application/zip" innioasis:download_count="179" innioasis:asset_id="414905763"/>
+    <content type="text">New:
+- Support for devices that came with stock firmware 3.0.7
+- Black screen bug mitigations
+- Fixes plugins as start screen
+- Fixes audio not pausing on BT disconnect
+
+If you have issues, try these steps:
+1. Full flash of the new ROM.
+2. Delete `.rockbox` on your SD card.
+3. Install any of the patched themes from here: https://github.com/rockbox-y1/themes/archive/refs/heads/patch.zip
+4. If you want to use any custom themes that worked for older Rockbox-Y1 versions, you will need to change paths in the theme files from `/.rockbox` to `/sdcard/.rockbox`
+5. Install font pack: https://download.rockbox.org/release/4.0/rockbox-fonts-4.0.zip</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-e76215b31d9d9106a461383ae1ec4f378db6d2d8</id>
+    <updated>2026-03-30T22:17:36Z</updated>
+    <published>2026-03-30T22:17:36Z</published>
+    <title>Rockbox-Y1 Nightly-30-03-2026</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-e76215b31d9d9106a461383ae1ec4f378db6d2d8"/>
+    <innioasis:tag_name>nightly-e76215b31d9d9106a461383ae1ec4f378db6d2d8</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-e76215b31d9d9106a461383ae1ec4f378db6d2d8/rockbox.apk" title="rockbox.apk" length="16304437" type="application/vnd.android.package-archive" innioasis:download_count="13" innioasis:asset_id="385081047"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-e76215b31d9d9106a461383ae1ec4f378db6d2d8/rom.zip" title="rom.zip" length="473838040" type="application/zip" innioasis:download_count="209" innioasis:asset_id="385081096"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-e76215b31d9d9106a461383ae1ec4f378db6d2d8/rom_type_b.zip" title="rom_type_b.zip" length="441474494" type="application/zip" innioasis:download_count="14" innioasis:asset_id="385081231"/>
+    <content type="text"># **Please read!**
+
+This release is especially experimental and will probably cause issues. Follow the guide at the end if you want to try it.
+
+This is a full rebase on the current upstream Rockbox repository as a preparation for eventually submitting this port to the Rockbox project.
+
+For now this means the removal of very specific and rarely used features like the Apps menu. It also means simpler merges of new upstream features. 360p only, there won&#x27;t be any future 240p releases. 
+
+Since a lot had to change under the hood you will need to do the following:
+
+1. Delete `.rockbox` on your SD card.
+2. Full flash of the new ROM.
+4. Install any of the patched themes from here: https://github.com/rockbox-y1/themes/archive/refs/heads/patch.zip
+5. If you want to use any custom themes that worked for older Rockbox-Y1 versions, you will need to change paths in the theme files from `/.rockbox` to `/sdcard/.rockbox`
+
+Other changes:
+- fixes WPS hotkey for plugins</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/stable-v0.4</id>
+    <updated>2026-03-24T22:38:48Z</updated>
+    <published>2026-03-24T22:38:48Z</published>
+    <title>Rockbox-Y1 v0.4</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/stable-v0.4"/>
+    <innioasis:tag_name>stable-v0.4</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/rockbox_240p.apk" title="rockbox_240p.apk" length="8124725" type="application/vnd.android.package-archive" innioasis:download_count="37" innioasis:asset_id="380760858"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/rockbox_360p.apk" title="rockbox_360p.apk" length="8489269" type="application/vnd.android.package-archive" innioasis:download_count="40" innioasis:asset_id="380760846"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/rom_240p.zip" title="rom_240p.zip" length="460680702" type="application/zip" innioasis:download_count="6919" innioasis:asset_id="380761190"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/rom_240p_type_b.zip" title="rom_240p_type_b.zip" length="425619194" type="application/zip" innioasis:download_count="81" innioasis:asset_id="380761692"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/rom_360p.zip" title="rom_360p.zip" length="462537562" type="application/zip" innioasis:download_count="3342" innioasis:asset_id="380761014"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/rom_360p_type_b.zip" title="rom_360p_type_b.zip" length="427897125" type="application/zip" innioasis:download_count="74" innioasis:asset_id="380761461"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/update_240p.zip" title="update_240p.zip" length="91413335" type="application/zip" innioasis:download_count="43" innioasis:asset_id="380760932"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/update_360p.zip" title="update_360p.zip" length="92139133" type="application/zip" innioasis:download_count="66" innioasis:asset_id="380760867"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/voices.zip" title="voices.zip" length="76500020" type="application/zip" innioasis:download_count="11" innioasis:asset_id="382038488"/>
+    <content type="text">New Features:
+- Extend lastfm_scrobbler plugin to [upload directly to Last.fm + ListenBrainz](https://github.com/rockbox-y1/rockbox/blob/y1/INTERNET.md#scrobbling-lastfm-listenbrainz-maloja)
+- [Podcast downloader plugin](https://github.com/rockbox-y1/rockbox/blob/y1/INTERNET.md#podcasts)
+- Software Keyboard ([LeanKeyboard](https://github.com/yuliskov/LeanKeyboard))
+- Implement stereo balance
+- Increase available memory to 256MB  
+- Podcast Downloader optimizations
+- Remappings for FM Radio App
+- Rudimentary remaining battery time estimation
+- Use iPod Classic button mappings (mostly)
+- Feature to shutdown device with a 5s press of the center button  
+- Function to reset bluetooth devices
+- Information for Taptic Engine mods
+- Update functionality
+- Enable most plugins
+- Enable regular db updates and autoupdate
+
+Bug Fixes:
+- A-B repeat
+- Idle shutdown/sleep timer when no music is playing
+- Keylock feature + advanced keylock
+- License viewer
+- runtimedb and autoresume
+- Battery optimization: only use wake lock when needed for sleep timers
+- Enable brightness settings for compatibility with existing themes + quickscreen</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-785381002f50cb58b32990a69df3e0cce5c8a90e</id>
+    <updated>2026-03-06T21:10:28Z</updated>
+    <published>2026-03-06T21:10:28Z</published>
+    <title>Rockbox-Y1 Nightly-06-03-2026</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-785381002f50cb58b32990a69df3e0cce5c8a90e"/>
+    <innioasis:tag_name>nightly-785381002f50cb58b32990a69df3e0cce5c8a90e</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-785381002f50cb58b32990a69df3e0cce5c8a90e/rockbox_240p.apk" title="rockbox_240p.apk" length="8124725" type="application/vnd.android.package-archive" innioasis:download_count="9" innioasis:asset_id="368513738"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-785381002f50cb58b32990a69df3e0cce5c8a90e/rockbox_360p.apk" title="rockbox_360p.apk" length="8489269" type="application/vnd.android.package-archive" innioasis:download_count="16" innioasis:asset_id="368513732"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-785381002f50cb58b32990a69df3e0cce5c8a90e/rom_240p.zip" title="rom_240p.zip" length="460372220" type="application/zip" innioasis:download_count="592" innioasis:asset_id="368513910"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-785381002f50cb58b32990a69df3e0cce5c8a90e/rom_240p_type_b.zip" title="rom_240p_type_b.zip" length="428608375" type="application/zip" innioasis:download_count="14" innioasis:asset_id="368514082"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-785381002f50cb58b32990a69df3e0cce5c8a90e/rom_360p.zip" title="rom_360p.zip" length="462332873" type="application/zip" innioasis:download_count="139" innioasis:asset_id="368513776"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-785381002f50cb58b32990a69df3e0cce5c8a90e/rom_360p_type_b.zip" title="rom_360p_type_b.zip" length="427983824" type="application/zip" innioasis:download_count="9" innioasis:asset_id="368514019"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-785381002f50cb58b32990a69df3e0cce5c8a90e/update_240p.zip" title="update_240p.zip" length="91412803" type="application/zip" innioasis:download_count="6" innioasis:asset_id="368513762"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-785381002f50cb58b32990a69df3e0cce5c8a90e/update_360p.zip" title="update_360p.zip" length="92138649" type="application/zip" innioasis:download_count="40" innioasis:asset_id="368513741"/>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-0368abe5a5de2e8b8c2995038f49661ec57e827d</id>
+    <updated>2026-03-05T22:07:24Z</updated>
+    <published>2026-03-05T22:07:24Z</published>
+    <title>Rockbox-Y1 Nightly-05-03-2026</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-0368abe5a5de2e8b8c2995038f49661ec57e827d"/>
+    <innioasis:tag_name>nightly-0368abe5a5de2e8b8c2995038f49661ec57e827d</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-0368abe5a5de2e8b8c2995038f49661ec57e827d/rockbox_240p.apk" title="rockbox_240p.apk" length="8124725" type="application/vnd.android.package-archive" innioasis:download_count="4" innioasis:asset_id="367807068"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-0368abe5a5de2e8b8c2995038f49661ec57e827d/rockbox_360p.apk" title="rockbox_360p.apk" length="8489269" type="application/vnd.android.package-archive" innioasis:download_count="5" innioasis:asset_id="367807059"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-0368abe5a5de2e8b8c2995038f49661ec57e827d/rom_240p.zip" title="rom_240p.zip" length="459816683" type="application/zip" innioasis:download_count="131" innioasis:asset_id="367807392"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-0368abe5a5de2e8b8c2995038f49661ec57e827d/rom_240p_type_b.zip" title="rom_240p_type_b.zip" length="426700751" type="application/zip" innioasis:download_count="7" innioasis:asset_id="367807601"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-0368abe5a5de2e8b8c2995038f49661ec57e827d/rom_360p.zip" title="rom_360p.zip" length="462064783" type="application/zip" innioasis:download_count="29" innioasis:asset_id="367807226"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-0368abe5a5de2e8b8c2995038f49661ec57e827d/rom_360p_type_b.zip" title="rom_360p_type_b.zip" length="436481176" type="application/zip" innioasis:download_count="4" innioasis:asset_id="367807496"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-0368abe5a5de2e8b8c2995038f49661ec57e827d/update_240p.zip" title="update_240p.zip" length="91412789" type="application/zip" innioasis:download_count="6" innioasis:asset_id="367807199"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-0368abe5a5de2e8b8c2995038f49661ec57e827d/update_360p.zip" title="update_360p.zip" length="92139068" type="application/zip" innioasis:download_count="10" innioasis:asset_id="367807078"/>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-35e926bd6ea663ab0aacb2f138c7f71ae744971f</id>
+    <updated>2026-02-28T15:57:43Z</updated>
+    <published>2026-02-28T15:57:43Z</published>
+    <title>Rockbox-Y1 Nightly-28-02-2026</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-35e926bd6ea663ab0aacb2f138c7f71ae744971f"/>
+    <innioasis:tag_name>nightly-35e926bd6ea663ab0aacb2f138c7f71ae744971f</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-35e926bd6ea663ab0aacb2f138c7f71ae744971f/rockbox_240p.apk" title="rockbox_240p.apk" length="8124725" type="application/vnd.android.package-archive" innioasis:download_count="12" innioasis:asset_id="364156634"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-35e926bd6ea663ab0aacb2f138c7f71ae744971f/rockbox_360p.apk" title="rockbox_360p.apk" length="8489269" type="application/vnd.android.package-archive" innioasis:download_count="18" innioasis:asset_id="364156629"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-35e926bd6ea663ab0aacb2f138c7f71ae744971f/rom_240p.zip" title="rom_240p.zip" length="458279585" type="application/zip" innioasis:download_count="117" innioasis:asset_id="364156737"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-35e926bd6ea663ab0aacb2f138c7f71ae744971f/rom_240p_type_b.zip" title="rom_240p_type_b.zip" length="428315001" type="application/zip" innioasis:download_count="10" innioasis:asset_id="364156813"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-35e926bd6ea663ab0aacb2f138c7f71ae744971f/rom_360p.zip" title="rom_360p.zip" length="463344014" type="application/zip" innioasis:download_count="48" innioasis:asset_id="364156673"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-35e926bd6ea663ab0aacb2f138c7f71ae744971f/rom_360p_type_b.zip" title="rom_360p_type_b.zip" length="427867790" type="application/zip" innioasis:download_count="8" innioasis:asset_id="364156784"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-35e926bd6ea663ab0aacb2f138c7f71ae744971f/update_240p.zip" title="update_240p.zip" length="91413275" type="application/zip" innioasis:download_count="7" innioasis:asset_id="364271787"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-35e926bd6ea663ab0aacb2f138c7f71ae744971f/update_360p.zip" title="update_360p.zip" length="92139719" type="application/zip" innioasis:download_count="37" innioasis:asset_id="364274821"/>
+    <content type="text">**Note:** *This is a re-release because the old version had broken builds.*
+
+Adds a few new features that use the wifi chip:
+* Adds a Podcast Downloader Plugin
+* Extends the Last.fm Scrobble Plugin to directly upload to Last.fm, ListenBrainz and compatible endpoints
+
+More information:
+https://github.com/rockbox-y1/rockbox/blob/y1/INTERNET.md
+
+Also:
+* Adds many plugins
+* Battery optimization: only use wake lock when needed for sleep timers, should increase standby battery life significantly
+* Fixes A-B repeat: start/stop can be triggered using center button in WPS
+* Typo fixes</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/voices-22511894870</id>
+    <updated>2026-02-28T03:30:44Z</updated>
+    <published>2026-02-28T03:30:44Z</published>
+    <title>Voice Files (latest) - 453d02bb2a2759079cb06e2b724330c0a6fa2aa3</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/voices-22511894870"/>
+    <innioasis:tag_name>voices-22511894870</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/voices-22511894870/voices.zip" title="voices.zip" length="76500020" type="application/zip" innioasis:download_count="11" innioasis:asset_id="363891291"/>
+    <content type="text"></content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/stable-v0.3</id>
+    <updated>2025-10-28T17:32:11Z</updated>
+    <published>2025-10-28T17:32:11Z</published>
+    <title>Rockbox-Y1 v0.3</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/stable-v0.3"/>
+    <innioasis:tag_name>stable-v0.3</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.3/libs_240p.tar.gz" title="libs_240p.tar.gz" length="4595114" type="application/gzip" innioasis:download_count="5" innioasis:asset_id="363861850"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.3/libs_360p.tar.gz" title="libs_360p.tar.gz" length="4657244" type="application/gzip" innioasis:download_count="7" innioasis:asset_id="363861860"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.3/rockbox_240p.apk" title="rockbox_240p.apk" length="4790581" type="application/vnd.android.package-archive" innioasis:download_count="11" innioasis:asset_id="363861874"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.3/rockbox_360p.apk" title="rockbox_360p.apk" length="4856117" type="application/vnd.android.package-archive" innioasis:download_count="5" innioasis:asset_id="363861880"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.3/rom_240p.zip" title="rom_240p.zip" length="432580131" type="application/zip" innioasis:download_count="1437" innioasis:asset_id="363861902"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.3/rom_240p_type_b.zip" title="rom_240p_type_b.zip" length="400796233" type="application/zip" innioasis:download_count="41" innioasis:asset_id="363863686"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.3/rom_360p.zip" title="rom_360p.zip" length="434614251" type="application/zip" innioasis:download_count="1064" innioasis:asset_id="363864037"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.3/rom_360p_type_b.zip" title="rom_360p_type_b.zip" length="401143742" type="application/zip" innioasis:download_count="26" innioasis:asset_id="363864426"/>
+    <content type="text">| &lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;screenshot_1&quot; src=&quot;https://github.com/user-attachments/assets/4e37aabb-d373-4899-8893-224d05c43c89&quot; /&gt; |  &lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;screenshot_3&quot; src=&quot;https://github.com/user-attachments/assets/fd4a1b7e-39f7-4caa-84ea-69777e61c284&quot; /&gt; | 
+|:--:|:--:|
+
+ _**Theme:** [Adwaitapod](https://github.com/rockbox-y1/themes/releases/download/for_the_gays_and_the_theys/adwaitapod_360p.zip) by [Dook](https://ko-fi.com/dook_)_
+
+# Changelog
+A lot has happened since v0.2 and Rockbox on the Y1. If you are still running v0.2 you might want to consider updating.
+
+## Major Changes
+- Dual Boot Stock OS/Rockbox
+- Type A &amp; Type B support - use Type B if you have click wheel issues
+- 240p and 360p versions
+- Idle Poweroff, Timed Shutdown
+- Lyrics (lrc) support
+
+## Improvements for Audiobooks
+### Playback Speed Setting 
+- WPS &gt; hold Center button &gt; Pitch
+- You might need to enable Timestretch in the Sound Settings first if you only see options for pitch, not speed
+
+### Automatic Bookmarking
+- Enabling &quot;Bookmark on Stop&quot;
+- To stop press play 3-4 times
+- Or: use Timed Shutdown (General Settings &gt; Startup/Shutdown &gt; Start Sleep Timer)
+
+## UI/UX
+- Accessibility: WPS voice announcements
+- Button combination to restart Rockbox if it got stuck
+- Enabled charging indicator
+- Enabled plugin to rearrange Main Menu (Plugins &gt; Applications &gt; main_menu_config)
+- Many button mapping improvements, e.g., for PictureFlow
+- Larger memory allocation for larger themes
+- App only starts when SD is ready, no Rockbox restarts necessary after copying files over or on initial boot
+- Battery optimizations (you may still need to recalibrate your battery after installation https://www.ifixit.com/Wiki/Battery_Calibration#Section_How_to_calibrate_your_battery)
+
+And many bug fixes and general UI/UX improvements. A big thanks to all the contributors on Github!</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/type-a-base</id>
+    <updated>2025-10-09T16:55:43Z</updated>
+    <published>2025-10-09T16:55:43Z</published>
+    <title>Rockbox-Y1 Base ROM - Type A</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/type-a-base"/>
+    <innioasis:tag_name>type-a-base</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/type-a-base/rom.zip" title="rom.zip" length="456613744" type="application/zip" innioasis:download_count="8220" innioasis:asset_id="413887377"/>
+    <content type="text">Used for building ROM releases</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/type-b-base</id>
+    <updated>2025-10-09T17:20:14Z</updated>
+    <published>2025-10-09T17:20:14Z</published>
+    <title>Rockbox-Y1 Base ROM - Type B</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/type-b-base"/>
+    <innioasis:tag_name>type-b-base</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/type-b-base/rom.zip" title="rom.zip" length="399460715" type="application/zip" innioasis:download_count="7995" innioasis:asset_id="317209790"/>
+    <content type="text">Used for building ROM releases
+
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/stock-menu</id>
+    <updated>2025-10-07T17:44:46Z</updated>
+    <published>2025-10-07T17:44:46Z</published>
+    <title>Stock Menu</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/stock-menu"/>
+    <innioasis:tag_name>stock-menu</innioasis:tag_name>
+    <innioasis:prerelease>true</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stock-menu/better-Y_3.1.2_v1.1.0-dev1_patched.apk" title="better-Y_3.1.2_v1.1.0-dev1_patched.apk" length="60200797" type="application/vnd.android.package-archive" innioasis:download_count="8" innioasis:asset_id="673881904"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stock-menu/com.innioasis.y1_2.7.2.apk" title="com.innioasis.y1_2.7.2.apk" length="69585371" type="application/vnd.android.package-archive" innioasis:download_count="240" innioasis:asset_id="301611958"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stock-menu/com.innioasis.y1_3.0.7_patched.apk" title="com.innioasis.y1_3.0.7_patched.apk" length="58174666" type="application/vnd.android.package-archive" innioasis:download_count="48" innioasis:asset_id="413884818"/>
+    <content type="text">Stock App</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/16761617720</id>
+    <updated>2025-08-05T21:26:15Z</updated>
+    <published>2025-08-05T21:26:15Z</published>
+    <title>Rockbox-Y1 v0.2</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/16761617720"/>
+    <innioasis:tag_name>16761617720</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/16761617720/libs.zip" title="libs.zip" length="3996666" type="application/zip" innioasis:download_count="57" innioasis:asset_id="279675112"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/16761617720/rockbox-v0.2.apk" title="rockbox-v0.2.apk" length="4184373" type="application/vnd.android.package-archive" innioasis:download_count="101" innioasis:asset_id="279675108"/>
+    <content type="text">Release v0.2
+
+**Rockbox is now a system app:** This should drastically help with stability but requires a different manual installation process. Please refer to the README.md for details.
+
+## UI/UX &amp; Accessibility
+- Pre-built voice files are available for a good amount of languages (Download here: https://github.com/rockbox-y1/rockbox/releases/download/016733367579/voices.zip)
+- Long-press of Menu/Back opens context menus
+- Long-press of Play/Pause opens WPS
+- Add settings menu for screen timeout
+
+## New Features
+- Enable LastFM scrobbler
+- Enable Imageviewer plugin
+- Enable more Plugins (mostly demos)
+- Automatically restart Rockbox if necessary (after DB update)
+- SD Card Mount check (automatically restart Rockbox when theme/config can&#x27;t be loaded)
+
+## Bug Fixes
+- Fix time setting function
+- Fix bookmarking in playlists and database
+- Only use db rebuild to avoid duplicates
+- Playlist copy feature should overwrite existing playlists (assumes people manage earlier copied lists on PC anyway)
+- Fix shutdown function
+- Fix freeze that randomly occurred (Screen didn&#x27;t wake up again)
+- Faster app start
+- Fix keymap instructions in README
+- Remove empty LCD menu, remove touchscreen menu
+- Fix playlist paths
+
+## Other Changes
+- Rename External Apps to Apps</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/016733367579</id>
+    <updated>2025-08-04T20:57:08Z</updated>
+    <published>2025-08-04T20:57:08Z</published>
+    <title>Voice Files v0.2</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/016733367579"/>
+    <innioasis:tag_name>016733367579</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/016733367579/voices.zip" title="voices.zip" length="76155485" type="application/zip" innioasis:download_count="131" innioasis:asset_id="279340035"/>
+    <content type="text">## Voice Files for Rockbox-Y1 v0.2
+
+Includes these languages:
+- Basque
+- Bulgarian
+- Czech
+- Dansk
+- Deutsch
+- Eesti
+- English
+- Espanol
+- Francais
+- Greek
+- Italiano
+- Latviesu
+- Magyar
+- Moldoveneste
+- Nederlands
+- Norsk
+- Polski
+- Portugues-Brasileiro
+- Romaneste
+- Russian
+- Slovak
+- Srpski
+- Svenska
+- Turkce
+- Ukrainian</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/360p-16483586614</id>
+    <updated>2025-07-23T23:04:39Z</updated>
+    <published>2025-07-23T23:04:39Z</published>
+    <title>360p-v0.1</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/360p-16483586614"/>
+    <innioasis:tag_name>360p-16483586614</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/360p-16483586614/rockbox-360p-52611309ae289810e942da2521a22ac6823975a9.apk" title="rockbox-360p-52611309ae289810e942da2521a22ac6823975a9.apk" length="3889461" type="application/vnd.android.package-archive" innioasis:download_count="22" innioasis:asset_id="275740686"/>
+    <content type="text">**Release v0.1 - 360p Edition**
+
+[Differences between 240p and 360p releases](https://github.com/rockbox-y1/rockbox?tab=readme-ov-file#240p-vs-360p-releases)
+
+[Changes vs. upstream Rockbox](https://github.com/rockbox-y1/rockbox?tab=readme-ov-file#changes-vs-upstream-rockbox)
+
+[Installation guide](https://github.com/rockbox-y1/rockbox?tab=readme-ov-file#installation)</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/240p-16483614697</id>
+    <updated>2025-07-23T23:05:18Z</updated>
+    <published>2025-07-23T23:05:18Z</published>
+    <title>240p-v0.1</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/240p-16483614697"/>
+    <innioasis:tag_name>240p-16483614697</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/240p-16483614697/rockbox-240p-74e8d231185c722a8346fd6b89f3bb1cd6e0c7d6.apk" title="rockbox-240p-74e8d231185c722a8346fd6b89f3bb1cd6e0c7d6.apk" length="3963189" type="application/vnd.android.package-archive" innioasis:download_count="75" innioasis:asset_id="275740997"/>
+    <content type="text">**Release v0.1 - 240p Edition**
+
+[Differences between 240p and 360p releases](https://github.com/rockbox-y1/rockbox?tab=readme-ov-file#240p-vs-360p-releases)
+
+[Changes vs. upstream Rockbox](https://github.com/rockbox-y1/rockbox?tab=readme-ov-file#changes-vs-upstream-rockbox)
+
+[Installation guide](https://github.com/rockbox-y1/rockbox?tab=readme-ov-file#installation)</content>
+  </entry>
+</feed>

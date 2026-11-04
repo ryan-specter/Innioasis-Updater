@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:innioasis="https://innioasis.app/ns/feeds/1.0">
+  <id>https://innioasis.app/feeds/y1-community/y2-ata-rom/releases.atom</id>
+  <title>Release notes from y1-community/y2-ata-rom</title>
+  <link rel="alternate" type="text/html" href="https://innioasis.app/firmware.html"/>
+  <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/y1-community/y2-ata-rom/releases.atom"/>
+  <updated>2026-06-22T11:27:11Z</updated>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y2-ata-rom/y2-ata</id>
+    <updated>2026-06-22T11:27:11Z</updated>
+    <published>2026-06-22T11:27:11Z</published>
+    <title>Engineering Firmware for Innioasis Y2 (Android 4.4 AOSP base - MT6582))</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y2-ata-rom/releases/tag/y2-ata"/>
+    <innioasis:tag_name>y2-ata</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y2-ata-rom/releases/download/y2-ata/rom_y2.zip" title="rom_y2.zip" length="662798399" type="application/zip" innioasis:download_count="208" innioasis:asset_id="477998702"/>
+    <content type="text"># This is a bare android firmware for modifications to the Innioasis Y2 - it includes flash_tool.exe to install it from Windows systems
+# This is not suitable for everyday use - the original firmware is [available here](https://github.com/y1-community/y1-stock-rom/releases/tag/3.1.7)
+Disconnect your Y2 from USB, fully power it off using a paper clip or pin between the headphone jack and charging port
+
+Run flash_tool.exe
+
+Select Format All + Download from the dropdown that reads &quot;Download&quot;
+
+Click Download (green arrow)
+
+Connect your Y2 and wait for install to finish.</content>
+  </entry>
+</feed>

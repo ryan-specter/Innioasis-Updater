@@ -1,0 +1,146 @@
+[
+  {
+    "id": 427803579,
+    "tag_name": "2.5.1",
+    "name": "Innioasis Updater CE 2.5.1",
+    "body": "Rewritten application with improved firmware install reliability, native macOS GUI with Liquid Glass integration, i18n support for 90 languages and guided Rockbox themes installation for Rockbox-Y1",
+    "draft": false,
+    "prerelease": false,
+    "created_at": "2026-10-29T11:30:15Z",
+    "published_at": "2026-10-29T11:55:09Z",
+    "html_url": "https://github.com/y1-community/updater-ce-neo/releases/tag/2.5.1",
+    "icon_url": "",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 688890139,
+        "name": "UpdaterCE.AppImage",
+        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/UpdaterCE.AppImage",
+        "size": 300337656,
+        "download_count": 0,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-10-29T14:53:21Z",
+        "updated_at": "2026-10-29T14:56:13Z",
+        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/688890139"
+      },
+      {
+        "id": 688901923,
+        "name": "Innioasis.Updater.for.Mac.zip",
+        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/Innioasis.Updater.for.Mac.zip",
+        "size": 187914366,
+        "download_count": 80,
+        "content_type": "application/zip",
+        "created_at": "2026-10-29T14:57:25Z",
+        "updated_at": "2026-10-29T14:59:26Z",
+        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/688901923"
+      },
+      {
+        "id": 688912014,
+        "name": "UpdaterCE-Windows-Portable.zip",
+        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/UpdaterCE-Windows-Portable.zip",
+        "size": 236551244,
+        "download_count": 72,
+        "content_type": "application/zip",
+        "created_at": "2026-10-29T15:00:46Z",
+        "updated_at": "2026-10-29T15:03:17Z",
+        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/688912014"
+      },
+      {
+        "id": 688922148,
+        "name": "UpdaterCE-Linux-Portable.zip",
+        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/UpdaterCE-Linux-Portable.zip",
+        "size": 387920108,
+        "download_count": 71,
+        "content_type": "application/zip",
+        "created_at": "2026-10-29T15:04:30Z",
+        "updated_at": "2026-10-29T15:08:39Z",
+        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/688922148"
+      },
+      {
+        "id": 688959440,
+        "name": "installer.exe",
+        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/installer.exe",
+        "size": 173282764,
+        "download_count": 199,
+        "content_type": "application/x-msdownload",
+        "created_at": "2026-10-29T15:16:38Z",
+        "updated_at": "2026-10-29T15:17:12Z",
+        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/688959440"
+      },
+      {
+        "id": 689641553,
+        "name": "Innioasis.Updater.for.Mac.dmg",
+        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/Innioasis.Updater.for.Mac.dmg",
+        "size": 154209498,
+        "download_count": 6,
+        "content_type": "application/x-diskcopy",
+        "created_at": "2026-10-29T19:21:24Z",
+        "updated_at": "2026-10-29T19:22:01Z",
+        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/689641553"
+      }
+    ]
+  },
+  {
+    "id": 421255536,
+    "tag_name": "2.5",
+    "name": "2.5",
+    "body": "",
+    "draft": false,
+    "prerelease": false,
+    "created_at": "2026-10-21T09:50:07Z",
+    "published_at": "2026-10-22T22:15:34Z",
+    "html_url": "https://github.com/y1-community/updater-ce-neo/releases/tag/2.5",
+    "icon_url": "",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 681971513,
+        "name": "installer.exe",
+        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/2.5/installer.exe",
+        "size": 111057481,
+        "download_count": 64,
+        "content_type": "application/x-msdownload",
+        "created_at": "2026-10-27T15:17:06Z",
+        "updated_at": "2026-10-27T15:17:28Z",
+        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/681971513"
+      }
+    ]
+  },
+  {
+    "id": 384100129,
+    "tag_name": "flash_tool",
+    "name": "SP Flash Tool",
+    "body": "",
+    "draft": false,
+    "prerelease": false,
+    "created_at": "2026-08-26T21:10:01Z",
+    "published_at": "2026-09-07T13:13:19Z",
+    "html_url": "https://github.com/y1-community/updater-ce-neo/releases/tag/flash_tool",
+    "icon_url": "",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 548814370,
+        "name": "flash_tool_linux.zip",
+        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/flash_tool/flash_tool_linux.zip",
+        "size": 67786907,
+        "download_count": 25,
+        "content_type": "application/zip",
+        "created_at": "2026-09-07T13:13:02Z",
+        "updated_at": "2026-09-07T13:13:13Z",
+        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/548814370"
+      },
+      {
+        "id": 655934273,
+        "name": "UpdaterCE2.5Test.AppImage",
+        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/flash_tool/UpdaterCE2.5Test.AppImage",
+        "size": 220924408,
+        "download_count": 7,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-10-19T10:19:20Z",
+        "updated_at": "2026-10-19T10:20:29Z",
+        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/655934273"
+      }
+    ]
+  }
+]

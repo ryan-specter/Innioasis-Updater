@@ -625,7 +625,7 @@ SUPERSEDED_LINK_RES = (
 # Visible text can also name one of these addresses, inside a link or on its
 # own. Code samples are left verbatim.
 SUPERSEDED_TEXT_RE = re.compile(r"(?i)(?<![\"'=\w])(" + "|".join((INNIOASIS_RETIRED, WOOABC_RETIRED, DRIVE_RETIRED)) + r")")
-BETTER_Y_TEXT_RE = re.compile(r"\bbetter-y\b", re.I)
+BETTER_Y_TEXT_RE = re.compile(r"(?<![\w/.=-])better-y\b", re.I)
 ANCHOR_OR_CODE_RE = re.compile(r"(?is)(<a\b[^>]*>.*?</a>|<(?:pre|code)\b[^>]*>.*?</(?:pre|code)>)")
 
 
@@ -643,31 +643,48 @@ def superseded_guide_link(href: str) -> str:
     return ""
 
 
+HTML_TAG_SPLIT_RE = re.compile(r"(?is)(<[^<>]*>)")
+
+
 def linkify_superseded_text(markup: str) -> str:
     """Point retired addresses in visible text at the guide, and link plain-text
     Better-Y mentions to our firmware directory.
 
-    Inside a link the address becomes the guide address; on its own it becomes
-    a link to the guide. Code samples keep whatever they already show.
+    Only text nodes are rewritten. A mention inside an attribute (an image
+    source, an element id) or inside a code sample keeps exactly what it had,
+    so a readme that names the project in a URL is never cut in half. Inside a
+    link the address becomes the guide address as plain text, because anchors
+    do not nest.
     """
     better_y_url = SITE.rstrip("/") + "/firmware.html?model=Y1&software=better-y-y1"
-    parts = ANCHOR_OR_CODE_RE.split(markup or "")
+    parts = HTML_TAG_SPLIT_RE.split(markup or "")
+    in_code = 0
+    in_anchor = 0
     for index, part in enumerate(parts):
         if not part:
             continue
-        if re.match(r"(?is)<a\b", part):
-            parts[index] = SUPERSEDED_TEXT_RE.sub(lambda _m: esc(guide_url()), part)
-        elif re.match(r"(?is)<(?:pre|code)\b", part):
+        if index % 2:
+            name = re.match(r"(?is)</?\s*([a-z0-9]+)", part)
+            tag = (name.group(1) if name else "").lower()
+            closing = part.lstrip().startswith("</")
+            if tag in ("pre", "code"):
+                in_code = max(0, in_code - 1) if closing else in_code + 1
+            elif tag == "a":
+                in_anchor = max(0, in_anchor - 1) if closing else in_anchor + 1
             continue
-        else:
-            step = SUPERSEDED_TEXT_RE.sub(
-                lambda _m: '<a href="%s">%s</a>' % (esc(guide_url()), esc(guide_url())),
-                part,
-            )
-            parts[index] = BETTER_Y_TEXT_RE.sub(
-                lambda m: '<a href="%s">%s</a>' % (esc(better_y_url), m.group(0)),
-                step,
-            )
+        if in_code:
+            continue
+        if in_anchor:
+            parts[index] = SUPERSEDED_TEXT_RE.sub(lambda _m: esc(guide_url()), part)
+            continue
+        step = SUPERSEDED_TEXT_RE.sub(
+            lambda _m: '<a href="%s">%s</a>' % (esc(guide_url()), esc(guide_url())),
+            part,
+        )
+        parts[index] = BETTER_Y_TEXT_RE.sub(
+            lambda m: '<a href="%s">%s</a>' % (esc(better_y_url), m.group(0)),
+            step,
+        )
     return "".join(parts)
 
 
@@ -725,12 +742,18 @@ def resolve_link(href: str, ctx: dict | None) -> str:
             return ""
         release = RELEASE_LINK_RE.match(href)
         if release:
-            return release_notes_href(release.group(1), urllib.parse.unquote(release.group(2) or ""))
-        # A "Full Changelog" compare link is the project's release notes by
-        # another name: send it to our release history for that software.
+            tag = urllib.parse.unquote(release.group(2) or "")
+            # One release opens its notes; a bare releases page is the
+            # project's listing, exactly like the repository link below.
+            if tag:
+                return release_notes_href(release.group(1), tag)
+            return firmware_page_for(release.group(1)) or href
+        # A "Full Changelog" compare link names the newer of the two releases
+        # it spans, so it opens that release's notes.
         compare = COMPARE_LINK_RE.match(href)
         if compare:
-            return release_notes_href(compare.group(1))
+            span = urllib.parse.unquote(re.split(r"[?#]", href, 1)[0].split("/compare/", 1)[1])
+            return release_notes_href(compare.group(1), span.split("...")[-1].strip())
         # A bare link to a listed project is that project's firmware listing
         # (or its install guide when the anchor names #install...).
         repo_link = REPO_LINK_RE.match(href)

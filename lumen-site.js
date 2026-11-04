@@ -423,6 +423,36 @@
         return attempt();
     }
 
+    /* Backup release feed stored on innioasis.app/feeds/<owner>/<repo>/releases.json
+       and in window.INNIOASIS_HARDCODED_RELEASES, used when GitHub's API is
+       unreachable or rate-limited. */
+    function hardcodedReleasesFor(repo) {
+        var map = window.INNIOASIS_HARDCODED_RELEASES;
+        if (!map || !repo) return null;
+        if (Array.isArray(map[repo]) && map[repo].length) return map[repo].slice();
+        var lower = String(repo).toLowerCase();
+        var key = Object.keys(map).find(function (k) { return k.toLowerCase() === lower; });
+        return key && Array.isArray(map[key]) && map[key].length ? map[key].slice() : null;
+    }
+
+    function fetchBackupReleases(repo) {
+        if (!repo) return Promise.resolve(null);
+        var path = window.location.pathname || "";
+        var prefix = /\/guides\/|\/notices\/|\/Troubleshooting\/|\/firmware-info\/|\/release-notes\/|\/post-install\//.test(path) ? "../" : "";
+        var feedUrl = prefix + "feeds/" + String(repo).toLowerCase() + "/releases.json";
+        return fetch(feedUrl, { cache: "no-store" })
+            .then(function (res) { return res.ok ? res.json() : null; })
+            .then(function (list) {
+                if (Array.isArray(list) && list.length) return { releases: list, complete: true, backup: true };
+                var local = hardcodedReleasesFor(repo);
+                return local ? { releases: local, complete: true, backup: true } : null;
+            })
+            .catch(function () {
+                var local = hardcodedReleasesFor(repo);
+                return local ? { releases: local, complete: true, backup: true } : null;
+            });
+    }
+
     /* One page of releases for a repo using token rotation and fallback. */
     function fetchReleasesPage(repo, page) {
         var url = "https://api.github.com/repos/" + repo + "/releases?per_page=100&page=" + page;
@@ -433,14 +463,21 @@
         if (page > 100) return Promise.resolve({ releases: collected, complete: false });
         return fetchReleasesPage(repo, page)
             .then(function (response) {
-                if (!response.ok) return collected.length ? { releases: collected, complete: false } : null;
+                if (!response.ok) {
+                    return collected.length ? { releases: collected, complete: false } : fetchBackupReleases(repo);
+                }
                 return response.json().then(function (releaseList) {
-                    if (!Array.isArray(releaseList)) return collected.length ? { releases: collected, complete: false } : null;
+                    if (!Array.isArray(releaseList)) {
+                        return collected.length ? { releases: collected, complete: false } : fetchBackupReleases(repo);
+                    }
                     var all = collected.concat(releaseList);
                     var link = response.headers.get("Link") || "";
                     var hasNext = /<[^>]+>;\s*rel=["']next["']/.test(link);
                     return (hasNext || releaseList.length === 100) ? fetchAllReleases(repo, page + 1, all) : { releases: all, complete: true };
                 });
+            })
+            .catch(function () {
+                return collected.length ? { releases: collected, complete: false } : fetchBackupReleases(repo);
             });
     }
 
@@ -1462,16 +1499,23 @@
         }
 
         function resolveFirmwareIcon(release, item) {
-            if (release && Array.isArray(release.assets)) {
+            var directIcon = release && release.icon_url ? release.icon_url : "";
+            if (!directIcon && release && Array.isArray(release.assets)) {
                 var updaterAsset = release.assets.find(function (a) {
                     return a.name && /^updater\.(png|webp|jpe?g|svg)$/i.test(a.name.trim());
                 });
                 if (updaterAsset && updaterAsset.browser_download_url) {
-                    return '<span class="lumen-firmware-icon-box" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#141721;border:1px solid rgba(255,255,255,0.14);box-shadow:0 1px 4px rgba(0,0,0,0.3);overflow:hidden;flex-shrink:0;"><img src="' + escapeHtml(updaterAsset.browser_download_url) + '" width="28" height="28" style="width:28px;height:28px;object-fit:cover;display:block;" alt="" aria-hidden="true"></span>';
+                    directIcon = updaterAsset.browser_download_url;
                 }
             }
-            if (item && item.icon) {
-                return '<span class="lumen-firmware-icon-box" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#141721;border:1px solid rgba(255,255,255,0.14);box-shadow:0 1px 4px rgba(0,0,0,0.3);overflow:hidden;flex-shrink:0;"><img src="' + escapeHtml(item.icon) + '" width="28" height="28" style="width:28px;height:28px;object-fit:cover;display:block;" alt="" aria-hidden="true"></span>';
+            if (!directIcon && item && item.icon) {
+                directIcon = item.icon;
+            }
+            if (!directIcon && item && item.repo && window.INNIOASIS_RELEASE_ICONS) {
+                directIcon = window.INNIOASIS_RELEASE_ICONS[String(item.repo).toLowerCase()] || "";
+            }
+            if (directIcon) {
+                return '<span class="lumen-firmware-icon-box" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#141721;border:1px solid rgba(255,255,255,0.14);box-shadow:0 1px 4px rgba(0,0,0,0.3);overflow:hidden;flex-shrink:0;"><img src="' + escapeHtml(directIcon) + '" width="28" height="28" style="width:28px;height:28px;object-fit:cover;display:block;" alt="" aria-hidden="true"></span>';
             }
             return '<span class="lumen-firmware-icon-box" style="display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;background:#141721;border:1px solid rgba(255,255,255,0.14);box-shadow:0 1px 4px rgba(0,0,0,0.3);color:var(--lumen-accent,#6366f1);flex-shrink:0;"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></span>';
         }
@@ -1525,9 +1569,19 @@
                 : state === "filtered-stable" ? "No stable release yet"
                 : state === "blocked" ? "Not available right now"
                 : "Checking public releases";
-            var versionHtml = (state === "failed" && !release)
+            var plainVersionHtml = (state === "failed" && !release)
                 ? "<strong>" + escapeHtml(versionLabel) + "</strong>"
                 : '<span class="lumen-version-pill" style="font-weight:700;font-size:0.95rem;">' + escapeHtml(versionLabel) + '</span>';
+            /* The version is the way into that release's parsed notes. The
+               info glyph sits beside it so the behaviour is visible without
+               guessing that the number is a link. */
+            var releaseNotesUrl = docsReleaseNotesHref(item, release && release.tag_name ? release.tag_name : "") ||
+                siteReleaseNotesHref(item, "");
+            var notesLabel = "Read the release notes for " + (release && release.tag_name ? release.tag_name : item.name);
+            var versionHtml = release
+                ? '<a class="lumen-version-link" href="' + escapeHtml(releaseNotesUrl) + '" title="' + escapeHtml(notesLabel) + '">' + plainVersionHtml + '</a>' +
+                  '<a class="lumen-readme-info" href="' + escapeHtml(releaseNotesUrl) + '" title="' + escapeHtml(notesLabel) + '" aria-label="' + escapeHtml(notesLabel) + '">&#9432;</a>'
+                : plainVersionHtml;
             /* The empty state names the same option the filterbar does, and
                a blocklisted project says so instead of claiming there is no
                package. */
@@ -1573,8 +1627,7 @@
                already sets the project, so every row belongs to it. */
             /* The reader goes to our own release-notes page. Never fall back
                to a source-host URL when a release tag is missing. */
-            var releaseNotesUrl = docsReleaseNotesHref(item, release && release.tag_name ? release.tag_name : "") ||
-                siteReleaseNotesHref(item, "");            return '<tr data-release-tag="' + escapeHtml(release && (release.tag_name || release.name) || "") + '">' +
+            return '<tr data-release-tag="' + escapeHtml(release && (release.tag_name || release.name) || "") + '">' +
                 '<td><div style="display:flex;align-items:center;gap:10px;">' + iconHtml + '<div>' + versionHtml + (release && release.published_at ? '<br><span class="lumen-meta">' + escapeHtml(release.published_at.slice(0, 10)) + '</span>' : '') + '</div></div></td>' +
                 /* The package is not shown: the Release details expander lists
                    the rom zips this release is packaged in. */
@@ -1852,17 +1905,27 @@
         function latestVersion(repo) {
             var cached = readCached(repo);
             if (cached) return Promise.resolve(cached);
+            function fallbackFromBackup() {
+                return fetchBackupReleases(repo).then(function (res) {
+                    var list = res && Array.isArray(res.releases) ? res.releases : [];
+                    var stable = list.filter(function (r) { return r && !r.prerelease; });
+                    var pick = (stable.length ? stable[0] : list[0]) || null;
+                    var tag = pick && (pick.tag_name || pick.name);
+                    if (tag) writeCached(repo, tag);
+                    return tag || null;
+                }).catch(function () { return null; });
+            }
             return fetchGithubApi("https://api.github.com/repos/" + repo + "/releases/latest")
                 .then(function (response) {
-                    if (!response.ok) return null;
+                    if (!response.ok) return fallbackFromBackup();
                     return response.json().then(function (release) {
                         var tag = release && (release.tag_name || release.name);
-                        if (!tag) return null;
+                        if (!tag) return fallbackFromBackup();
                         writeCached(repo, tag);
                         return tag;
                     });
                 })
-                .catch(function () { return null; });
+                .catch(function () { return fallbackFromBackup(); });
         }
 
         function versionFor(repo) {

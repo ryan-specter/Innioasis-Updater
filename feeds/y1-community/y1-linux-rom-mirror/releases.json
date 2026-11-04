@@ -1,0 +1,72 @@
+[
+  {
+    "id": 432886028,
+    "tag_name": "0.0.1",
+    "name": "Portable Flashing Package: Linux ROM for Y1 Developers / Modders",
+    "body": "This is a release of Linux for the Innioasis Y1 intended for developers to create novel experiences on the Innioasis Y1 audio player.\r\n\r\nCredit to @palutenfan123 for building this.\n\n<!-- portable-mirror:{\"assets\":[{\"name\":\"rom-windows.zip\",\"platform\":\"windows\",\"sha256\":\"37a7f98d6260746aa8c59f81920df4ad1eb06f9740242095a9711f39fec18ca3\",\"size\":493178174,\"source_asset\":\"rom.zip\"},{\"name\":\"rom-linux.zip\",\"platform\":\"linux\",\"sha256\":\"0612a68a567d9bae92c40c62d17d2510cec93e9dad16f4111400e6630e4d86e4\",\"size\":644488893,\"source_asset\":\"rom.zip\"},{\"name\":\"rom-macos.zip\",\"platform\":\"macos\",\"sha256\":\"20d6f5902f4a1f33631365550e00a525d197055d8c3cc6e96ab38cc053f34124\",\"size\":443601647,\"source_asset\":\"rom.zip\"}],\"built_at\":\"2026-11-03T21:15:11Z\",\"failures\":[],\"fingerprint\":\"b87ca154a0b251a9f13d22a02121275336df41921b195cbe33caad7f2d05de9b\",\"original_assets\":[\"rom.zip\"],\"skipped\":[],\"stats\":{\"baseline\":{\"rom-linux.zip\":1,\"rom-macos.zip\":3,\"rom-windows.zip\":1,\"rom.zip\":2},\"generated_at\":\"2026-11-03T21:15:11Z\",\"retired\":{}},\"updater\":{\"linux\":{\"name\":\"UpdaterCE-Linux-Portable.zip\",\"size\":387920108,\"tag\":\"2.5.1\"},\"macos\":{\"name\":\"Innioasis.Updater.for.Mac.zip\",\"size\":187914366,\"tag\":\"2.5.1\"},\"windows\":{\"name\":\"UpdaterCE-Windows-Portable.zip\",\"size\":236551244,\"tag\":\"2.5.1\"}},\"v\":3} -->\n",
+    "draft": false,
+    "prerelease": false,
+    "created_at": "2026-11-03T15:20:22Z",
+    "published_at": "2026-11-03T15:35:46Z",
+    "html_url": "https://github.com/y1-community/y1-linux-rom-mirror/releases/tag/0.0.1",
+    "icon_url": "",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 707119694,
+        "name": "rom-linux.zip",
+        "browser_download_url": "https://github.com/y1-community/y1-linux-rom-mirror/releases/download/0.0.1/rom-linux.zip",
+        "size": 644488893,
+        "download_count": 1,
+        "content_type": "application/zip",
+        "created_at": "2026-11-03T21:15:15Z",
+        "updated_at": "2026-11-03T21:15:39Z",
+        "url": "https://api.github.com/repos/y1-community/y1-linux-rom-mirror/releases/assets/707119694"
+      },
+      {
+        "id": 707119676,
+        "name": "rom-macos.zip",
+        "browser_download_url": "https://github.com/y1-community/y1-linux-rom-mirror/releases/download/0.0.1/rom-macos.zip",
+        "size": 443601647,
+        "download_count": 1,
+        "content_type": "application/zip",
+        "created_at": "2026-11-03T21:15:15Z",
+        "updated_at": "2026-11-03T21:15:35Z",
+        "url": "https://api.github.com/repos/y1-community/y1-linux-rom-mirror/releases/assets/707119676"
+      },
+      {
+        "id": 707119693,
+        "name": "rom-windows.zip",
+        "browser_download_url": "https://github.com/y1-community/y1-linux-rom-mirror/releases/download/0.0.1/rom-windows.zip",
+        "size": 493178174,
+        "download_count": 1,
+        "content_type": "application/zip",
+        "created_at": "2026-11-03T21:15:15Z",
+        "updated_at": "2026-11-03T21:15:31Z",
+        "url": "https://api.github.com/repos/y1-community/y1-linux-rom-mirror/releases/assets/707119693"
+      },
+      {
+        "id": 706111949,
+        "name": "rom.zip",
+        "browser_download_url": "https://github.com/y1-community/y1-linux-rom-mirror/releases/download/0.0.1/rom.zip",
+        "size": 270175226,
+        "download_count": 1,
+        "content_type": "application/zip",
+        "created_at": "2026-11-03T15:35:47Z",
+        "updated_at": "2026-11-03T15:36:03Z",
+        "url": "https://api.github.com/repos/y1-community/y1-linux-rom-mirror/releases/assets/706111949"
+      },
+      {
+        "id": 707807324,
+        "name": "stats.txt",
+        "browser_download_url": "https://github.com/y1-community/y1-linux-rom-mirror/releases/download/0.0.1/stats.txt",
+        "size": 2040,
+        "download_count": 1,
+        "content_type": "text/plain; charset=utf-8",
+        "created_at": "2026-11-04T01:37:40Z",
+        "updated_at": "2026-11-04T01:37:41Z",
+        "url": "https://api.github.com/repos/y1-community/y1-linux-rom-mirror/releases/assets/707807324"
+      }
+    ]
+  }
+]

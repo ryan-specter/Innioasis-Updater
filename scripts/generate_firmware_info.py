@@ -233,14 +233,22 @@ def readme_context(repo: str) -> dict:
     }
 
 
-def readme_page(entry: dict, markdown_html: str, snapshot: dict) -> str:
+def readme_page(entry: dict, markdown_html: str, snapshot: dict, readme_name: str = "README.md") -> str:
     items = entry["items"]
     primary = items[0]
     repo = entry["repo"]
     slug = repo_slug(repo)
-    name = str(primary.get("name") or repo.split("/")[-1])
+    repo_name = repo.split("/")[-1]
+    readme_file = readme_name or "README.md"
+    name = str(primary.get("name") or repo_name)
     models = sorted({str(item.get("model") or "") for item in items if item.get("model")})
-    title = "README for %s (%s) - Innioasis Updater" % (name, ", ".join(models)) if models else "README for %s - Innioasis Updater" % name
+    # The hero names the software; the alias line under it carries the
+    # repository, the README filename and the page slug, so a search for any
+    # of them (Rockbox-y1, readme.md, rockbox-y1-rockbox) can land here too.
+    aliases = " · ".join(dict.fromkeys(
+        part for part in (readme_file, repo, repo_name, name, slug) if part))
+    title = ("About %s (%s) - %s - Innioasis Updater" % (name, ", ".join(models), readme_file)
+             if models else "About %s - %s - Innioasis Updater" % (name, readme_file))
     description = gdp.one_line(
         primary.get("description") or
         "%s firmware README, with its Firmware Archive download total and the Updater CE install route." % name,
@@ -272,8 +280,9 @@ def readme_page(entry: dict, markdown_html: str, snapshot: dict) -> str:
         '  <p class="lumen-doc-back"><a href="../firmware.html">← Firmware Downloads</a></p>\n'
         '  <header class="lumen-doc-head">\n'
         '    <div class="lumen-release-head">%s<div class="lumen-release-titles">'
-        '<p class="lumen-kicker">Firmware README · %s</p><h1>%s README</h1></div></div>\n'
+        '<p class="lumen-kicker">Firmware README · %s</p><h1>About %s</h1></div></div>\n'
         '    <p class="lumen-lead">%s</p>\n'
+        '    <p class="lumen-meta">Also known as: %s</p>\n'
         '    <div class="lumen-release-tag-row">%s</div>\n'
         '    <div class="lumen-doc-actions">%s</div>\n'
         '  </header>\n'
@@ -283,7 +292,7 @@ def readme_page(entry: dict, markdown_html: str, snapshot: dict) -> str:
         '</main>\n'
     ) % (
         esc(repo), icon_html(primary), esc(" · ".join(models) or "project"), esc(name),
-        esc(description), "".join('<span>%s</span>' % bit for bit in meta_bits),
+        esc(description), esc(aliases), "".join('<span>%s</span>' % bit for bit in meta_bits),
         "".join(actions), stats, markdown_html,
     )
     return page_document(title, description, canonical, main, slug)
@@ -412,7 +421,7 @@ def build(refresh: bool = False, limit: int = 0) -> None:
         snapshot = download_snapshot(repo, refresh=refresh)
         markup = gdp.markdown_to_html(markdown, readme_context(repo))
         slug = repo_slug(repo)
-        (out_dir / (slug + ".html")).write_text(readme_page(group, markup, snapshot), encoding="utf-8")
+        (out_dir / (slug + ".html")).write_text(readme_page(group, markup, snapshot, path), encoding="utf-8")
         entries.append(group)
         sitemap_urls.append("%s/firmware-info/%s.html" % (SITE, slug))
         print("  %-34s page written from %s" % (repo, path or "README"))

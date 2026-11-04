@@ -6835,11 +6835,11 @@ class GitHubAPI:
         except Exception as e:
             silent_print(f"Error getting release for {repo} unauthenticated: {e}")
 
-        # Final fallback: try to get cached data
-        cached_releases = self.get_cached_releases(repo)
+        # Final fallback: try backup feed or cached data (including bundled/stale cache)
+        cached_releases = self._get_backup_feed_releases(repo) or self.get_cached_releases(repo, allow_stale=True)
         if cached_releases and len(cached_releases) > 0:
             latest_cached = cached_releases[0]
-            silent_print(f"Returning cached latest release for {repo}: {latest_cached.get('tag_name', 'Unknown')}")
+            silent_print(f"Returning backup/cached latest release for {repo}: {latest_cached.get('tag_name', 'Unknown')}")
             return latest_cached
 
         return None
@@ -7075,14 +7075,79 @@ class GitHubAPI:
         except Exception as e:
             silent_print(f"Error getting releases for {repo} unauthenticated: {e}")
 
-        # Final fallback: try to get cached data
-        cached_releases = self.get_cached_releases(repo)
+        # Final fallback: try 1:1 backup feed or cached data (including bundled/stale cache)
+        backup_releases = self._get_backup_feed_releases(repo)
+        if backup_releases:
+            silent_print(f"Returning {len(backup_releases)} releases from 1:1 backup feed for {repo}")
+            return backup_releases
+
+        cached_releases = self.get_cached_releases(repo, allow_stale=True)
         if cached_releases:
             silent_print(f"Returning {len(cached_releases)} cached releases for {repo}")
             return cached_releases
 
         silent_print(f"No releases found for {repo} - returning empty list")
         return []
+
+    def _get_backup_feed_releases(self, repo):
+        """Load 1:1 release list from innioasis.app/feeds or local feeds/ backup store."""
+        lower_repo = (repo or '').strip().lower()
+        if '/' not in lower_repo:
+            return None
+        raw_list = None
+        try:
+            feed_url = f"https://innioasis.app/feeds/{lower_repo}/releases.json"
+            resp = self.session.get(feed_url, timeout=6)
+            if resp.status_code == 200:
+                data = resp.json()
+                if isinstance(data, list) and data:
+                    raw_list = data
+        except Exception as e:
+            silent_print(f"Online backup feed unavailable for {repo}: {e}")
+
+        if not raw_list:
+            try:
+                local_feed = _FIRMWARE_APP_DIR / "feeds" / lower_repo.split("/")[0] / lower_repo.split("/")[1] / "releases.json"
+                if local_feed.exists():
+                    with open(local_feed, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                    if isinstance(data, list) and data:
+                        raw_list = data
+            except Exception as e:
+                silent_print(f"Local backup feed read error for {repo}: {e}")
+
+        if not raw_list:
+            return None
+
+        releases = []
+        for release in raw_list:
+            if not isinstance(release, dict) or release.get('draft'):
+                continue
+            tag_name = release.get('tag_name', '')
+            is_prerelease = release.get('prerelease', False)
+            if 'stable' in tag_name.lower():
+                is_prerelease = False
+            assets = release.get('assets', [])
+            rom_variants = extract_rom_variants_from_assets(assets, tag_name, repo)
+            preferred = select_preferred_rom_asset(rom_variants, selected_type=None)
+            zip_asset = preferred['asset'] if preferred else None
+            if zip_asset:
+                releases.append({
+                    'tag_name': tag_name,
+                    'name': release.get('name', ''),
+                    'body': release.get('body', ''),
+                    'published_at': release.get('published_at', ''),
+                    'download_url': zip_asset['browser_download_url'],
+                    'asset_name': zip_asset['name'],
+                    'asset_size': zip_asset.get('size', 0),
+                    'assets': assets,
+                    'rom_variants': rom_variants,
+                    'prerelease': is_prerelease,
+                    'source_repo': repo
+                })
+        if releases:
+            self.cache_releases(repo, releases)
+        return releases or None
 
     def get_cached_releases(self, repo, allow_stale=False):
         """Get cached releases for a repository - PERSISTENT DISK CACHE for offline mode"""

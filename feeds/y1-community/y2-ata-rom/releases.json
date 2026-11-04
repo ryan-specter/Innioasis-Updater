@@ -1,0 +1,28 @@
+[
+  {
+    "id": 342857873,
+    "tag_name": "y2-ata",
+    "name": "Engineering Firmware for Innioasis Y2 (Android 4.4 AOSP base - MT6582))",
+    "body": "# This is a bare android firmware for modifications to the Innioasis Y2 - it includes flash_tool.exe to install it from Windows systems\r\n# This is not suitable for everyday use - the original firmware is [available here](https://github.com/y1-community/y1-stock-rom/releases/tag/3.1.7)\r\nDisconnect your Y2 from USB, fully power it off using a paper clip or pin between the headphone jack and charging port\r\n\r\nRun flash_tool.exe\r\n\r\nSelect Format All + Download from the dropdown that reads \"Download\"\r\n\r\nClick Download (green arrow)\r\n\r\nConnect your Y2 and wait for install to finish.",
+    "draft": false,
+    "prerelease": false,
+    "created_at": "2026-06-22T11:23:58Z",
+    "published_at": "2026-06-22T11:27:11Z",
+    "html_url": "https://github.com/y1-community/y2-ata-rom/releases/tag/y2-ata",
+    "icon_url": "",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 477998702,
+        "name": "rom_y2.zip",
+        "browser_download_url": "https://github.com/y1-community/y2-ata-rom/releases/download/y2-ata/rom_y2.zip",
+        "size": 662798399,
+        "download_count": 208,
+        "content_type": "application/zip",
+        "created_at": "2026-07-15T14:01:39Z",
+        "updated_at": "2026-07-15T14:02:53Z",
+        "url": "https://api.github.com/repos/y1-community/y2-ata-rom/releases/assets/477998702"
+      }
+    ]
+  }
+]

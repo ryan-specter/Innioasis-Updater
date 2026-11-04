@@ -4,6 +4,11 @@ name: Generate release notes and post-install pages
 # and new: its release notes, our portable download buttons, the Updater CE
 # install guide, and the project's post-install Markdown. The pages are the
 # crawlable equivalents of release_notes.html and post_install.html.
+#
+# The same run writes the static firmware list (firmware-list.html) and the
+# machine-readable feeds in feeds/ that Updater CE falls back to when GitHub's
+# API is blocked or rate limited. sitemap.xml is audited against the pages that
+# actually exist, so a page no release produces any more leaves the sitemap.
 
 on:
   push:
@@ -11,9 +16,12 @@ on:
       - slidia_manifest.xml
       - firmware-catalog.js
       - docs-viewer.js
+      - scripts/generate_backup_feeds.py
       - scripts/generate_doc_pages.py
       - scripts/generate_rockbox_pages.py
       - scripts/generate_firmware_info.py
+      - scripts/generate_firmware_list.py
+      - scripts/generate_sitemap.py
       - config.ini
       - .github/workflows/generate-doc-pages.yml
   # A release published in any listed project can ask for a rebuild.
@@ -51,6 +59,12 @@ jobs:
           key: doc-pages-${{ github.run_id }}
           restore-keys: doc-pages-
 
+      - name: Generate 1:1 backup release feeds and catalogue snapshot
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/generate_backup_feeds.py ${{ inputs.refresh && '--refresh' || '' }}
+
       - name: Render release notes and post-install pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -69,14 +83,25 @@ jobs:
         run: |
           python scripts/generate_firmware_info.py ${{ inputs.refresh && '--refresh' || '' }}
 
+      - name: Render the static firmware list and its structured data
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/generate_firmware_list.py ${{ inputs.refresh && '--refresh' || '' }}
+
+      - name: Audit sitemap.xml against the pages that exist
+        run: |
+          python scripts/generate_sitemap.py
+          python scripts/generate_sitemap.py --check
+
       - name: Commit regenerated pages
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add release-notes post-install firmware-info rockbox-y1 rockbox-y2 rockbox-rom-download.html rockbox-y1-themes.html sitemap.xml llms.txt
+          git add feeds firmware-catalog.js release-notes post-install firmware-info rockbox-y1 rockbox-y2 rockbox-rom-download.html rockbox-y1-themes.html firmware-list.html firmware.html sitemap.xml llms.txt
           if git diff --cached --quiet; then
             echo "No release, post-install or README changes."
           else
-            git commit -m "Regenerate static release notes, post-install and README pages"
+            git commit -m "Regenerate static release notes, post-install, README and firmware list pages"
             git push
           fi

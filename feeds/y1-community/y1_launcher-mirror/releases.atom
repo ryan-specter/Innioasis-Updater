@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:innioasis="https://innioasis.app/ns/feeds/1.0">
+  <id>https://innioasis.app/feeds/y1-community/y1_launcher-mirror/releases.atom</id>
+  <title>Release notes from y1-community/y1_launcher-mirror</title>
+  <link rel="alternate" type="text/html" href="https://innioasis.app/firmware.html"/>
+  <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/y1-community/y1_launcher-mirror/releases.atom"/>
+  <updated>2026-11-03T17:04:56Z</updated>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1_launcher-mirror/launcher-v0.9</id>
+    <updated>2026-11-03T17:04:56Z</updated>
+    <published>2026-11-03T17:04:56Z</published>
+    <title>Portable Flashing Package: JJ Launcher ROM v0.9</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1_launcher-mirror/releases/tag/launcher-v0.9"/>
+    <innioasis:tag_name>launcher-v0.9</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.9/rom-linux.zip" title="rom-linux.zip" length="844190901" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707246825"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.9/rom-macos.zip" title="rom-macos.zip" length="643303667" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707246823"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.9/rom-windows.zip" title="rom-windows.zip" length="692880182" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707246821"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.9/rom.zip" title="rom.zip" length="456604912" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706401661"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.9/rom_type_b-linux.zip" title="rom_type_b-linux.zip" length="787118434" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707246818"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.9/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="586231207" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707248216"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.9/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="635807715" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707246819"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.9/rom_type_b.zip" title="rom_type_b.zip" length="399539309" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706402036"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.9/stats.txt" title="stats.txt" length="2349" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809695"/>
+    <content type="text">&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215531&quot; src=&quot;https://github.com/user-attachments/assets/5aacc91f-efb6-4a71-acb2-01a4c241bafc&quot; /&gt;
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215549&quot; src=&quot;https://github.com/user-attachments/assets/796379c0-afc7-4d52-9ef5-e1acfe03bccf&quot; /&gt;
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215624&quot; src=&quot;https://github.com/user-attachments/assets/7f8fb8e6-0cfd-4825-87fd-cac41e1ac03a&quot; /&gt;
+
+## 🚀 What&#x27;s New in v0.9
+
+### ✨ New Features &amp; Improvements
+
+* **Added User Equalizer (EQ), Bass Boost, and Spatial Audio Engine**
+  * Customize your sound with the new custom EQ settings, enhanced bass boost, and an immersive spatial audio engine.
+* **Full Playlist File Support**
+  * You can now easily create, delete, and manage your playlist files directly within the app.
+* **File Information Display**
+  * Added the ability to view detailed file and track information directly on the player screen.
+* **Bug Fixes**
+  * Fixed various minor bugs and improved overall system stability.
+* **Thanks**
+  * MO-ON company
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;d61db0d0da480508e8f773c564e0f06162a3bdf0911a67cc3d65e48c4168be23&quot;,&quot;size&quot;:692880182,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;e8ab1f75017c207c20cc5bf215d3173da364b8c0052c1e00c994b88c83a74d5a&quot;,&quot;size&quot;:844190901,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;ffa26d829d69acd1735dc1bcd42d3d4b3dab4392067cc8b10563cda17d215312&quot;,&quot;size&quot;:643303667,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;a4903aa0a4e7e829943b8340438c29fe93bb6c5cfefb100474be524a99beb1cf&quot;,&quot;size&quot;:635807715,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;c984f8210c5052b10fe1b67bc800518c918184690392874b4c87c74036649705&quot;,&quot;size&quot;:787118434,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;55f57979e1173553282bcd8a417f54394a3083e222db3e465f8c93a20e6fdff4&quot;,&quot;size&quot;:586231207,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T22:01:40Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;c28c3502dfcf3e93d4d75bc0d98690e720f5f9737305fff8a07ce148aa4bdfe8&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:2,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:4,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T22:01:40Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1_launcher-mirror/launcher-v0.8</id>
+    <updated>2026-11-03T16:58:53Z</updated>
+    <published>2026-11-03T16:58:53Z</published>
+    <title>Portable Flashing Package: JJ Launcher ROM v0.8</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1_launcher-mirror/releases/tag/launcher-v0.8"/>
+    <innioasis:tag_name>launcher-v0.8</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.8/rom-linux.zip" title="rom-linux.zip" length="844192026" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707233187"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.8/rom-macos.zip" title="rom-macos.zip" length="643304792" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707233189"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.8/rom-windows.zip" title="rom-windows.zip" length="692881307" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707233191"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.8/rom.zip" title="rom.zip" length="456604601" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706385857"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.8/rom_type_b-linux.zip" title="rom_type_b-linux.zip" length="787135016" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707233184"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.8/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="586247789" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707234147"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.8/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="635824297" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707233188"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.8/rom_type_b.zip" title="rom_type_b.zip" length="399538066" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706386198"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.8/stats.txt" title="stats.txt" length="2349" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809625"/>
+    <content type="text">## 🚀 What&#x27;s New in v0.8
+
+### 🎨 1. New Theme Engine Implemented
+* A brand-new theme engine has been added to the launcher!
+* You can easily design and customize your own themes using the web editor below:
+  👉 [Go to Theme Editor](https://theme-editor-gules.vercel.app/)
+
+### 🔤 2. Fixed Case-Insensitive Song Sorting Bug
+* Fixed an issue where uppercase and lowercase song titles were not sorting properly in alphabetical order.
+  *(Special thanks to **Whimsical_Sandwich** for reporting this issue!)*
+
+### 🖥️ 3. Server Connection Page UI Redesign
+* Overhauled and improved the User Interface (UI) for the server connection page for a cleaner look.
+
+### 📂 4. Added Folder Playback Feature
+* You can now browse and play your music files directly by folder structure.
+
+### ❤️ 5. Added Favorites Feature
+* Added a bookmarking function so you can easily save and access your favorite songs.
+
+### 🔄 6. Added Rockbox Booting Feature
+* Added the ability to boot directly into Rockbox from the launcher.
+
+&gt; [!WARNING]
+&gt; **⚠️ Important Notice regarding Rockbox Booting**
+&gt; Please note that **an additional script is required** if you want to safely return to the launcher from Rockbox.
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;b429175aa915d2117762aa8ddb2c33f1e2650268055429159ec5f9c671166b4c&quot;,&quot;size&quot;:692881307,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;27cffaeb77be5529216c85a35809411a29670b41b191862ccde6b3f67ae6246d&quot;,&quot;size&quot;:844192026,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;7165ab87ae38c61c8b3b768e3cdf1187584e91088a76c9a02b084741f424637e&quot;,&quot;size&quot;:643304792,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;67b24285372896542d98e8724597961aa33af4ccae4b41545a6908624ad46d1e&quot;,&quot;size&quot;:635824297,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;02a2e450c2c213291a49d32c842291cce01f9216a8e108eb487d81b74505fb63&quot;,&quot;size&quot;:787135016,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;f6180a9b0ed2cf1eba95003178a6eef72390269376ed9e4cc1b4df1b77349766&quot;,&quot;size&quot;:586247789,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:57:33Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;e00553dfe0a91cf856785d015b375f50d5e1fe7cccae532ff26393ed02d11134&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:2,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:4,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:57:33Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1_launcher-mirror/launcher-v0.6</id>
+    <updated>2026-11-03T16:52:11Z</updated>
+    <published>2026-11-03T16:52:11Z</published>
+    <title>Portable Flashing Package: JJ Launcher ROM v0.6</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1_launcher-mirror/releases/tag/launcher-v0.6"/>
+    <innioasis:tag_name>launcher-v0.6</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.6/rom-linux.zip" title="rom-linux.zip" length="844169544" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707220557"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.6/rom-macos.zip" title="rom-macos.zip" length="643282310" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707220553"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.6/rom-windows.zip" title="rom-windows.zip" length="692858825" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707220556"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.6/rom.zip" title="rom.zip" length="456567803" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706364833"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.6/rom_type_b-linux.zip" title="rom_type_b-linux.zip" length="787276957" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707220555"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.6/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="586389730" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707222261"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.6/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="635966238" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707220554"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.6/rom_type_b.zip" title="rom_type_b.zip" length="399667887" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706364980"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.6/stats.txt" title="stats.txt" length="2349" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809517"/>
+    <content type="text">## 🚀 Installation &amp; Update Guide
+
+You can easily install the launcher using the **Innioasis Updater**.
+👉 [Download Innioasis Updater](https://www.innioasis.com/pages/download)
+
+&lt;img width=&quot;1214&quot; height=&quot;612&quot; alt=&quot;Installation Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/95e9e82a-7b2a-48ee-a75b-6f055a77db07&quot; /&gt;
+
+---
+
+## 🆕 What&#x27;s New in v0.6
+
+### 1. Added Launcher OTA Update Feature
+* You can now download and apply updates directly within the launcher without having to manually reinstall the APK file.
+
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Update Feature Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/b34f1026-da50-45f8-a99a-bf83e358bb1f&quot; /&gt;
+
+### 2. Status Bar Enhancement
+* Added a playback status icon to the status bar.
+
+### 3. Bug Fixes
+* Fixed minor bugs and improved overall stability.
+
+---
+
+## 🎧 Bluetooth Connection &amp; Pairing
+
+Bluetooth headphone connection testing has been successfully completed, and it works perfectly!
+
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Bluetooth Pairing Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/73d0cec4-ddeb-406d-916d-0cdcb788533a&quot; /&gt;
+
+&gt; [!CAUTION]
+&gt; **⚠️ Important Security Permission Note**
+&gt; If you encounter a security-related error message when trying to connect after pairing, you must grant the secure settings permission via ADB by running the following script:
+
+```bash
+adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;5da7ef0f7ee5279dce0751c6060a4f4ca7129a823077fac0cde850cbbade60f6&quot;,&quot;size&quot;:692858825,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;d269b2d27f437de8024c0df75005133bc5c3d21f00ff989bf27b8fe38a827b14&quot;,&quot;size&quot;:844169544,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;baaaf9caf3bcb01ddf7c0e85d45a6f0f94701de9f6486d0e9a129bcae9a2e5cf&quot;,&quot;size&quot;:643282310,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;c59de3642c8a0912fd4ee2d99c627b226b07b25704d483f7a3156084ee41c2b6&quot;,&quot;size&quot;:635966238,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;7a0808e207d038da0e4689f35460695355f04981b9fe26003420e0e08ab00196&quot;,&quot;size&quot;:787276957,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;3a5d0642746dc5677cefd56a8dcb5e7680064bdc5d0cb9f2a65c3cd05009d1d3&quot;,&quot;size&quot;:586389730,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:53:20Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;c6ef12b9e317b235b349e8a3d1640960bcb30e821fd653f3dff9a0efa015c0e4&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:2,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:4,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:53:20Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1_launcher-mirror/launcher-v0.5</id>
+    <updated>2026-11-03T16:47:11Z</updated>
+    <published>2026-11-03T16:47:11Z</published>
+    <title>Portable Flashing Package: JJ Launcher ROM v0.5</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1_launcher-mirror/releases/tag/launcher-v0.5"/>
+    <innioasis:tag_name>launcher-v0.5</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.5/rom-linux.zip" title="rom-linux.zip" length="844188787" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707207629"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.5/rom-macos.zip" title="rom-macos.zip" length="643301553" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707207627"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.5/rom-windows.zip" title="rom-windows.zip" length="692878068" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707207630"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.5/rom.zip" title="rom.zip" length="456603017" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706346154"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.5/rom_type_b-linux.zip" title="rom_type_b-linux.zip" length="787264728" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707207623"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.5/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="586377501" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707209290"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.5/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="635954009" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707207625"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.5/rom_type_b.zip" title="rom_type_b.zip" length="399658877" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706346398"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.5/stats.txt" title="stats.txt" length="2350" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809436"/>
+    <content type="text">&gt; [!WARNING]
+&gt; &lt;span style=&quot;color:#d9381e; font-weight:bold;&quot;&gt;⚠️ IMPORTANT: This has only been tested on System Software version 2.1.9. It is highly recommended to check your own firmware version before proceeding with the installation.&lt;/span&gt;
+
+1. 칼라 테마기능 적용
+2. 위젯기능 추가
+3. 파일 탐색기 시각화 오류수정(노래 파일이 많아지면 느려지는 버그 수정)
+4. 라디오 버튼 제거
+5. 배터리 표시 아이콘으로 변경
+6. 와이파이를 통한 앨범 자동 다운로드
+7. 최적화 및 버그 수정
+-------------------------------------
+1. Added color themes
+2. Added widget support
+3. Fixed visual rendering issues in File Explorer (Resolved slowdowns when loading a large number of songs)
+4. Removed radio buttons
+5. Replaced battery indicator with an icon
+6. Auto-Download Album Art via Wi-Fi
+8. Optimized performance and fixed bugs
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;a9de67015e88f5beda4280ae24040d10643ade3d9afb465a9140dd9b47946756&quot;,&quot;size&quot;:692878068,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;9b9be05269f82c59e811fbf98608cb99c638e6fe559aae98fc7483632323fb2d&quot;,&quot;size&quot;:844188787,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;caf9660ea8a035c1445276640dd520a380d2c66c69803b34ec34700763630f11&quot;,&quot;size&quot;:643301553,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;d0a6c6fffa57f84bc74cffe467b565a7f9228a76dfa2740c8aa9675045b5f1cf&quot;,&quot;size&quot;:635954009,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;efffbf29521f83ff1cd89f203441cc3a4524c3d106ae42439031a48384dd56b1&quot;,&quot;size&quot;:787264728,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;3334883eb56a9abe3d65ac77eff24a0f9a1b203a1992546709d40030d8b4de7a&quot;,&quot;size&quot;:586377501,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:48:50Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;531826e21d71abf6d942764a9f845ae7cfa2c22f4185b4b70359ff65b7cbdf8f&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:2,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:5,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:48:50Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1_launcher-mirror/launcher-v0.3</id>
+    <updated>2026-11-03T16:42:11Z</updated>
+    <published>2026-11-03T16:42:11Z</published>
+    <title>Portable Flashing Package: JJ Launcher ROM v0.3</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1_launcher-mirror/releases/tag/launcher-v0.3"/>
+    <innioasis:tag_name>launcher-v0.3</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.3/rom-linux.zip" title="rom-linux.zip" length="844172414" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707196369"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.3/rom-macos.zip" title="rom-macos.zip" length="643285179" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707196368"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.3/rom-windows.zip" title="rom-windows.zip" length="692861695" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707196363"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.3/rom.zip" title="rom.zip" length="456569905" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706330630"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.3/rom_type_b-linux.zip" title="rom_type_b-linux.zip" length="787262826" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707196371"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.3/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="586375598" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707197540"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.3/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="635952107" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707196365"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.3/rom_type_b.zip" title="rom_type_b.zip" length="399645569" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706330644"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.3/stats.txt" title="stats.txt" length="2352" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809343"/>
+    <content type="text">1. 테마파일 적용(/storage/sdcard0/Y1_Themes/ 폴더에 원하는 테마 파일(.json)을 넣고 설정)
+2. 화면이 커진 상태에서 곡변경 기능 추가
+3. 셔플 재생 알고리즘 수정/아이콘 교체
+4. 기타 버그 수정
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;8f25062415d97074fd13951cf64fff33519a27edc22275443c3dafd900975b5a&quot;,&quot;size&quot;:692861695,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;4f3c5993b2a00a9e615aa9f4d0d05faeced9d5a1f1c2e0bb0d2c4cf8c5da16b8&quot;,&quot;size&quot;:844172414,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;1ea30ac26ae82d362d2129dffb10736a043aa2c874fe5d432fe982000c1e9632&quot;,&quot;size&quot;:643285179,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;ee4e25bb7d0963c9044821f85ba378a00dbd654b3dfab8406c7ced8f7f371ddb&quot;,&quot;size&quot;:635952107,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;6afe13475ec958823186542305db2edc50f872a48828a104f9dc5154803bfba3&quot;,&quot;size&quot;:787262826,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;38fea7de5406d3674a19de78082354ea2e208e8e874cea8767b6804b34ed8dc7&quot;,&quot;size&quot;:586375598,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:44:35Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;54833220cbd7623235be69a8811f4bacfb7aa66a4250471b4228d89f30052eb6&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:2,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:5,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:44:35Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1_launcher-mirror/launcher-v0.11.6hotfix4</id>
+    <updated>2026-11-03T17:27:56Z</updated>
+    <published>2026-11-03T17:27:56Z</published>
+    <title>Portable Flashing Package: JJ Launcher ROM v0.11.6hotfix4</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1_launcher-mirror/releases/tag/launcher-v0.11.6hotfix4"/>
+    <innioasis:tag_name>launcher-v0.11.6hotfix4</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6hotfix4/rom-linux.zip" title="rom-linux.zip" length="843871168" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707297278"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6hotfix4/rom-macos.zip" title="rom-macos.zip" length="642983934" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707297282"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6hotfix4/rom-windows.zip" title="rom-windows.zip" length="692560449" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707297279"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6hotfix4/rom.zip" title="rom.zip" length="456284202" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706470501"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6hotfix4/rom_type_b-linux.zip" title="rom_type_b-linux.zip" length="787372597" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707297274"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6hotfix4/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="586485368" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707298230"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6hotfix4/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="636061878" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707297277"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6hotfix4/rom_type_b.zip" title="rom_type_b.zip" length="399793497" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706471765"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6hotfix4/rom_y2-linux.zip" title="rom_y2-linux.zip" length="760224570" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707298740"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6hotfix4/rom_y2-macos.zip" title="rom_y2-macos.zip" length="559337336" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707298991"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6hotfix4/rom_y2-windows.zip" title="rom_y2-windows.zip" length="608913851" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707298495"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6hotfix4/rom_y2.zip" title="rom_y2.zip" length="443402625" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706471762"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6hotfix4/stats.txt" title="stats.txt" length="2669" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809890"/>
+    <content type="text">&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;a9bc148669e644f0d0138c79966f7b56a8a3fec867062ca270b2f321d5c445e7&quot;,&quot;size&quot;:692560449,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;971c144193e1b236d3c405e98fcb32c9c1e03740eb53292f1fbbc4807c35d24e&quot;,&quot;size&quot;:843871168,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;3546e52f0b27b7a5cb80b74332ec6c9dd915cc1bcf54a962cfd3aca18db6ba7f&quot;,&quot;size&quot;:642983934,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;6be97bd255d42936f0184d6b2abee56e1f09bc8a4abf8f6002e33bb93e23f3f9&quot;,&quot;size&quot;:636061878,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;2cf9c542705e1464af68d7caa448fb8e03411e6114493cf2a9a944870731aa41&quot;,&quot;size&quot;:787372597,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;fea8ae02b61e3312e4ab07edcab7f761db645e6076a435eee1492b87cc70e177&quot;,&quot;size&quot;:586485368,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_y2-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;bd72e3e4293c19e2095c0e198ce605849c6545e4ac18d111a77ce28f5e072bab&quot;,&quot;size&quot;:608913851,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;},{&quot;name&quot;:&quot;rom_y2-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;2d3a7b415b980d13daef10255a897f37bc8d435eeff35c4ca12d0176006de1aa&quot;,&quot;size&quot;:760224570,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;},{&quot;name&quot;:&quot;rom_y2-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;fe5ccac55c1a1dba9f5cf23e7c7e7b877e67c5a15228ab1c1686b1c30136cf7d&quot;,&quot;size&quot;:559337336,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T22:19:36Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;16e772d894bf23677a802022e4c724cdca37c3c41b09e12a8135fa4ac72c6f7a&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;,&quot;rom_y2.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:3,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:2,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:3,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:2,&quot;rom_y2-linux.zip&quot;:1,&quot;rom_y2-macos.zip&quot;:3,&quot;rom_y2-windows.zip&quot;:1,&quot;rom_y2.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T22:19:36Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1_launcher-mirror/launcher-v0.11.6</id>
+    <updated>2026-11-03T17:19:43Z</updated>
+    <published>2026-11-03T17:19:43Z</published>
+    <title>Portable Flashing Package: JJ Launcher ROM v0.11.6</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1_launcher-mirror/releases/tag/launcher-v0.11.6"/>
+    <innioasis:tag_name>launcher-v0.11.6</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6/rom-linux.zip" title="rom-linux.zip" length="843868836" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707280181"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6/rom-macos.zip" title="rom-macos.zip" length="642981603" type="application/zip" innioasis:download_count="1" innioasis:asset_id="707280180"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6/rom-windows.zip" title="rom-windows.zip" length="692558117" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707280177"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6/rom.zip" title="rom.zip" length="456271826" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706445994"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6/rom_type_b-linux.zip" title="rom_type_b-linux.zip" length="787381925" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707280182"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="586494698" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707281639"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="636071206" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707280178"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6/rom_type_b.zip" title="rom_type_b.zip" length="399777849" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706449093"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6/rom_y2-linux.zip" title="rom_y2-linux.zip" length="760208264" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707281903"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6/rom_y2-macos.zip" title="rom_y2-macos.zip" length="559321032" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707282043"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6/rom_y2-windows.zip" title="rom_y2-windows.zip" length="608897545" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707281840"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6/rom_y2.zip" title="rom_y2.zip" length="443395091" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706449092"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.6/stats.txt" title="stats.txt" length="2662" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809809"/>
+    <content type="text">---
+
+### 🚀 JJ Launcher v0.11.6 Release Notes
+
+**Important Notice on FLAC Playback**
+
+* Due to stability issues with the previous downsampling engine, we have reverted to the legacy downsampling engine. Please note that this down-sampling engine downgrade may cause potential side effects or issues with FLAC playback.
+
+---
+
+### 🌟 Key Updates &amp; Improvements
+
+* **Audio Engine Downgrade:** Reverted the FLAC downsampling engine to the legacy version for better stability.
+* **Opus Album Art Fix:** Fixed an issue where album art for Opus audio files was not displaying properly.
+* **Player UI Enhancements:** Added playback speed control, a close button, and a sleep timer function directly to the music player screen.
+* **Video Player:** Added a continuous video playback feature.
+* **Library UI:** Resized album art thumbnails in the library view for better layout balance.
+* **Podcast Engine Overhaul:** Significantly improved podcast streaming and channel loading performance. Special thanks to **ArcSmurf** for the amazing contribution!
+* **Language Bug Fix:** Resolved a bug where language settings would randomly reset.
+
+---
+
+### 🎵 Last.fm Scrobbling Support &amp; API Announcement
+
+* **Last.fm Scrobbling Integrated:** You can now scrobble your tracks to Last.fm!
+* **Commercial API Access Granted:** Thanks to the support of the Last.fm team, we have been granted **1 year of free commercial API access**.
+* **Seamless Login:** Pro users can now use Last.fm scrobbling using only their account credentials (no separate API key required!). Simply launch the web server and log in.
+* **Support the Project:** To keep Last.fm integration and other features running continuously in the future, your donations and support are always greatly appreciated!
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;4be579b0a549a28b9a0a2a80bb41d9b4d9bb60e8bfb0067011e66ba3912fcfb6&quot;,&quot;size&quot;:692558117,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;06abcd73da61db67c5eac8e13c20aab238793d08d771f6d264998a14944406af&quot;,&quot;size&quot;:843868836,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;5fafaa9ec3ed7bf14c49dddc72df170aabdb7d762eca7acde5bc53987dfde00c&quot;,&quot;size&quot;:642981603,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;999f0ab7ab64f4d9efe7667bb5821f209975c03bfa7bde0651a8b03bc20c1477&quot;,&quot;size&quot;:636071206,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;daef8e482fabf16377cca5193184fa3eab49b6edcf9534a56197bd32fe020fb3&quot;,&quot;size&quot;:787381925,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;05ad1c599b5ef35fee9af0d57c0d699e76620fc14b35e2b7b6f881a47736f25a&quot;,&quot;size&quot;:586494698,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_y2-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;f318e635845823f44959c2c1b3ffc1b3a9db667dcdae93a600fba8fad2112e94&quot;,&quot;size&quot;:608897545,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;},{&quot;name&quot;:&quot;rom_y2-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;ccd1d9466fbc844be0d132c377ea898894f33c41634bc05ad9963bdf28e1febc&quot;,&quot;size&quot;:760208264,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;},{&quot;name&quot;:&quot;rom_y2-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;1266374b90d3a50f4c9a8925d1a8d7c7b38bb8e6fd464fa714c737c3034dddce&quot;,&quot;size&quot;:559321032,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T22:13:27Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;634afa20b712828c801ed81ccd2331e1699a9f84581aa66baaa0cfcb3c63093c&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;,&quot;rom_y2.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:3,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:2,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:3,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:2,&quot;rom_y2-linux.zip&quot;:1,&quot;rom_y2-macos.zip&quot;:3,&quot;rom_y2-windows.zip&quot;:1,&quot;rom_y2.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T22:13:27Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1_launcher-mirror/launcher-v0.11.5</id>
+    <updated>2026-11-03T17:11:57Z</updated>
+    <published>2026-11-03T17:11:57Z</published>
+    <title>Portable Flashing Package: JJ Launcher ROM v0.11.5</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1_launcher-mirror/releases/tag/launcher-v0.11.5"/>
+    <innioasis:tag_name>launcher-v0.11.5</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.5/rom-linux.zip" title="rom-linux.zip" length="843871088" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707262908"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.5/rom-macos.zip" title="rom-macos.zip" length="642983855" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707262907"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.5/rom-windows.zip" title="rom-windows.zip" length="692560369" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707262904"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.5/rom.zip" title="rom.zip" length="456271507" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706422845"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.5/rom_type_b-linux.zip" title="rom_type_b-linux.zip" length="787373140" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707262903"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.5/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="586485912" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707264473"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.5/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="636062421" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707262905"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.5/rom_type_b.zip" title="rom_type_b.zip" length="399797081" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706424983"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.5/rom_y2-linux.zip" title="rom_y2-linux.zip" length="760208358" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707264912"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.5/rom_y2-macos.zip" title="rom_y2-macos.zip" length="559321126" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707265105"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.5/rom_y2-windows.zip" title="rom_y2-windows.zip" length="608897639" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707264666"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.5/rom_y2.zip" title="rom_y2.zip" length="443389547" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706424977"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.5/stats.txt" title="stats.txt" length="2659" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809748"/>
+    <content type="text">Fixed an issue where FLAC files would not play in v0.11.4.
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;19666469dfeb5b37e0eff5d1e3893e46fe907a701221a49895f68939eaffc07e&quot;,&quot;size&quot;:692560369,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;a7df5fc4ad3311ec9acbdd763137cfc92da76b987538ef174291602775e08fac&quot;,&quot;size&quot;:843871088,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;1e0d052018aea541f40c54a5ba0a0c4f22adfac2b8117a1c832390b47ae11f06&quot;,&quot;size&quot;:642983855,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;f26023dae9d9847b6b8ccdc19b6ae413e89ebbc17e81a768158e8b6612664d48&quot;,&quot;size&quot;:636062421,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;c3b2e9d87aed2802ec0ad85eab1ddceb71a7305f2d3ce1c0e330a02b20bb8e00&quot;,&quot;size&quot;:787373140,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;920dd14b2e58ca7b72568298d2ab7994455975566ec056097634f94cbdbe7d5c&quot;,&quot;size&quot;:586485912,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_y2-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;6825594e19610fa56009e94b4527025550b2cf7ad18cf673c2f0be479ee12fe8&quot;,&quot;size&quot;:608897639,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;},{&quot;name&quot;:&quot;rom_y2-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;dbf033ffdb34ac857c233786253331489964d3826c5cd3416fd1a856dcad81d3&quot;,&quot;size&quot;:760208358,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;},{&quot;name&quot;:&quot;rom_y2-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;e3fbfdf3775a716806a3539627760ee9b465005f66736e400963ddcf8c800337&quot;,&quot;size&quot;:559321126,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T22:07:19Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;3d297132f1e5b7c4b7ac100f6f5724161c96850f8810c6b6558c24c51fdecd50&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;,&quot;rom_y2.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:3,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:2,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:3,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:2,&quot;rom_y2-linux.zip&quot;:1,&quot;rom_y2-macos.zip&quot;:3,&quot;rom_y2-windows.zip&quot;:1,&quot;rom_y2.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T22:07:19Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1_launcher-mirror/launcher-v0.11.4</id>
+    <updated>2026-11-03T16:35:30Z</updated>
+    <published>2026-11-03T16:35:30Z</published>
+    <title>Portable Flashing Package: JJ Launcher ROM v0.11.4</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1_launcher-mirror/releases/tag/launcher-v0.11.4"/>
+    <innioasis:tag_name>launcher-v0.11.4</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.4/rom-linux.zip" title="rom-linux.zip" length="843884512" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707186263"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.4/rom-macos.zip" title="rom-macos.zip" length="642997278" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707186262"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.4/rom-windows.zip" title="rom-windows.zip" length="692573793" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707186257"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.4/rom.zip" title="rom.zip" length="456287678" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706310427"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.4/rom_type_b-linux.zip" title="rom_type_b-linux.zip" length="787383078" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707186260"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.4/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="586495850" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707187163"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.4/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="636072359" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707186267"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.4/rom_type_b.zip" title="rom_type_b.zip" length="399771390" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706313523"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.4/rom_y2-linux.zip" title="rom_y2-linux.zip" length="760089455" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707187563"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.4/rom_y2-macos.zip" title="rom_y2-macos.zip" length="559202222" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707187694"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.4/rom_y2-windows.zip" title="rom_y2-windows.zip" length="608778736" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707187522"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.4/rom_y2.zip" title="rom_y2.zip" length="443266446" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706313518"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.4/stats.txt" title="stats.txt" length="2660" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809258"/>
+    <content type="text">Here is what’s new in this release:
+
+### 🎵 Audio &amp; Media Upgrades
+
+* **Faster Lossless Playback:** Replaced the downsampling engine, so lossless audio files now start playing much faster!
+* **Improved Library Hierarchy:** Browsing structure is now updated to `Album Artist` &gt; `Album` &gt; `Track`.
+* **Cover Flow Stability:** Cover Flow is now sorted by artist name and operates much more stably.
+* **Radio Sleep Fix:** Fixed the annoying bug where FM radio sound would cut off when the screen turned off.
+* **Smarter File Scanning:** Optimized the media scan method for better performance.
+* **Podcast Episode Deletion:** You can now delete episodes directly within the Podcast menu.
+* **Video Playback Resume &amp; Skip:** Added &quot;Resume from last played position&quot; and skip options for video playback.
+
+### 🎨 UI &amp; Customization
+
+* **Player Screen Customization:** You can now fully apply custom themes to the main Player screen via the Theme Editor!
+* **Improved Text Visibility:** Adjusted text colors dynamically according to theme colors so everything stays readable.
+* **Status Bar Battery %:** Added actual percentage numbers to the status bar battery icon.
+* **Categorized Settings:** Reorganized the cluttered Settings menu into clean categories.
+* **Screen Color Filter:** Added a screen color filter feature for late-night listening.
+
+### ⚙️ Controls &amp; System Improvements
+
+* **Force Reboot Shortcut:** Long-press the Play/Pause button for 5+ seconds to force restart the device.
+* **Quick Repeat Mode:** Long-press Play/Pause on the Player screen to quickly cycle through repeat modes.
+* **Power &amp; Battery Stats:** Enhanced deep sleep / power management and added a dedicated Battery Usage Statistics screen.
+
+### 🎮 Bonus Features!
+
+* **Mini-Games Added:** Take a break and play **2048** or **FreeCell** directly on your device!
+
+---
+
+🔍 **Useful Links:**
+
+* 📦 **Download Latest Release:** [[[GitHub Release Link]](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/releases)](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/releases)
+* 💬 **Feedback &amp; Bug Reports:** Feel free to leave a comment below or open an issue on [[[GitHub Issues]](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/issues)](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/issues)!
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;f5efd84cc352413d97a2dbfa2943685a2940ff33f3165b0b1f9038c198c76226&quot;,&quot;size&quot;:692573793,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;d80bae29248e0c68cb4050098c9a464b2523fa4f1c327f40dc8d784b4986c887&quot;,&quot;size&quot;:843884512,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;e5a624411273ff6f893bca2a963f69ad12411fe5a0374fc516a5ab27adc92822&quot;,&quot;size&quot;:642997278,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;4c384de440a2f7bf62fc223a785c60ea325c08cd433ecb26378d9840c80427c3&quot;,&quot;size&quot;:636072359,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;480dd272c9524e8d88f7089326c18132d2e33164c1c024f4627bc582721dd449&quot;,&quot;size&quot;:787383078,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;cbbd792819d3f3769063c2ce19574237e177784c2b0827ee0cf86dfb83d949d3&quot;,&quot;size&quot;:586495850,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_y2-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;d7941449a5c00f153d07d7a8a4061440dfdc4dcf6a087bd01a90a4c0edc30fbd&quot;,&quot;size&quot;:608778736,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;},{&quot;name&quot;:&quot;rom_y2-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;8b58d1b35e26669855fe3cbbd479e35bbaf0994bfedf08c65413fcf8ef3a9a71&quot;,&quot;size&quot;:760089455,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;},{&quot;name&quot;:&quot;rom_y2-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;d8f48cfb7f7efd8eab9f38dd807d1ea8387d802f7c0ad4a088ddd55e49ee3893&quot;,&quot;size&quot;:559202222,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:40:02Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;13ab26c2985c86dda7a40aff75878dba8b0df26d6909c72e1e471436897e73d0&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;,&quot;rom_y2.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:2,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:5,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:2,&quot;rom_y2-linux.zip&quot;:1,&quot;rom_y2-macos.zip&quot;:5,&quot;rom_y2-windows.zip&quot;:1,&quot;rom_y2.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:40:02Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1_launcher-mirror/launcher-v0.11.1</id>
+    <updated>2026-11-03T16:28:37Z</updated>
+    <published>2026-11-03T16:28:37Z</published>
+    <title>Portable Flashing Package: JJ Launcher ROM v0.11.1</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1_launcher-mirror/releases/tag/launcher-v0.11.1"/>
+    <innioasis:tag_name>launcher-v0.11.1</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.1/rom-linux.zip" title="rom-linux.zip" length="844670662" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707171722"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.1/rom-macos.zip" title="rom-macos.zip" length="643783429" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707171717"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.1/rom-windows.zip" title="rom-windows.zip" length="693359943" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707171721"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.1/rom.zip" title="rom.zip" length="457073002" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706286611"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.1/rom_type_b-linux.zip" title="rom_type_b-linux.zip" length="792141774" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707171716"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.1/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="591254547" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707173059"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.1/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="640831055" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707171723"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.1/rom_type_b.zip" title="rom_type_b.zip" length="404526855" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706286862"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.1/stats.txt" title="stats.txt" length="2355" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809202"/>
+    <content type="text">This is a new test version that adds full support for firmware 3.1.2 and introduces the new Video Player feature!
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;ff1fc2d0e2ed8405e31d1388675269c70d1026677b484b55930c5ce8a1c45005&quot;,&quot;size&quot;:693359943,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;a8333bdff6ce0a537224334e967ea30d64c8f20841f8f1ea07e418b69fd5957c&quot;,&quot;size&quot;:844670662,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;0e964e85f5fcd5541b7112b6ac72f842a9285973569313c2a43547002ed5757c&quot;,&quot;size&quot;:643783429,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;4291405902abd6afb9df191d8f219cf34db3f156fc6da33224f8c9db68587fe5&quot;,&quot;size&quot;:640831055,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;b84fce7488e55ef897e627e87f8fe919366c516a3538685f68142652ff5ee865&quot;,&quot;size&quot;:792141774,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;7d097e4ff5d9c3cba519cf933dba0ef185f4249ad04181b0d1d1916da9a494fc&quot;,&quot;size&quot;:591254547,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:34:27Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;2def905333685058728192487aa1e124a38ed065a5ab87807d68781c8726a5f2&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:2,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:5,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:34:27Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1_launcher-mirror/launcher-v0.11</id>
+    <updated>2026-11-03T16:23:37Z</updated>
+    <published>2026-11-03T16:23:37Z</published>
+    <title>Portable Flashing Package: JJ Launcher ROM v0.11</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1_launcher-mirror/releases/tag/launcher-v0.11"/>
+    <innioasis:tag_name>launcher-v0.11</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11/rom-linux.zip" title="rom-linux.zip" length="844671402" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707159994"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11/rom-macos.zip" title="rom-macos.zip" length="643784169" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707160005"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11/rom-windows.zip" title="rom-windows.zip" length="693360683" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707159998"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11/rom.zip" title="rom.zip" length="457083507" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706269916"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11/rom_type_b-linux.zip" title="rom_type_b-linux.zip" length="792136246" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707160002"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="591249019" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707161425"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="640825527" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707159992"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11/rom_type_b.zip" title="rom_type_b.zip" length="404522629" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706269958"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11/stats.txt" title="stats.txt" length="2351" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809129"/>
+    <content type="text">### 🚀 [Update] JJ Launcher v0.11 Release Notes
+
+Hi everyone!
+
+Thanks to your amazing support and numerous feedback/feature requests, the v0.11 update is finally ready! I am incredibly grateful to everyone who has shown interest and helped test the app.
+
+Since many major features have been refactored and added in this version, there might be some unexpected bugs even in areas that used to work fine. Please let me know if you run into any issues, and I will get them patched as soon as possible!
+
+Here is what’s new in v0.11:
+
+* **New Audio Engine:** Switched the encoder setup to an **ExoPlayer + FFmpeg** combination.
+* **Lossless Audio Support:** The launcher can now play high-res lossless FLAC and ALAC files that previously wouldn&#x27;t play.
+* **Hi-Res Metadata:** High-quality audio metadata is now read and displayed correctly.
+* **10-Band EQ:** A brand new **10-band Equalizer** has been implemented.
+* **Podcast Support:** You can now search for and download podcasts directly using the **iTunes API**.
+* **Crossfeed:** Added a crossfeed function for a better headphone listening experience.
+* **Playlist Improvements:** Adding and deleting playlists now works perfectly. *(To trigger, long-press the center button on any song in the list)*.
+* **Quick Alphabet Search:** Added an alphabetical search feature in the song list. *(To trigger, long-press the Play/Pause button at the bottom of the list)*.
+* **Audiobook Support:** Added support for **.m4b** files, including **Chapter navigation**.
+* **Album Track Sorting Bug:** Fixed the issue where albums were not sorting by track number.
+* **Playlist Shuffle Bug:** Fixed the bug where shuffling playlists wouldn&#x27;t work.
+* **UI Improvements:** Switched several default Android dialogs/popups to modern **Material Design** popups.
+* **PC Upload/Download:** Added a download feature to the existing PC upload functionality.
+* **Recently Added:** Added a &quot;Recently Added Songs&quot; list.
+* **Faster Scanning:** Added a duplicate-scanning prevention engine to make library scans significantly faster.
+
+As always, with so many changes under the hood, there might be some unexpected bugs. Please report any issues you find, and I’ll get them fixed in the next update.
+
+Thank you so much for your continued interest and support! Enjoy v0.11! 🙏🚀
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;5dc9320f4fd2249f0e3c58ffb0102e3e8be02965be66eaecc4ea6d4364a10e6b&quot;,&quot;size&quot;:693360683,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;7e68c54e98a3c6ef39f0e75950f62853caa26296759f2d5b6bce73da8dc16a5f&quot;,&quot;size&quot;:844671402,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;39f570bcdb61fb4c6916e97727b0e8f1823362845a3ee30b16e48fa799ebacdc&quot;,&quot;size&quot;:643784169,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;6ea88ef207118b4c22e4465e8a83723bbf20edbc99eb3510a62824c2292937b4&quot;,&quot;size&quot;:640825527,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;ba9defb79f089e1257dce9561570efe93142c9d4dbcdcee8680734e1233c54d6&quot;,&quot;size&quot;:792136246,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;3f69cbac1fd4ac730a38436cd10b48c4cd0f80e5ccd66896c4d9229a73211629&quot;,&quot;size&quot;:591249019,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:30:18Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;82a0402a232507b050841eeed23d615ba220e181485652676c46781499bbd11e&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:2,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:5,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:30:18Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1_launcher-mirror/launcher-v0.10.1</id>
+    <updated>2026-11-03T16:18:29Z</updated>
+    <published>2026-11-03T16:18:29Z</published>
+    <title>Portable Flashing Package: JJ Launcher ROM v0.10.1</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1_launcher-mirror/releases/tag/launcher-v0.10.1"/>
+    <innioasis:tag_name>launcher-v0.10.1</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10.1/rom-linux.zip" title="rom-linux.zip" length="845136739" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707147729"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10.1/rom-macos.zip" title="rom-macos.zip" length="644249505" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707147730"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10.1/rom-windows.zip" title="rom-windows.zip" length="693826020" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707147767"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10.1/rom.zip" title="rom.zip" length="457535838" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706253499"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10.1/rom_type_b-linux.zip" title="rom_type_b-linux.zip" length="787091491" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707147731"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10.1/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="586204264" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707148703"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10.1/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="635780772" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707147749"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10.1/rom_type_b.zip" title="rom_type_b.zip" length="399512608" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706253541"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10.1/stats.txt" title="stats.txt" length="2353" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809050"/>
+    <content type="text">This patch fixes the error that could occur during the update process. Please update to this version to ensure a smooth installation.
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;60c41e1c90c825450775f2dd3ff24fc0e16a7d4003d83045975f517f82972f4f&quot;,&quot;size&quot;:693826020,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;f596cba1aaaf65ff14c8fba5a40f238c5a3a725a311456e6e37d336fd7ef66a1&quot;,&quot;size&quot;:845136739,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;a68b78953da79c3aa5c2eda51a9c7bf3345eaec98e346fde1beed750660a1e8d&quot;,&quot;size&quot;:644249505,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;9632f8b9c2baf7c5fd81d182b80eaaca09bd8789927470e66820dbfb198fdae2&quot;,&quot;size&quot;:635780772,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;7b75a2053ea6399cbebbf27d560ac6722c469112f19bfea577272f22a930995d&quot;,&quot;size&quot;:787091491,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;211664b0655299274e471675c26931d5b787a5e247c204abbd8be47f25512764&quot;,&quot;size&quot;:586204264,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:26:09Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;851858d44edec4297e708f2b61212ec267a065261a3441c5152730fa74a78d02&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:2,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:5,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:26:09Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1_launcher-mirror/launcher-v0.10</id>
+    <updated>2026-11-03T16:13:21Z</updated>
+    <published>2026-11-03T16:13:21Z</published>
+    <title>Portable Flashing Package: JJ Launcher ROM v0.10</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1_launcher-mirror/releases/tag/launcher-v0.10"/>
+    <innioasis:tag_name>launcher-v0.10</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10/rom-linux.zip" title="rom-linux.zip" length="845136723" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707136200"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10/rom-macos.zip" title="rom-macos.zip" length="644249489" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707136195"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10/rom-windows.zip" title="rom-windows.zip" length="693826004" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707136198"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10/rom.zip" title="rom.zip" length="457534242" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706237021"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10/rom_type_b-linux.zip" title="rom_type_b-linux.zip" length="787100109" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707136197"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="586212881" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707137359"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="635789390" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707136194"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10/rom_type_b.zip" title="rom_type_b.zip" length="399499884" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706237190"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10/stats.txt" title="stats.txt" length="2353" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707808958"/>
+    <content type="text">## 🎉 JJ Launcher v0.10 is Finally Here!
+
+Thanks to everyone&#x27;s incredible interest and feedback, I am thrilled to finally release version 0.10! Thank you all so much for your continuous support and encouragement.
+
+Since the Radio and Audiobook features from the stock launcher aren&#x27;t available when using custom launchers, I have built and integrated brand-new custom Radio and Audiobook features in this update. 
+
+I also tried my best to incorporate the thoughtful feedback you all provided. Please understand that I couldn&#x27;t list the usernames of everyone who gave such great suggestions, but I truly appreciate every single one of you!
+
+### 🚀 Update Changelog (v0.10)
+
+* **Audio Engine Upgrade:** Replaced the audio playback engine from MediaPlayer to ExoPlayer *(Note: FLAC is still decoded via software)*.
+* **New Cover Flow:** Added a new Cover Flow visualizer.
+* **New Radio App:** Added a custom built-in Radio feature.
+* **New Audiobook App:** Added a custom built-in Audiobook feature.
+* **Multi-language Support:** Added support for English, Japanese, Chinese, Spanish, and Russian.
+* **Main Menu List View:** Main screen buttons can now be displayed in a list format.
+* **Album Thumbnails:** Added thumbnails to the album list view.
+* **Track Number Sorting:** The album list is now correctly sorted by track numbers.
+* **Focus Bug Fixed:** Fixed an issue where the UI navigation focus would be lost.
+* **Lyrics Support:** Added support for both embedded and external lyrics.
+* **New Audio Categories:** Added audio categorization by Year and Genre.
+* **Playback Speed Control:** Added fast playback support up to 2x speed *(excluding FLAC)*.
+* **10-Second Skip:** Added the ability to skip backward/forward by 10 seconds using the left/right buttons.
+* **Quick Add to Playlist:** You can now add a song to a playlist by long-pressing the Stop button on the player screen.
+* **Screen-Off Shortcut:** Added a screen-off shortcut by long-pressing the Center button *(Note: Not available in the file list view as it overlaps with the &#x27;add to playlist&#x27; shortcut)*.
+* **Custom Main Buttons:** Added the ability for users to edit/customize the main screen buttons.
+* **Theme Backgrounds:** Added default background image support for themes.
+* **Clock Format:** Added an option to toggle between 12-hour and 24-hour clock formats.
+* **Default Theme Changed:** Updated the default theme for a fresh look.
+* **New List Theme:** Added a new list-style theme.
+* **Infinite Wheel Toggle:** Added an option to turn the infinite wheel scrolling on or off.
+* **General Improvements:** Various bug fixes and UI optimizations.
+
+### 📌 Future Plans
+For future versions, rather than focusing on adding new features, my main priority will be fixing bugs to ensure stable performance and expanding the variety of themes available.
+
+Please continue to show your interest and support. Thank you! :D
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;e6f2f49ee1c858e993b216e4f0c8652b69c70eb1d0380285186cbb7ef03c923e&quot;,&quot;size&quot;:693826004,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;b8998ebc7e9f47d53b753dc1a6d707112d5585dfcc9edc534d90f2d9ba7b199b&quot;,&quot;size&quot;:845136723,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;a36e7cb0193d0380a654066866c9f970f2b9297a17cf96d54070770680ebc1c6&quot;,&quot;size&quot;:644249489,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;0205c1615b0097287e8b6c4d572098ab4530cea9605999b79b007682a602a966&quot;,&quot;size&quot;:635789390,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;a843f33912c10d8bf1dc5dc22183728682f256db80b2b0c22200fb711ea9087c&quot;,&quot;size&quot;:787100109,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;12d792fcfcbcaddf2f241114c41e365009c936ac0de6385458ef2ffde4f637c2&quot;,&quot;size&quot;:586212881,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:21:39Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;dc4d446cabf386e9b4a4a25a31bf8d8c7e7f440a8a9bddd146e4ba51c168e647&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:2,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:5,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:21:39Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1_launcher-mirror/launcher-v0.1</id>
+    <updated>2026-11-03T16:08:19Z</updated>
+    <published>2026-11-03T16:08:19Z</published>
+    <title>Portable Flashing Package: JJ Launcher ROM v0.1</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1_launcher-mirror/releases/tag/launcher-v0.1"/>
+    <innioasis:tag_name>launcher-v0.1</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.1/rom-linux.zip" title="rom-linux.zip" length="844186048" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707125779"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.1/rom-macos.zip" title="rom-macos.zip" length="643298814" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707125780"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.1/rom-windows.zip" title="rom-windows.zip" length="692875329" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707125781"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.1/rom.zip" title="rom.zip" length="456596207" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706219689"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.1/rom_type_b-linux.zip" title="rom_type_b-linux.zip" length="787244221" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707125792"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.1/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="586356994" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707126827"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.1/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="635933502" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707125783"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.1/rom_type_b.zip" title="rom_type_b.zip" length="399646396" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706219774"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.1/stats.txt" title="stats.txt" length="2352" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707808889"/>
+    <content type="text">&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;dcb729e245bd4b89e6cf5a8cea9a0bc224a4ee5ced1d56d5dce49e5aecdebbdd&quot;,&quot;size&quot;:692875329,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;37625b8cd38dd9c4e16c19612ba38557f854ca4820a3bae08fbaebc87b1527cb&quot;,&quot;size&quot;:844186048,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;0f49ce5f555467dcf645de95d87b358ec5eb8f62507218028789972073810e38&quot;,&quot;size&quot;:643298814,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;833fe46d8d9f857837c11f0c721e7b2ea4602cd018a874d4f104e27c3dab365a&quot;,&quot;size&quot;:635933502,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;cc5e573a0c6774d8f69bb8a056316412594cd15847c697665dca5d61e79ebfce&quot;,&quot;size&quot;:787244221,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;2ced30ccf54318d4e56c2b2eb97d8fbad7b0a30af052ffe6c9d071a5b70761b4&quot;,&quot;size&quot;:586356994,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:17:36Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;a485dd8099815883299e93d3bb9f06a55c276a1350ebbfc860d492bb59bd346a&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:2,&quot;rom-macos.zip&quot;:6,&quot;rom-windows.zip&quot;:2,&quot;rom.zip&quot;:2,&quot;rom_type_b-linux.zip&quot;:2,&quot;rom_type_b-macos.zip&quot;:6,&quot;rom_type_b-windows.zip&quot;:2,&quot;rom_type_b.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:17:36Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+</feed>

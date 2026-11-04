@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:innioasis="https://innioasis.app/ns/feeds/1.0">
+  <id>https://innioasis.app/feeds/y1-community/y1-stock-rom-mirror/releases.atom</id>
+  <title>Release notes from y1-community/y1-stock-rom-mirror</title>
+  <link rel="alternate" type="text/html" href="https://innioasis.app/firmware.html"/>
+  <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/y1-community/y1-stock-rom-mirror/releases.atom"/>
+  <updated>2026-11-03T14:52:16Z</updated>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1-stock-rom-mirror/3.2.1</id>
+    <updated>2026-11-03T14:52:16Z</updated>
+    <published>2026-11-03T14:52:16Z</published>
+    <title>Portable Flashing Package: System Software 3.2.1 for Innioasis Y2</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/tag/3.2.1"/>
+    <innioasis:tag_name>3.2.1</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/updater.jpg</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/rom_y2-linux.zip" title="rom_y2-linux.zip" length="731179252" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707152544"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/rom_y2-macos.zip" title="rom_y2-macos.zip" length="530292003" type="application/zip" innioasis:download_count="1" innioasis:asset_id="707152547"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/rom_y2-windows.zip" title="rom_y2-windows.zip" length="579868533" type="application/zip" innioasis:download_count="3" innioasis:asset_id="707152545"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/rom_y2.zip" title="rom_y2.zip" length="355560849" type="application/zip" innioasis:download_count="1" innioasis:asset_id="705968797"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/stats.txt" title="stats.txt" length="2169" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809521"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="1" innioasis:asset_id="705968796"/>
+    <content type="text">General performance and stability improvements
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom_y2-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;5d5ef11e30d2297e7017b648e22f7426757a145cf5a936fb2b910bf258ef4cdc&quot;,&quot;size&quot;:579868533,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;},{&quot;name&quot;:&quot;rom_y2-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;b2a9c3f6f761cbd37ebc42905c12a6648fa5569738ea4ca66d9410c52c68c9b6&quot;,&quot;size&quot;:731179252,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;},{&quot;name&quot;:&quot;rom_y2-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;0c8c8a58fd4c7e298851fdb5f53e44e3e2dfd592f43532c81aec95cab63da182&quot;,&quot;size&quot;:530292003,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:27:45Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;b59fc149679f71f65f1f1e5893e45d90a595c09a142012bbec676bcb3695137f&quot;,&quot;original_assets&quot;:[&quot;rom_y2.zip&quot;,&quot;updater.jpg&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom_y2-linux.zip&quot;:1,&quot;rom_y2-macos.zip&quot;:4,&quot;rom_y2-windows.zip&quot;:1,&quot;rom_y2.zip&quot;:2,&quot;updater.jpg&quot;:2},&quot;generated_at&quot;:&quot;2026-11-03T21:27:45Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1-stock-rom-mirror/3.2.0-fm</id>
+    <updated>2026-11-03T16:17:07Z</updated>
+    <published>2026-11-03T16:17:07Z</published>
+    <title>Portable Flashing Package: System Software 3.2.0 for Innioasis Y2 with FM Radio</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/tag/3.2.0-fm"/>
+    <innioasis:tag_name>3.2.0-fm</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.0-fm/updater.jpg</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.0-fm/rom_y2-linux.zip" title="rom_y2-linux.zip" length="731179680" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707146877"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.0-fm/rom_y2-macos.zip" title="rom_y2-macos.zip" length="530292419" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707146876"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.0-fm/rom_y2-windows.zip" title="rom_y2-windows.zip" length="579868961" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707146888"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.0-fm/rom_y2.zip" title="rom_y2.zip" length="355558382" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706246498"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.0-fm/stats.txt" title="stats.txt" length="2291" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809445"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.0-fm/system.img" title="system.img" length="859826928" type="application/vnd.efi.img" innioasis:download_count="1" innioasis:asset_id="706246494"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.0-fm/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="0" innioasis:asset_id="706248301"/>
+    <content type="text">This release adds FM Radio functionality to supported Y2 players, please note that some earlier Y2 revisions may not have the underlying functionality needed for FM Radio, there is an alternative release of 3.2.0 available for those in these circumstances.
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom_y2-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;c28bef7c7b74db90bde18523694f489c97c06386ff52221eb4ecf3c074b9e0f4&quot;,&quot;size&quot;:579868961,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;},{&quot;name&quot;:&quot;rom_y2-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;42ef9162b465b105cec0076041e650c90ad576686561a0892a908c142ad90541&quot;,&quot;size&quot;:731179680,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;},{&quot;name&quot;:&quot;rom_y2-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;5338b8c1bc7a72c992ea8780b60640664d28a8c86aa93eff7da96231b5094169&quot;,&quot;size&quot;:530292419,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:25:49Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;b4342dc2bf242292093cb708450d9b63687f3ce1d6e9dd04037743d8e0c41fd2&quot;,&quot;original_assets&quot;:[&quot;rom_y2.zip&quot;,&quot;system.img&quot;,&quot;updater.jpg&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom_y2-linux.zip&quot;:1,&quot;rom_y2-macos.zip&quot;:3,&quot;rom_y2-windows.zip&quot;:1,&quot;rom_y2.zip&quot;:2,&quot;system.img&quot;:2,&quot;updater.jpg&quot;:0},&quot;generated_at&quot;:&quot;2026-11-03T21:25:49Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1-stock-rom-mirror/3.1.7</id>
+    <updated>2026-11-03T16:14:30Z</updated>
+    <published>2026-11-03T16:14:30Z</published>
+    <title>Portable Flashing Package: Original System Software 3.1.7 for Innioasis Y2</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/tag/3.1.7"/>
+    <innioasis:tag_name>3.1.7</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.7/updater.jpg</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.7/rom_y2-linux.zip" title="rom_y2-linux.zip" length="742346475" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707141488"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.7/rom_y2-macos.zip" title="rom_y2-macos.zip" length="541459095" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707141489"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.7/rom_y2-windows.zip" title="rom_y2-windows.zip" length="591035756" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707141486"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.7/rom_y2.zip" title="rom_y2.zip" length="354780496" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706237334"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.7/stats.txt" title="stats.txt" length="2168" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809383"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.7/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="0" innioasis:asset_id="706237330"/>
+    <content type="text"># This is the original launch-day 3.1.7 firmware for Innioasis Y2
+
+This can be used to restore your Y2 back to its factory conditions and get things back up and running if something has gone wrong.
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom_y2-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;2a4fa9031c2b8896efa86fa7781131c235a77e1cefdd6806725fbb13c9ff66bf&quot;,&quot;size&quot;:591035756,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;},{&quot;name&quot;:&quot;rom_y2-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;3e2e6d8f4bd2b894930dc8e98a1321f7c8eb66a92f26ba06bbbf8e383815c69f&quot;,&quot;size&quot;:742346475,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;},{&quot;name&quot;:&quot;rom_y2-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;ed8cab08b0c08557ff26f73025f49b6f5ccf5e1b06c1cff1580302c721674c40&quot;,&quot;size&quot;:541459095,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:23:50Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;d7d72acc38328359b19343e3d5afb3158412b4dba39c8f845c3b8ee8f8ee2f35&quot;,&quot;original_assets&quot;:[&quot;rom_y2.zip&quot;,&quot;updater.jpg&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom_y2-linux.zip&quot;:1,&quot;rom_y2-macos.zip&quot;:3,&quot;rom_y2-windows.zip&quot;:1,&quot;rom_y2.zip&quot;:3,&quot;updater.jpg&quot;:0},&quot;generated_at&quot;:&quot;2026-11-03T21:23:50Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1-stock-rom-mirror/3.1.2</id>
+    <updated>2026-11-03T14:57:50Z</updated>
+    <published>2026-11-03T14:57:50Z</published>
+    <title>Portable Flashing Package: Original System Software 3.1.2 for Innioasis Y1</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/tag/3.1.2"/>
+    <innioasis:tag_name>3.1.2</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.2/updater.jpg</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.2/rom-linux.zip" title="rom-linux.zip" length="568246709" type="application/zip" innioasis:download_count="2" innioasis:asset_id="707137128"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.2/rom-macos.zip" title="rom-macos.zip" length="367359464" type="application/zip" innioasis:download_count="6" innioasis:asset_id="707137124"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.2/rom-windows.zip" title="rom-windows.zip" length="416935990" type="application/zip" innioasis:download_count="4" innioasis:asset_id="707137127"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.2/rom.zip" title="rom.zip" length="250125316" type="application/zip" innioasis:download_count="1" innioasis:asset_id="705987288"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.2/stats.txt" title="stats.txt" length="2170" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809317"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.2/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="0" innioasis:asset_id="705987295"/>
+    <content type="text">Features improved support for AirPods Pro 2, AirPods 3 and later
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;dabfbf52f066061644cff72bbe54be144086091a4daa4a422820718b2dd2afee&quot;,&quot;size&quot;:416935990,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;3c82be2377384f563a05051ae9fd28548ebb50fc689ddba1c20e81c7e577cf5b&quot;,&quot;size&quot;:568246709,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;6a9657b7a21da42250be67266828cdf9afe43f005f6cc15313d77abd5321c6a0&quot;,&quot;size&quot;:367359464,&quot;source_asset&quot;:&quot;rom.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:22:05Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;1e11fe6461f6fabb4f15a6d5076cba9c837b5583e60374d029dec3f2044be9aa&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;updater.jpg&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:3,&quot;rom-windows.zip&quot;:4,&quot;rom.zip&quot;:2,&quot;updater.jpg&quot;:0},&quot;generated_at&quot;:&quot;2026-11-03T21:22:05Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1-stock-rom-mirror/3.0.7</id>
+    <updated>2026-11-03T16:12:02Z</updated>
+    <published>2026-11-03T16:12:02Z</published>
+    <title>Portable Flashing Package: System Software 3.0.7 for Innioasis Y1</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/tag/3.0.7"/>
+    <innioasis:tag_name>3.0.7</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.0.7/updater.jpg</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.0.7/rom-linux.zip" title="rom-linux.zip" length="568119872" type="application/zip" innioasis:download_count="1" innioasis:asset_id="707133865"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.0.7/rom-macos.zip" title="rom-macos.zip" length="367232629" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707133857"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.0.7/rom-windows.zip" title="rom-windows.zip" length="416809153" type="application/zip" innioasis:download_count="1" innioasis:asset_id="707133867"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.0.7/rom.zip" title="rom.zip" length="249544334" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706229281"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.0.7/stats.txt" title="stats.txt" length="2169" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809247"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.0.7/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="0" innioasis:asset_id="706229285"/>
+    <content type="text">**Changes in 3.0.7** 
+
+This release has a new E-Book reading feature and a new theme named HoloFacet.
+
+Theme creators that haven&#x27;t previously implemented their eBook icons are advised to do so to retain theme compatibility.
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;731feb7fc0a23026f8f52bef6314119f67b7defe03c6f4008730acb4e86ac3a3&quot;,&quot;size&quot;:416809153,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;709c4c072b873014aa702df9c9bdcd549e929d415a776cb7be26a658b20c2e2d&quot;,&quot;size&quot;:568119872,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;8a5f830359779882a61d043d94fea191aaae93c9dab819b25213f86d8263e722&quot;,&quot;size&quot;:367232629,&quot;source_asset&quot;:&quot;rom.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:20:44Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;cc3f8520630a7dfabe565a566df0ece39ff5181081cb06af28f3b34bbb7c6b14&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;updater.jpg&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:2,&quot;rom-macos.zip&quot;:4,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:2,&quot;updater.jpg&quot;:0},&quot;generated_at&quot;:&quot;2026-11-03T21:20:44Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1-stock-rom-mirror/3.0.2</id>
+    <updated>2026-11-03T16:10:32Z</updated>
+    <published>2026-11-03T16:10:32Z</published>
+    <title>Portable Flashing Package: System Software 3.0.2</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/tag/3.0.2"/>
+    <innioasis:tag_name>3.0.2</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.0.2/updater.jpg</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.0.2/rom-linux.zip" title="rom-linux.zip" length="578094571" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707130315"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.0.2/rom-macos.zip" title="rom-macos.zip" length="377207341" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707130313"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.0.2/rom-windows.zip" title="rom-windows.zip" length="426783852" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707130314"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.0.2/rom.zip" title="rom.zip" length="259502414" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706224605"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.0.2/stats.txt" title="stats.txt" length="2171" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809205"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.0.2/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="0" innioasis:asset_id="706224595"/>
+    <content type="text">**Notice: Please do not downgrade to 3.0.2 from newer firmware versions like 3.0.7 as this will break your device, a solution is incoming. Please [contact Innioasis](https://www.innioasis.com/pages/contact) if you have been affected by this,** 
+
+New in System Software 3.0.2:
+
+Language selection at first start-up for new users, in line with new retail units, users will be asked to select their language after installing the firmware, or when they take a new Y1 from the box.
+
+Performance and stability improvements
+
+Known issues:
+ADB is currently not enabled on builds newer than 2.1.9. This means that screenshots will can not be taken on this release and that theme and file transfers using Smart Drop in updater will require you to have USB Storage Mode enabled.
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;83dbc6e65c0f96eb66e52a2e04429ac9e83fc29df51e8e42bddb3f80b9231a98&quot;,&quot;size&quot;:426783852,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;25d45d95dd7593ab3344500bc8d54fc7f6e03c87003810700db05d20771fac7c&quot;,&quot;size&quot;:578094571,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;f116eba1dc5e92d99f65c45b42404a5c635cf6326c902ab678592ba2773d3561&quot;,&quot;size&quot;:377207341,&quot;source_asset&quot;:&quot;rom.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:19:20Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;4c1ed053c095df0c805938e6e4d3d2fd79532bc7b8c808e57ba81ce555b27ff1&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;updater.jpg&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:3,&quot;rom-windows.zip&quot;:0,&quot;rom.zip&quot;:2,&quot;updater.jpg&quot;:0},&quot;generated_at&quot;:&quot;2026-11-03T21:19:20Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1-stock-rom-mirror/2.8.2</id>
+    <updated>2026-11-03T16:08:42Z</updated>
+    <published>2026-11-03T16:08:42Z</published>
+    <title>Portable Flashing Package: System Software Update 2.8.2</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/tag/2.8.2"/>
+    <innioasis:tag_name>2.8.2</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom-mirror/releases/download/2.8.2/updater.jpg</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/2.8.2/rom-linux.zip" title="rom-linux.zip" length="578051864" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707126348"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/2.8.2/rom-macos.zip" title="rom-macos.zip" length="377164627" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707126357"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/2.8.2/rom-windows.zip" title="rom-windows.zip" length="426741145" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707126352"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/2.8.2/rom.zip" title="rom.zip" length="234564048" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706217907"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/2.8.2/stats.txt" title="stats.txt" length="2168" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809152"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/2.8.2/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="0" innioasis:asset_id="706217904"/>
+    <content type="text">Video Fix: Resolved an issue that prevented videos from being paused reliably.
+
+Video Stability: Improved handling of video playback to prevent the application from crashing (fixing IllegalStateException on startup).
+
+Video Management: Enhanced logic for checking video folders to ensure that non-folder files are skipped.
+
+Multilingual Support:
+
+User Interface (UI):
+
+Implemented a scrolling marquee effect for file names that are too long to fit on the screen.
+
+Fixed several bugs related to the Theme interface.
+
+File Management:
+
+Improved folder deletion logic to ensure all checks for video files are completed.
+
+Changed file name sorting to be case-insensitive (treating &quot;A&quot; and &quot;a&quot; the same).
+
+Music &amp; Video Sync:
+
+Fixed a bug where the music database was not synchronized when video folders were deleted.
+
+Crucial Fix: Ensured that music playback is completely stopped when a video starts playing.
+
+Database: Database version updated from 3 to 4.
+
+Key Lock: Modified the Key Lock implementation to ensure it persists correctly after a restart.
+
+Video Thumbnails: Reduced the number of concurrent processes for generating video thumbnails to prevent conflicts and improve stability.
+
+Video Thumbnails: Optimized thumbnail generation logic, now saving thumbnails as files for better performance.
+
+Video Error Handling: Adjusted video error detection (error code -38 is no longer treated as a playback failure).
+
+Search/Multi-select: Fixed an issue where the multi-select status and search results were not cleared after adding items to a playlist.
+
+Localization: Corrected German and French translations.
+
+Playback List: Fixed issues where default playback list names were not set according to the device&#x27;s primary language after a factory reset.
+
+Theming/Customization: Fixed bugs related to theme deletion and ensuring the default wallpaper is restored correctly.
+
+Theme Installation: Default themes are now copied in the background to prevent copying from stopping if the screen turns off.
+
+# You can install this update from Innioasis Updater, using SP Flash Tool, or MTK Client with the correct drivers for your system.
+
+# Simply head to www.innioasis.com/pages/download for driver, utility and update instructions for your device.
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;cb91077ce4a4198d1cd646e705899f1c8d735bce88ca7351796dd4e94c8bd9b8&quot;,&quot;size&quot;:426741145,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;420a5490e2f5ab99054a4d6f23b89e76c22966c639f11e9ba6c8301a72ead445&quot;,&quot;size&quot;:578051864,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;b65f5abf9c6b006e51cae0021db36be99a9001e9de314edbff3d515c8ba025c9&quot;,&quot;size&quot;:377164627,&quot;source_asset&quot;:&quot;rom.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:17:53Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;354f18180d2671aa3566af28e139d540ba47cb9a40b093b406e112d5f7d35369&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;updater.jpg&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:3,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:2,&quot;updater.jpg&quot;:0},&quot;generated_at&quot;:&quot;2026-11-03T21:17:53Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1-stock-rom-mirror/type-b-1.7.6</id>
+    <updated>2026-11-03T16:07:10Z</updated>
+    <published>2026-11-03T16:07:10Z</published>
+    <title>Portable Flashing Package: System Software Update 1.7.6 (for type B Y1)</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/tag/type-b-1.7.6"/>
+    <innioasis:tag_name>type-b-1.7.6</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom-mirror/releases/download/type-b-1.7.6/updater.jpg</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/type-b-1.7.6/rom_type_b-linux.zip" title="rom_type_b-linux.zip" length="554453043" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707123206"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/type-b-1.7.6/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="353565802" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707123210"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/type-b-1.7.6/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="403142324" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707123204"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/type-b-1.7.6/rom_type_b.zip" title="rom_type_b.zip" length="176318503" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706212946"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/type-b-1.7.6/stats.txt" title="stats.txt" length="2175" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809107"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/type-b-1.7.6/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="0" innioasis:asset_id="706212939"/>
+    <content type="text">If you installed a firmware update 2.0.0 or newer on your Y1 device and the scroll wheel stopped working, please install this version on your device instead.
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;855b2932331307a5785f3247de3457a869439d9d259f667bc45f371f39a88785&quot;,&quot;size&quot;:403142324,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;08f8f4667b0274f2fbebb05c019138f2a096777ebaabb516fa86fd5709dc4dd6&quot;,&quot;size&quot;:554453043,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;},{&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;b3462fac535b9f77cfcb5c5c49c4fef256bd2344de48d6357cf3158b450b6cb9&quot;,&quot;size&quot;:353565802,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:16:34Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;8127d2a4c85c9a392b9bd8ef0e78593228e512c8f88070d0fb5397681db26fdb&quot;,&quot;original_assets&quot;:[&quot;rom_type_b.zip&quot;,&quot;updater.jpg&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:3,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:2,&quot;updater.jpg&quot;:0},&quot;generated_at&quot;:&quot;2026-11-03T21:16:34Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y1-stock-rom-mirror/ADB-2.1.9</id>
+    <updated>2026-11-03T16:05:39Z</updated>
+    <published>2026-11-03T16:05:39Z</published>
+    <title>Portable Flashing Package: System Software Update 2.1.9</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/tag/ADB-2.1.9"/>
+    <innioasis:tag_name>ADB-2.1.9</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom-mirror/releases/download/ADB-2.1.9/updater.jpg</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/ADB-2.1.9/com.innioasis.y1_2.1.9.apk" title="com.innioasis.y1_2.1.9.apk" length="50514056" type="application/vnd.android.package-archive" innioasis:download_count="1" innioasis:asset_id="706207931"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/ADB-2.1.9/rom-linux.zip" title="rom-linux.zip" length="559386060" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707119930"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/ADB-2.1.9/rom-macos.zip" title="rom-macos.zip" length="358498823" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707119933"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/ADB-2.1.9/rom-windows.zip" title="rom-windows.zip" length="408075341" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707119931"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/ADB-2.1.9/rom.zip" title="rom.zip" length="241163025" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706207925"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/ADB-2.1.9/stats.txt" title="stats.txt" length="2295" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707809041"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/ADB-2.1.9/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="0" innioasis:asset_id="706208356"/>
+    <content type="text">Adds Spanish language support.
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;1e3b8dce7b82f49c167bec67b04a23af41fc48651ca7873a20fc0bf7a40277fc&quot;,&quot;size&quot;:408075341,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;22b555a8f86e496e3e36ba95091cd2a7625c077fa46bf06c52914db26a372e22&quot;,&quot;size&quot;:559386060,&quot;source_asset&quot;:&quot;rom.zip&quot;},{&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;534de7bae8c5b5b1a85fd44f0894bfb66bf77b92d729acd1484b7153a394809f&quot;,&quot;size&quot;:358498823,&quot;source_asset&quot;:&quot;rom.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:15:17Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;f214ccbb25bb5dbc337bc415055a3fb43af7285e5cbc41eb33fc508abb634248&quot;,&quot;original_assets&quot;:[&quot;com.innioasis.y1_2.1.9.apk&quot;,&quot;rom.zip&quot;,&quot;updater.jpg&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;com.innioasis.y1_2.1.9.apk&quot;:2,&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:3,&quot;rom-windows.zip&quot;:2,&quot;rom.zip&quot;:2,&quot;updater.jpg&quot;:0},&quot;generated_at&quot;:&quot;2026-11-03T21:15:17Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+</feed>

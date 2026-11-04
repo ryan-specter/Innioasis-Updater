@@ -1,0 +1,388 @@
+[
+  {
+    "id": 399114725,
+    "tag_name": "v0.2.5-beta",
+    "name": "V2.5",
+    "body": "# Rockbox Y2 V2.5\n\nV2.5 updates the Y2 dual-boot firmware to the official Innioasis **Stock 3.2FM**\nbaseline while retaining Rockbox and Stock boot routes.\n\n## What changed from V2\n\n- Stock mode is updated to version `3.2` from the 3.2FM firmware release.\n- Clean installs default to MacClassic-Dark with a black Rockbox title screen.\n- Boot presentation and route handoff were requalified to prevent persistent\n  upper-screen artifacts.\n- The Community Updater asset is now a complete 3.2FM-based full-ROM package,\n  compatible with the public updater's clean-install route.\n\n## Qualified V2.5 behavior\n\nThe five V2.5 firmware images have passed the full hands-on matrix on macOS and\nWindows:\n\n- Clean, responsive Rockbox root in about 28 seconds on normal cold boots.\n- Clean dark Rockbox title with no persistent upper artifacts.\n- Automatic screen timeout, centre wake, and power-button sleep/wake.\n- USB-storage mount, safe eject, clean return, and foreground retention.\n- Boot Settings switching between Rockbox and Stock.\n- Responsive Stock root reporting version `3.2` from Stock 3.2FM.\n- No microSD card required for installation or normal boot testing.\n\nThe exact public full-ROM archive passed clean Stock 3.2FM installation and the\ncomplete functional matrix on both macOS and Windows.\n\n## Exact public candidate\n\n| Asset | Bytes | SHA-256 |\n|---|---:|---|\n| `rom_y2.zip` | 361,644,736 | `bbdd139a9a52f90570ef04dec4aeb143a361a1d28a90f7be6d37d44c554bee9a` |\n\nThis archive contains the complete official Stock 3.2FM support set. UBOOT,\nBOOTIMG, RECOVERY, LOGO, and ANDROID are the exact V2.5 images already qualified\non both platforms. MBR, EBR1, EBR2, preloader, SEC_RO, cache, userdata, and the\nscatter remain byte-identical to the official 3.2FM baseline.\n\n## Important installation behavior\n\nV2.5 performs a clean full installation and erases internal user data. Back up\nfirst. On macOS, public Updater CE hands the install to the Innioasis Y2 Install\nTool. On Windows, Updater CE uses its full Y2 installation route. Follow every\nconnection prompt and wait for an explicit completion message.\n",
+    "draft": false,
+    "prerelease": true,
+    "created_at": "2026-09-29T12:13:04Z",
+    "published_at": "2026-09-29T12:16:14Z",
+    "html_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/tag/v0.2.5-beta",
+    "icon_url": "https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 598138113,
+        "name": "INSTALL-GUIDE.md",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/INSTALL-GUIDE.md",
+        "size": 4237,
+        "download_count": 69,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-09-29T12:14:45Z",
+        "updated_at": "2026-09-29T12:14:45Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/598138113"
+      },
+      {
+        "id": 598138112,
+        "name": "LICENSE.txt",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/LICENSE.txt",
+        "size": 15127,
+        "download_count": 5,
+        "content_type": "text/plain; charset=utf-8",
+        "created_at": "2026-09-29T12:14:45Z",
+        "updated_at": "2026-09-29T12:14:45Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/598138112"
+      },
+      {
+        "id": 598138142,
+        "name": "NOTICE.txt",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/NOTICE.txt",
+        "size": 1010,
+        "download_count": 11,
+        "content_type": "text/plain; charset=utf-8",
+        "created_at": "2026-09-29T12:14:46Z",
+        "updated_at": "2026-09-29T12:14:46Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/598138142"
+      },
+      {
+        "id": 598138114,
+        "name": "README-FIRST.md",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/README-FIRST.md",
+        "size": 1061,
+        "download_count": 36,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-09-29T12:14:45Z",
+        "updated_at": "2026-09-29T12:14:45Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/598138114"
+      },
+      {
+        "id": 598159552,
+        "name": "RELEASE-NOTES.md",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/RELEASE-NOTES.md",
+        "size": 2108,
+        "download_count": 18,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-09-29T12:25:03Z",
+        "updated_at": "2026-09-29T12:25:03Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/598159552"
+      },
+      {
+        "id": 598138148,
+        "name": "rockbox-y2-v2.5-release-square.png",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rockbox-y2-v2.5-release-square.png",
+        "size": 1585171,
+        "download_count": 196,
+        "content_type": "image/png",
+        "created_at": "2026-09-29T12:14:46Z",
+        "updated_at": "2026-09-29T12:14:47Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/598138148"
+      },
+      {
+        "id": 598138117,
+        "name": "rom_y2.zip",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rom_y2.zip",
+        "size": 361644736,
+        "download_count": 509,
+        "content_type": "application/zip",
+        "created_at": "2026-09-29T12:14:45Z",
+        "updated_at": "2026-09-29T12:16:13Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/598138117"
+      },
+      {
+        "id": 598138145,
+        "name": "SHA256SUMS.txt",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/SHA256SUMS.txt",
+        "size": 674,
+        "download_count": 13,
+        "content_type": "text/plain; charset=utf-8",
+        "created_at": "2026-09-29T12:14:46Z",
+        "updated_at": "2026-09-29T12:14:46Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/598138145"
+      },
+      {
+        "id": 598138115,
+        "name": "Y2-Rockbox-V2.5-Source.zip",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/Y2-Rockbox-V2.5-Source.zip",
+        "size": 72256082,
+        "download_count": 26,
+        "content_type": "application/zip",
+        "created_at": "2026-09-29T12:14:45Z",
+        "updated_at": "2026-09-29T12:15:15Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/598138115"
+      }
+    ]
+  },
+  {
+    "id": 380351471,
+    "tag_name": "v0.2.0-beta",
+    "name": "Rockbox Y2 Beta V2",
+    "body": "# Y2 Rockbox Beta V2\n\nBeta V2 is a state-preserving update for Innioasis Y2 players on the official\nStock 3.1.7 lineage. This corrected release has passed separate end-to-end\nmacOS and Windows updater qualifications, complete readback verification, and\nthe full physical functional matrix.\n\n> **Manual-download release:** the files below are public for users who want to\n> download and verify them manually. Direct installation through the public\n> Updater CE catalogue is still pending\n> [Updater CE PR #45](https://github.com/y1-community/Innioasis-Updater/pull/45).\n> Downloading a ZIP manually does not make an old or generic updater safe; use\n> only an updater explicitly carrying the guarded Y2 Class A route.\n\n## Download the exact platform asset\n\n| Platform | Asset | Size | SHA-256 |\n|---|---|---:|---|\n| macOS | `Y2-Rockbox-Beta-v0.2.0-UPDATE-ONLY.zip` | 361,774,260 | `409DDB4D2D18111FB8C3AB619F10F04B916B6B2A3FC04D1D38011324563F326A` |\n| Windows | `Y2-Rockbox-Beta-v0.2.0-Windows-UPDATE-ONLY.zip` | 361,774,260 | `409DDB4D2D18111FB8C3AB619F10F04B916B6B2A3FC04D1D38011324563F326A` |\n\nDo not rename either archive to `rom_y2.zip`. Do not use the withdrawn Beta V2\narchives, the old `InnioasisUpdater_Setup_1.1.2.exe`, or a generic full-format\nroute. Follow `INSTALL-GUIDE.md` and use only an updater explicitly carrying the\nguarded Y2 Class A update path.\n\n## Highlights since Beta V1\n\n- Bluetooth access, pairing and A2DP playback from Rockbox and Stock.\n- Hold Previous/Next to seek; optional held-Volume track skipping.\n- Persistent time/date and independently adjustable Rockbox wheel vibration.\n- Stable Rockbox and Stock USB-storage lifecycle.\n- Cleaner boot presentation and reliable saved Rockbox/Stock routing.\n- Centre wake, long-Centre Now Playing context menu, and improved Back/Database navigation.\n- PictureFlow recovery and functional album carousel.\n\n## Physical acceptance\n\nBoth platform routes began from freshly restored official Stock 3.1.7, wrote\nonly UBOOT, BOOTIMG, RECOVERY, LOGO, and ANDROID, and completed mandatory\nreadback verification. After the required complete unplug and one unplugged\npinhole reset, Rockbox reached a clean responsive root in 28 seconds with no\nupper artifacts. Playback, controls, sleep/wake, USB, Stock, Boot Settings,\nsaved routes, and shutdown passed.\n\n## Known limitation and Beta V3\n\nThe final power-down animation can look imperfect; shutdown itself works. Beta\nV3 is expected to cover that presentation polish plus lyrics/theme diagnostics,\nhigh-resolution FLAC stability, DAC/wired-audio qualification, PictureFlow\npolish, and database/playlist presentation controls.\n",
+    "draft": false,
+    "prerelease": true,
+    "created_at": "2026-09-01T09:04:52Z",
+    "published_at": "2026-09-06T12:59:48Z",
+    "html_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/tag/v0.2.0-beta",
+    "icon_url": "https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 547171158,
+        "name": "INSTALL-GUIDE.md",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/INSTALL-GUIDE.md",
+        "size": 2008,
+        "download_count": 156,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-09-06T12:31:14Z",
+        "updated_at": "2026-09-06T12:31:14Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/547171158"
+      },
+      {
+        "id": 547171156,
+        "name": "LICENSE.txt",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/LICENSE.txt",
+        "size": 15127,
+        "download_count": 7,
+        "content_type": "text/plain; charset=utf-8",
+        "created_at": "2026-09-06T12:31:14Z",
+        "updated_at": "2026-09-06T12:31:14Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/547171156"
+      },
+      {
+        "id": 547171159,
+        "name": "NOTICE.txt",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/NOTICE.txt",
+        "size": 1010,
+        "download_count": 14,
+        "content_type": "text/plain; charset=utf-8",
+        "created_at": "2026-09-06T12:31:14Z",
+        "updated_at": "2026-09-06T12:31:14Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/547171159"
+      },
+      {
+        "id": 547171157,
+        "name": "README-FIRST.txt",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/README-FIRST.txt",
+        "size": 925,
+        "download_count": 76,
+        "content_type": "text/plain; charset=utf-8",
+        "created_at": "2026-09-06T12:31:14Z",
+        "updated_at": "2026-09-06T12:31:14Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/547171157"
+      },
+      {
+        "id": 547171161,
+        "name": "RELEASE-NOTES.md",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/RELEASE-NOTES.md",
+        "size": 1345,
+        "download_count": 13,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-09-06T12:31:14Z",
+        "updated_at": "2026-09-06T12:31:14Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/547171161"
+      },
+      {
+        "id": 547171191,
+        "name": "rockbox-y2-beta-v2-release-portrait.png",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/rockbox-y2-beta-v2-release-portrait.png",
+        "size": 2135412,
+        "download_count": 16,
+        "content_type": "image/png",
+        "created_at": "2026-09-06T12:31:15Z",
+        "updated_at": "2026-09-06T12:31:21Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/547171191"
+      },
+      {
+        "id": 547171195,
+        "name": "rockbox-y2-beta-v2-release-square.png",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/rockbox-y2-beta-v2-release-square.png",
+        "size": 1758566,
+        "download_count": 25,
+        "content_type": "image/png",
+        "created_at": "2026-09-06T12:31:15Z",
+        "updated_at": "2026-09-06T12:31:20Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/547171195"
+      },
+      {
+        "id": 547171167,
+        "name": "SHA256SUMS.txt",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/SHA256SUMS.txt",
+        "size": 1109,
+        "download_count": 16,
+        "content_type": "text/plain; charset=utf-8",
+        "created_at": "2026-09-06T12:31:14Z",
+        "updated_at": "2026-09-06T12:31:14Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/547171167"
+      },
+      {
+        "id": 547171170,
+        "name": "UPDATE-ONLY-MANIFEST.json",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/UPDATE-ONLY-MANIFEST.json",
+        "size": 1304,
+        "download_count": 17,
+        "content_type": "application/json",
+        "created_at": "2026-09-06T12:31:14Z",
+        "updated_at": "2026-09-06T12:31:14Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/547171170"
+      },
+      {
+        "id": 547171169,
+        "name": "UPDATER-FORMATS.md",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/UPDATER-FORMATS.md",
+        "size": 1095,
+        "download_count": 37,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-09-06T12:31:14Z",
+        "updated_at": "2026-09-06T12:31:14Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/547171169"
+      },
+      {
+        "id": 547171168,
+        "name": "Y2-Rockbox-Beta-v0.2.0-Source.zip",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/Y2-Rockbox-Beta-v0.2.0-Source.zip",
+        "size": 72561786,
+        "download_count": 36,
+        "content_type": "application/zip",
+        "created_at": "2026-09-06T12:31:14Z",
+        "updated_at": "2026-09-06T12:33:06Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/547171168"
+      },
+      {
+        "id": 547171171,
+        "name": "Y2-Rockbox-Beta-v0.2.0-UPDATE-ONLY.zip",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/Y2-Rockbox-Beta-v0.2.0-UPDATE-ONLY.zip",
+        "size": 361774260,
+        "download_count": 73,
+        "content_type": "application/zip",
+        "created_at": "2026-09-06T12:31:14Z",
+        "updated_at": "2026-09-06T12:37:59Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/547171171"
+      },
+      {
+        "id": 547171189,
+        "name": "Y2-Rockbox-Beta-v0.2.0-Windows-UPDATE-ONLY.zip",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.0-beta/Y2-Rockbox-Beta-v0.2.0-Windows-UPDATE-ONLY.zip",
+        "size": 361774260,
+        "download_count": 122,
+        "content_type": "application/zip",
+        "created_at": "2026-09-06T12:31:15Z",
+        "updated_at": "2026-09-06T12:38:01Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/547171189"
+      }
+    ]
+  },
+  {
+    "id": 361614580,
+    "tag_name": "v0.1.0-beta",
+    "name": "Y2 Rockbox Beta v0.1.0",
+    "body": "Y2 Rockbox Beta v0.1.0 for the Innioasis Y2.\n\nThis beta uses the physically tested V88 firmware base. The release filename is new, but the firmware ZIP is byte-for-byte identical to the tested V88 package.\n\n## Important\n\nFlashing uses InnioasisUpdater 1.1.2 in full format-download mode and erases the complete player. Back up internal storage, microSD content, settings, playlists, and the complete `.rockbox` folder before flashing. Keep the official Y2 stock-recovery package available.\n\nRead `README-FIRST.txt` and the illustrated PDF guide before starting. Verify every download against `SHA256SUMS.txt`.\n\n## Physically tested\n\n- Rockbox and Stock cold-boot routes\n- Boot Settings save, verification, restart, and repeated cold boots\n- 15-minute audio playback and hardware controls\n- Sleep and wake\n- Theme selection and persistence\n- Internal-storage and microSD playback\n- USB storage transfer, safe eject, and automatic Rockbox return\n- Normal power off\n- Official-stock rollback\n\n## Beta limitations\n\n- Bluetooth playback is untested.\n- The both-volume fastboot chord did not open fastboot; do not rely on it.\n- Date/time changes did not persist during testing; the relationship to stock firmware is unresolved.\n- SNAZZ3 deliberately uses visible 30-pixel margins. This is theme layout, not display scaling.\n- The Windows updater executable is unsigned; verify its SHA-256 before running it.\n\n## Firmware SHA-256\n\n`40636D86943F6F0A1461B6D8C9285A1A50252253447B3DC7D11743533A88E4DE`\n\nThe release includes the complete corresponding source, GPL license, and project notice. Innioasis updater and firmware components remain third-party materials.",
+    "draft": false,
+    "prerelease": false,
+    "created_at": "2026-07-29T08:50:55Z",
+    "published_at": "2026-07-29T08:52:57Z",
+    "html_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/tag/v0.1.0-beta",
+    "icon_url": "https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 493822757,
+        "name": "InnioasisUpdater_Setup_1.1.2.exe",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/InnioasisUpdater_Setup_1.1.2.exe",
+        "size": 76812094,
+        "download_count": 123,
+        "content_type": "application/x-msdownload",
+        "created_at": "2026-07-29T08:53:07Z",
+        "updated_at": "2026-07-29T08:54:16Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/493822757"
+      },
+      {
+        "id": 493822769,
+        "name": "LICENSE.txt",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/LICENSE.txt",
+        "size": 15407,
+        "download_count": 11,
+        "content_type": "text/plain; charset=utf-8",
+        "created_at": "2026-07-29T08:53:07Z",
+        "updated_at": "2026-07-29T08:53:07Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/493822769"
+      },
+      {
+        "id": 493822789,
+        "name": "NOTICE.txt",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/NOTICE.txt",
+        "size": 1010,
+        "download_count": 11,
+        "content_type": "text/plain; charset=utf-8",
+        "created_at": "2026-07-29T08:53:08Z",
+        "updated_at": "2026-07-29T08:53:08Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/493822789"
+      },
+      {
+        "id": 493822745,
+        "name": "README-FIRST.txt",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/README-FIRST.txt",
+        "size": 3453,
+        "download_count": 74,
+        "content_type": "text/plain; charset=utf-8",
+        "created_at": "2026-07-29T08:53:06Z",
+        "updated_at": "2026-07-29T08:53:06Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/493822745"
+      },
+      {
+        "id": 598141451,
+        "name": "rom_y2.zip",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/rom_y2.zip",
+        "size": 366781486,
+        "download_count": 652,
+        "content_type": "application/zip",
+        "created_at": "2026-09-29T12:16:31Z",
+        "updated_at": "2026-09-29T12:17:45Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/598141451"
+      },
+      {
+        "id": 493822756,
+        "name": "SHA256SUMS.txt",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/SHA256SUMS.txt",
+        "size": 650,
+        "download_count": 35,
+        "content_type": "text/plain; charset=utf-8",
+        "created_at": "2026-07-29T08:53:07Z",
+        "updated_at": "2026-07-29T08:53:07Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/493822756"
+      },
+      {
+        "id": 493822744,
+        "name": "Y2-Rockbox-Beta-v0.1.0-Guide.pdf",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/Y2-Rockbox-Beta-v0.1.0-Guide.pdf",
+        "size": 1061516,
+        "download_count": 105,
+        "content_type": "application/pdf",
+        "created_at": "2026-07-29T08:53:06Z",
+        "updated_at": "2026-07-29T08:53:11Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/493822744"
+      },
+      {
+        "id": 493822746,
+        "name": "Y2-Rockbox-Beta-v0.1.0-Source.zip",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/Y2-Rockbox-Beta-v0.1.0-Source.zip",
+        "size": 68049228,
+        "download_count": 55,
+        "content_type": "application/zip",
+        "created_at": "2026-07-29T08:53:06Z",
+        "updated_at": "2026-07-29T08:55:00Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/493822746"
+      },
+      {
+        "id": 493824493,
+        "name": "Y2-Rockbox-Beta-v0.1.0-V88-InnioasisUpdater.zip",
+        "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.1.0-beta/Y2-Rockbox-Beta-v0.1.0-V88-InnioasisUpdater.zip",
+        "size": 366781486,
+        "download_count": 258,
+        "content_type": "application/zip",
+        "created_at": "2026-07-29T08:55:08Z",
+        "updated_at": "2026-07-29T09:00:07Z",
+        "url": "https://api.github.com/repos/SPYCEMAGIC/Y2-Rockbox/releases/assets/493824493"
+      }
+    ]
+  }
+]

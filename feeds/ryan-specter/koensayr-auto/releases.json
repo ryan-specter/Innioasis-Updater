@@ -1,0 +1,76 @@
+[
+  {
+    "id": 328185133,
+    "tag_name": "2.4.0-koensayr-3.0.7",
+    "name": "2.4.0-koensayr-3.0.7",
+    "body": "# 2.4.0-koensayr-3.0.7\n\nKoensayr is a mod for the Y1's OS that makes the following improvements to the original OS:\n\nBrowsing the albums of an artist from Main Menu > Artists > Albums\n\nAdds Bluetooth remote control support and track info displayed on your bluetooth receiver, perfect for using your Y1 in a car with the infotainment system.\n\n\n---\n\n## Build metadata\n\nPatched **rom.zip** built from stock **3.0.7** by [koensayr-auto](https://github.com/ryan-specter/koensayr-auto) v2.4.0.\n\n## Upstream\n\n- Repository: [`y1-community/y1-stock-rom`](https://github.com/y1-community/y1-stock-rom)\n- Release tag: `Latest-3.0.7`\n- Asset: `rom.zip`\n- Upstream SHA256: `7cbffcbe7dc1beb823e9ab8d37cea6120d16856bba49e02ed2d6e1548832e695`\n\n## Koensayr build\n\n- Version: `2.4.0`\n- Git revision: `16f65333696597b084d34931d4c94f7c5352e9e5` (includes `com.innioasis.y1` APK patches under `src/patches/`)\n\n## Build output\n\n- Patched `rom.zip` SHA256: `b5b8cfbb651460e989a2cfb93a4f9b5e610a76015103e69bac382ba65f9bf97a` (see `build-manifest.json` on this release)\n- Upstream `rom.zip` was re-hashed at build time; output must differ (CI enforces this).\n\n## Patches (`--all`)\n\n- Music-player UX (Artist\u2192Album navigation)\n- Bluetooth pairing (`audio.conf` / `auto_pairing.conf` / `blacklist.conf` / `build.prop`)\n- System config (ADB debugging, bloatware removal)\n- Root (`/system/xbin/su`, mode 06755)\n- AVRCP 1.3 metadata + control + Y1Bridge\n\nDiagnostic scripts (`tools/dual-capture.sh`, gdb attach, `btlog-dump`) are **not** included in the ROM \u2014 see the repo [Diagnostics](https://github.com/ryan-specter/koensayr-auto#diagnostics).\n\n## After flash\n\nIf AVRCP / MultiDex classes fail to load after upgrading from a prior koensayr build:\n\n```bash\nadb shell rm -rf /data/data/com.innioasis.y1/code_cache/secondary-dexes/\n```\n\n",
+    "draft": false,
+    "prerelease": false,
+    "created_at": "2026-05-22T23:47:57Z",
+    "published_at": "2026-05-22T23:50:37Z",
+    "html_url": "https://github.com/ryan-specter/koensayr-auto/releases/tag/2.4.0-koensayr-3.0.7",
+    "icon_url": "",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 427486582,
+        "name": "build-manifest.json",
+        "browser_download_url": "https://github.com/ryan-specter/koensayr-auto/releases/download/2.4.0-koensayr-3.0.7/build-manifest.json",
+        "size": 545,
+        "download_count": 14,
+        "content_type": "application/json",
+        "created_at": "2026-05-22T23:50:28Z",
+        "updated_at": "2026-05-22T23:50:28Z",
+        "url": "https://api.github.com/repos/ryan-specter/koensayr-auto/releases/assets/427486582"
+      },
+      {
+        "id": 427486583,
+        "name": "rom.zip",
+        "browser_download_url": "https://github.com/ryan-specter/koensayr-auto/releases/download/2.4.0-koensayr-3.0.7/rom.zip",
+        "size": 309074505,
+        "download_count": 880,
+        "content_type": "application/zip",
+        "created_at": "2026-05-22T23:50:28Z",
+        "updated_at": "2026-05-22T23:50:36Z",
+        "url": "https://api.github.com/repos/ryan-specter/koensayr-auto/releases/assets/427486583"
+      }
+    ]
+  },
+  {
+    "id": 328185161,
+    "tag_name": "2.4.0-koensayr-3.0.2",
+    "name": "2.4.0-koensayr-3.0.2",
+    "body": "# 2.4.0-koensayr-3.0.2\n\nKoensayr is a mod for the Y1's OS that makes the following improvements to the original OS:\n\nBrowsing the albums of an artist from Main Menu > Artists > Albums\n\nAdds Bluetooth remote control support and track info displayed on your bluetooth receiver, perfect for using your Y1 in a car with the infotainment system.\n\n\n---\n\n## Build metadata\n\nPatched **rom.zip** built from stock **3.0.2** by [koensayr-auto](https://github.com/ryan-specter/koensayr-auto) v2.4.0.\n\n## Upstream\n\n- Repository: [`y1-community/y1-stock-rom`](https://github.com/y1-community/y1-stock-rom)\n- Release tag: `3.0.2`\n- Asset: `rom.zip`\n- Upstream SHA256: `7ee9aa5bf1c134f71e1f41d92cb90975f2225f9ad9db9617b392ddf653f764b1`\n\n## Koensayr build\n\n- Version: `2.4.0`\n- Git revision: `16f65333696597b084d34931d4c94f7c5352e9e5` (includes `com.innioasis.y1` APK patches under `src/patches/`)\n\n## Build output\n\n- Patched `rom.zip` SHA256: `a791e3de39a27978f15142be02d051fbac57c3e6a8d79088a73db0dbdb39f1b5` (see `build-manifest.json` on this release)\n- Upstream `rom.zip` was re-hashed at build time; output must differ (CI enforces this).\n\n## Patches (`--all`)\n\n- Music-player UX (Artist\u2192Album navigation)\n- Bluetooth pairing (`audio.conf` / `auto_pairing.conf` / `blacklist.conf` / `build.prop`)\n- System config (ADB debugging, bloatware removal)\n- Root (`/system/xbin/su`, mode 06755)\n- AVRCP 1.3 metadata + control + Y1Bridge\n\nDiagnostic scripts (`tools/dual-capture.sh`, gdb attach, `btlog-dump`) are **not** included in the ROM \u2014 see the repo [Diagnostics](https://github.com/ryan-specter/koensayr-auto#diagnostics).\n\n## After flash\n\nIf AVRCP / MultiDex classes fail to load after upgrading from a prior koensayr build:\n\n```bash\nadb shell rm -rf /data/data/com.innioasis.y1/code_cache/secondary-dexes/\n```\n\n",
+    "draft": false,
+    "prerelease": false,
+    "created_at": "2026-05-22T23:47:57Z",
+    "published_at": "2026-05-22T23:50:53Z",
+    "html_url": "https://github.com/ryan-specter/koensayr-auto/releases/tag/2.4.0-koensayr-3.0.2",
+    "icon_url": "",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 427486711,
+        "name": "build-manifest.json",
+        "browser_download_url": "https://github.com/ryan-specter/koensayr-auto/releases/download/2.4.0-koensayr-3.0.2/build-manifest.json",
+        "size": 538,
+        "download_count": 14,
+        "content_type": "application/json",
+        "created_at": "2026-05-22T23:50:43Z",
+        "updated_at": "2026-05-22T23:50:43Z",
+        "url": "https://api.github.com/repos/ryan-specter/koensayr-auto/releases/assets/427486711"
+      },
+      {
+        "id": 427486710,
+        "name": "rom.zip",
+        "browser_download_url": "https://github.com/ryan-specter/koensayr-auto/releases/download/2.4.0-koensayr-3.0.2/rom.zip",
+        "size": 329013283,
+        "download_count": 164,
+        "content_type": "application/zip",
+        "created_at": "2026-05-22T23:50:43Z",
+        "updated_at": "2026-05-22T23:50:52Z",
+        "url": "https://api.github.com/repos/ryan-specter/koensayr-auto/releases/assets/427486710"
+      }
+    ]
+  }
+]

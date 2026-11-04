@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:innioasis="https://innioasis.app/ns/feeds/1.0">
+  <id>https://innioasis.app/feeds/y1-community/y2-ata-rom-mirror/releases.atom</id>
+  <title>Release notes from y1-community/y2-ata-rom-mirror</title>
+  <link rel="alternate" type="text/html" href="https://innioasis.app/firmware.html"/>
+  <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/y1-community/y2-ata-rom-mirror/releases.atom"/>
+  <updated>2026-11-03T15:36:52Z</updated>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y2-ata-rom-mirror/y2-ata</id>
+    <updated>2026-11-03T15:36:52Z</updated>
+    <published>2026-11-03T15:36:52Z</published>
+    <title>Portable Flashing Package: Engineering Firmware for Innioasis Y2 (Android 4.4 AOSP base - MT6582))</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y2-ata-rom-mirror/releases/tag/y2-ata"/>
+    <innioasis:tag_name>y2-ata</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y2-ata-rom-mirror/releases/download/y2-ata/rom_y2-linux.zip" title="rom_y2-linux.zip" length="1000518195" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707122387"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2-ata-rom-mirror/releases/download/y2-ata/rom_y2-macos.zip" title="rom_y2-macos.zip" length="839422983" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707122386"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2-ata-rom-mirror/releases/download/y2-ata/rom_y2-windows.zip" title="rom_y2-windows.zip" length="823659033" type="application/zip" innioasis:download_count="0" innioasis:asset_id="707122403"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2-ata-rom-mirror/releases/download/y2-ata/rom_y2.zip" title="rom_y2.zip" length="662798399" type="application/zip" innioasis:download_count="1" innioasis:asset_id="706115409"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2-ata-rom-mirror/releases/download/y2-ata/stats.txt" title="stats.txt" length="2040" type="text/plain; charset=utf-8" innioasis:download_count="0" innioasis:asset_id="707807382"/>
+    <content type="text"># This is a bare android firmware for modifications to the Innioasis Y2 - it includes flash_tool.exe to install it from Windows systems
+# This is not suitable for everyday use - the original firmware is [available here](https://github.com/y1-community/y1-stock-rom/releases/tag/3.1.7)
+Disconnect your Y2 from USB, fully power it off using a paper clip or pin between the headphone jack and charging port
+
+Run flash_tool.exe
+
+Select Format All + Download from the dropdown that reads &quot;Download&quot;
+
+Click Download (green arrow)
+
+Connect your Y2 and wait for install to finish.
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;name&quot;:&quot;rom_y2-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;b963384eda1b06ab5b30f3b1b1289f04823fe22c2972787c96122c7c89323d24&quot;,&quot;size&quot;:823659033,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;},{&quot;name&quot;:&quot;rom_y2-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;6fb6ebe20bb50a97b732a032506309da78cec562e1fac468103c833ac0c342d7&quot;,&quot;size&quot;:1000518195,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;},{&quot;name&quot;:&quot;rom_y2-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;a9f2e08e639121778389eb84bb4824f2cedaafb9aff60821dcaa909c546008e5&quot;,&quot;size&quot;:839422983,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;}],&quot;built_at&quot;:&quot;2026-11-03T21:16:12Z&quot;,&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;f6f8ed90a0979fb8f0d31349ad4fd64e38c2073c809385a9f87a97e5109a9914&quot;,&quot;original_assets&quot;:[&quot;rom_y2.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom_y2-linux.zip&quot;:1,&quot;rom_y2-macos.zip&quot;:2,&quot;rom_y2-windows.zip&quot;:1,&quot;rom_y2.zip&quot;:3},&quot;generated_at&quot;:&quot;2026-11-03T21:16:12Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.zip&quot;,&quot;size&quot;:187914366,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:3} --&gt;
+</content>
+  </entry>
+</feed>

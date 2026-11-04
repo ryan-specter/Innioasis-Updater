@@ -44,7 +44,7 @@ git clone https://github.com/SchulzCode/Y2Reborn.git
 git -C Y2Linux checkout baseline-75
 git -C Y2Reborn checkout baseline-75
 cd Y2Linux</code></pre>
-<p>Use the tag of the release you want to rebuild (the newest is in the readme&#x27;s table and on the <a href="https://innioasis.app/release_notes.html?author=SchulzCode&amp;project=Y2Linux&amp;software=reborn-y2linux-y2">releases page</a>); both repositories carry the same tag.</p>
+<p>Use the tag of the release you want to rebuild (the newest is in the readme&#x27;s table and on the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">releases page</a>); both repositories carry the same tag.</p>
 <p>Keep both trees clean (no uncommitted changes). The build and packaging tools refuse dirty trees and record both commit IDs in the image. If you change anything, commit it first.</p>
 <h2 id="3-the-stock-innioasis-firmware-folder">3. The stock Innioasis firmware folder</h2>
 <p>Keep the Innioasis firmware package for the Y2, <strong>v3.2.0 FM (2026-08-13)</strong>, unpacked: the folder you would load into SP Flash Tool to reflash stock. Packaging (step 6) checks it by SHA-256 and takes the partition layout from its scatter file. It is also your only way back to stock.</p>

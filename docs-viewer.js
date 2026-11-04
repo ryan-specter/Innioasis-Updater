@@ -91,24 +91,37 @@
   var BETTER_Y_TEXT = /(^|[^"'=\w/-])(better-Y)(?=$|[^"'=\w/-])/gi;
   var ANCHOR_OR_CODE = /(<a\b[^>]*>[\s\S]*?<\/a>|<(?:pre|code)\b[^>]*>[\s\S]*?<\/(?:pre|code)>)/i;
 
+  /* Only text nodes are rewritten: a mention inside an attribute (an image
+     source or an id that happens to carry the project name) or inside a code
+     sample keeps exactly what it had. Inside a link the address becomes the
+     guide address as plain text, because anchors do not nest. */
   function linkifySupersededText(html) {
-    var parts = String(html || "").split(new RegExp(ANCHOR_OR_CODE.source, "gi"));
+    var parts = String(html || "").split(/(<[^<>]*>)/);
+    var inCode = 0;
+    var inAnchor = 0;
     for (var i = 0; i < parts.length; i += 1) {
       var part = parts[i];
       if (!part) continue;
-      if (/^<a\b/i.test(part)) {
-        parts[i] = part.replace(SUPERSEDED_TEXT, function (_match, lead) { return lead + GUIDE_URL; });
-      } else if (/^<(?:pre|code)\b/i.test(part)) {
+      if (i % 2 === 1) {
+        var tagMatch = /^<\/?\s*([a-zA-Z0-9]+)/.exec(part);
+        var tag = tagMatch ? tagMatch[1].toLowerCase() : "";
+        var closing = /^<\//.test(part);
+        if (tag === "pre" || tag === "code") inCode = Math.max(0, inCode + (closing ? -1 : 1));
+        else if (tag === "a") inAnchor = Math.max(0, inAnchor + (closing ? -1 : 1));
         continue;
-      } else {
-        var updated = part.replace(SUPERSEDED_TEXT, function (_match, lead) {
-          return lead + '<a href="' + GUIDE_URL + '">' + GUIDE_URL + "</a>";
-        });
-        updated = updated.replace(BETTER_Y_TEXT, function (_match, lead, word) {
-          return lead + '<a href="' + BETTER_Y_URL + '">' + word + "</a>";
-        });
-        parts[i] = updated;
       }
+      if (inCode) continue;
+      if (inAnchor) {
+        parts[i] = part.replace(SUPERSEDED_TEXT, function (_match, lead) { return lead + GUIDE_URL; });
+        continue;
+      }
+      var updated = part.replace(SUPERSEDED_TEXT, function (_match, lead) {
+        return lead + '<a href="' + GUIDE_URL + '">' + GUIDE_URL + "</a>";
+      });
+      updated = updated.replace(BETTER_Y_TEXT, function (_match, lead, word) {
+        return lead + '<a href="' + BETTER_Y_URL + '">' + word + "</a>";
+      });
+      parts[i] = updated;
     }
     return parts.join("");
   }
@@ -673,17 +686,22 @@
       if (/^https?:\/\/(?:www\.)?github\.com\/[^/]+\/[^/]+\/releases\/download\//i.test(href)) {
         return "";
       }
-      /* A link to the project's GitHub releases page points at our own release
-         notes page for the same release. */
+      /* One release opens our notes for that version. A bare releases page is
+         the project's release listing, so it goes to the same filtered
+         firmware page as the repository link below. */
       var release = href.match(/^https?:\/\/(?:www\.)?github\.com\/([^/?#]+)\/([^/?#]+)\/releases(?:\/tag\/([^?#]+))?/i);
       if (release) {
-        return internalReleasePath(release[1] + "/" + release[2],
-          release[3] ? decodeURIComponent(release[3]) : "");
+        var releaseRepo = release[1] + "/" + release[2];
+        if (release[3]) return internalReleasePath(releaseRepo, decodeURIComponent(release[3]));
+        return firmwarePageFor(releaseRepo) || href;
       }
-      /* A "Full Changelog" compare link is the project's release notes by
-         another name: send it to our release history for that software. */
-      var compare = href.match(/^https?:\/\/(?:www\.)?github\.com\/([^/?#]+)\/([^/?#]+)\/compare\//i);
-      if (compare) return internalReleasePath(compare[1] + "/" + compare[2], "");
+      /* A "Full Changelog" compare link names the newer of the two releases it
+         spans, so it opens those notes. */
+      var compare = href.match(/^https?:\/\/(?:www\.)?github\.com\/([^/?#]+)\/([^/?#]+)\/compare\/([^?#]+)/i);
+      if (compare) {
+        var span = decodeURIComponent(compare[3]).split("...");
+        return internalReleasePath(compare[1] + "/" + compare[2], span[span.length - 1] || "");
+      }
       /* A link to a project's own repository is the project's listing here,
          not a hand-off to a bare GitHub page. Deeper paths (a source file, an
          issue) stay on GitHub because a release listing cannot represent
@@ -1560,10 +1578,30 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * GitHub releases
+   * GitHub releases (with 1:1 backup store fallback)
    * ------------------------------------------------------------------ */
 
   var releaseCache = {};
+  var backupFeedCache = {};
+
+  function backupReleasesForRepo(repo) {
+    if (!repo) return Promise.resolve([]);
+    var lower = String(repo).toLowerCase();
+    if (backupFeedCache[lower]) return backupFeedCache[lower];
+    var feedUrl = SCRIPT_BASE + "feeds/" + lower + "/releases.json";
+    backupFeedCache[lower] = fetchText(feedUrl, 8000)
+      .then(function (body) {
+        var list = JSON.parse(body);
+        return Array.isArray(list) ? list : [];
+      })
+      .catch(function () {
+        var hardcoded = (typeof global !== "undefined" && global.INNIOASIS_HARDCODED_RELEASES) || {};
+        if (Array.isArray(hardcoded[repo]) && hardcoded[repo].length) return hardcoded[repo];
+        var key = Object.keys(hardcoded).find(function (k) { return k.toLowerCase() === lower; });
+        return key && Array.isArray(hardcoded[key]) ? hardcoded[key] : [];
+      });
+    return backupFeedCache[lower];
+  }
 
   function fetchRelease(repo, tag) {
     if (!repo) return Promise.reject(new Error("no-repo"));
@@ -1573,8 +1611,27 @@
       ? "https://api.github.com/repos/" + repo + "/releases/tags/" + encodeURIComponent(tag)
       : "https://api.github.com/repos/" + repo + "/releases/latest";
     releaseCache[key] = fetchGithubJson(url).catch(function (error) {
-      delete releaseCache[key];
-      throw error;
+      return backupReleasesForRepo(repo).then(function (list) {
+        if (!Array.isArray(list) || !list.length) {
+          delete releaseCache[key];
+          throw error;
+        }
+        var found = null;
+        if (tag) {
+          var wanted = String(tag).toLowerCase();
+          found = list.find(function (r) {
+            return r && (String(r.tag_name || "").toLowerCase() === wanted || String(r.name || "").toLowerCase() === wanted);
+          }) || null;
+        } else {
+          var stable = list.filter(function (r) { return r && !r.prerelease; });
+          found = (stable.length ? stable[0] : list[0]) || null;
+        }
+        if (!found) {
+          delete releaseCache[key];
+          throw error;
+        }
+        return found;
+      });
     });
     return releaseCache[key];
   }
@@ -1598,7 +1655,10 @@
         });
       })(page);
     }
-    return chain.then(function () { return collected; });
+    return chain.then(function () {
+      if (collected.length) return collected;
+      return backupReleasesForRepo(repo);
+    });
   }
 
   /* A mirror that has not been created yet would otherwise be asked for the

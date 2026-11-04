@@ -1,0 +1,272 @@
+{
+  "schema_version": 2,
+  "generated_at": "2026-11-04T15:30:26Z",
+  "manifest_url": "https://innioasis.app/slidia_manifest.xml",
+  "firmware_list_url": "https://innioasis.app/firmware-list.html",
+  "feeds": {
+    "json": "https://innioasis.app/feeds/firmware-releases.json",
+    "xml": "https://innioasis.app/feeds/firmware-feed.xml",
+    "legacy_json": "https://innioasis.app/feeds/releases.json",
+    "legacy_xml": "https://innioasis.app/feeds/releases.xml"
+  },
+  "legacy": {
+    "json": "https://innioasis.app/feeds/releases.json",
+    "xml": "https://innioasis.app/feeds/releases.xml"
+  },
+  "repos": {
+    "y1-community/y1-stock-rom": {
+      "repo": "y1-community/y1-stock-rom",
+      "releases_json": "https://innioasis.app/feeds/y1-community/y1-stock-rom/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/y1-stock-rom/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/y1-stock-rom/repo.json"
+    },
+    "schulzcode/y2linux": {
+      "repo": "schulzcode/y2linux",
+      "releases_json": "https://innioasis.app/feeds/schulzcode/y2linux/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/schulzcode/y2linux/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/schulzcode/y2linux/repo.json"
+    },
+    "jarvissax/rondo": {
+      "repo": "jarvissax/rondo",
+      "releases_json": "https://innioasis.app/feeds/jarvissax/rondo/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/jarvissax/rondo/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/jarvissax/rondo/repo.json"
+    },
+    "rockbox-y1/rockbox": {
+      "repo": "rockbox-y1/rockbox",
+      "releases_json": "https://innioasis.app/feeds/rockbox-y1/rockbox/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/rockbox-y1/rockbox/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/rockbox-y1/rockbox/repo.json"
+    },
+    "spycemagic/y2-rockbox": {
+      "repo": "spycemagic/y2-rockbox",
+      "releases_json": "https://innioasis.app/feeds/spycemagic/y2-rockbox/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/spycemagic/y2-rockbox/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/spycemagic/y2-rockbox/repo.json"
+    },
+    "thesolarproject/solar": {
+      "repo": "thesolarproject/solar",
+      "releases_json": "https://innioasis.app/feeds/thesolarproject/solar/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/thesolarproject/solar/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/thesolarproject/solar/repo.json"
+    },
+    "ismileblue/y1_launcher": {
+      "repo": "ismileblue/y1_launcher",
+      "releases_json": "https://innioasis.app/feeds/ismileblue/y1_launcher/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/ismileblue/y1_launcher/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/ismileblue/y1_launcher/repo.json"
+    },
+    "FabianZettl/inniclassic": {
+      "repo": "FabianZettl/inniclassic",
+      "releases_json": "https://innioasis.app/feeds/fabianzettl/inniclassic/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/fabianzettl/inniclassic/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/fabianzettl/inniclassic/repo.json"
+    },
+    "JonaszPotoniec/inniclassic-y2": {
+      "repo": "JonaszPotoniec/inniclassic-y2",
+      "releases_json": "https://innioasis.app/feeds/jonaszpotoniec/inniclassic-y2/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/jonaszpotoniec/inniclassic-y2/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/jonaszpotoniec/inniclassic-y2/repo.json"
+    },
+    "schulzcode/Y2Player": {
+      "repo": "schulzcode/Y2Player",
+      "releases_json": "https://innioasis.app/feeds/schulzcode/y2player/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/schulzcode/y2player/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/schulzcode/y2player/repo.json"
+    },
+    "ryan-specter/koensayr-auto": {
+      "repo": "ryan-specter/koensayr-auto",
+      "releases_json": "https://innioasis.app/feeds/ryan-specter/koensayr-auto/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/ryan-specter/koensayr-auto/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/ryan-specter/koensayr-auto/repo.json"
+    },
+    "Leska1337/better-Y": {
+      "repo": "Leska1337/better-Y",
+      "releases_json": "https://innioasis.app/feeds/leska1337/better-y/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/leska1337/better-y/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/leska1337/better-y/repo.json"
+    },
+    "y1-community/y1-ata-rom": {
+      "repo": "y1-community/y1-ata-rom",
+      "releases_json": "https://innioasis.app/feeds/y1-community/y1-ata-rom/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/y1-ata-rom/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/y1-ata-rom/repo.json"
+    },
+    "y1-community/y2-ata-rom": {
+      "repo": "y1-community/y2-ata-rom",
+      "releases_json": "https://innioasis.app/feeds/y1-community/y2-ata-rom/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/y2-ata-rom/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/y2-ata-rom/repo.json"
+    },
+    "y1-community/y1-linux-rom": {
+      "repo": "y1-community/y1-linux-rom",
+      "releases_json": "https://innioasis.app/feeds/y1-community/y1-linux-rom/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/y1-linux-rom/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/y1-linux-rom/repo.json"
+    },
+    "y1-community/y1-stock-rom-mirror": {
+      "repo": "y1-community/y1-stock-rom-mirror",
+      "releases_json": "https://innioasis.app/feeds/y1-community/y1-stock-rom-mirror/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/y1-stock-rom-mirror/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/y1-stock-rom-mirror/repo.json"
+    },
+    "y1-community/y2linux-mirror": {
+      "repo": "y1-community/y2linux-mirror",
+      "releases_json": "https://innioasis.app/feeds/y1-community/y2linux-mirror/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/y2linux-mirror/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/y2linux-mirror/repo.json"
+    },
+    "y1-community/rockbox-mirror": {
+      "repo": "y1-community/rockbox-mirror",
+      "releases_json": "https://innioasis.app/feeds/y1-community/rockbox-mirror/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/rockbox-mirror/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/rockbox-mirror/repo.json"
+    },
+    "y1-community/y2-rockbox-mirror": {
+      "repo": "y1-community/y2-rockbox-mirror",
+      "releases_json": "https://innioasis.app/feeds/y1-community/y2-rockbox-mirror/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/y2-rockbox-mirror/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/y2-rockbox-mirror/repo.json"
+    },
+    "y1-community/rondo-mirror": {
+      "repo": "y1-community/rondo-mirror",
+      "releases_json": "https://innioasis.app/feeds/y1-community/rondo-mirror/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/rondo-mirror/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/rondo-mirror/repo.json"
+    },
+    "y1-community/koensayr-auto-mirror": {
+      "repo": "y1-community/koensayr-auto-mirror",
+      "releases_json": "https://innioasis.app/feeds/y1-community/koensayr-auto-mirror/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/koensayr-auto-mirror/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/koensayr-auto-mirror/repo.json"
+    },
+    "y1-community/y1_launcher-mirror": {
+      "repo": "y1-community/y1_launcher-mirror",
+      "releases_json": "https://innioasis.app/feeds/y1-community/y1_launcher-mirror/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/y1_launcher-mirror/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/y1_launcher-mirror/repo.json"
+    },
+    "y1-community/inniclassic-mirror": {
+      "repo": "y1-community/inniclassic-mirror",
+      "releases_json": "https://innioasis.app/feeds/y1-community/inniclassic-mirror/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/inniclassic-mirror/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/inniclassic-mirror/repo.json"
+    },
+    "y1-community/inniclassic-y2-mirror": {
+      "repo": "y1-community/inniclassic-y2-mirror",
+      "releases_json": "https://innioasis.app/feeds/y1-community/inniclassic-y2-mirror/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/inniclassic-y2-mirror/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/inniclassic-y2-mirror/repo.json"
+    },
+    "y1-community/y2player-mirror": {
+      "repo": "y1-community/y2player-mirror",
+      "releases_json": "https://innioasis.app/feeds/y1-community/y2player-mirror/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/y2player-mirror/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/y2player-mirror/repo.json"
+    },
+    "y1-community/better-y-mirror": {
+      "repo": "y1-community/better-y-mirror",
+      "releases_json": "https://innioasis.app/feeds/y1-community/better-y-mirror/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/better-y-mirror/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/better-y-mirror/repo.json"
+    },
+    "y1-community/y1-ata-rom-mirror": {
+      "repo": "y1-community/y1-ata-rom-mirror",
+      "releases_json": "https://innioasis.app/feeds/y1-community/y1-ata-rom-mirror/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/y1-ata-rom-mirror/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/y1-ata-rom-mirror/repo.json"
+    },
+    "y1-community/y2-ata-rom-mirror": {
+      "repo": "y1-community/y2-ata-rom-mirror",
+      "releases_json": "https://innioasis.app/feeds/y1-community/y2-ata-rom-mirror/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/y2-ata-rom-mirror/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/y2-ata-rom-mirror/repo.json"
+    },
+    "y1-community/y1-linux-rom-mirror": {
+      "repo": "y1-community/y1-linux-rom-mirror",
+      "releases_json": "https://innioasis.app/feeds/y1-community/y1-linux-rom-mirror/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/y1-linux-rom-mirror/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/y1-linux-rom-mirror/repo.json"
+    },
+    "y1-community/solar-mirror": {
+      "repo": "y1-community/solar-mirror",
+      "releases_json": "https://innioasis.app/feeds/y1-community/solar-mirror/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/solar-mirror/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/solar-mirror/repo.json"
+    },
+    "y1-community/updater-ce-neo": {
+      "repo": "y1-community/updater-ce-neo",
+      "releases_json": "https://innioasis.app/feeds/y1-community/updater-ce-neo/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/updater-ce-neo/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/updater-ce-neo/repo.json"
+    },
+    "y1-community/Innioasis-Updater": {
+      "repo": "y1-community/Innioasis-Updater",
+      "releases_json": "https://innioasis.app/feeds/y1-community/innioasis-updater/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/innioasis-updater/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/innioasis-updater/repo.json"
+    }
+  },
+  "mirrors": {
+    "y1-community/better-y-mirror": {
+      "source_repo": "Leska1337/better-Y",
+      "updated_at": "2026-11-04T06:04:17Z"
+    },
+    "y1-community/inniclassic-mirror": {
+      "source_repo": "FabianZettl/inniclassic",
+      "updated_at": "2026-11-03T21:46:17Z"
+    },
+    "y1-community/inniclassic-y2-mirror": {
+      "source_repo": "JonaszPotoniec/inniclassic-y2",
+      "updated_at": "2026-11-03T23:25:19Z"
+    },
+    "y1-community/koensayr-auto-mirror": {
+      "source_repo": "ryan-specter/koensayr-auto",
+      "updated_at": "2026-11-03T21:20:46Z"
+    },
+    "y1-community/rockbox-mirror": {
+      "source_repo": "rockbox-y1/rockbox",
+      "updated_at": "2026-11-03T23:30:54Z"
+    },
+    "y1-community/rondo-mirror": {
+      "source_repo": "jarvissax/rondo",
+      "updated_at": "2026-11-03T21:22:32Z"
+    },
+    "y1-community/solar-mirror": {
+      "source_repo": "thesolarproject/solar",
+      "updated_at": "2026-11-04T01:04:29Z"
+    },
+    "y1-community/y1-ata-rom-mirror": {
+      "source_repo": "y1-community/y1-ata-rom",
+      "updated_at": "2026-11-03T21:18:30Z"
+    },
+    "y1-community/y1-linux-rom-mirror": {
+      "source_repo": "y1-community/y1-linux-rom",
+      "updated_at": "2026-11-03T21:15:39Z"
+    },
+    "y1-community/y1-stock-rom-mirror": {
+      "source_repo": "y1-community/y1-stock-rom",
+      "updated_at": "2026-11-03T21:28:23Z"
+    },
+    "y1-community/y1_launcher-mirror": {
+      "source_repo": "ismileblue/y1_launcher",
+      "updated_at": "2026-11-03T22:20:48Z"
+    },
+    "y1-community/y2-ata-rom-mirror": {
+      "source_repo": "y1-community/y2-ata-rom",
+      "updated_at": "2026-11-03T21:16:50Z"
+    },
+    "y1-community/y2-rockbox-mirror": {
+      "source_repo": "spycemagic/y2-rockbox",
+      "updated_at": "2026-11-03T17:52:43Z"
+    },
+    "y1-community/y2linux-mirror": {
+      "source_repo": "schulzcode/y2linux",
+      "updated_at": "2026-11-04T15:11:39Z"
+    },
+    "y1-community/y2player-mirror": {
+      "source_repo": "schulzcode/y2player",
+      "updated_at": "2026-11-04T15:30:26Z"
+    }
+  }
+}
