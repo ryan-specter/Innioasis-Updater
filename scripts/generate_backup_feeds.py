@@ -98,7 +98,7 @@ def github_get_json(url: str, refresh: bool = False):
     DOC_CACHE_DIR.mkdir(parents=True, exist_ok=True)
     key = hashlib.sha1(url.encode("utf-8")).hexdigest()
     cache_path = DOC_CACHE_DIR / f"{key}.json"
-    if not refresh and cache_path.exists() and (time.time() - cache_path.stat().st_mtime < 3600):
+    if not refresh and cache_path.exists() and (time.time() - cache_path.stat().st_mtime < 900):
         try:
             cached = json.loads(cache_path.read_text(encoding="utf-8"))
             if cached not in (None, {}, []):
@@ -484,7 +484,7 @@ def fetch_mirror_index(mirror_repo: str, refresh: bool = False) -> dict:
     url = MIRROR_INDEX_URL.format(repo=mirror_repo, branch=branch)
     key = hashlib.sha1(url.encode("utf-8")).hexdigest()
     cache_path = DOC_CACHE_DIR / f"{key}.index.json"
-    if not refresh and cache_path.exists() and (time.time() - cache_path.stat().st_mtime < 3600):
+    if not refresh and cache_path.exists() and (time.time() - cache_path.stat().st_mtime < 900):
         try:
             cached = json.loads(cache_path.read_text(encoding="utf-8"))
             if isinstance(cached, dict) and cached:

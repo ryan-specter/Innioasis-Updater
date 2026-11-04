@@ -36,8 +36,10 @@ on:
         description: "Ignore the cached GitHub responses"
         type: boolean
         default: false
+  # Hourly, so a developer's new release, edited notes or README reaches the
+  # generated pages on its own. Skipped runs are picked up by the next hour.
   schedule:
-    - cron: "23 */6 * * *"
+    - cron: "23 * * * *"
 
 permissions:
   contents: write
@@ -55,11 +57,18 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Name this day's cache
+        id: doc-cache-day
+        run: echo "day=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
+      # One cache per day: each run restores it, and only the first run of
+      # the day writes a new one. The generators treat responses older than
+      # 15 minutes as stale, so an hourly run still reads fresh data.
       - name: Cache GitHub responses
         uses: actions/cache@v4
         with:
           path: .cache/doc-pages
-          key: doc-pages-${{ github.run_id }}
+          key: doc-pages-${{ steps.doc-cache-day.outputs.day }}
           restore-keys: doc-pages-
 
       - name: Generate 1:1 backup release feeds and catalogue snapshot

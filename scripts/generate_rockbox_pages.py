@@ -30,6 +30,7 @@ import os
 import pathlib
 import re
 import sys
+import time
 import urllib.parse
 import urllib.request
 
@@ -306,7 +307,10 @@ def project_releases(repo: str, refresh: bool = False) -> list[dict]:
     doc_url = "https://api.github.com/repos/%s/releases?per_page=100&page=1" % repo
     doc_cache_path = DOC_CACHE / (hashlib.sha1(doc_url.encode("utf-8")).hexdigest() + ".json")
     releases = None
-    if doc_cache_path.exists() and not refresh:
+    # The shared doc cache is restored across runs, so honour a TTL instead of
+    # trusting it forever: an hourly run must see a developer's new release.
+    if (doc_cache_path.exists() and not refresh and
+            time.time() - doc_cache_path.stat().st_mtime < 900):
         try:
             candidate = json.loads(doc_cache_path.read_text(encoding="utf-8"))
             if isinstance(candidate, list) and candidate:

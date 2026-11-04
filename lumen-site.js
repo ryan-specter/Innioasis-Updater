@@ -1578,9 +1578,14 @@
             var releaseNotesUrl = docsReleaseNotesHref(item, release && release.tag_name ? release.tag_name : "") ||
                 siteReleaseNotesHref(item, "");
             var notesLabel = "Read the release notes for " + (release && release.tag_name ? release.tag_name : item.name);
+            /* The info glyph points at the generated static copy of these
+               notes; the version number opens the live reader. */
+            var staticNotesUrl = release
+                ? staticReleaseNotesHref(item, release.tag_name || release.name || "")
+                : "";
             var versionHtml = release
                 ? '<a class="lumen-version-link" href="' + escapeHtml(releaseNotesUrl) + '" title="' + escapeHtml(notesLabel) + '">' + plainVersionHtml + '</a>' +
-                  '<a class="lumen-readme-info" href="' + escapeHtml(releaseNotesUrl) + '" title="' + escapeHtml(notesLabel) + '" aria-label="' + escapeHtml(notesLabel) + '">&#9432;</a>'
+                  '<a class="lumen-readme-info" href="' + escapeHtml(staticNotesUrl || releaseNotesUrl) + '" title="' + escapeHtml(notesLabel) + '" aria-label="' + escapeHtml(notesLabel) + '">&#9432;</a>'
                 : plainVersionHtml;
             /* The empty state names the same option the filterbar does, and
                a blocklisted project says so instead of claiming there is no
@@ -2223,6 +2228,21 @@
 
     function docsReleaseNotesHref(item, tag) {
         return siteReleaseNotesHref(item, tag);    }
+
+    /* The plain-HTML copy of one release's notes, at the path
+       scripts/generate_doc_pages.py writes (release-notes/<slug>/<tag>.html).
+       The info glyph beside the version links here so crawlers follow a real
+       link to the generated page, while the version number itself stays the
+       way into the live reader. */
+    function staticReleaseNotesHref(item, tag) {
+        if (!item || !item.slug || !tag) return "";
+        var path = window.location.pathname || "";
+        var prefix = /\/guides\/|\/notices\/|\/Troubleshooting\//.test(path) ? "../" : "";
+        var slug = String(tag).toLowerCase()
+            .replace(/[^a-z0-9._-]+/g, "-")
+            .replace(/^-+|-+$/g, "") || "release";
+        return prefix + "release-notes/" + item.slug + "/" + slug + ".html";
+    }
 
     function initGuidePostInstall() {
         if (!Array.isArray(window.INNIOASIS_FIRMWARE_CATALOG)) return;

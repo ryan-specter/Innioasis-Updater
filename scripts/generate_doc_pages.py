@@ -242,7 +242,7 @@ def cached_json(url: str, refresh: bool = False):
     CACHE.mkdir(parents=True, exist_ok=True)
     key = hashlib.sha1(url.encode("utf-8")).hexdigest()
     path = CACHE / (key + ".json")
-    if not refresh and path.exists() and time.time() - path.stat().st_mtime < 3600:
+    if not refresh and path.exists() and time.time() - path.stat().st_mtime < 900:
         try:
             return json.loads(path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
@@ -1343,14 +1343,15 @@ def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list
             % (up, esc(item.get("guide") or item.get("seoPage")), esc(name))
         )
     for sibling in siblings[:8]:
-        if sibling.get("tag_name") == release.get("tag_name"):
+        sibling_tag = str(sibling.get("tag_name") or "").strip()
+        if not sibling_tag or sibling_tag == release.get("tag_name"):
             continue
         related.append(
-            '<li><a href="%srelease_notes.html?%s"><strong>%s</strong><small>%s%s</small></a></li>'
+            '<li><a href="%srelease-notes/%s/%s.html"><strong>%s</strong><small>%s%s</small></a></li>'
             % (
-                up, esc(parser_release_query(item.get("repo") or "", str(sibling.get("tag_name") or ""), item["slug"])),
-                esc(sibling.get("name") or sibling.get("tag_name") or "Release"),
-                esc(sibling.get("tag_name") or ""),
+                up, esc(item["slug"]), esc(tag_slug(sibling_tag)),
+                esc(sibling.get("name") or sibling_tag or "Release"),
+                esc(sibling_tag),
                 (" · " + esc(str(sibling.get("published_at") or "")[:10])) if sibling.get("published_at") else "",
             )
         )
@@ -1400,16 +1401,18 @@ def software_index_page(item: dict, releases: list[dict]) -> str:
     canonical = "%s/release-notes/%s/index.html" % (SITE, item["slug"])
     cards = []
     for release in releases:
-        tag = str(release.get("tag_name") or "")
+        tag = str(release.get("tag_name") or "").strip()
+        if not tag:
+            continue
+        # Each card is the generated page for that release, so the index and
+        # its releases form one crawlable static set.
         cards.append(
             '<article class="lumen-card"><small>%s%s</small>'
-            '<h3><a href="../../release_notes.html?author=%s&amp;project=%s&amp;version=%s">%s</a></h3><p>%s</p></article>'
+            '<h3><a href="%s.html">%s</a></h3><p>%s</p></article>'
             % (
                 esc(str(release.get("published_at") or "")[:10]),
                 " · Preview" if release.get("prerelease") else "",
-                esc(str(item.get("repo") or "").partition("/")[0]),
-                esc(str(item.get("repo") or "").partition("/")[2]),
-                esc(urllib.parse.quote(str(tag or ""), safe="")),
+                esc(tag_slug(tag)),
                 esc(release.get("name") or tag or "Release"),
                 esc(one_line(release.get("body") or "", 150) or "No notes published."),
             )
@@ -1439,16 +1442,19 @@ def master_index_page(software: list[dict], release_counts: dict[str, int], post
     cards = []
     for item in software:
         count = release_counts.get(item["slug"], 0)
+        # The archive links each generated software index, which in turn
+        # links every generated release page.
+        index_href = "%s/index.html" % item["slug"]
         cards.append(
             '<article class="lumen-card"><small>%s%s</small>'
-            '<h3><a href="../release_notes.html?%s">%s</a></h3><p>%s</p>'
-            '<div class="lumen-actions"><a class="lumen-button" href="../release_notes.html?%s">%s release%s</a></div></article>'
+            '<h3><a href="%s">%s</a></h3><p>%s</p>'
+            '<div class="lumen-actions"><a class="lumen-button" href="%s">%s release%s</a></div></article>'
             % (
                 esc(item.get("model", "")),
                 " · " + esc(item.get("name", "")) if item.get("name") else "",
-                esc(parser_release_query(item.get("repo") or "", "", item["slug"])), esc(software_label(item)),
+                esc(index_href), esc(software_label(item)),
                 esc(item.get("description") or ""),
-                esc(parser_release_query(item.get("repo") or "", "", item["slug"])), count, "" if count == 1 else "s",
+                esc(index_href), count, "" if count == 1 else "s",
             )
         )
     post_cards = []

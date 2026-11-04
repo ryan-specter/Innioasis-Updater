@@ -235,6 +235,17 @@ def notes_url(item: dict, tag: str) -> str:
         SITE, urllib.parse.quote(item.get("model") or ""), urllib.parse.quote(item.get("slug") or ""))
 
 
+def static_notes_url(item: dict, tag: str) -> str:
+    """The generated copy of a release's notes, or "" when it was not written."""
+    slug = str(item.get("slug") or "")
+    if not slug:
+        return ""
+    path = ROOT / "release-notes" / slug / (gdp.tag_slug(tag) + ".html")
+    if not path.exists():
+        return ""
+    return "%s/release-notes/%s/%s.html" % (SITE, slug, gdp.tag_slug(tag))
+
+
 def parsed_notes_url(item: dict, tag: str) -> str:
     """The live release-notes parser: the page a reader should land on.
 
@@ -285,6 +296,9 @@ def software_section(item: dict, releases: list[dict], mirrors: list[dict], feed
         anchor = release_anchor(item, tag)
         notes = notes_url(item, tag)
         live_notes = parsed_notes_url(item, tag)
+        # The info glyph links the generated page; the version and the
+        # trailing text link stay on the live reader.
+        info_notes = static_notes_url(item, tag) or live_notes
 
         download_cell = []
         if asset_url:
@@ -311,7 +325,7 @@ def software_section(item: dict, releases: list[dict], mirrors: list[dict], feed
             '<td>%s</td>'
             '<td><a href="%s">Release notes</a></td></tr>'
             % (esc(anchor), esc(live_notes), esc(tag), esc(tag),
-               esc(live_notes), esc(tag), esc(tag),
+               esc(info_notes), esc(tag), esc(tag),
                esc(" · ".join(meta)),
                esc(str(release.get("html_url") or project_page)), esc(title),
                "".join(download_cell), esc(live_notes)))
