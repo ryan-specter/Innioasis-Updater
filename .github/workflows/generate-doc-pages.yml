@@ -16,6 +16,9 @@ on:
       - slidia_manifest.xml
       - firmware-catalog.js
       - docs-viewer.js
+      - release_notes.html
+      - post_install.html
+      - firmware-info.js
       - scripts/generate_backup_feeds.py
       - scripts/generate_doc_pages.py
       - scripts/generate_rockbox_pages.py

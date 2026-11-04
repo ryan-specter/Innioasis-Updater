@@ -135,6 +135,68 @@
     return left === right;
   }
 
+  /* Pages on our own site that stand in for a GitHub address. */
+  var INTERNAL_DOC_TARGET = /\/(?:firmware|release_notes|post_install|firmware_info|guide)\.html(?:[?#]|$)/i;
+  var GITHUB_ADDRESS = /^(?:https?:\/\/)?(?:www\.)?(?:github\.com|raw\.githubusercontent\.com)\//i;
+
+  function internalDocTarget(href) {
+    var value = String(href || "").trim();
+    if (!value) return false;
+    if (/^(?:\.\.\/)*(?:firmware|release_notes|post_install|firmware_info|guide)\.html(?:[?#]|$)/i.test(value)) return true;
+    var parsed;
+    try { parsed = new URL(value, SITE + "/"); } catch (_) { return false; }
+    return /^(?:www\.)?innioasis\.app$/i.test(parsed.hostname) &&
+      INTERNAL_DOC_TARGET.test(parsed.pathname);
+  }
+
+  /* What a bare GitHub address stands for when one of our pages replaces it:
+     the file it names, the release tag, or the project itself. */
+  function githubLinkTitle(href) {
+    var value = String(href || "").trim().replace(/[.,;:]+$/, "");
+    if (!GITHUB_ADDRESS.test(value)) return "";
+    var parsed;
+    try {
+      parsed = new URL(/^https?:\/\//i.test(value) ? value : "https://" + value);
+    } catch (_) {
+      return "";
+    }
+    var seg = splitPath(parsed.pathname).map(decode);
+    var host = parsed.hostname.toLowerCase();
+    if (host === "raw.githubusercontent.com") {
+      return seg.length >= 4 ? seg[seg.length - 1] : "";
+    }
+    if (seg.length < 2) return "";
+    var repo = seg[0] + "/" + seg[1];
+    if (seg[2] === "releases") {
+      if (seg[3] === "tag" && seg[4]) return seg.slice(4).join("/");
+      return repo;
+    }
+    if (seg[2] === "compare" && seg[3]) {
+      var span = seg[3].split("...");
+      return span[span.length - 1] || repo;
+    }
+    if ((seg[2] === "blob" || seg[2] === "raw" || seg[2] === "tree") && seg.length >= 5) {
+      return seg[seg.length - 1];
+    }
+    return repo;
+  }
+
+  var LINK_PAIR = /<a\b([^>]*)>([\s\S]*?)<\/a>/gi;
+
+  /* A link that now opens one of our own pages should not keep the GitHub
+     address as its words. Only plain-text anchors change; anything with
+     markup inside stays exactly as the project wrote it. */
+  function relabelInternalGithubLinks(html) {
+    return String(html || "").replace(LINK_PAIR, function (match, attrs, inner) {
+      var hrefMatch = /\bhref\s*=\s*"([^"]*)"/i.exec(attrs) || /\bhref\s*=\s*'([^']*)'/i.exec(attrs);
+      if (!hrefMatch || !internalDocTarget(hrefMatch[1])) return match;
+      if (inner.indexOf("<") !== -1) return match;
+      var title = githubLinkTitle(inner.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
+      if (!title) return match;
+      return "<a" + attrs + ">" + esc(title) + "</a>";
+    });
+  }
+
   /* ------------------------------------------------------------------ *
    * Source resolution
    * ------------------------------------------------------------------ */
@@ -1282,7 +1344,9 @@
 
   /** Full pipeline: Markdown text in, safe styled HTML out. */
   function markdownToHtml(markdown, ctx) {
-    return linkifySupersededText(sanitizeHtml(renderMarkdown(markdown, ctx), ctx));
+    return relabelInternalGithubLinks(
+      linkifySupersededText(sanitizeHtml(renderMarkdown(markdown, ctx), ctx))
+    );
   }
 
   /* ------------------------------------------------------------------ *

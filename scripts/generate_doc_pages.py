@@ -367,7 +367,7 @@ def clean_html(markup: str, ctx: dict | None = None) -> str:
         return "<%s%s%s>" % (closing, name, attrs)
 
     markup = re.sub(r"(?is)<(/?)([a-zA-Z][a-zA-Z0-9-]*)((?:\s[^<>]*)?)>", replace_tag, markup)
-    return linkify_superseded_text(markup)
+    return linkify_superseded_text(relabel_internal_github_links(markup))
 
 
 def parse_source(url: str):
@@ -700,6 +700,68 @@ def link_text_is_url(label: str, href: str) -> bool:
     left = re.sub(r"[?#].*$", "", text).rstrip("/").lower()
     right = re.sub(r"[?#].*$", "", href or "").rstrip("/").lower()
     return left == right
+
+
+# Pages on our own site that stand in for a GitHub address.
+INTERNAL_DOC_TARGET_RE = re.compile(r"/(?:firmware|release_notes|post_install|firmware_info|guide)\.html(?:[?#]|$)", re.I)
+GITHUB_ADDRESS_RE = re.compile(r"^(?:https?://)?(?:www\.)?(?:github\.com|raw\.githubusercontent\.com)/", re.I)
+LINK_PAIR_RE = re.compile(r"(?is)<a\b([^>]*)>(.*?)</a>")
+
+
+def internal_doc_target(href: str) -> bool:
+    value = (href or "").strip()
+    if not value:
+        return False
+    if re.match(r"^(?:\.\./)*(?:firmware|release_notes|post_install|firmware_info|guide)\.html(?:[?#]|$)", value, re.I):
+        return True
+    parsed = urllib.parse.urlsplit(value)
+    return (
+        parsed.scheme in ("http", "https")
+        and parsed.netloc.lower() in ("innioasis.app", "www.innioasis.app")
+        and bool(INTERNAL_DOC_TARGET_RE.search(parsed.path))
+    )
+
+
+def github_link_title(href: str) -> str:
+    """What a bare GitHub address stands for when one of our pages replaces it:
+    the file it names, the release tag, or the project itself."""
+    value = re.sub(r"[.,;:]+$", "", html.unescape(href or "").strip())
+    if not GITHUB_ADDRESS_RE.match(value):
+        return ""
+    if not re.match(r"^https?://", value, re.I):
+        value = "https://" + value
+    parsed = urllib.parse.urlsplit(value)
+    segments = [urllib.parse.unquote(s) for s in parsed.path.split("/") if s]
+    if parsed.netloc.lower() == "raw.githubusercontent.com":
+        return segments[-1] if len(segments) >= 4 else ""
+    if len(segments) < 2:
+        return ""
+    repo = segments[0] + "/" + segments[1]
+    if segments[2:3] == ["releases"]:
+        if segments[3:4] == ["tag"] and len(segments) >= 5:
+            return "/".join(segments[4:])
+        return repo
+    if segments[2:3] == ["compare"] and len(segments) >= 4:
+        return segments[3].split("...")[-1] or repo
+    if segments[2] in ("blob", "raw", "tree") and len(segments) >= 5:
+        return segments[-1]
+    return repo
+
+
+def relabel_internal_github_links(markup: str) -> str:
+    """Name the document a redirected GitHub link points at instead of showing
+    the address itself. Only plain-text anchors change."""
+    def replace(match: re.Match) -> str:
+        attrs, inner = match.group(1), match.group(2)
+        href = re.search(r"\bhref\s*=\s*([\"'])(.*?)\1", attrs, re.I | re.S)
+        if not href or not internal_doc_target(href.group(2)) or "<" in inner:
+            return match.group(0)
+        title = github_link_title(html.unescape(inner).strip())
+        if not title:
+            return match.group(0)
+        return "<a%s>%s</a>" % (attrs, esc(title))
+
+    return LINK_PAIR_RE.sub(replace, markup or "")
 
 
 def resolve_link(href: str, ctx: dict | None) -> str:
