@@ -15,7 +15,7 @@
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/Leska1337/better-Y/raw/main/screenshots/plus_logo.png</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/Leska1337/better-Y/releases/download/v1.1.0/better-Y_3.1.2_v1.1.0.apk" title="better-Y_3.1.2_v1.1.0.apk" length="60200797" type="application/vnd.android.package-archive" innioasis:download_count="19" innioasis:asset_id="589006754"/>
-    <link rel="enclosure" href="https://github.com/Leska1337/better-Y/releases/download/v1.1.0/rom.zip" title="rom.zip" length="181243963" type="application/x-zip-compressed" innioasis:download_count="333" innioasis:asset_id="588998617"/>
+    <link rel="enclosure" href="https://github.com/Leska1337/better-Y/releases/download/v1.1.0/rom.zip" title="rom.zip" length="181243963" type="application/x-zip-compressed" innioasis:download_count="334" innioasis:asset_id="588998617"/>
     <content type="text">![Image](https://github.com/Leska1337/better-Y/raw/v1.1.0/screenshots/themes_support.png &quot;Logo&quot;)
 
 Settings marked with ⚙️ are new rows in the better-Y menu.

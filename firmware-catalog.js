@@ -220,7 +220,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_y2.zip",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/rom_y2.zip",
           "size": 355560849,
-          "download_count": 1641,
+          "download_count": 1644,
           "content_type": "application/zip"
         },
         {
@@ -228,7 +228,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg",
           "size": 30612,
-          "download_count": 628,
+          "download_count": 637,
           "content_type": "image/jpeg"
         }
       ]
@@ -249,7 +249,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_y2.zip",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/rom_y2.zip",
           "size": 355558382,
-          "download_count": 494,
+          "download_count": 495,
           "content_type": "application/zip"
         },
         {
@@ -265,7 +265,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/updater.jpg",
           "size": 30612,
-          "download_count": 394,
+          "download_count": 401,
           "content_type": "image/jpeg"
         }
       ]
@@ -294,7 +294,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/updater.jpg",
           "size": 30612,
-          "download_count": 281,
+          "download_count": 293,
           "content_type": "image/jpeg"
         }
       ]
@@ -315,7 +315,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom.zip",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/rom.zip",
           "size": 250125316,
-          "download_count": 7454,
+          "download_count": 7459,
           "content_type": "application/zip"
         },
         {
@@ -323,7 +323,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg",
           "size": 30612,
-          "download_count": 1658,
+          "download_count": 1686,
           "content_type": "image/jpeg"
         }
       ]
@@ -352,7 +352,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg",
           "size": 30612,
-          "download_count": 1491,
+          "download_count": 1515,
           "content_type": "image/jpeg"
         }
       ]
@@ -381,7 +381,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.0.2/updater.jpg",
           "size": 30612,
-          "download_count": 300,
+          "download_count": 301,
           "content_type": "image/jpeg"
         }
       ]
@@ -410,7 +410,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/2.8.2/updater.jpg",
           "size": 30612,
-          "download_count": 294,
+          "download_count": 295,
           "content_type": "image/jpeg"
         }
       ]
@@ -476,7 +476,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/ADB-2.1.9/updater.jpg",
           "size": 30612,
-          "download_count": 281,
+          "download_count": 282,
           "content_type": "image/jpeg"
         }
       ]
@@ -499,7 +499,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "bootimg.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/bootimg.img.gz",
           "size": 7539267,
-          "download_count": 61,
+          "download_count": 63,
           "content_type": "application/gzip"
         },
         {
@@ -507,7 +507,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/manifest.json",
           "size": 4236,
-          "download_count": 176,
+          "download_count": 183,
           "content_type": "application/json"
         },
         {
@@ -515,7 +515,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/manifest.sig",
           "size": 64,
-          "download_count": 173,
+          "download_count": 180,
           "content_type": "application/pgp-signature"
         },
         {
@@ -523,7 +523,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "recovery.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/recovery.img.gz",
           "size": 7539271,
-          "download_count": 59,
+          "download_count": 60,
           "content_type": "application/gzip"
         },
         {
@@ -531,7 +531,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rootfs.ext4.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/rootfs.ext4.gz",
           "size": 51326456,
-          "download_count": 59,
+          "download_count": 61,
           "content_type": "application/gzip"
         },
         {
@@ -547,7 +547,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.9.3.7-first-install.zip",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/Y2Linux-1.0.0-beta.9.3.7-first-install.zip",
           "size": 67410276,
-          "download_count": 21,
+          "download_count": 22,
           "content_type": "application/zip"
         },
         {
@@ -1333,7 +1333,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.9.2.6-first-install.zip",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-197/Y2Linux-1.0.0-beta.9.2.6-first-install.zip",
           "size": 66831164,
-          "download_count": 6,
+          "download_count": 8,
           "content_type": "application/zip"
         },
         {
@@ -2448,7 +2448,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "bootimg.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/bootimg.img.gz",
           "size": 7529921,
-          "download_count": 11,
+          "download_count": 12,
           "content_type": "application/gzip"
         },
         {
@@ -2456,7 +2456,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/manifest.json",
           "size": 4266,
-          "download_count": 18,
+          "download_count": 19,
           "content_type": "application/json"
         },
         {
@@ -2464,7 +2464,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/manifest.sig",
           "size": 64,
-          "download_count": 18,
+          "download_count": 19,
           "content_type": "application/pgp-signature"
         },
         {
@@ -2472,7 +2472,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "recovery.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/recovery.img.gz",
           "size": 7529938,
-          "download_count": 12,
+          "download_count": 13,
           "content_type": "application/gzip"
         },
         {
@@ -2480,7 +2480,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rootfs.ext4.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/rootfs.ext4.gz",
           "size": 56178671,
-          "download_count": 11,
+          "download_count": 12,
           "content_type": "application/gzip"
         },
         {
@@ -2488,7 +2488,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/SHA256SUMS",
           "size": 941,
-          "download_count": 3,
+          "download_count": 4,
           "content_type": "application/octet-stream"
         },
         {
@@ -2496,7 +2496,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.36-first-install.zip",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/Y2Linux-1.0.0-beta.8.36-first-install.zip",
           "size": 72245626,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/zip"
         },
         {
@@ -2504,7 +2504,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.36-sources-buildroot-legal-info.tar",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/Y2Linux-1.0.0-beta.8.36-sources-buildroot-legal-info.tar",
           "size": 19394560,
-          "download_count": 3,
+          "download_count": 4,
           "content_type": "application/x-tar"
         }
       ]
@@ -2525,7 +2525,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "bootimg.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/bootimg.img.gz",
           "size": 7529643,
-          "download_count": 33,
+          "download_count": 34,
           "content_type": "application/gzip"
         },
         {
@@ -2533,7 +2533,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/manifest.json",
           "size": 4265,
-          "download_count": 98,
+          "download_count": 99,
           "content_type": "application/json"
         },
         {
@@ -2541,7 +2541,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/manifest.sig",
           "size": 64,
-          "download_count": 96,
+          "download_count": 97,
           "content_type": "application/pgp-signature"
         },
         {
@@ -2549,7 +2549,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "recovery.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/recovery.img.gz",
           "size": 7529654,
-          "download_count": 33,
+          "download_count": 34,
           "content_type": "application/gzip"
         },
         {
@@ -2557,7 +2557,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rootfs.ext4.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/rootfs.ext4.gz",
           "size": 56164949,
-          "download_count": 34,
+          "download_count": 35,
           "content_type": "application/gzip"
         },
         {
@@ -2565,7 +2565,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/SHA256SUMS",
           "size": 941,
-          "download_count": 3,
+          "download_count": 4,
           "content_type": "application/octet-stream"
         },
         {
@@ -2573,7 +2573,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.35-first-install.zip",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/Y2Linux-1.0.0-beta.8.35-first-install.zip",
           "size": 72238776,
-          "download_count": 9,
+          "download_count": 10,
           "content_type": "application/zip"
         },
         {
@@ -2581,7 +2581,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.35-sources-buildroot-legal-info.tar",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/Y2Linux-1.0.0-beta.8.35-sources-buildroot-legal-info.tar",
           "size": 19394560,
-          "download_count": 3,
+          "download_count": 4,
           "content_type": "application/x-tar"
         }
       ]
@@ -2602,7 +2602,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "bootimg.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/bootimg.img.gz",
           "size": 7529663,
-          "download_count": 22,
+          "download_count": 23,
           "content_type": "application/gzip"
         },
         {
@@ -2610,7 +2610,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/manifest.json",
           "size": 4265,
-          "download_count": 55,
+          "download_count": 56,
           "content_type": "application/json"
         },
         {
@@ -2618,7 +2618,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/manifest.sig",
           "size": 64,
-          "download_count": 54,
+          "download_count": 55,
           "content_type": "application/pgp-signature"
         },
         {
@@ -2626,7 +2626,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "recovery.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/recovery.img.gz",
           "size": 7529692,
-          "download_count": 22,
+          "download_count": 23,
           "content_type": "application/gzip"
         },
         {
@@ -2634,7 +2634,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rootfs.ext4.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/rootfs.ext4.gz",
           "size": 56164659,
-          "download_count": 22,
+          "download_count": 23,
           "content_type": "application/gzip"
         },
         {
@@ -2642,7 +2642,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/SHA256SUMS",
           "size": 941,
-          "download_count": 3,
+          "download_count": 4,
           "content_type": "application/octet-stream"
         },
         {
@@ -2650,7 +2650,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.34-first-install.zip",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/Y2Linux-1.0.0-beta.8.34-first-install.zip",
           "size": 72232232,
-          "download_count": 5,
+          "download_count": 6,
           "content_type": "application/zip"
         },
         {
@@ -2658,7 +2658,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.34-sources-buildroot-legal-info.tar",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/Y2Linux-1.0.0-beta.8.34-sources-buildroot-legal-info.tar",
           "size": 19394560,
-          "download_count": 3,
+          "download_count": 4,
           "content_type": "application/x-tar"
         }
       ]
@@ -2679,7 +2679,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "bootimg.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/bootimg.img.gz",
           "size": 7529652,
-          "download_count": 9,
+          "download_count": 10,
           "content_type": "application/gzip"
         },
         {
@@ -2687,7 +2687,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/manifest.json",
           "size": 4265,
-          "download_count": 14,
+          "download_count": 15,
           "content_type": "application/json"
         },
         {
@@ -2695,7 +2695,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/manifest.sig",
           "size": 64,
-          "download_count": 13,
+          "download_count": 14,
           "content_type": "application/pgp-signature"
         },
         {
@@ -2703,7 +2703,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "recovery.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/recovery.img.gz",
           "size": 7529677,
-          "download_count": 9,
+          "download_count": 10,
           "content_type": "application/gzip"
         },
         {
@@ -2711,7 +2711,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rootfs.ext4.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/rootfs.ext4.gz",
           "size": 56167619,
-          "download_count": 9,
+          "download_count": 10,
           "content_type": "application/gzip"
         },
         {
@@ -2719,7 +2719,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/SHA256SUMS",
           "size": 941,
-          "download_count": 3,
+          "download_count": 4,
           "content_type": "application/octet-stream"
         },
         {
@@ -2727,7 +2727,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.33-first-install.zip",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/Y2Linux-1.0.0-beta.8.33-first-install.zip",
           "size": 72232419,
-          "download_count": 6,
+          "download_count": 7,
           "content_type": "application/zip"
         },
         {
@@ -2735,7 +2735,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.33-sources-buildroot-legal-info.tar",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/Y2Linux-1.0.0-beta.8.33-sources-buildroot-legal-info.tar",
           "size": 19384320,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/x-tar"
         }
       ]
@@ -2756,7 +2756,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "bootimg.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/bootimg.img.gz",
           "size": 7529487,
-          "download_count": 26,
+          "download_count": 27,
           "content_type": "application/gzip"
         },
         {
@@ -2764,7 +2764,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/manifest.json",
           "size": 4263,
-          "download_count": 62,
+          "download_count": 63,
           "content_type": "application/json"
         },
         {
@@ -2772,7 +2772,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/manifest.sig",
           "size": 64,
-          "download_count": 57,
+          "download_count": 58,
           "content_type": "application/pgp-signature"
         },
         {
@@ -2780,7 +2780,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "recovery.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/recovery.img.gz",
           "size": 7529502,
-          "download_count": 26,
+          "download_count": 27,
           "content_type": "application/gzip"
         },
         {
@@ -2788,7 +2788,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rootfs.ext4.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/rootfs.ext4.gz",
           "size": 56053953,
-          "download_count": 26,
+          "download_count": 27,
           "content_type": "application/gzip"
         },
         {
@@ -2796,7 +2796,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/SHA256SUMS",
           "size": 941,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/octet-stream"
         },
         {
@@ -2812,7 +2812,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.31-sources-buildroot-legal-info.tar",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/Y2Linux-1.0.0-beta.8.31-sources-buildroot-legal-info.tar",
           "size": 19384320,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/x-tar"
         }
       ]
@@ -2833,7 +2833,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "bootimg.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/bootimg.img.gz",
           "size": 7529435,
-          "download_count": 6,
+          "download_count": 7,
           "content_type": "application/gzip"
         },
         {
@@ -2841,7 +2841,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/manifest.json",
           "size": 4265,
-          "download_count": 7,
+          "download_count": 8,
           "content_type": "application/json"
         },
         {
@@ -2849,7 +2849,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/manifest.sig",
           "size": 64,
-          "download_count": 6,
+          "download_count": 7,
           "content_type": "application/pgp-signature"
         },
         {
@@ -2857,7 +2857,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "recovery.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/recovery.img.gz",
           "size": 7529451,
-          "download_count": 6,
+          "download_count": 7,
           "content_type": "application/gzip"
         },
         {
@@ -2865,7 +2865,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rootfs.ext4.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/rootfs.ext4.gz",
           "size": 56063438,
-          "download_count": 6,
+          "download_count": 7,
           "content_type": "application/gzip"
         },
         {
@@ -2873,7 +2873,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/SHA256SUMS",
           "size": 941,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/octet-stream"
         },
         {
@@ -2881,7 +2881,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.30-first-install.zip",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/Y2Linux-1.0.0-beta.8.30-first-install.zip",
           "size": 72120231,
-          "download_count": 5,
+          "download_count": 6,
           "content_type": "application/zip"
         },
         {
@@ -2889,7 +2889,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.30-sources-buildroot-legal-info.tar",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/Y2Linux-1.0.0-beta.8.30-sources-buildroot-legal-info.tar",
           "size": 19384320,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/x-tar"
         }
       ]
@@ -2910,7 +2910,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "bootimg.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/bootimg.img.gz",
           "size": 7529617,
-          "download_count": 29,
+          "download_count": 30,
           "content_type": "application/gzip"
         },
         {
@@ -2918,7 +2918,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/manifest.json",
           "size": 4264,
-          "download_count": 66,
+          "download_count": 67,
           "content_type": "application/json"
         },
         {
@@ -2926,7 +2926,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/manifest.sig",
           "size": 64,
-          "download_count": 64,
+          "download_count": 65,
           "content_type": "application/pgp-signature"
         },
         {
@@ -2934,7 +2934,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "recovery.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/recovery.img.gz",
           "size": 7529637,
-          "download_count": 28,
+          "download_count": 29,
           "content_type": "application/gzip"
         },
         {
@@ -2942,7 +2942,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rootfs.ext4.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/rootfs.ext4.gz",
           "size": 56039270,
-          "download_count": 27,
+          "download_count": 28,
           "content_type": "application/gzip"
         },
         {
@@ -2950,7 +2950,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/SHA256SUMS",
           "size": 941,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/octet-stream"
         },
         {
@@ -2958,7 +2958,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.29-first-install.zip",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/Y2Linux-1.0.0-beta.8.29-first-install.zip",
           "size": 72114148,
-          "download_count": 9,
+          "download_count": 10,
           "content_type": "application/zip"
         },
         {
@@ -2966,7 +2966,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.29-sources-buildroot-legal-info.tar",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/Y2Linux-1.0.0-beta.8.29-sources-buildroot-legal-info.tar",
           "size": 19384320,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/x-tar"
         }
       ]
@@ -2987,7 +2987,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "bootimg.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/bootimg.img.gz",
           "size": 7529604,
-          "download_count": 27,
+          "download_count": 28,
           "content_type": "application/gzip"
         },
         {
@@ -2995,7 +2995,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/manifest.json",
           "size": 4264,
-          "download_count": 54,
+          "download_count": 55,
           "content_type": "application/json"
         },
         {
@@ -3003,7 +3003,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/manifest.sig",
           "size": 64,
-          "download_count": 53,
+          "download_count": 54,
           "content_type": "application/pgp-signature"
         },
         {
@@ -3011,7 +3011,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "recovery.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/recovery.img.gz",
           "size": 7529623,
-          "download_count": 26,
+          "download_count": 27,
           "content_type": "application/gzip"
         },
         {
@@ -3019,7 +3019,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rootfs.ext4.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/rootfs.ext4.gz",
           "size": 56038617,
-          "download_count": 26,
+          "download_count": 27,
           "content_type": "application/gzip"
         },
         {
@@ -3027,7 +3027,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/SHA256SUMS",
           "size": 941,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/octet-stream"
         },
         {
@@ -3035,7 +3035,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.28-first-install.zip",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/Y2Linux-1.0.0-beta.8.28-first-install.zip",
           "size": 72108024,
-          "download_count": 12,
+          "download_count": 13,
           "content_type": "application/zip"
         },
         {
@@ -3043,7 +3043,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.28-sources-buildroot-legal-info.tar",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/Y2Linux-1.0.0-beta.8.28-sources-buildroot-legal-info.tar",
           "size": 19384320,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/x-tar"
         }
       ]
@@ -3064,7 +3064,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "bootimg.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/bootimg.img.gz",
           "size": 7529579,
-          "download_count": 7,
+          "download_count": 8,
           "content_type": "application/gzip"
         },
         {
@@ -3072,7 +3072,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/manifest.json",
           "size": 4263,
-          "download_count": 11,
+          "download_count": 12,
           "content_type": "application/json"
         },
         {
@@ -3080,7 +3080,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/manifest.sig",
           "size": 64,
-          "download_count": 9,
+          "download_count": 10,
           "content_type": "application/pgp-signature"
         },
         {
@@ -3088,7 +3088,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "recovery.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/recovery.img.gz",
           "size": 7529595,
-          "download_count": 7,
+          "download_count": 8,
           "content_type": "application/gzip"
         },
         {
@@ -3096,7 +3096,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rootfs.ext4.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/rootfs.ext4.gz",
           "size": 56026519,
-          "download_count": 7,
+          "download_count": 8,
           "content_type": "application/gzip"
         },
         {
@@ -3104,7 +3104,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/SHA256SUMS",
           "size": 941,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/octet-stream"
         },
         {
@@ -3112,7 +3112,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.27-first-install.zip",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/Y2Linux-1.0.0-beta.8.27-first-install.zip",
           "size": 72099968,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/zip"
         },
         {
@@ -3120,7 +3120,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.27-sources-buildroot-legal-info.tar",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/Y2Linux-1.0.0-beta.8.27-sources-buildroot-legal-info.tar",
           "size": 19384320,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/x-tar"
         }
       ]
@@ -3141,7 +3141,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "bootimg.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/bootimg.img.gz",
           "size": 7529575,
-          "download_count": 15,
+          "download_count": 16,
           "content_type": "application/gzip"
         },
         {
@@ -3149,7 +3149,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/manifest.json",
           "size": 4264,
-          "download_count": 24,
+          "download_count": 25,
           "content_type": "application/json"
         },
         {
@@ -3157,7 +3157,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/manifest.sig",
           "size": 64,
-          "download_count": 23,
+          "download_count": 24,
           "content_type": "application/pgp-signature"
         },
         {
@@ -3165,7 +3165,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "recovery.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/recovery.img.gz",
           "size": 7529591,
-          "download_count": 15,
+          "download_count": 16,
           "content_type": "application/gzip"
         },
         {
@@ -3173,7 +3173,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rootfs.ext4.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/rootfs.ext4.gz",
           "size": 56009819,
-          "download_count": 15,
+          "download_count": 16,
           "content_type": "application/gzip"
         },
         {
@@ -3181,7 +3181,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/SHA256SUMS",
           "size": 941,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/octet-stream"
         },
         {
@@ -3189,7 +3189,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.26-first-install.zip",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/Y2Linux-1.0.0-beta.8.26-first-install.zip",
           "size": 72090076,
-          "download_count": 5,
+          "download_count": 6,
           "content_type": "application/zip"
         },
         {
@@ -3197,7 +3197,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.26-sources-buildroot-legal-info.tar",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/Y2Linux-1.0.0-beta.8.26-sources-buildroot-legal-info.tar",
           "size": 19384320,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/x-tar"
         }
       ]
@@ -3449,7 +3449,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "bootimg.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/bootimg.img.gz",
           "size": 7526777,
-          "download_count": 18,
+          "download_count": 19,
           "content_type": "application/gzip"
         },
         {
@@ -3457,7 +3457,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/manifest.json",
           "size": 4263,
-          "download_count": 39,
+          "download_count": 40,
           "content_type": "application/json"
         },
         {
@@ -3465,7 +3465,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/manifest.sig",
           "size": 64,
-          "download_count": 37,
+          "download_count": 38,
           "content_type": "application/pgp-signature"
         },
         {
@@ -3473,7 +3473,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "recovery.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/recovery.img.gz",
           "size": 7526784,
-          "download_count": 18,
+          "download_count": 19,
           "content_type": "application/gzip"
         },
         {
@@ -3481,7 +3481,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rootfs.ext4.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/rootfs.ext4.gz",
           "size": 56014268,
-          "download_count": 20,
+          "download_count": 21,
           "content_type": "application/gzip"
         },
         {
@@ -3489,7 +3489,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/SHA256SUMS",
           "size": 941,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/octet-stream"
         },
         {
@@ -3497,7 +3497,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.22-first-install.zip",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/Y2Linux-1.0.0-beta.8.22-first-install.zip",
           "size": 72072349,
-          "download_count": 10,
+          "download_count": 11,
           "content_type": "application/zip"
         },
         {
@@ -3505,7 +3505,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.22-sources-buildroot-legal-info.tar",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/Y2Linux-1.0.0-beta.8.22-sources-buildroot-legal-info.tar",
           "size": 19384320,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/x-tar"
         }
       ]
@@ -3542,7 +3542,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/manifest.json",
           "size": 4264,
-          "download_count": 26,
+          "download_count": 27,
           "content_type": "application/json"
         },
         {
@@ -3550,7 +3550,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/manifest.sig",
           "size": 64,
-          "download_count": 25,
+          "download_count": 26,
           "content_type": "application/pgp-signature"
         },
         {
@@ -3558,7 +3558,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "recovery.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/recovery.img.gz",
           "size": 7525571,
-          "download_count": 16,
+          "download_count": 17,
           "content_type": "application/gzip"
         },
         {
@@ -3566,7 +3566,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rootfs.ext4.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/rootfs.ext4.gz",
           "size": 56013134,
-          "download_count": 16,
+          "download_count": 17,
           "content_type": "application/gzip"
         },
         {
@@ -3574,7 +3574,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/SHA256SUMS",
           "size": 941,
-          "download_count": 5,
+          "download_count": 6,
           "content_type": "application/octet-stream"
         },
         {
@@ -3582,7 +3582,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.21-first-install.zip",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/Y2Linux-1.0.0-beta.8.21-first-install.zip",
           "size": 72049852,
-          "download_count": 10,
+          "download_count": 11,
           "content_type": "application/zip"
         },
         {
@@ -3590,7 +3590,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.8.21-sources-buildroot-legal-info.tar",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/Y2Linux-1.0.0-beta.8.21-sources-buildroot-legal-info.tar",
           "size": 19384320,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/x-tar"
         },
         {
@@ -3598,7 +3598,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-sources-third-party-b24c80bffef1.tar",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/Y2Linux-sources-third-party-b24c80bffef1.tar",
           "size": 381634560,
-          "download_count": 4,
+          "download_count": 5,
           "content_type": "application/x-tar"
         },
         {
@@ -3606,7 +3606,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-sources-toolchain-f7cda4c7d213.tar",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/Y2Linux-sources-toolchain-f7cda4c7d213.tar",
           "size": 142807040,
-          "download_count": 6,
+          "download_count": 7,
           "content_type": "application/x-tar"
         }
       ]
@@ -7147,7 +7147,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.png",
           "browser_download_url": "https://github.com/jarvissax/rondo/releases/download/v1.0.2/updater.png",
           "size": 12952,
-          "download_count": 35,
+          "download_count": 39,
           "content_type": "image/png"
         }
       ]
@@ -7184,7 +7184,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.png",
           "browser_download_url": "https://github.com/jarvissax/rondo/releases/download/v1.0.1/updater.png",
           "size": 12952,
-          "download_count": 19,
+          "download_count": 21,
           "content_type": "image/png"
         }
       ]
@@ -7221,7 +7221,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.png",
           "browser_download_url": "https://github.com/jarvissax/rondo/releases/download/v1.0.0/updater.png",
           "size": 12952,
-          "download_count": 41,
+          "download_count": 45,
           "content_type": "image/png"
         }
       ]
@@ -7821,7 +7821,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom.zip",
           "browser_download_url": "https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom.zip",
           "size": 534484127,
-          "download_count": 12517,
+          "download_count": 12521,
           "content_type": "application/zip"
         },
         {
@@ -7837,7 +7837,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "update.zip",
           "browser_download_url": "https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/update.zip",
           "size": 98160230,
-          "download_count": 1235,
+          "download_count": 1236,
           "content_type": "application/zip"
         }
       ]
@@ -8567,7 +8567,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rockbox-y2-v2.5-release-square.png",
           "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rockbox-y2-v2.5-release-square.png",
           "size": 1585171,
-          "download_count": 196,
+          "download_count": 198,
           "content_type": "image/png"
         },
         {
@@ -8575,7 +8575,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_y2.zip",
           "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rom_y2.zip",
           "size": 361644736,
-          "download_count": 509,
+          "download_count": 513,
           "content_type": "application/zip"
         },
         {
@@ -8845,7 +8845,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom.zip",
           "browser_download_url": "https://github.com/thesolarproject/solar/releases/download/20260819-0956/rom.zip",
           "size": 981474469,
-          "download_count": 884,
+          "download_count": 885,
           "content_type": "application/zip"
         },
         {
@@ -10617,7 +10617,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom.zip",
           "browser_download_url": "https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom.zip",
           "size": 456271826,
-          "download_count": 466,
+          "download_count": 467,
           "content_type": "application/zip"
         },
         {
@@ -10633,7 +10633,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_y2.zip",
           "browser_download_url": "https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom_y2.zip",
           "size": 443395091,
-          "download_count": 401,
+          "download_count": 403,
           "content_type": "application/zip"
         }
       ]
@@ -11708,7 +11708,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom.zip",
           "browser_download_url": "https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom.zip",
           "size": 455460055,
-          "download_count": 198,
+          "download_count": 201,
           "content_type": "application/zip"
         },
         {
@@ -11740,7 +11740,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_y2.zip",
           "browser_download_url": "https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_y2.zip",
           "size": 458640295,
-          "download_count": 106,
+          "download_count": 107,
           "content_type": "application/zip"
         },
         {
@@ -11785,7 +11785,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom.zip",
           "browser_download_url": "https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom.zip",
           "size": 455407982,
-          "download_count": 70,
+          "download_count": 71,
           "content_type": "application/zip"
         },
         {
@@ -12618,7 +12618,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_y2.zip",
           "browser_download_url": "https://github.com/SchulzCode/Y2Player/releases/download/Release2.5/rom_y2.zip",
           "size": 296365314,
-          "download_count": 976,
+          "download_count": 977,
           "content_type": "application/zip"
         },
         {
@@ -12930,7 +12930,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom.zip",
           "browser_download_url": "https://github.com/Leska1337/better-Y/releases/download/v1.1.0/rom.zip",
           "size": 181243963,
-          "download_count": 333,
+          "download_count": 334,
           "content_type": "application/x-zip-compressed"
         }
       ]
@@ -13057,35 +13057,35 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-01T09:49:06Z"
   },
   "ismileblue/y1_launcher": {
-    "downloads": 24267,
+    "downloads": 24270,
     "forks": 5,
     "release_count": 30,
     "stars": 23,
     "updated_at": "2026-11-02T14:49:32Z"
   },
   "jarvissax/rondo": {
-    "downloads": 136,
+    "downloads": 146,
     "forks": 1,
     "release_count": 3,
     "stars": 0,
     "updated_at": "2026-11-03T08:50:53Z"
   },
   "jonaszpotoniec/inniclassic-y2": {
-    "downloads": 940,
+    "downloads": 945,
     "forks": 1,
     "release_count": 12,
     "stars": 8,
     "updated_at": "2026-11-04T13:49:56Z"
   },
   "leska1337/better-y": {
-    "downloads": 529,
+    "downloads": 530,
     "forks": 1,
     "release_count": 2,
     "stars": 8,
     "updated_at": "2026-10-05T06:12:33Z"
   },
   "rockbox-y1/rockbox": {
-    "downloads": 49730,
+    "downloads": 49735,
     "forks": 20,
     "release_count": 29,
     "stars": 84,
@@ -13099,28 +13099,28 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-10-15T03:03:06Z"
   },
   "schulzcode/y2linux": {
-    "downloads": 13371,
+    "downloads": 13489,
     "forks": 4,
     "release_count": 86,
     "stars": 20,
     "updated_at": "2026-11-03T22:27:24Z"
   },
   "schulzcode/y2player": {
-    "downloads": 1759,
+    "downloads": 1760,
     "forks": 4,
     "release_count": 10,
     "stars": 28,
     "updated_at": "2026-11-01T20:29:55Z"
   },
   "spycemagic/y2-rockbox": {
-    "downloads": 2815,
+    "downloads": 2821,
     "forks": 1,
     "release_count": 3,
     "stars": 14,
     "updated_at": "2026-10-27T15:45:45Z"
   },
   "thesolarproject/solar": {
-    "downloads": 3140,
+    "downloads": 3141,
     "forks": 9,
     "release_count": 48,
     "stars": 31,
@@ -13148,11 +13148,11 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-04T11:30:48Z"
   },
   "y1-community/innioasis-updater": {
-    "downloads": 68031,
+    "downloads": 68042,
     "forks": 14,
     "release_count": 72,
     "stars": 55,
-    "updated_at": "2026-11-04T14:30:39Z"
+    "updated_at": "2026-11-04T16:12:31Z"
   },
   "y1-community/koensayr-auto-mirror": {
     "downloads": 4,
@@ -13183,7 +13183,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-04T05:52:58Z"
   },
   "y1-community/updater-ce-neo": {
-    "downloads": 524,
+    "downloads": 526,
     "forks": 0,
     "release_count": 3,
     "stars": 0,
@@ -13218,14 +13218,14 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-04T05:52:57Z"
   },
   "y1-community/y1-stock-rom": {
-    "downloads": 42791,
+    "downloads": 42883,
     "forks": 0,
     "release_count": 9,
     "stars": 6,
     "updated_at": "2026-10-27T10:14:24Z"
   },
   "y1-community/y1-stock-rom-mirror": {
-    "downloads": 30,
+    "downloads": 32,
     "forks": 0,
     "release_count": 9,
     "stars": 0,

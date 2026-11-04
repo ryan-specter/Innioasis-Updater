@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<releases_backup generated_at="2026-11-04T15:30:26Z">
-  <repository name="y1-community/y1-stock-rom" downloads="42791" release_count="9" stars="6" icon="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg" icon_dark="">
+<releases_backup generated_at="2026-11-04T16:12:35Z">
+  <repository name="y1-community/y1-stock-rom" downloads="42883" release_count="9" stars="6" icon="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg" icon_dark="">
     <release id="387902888" tag_name="3.2.1" name="System Software 3.2.1 for Innioasis Y2" published_at="2026-09-13T13:11:31Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.2.1" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg" icon_dark_url="">
       <body>General performance and stability improvements</body>
       <assets>
-        <asset id="561232474" name="rom_y2.zip" size="355560849" download_count="1641" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/rom_y2.zip"/>
-        <asset id="627525120" name="updater.jpg" size="30612" download_count="628" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg"/>
+        <asset id="561232474" name="rom_y2.zip" size="355560849" download_count="1644" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/rom_y2.zip"/>
+        <asset id="627525120" name="updater.jpg" size="30612" download_count="637" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg"/>
       </assets>
     </release>
     <release id="387891487" tag_name="3.2.0-fm" name="System Software 3.2.0 for Innioasis Y2 with FM Radio" published_at="2026-09-13T12:42:26Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.2.0-fm" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/updater.jpg" icon_dark_url="">
       <body>This release adds FM Radio functionality to supported Y2 players, please note that some earlier Y2 revisions may not have the underlying functionality needed for FM Radio, there is an alternative release of 3.2.0 available for those in these circumstances.</body>
       <assets>
-        <asset id="561172655" name="rom_y2.zip" size="355558382" download_count="494" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/rom_y2.zip"/>
+        <asset id="561172655" name="rom_y2.zip" size="355558382" download_count="495" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/rom_y2.zip"/>
         <asset id="703033870" name="system.img" size="859826928" download_count="15" content_type="application/x-apple-diskimage" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/system.img"/>
-        <asset id="627525519" name="updater.jpg" size="30612" download_count="394" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/updater.jpg"/>
+        <asset id="627525519" name="updater.jpg" size="30612" download_count="401" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/updater.jpg"/>
       </assets>
     </release>
     <release id="343049934" tag_name="3.1.7" name="Original System Software 3.1.7 for Innioasis Y2" published_at="2026-06-22T17:03:20Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.1.7" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/updater.jpg" icon_dark_url="">
@@ -22,14 +22,14 @@
 This can be used to restore your Y2 back to its factory conditions and get things back up and running if something has gone wrong.</body>
       <assets>
         <asset id="454784243" name="rom_y2.zip" size="354780496" download_count="1404" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/rom_y2.zip"/>
-        <asset id="627526019" name="updater.jpg" size="30612" download_count="281" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/updater.jpg"/>
+        <asset id="627526019" name="updater.jpg" size="30612" download_count="293" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/updater.jpg"/>
       </assets>
     </release>
     <release id="354826587" tag_name="3.1.2" name="Original System Software 3.1.2 for Innioasis Y1" published_at="2026-07-16T02:03:48Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.1.2" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg" icon_dark_url="">
       <body>Features improved support for AirPods Pro 2, AirPods 3 and later</body>
       <assets>
-        <asset id="478638297" name="rom.zip" size="250125316" download_count="7454" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/rom.zip"/>
-        <asset id="627528645" name="updater.jpg" size="30612" download_count="1658" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg"/>
+        <asset id="478638297" name="rom.zip" size="250125316" download_count="7459" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/rom.zip"/>
+        <asset id="627528645" name="updater.jpg" size="30612" download_count="1686" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg"/>
       </assets>
     </release>
     <release id="312645750" tag_name="3.0.7" name="System Software 3.0.7 for Innioasis Y1" published_at="2026-04-23T09:52:31Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.0.7" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg" icon_dark_url="">
@@ -40,7 +40,7 @@ This release has a new E-Book reading feature and a new theme named HoloFacet.
 Theme creators that haven&#x27;t previously implemented their eBook icons are advised to do so to retain theme compatibility.</body>
       <assets>
         <asset id="404575917" name="rom.zip" size="249544334" download_count="7789" content_type="application/x-zip-compressed" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/rom.zip"/>
-        <asset id="627526526" name="updater.jpg" size="30612" download_count="1491" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg"/>
+        <asset id="627526526" name="updater.jpg" size="30612" download_count="1515" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg"/>
       </assets>
     </release>
     <release id="269918612" tag_name="3.0.2" name="System Software 3.0.2" published_at="2025-12-12T15:15:38Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.0.2" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.2/updater.jpg" icon_dark_url="">
@@ -56,7 +56,7 @@ Known issues:
 ADB is currently not enabled on builds newer than 2.1.9. This means that screenshots will can not be taken on this release and that theme and file transfers using Smart Drop in updater will require you to have USB Storage Mode enabled.</body>
       <assets>
         <asset id="327883399" name="rom.zip" size="259502414" download_count="11078" content_type="application/x-zip-compressed" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.2/rom.zip"/>
-        <asset id="627526996" name="updater.jpg" size="30612" download_count="300" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.2/updater.jpg"/>
+        <asset id="627526996" name="updater.jpg" size="30612" download_count="301" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.2/updater.jpg"/>
       </assets>
     </release>
     <release id="257931800" tag_name="2.8.2" name="System Software Update 2.8.2" published_at="2025-10-28T18:47:56Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/2.8.2" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/2.8.2/updater.jpg" icon_dark_url="">
@@ -112,7 +112,7 @@ Theme Installation: Default themes are now copied in the background to prevent c
 </body>
       <assets>
         <asset id="313062124" name="rom.zip" size="234564048" download_count="4942" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/2.8.2/rom.zip"/>
-        <asset id="627527758" name="updater.jpg" size="30612" download_count="294" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/2.8.2/updater.jpg"/>
+        <asset id="627527758" name="updater.jpg" size="30612" download_count="295" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/2.8.2/updater.jpg"/>
       </assets>
     </release>
     <release id="252878260" tag_name="type-b-1.7.6" name="System Software Update 1.7.6 (for type B Y1)" published_at="2025-10-08T00:22:11Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/type-b-1.7.6" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/type-b-1.7.6/updater.jpg" icon_dark_url="">
@@ -127,11 +127,11 @@ Theme Installation: Default themes are now copied in the background to prevent c
       <assets>
         <asset id="291002806" name="com.innioasis.y1_2.1.9.apk" size="50514056" download_count="35" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/ADB-2.1.9/com.innioasis.y1_2.1.9.apk"/>
         <asset id="300431681" name="rom.zip" size="241163025" download_count="1489" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/ADB-2.1.9/rom.zip"/>
-        <asset id="627524721" name="updater.jpg" size="30612" download_count="281" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/ADB-2.1.9/updater.jpg"/>
+        <asset id="627524721" name="updater.jpg" size="30612" download_count="282" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/ADB-2.1.9/updater.jpg"/>
       </assets>
     </release>
   </repository>
-  <repository name="schulzcode/y2linux" downloads="13371" release_count="86" stars="20" icon="" icon_dark="">
+  <repository name="schulzcode/y2linux" downloads="13489" release_count="86" stars="20" icon="" icon_dark="">
     <release id="433285377" tag_name="baseline-215" name="Y2Linux 1.0 Beta 9.3.7" published_at="2026-11-03T22:29:28Z" prerelease="false" html_url="https://github.com/SchulzCode/Y2Linux/releases/tag/baseline-215" icon_url="" icon_dark_url="">
       <body>**Y2Linux 1.0 Beta 9.3.7: Bluetooth rebuilt for reliability.** Linux 6.18 and the native Reborn music player for the Innioasis Y2.
 
@@ -186,13 +186,13 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, Aw
 
 </body>
       <assets>
-        <asset id="707316998" name="bootimg.img.gz" size="7539267" download_count="61" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/bootimg.img.gz"/>
-        <asset id="707317038" name="manifest.json" size="4236" download_count="176" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/manifest.json"/>
-        <asset id="707317062" name="manifest.sig" size="64" download_count="173" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/manifest.sig"/>
-        <asset id="707317105" name="recovery.img.gz" size="7539271" download_count="59" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/recovery.img.gz"/>
-        <asset id="707317422" name="rootfs.ext4.gz" size="51326456" download_count="59" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/rootfs.ext4.gz"/>
+        <asset id="707316998" name="bootimg.img.gz" size="7539267" download_count="63" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/bootimg.img.gz"/>
+        <asset id="707317038" name="manifest.json" size="4236" download_count="183" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/manifest.json"/>
+        <asset id="707317062" name="manifest.sig" size="64" download_count="180" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/manifest.sig"/>
+        <asset id="707317105" name="recovery.img.gz" size="7539271" download_count="60" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/recovery.img.gz"/>
+        <asset id="707317422" name="rootfs.ext4.gz" size="51326456" download_count="61" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/rootfs.ext4.gz"/>
         <asset id="707316997" name="SHA256SUMS" size="943" download_count="8" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/SHA256SUMS"/>
-        <asset id="707316990" name="Y2Linux-1.0.0-beta.9.3.7-first-install.zip" size="67410276" download_count="21" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/Y2Linux-1.0.0-beta.9.3.7-first-install.zip"/>
+        <asset id="707316990" name="Y2Linux-1.0.0-beta.9.3.7-first-install.zip" size="67410276" download_count="22" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/Y2Linux-1.0.0-beta.9.3.7-first-install.zip"/>
         <asset id="707316991" name="Y2Linux-1.0.0-beta.9.3.7-sources-buildroot-legal-info.tar" size="19292160" download_count="8" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/Y2Linux-1.0.0-beta.9.3.7-sources-buildroot-legal-info.tar"/>
         <asset id="707316992" name="Y2Linux-sources-third-party-b8e3f53ae105.tar" size="381644800" download_count="8" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-215/Y2Linux-sources-third-party-b8e3f53ae105.tar"/>
       </assets>
@@ -777,7 +777,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, Aw
         <asset id="696114910" name="recovery.img.gz" size="7539225" download_count="13" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-197/recovery.img.gz"/>
         <asset id="696114979" name="rootfs.ext4.gz" size="50754034" download_count="13" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-197/rootfs.ext4.gz"/>
         <asset id="696114879" name="SHA256SUMS" size="943" download_count="5" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-197/SHA256SUMS"/>
-        <asset id="696114881" name="Y2Linux-1.0.0-beta.9.2.6-first-install.zip" size="66831164" download_count="6" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-197/Y2Linux-1.0.0-beta.9.2.6-first-install.zip"/>
+        <asset id="696114881" name="Y2Linux-1.0.0-beta.9.2.6-first-install.zip" size="66831164" download_count="8" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-197/Y2Linux-1.0.0-beta.9.2.6-first-install.zip"/>
         <asset id="696114880" name="Y2Linux-1.0.0-beta.9.2.6-sources-buildroot-legal-info.tar" size="19302400" download_count="5" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-197/Y2Linux-1.0.0-beta.9.2.6-sources-buildroot-legal-info.tar"/>
       </assets>
     </release>
@@ -1819,14 +1819,14 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
 
 </body>
       <assets>
-        <asset id="675050700" name="bootimg.img.gz" size="7529921" download_count="11" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/bootimg.img.gz"/>
-        <asset id="675050699" name="manifest.json" size="4266" download_count="18" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/manifest.json"/>
-        <asset id="675050726" name="manifest.sig" size="64" download_count="18" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/manifest.sig"/>
-        <asset id="675050731" name="recovery.img.gz" size="7529938" download_count="12" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/recovery.img.gz"/>
-        <asset id="675050765" name="rootfs.ext4.gz" size="56178671" download_count="11" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/rootfs.ext4.gz"/>
-        <asset id="675050702" name="SHA256SUMS" size="941" download_count="3" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/SHA256SUMS"/>
-        <asset id="675050703" name="Y2Linux-1.0.0-beta.8.36-first-install.zip" size="72245626" download_count="4" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/Y2Linux-1.0.0-beta.8.36-first-install.zip"/>
-        <asset id="675050707" name="Y2Linux-1.0.0-beta.8.36-sources-buildroot-legal-info.tar" size="19394560" download_count="3" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/Y2Linux-1.0.0-beta.8.36-sources-buildroot-legal-info.tar"/>
+        <asset id="675050700" name="bootimg.img.gz" size="7529921" download_count="12" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/bootimg.img.gz"/>
+        <asset id="675050699" name="manifest.json" size="4266" download_count="19" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/manifest.json"/>
+        <asset id="675050726" name="manifest.sig" size="64" download_count="19" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/manifest.sig"/>
+        <asset id="675050731" name="recovery.img.gz" size="7529938" download_count="13" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/recovery.img.gz"/>
+        <asset id="675050765" name="rootfs.ext4.gz" size="56178671" download_count="12" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/rootfs.ext4.gz"/>
+        <asset id="675050702" name="SHA256SUMS" size="941" download_count="4" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/SHA256SUMS"/>
+        <asset id="675050703" name="Y2Linux-1.0.0-beta.8.36-first-install.zip" size="72245626" download_count="5" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/Y2Linux-1.0.0-beta.8.36-first-install.zip"/>
+        <asset id="675050707" name="Y2Linux-1.0.0-beta.8.36-sources-buildroot-legal-info.tar" size="19394560" download_count="4" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-138/Y2Linux-1.0.0-beta.8.36-sources-buildroot-legal-info.tar"/>
       </assets>
     </release>
     <release id="423041070" tag_name="baseline-136" name="Y2Linux 1.0 Beta 8.35" published_at="2026-10-24T23:28:45Z" prerelease="false" html_url="https://github.com/SchulzCode/Y2Linux/releases/tag/baseline-136" icon_url="" icon_dark_url="">
@@ -1882,14 +1882,14 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
 
 </body>
       <assets>
-        <asset id="673574043" name="bootimg.img.gz" size="7529643" download_count="33" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/bootimg.img.gz"/>
-        <asset id="673574044" name="manifest.json" size="4265" download_count="98" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/manifest.json"/>
-        <asset id="673574067" name="manifest.sig" size="64" download_count="96" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/manifest.sig"/>
-        <asset id="673574064" name="recovery.img.gz" size="7529654" download_count="33" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/recovery.img.gz"/>
-        <asset id="673574092" name="rootfs.ext4.gz" size="56164949" download_count="34" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/rootfs.ext4.gz"/>
-        <asset id="673574046" name="SHA256SUMS" size="941" download_count="3" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/SHA256SUMS"/>
-        <asset id="673574045" name="Y2Linux-1.0.0-beta.8.35-first-install.zip" size="72238776" download_count="9" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/Y2Linux-1.0.0-beta.8.35-first-install.zip"/>
-        <asset id="673574041" name="Y2Linux-1.0.0-beta.8.35-sources-buildroot-legal-info.tar" size="19394560" download_count="3" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/Y2Linux-1.0.0-beta.8.35-sources-buildroot-legal-info.tar"/>
+        <asset id="673574043" name="bootimg.img.gz" size="7529643" download_count="34" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/bootimg.img.gz"/>
+        <asset id="673574044" name="manifest.json" size="4265" download_count="99" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/manifest.json"/>
+        <asset id="673574067" name="manifest.sig" size="64" download_count="97" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/manifest.sig"/>
+        <asset id="673574064" name="recovery.img.gz" size="7529654" download_count="34" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/recovery.img.gz"/>
+        <asset id="673574092" name="rootfs.ext4.gz" size="56164949" download_count="35" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/rootfs.ext4.gz"/>
+        <asset id="673574046" name="SHA256SUMS" size="941" download_count="4" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/SHA256SUMS"/>
+        <asset id="673574045" name="Y2Linux-1.0.0-beta.8.35-first-install.zip" size="72238776" download_count="10" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/Y2Linux-1.0.0-beta.8.35-first-install.zip"/>
+        <asset id="673574041" name="Y2Linux-1.0.0-beta.8.35-sources-buildroot-legal-info.tar" size="19394560" download_count="4" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-136/Y2Linux-1.0.0-beta.8.35-sources-buildroot-legal-info.tar"/>
       </assets>
     </release>
     <release id="422929828" tag_name="baseline-135" name="Y2Linux 1.0 Beta 8.34" published_at="2026-10-24T19:13:51Z" prerelease="false" html_url="https://github.com/SchulzCode/Y2Linux/releases/tag/baseline-135" icon_url="" icon_dark_url="">
@@ -1942,14 +1942,14 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
 
 </body>
       <assets>
-        <asset id="673080423" name="bootimg.img.gz" size="7529663" download_count="22" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/bootimg.img.gz"/>
-        <asset id="673080421" name="manifest.json" size="4265" download_count="55" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/manifest.json"/>
-        <asset id="673080473" name="manifest.sig" size="64" download_count="54" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/manifest.sig"/>
-        <asset id="673080525" name="recovery.img.gz" size="7529692" download_count="22" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/recovery.img.gz"/>
-        <asset id="673080571" name="rootfs.ext4.gz" size="56164659" download_count="22" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/rootfs.ext4.gz"/>
-        <asset id="673080428" name="SHA256SUMS" size="941" download_count="3" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/SHA256SUMS"/>
-        <asset id="673080422" name="Y2Linux-1.0.0-beta.8.34-first-install.zip" size="72232232" download_count="5" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/Y2Linux-1.0.0-beta.8.34-first-install.zip"/>
-        <asset id="673080425" name="Y2Linux-1.0.0-beta.8.34-sources-buildroot-legal-info.tar" size="19394560" download_count="3" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/Y2Linux-1.0.0-beta.8.34-sources-buildroot-legal-info.tar"/>
+        <asset id="673080423" name="bootimg.img.gz" size="7529663" download_count="23" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/bootimg.img.gz"/>
+        <asset id="673080421" name="manifest.json" size="4265" download_count="56" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/manifest.json"/>
+        <asset id="673080473" name="manifest.sig" size="64" download_count="55" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/manifest.sig"/>
+        <asset id="673080525" name="recovery.img.gz" size="7529692" download_count="23" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/recovery.img.gz"/>
+        <asset id="673080571" name="rootfs.ext4.gz" size="56164659" download_count="23" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/rootfs.ext4.gz"/>
+        <asset id="673080428" name="SHA256SUMS" size="941" download_count="4" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/SHA256SUMS"/>
+        <asset id="673080422" name="Y2Linux-1.0.0-beta.8.34-first-install.zip" size="72232232" download_count="6" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/Y2Linux-1.0.0-beta.8.34-first-install.zip"/>
+        <asset id="673080425" name="Y2Linux-1.0.0-beta.8.34-sources-buildroot-legal-info.tar" size="19394560" download_count="4" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-135/Y2Linux-1.0.0-beta.8.34-sources-buildroot-legal-info.tar"/>
       </assets>
     </release>
     <release id="422910536" tag_name="baseline-134" name="Y2Linux 1.0 Beta 8.33" published_at="2026-10-24T18:34:17Z" prerelease="false" html_url="https://github.com/SchulzCode/Y2Linux/releases/tag/baseline-134" icon_url="" icon_dark_url="">
@@ -2012,14 +2012,14 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
 
 </body>
       <assets>
-        <asset id="672999770" name="bootimg.img.gz" size="7529652" download_count="9" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/bootimg.img.gz"/>
-        <asset id="672999771" name="manifest.json" size="4265" download_count="14" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/manifest.json"/>
-        <asset id="672999831" name="manifest.sig" size="64" download_count="13" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/manifest.sig"/>
-        <asset id="672999824" name="recovery.img.gz" size="7529677" download_count="9" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/recovery.img.gz"/>
-        <asset id="672999872" name="rootfs.ext4.gz" size="56167619" download_count="9" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/rootfs.ext4.gz"/>
-        <asset id="672999775" name="SHA256SUMS" size="941" download_count="3" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/SHA256SUMS"/>
-        <asset id="672999774" name="Y2Linux-1.0.0-beta.8.33-first-install.zip" size="72232419" download_count="6" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/Y2Linux-1.0.0-beta.8.33-first-install.zip"/>
-        <asset id="672999773" name="Y2Linux-1.0.0-beta.8.33-sources-buildroot-legal-info.tar" size="19384320" download_count="4" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/Y2Linux-1.0.0-beta.8.33-sources-buildroot-legal-info.tar"/>
+        <asset id="672999770" name="bootimg.img.gz" size="7529652" download_count="10" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/bootimg.img.gz"/>
+        <asset id="672999771" name="manifest.json" size="4265" download_count="15" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/manifest.json"/>
+        <asset id="672999831" name="manifest.sig" size="64" download_count="14" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/manifest.sig"/>
+        <asset id="672999824" name="recovery.img.gz" size="7529677" download_count="10" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/recovery.img.gz"/>
+        <asset id="672999872" name="rootfs.ext4.gz" size="56167619" download_count="10" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/rootfs.ext4.gz"/>
+        <asset id="672999775" name="SHA256SUMS" size="941" download_count="4" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/SHA256SUMS"/>
+        <asset id="672999774" name="Y2Linux-1.0.0-beta.8.33-first-install.zip" size="72232419" download_count="7" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/Y2Linux-1.0.0-beta.8.33-first-install.zip"/>
+        <asset id="672999773" name="Y2Linux-1.0.0-beta.8.33-sources-buildroot-legal-info.tar" size="19384320" download_count="5" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-134/Y2Linux-1.0.0-beta.8.33-sources-buildroot-legal-info.tar"/>
       </assets>
     </release>
     <release id="422687147" tag_name="baseline-130" name="Y2Linux 1.0 Beta 8.31" published_at="2026-10-24T11:22:03Z" prerelease="false" html_url="https://github.com/SchulzCode/Y2Linux/releases/tag/baseline-130" icon_url="" icon_dark_url="">
@@ -2071,14 +2071,14 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
 
 </body>
       <assets>
-        <asset id="672077975" name="bootimg.img.gz" size="7529487" download_count="26" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/bootimg.img.gz"/>
-        <asset id="672077978" name="manifest.json" size="4263" download_count="62" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/manifest.json"/>
-        <asset id="672078031" name="manifest.sig" size="64" download_count="57" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/manifest.sig"/>
-        <asset id="672078032" name="recovery.img.gz" size="7529502" download_count="26" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/recovery.img.gz"/>
-        <asset id="672078077" name="rootfs.ext4.gz" size="56053953" download_count="26" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/rootfs.ext4.gz"/>
-        <asset id="672077977" name="SHA256SUMS" size="941" download_count="4" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/SHA256SUMS"/>
+        <asset id="672077975" name="bootimg.img.gz" size="7529487" download_count="27" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/bootimg.img.gz"/>
+        <asset id="672077978" name="manifest.json" size="4263" download_count="63" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/manifest.json"/>
+        <asset id="672078031" name="manifest.sig" size="64" download_count="58" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/manifest.sig"/>
+        <asset id="672078032" name="recovery.img.gz" size="7529502" download_count="27" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/recovery.img.gz"/>
+        <asset id="672078077" name="rootfs.ext4.gz" size="56053953" download_count="27" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/rootfs.ext4.gz"/>
+        <asset id="672077977" name="SHA256SUMS" size="941" download_count="5" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/SHA256SUMS"/>
         <asset id="672077974" name="Y2Linux-1.0.0-beta.8.31-first-install.zip" size="72127992" download_count="7" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/Y2Linux-1.0.0-beta.8.31-first-install.zip"/>
-        <asset id="672077976" name="Y2Linux-1.0.0-beta.8.31-sources-buildroot-legal-info.tar" size="19384320" download_count="4" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/Y2Linux-1.0.0-beta.8.31-sources-buildroot-legal-info.tar"/>
+        <asset id="672077976" name="Y2Linux-1.0.0-beta.8.31-sources-buildroot-legal-info.tar" size="19384320" download_count="5" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-130/Y2Linux-1.0.0-beta.8.31-sources-buildroot-legal-info.tar"/>
       </assets>
     </release>
     <release id="422672413" tag_name="baseline-129" name="Y2Linux 1.0 Beta 8.30" published_at="2026-10-24T10:49:57Z" prerelease="false" html_url="https://github.com/SchulzCode/Y2Linux/releases/tag/baseline-129" icon_url="" icon_dark_url="">
@@ -2138,14 +2138,14 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
 
 </body>
       <assets>
-        <asset id="672008970" name="bootimg.img.gz" size="7529435" download_count="6" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/bootimg.img.gz"/>
-        <asset id="672008971" name="manifest.json" size="4265" download_count="7" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/manifest.json"/>
-        <asset id="672008993" name="manifest.sig" size="64" download_count="6" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/manifest.sig"/>
-        <asset id="672009004" name="recovery.img.gz" size="7529451" download_count="6" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/recovery.img.gz"/>
-        <asset id="672009042" name="rootfs.ext4.gz" size="56063438" download_count="6" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/rootfs.ext4.gz"/>
-        <asset id="672008969" name="SHA256SUMS" size="941" download_count="4" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/SHA256SUMS"/>
-        <asset id="672008967" name="Y2Linux-1.0.0-beta.8.30-first-install.zip" size="72120231" download_count="5" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/Y2Linux-1.0.0-beta.8.30-first-install.zip"/>
-        <asset id="672008968" name="Y2Linux-1.0.0-beta.8.30-sources-buildroot-legal-info.tar" size="19384320" download_count="4" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/Y2Linux-1.0.0-beta.8.30-sources-buildroot-legal-info.tar"/>
+        <asset id="672008970" name="bootimg.img.gz" size="7529435" download_count="7" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/bootimg.img.gz"/>
+        <asset id="672008971" name="manifest.json" size="4265" download_count="8" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/manifest.json"/>
+        <asset id="672008993" name="manifest.sig" size="64" download_count="7" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/manifest.sig"/>
+        <asset id="672009004" name="recovery.img.gz" size="7529451" download_count="7" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/recovery.img.gz"/>
+        <asset id="672009042" name="rootfs.ext4.gz" size="56063438" download_count="7" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/rootfs.ext4.gz"/>
+        <asset id="672008969" name="SHA256SUMS" size="941" download_count="5" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/SHA256SUMS"/>
+        <asset id="672008967" name="Y2Linux-1.0.0-beta.8.30-first-install.zip" size="72120231" download_count="6" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/Y2Linux-1.0.0-beta.8.30-first-install.zip"/>
+        <asset id="672008968" name="Y2Linux-1.0.0-beta.8.30-sources-buildroot-legal-info.tar" size="19384320" download_count="5" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-129/Y2Linux-1.0.0-beta.8.30-sources-buildroot-legal-info.tar"/>
       </assets>
     </release>
     <release id="422393428" tag_name="baseline-128" name="Y2Linux 1.0 Beta 8.29" published_at="2026-10-23T23:28:13Z" prerelease="false" html_url="https://github.com/SchulzCode/Y2Linux/releases/tag/baseline-128" icon_url="" icon_dark_url="">
@@ -2197,14 +2197,14 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
 
 </body>
       <assets>
-        <asset id="670702991" name="bootimg.img.gz" size="7529617" download_count="29" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/bootimg.img.gz"/>
-        <asset id="670702992" name="manifest.json" size="4264" download_count="66" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/manifest.json"/>
-        <asset id="670703001" name="manifest.sig" size="64" download_count="64" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/manifest.sig"/>
-        <asset id="670703015" name="recovery.img.gz" size="7529637" download_count="28" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/recovery.img.gz"/>
-        <asset id="670703019" name="rootfs.ext4.gz" size="56039270" download_count="27" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/rootfs.ext4.gz"/>
-        <asset id="670702994" name="SHA256SUMS" size="941" download_count="4" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/SHA256SUMS"/>
-        <asset id="670702993" name="Y2Linux-1.0.0-beta.8.29-first-install.zip" size="72114148" download_count="9" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/Y2Linux-1.0.0-beta.8.29-first-install.zip"/>
-        <asset id="670702990" name="Y2Linux-1.0.0-beta.8.29-sources-buildroot-legal-info.tar" size="19384320" download_count="4" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/Y2Linux-1.0.0-beta.8.29-sources-buildroot-legal-info.tar"/>
+        <asset id="670702991" name="bootimg.img.gz" size="7529617" download_count="30" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/bootimg.img.gz"/>
+        <asset id="670702992" name="manifest.json" size="4264" download_count="67" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/manifest.json"/>
+        <asset id="670703001" name="manifest.sig" size="64" download_count="65" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/manifest.sig"/>
+        <asset id="670703015" name="recovery.img.gz" size="7529637" download_count="29" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/recovery.img.gz"/>
+        <asset id="670703019" name="rootfs.ext4.gz" size="56039270" download_count="28" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/rootfs.ext4.gz"/>
+        <asset id="670702994" name="SHA256SUMS" size="941" download_count="5" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/SHA256SUMS"/>
+        <asset id="670702993" name="Y2Linux-1.0.0-beta.8.29-first-install.zip" size="72114148" download_count="10" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/Y2Linux-1.0.0-beta.8.29-first-install.zip"/>
+        <asset id="670702990" name="Y2Linux-1.0.0-beta.8.29-sources-buildroot-legal-info.tar" size="19384320" download_count="5" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-128/Y2Linux-1.0.0-beta.8.29-sources-buildroot-legal-info.tar"/>
       </assets>
     </release>
     <release id="422176656" tag_name="baseline-127" name="Y2Linux 1.0 Beta 8.28" published_at="2026-10-23T18:26:48Z" prerelease="false" html_url="https://github.com/SchulzCode/Y2Linux/releases/tag/baseline-127" icon_url="" icon_dark_url="">
@@ -2258,14 +2258,14 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
 
 </body>
       <assets>
-        <asset id="670001147" name="bootimg.img.gz" size="7529604" download_count="27" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/bootimg.img.gz"/>
-        <asset id="670001143" name="manifest.json" size="4264" download_count="54" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/manifest.json"/>
-        <asset id="670001189" name="manifest.sig" size="64" download_count="53" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/manifest.sig"/>
-        <asset id="670001196" name="recovery.img.gz" size="7529623" download_count="26" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/recovery.img.gz"/>
-        <asset id="670001232" name="rootfs.ext4.gz" size="56038617" download_count="26" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/rootfs.ext4.gz"/>
-        <asset id="670001145" name="SHA256SUMS" size="941" download_count="4" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/SHA256SUMS"/>
-        <asset id="670001144" name="Y2Linux-1.0.0-beta.8.28-first-install.zip" size="72108024" download_count="12" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/Y2Linux-1.0.0-beta.8.28-first-install.zip"/>
-        <asset id="670001142" name="Y2Linux-1.0.0-beta.8.28-sources-buildroot-legal-info.tar" size="19384320" download_count="4" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/Y2Linux-1.0.0-beta.8.28-sources-buildroot-legal-info.tar"/>
+        <asset id="670001147" name="bootimg.img.gz" size="7529604" download_count="28" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/bootimg.img.gz"/>
+        <asset id="670001143" name="manifest.json" size="4264" download_count="55" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/manifest.json"/>
+        <asset id="670001189" name="manifest.sig" size="64" download_count="54" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/manifest.sig"/>
+        <asset id="670001196" name="recovery.img.gz" size="7529623" download_count="27" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/recovery.img.gz"/>
+        <asset id="670001232" name="rootfs.ext4.gz" size="56038617" download_count="27" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/rootfs.ext4.gz"/>
+        <asset id="670001145" name="SHA256SUMS" size="941" download_count="5" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/SHA256SUMS"/>
+        <asset id="670001144" name="Y2Linux-1.0.0-beta.8.28-first-install.zip" size="72108024" download_count="13" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/Y2Linux-1.0.0-beta.8.28-first-install.zip"/>
+        <asset id="670001142" name="Y2Linux-1.0.0-beta.8.28-sources-buildroot-legal-info.tar" size="19384320" download_count="5" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-127/Y2Linux-1.0.0-beta.8.28-sources-buildroot-legal-info.tar"/>
       </assets>
     </release>
     <release id="422140803" tag_name="baseline-126" name="Y2Linux 1.0 Beta 8.27" published_at="2026-10-23T17:46:15Z" prerelease="false" html_url="https://github.com/SchulzCode/Y2Linux/releases/tag/baseline-126" icon_url="" icon_dark_url="">
@@ -2320,14 +2320,14 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
 
 </body>
       <assets>
-        <asset id="669901495" name="bootimg.img.gz" size="7529579" download_count="7" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/bootimg.img.gz"/>
-        <asset id="669901502" name="manifest.json" size="4263" download_count="11" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/manifest.json"/>
-        <asset id="669901557" name="manifest.sig" size="64" download_count="9" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/manifest.sig"/>
-        <asset id="669901563" name="recovery.img.gz" size="7529595" download_count="7" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/recovery.img.gz"/>
-        <asset id="669901595" name="rootfs.ext4.gz" size="56026519" download_count="7" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/rootfs.ext4.gz"/>
-        <asset id="669901497" name="SHA256SUMS" size="941" download_count="4" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/SHA256SUMS"/>
-        <asset id="669901496" name="Y2Linux-1.0.0-beta.8.27-first-install.zip" size="72099968" download_count="4" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/Y2Linux-1.0.0-beta.8.27-first-install.zip"/>
-        <asset id="669901498" name="Y2Linux-1.0.0-beta.8.27-sources-buildroot-legal-info.tar" size="19384320" download_count="4" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/Y2Linux-1.0.0-beta.8.27-sources-buildroot-legal-info.tar"/>
+        <asset id="669901495" name="bootimg.img.gz" size="7529579" download_count="8" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/bootimg.img.gz"/>
+        <asset id="669901502" name="manifest.json" size="4263" download_count="12" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/manifest.json"/>
+        <asset id="669901557" name="manifest.sig" size="64" download_count="10" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/manifest.sig"/>
+        <asset id="669901563" name="recovery.img.gz" size="7529595" download_count="8" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/recovery.img.gz"/>
+        <asset id="669901595" name="rootfs.ext4.gz" size="56026519" download_count="8" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/rootfs.ext4.gz"/>
+        <asset id="669901497" name="SHA256SUMS" size="941" download_count="5" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/SHA256SUMS"/>
+        <asset id="669901496" name="Y2Linux-1.0.0-beta.8.27-first-install.zip" size="72099968" download_count="5" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/Y2Linux-1.0.0-beta.8.27-first-install.zip"/>
+        <asset id="669901498" name="Y2Linux-1.0.0-beta.8.27-sources-buildroot-legal-info.tar" size="19384320" download_count="5" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-126/Y2Linux-1.0.0-beta.8.27-sources-buildroot-legal-info.tar"/>
       </assets>
     </release>
     <release id="422000868" tag_name="baseline-125" name="Y2Linux 1.0 Beta 8.26" published_at="2026-10-23T15:24:24Z" prerelease="false" html_url="https://github.com/SchulzCode/Y2Linux/releases/tag/baseline-125" icon_url="" icon_dark_url="">
@@ -2385,14 +2385,14 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
 
 </body>
       <assets>
-        <asset id="669529686" name="bootimg.img.gz" size="7529575" download_count="15" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/bootimg.img.gz"/>
-        <asset id="669529690" name="manifest.json" size="4264" download_count="24" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/manifest.json"/>
-        <asset id="669529752" name="manifest.sig" size="64" download_count="23" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/manifest.sig"/>
-        <asset id="669529770" name="recovery.img.gz" size="7529591" download_count="15" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/recovery.img.gz"/>
-        <asset id="669529833" name="rootfs.ext4.gz" size="56009819" download_count="15" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/rootfs.ext4.gz"/>
-        <asset id="669529688" name="SHA256SUMS" size="941" download_count="4" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/SHA256SUMS"/>
-        <asset id="669529692" name="Y2Linux-1.0.0-beta.8.26-first-install.zip" size="72090076" download_count="5" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/Y2Linux-1.0.0-beta.8.26-first-install.zip"/>
-        <asset id="669529704" name="Y2Linux-1.0.0-beta.8.26-sources-buildroot-legal-info.tar" size="19384320" download_count="4" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/Y2Linux-1.0.0-beta.8.26-sources-buildroot-legal-info.tar"/>
+        <asset id="669529686" name="bootimg.img.gz" size="7529575" download_count="16" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/bootimg.img.gz"/>
+        <asset id="669529690" name="manifest.json" size="4264" download_count="25" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/manifest.json"/>
+        <asset id="669529752" name="manifest.sig" size="64" download_count="24" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/manifest.sig"/>
+        <asset id="669529770" name="recovery.img.gz" size="7529591" download_count="16" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/recovery.img.gz"/>
+        <asset id="669529833" name="rootfs.ext4.gz" size="56009819" download_count="16" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/rootfs.ext4.gz"/>
+        <asset id="669529688" name="SHA256SUMS" size="941" download_count="5" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/SHA256SUMS"/>
+        <asset id="669529692" name="Y2Linux-1.0.0-beta.8.26-first-install.zip" size="72090076" download_count="6" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/Y2Linux-1.0.0-beta.8.26-first-install.zip"/>
+        <asset id="669529704" name="Y2Linux-1.0.0-beta.8.26-sources-buildroot-legal-info.tar" size="19384320" download_count="5" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-125/Y2Linux-1.0.0-beta.8.26-sources-buildroot-legal-info.tar"/>
       </assets>
     </release>
     <release id="421323857" tag_name="baseline-124" name="Y2Linux 1.0 Beta 8.25" published_at="2026-10-23T00:15:35Z" prerelease="false" html_url="https://github.com/SchulzCode/Y2Linux/releases/tag/baseline-124" icon_url="" icon_dark_url="">
@@ -2634,14 +2634,14 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
 
 </body>
       <assets>
-        <asset id="666843012" name="bootimg.img.gz" size="7526777" download_count="18" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/bootimg.img.gz"/>
-        <asset id="666843008" name="manifest.json" size="4263" download_count="39" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/manifest.json"/>
-        <asset id="666843061" name="manifest.sig" size="64" download_count="37" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/manifest.sig"/>
-        <asset id="666843067" name="recovery.img.gz" size="7526784" download_count="18" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/recovery.img.gz"/>
-        <asset id="666843127" name="rootfs.ext4.gz" size="56014268" download_count="20" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/rootfs.ext4.gz"/>
-        <asset id="666843009" name="SHA256SUMS" size="941" download_count="4" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/SHA256SUMS"/>
-        <asset id="666843007" name="Y2Linux-1.0.0-beta.8.22-first-install.zip" size="72072349" download_count="10" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/Y2Linux-1.0.0-beta.8.22-first-install.zip"/>
-        <asset id="666843011" name="Y2Linux-1.0.0-beta.8.22-sources-buildroot-legal-info.tar" size="19384320" download_count="4" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/Y2Linux-1.0.0-beta.8.22-sources-buildroot-legal-info.tar"/>
+        <asset id="666843012" name="bootimg.img.gz" size="7526777" download_count="19" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/bootimg.img.gz"/>
+        <asset id="666843008" name="manifest.json" size="4263" download_count="40" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/manifest.json"/>
+        <asset id="666843061" name="manifest.sig" size="64" download_count="38" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/manifest.sig"/>
+        <asset id="666843067" name="recovery.img.gz" size="7526784" download_count="19" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/recovery.img.gz"/>
+        <asset id="666843127" name="rootfs.ext4.gz" size="56014268" download_count="21" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/rootfs.ext4.gz"/>
+        <asset id="666843009" name="SHA256SUMS" size="941" download_count="5" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/SHA256SUMS"/>
+        <asset id="666843007" name="Y2Linux-1.0.0-beta.8.22-first-install.zip" size="72072349" download_count="11" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/Y2Linux-1.0.0-beta.8.22-first-install.zip"/>
+        <asset id="666843011" name="Y2Linux-1.0.0-beta.8.22-sources-buildroot-legal-info.tar" size="19384320" download_count="5" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-121/Y2Linux-1.0.0-beta.8.22-sources-buildroot-legal-info.tar"/>
       </assets>
     </release>
     <release id="420967075" tag_name="baseline-120" name="Y2Linux 1.0 Beta 8.21" published_at="2026-10-22T16:50:40Z" prerelease="false" html_url="https://github.com/SchulzCode/Y2Linux/releases/tag/baseline-120" icon_url="" icon_dark_url="">
@@ -2694,15 +2694,15 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
       <assets>
         <asset id="666460263" name="bootimg.img.gz" size="7525542" download_count="16" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/bootimg.img.gz"/>
         <asset id="666460569" name="linux-6.18.56.tar.xz" size="154807564" download_count="4" content_type="application/x-xz" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/linux-6.18.56.tar.xz"/>
-        <asset id="666460938" name="manifest.json" size="4264" download_count="26" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/manifest.json"/>
-        <asset id="666460989" name="manifest.sig" size="64" download_count="25" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/manifest.sig"/>
-        <asset id="666461037" name="recovery.img.gz" size="7525571" download_count="16" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/recovery.img.gz"/>
-        <asset id="666461353" name="rootfs.ext4.gz" size="56013134" download_count="16" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/rootfs.ext4.gz"/>
-        <asset id="666460214" name="SHA256SUMS" size="941" download_count="5" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/SHA256SUMS"/>
-        <asset id="666460206" name="Y2Linux-1.0.0-beta.8.21-first-install.zip" size="72049852" download_count="10" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/Y2Linux-1.0.0-beta.8.21-first-install.zip"/>
-        <asset id="666460209" name="Y2Linux-1.0.0-beta.8.21-sources-buildroot-legal-info.tar" size="19384320" download_count="4" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/Y2Linux-1.0.0-beta.8.21-sources-buildroot-legal-info.tar"/>
-        <asset id="666460212" name="Y2Linux-sources-third-party-b24c80bffef1.tar" size="381634560" download_count="4" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/Y2Linux-sources-third-party-b24c80bffef1.tar"/>
-        <asset id="666460208" name="Y2Linux-sources-toolchain-f7cda4c7d213.tar" size="142807040" download_count="6" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/Y2Linux-sources-toolchain-f7cda4c7d213.tar"/>
+        <asset id="666460938" name="manifest.json" size="4264" download_count="27" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/manifest.json"/>
+        <asset id="666460989" name="manifest.sig" size="64" download_count="26" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/manifest.sig"/>
+        <asset id="666461037" name="recovery.img.gz" size="7525571" download_count="17" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/recovery.img.gz"/>
+        <asset id="666461353" name="rootfs.ext4.gz" size="56013134" download_count="17" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/rootfs.ext4.gz"/>
+        <asset id="666460214" name="SHA256SUMS" size="941" download_count="6" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/SHA256SUMS"/>
+        <asset id="666460206" name="Y2Linux-1.0.0-beta.8.21-first-install.zip" size="72049852" download_count="11" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/Y2Linux-1.0.0-beta.8.21-first-install.zip"/>
+        <asset id="666460209" name="Y2Linux-1.0.0-beta.8.21-sources-buildroot-legal-info.tar" size="19384320" download_count="5" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/Y2Linux-1.0.0-beta.8.21-sources-buildroot-legal-info.tar"/>
+        <asset id="666460212" name="Y2Linux-sources-third-party-b24c80bffef1.tar" size="381634560" download_count="5" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/Y2Linux-sources-third-party-b24c80bffef1.tar"/>
+        <asset id="666460208" name="Y2Linux-sources-toolchain-f7cda4c7d213.tar" size="142807040" download_count="7" content_type="application/x-tar" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/Y2Linux-sources-toolchain-f7cda4c7d213.tar"/>
       </assets>
     </release>
     <release id="420102331" tag_name="baseline-119" name="Y2Linux 1.0 Beta 8.20" published_at="2026-10-21T22:06:58Z" prerelease="false" html_url="https://github.com/SchulzCode/Y2Linux/releases/tag/baseline-119" icon_url="" icon_dark_url="">
@@ -5312,7 +5312,7 @@ Assets: `manifest.json` + `manifest.sig` (Ed25519, key `platform-v1-release-2026
       </assets>
     </release>
   </repository>
-  <repository name="jarvissax/rondo" downloads="136" release_count="3" stars="0" icon="https://innioasis.app/assets/rondo_icon.jpg" icon_dark="">
+  <repository name="jarvissax/rondo" downloads="146" release_count="3" stars="0" icon="https://innioasis.app/assets/rondo_icon.jpg" icon_dark="">
     <release id="432440033" tag_name="v1.0.2" name="Rondo 1.0.2" published_at="2026-11-03T08:34:35Z" prerelease="false" html_url="https://github.com/jarvissax/rondo/releases/tag/v1.0.2" icon_url="https://github.com/jarvissax/rondo/releases/download/v1.0.2/updater.png" icon_dark_url="">
       <body>Rondo 1.0.2 is about the server: it now updates itself with one click from its admin page. **Nothing changes on the Y1 itself**; it still offers this version as an update so the Y1 and the server stay on the same number.
 
@@ -5350,7 +5350,7 @@ If your Y1 runs Rondo 1.0.1, **Settings › Software update**, **Install** in th
       <assets>
         <asset id="704945383" name="rom.zip" size="528028371" download_count="11" content_type="application/zip" browser_download_url="https://github.com/jarvissax/rondo/releases/download/v1.0.2/rom.zip"/>
         <asset id="704898289" name="rondo-1.0.2.apk" size="6423022" download_count="6" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/jarvissax/rondo/releases/download/v1.0.2/rondo-1.0.2.apk"/>
-        <asset id="704945379" name="updater.png" size="12952" download_count="35" content_type="image/png" browser_download_url="https://github.com/jarvissax/rondo/releases/download/v1.0.2/updater.png"/>
+        <asset id="704945379" name="updater.png" size="12952" download_count="39" content_type="image/png" browser_download_url="https://github.com/jarvissax/rondo/releases/download/v1.0.2/updater.png"/>
       </assets>
     </release>
     <release id="432404909" tag_name="v1.0.1" name="Rondo 1.0.1" published_at="2026-11-03T07:52:27Z" prerelease="false" html_url="https://github.com/jarvissax/rondo/releases/tag/v1.0.1" icon_url="https://github.com/jarvissax/rondo/releases/download/v1.0.1/updater.png" icon_dark_url="">
@@ -5391,7 +5391,7 @@ Only for the **Y1 Type A** (players that shipped with software 2.0.0 or later), 
       <assets>
         <asset id="704788605" name="rom.zip" size="528031354" download_count="6" content_type="application/zip" browser_download_url="https://github.com/jarvissax/rondo/releases/download/v1.0.1/rom.zip"/>
         <asset id="704784362" name="rondo-1.0.1.apk" size="6423015" download_count="4" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/jarvissax/rondo/releases/download/v1.0.1/rondo-1.0.1.apk"/>
-        <asset id="704788606" name="updater.png" size="12952" download_count="19" content_type="image/png" browser_download_url="https://github.com/jarvissax/rondo/releases/download/v1.0.1/updater.png"/>
+        <asset id="704788606" name="updater.png" size="12952" download_count="21" content_type="image/png" browser_download_url="https://github.com/jarvissax/rondo/releases/download/v1.0.1/updater.png"/>
       </assets>
     </release>
     <release id="431423072" tag_name="v1.0.0" name="Rondo 1.0.0" published_at="2026-11-02T12:24:15Z" prerelease="false" html_url="https://github.com/jarvissax/rondo/releases/tag/v1.0.0" icon_url="https://github.com/jarvissax/rondo/releases/download/v1.0.0/updater.png" icon_dark_url="">
@@ -5440,11 +5440,11 @@ The firmware is built with [`firmware/build.sh`](https://github.com/jarvissax/ro
       <assets>
         <asset id="701648157" name="rom.zip" size="528038771" download_count="9" content_type="application/zip" browser_download_url="https://github.com/jarvissax/rondo/releases/download/v1.0.0/rom.zip"/>
         <asset id="701646360" name="rondo-1.0.0.apk" size="6421197" download_count="5" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/jarvissax/rondo/releases/download/v1.0.0/rondo-1.0.0.apk"/>
-        <asset id="701647593" name="updater.png" size="12952" download_count="41" content_type="image/png" browser_download_url="https://github.com/jarvissax/rondo/releases/download/v1.0.0/updater.png"/>
+        <asset id="701647593" name="updater.png" size="12952" download_count="45" content_type="image/png" browser_download_url="https://github.com/jarvissax/rondo/releases/download/v1.0.0/updater.png"/>
       </assets>
     </release>
   </repository>
-  <repository name="rockbox-y1/rockbox" downloads="49730" release_count="29" stars="84" icon="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" icon_dark="">
+  <repository name="rockbox-y1/rockbox" downloads="49735" release_count="29" stars="84" icon="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" icon_dark="">
     <release id="427346775" tag_name="nightly-0936ff79cff7ee5e47c6278b648d478824e709fa" name="Rockbox-Y1 Nightly-29-10-2026" published_at="2026-10-29T00:51:15Z" prerelease="true" html_url="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-0936ff79cff7ee5e47c6278b648d478824e709fa" icon_url="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" icon_dark_url="">
       <body></body>
       <assets>
@@ -5586,9 +5586,9 @@ New:
 - Minor fixes (scrobble upload)</body>
       <assets>
         <asset id="421443278" name="rockbox.apk" size="16402741" download_count="139" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rockbox.apk"/>
-        <asset id="421443341" name="rom.zip" size="534484127" download_count="12517" content_type="application/zip" browser_download_url="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom.zip"/>
+        <asset id="421443341" name="rom.zip" size="534484127" download_count="12521" content_type="application/zip" browser_download_url="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom.zip"/>
         <asset id="421443603" name="rom_type_b.zip" size="442208156" download_count="235" content_type="application/zip" browser_download_url="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom_type_b.zip"/>
-        <asset id="421443283" name="update.zip" size="98160230" download_count="1235" content_type="application/zip" browser_download_url="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/update.zip"/>
+        <asset id="421443283" name="update.zip" size="98160230" download_count="1236" content_type="application/zip" browser_download_url="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/update.zip"/>
       </assets>
     </release>
     <release id="319287198" tag_name="nightly-051dece4e43d9ec5c35ab2809d28cfa3b9251e0d" name="Rockbox-Y1 Nightly-08-05-2026" published_at="2026-05-08T02:31:09Z" prerelease="true" html_url="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-051dece4e43d9ec5c35ab2809d28cfa3b9251e0d" icon_url="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" icon_dark_url="">
@@ -5896,7 +5896,7 @@ Includes these languages:
       </assets>
     </release>
   </repository>
-  <repository name="spycemagic/y2-rockbox" downloads="2815" release_count="3" stars="14" icon="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" icon_dark="">
+  <repository name="spycemagic/y2-rockbox" downloads="2821" release_count="3" stars="14" icon="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" icon_dark="">
     <release id="399114725" tag_name="v0.2.5-beta" name="V2.5" published_at="2026-09-29T12:16:14Z" prerelease="true" html_url="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/tag/v0.2.5-beta" icon_url="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" icon_dark_url="">
       <body># Rockbox Y2 V2.5
 
@@ -5952,8 +5952,8 @@ connection prompt and wait for an explicit completion message.
         <asset id="598138142" name="NOTICE.txt" size="1010" download_count="11" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/NOTICE.txt"/>
         <asset id="598138114" name="README-FIRST.md" size="1061" download_count="36" content_type="application/octet-stream" browser_download_url="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/README-FIRST.md"/>
         <asset id="598159552" name="RELEASE-NOTES.md" size="2108" download_count="18" content_type="application/octet-stream" browser_download_url="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/RELEASE-NOTES.md"/>
-        <asset id="598138148" name="rockbox-y2-v2.5-release-square.png" size="1585171" download_count="196" content_type="image/png" browser_download_url="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rockbox-y2-v2.5-release-square.png"/>
-        <asset id="598138117" name="rom_y2.zip" size="361644736" download_count="509" content_type="application/zip" browser_download_url="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rom_y2.zip"/>
+        <asset id="598138148" name="rockbox-y2-v2.5-release-square.png" size="1585171" download_count="198" content_type="image/png" browser_download_url="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rockbox-y2-v2.5-release-square.png"/>
+        <asset id="598138117" name="rom_y2.zip" size="361644736" download_count="513" content_type="application/zip" browser_download_url="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rom_y2.zip"/>
         <asset id="598138145" name="SHA256SUMS.txt" size="674" download_count="13" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/SHA256SUMS.txt"/>
         <asset id="598138115" name="Y2-Rockbox-V2.5-Source.zip" size="72256082" download_count="26" content_type="application/zip" browser_download_url="https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/Y2-Rockbox-V2.5-Source.zip"/>
       </assets>
@@ -6076,7 +6076,7 @@ The release includes the complete corresponding source, GPL license, and project
       </assets>
     </release>
   </repository>
-  <repository name="thesolarproject/solar" downloads="3140" release_count="48" stars="31" icon="https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png" icon_dark="">
+  <repository name="thesolarproject/solar" downloads="3141" release_count="48" stars="31" icon="https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png" icon_dark="">
     <release id="398434319" tag_name="y2-release" name="Solar Y2 ROM v20261023-0720" published_at="2026-09-28T16:36:49Z" prerelease="false" html_url="https://github.com/thesolarproject/solar/releases/tag/y2-release" icon_url="https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png" icon_dark_url="">
       <body>Solar Y2 ROM for Innioasis Y2 (MT6582 ATA). Built from 944d14b.</body>
       <assets>
@@ -6117,7 +6117,7 @@ The release includes the complete corresponding source, GPL license, and project
 </body>
       <assets>
         <asset id="520682096" name="app-release.apk" size="20001162" download_count="94" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/thesolarproject/solar/releases/download/20260819-0956/app-release.apk"/>
-        <asset id="520682097" name="rom.zip" size="981474469" download_count="884" content_type="application/zip" browser_download_url="https://github.com/thesolarproject/solar/releases/download/20260819-0956/rom.zip"/>
+        <asset id="520682097" name="rom.zip" size="981474469" download_count="885" content_type="application/zip" browser_download_url="https://github.com/thesolarproject/solar/releases/download/20260819-0956/rom.zip"/>
         <asset id="520682095" name="rom_a5.zip" size="293722213" download_count="10" content_type="application/zip" browser_download_url="https://github.com/thesolarproject/solar/releases/download/20260819-0956/rom_a5.zip"/>
         <asset id="520682098" name="rom_type_b.zip" size="488296019" download_count="15" content_type="application/zip" browser_download_url="https://github.com/thesolarproject/solar/releases/download/20260819-0956/rom_type_b.zip"/>
       </assets>
@@ -7757,7 +7757,7 @@ Features
       </assets>
     </release>
   </repository>
-  <repository name="ismileblue/y1_launcher" downloads="24267" release_count="30" stars="23" icon="" icon_dark="">
+  <repository name="ismileblue/y1_launcher" downloads="24270" release_count="30" stars="23" icon="" icon_dark="">
     <release id="381272060" tag_name="v0.11.6hotfix4" name="JJ Launcher v0.11. 6 hotfix4" published_at="2026-09-02T13:13:17Z" prerelease="false" html_url="https://github.com/ismileblue/y1_launcher/releases/tag/v0.11.6hotfix4" icon_url="" icon_dark_url="">
       <body></body>
       <assets>
@@ -7837,9 +7837,9 @@ Features
 * **Seamless Login:** Pro users can now use Last.fm scrobbling using only their account credentials (no separate API key required!). Simply launch the web server and log in.
 * **Support the Project:** To keep Last.fm integration and other features running continuously in the future, your donations and support are always greatly appreciated!</body>
       <assets>
-        <asset id="541200516" name="rom.zip" size="456271826" download_count="466" content_type="application/zip" browser_download_url="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom.zip"/>
+        <asset id="541200516" name="rom.zip" size="456271826" download_count="467" content_type="application/zip" browser_download_url="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom.zip"/>
         <asset id="541200519" name="rom_type_b.zip" size="399777849" download_count="7" content_type="application/zip" browser_download_url="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom_type_b.zip"/>
-        <asset id="541200520" name="rom_y2.zip" size="443395091" download_count="401" content_type="application/zip" browser_download_url="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom_y2.zip"/>
+        <asset id="541200520" name="rom_y2.zip" size="443395091" download_count="403" content_type="application/zip" browser_download_url="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom_y2.zip"/>
       </assets>
     </release>
     <release id="367198910" tag_name="v0.11.5" name="JJ Launcher v0.11. 5" published_at="2026-08-08T12:37:36Z" prerelease="false" html_url="https://github.com/ismileblue/y1_launcher/releases/tag/v0.11.5" icon_url="" icon_dark_url="">
@@ -8767,7 +8767,7 @@ See [CHANGELOG.md](https://github.com/FabianZettl/jj-launcher-classic/blob/maste
       </assets>
     </release>
   </repository>
-  <repository name="JonaszPotoniec/inniclassic-y2" downloads="940" release_count="12" stars="8" icon="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" icon_dark="">
+  <repository name="JonaszPotoniec/inniclassic-y2" downloads="945" release_count="12" stars="8" icon="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" icon_dark="">
     <release id="415758741" tag_name="20261017" name="InniClassic 20261017" published_at="2026-10-17T11:12:49Z" prerelease="false" html_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/tag/20261017" icon_url="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" icon_dark_url="">
       <body>The Biggest Release!
 
@@ -8799,11 +8799,11 @@ Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/2026101
       <assets>
         <asset id="650267207" name="index.html" size="11442" download_count="9" content_type="text/html" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/index.html"/>
         <asset id="650267213" name="InniClassic-20261017.apk" size="24451136" download_count="21" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/InniClassic-20261017.apk"/>
-        <asset id="650267212" name="rom.zip" size="455460055" download_count="198" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom.zip"/>
+        <asset id="650267212" name="rom.zip" size="455460055" download_count="201" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom.zip"/>
         <asset id="650267209" name="rom_type_b.zip" size="422390294" download_count="4" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_type_b.zip"/>
         <asset id="650267214" name="rom_y1_type_a.zip" size="455460055" download_count="6" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_y1_type_a.zip"/>
         <asset id="650267215" name="rom_y1_type_b.zip" size="422390294" download_count="4" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_y1_type_b.zip"/>
-        <asset id="650267210" name="rom_y2.zip" size="458640295" download_count="106" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_y2.zip"/>
+        <asset id="650267210" name="rom_y2.zip" size="458640295" download_count="107" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_y2.zip"/>
         <asset id="650267211" name="SHA256SUMS.txt" size="491" download_count="8" content_type="text/plain" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/SHA256SUMS.txt"/>
         <asset id="650267206" name="update.json" size="299" download_count="12" content_type="application/json" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/update.json"/>
       </assets>
@@ -8826,7 +8826,7 @@ Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/2026101
 </body>
       <assets>
         <asset id="636618066" name="InniClassic-20261013.apk" size="25302210" download_count="7" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/InniClassic-20261013.apk"/>
-        <asset id="636618069" name="rom.zip" size="455407982" download_count="70" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom.zip"/>
+        <asset id="636618069" name="rom.zip" size="455407982" download_count="71" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom.zip"/>
         <asset id="636618071" name="rom_type_b.zip" size="423125776" download_count="2" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_type_b.zip"/>
         <asset id="636618070" name="rom_y1_type_a.zip" size="455407982" download_count="2" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_y1_type_a.zip"/>
         <asset id="636618072" name="rom_y1_type_b.zip" size="423125776" download_count="2" content_type="application/zip" browser_download_url="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_y1_type_b.zip"/>
@@ -9132,7 +9132,7 @@ Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/v1.5.0.
       </assets>
     </release>
   </repository>
-  <repository name="schulzcode/Y2Player" downloads="1759" release_count="10" stars="28" icon="" icon_dark="">
+  <repository name="schulzcode/Y2Player" downloads="1760" release_count="10" stars="28" icon="" icon_dark="">
     <release id="382972860" tag_name="Release2.5" name="Y2Player V2.5" published_at="2026-09-04T19:40:36Z" prerelease="false" html_url="https://github.com/SchulzCode/Y2Player/releases/tag/Release2.5" icon_url="" icon_dark_url="">
       <body># Y2Player v2.5 - Search, FM Radio, Faster Navigation, and Playback Reliability
 
@@ -9448,7 +9448,7 @@ For FM problems, also mention whether wired headphones were connected and whethe
 Thank you to everyone who submitted issues, tested builds, provided diagnostics, and helped investigate the Y2’s different hardware revisions. Your reports directly shaped the Search interface, navigation improvements, timer redesign, playback fixes, and hardware compatibility behavior in this release.
 </body>
       <assets>
-        <asset id="544807385" name="rom_y2.zip" size="296365314" download_count="976" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Player/releases/download/Release2.5/rom_y2.zip"/>
+        <asset id="544807385" name="rom_y2.zip" size="296365314" download_count="977" content_type="application/zip" browser_download_url="https://github.com/SchulzCode/Y2Player/releases/download/Release2.5/rom_y2.zip"/>
         <asset id="544805127" name="system.img" size="369235868" download_count="54" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Player/releases/download/Release2.5/system.img"/>
       </assets>
     </release>
@@ -10504,7 +10504,7 @@ adb shell rm -rf /data/data/com.innioasis.y1/code_cache/secondary-dexes/
       </assets>
     </release>
   </repository>
-  <repository name="Leska1337/better-Y" downloads="529" release_count="2" stars="8" icon="https://github.com/Leska1337/better-Y/raw/main/screenshots/plus_logo.png" icon_dark="">
+  <repository name="Leska1337/better-Y" downloads="530" release_count="2" stars="8" icon="https://github.com/Leska1337/better-Y/raw/main/screenshots/plus_logo.png" icon_dark="">
     <release id="396843519" tag_name="v1.1.0" name="Version 1.1.0" published_at="2026-09-25T18:39:12Z" prerelease="false" html_url="https://github.com/Leska1337/better-Y/releases/tag/v1.1.0" icon_url="https://github.com/Leska1337/better-Y/raw/main/screenshots/plus_logo.png" icon_dark_url="">
       <body>![Image](https://github.com/Leska1337/better-Y/raw/v1.1.0/screenshots/themes_support.png &quot;Logo&quot;)
 
@@ -10693,7 +10693,7 @@ it re-reads every MP3 whose tag is over the limit, even if the file has not chan
 &gt; If you&#x27;re updating from version 1.0.0 and don&#x27;t want to lose your user data (settings, likes, playlists, bookmarks and reading progress), there are instructions in the Update section on how to update without losing your user data. Starting with this version you can back up your data using `Data backup` button in the better-Y menu and load it back after you updated to a newer version using Updater CE or any other option.</body>
       <assets>
         <asset id="589006754" name="better-Y_3.1.2_v1.1.0.apk" size="60200797" download_count="19" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/Leska1337/better-Y/releases/download/v1.1.0/better-Y_3.1.2_v1.1.0.apk"/>
-        <asset id="588998617" name="rom.zip" size="181243963" download_count="333" content_type="application/x-zip-compressed" browser_download_url="https://github.com/Leska1337/better-Y/releases/download/v1.1.0/rom.zip"/>
+        <asset id="588998617" name="rom.zip" size="181243963" download_count="334" content_type="application/x-zip-compressed" browser_download_url="https://github.com/Leska1337/better-Y/releases/download/v1.1.0/rom.zip"/>
       </assets>
     </release>
     <release id="382482140" tag_name="v1.0.0" name="Version 1.0.0 - Initial release" published_at="2026-09-04T05:09:02Z" prerelease="false" html_url="https://github.com/Leska1337/better-Y/releases/tag/v1.0.0" icon_url="https://github.com/Leska1337/better-Y/raw/main/screenshots/plus_logo.png" icon_dark_url="">
@@ -10741,7 +10741,7 @@ Credit to @palutenfan123 for building this.</body>
       </assets>
     </release>
   </repository>
-  <repository name="y1-community/y1-stock-rom-mirror" downloads="30" release_count="9" stars="0" icon="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/updater.jpg" icon_dark="">
+  <repository name="y1-community/y1-stock-rom-mirror" downloads="32" release_count="9" stars="0" icon="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/updater.jpg" icon_dark="">
     <release id="432832666" tag_name="3.2.1" name="Portable Flashing Package: System Software 3.2.1 for Innioasis Y2" published_at="2026-11-03T14:52:16Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom-mirror/releases/tag/3.2.1" icon_url="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/updater.jpg" icon_dark_url="">
       <body>General performance and stability improvements
 
@@ -10749,7 +10749,7 @@ Credit to @palutenfan123 for building this.</body>
 </body>
       <assets>
         <asset id="707152544" name="rom_y2-linux.zip" size="731179252" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/rom_y2-linux.zip"/>
-        <asset id="707152547" name="rom_y2-macos.zip" size="530292003" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/rom_y2-macos.zip"/>
+        <asset id="707152547" name="rom_y2-macos.zip" size="530292003" download_count="2" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/rom_y2-macos.zip"/>
         <asset id="707152545" name="rom_y2-windows.zip" size="579868533" download_count="3" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/rom_y2-windows.zip"/>
         <asset id="705968797" name="rom_y2.zip" size="355560849" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/rom_y2.zip"/>
         <asset id="707809521" name="stats.txt" size="2169" download_count="0" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/stats.txt"/>
@@ -10794,7 +10794,7 @@ This can be used to restore your Y2 back to its factory conditions and get thing
 </body>
       <assets>
         <asset id="707137128" name="rom-linux.zip" size="568246709" download_count="2" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.2/rom-linux.zip"/>
-        <asset id="707137124" name="rom-macos.zip" size="367359464" download_count="6" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.2/rom-macos.zip"/>
+        <asset id="707137124" name="rom-macos.zip" size="367359464" download_count="7" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.2/rom-macos.zip"/>
         <asset id="707137127" name="rom-windows.zip" size="416935990" download_count="4" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.2/rom-windows.zip"/>
         <asset id="705987288" name="rom.zip" size="250125316" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.2/rom.zip"/>
         <asset id="707809317" name="stats.txt" size="2170" download_count="0" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.1.2/stats.txt"/>
@@ -22429,7 +22429,7 @@ Features
       </assets>
     </release>
   </repository>
-  <repository name="y1-community/updater-ce-neo" downloads="524" release_count="3" stars="0" icon="" icon_dark="">
+  <repository name="y1-community/updater-ce-neo" downloads="526" release_count="3" stars="0" icon="" icon_dark="">
     <release id="427803579" tag_name="2.5.1" name="Innioasis Updater CE 2.5.1" published_at="2026-10-29T11:55:09Z" prerelease="false" html_url="https://github.com/y1-community/updater-ce-neo/releases/tag/2.5.1" icon_url="" icon_dark_url="">
       <body>Rewritten application with improved firmware install reliability, native macOS GUI with Liquid Glass integration, i18n support for 90 languages and guided Rockbox themes installation for Rockbox-Y1</body>
       <assets>
@@ -22437,8 +22437,8 @@ Features
         <asset id="688901923" name="Innioasis.Updater.for.Mac.zip" size="187914366" download_count="80" content_type="application/zip" browser_download_url="https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/Innioasis.Updater.for.Mac.zip"/>
         <asset id="688912014" name="UpdaterCE-Windows-Portable.zip" size="236551244" download_count="72" content_type="application/zip" browser_download_url="https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/UpdaterCE-Windows-Portable.zip"/>
         <asset id="688922148" name="UpdaterCE-Linux-Portable.zip" size="387920108" download_count="71" content_type="application/zip" browser_download_url="https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/UpdaterCE-Linux-Portable.zip"/>
-        <asset id="688959440" name="installer.exe" size="173282764" download_count="199" content_type="application/x-msdownload" browser_download_url="https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/installer.exe"/>
-        <asset id="689641553" name="Innioasis.Updater.for.Mac.dmg" size="154209498" download_count="6" content_type="application/x-diskcopy" browser_download_url="https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/Innioasis.Updater.for.Mac.dmg"/>
+        <asset id="688959440" name="installer.exe" size="173282764" download_count="200" content_type="application/x-msdownload" browser_download_url="https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/installer.exe"/>
+        <asset id="689641553" name="Innioasis.Updater.for.Mac.dmg" size="154209498" download_count="7" content_type="application/x-diskcopy" browser_download_url="https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/Innioasis.Updater.for.Mac.dmg"/>
       </assets>
     </release>
     <release id="421255536" tag_name="2.5" name="2.5" published_at="2026-10-22T22:15:34Z" prerelease="false" html_url="https://github.com/y1-community/updater-ce-neo/releases/tag/2.5" icon_url="" icon_dark_url="">
@@ -22455,7 +22455,7 @@ Features
       </assets>
     </release>
   </repository>
-  <repository name="y1-community/Innioasis-Updater" downloads="68031" release_count="72" stars="55" icon="" icon_dark="">
+  <repository name="y1-community/Innioasis-Updater" downloads="68042" release_count="72" stars="55" icon="" icon_dark="">
     <release id="421295719" tag_name="2.0.7" name="Innioasis Updater CE 2.5.1 for Windows, macOS and Linux" published_at="2026-10-22T23:24:58Z" prerelease="false" html_url="https://github.com/y1-community/Innioasis-Updater/releases/tag/2.0.7" icon_url="" icon_dark_url="">
       <body>New rewritten Updater with features including:
 
@@ -22467,8 +22467,8 @@ Features
 -Support for 90+ languages with full i18n support
 </body>
       <assets>
-        <asset id="689639023" name="Innioasis.Updater.for.Mac.dmg" size="154209498" download_count="176" content_type="application/x-diskcopy" browser_download_url="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/Innioasis.Updater.for.Mac.dmg"/>
-        <asset id="688792855" name="installer.exe" size="173282764" download_count="526" content_type="application/x-msdownload" browser_download_url="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/installer.exe"/>
+        <asset id="689639023" name="Innioasis.Updater.for.Mac.dmg" size="154209498" download_count="179" content_type="application/x-diskcopy" browser_download_url="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/Innioasis.Updater.for.Mac.dmg"/>
+        <asset id="688792855" name="installer.exe" size="173282764" download_count="534" content_type="application/x-msdownload" browser_download_url="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/installer.exe"/>
         <asset id="688949138" name="UpdaterCE.AppImage" size="300337656" download_count="149" content_type="application/octet-stream" browser_download_url="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/UpdaterCE.AppImage"/>
       </assets>
     </release>
