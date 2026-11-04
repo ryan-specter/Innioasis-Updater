@@ -348,14 +348,7 @@ def clean_html(markup: str, ctx: dict | None = None) -> str:
         return "<%s%s%s>" % (closing, name, attrs)
 
     markup = re.sub(r"(?is)<(/?)([a-zA-Z][a-zA-Z0-9-]*)((?:\s[^<>]*)?)>", replace_tag, markup)
-
-    def rewrite_anchor_text(match: re.Match) -> str:
-        opening, body, closing = match.group(1), match.group(2), match.group(3)
-        if not superseded_guide_link(html.unescape(body).strip()):
-            return match.group(0)
-        return opening + esc(guide_url()) + closing
-
-    return re.sub(r"(?is)(<a\b[^>]*>)(.*?)(</a>)", rewrite_anchor_text, markup)
+    return linkify_superseded_text(markup)
 
 
 def parse_source(url: str):
@@ -575,16 +568,24 @@ def release_notes_href(repo: str, tag: str = "") -> str:
 
 
 # Sources a project README tends to cite instead of our own guide.
-SUPERSEDED_LINK_RES = (
-    re.compile(r"^https?://(?:www\.)?innioasis\.com/pages/(?:download|support-center)/?(?:[?#].*)?$", re.I),
-    re.compile(r"^https?://(?:www\.)?wooabc\.cn/download/MTPUSBDriverForWin10\.rar(?:[?#].*)?$", re.I),
-    re.compile(
-        r"^https?://drive\.google\.com/file/d/"
-        r"(?:1gJHvXXhqf9Q2fjxdy6-atErvdiyOHToh|1LJMk1cQAQkQtPszzjZTGB3--23YjdRvc"
-        r"|1gPFGBCdANa7atpGxKBPuXus0t-EI_byW|1mMvuX95VE_pKihilj6BSXdrZ6Y8UDxjF)\b",
-        re.I,
-    ),
+INNIOASIS_RETIRED = r"(?:https?://)?(?:www\.)?innioasis\.com/pages/(?:download|support-center|support/download-[a-z0-9-]+)"
+WOOABC_RETIRED = r"(?:https?://)?(?:www\.)?wooabc\.cn/download/MTPUSBDriverForWin10\.rar"
+DRIVE_RETIRED = (
+    r"(?:https?://)?drive\.google\.com/file/d/"
+    r"(?:1gJHvXXhqf9Q2fjxdy6-atErvdiyOHToh|1LJMk1cQAQkQtPszzjZTGB3--23YjdRvc"
+    r"|1gPFGBCdANa7atpGxKBPuXus0t-EI_byW|1mMvuX95VE_pKihilj6BSXdrZ6Y8UDxjF)\b"
 )
+
+SUPERSEDED_LINK_RES = (
+    re.compile(r"^" + INNIOASIS_RETIRED + r"/?(?:[?#].*)?$", re.I),
+    re.compile(r"^" + WOOABC_RETIRED + r"(?:[?#].*)?$", re.I),
+    re.compile(r"^" + DRIVE_RETIRED, re.I),
+)
+
+# Visible text can also name one of these addresses, inside a link or on its
+# own. Code samples are left verbatim.
+SUPERSEDED_TEXT_RE = re.compile(r"(?i)(?<![\"'=\w])(" + "|".join((INNIOASIS_RETIRED, WOOABC_RETIRED, DRIVE_RETIRED)) + r")")
+ANCHOR_OR_CODE_RE = re.compile(r"(?is)(<a\b[^>]*>.*?</a>|<(?:pre|code)\b[^>]*>.*?</(?:pre|code)>)")
 
 
 def guide_url() -> str:
@@ -599,6 +600,28 @@ def superseded_guide_link(href: str) -> str:
         if pattern.match(value):
             return guide_url()
     return ""
+
+
+def linkify_superseded_text(markup: str) -> str:
+    """Point retired addresses in visible text at the guide.
+
+    Inside a link the address becomes the guide address; on its own it becomes
+    a link to the guide. Code samples keep whatever they already show.
+    """
+    parts = ANCHOR_OR_CODE_RE.split(markup or "")
+    for index, part in enumerate(parts):
+        if not part:
+            continue
+        if re.match(r"(?is)<a\b", part):
+            parts[index] = SUPERSEDED_TEXT_RE.sub(lambda _m: esc(guide_url()), part)
+        elif re.match(r"(?is)<(?:pre|code)\b", part):
+            continue
+        else:
+            parts[index] = SUPERSEDED_TEXT_RE.sub(
+                lambda _m: '<a href="%s">%s</a>' % (esc(guide_url()), esc(guide_url())),
+                part,
+            )
+    return "".join(parts)
 
 
 def link_text_is_url(label: str, href: str) -> bool:
@@ -725,7 +748,7 @@ def inline_markdown(text: str, ctx: dict | None) -> str:
         except (IndexError, ValueError):
             return ""
 
-    return TOKEN_RE.sub(lambda m: restore(m) if m.group(1) == "I" else "", text)
+    return linkify_superseded_text(TOKEN_RE.sub(lambda m: restore(m) if m.group(1) == "I" else "", text))
 
 
 def split_row(line: str) -> list[str]:

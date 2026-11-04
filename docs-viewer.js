@@ -34,7 +34,7 @@
      files. They all point at the guide, which carries the current packages
      and drivers. */
   var SUPERSEDED_LINKS = [
-    /^https?:\/\/(?:www\.)?innioasis\.com\/pages\/(?:download|support-center)\/?(?:[?#].*)?$/i,
+    /^https?:\/\/(?:www\.)?innioasis\.com\/pages\/(?:download|support-center|support\/download-[a-z0-9-]+)\/?(?:[?#].*)?$/i,
     /^https?:\/\/(?:www\.)?wooabc\.cn\/download\/MTPUSBDriverForWin10\.rar(?:[?#].*)?$/i,
     /^https?:\/\/drive\.google\.com\/file\/d\/(?:1gJHvXXhqf9Q2fjxdy6-atErvdiyOHToh|1LJMk1cQAQkQtPszzjZTGB3--23YjdRvc|1gPFGBCdANa7atpGxKBPuXus0t-EI_byW|1mMvuX95VE_pKihilj6BSXdrZ6Y8UDxjF)\b/i
   ];
@@ -50,6 +50,29 @@
 
   /* A link whose visible text is the address itself should not keep showing
      the retired address once the target moves. */
+  /* The same addresses can appear as visible text, either inside a link or
+     on their own. Code samples keep whatever they already show. */
+  var SUPERSEDED_TEXT = /(^|[^"'=\w])((?:(?:https?:\/\/)?(?:www\.)?innioasis\.com\/pages\/(?:download|support-center|support\/download-[a-z0-9-]+))|(?:(?:https?:\/\/)?(?:www\.)?wooabc\.cn\/download\/MTPUSBDriverForWin10\.rar)|(?:(?:https?:\/\/)?drive\.google\.com\/file\/d\/(?:1gJHvXXhqf9Q2fjxdy6-atErvdiyOHToh|1LJMk1cQAQkQtPszzjZTGB3--23YjdRvc|1gPFGBCdANa7atpGxKBPuXus0t-EI_byW|1mMvuX95VE_pKihilj6BSXdrZ6Y8UDxjF)\b))/gi;
+  var ANCHOR_OR_CODE = /(<a\b[^>]*>[\s\S]*?<\/a>|<(?:pre|code)\b[^>]*>[\s\S]*?<\/(?:pre|code)>)/i;
+
+  function linkifySupersededText(html) {
+    var parts = String(html || "").split(new RegExp(ANCHOR_OR_CODE.source, "gi"));
+    for (var i = 0; i < parts.length; i += 1) {
+      var part = parts[i];
+      if (!part) continue;
+      if (/^<a\b/i.test(part)) {
+        parts[i] = part.replace(SUPERSEDED_TEXT, function (_match, lead) { return lead + GUIDE_URL; });
+      } else if (/^<(?:pre|code)\b/i.test(part)) {
+        continue;
+      } else {
+        parts[i] = part.replace(SUPERSEDED_TEXT, function (_match, lead) {
+          return lead + '<a href="' + GUIDE_URL + '">' + GUIDE_URL + "</a>";
+        });
+      }
+    }
+    return parts.join("");
+  }
+
   function linkTextIsUrl(label, href) {
     var text = String(label || "").replace(/<[^>]*>/g, "")
       .replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").trim();
@@ -1156,7 +1179,7 @@
 
   /** Full pipeline: Markdown text in, safe styled HTML out. */
   function markdownToHtml(markdown, ctx) {
-    return sanitizeHtml(renderMarkdown(markdown, ctx), ctx);
+    return linkifySupersededText(sanitizeHtml(renderMarkdown(markdown, ctx), ctx));
   }
 
   /* ------------------------------------------------------------------ *
