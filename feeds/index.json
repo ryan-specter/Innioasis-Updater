@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-11-04T20:45:53Z",
+  "generated_at": "2026-11-04T21:08:39Z",
   "manifest_url": "https://innioasis.app/slidia_manifest.xml",
   "firmware_list_url": "https://innioasis.app/firmware-list.html",
   "feeds": {
@@ -146,12 +146,6 @@
       "releases_atom": "https://innioasis.app/feeds/y1-community/y1_launcher-mirror/releases.atom",
       "repo_json": "https://innioasis.app/feeds/y1-community/y1_launcher-mirror/repo.json"
     },
-    "y1-community/inniclassic-mirror": {
-      "repo": "y1-community/inniclassic-mirror",
-      "releases_json": "https://innioasis.app/feeds/y1-community/inniclassic-mirror/releases.json",
-      "releases_atom": "https://innioasis.app/feeds/y1-community/inniclassic-mirror/releases.atom",
-      "repo_json": "https://innioasis.app/feeds/y1-community/inniclassic-mirror/repo.json"
-    },
     "y1-community/inniclassic-y2-mirror": {
       "repo": "y1-community/inniclassic-y2-mirror",
       "releases_json": "https://innioasis.app/feeds/y1-community/inniclassic-y2-mirror/releases.json",
@@ -212,10 +206,6 @@
       "source_repo": "Leska1337/better-Y",
       "updated_at": "2026-11-04T06:04:17Z"
     },
-    "y1-community/inniclassic-mirror": {
-      "source_repo": "FabianZettl/inniclassic",
-      "updated_at": "2026-11-03T21:46:17Z"
-    },
     "y1-community/inniclassic-y2-mirror": {
       "source_repo": "JonaszPotoniec/inniclassic-y2",
       "updated_at": "2026-11-03T23:25:19Z"
@@ -266,7 +256,7 @@
     },
     "y1-community/y2player-mirror": {
       "source_repo": "schulzcode/y2player",
-      "updated_at": "2026-11-04T20:45:53Z"
+      "updated_at": "2026-11-04T21:08:39Z"
     }
   }
 }

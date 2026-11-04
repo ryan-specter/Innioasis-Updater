@@ -112,50 +112,6 @@
         "url": "https://api.github.com/repos/y1-community/inniclassic-y2-mirror/releases/assets/706134715"
       },
       {
-        "id": 707468669,
-        "name": "rom_type_b-linux.zip",
-        "browser_download_url": "https://github.com/y1-community/inniclassic-y2-mirror/releases/download/20261017/rom_type_b-linux.zip",
-        "size": 809996536,
-        "download_count": 1,
-        "content_type": "application/zip",
-        "created_at": "2026-11-03T23:23:10Z",
-        "updated_at": "2026-11-03T23:23:52Z",
-        "url": "https://api.github.com/repos/y1-community/inniclassic-y2-mirror/releases/assets/707468669"
-      },
-      {
-        "id": 707468670,
-        "name": "rom-linux.zip",
-        "browser_download_url": "https://github.com/y1-community/inniclassic-y2-mirror/releases/download/20261017/rom-linux.zip",
-        "size": 843048535,
-        "download_count": 1,
-        "content_type": "application/zip",
-        "created_at": "2026-11-03T23:23:10Z",
-        "updated_at": "2026-11-03T23:23:52Z",
-        "url": "https://api.github.com/repos/y1-community/inniclassic-y2-mirror/releases/assets/707468670"
-      },
-      {
-        "id": 707468671,
-        "name": "rom_type_b-windows.zip",
-        "browser_download_url": "https://github.com/y1-community/inniclassic-y2-mirror/releases/download/20261017/rom_type_b-windows.zip",
-        "size": 658685817,
-        "download_count": 1,
-        "content_type": "application/zip",
-        "created_at": "2026-11-03T23:23:10Z",
-        "updated_at": "2026-11-03T23:23:46Z",
-        "url": "https://api.github.com/repos/y1-community/inniclassic-y2-mirror/releases/assets/707468671"
-      },
-      {
-        "id": 707468678,
-        "name": "rom-windows.zip",
-        "browser_download_url": "https://github.com/y1-community/inniclassic-y2-mirror/releases/download/20261017/rom-windows.zip",
-        "size": 691737816,
-        "download_count": 1,
-        "content_type": "application/zip",
-        "created_at": "2026-11-03T23:23:10Z",
-        "updated_at": "2026-11-03T23:23:40Z",
-        "url": "https://api.github.com/repos/y1-community/inniclassic-y2-mirror/releases/assets/707468678"
-      },
-      {
         "id": 707469624,
         "name": "rom_y1_type_a-windows.zip",
         "browser_download_url": "https://github.com/y1-community/inniclassic-y2-mirror/releases/download/20261017/rom_y1_type_a-windows.zip",
