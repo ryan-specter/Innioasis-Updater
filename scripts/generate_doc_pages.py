@@ -1529,22 +1529,83 @@ def post_install_page(item: dict, source: dict, markdown: str, release_tags: lis
     }, main, up)
 
 
-def post_install_index_page(entries: list[dict]) -> str:
+def manifest_post_install_cards(manifest: list[dict], software: list[dict]) -> list[str]:
+    """Cards for the manifest's post_install links, named by firmware.
+
+    This deliberately reads only post_install. post_install2 is the alternate
+    donations page, not a second firmware guide, so it is not listed here.
+    """
+    by_repo: dict[tuple[str, str], dict] = {}
+    by_name: dict[tuple[str, str], dict] = {}
+    for item in software:
+        model = (item.get("model") or "").upper()
+        repo = (item.get("repo") or "").lower()
+        name = (item.get("name") or "").lower()
+        if repo and model:
+            by_repo[(repo, model)] = item
+        if name and model:
+            by_name[(name, model)] = item
+
+    cards: list[str] = []
+    seen: set[tuple[str, str, str]] = set()
+    for pkg in manifest:
+        target = (pkg.get("post_install") or "").strip()
+        name = (pkg.get("name") or "").strip()
+        model = (pkg.get("device") or "").upper().strip()
+        repo = (pkg.get("repo") or "").strip()
+        if not target or not name or not model:
+            continue
+        key = (repo.lower(), model, target)
+        if key in seen:
+            continue
+        seen.add(key)
+        item = by_repo.get((repo.lower(), model)) or by_name.get((name.lower(), model))
+        params = {"url": target, "name": name, "model": model}
+        if item and item.get("slug"):
+            params["software"] = item["slug"]
+        if repo:
+            params["repo"] = repo
+        href = "../post_install.html?" + urllib.parse.urlencode(params)
+        cards.append(
+            '<article class="lumen-card"><small>%s</small><h3><a href="%s">%s post-install</a></h3>'
+            "<p>Setup steps for %s on the Innioasis %s.</p></article>"
+            % (esc(model), esc(href), esc(name), esc(name), esc(model))
+        )
+    return cards
+
+
+def post_install_directory_section(manifest: list[dict], software: list[dict]) -> str:
+    cards = manifest_post_install_cards(manifest, software)
+    if not cards:
+        return ""
+    return (
+        '<section class="lumen-guide-section" id="firmware-post-install">'
+        "<h2>Post-install instructions by firmware</h2>"
+        '<p class="lumen-meta">These are the post-install guides Updater CE links for each firmware. '
+        "Pick your firmware to open its setup steps.</p>"
+        '<div class="lumen-grid">%s</div></section>' % "".join(cards)
+    )
+
+
+def post_install_index_page(entries: list[dict], manifest: list[dict], software: list[dict]) -> str:
     up = "../../"
-    cards = "".join(entries) or '<p class="lumen-doc-status">No imported post-install guides yet.</p>'
+    cards = "".join(entries) or '<p class="lumen-doc-status">No other documentation has been imported yet.</p>'
+    directory = post_install_directory_section(manifest, software)
     main = (
         '<main id="main" class="lumen-guide"><header><p class="lumen-kicker">Post-install guides</p>'
-        "<h1>After the firmware is installed</h1>"
-        '<p class="lead">Setup steps published by each project, imported here and shown in the site style. '
-        "Finish these before you rely on the player.</p>"
+        "<h1>Documentation and notes for community firmwares</h1>"
+        '<p class="lead">Guides and notes published by community firmware projects, imported here and shown in the site style. '
+        "Start with your firmware's post-install steps.</p>"
         '<div class="lumen-actions"><a class="lumen-button lumen-button--primary" href="%sfirmware.html">Firmware Downloads</a>'
         '</div></header>'
-        '<section class="lumen-guide-section"><div class="lumen-grid">%s</div></section></main>'
-        % (up, cards)
+        "%s"
+        '<section class="lumen-guide-section"><h2>Other documentation and notes</h2>'
+        '<div class="lumen-grid">%s</div></section></main>'
+        % (up, directory, cards)
     )
     return page({
         "title": "Post-install guides - %s" % BRAND,
-        "description": "Post-install setup guides for community firmware on Innioasis Y1 and Y2 players.",
+        "description": "Post-install setup and documentation for community firmware on Innioasis Y1 and Y2 players.",
         "canonical": SITE + "/post-install/index.html",
     }, main, up)
 
@@ -1677,12 +1738,6 @@ def build(refresh: bool = False) -> None:
         written_post_slugs.add(slug)
         sitemap_urls.append("%s/post-install/%s.html" % (SITE, slug))
         post_install_items.append((item, source))
-        post_install_cards.append(
-            '<article class="lumen-card"><small>%s</small><h3><a href="../post_install.html?software=%s">%s post-install</a></h3>'
-            '<p>%s</p></article>'
-            % (esc(item.get("model", "")), esc(slug), esc(software_label(item)),
-               esc(one_line(markdown, 150) or "Setup steps published by the project."))
-        )
 
     extra_urls, extra_cards = render_discovered_markdown_pages(
         software, refresh=refresh, written_slugs=written_post_slugs
@@ -1693,7 +1748,9 @@ def build(refresh: bool = False) -> None:
     (release_root / "index.html").write_text(
         master_index_page(software, release_counts, post_install_items), encoding="utf-8"
     )
-    (post_root / "index.html").write_text(post_install_index_page(post_install_cards), encoding="utf-8")
+    (post_root / "index.html").write_text(
+        post_install_index_page(post_install_cards, manifest, software), encoding="utf-8"
+    )
     update_sitemap(sitemap_urls)
     print(
         "done: %d release pages, %d post-install pages, %d linked doc pages"

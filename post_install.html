@@ -38,6 +38,11 @@
         <a class="lumen-button" id="doc-guide" href="guide.html" hidden>Install guide</a>
       </div>
     </header>
+    <section class="lumen-doc-related" id="post-install-directory" aria-labelledby="post-install-directory-title" hidden>
+      <h2 id="post-install-directory-title">Post-install instructions by firmware</h2>
+      <p class="lumen-meta">These are the post-install guides Updater CE links for each firmware. Pick your firmware to open its setup steps.</p>
+      <ul class="lumen-doc-related-list" id="post-install-directory-list"></ul>
+    </section>
     <article class="lumen-doc-body" id="doc-body" aria-live="polite">
       <p class="lumen-doc-status" id="doc-status">Loading the post-install instructions…</p>
     </article>
@@ -300,6 +305,69 @@
         });
       }
 
+      function catalogItemForPostInstall(repo, name, model) {
+        var catalog = window.INNIOASIS_FIRMWARE_CATALOG || [];
+        var repoKey = String(repo || "").toLowerCase();
+        var nameKey = String(name || "").toLowerCase();
+        return catalog.find(function (entry) {
+          if (repoKey && entry.repo && String(entry.repo).toLowerCase() === repoKey) return true;
+          return entry.name && String(entry.name).toLowerCase() === nameKey &&
+            String(entry.model || "").toUpperCase() === model;
+        }) || null;
+      }
+
+      /* The directory is built from the manifest's post_install attribute
+         only. post_install2 is the alternate donations page, not a second
+         firmware guide, so it is deliberately not listed here. */
+      function renderDirectory() {
+        var section = document.getElementById("post-install-directory");
+        var list = document.getElementById("post-install-directory-list");
+        if (!section || !list) return;
+        fetch("slidia_manifest.xml", { cache: "no-cache" })
+          .then(function (res) { return res.ok ? res.text() : ""; })
+          .then(function (xml) {
+            if (!xml) return;
+            var doc = new DOMParser().parseFromString(xml, "application/xml");
+            if (doc.querySelector("parsererror")) return;
+            var packages = Array.prototype.slice.call(doc.querySelectorAll("package"));
+            var seen = {};
+            var entries = [];
+            packages.forEach(function (pkg) {
+              var target = (pkg.getAttribute("post_install") || "").trim();
+              var name = (pkg.getAttribute("name") || "").trim();
+              var model = (pkg.getAttribute("device") || "").toUpperCase().trim();
+              var repo = (pkg.getAttribute("repo") || "").trim();
+              if (!target || !name || !model) return;
+              var key = [repo.toLowerCase(), model, target].join("|");
+              if (seen[key]) return;
+              seen[key] = true;
+              entries.push({ name: name, model: model, repo: repo, target: target });
+            });
+            entries.forEach(function (entry) {
+              var item = catalogItemForPostInstall(entry.repo, entry.name, entry.model);
+              var href = D.postInstallHref(entry.target, {
+                software: item ? item.slug : "",
+                repo: entry.repo,
+                model: entry.model,
+                name: entry.name
+              });
+              var li = document.createElement("li");
+              var link = document.createElement("a");
+              link.href = href || entry.target;
+              var title = document.createElement("strong");
+              title.textContent = entry.name + " · " + entry.model;
+              var note = document.createElement("small");
+              note.textContent = "Post-install setup";
+              link.appendChild(title);
+              link.appendChild(note);
+              li.appendChild(link);
+              list.appendChild(li);
+            });
+            if (entries.length) section.hidden = false;
+          })
+          .catch(function () {});
+      }
+
       function init() {
         D = window.InnioasisDocs;
         if (!D) {
@@ -310,7 +378,16 @@
           }
           return;
         }
+        renderDirectory();
         var state = params();
+        if (!state.url && !state.software && !state.repo) {
+          var body = document.getElementById("doc-body");
+          if (body) {
+            body.innerHTML = '<p class="lumen-doc-status">Choose a firmware above, or browse the ' +
+              '<a href="post-install/index.html">post-install documentation index</a>.</p>';
+          }
+          return;
+        }
         var item = catalogItem(state);
         if (!state.name && item) state.name = item.name;
         if (!state.repo && item) state.repo = item.repo || "";
