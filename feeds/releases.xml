@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<releases_backup generated_at="2026-11-04T16:12:35Z">
+<releases_backup generated_at="2026-11-04T16:17:49Z">
   <repository name="y1-community/y1-stock-rom" downloads="42883" release_count="9" stars="6" icon="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg" icon_dark="">
     <release id="387902888" tag_name="3.2.1" name="System Software 3.2.1 for Innioasis Y2" published_at="2026-09-13T13:11:31Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.2.1" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg" icon_dark_url="">
       <body>General performance and stability improvements</body>
