@@ -375,7 +375,11 @@
       <div class="y1-donate-grid">
         <a class="y1-donate-btn y1-donate-btn--kofi" href="https://ko-fi.com/teamslide" target="_blank" rel="noopener noreferrer">
           <img class="y1-donate-btn-icon" src="/assets/icon_kofi.png" onerror="if(this.src.indexOf('https://')===-1)this.src='https://innioasis.app/mtkclient/gui/images/icon_kofi.png';" data-method-icon="icon_kofi.png" width="20" height="20" alt="">
-          Ko-fi
+          Donate on Ko-fi
+        </a>
+        <a class="y1-donate-btn y1-donate-btn--bmac" href="https://buymeacoffee.com/ryanspecter" target="_blank" rel="noopener noreferrer">
+          <img class="y1-donate-btn-icon" src="/assets/icon_kofi.png" onerror="if(this.src.indexOf('https://')===-1)this.src='https://innioasis.app/mtkclient/gui/images/icon_kofi.png';" data-method-icon="icon_kofi.png" width="20" height="20" alt="">
+          Buy Me a Coffee
         </a>
         <a class="y1-donate-btn y1-donate-btn--paypal" href="https://paypal.me/ryanspecter282" target="_blank" rel="noopener noreferrer">
           <img class="y1-donate-btn-icon" src="/assets/icon_paypal.png" onerror="if(this.src.indexOf('https://')===-1)this.src='https://innioasis.app/mtkclient/gui/images/icon_paypal.png';" data-method-icon="icon_paypal.png" width="20" height="20" alt="">
@@ -422,7 +426,7 @@
 
 
       <label class="y1-donate-optout"><input type="checkbox" data-donations-optout><span>Don't show donation appeals again</span></label>
-      <p class="y1-donate-smallprint" style="margin-top: 14px;">Support Updater and the Themes Gallery through Ko-fi, PayPal, Revolut, or Patreon. <a href="credits.html" style="color: inherit; text-decoration: underline;">View our full public donor ledger &amp; money raised →</a></p>
+      <p class="y1-donate-smallprint" style="margin-top: 14px;">Support Updater and the Themes Gallery through Ko-fi, Buy Me a Coffee, PayPal, Revolut, or Patreon. <a href="credits.html" style="color: inherit; text-decoration: underline;">View our full public donor ledger &amp; money raised →</a></p>
     </div>
 
     <div class="y1-privacy-panel" id="y1-privacy-panel" role="dialog" aria-modal="false" aria-labelledby="y1-privacy-title" hidden>
@@ -482,7 +486,7 @@
       <div class="y1-dock-secondary-line" id="y1-dock-secondary-line" aria-label="Support goal and community contributions - click to support" role="button" tabindex="0">
         <div class="y1-dock-secondary-goal-view" id="y1-dock-secondary-goal-view">
           <span class="y1-dock-secondary-text" id="y1-dock-secondary-text">
-            <span class="y1-dock-text-desktop">You've helped us raise $0 of our $200 goal this month.</span>
+            <span class="y1-dock-text-desktop">You've helped us cover $0 of our $200 costs this month.</span>
             <span class="y1-dock-text-mobile">$0 of $200 raised this month</span>
           </span>
           <div class="y1-dock-secondary-bar-wrap" id="y1-dock-secondary-bar-wrap" aria-hidden="true"><div class="y1-dock-secondary-bar-fill" id="y1-dock-secondary-bar-fill"></div></div>
@@ -495,7 +499,7 @@
            second-line appeal above is the only visible donation display. -->
       <div class="y1-dock-goal-layer is-goal-view" id="y1-dock-goal-layer" aria-hidden="true" hidden tabindex="-1">
         <div class="y1-dock-idle-goal-view" id="y1-dock-idle-goal-view">
-          <span class="y1-dock-idle-heart" id="y1-dock-idle-goal-heading">Help us raise our running costs for the month</span>
+          <span class="y1-dock-idle-heart" id="y1-dock-idle-goal-heading">Help us cover our running costs for the month</span>
           <div class="y1-dock-goal-bar-wrap" aria-hidden="true">
             <div class="y1-dock-goal-bar-fill" id="y1-dock-idle-bar-fill"></div>
           </div>
@@ -1045,8 +1049,8 @@
       var targetPhrase = goal.met
         ? null
         : {
-            desktop: "You've helped us raise " + goal.symbol + raisedLabel + " of our " + goal.symbol + goal.target.toFixed(0) + " goal " + periodSuffix,
-            mobile: goal.symbol + raisedLabel + " of " + goal.symbol + goal.target.toFixed(0) + " raised " + periodSuffix,
+            desktop: "You've helped us cover " + goal.symbol + raisedLabel + " of our " + goal.symbol + goal.target.toFixed(0) + " costs " + periodSuffix,
+            mobile: goal.symbol + raisedLabel + " of " + goal.symbol + goal.target.toFixed(0) + " costs " + periodSuffix,
             isTarget: true
           };
 
@@ -1066,8 +1070,8 @@
         : [
             targetPhrase,
             {
-              desktop: "Only " + goal.symbol + remLabel + " more needed to reach our " + goal.symbol + goal.target.toFixed(0) + " " + (goal.periodAdjective || (goal.periodWord + "ly")) + " goal.",
-              mobile: "Only " + goal.symbol + remLabel + " needed to reach " + goal.symbol + goal.target.toFixed(0) + " goal",
+              desktop: "Only " + goal.symbol + remLabel + " to go on " + (goal.scope === "daily" ? "today's costs" : (goal.periodSuffix || ("this " + goal.periodWord)) + "'s costs") + ".",
+              mobile: "Only " + goal.symbol + remLabel + " to go " + (goal.periodSuffix || ("this " + goal.periodWord)),
               isTarget: true
             },
             {
@@ -1102,7 +1106,7 @@
             }
           ];
 
-      // Shuffle rotating phrases for varied psychological triggers
+      // Shuffle the rotating phrases once per page view.
       var rotatingPhrases = generalPhrases.slice();
       for (var pi = rotatingPhrases.length - 1; pi > 0; pi--) {
         var pj = Math.floor(Math.random() * (pi + 1));
@@ -1190,6 +1194,8 @@
   var METHOD_URLS = {
     "ko-fi": "https://ko-fi.com/teamslide",
     "kofi": "https://ko-fi.com/teamslide",
+    "bmac": "https://buymeacoffee.com/ryanspecter",
+    "buy me a coffee": "https://buymeacoffee.com/ryanspecter",
     "paypal": "https://paypal.me/ryanspecter282",
     "revolut": "https://revolut.me/rspecter",
     "revolut pay": "https://revolut.me/rspecter",
@@ -1482,8 +1488,8 @@
       return "We rely on your donations to keep running. Donate now";
     }
     var raisedLabel = (goal.raised % 1 === 0) ? goal.raised.toFixed(0) : goal.raised.toFixed(2);
-    var text = "You've helped us raise " + goal.symbol + raisedLabel +
-      " of our " + goal.symbol + goal.target.toFixed(0) + " goal " + (goal.periodSuffix || ("this " + goal.periodWord)) + ".";
+    var text = "You've helped us cover " + goal.symbol + raisedLabel +
+      " of our " + goal.symbol + goal.target.toFixed(0) + " costs " + (goal.periodSuffix || ("this " + goal.periodWord)) + ".";
     return withEncouragement ? text + " All donations are appreciated." : text;
   }
 

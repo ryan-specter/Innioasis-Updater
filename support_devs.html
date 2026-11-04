@@ -1174,8 +1174,8 @@
         return "We rely on your donations to keep running. Donate now";
       }
       var raisedLabel = (goal.raised % 1 === 0) ? goal.raised.toFixed(0) : goal.raised.toFixed(2);
-      var text = "You've helped us raise " + goal.symbol + raisedLabel +
-        " of our " + goal.symbol + goal.target.toFixed(0) + " goal " + (goal.periodSuffix || ("this " + goal.periodWord)) + ".";
+      var text = "You've helped us cover " + goal.symbol + raisedLabel +
+        " of our " + goal.symbol + goal.target.toFixed(0) + " costs " + (goal.periodSuffix || ("this " + goal.periodWord)) + ".";
       return withEncouragement ? text + " All donations are appreciated." : text;
     }
 
