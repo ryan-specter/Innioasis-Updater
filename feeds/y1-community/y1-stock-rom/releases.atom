@@ -14,8 +14,8 @@
     <innioasis:tag_name>3.2.1</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/rom_y2.zip" title="rom_y2.zip" length="355560849" type="application/zip" innioasis:download_count="1690" innioasis:asset_id="561232474"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="743" innioasis:asset_id="627525120"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/rom_y2.zip" title="rom_y2.zip" length="355560849" type="application/zip" innioasis:download_count="1704" innioasis:asset_id="561232474"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="776" innioasis:asset_id="627525120"/>
     <content type="text">General performance and stability improvements</content>
   </entry>
   <entry>
@@ -27,9 +27,9 @@
     <innioasis:tag_name>3.2.0-fm</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/updater.jpg</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/rom_y2.zip" title="rom_y2.zip" length="355558382" type="application/zip" innioasis:download_count="509" innioasis:asset_id="561172655"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/system.img" title="system.img" length="859826928" type="application/x-apple-diskimage" innioasis:download_count="22" innioasis:asset_id="703033870"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="485" innioasis:asset_id="627525519"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/rom_y2.zip" title="rom_y2.zip" length="355558382" type="application/zip" innioasis:download_count="515" innioasis:asset_id="561172655"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/system.img" title="system.img" length="859826928" type="application/x-apple-diskimage" innioasis:download_count="24" innioasis:asset_id="703033870"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="519" innioasis:asset_id="627525519"/>
     <content type="text">This release adds FM Radio functionality to supported Y2 players, please note that some earlier Y2 revisions may not have the underlying functionality needed for FM Radio, there is an alternative release of 3.2.0 available for those in these circumstances.</content>
   </entry>
   <entry>
@@ -42,7 +42,7 @@
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/updater.jpg</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/rom_y2.zip" title="rom_y2.zip" length="354780496" type="application/zip" innioasis:download_count="1410" innioasis:asset_id="454784243"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="362" innioasis:asset_id="627526019"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="384" innioasis:asset_id="627526019"/>
     <content type="text"># This is the original launch-day 3.1.7 firmware for Innioasis Y2
 
 This can be used to restore your Y2 back to its factory conditions and get things back up and running if something has gone wrong.</content>
@@ -56,8 +56,8 @@ This can be used to restore your Y2 back to its factory conditions and get thing
     <innioasis:tag_name>3.1.2</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/rom.zip" title="rom.zip" length="250125316" type="application/zip" innioasis:download_count="7528" innioasis:asset_id="478638297"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="1961" innioasis:asset_id="627528645"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/rom.zip" title="rom.zip" length="250125316" type="application/zip" innioasis:download_count="7544" innioasis:asset_id="478638297"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="2039" innioasis:asset_id="627528645"/>
     <content type="text">Features improved support for AirPods Pro 2, AirPods 3 and later</content>
   </entry>
   <entry>
@@ -70,7 +70,7 @@ This can be used to restore your Y2 back to its factory conditions and get thing
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/rom.zip" title="rom.zip" length="249544334" type="application/x-zip-compressed" innioasis:download_count="7794" innioasis:asset_id="404575917"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="1787" innioasis:asset_id="627526526"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="1862" innioasis:asset_id="627526526"/>
     <content type="text">**Changes in 3.0.7** 
 
 This release has a new E-Book reading feature and a new theme named HoloFacet.
@@ -87,7 +87,7 @@ Theme creators that haven&#x27;t previously implemented their eBook icons are ad
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom/releases/download/3.0.2/updater.jpg</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.2/rom.zip" title="rom.zip" length="259502414" type="application/x-zip-compressed" innioasis:download_count="11081" innioasis:asset_id="327883399"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.2/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="313" innioasis:asset_id="627526996"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.2/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="315" innioasis:asset_id="627526996"/>
     <content type="text">**Notice: Please do not downgrade to 3.0.2 from newer firmware versions like 3.0.7 as this will break your device, a solution is incoming. Please [contact Innioasis](https://www.innioasis.com/pages/contact) if you have been affected by this,** 
 
 New in System Software 3.0.2:
@@ -109,7 +109,7 @@ ADB is currently not enabled on builds newer than 2.1.9. This means that screens
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom/releases/download/2.8.2/updater.jpg</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/2.8.2/rom.zip" title="rom.zip" length="234564048" type="application/zip" innioasis:download_count="4944" innioasis:asset_id="313062124"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/2.8.2/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="306" innioasis:asset_id="627527758"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/2.8.2/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="309" innioasis:asset_id="627527758"/>
     <content type="text">Video Fix: Resolved an issue that prevented videos from being paused reliably.
 
 Video Stability: Improved handling of video playback to prevent the application from crashing (fixing IllegalStateException on startup).
@@ -170,7 +170,7 @@ Theme Installation: Default themes are now copied in the background to prevent c
     <innioasis:tag_name>type-b-1.7.6</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom/releases/download/type-b-1.7.6/updater.jpg</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/type-b-1.7.6/rom_type_b.zip" title="rom_type_b.zip" length="176318503" type="application/zip" innioasis:download_count="1036" innioasis:asset_id="301721497"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/type-b-1.7.6/rom_type_b.zip" title="rom_type_b.zip" length="176318503" type="application/zip" innioasis:download_count="1037" innioasis:asset_id="301721497"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/type-b-1.7.6/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="105" innioasis:asset_id="627528169"/>
     <content type="text">If you installed a firmware update 2.0.0 or newer on your Y1 device and the scroll wheel stopped working, please install this version on your device instead.</content>
   </entry>
@@ -185,7 +185,7 @@ Theme Installation: Default themes are now copied in the background to prevent c
     <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom/releases/download/ADB-2.1.9/updater.jpg</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/ADB-2.1.9/com.innioasis.y1_2.1.9.apk" title="com.innioasis.y1_2.1.9.apk" length="50514056" type="application/vnd.android.package-archive" innioasis:download_count="37" innioasis:asset_id="291002806"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/ADB-2.1.9/rom.zip" title="rom.zip" length="241163025" type="application/zip" innioasis:download_count="1491" innioasis:asset_id="300431681"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/ADB-2.1.9/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="293" innioasis:asset_id="627524721"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/ADB-2.1.9/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="295" innioasis:asset_id="627524721"/>
     <content type="text">Adds Spanish language support.</content>
   </entry>
 </feed>

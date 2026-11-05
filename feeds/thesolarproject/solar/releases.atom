@@ -14,7 +14,7 @@
     <innioasis:tag_name>y2-release</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/y2-release/rom_y2.zip" title="rom_y2.zip" length="443599332" type="application/zip" innioasis:download_count="35" innioasis:asset_id="668314215"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/y2-release/rom_y2.zip" title="rom_y2.zip" length="443599332" type="application/zip" innioasis:download_count="38" innioasis:asset_id="668314215"/>
     <content type="text">Solar Y2 ROM for Innioasis Y2 (MT6582 ATA). Built from 944d14b.</content>
   </entry>
   <entry>
@@ -26,10 +26,10 @@
     <innioasis:tag_name>20260819-0956</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260819-0956/app-release.apk" title="app-release.apk" length="20001162" type="application/vnd.android.package-archive" innioasis:download_count="96" innioasis:asset_id="520682096"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260819-0956/rom.zip" title="rom.zip" length="981474469" type="application/zip" innioasis:download_count="891" innioasis:asset_id="520682097"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260819-0956/rom_a5.zip" title="rom_a5.zip" length="293722213" type="application/zip" innioasis:download_count="12" innioasis:asset_id="520682095"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260819-0956/rom_type_b.zip" title="rom_type_b.zip" length="488296019" type="application/zip" innioasis:download_count="17" innioasis:asset_id="520682098"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260819-0956/app-release.apk" title="app-release.apk" length="20001162" type="application/vnd.android.package-archive" innioasis:download_count="97" innioasis:asset_id="520682096"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260819-0956/rom.zip" title="rom.zip" length="981474469" type="application/zip" innioasis:download_count="893" innioasis:asset_id="520682097"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260819-0956/rom_a5.zip" title="rom_a5.zip" length="293722213" type="application/zip" innioasis:download_count="13" innioasis:asset_id="520682095"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260819-0956/rom_type_b.zip" title="rom_type_b.zip" length="488296019" type="application/zip" innioasis:download_count="18" innioasis:asset_id="520682098"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the Innioasis Y1 — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), **Stem Player** (stem separation powered by [Lalal.ai](https://www.lalal.ai)), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -71,7 +71,7 @@
     <innioasis:tag_name>y2-base</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/y2-base/rom_y2.zip" title="rom_y2.zip" length="635849224" type="application/zip" innioasis:download_count="38" innioasis:asset_id="490538589"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/y2-base/rom_y2.zip" title="rom_y2.zip" length="635849224" type="application/zip" innioasis:download_count="39" innioasis:asset_id="490538589"/>
     <content type="text"></content>
   </entry>
   <entry>
@@ -83,7 +83,7 @@
     <innioasis:tag_name>type-a-base</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/type-a-base/rom.zip" title="rom.zip" length="981273156" type="application/zip" innioasis:download_count="61" innioasis:asset_id="480574971"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/type-a-base/rom.zip" title="rom.zip" length="981273156" type="application/zip" innioasis:download_count="62" innioasis:asset_id="480574971"/>
     <content type="text"></content>
   </entry>
   <entry>
@@ -95,9 +95,9 @@
     <innioasis:tag_name>20260716-0131</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260716-0131/rom.zip" title="rom.zip" length="543852409" type="application/zip" innioasis:download_count="807" innioasis:asset_id="478677341"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260716-0131/rom_type_b.zip" title="rom_type_b.zip" length="544709464" type="application/zip" innioasis:download_count="20" innioasis:asset_id="478678607"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260716-0131/rom_y2.zip" title="rom_y2.zip" length="635849224" type="application/zip" innioasis:download_count="182" innioasis:asset_id="491574255"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260716-0131/rom.zip" title="rom.zip" length="543852409" type="application/zip" innioasis:download_count="808" innioasis:asset_id="478677341"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260716-0131/rom_type_b.zip" title="rom_type_b.zip" length="544709464" type="application/zip" innioasis:download_count="21" innioasis:asset_id="478678607"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260716-0131/rom_y2.zip" title="rom_y2.zip" length="635849224" type="application/zip" innioasis:download_count="184" innioasis:asset_id="491574255"/>
     <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
 
 In this release we have:
@@ -117,9 +117,9 @@ After installing for the first time please wait 10-15 minutes for your device to
     <innioasis:tag_name>20260702-1521</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260702-1521/app-release.apk" title="app-release.apk" length="12079527" type="application/vnd.android.package-archive" innioasis:download_count="11" innioasis:asset_id="464448954"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260702-1521/rom.zip" title="rom.zip" length="454799946" type="application/zip" innioasis:download_count="297" innioasis:asset_id="464448953"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260702-1521/rom_type_b.zip" title="rom_type_b.zip" length="407592425" type="application/zip" innioasis:download_count="8" innioasis:asset_id="464448955"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260702-1521/app-release.apk" title="app-release.apk" length="12079527" type="application/vnd.android.package-archive" innioasis:download_count="12" innioasis:asset_id="464448954"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260702-1521/rom.zip" title="rom.zip" length="454799946" type="application/zip" innioasis:download_count="298" innioasis:asset_id="464448953"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260702-1521/rom_type_b.zip" title="rom_type_b.zip" length="407592425" type="application/zip" innioasis:download_count="9" innioasis:asset_id="464448955"/>
     <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
 
 
@@ -206,9 +206,9 @@ After installing for the first time please wait 10-15 minutes for your device to
     <innioasis:tag_name>nightly-20260702-1512</innioasis:tag_name>
     <innioasis:prerelease>true</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260702-1512/app-release.apk" title="app-release.apk" length="12079451" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="464441885"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260702-1512/rom.zip" title="rom.zip" length="454787990" type="application/zip" innioasis:download_count="57" innioasis:asset_id="464441882"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260702-1512/rom_type_b.zip" title="rom_type_b.zip" length="406268804" type="application/zip" innioasis:download_count="2" innioasis:asset_id="464441884"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260702-1512/app-release.apk" title="app-release.apk" length="12079451" type="application/vnd.android.package-archive" innioasis:download_count="4" innioasis:asset_id="464441885"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260702-1512/rom.zip" title="rom.zip" length="454787990" type="application/zip" innioasis:download_count="58" innioasis:asset_id="464441882"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260702-1512/rom_type_b.zip" title="rom_type_b.zip" length="406268804" type="application/zip" innioasis:download_count="3" innioasis:asset_id="464441884"/>
     <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
 
 
@@ -251,9 +251,9 @@ After installing for the first time please wait 10-15 minutes for your device to
     <innioasis:tag_name>20260701-1453</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260701-1453/app-release.apk" title="app-release.apk" length="12051734" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="463347050"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260701-1453/rom.zip" title="rom.zip" length="454747067" type="application/zip" innioasis:download_count="110" innioasis:asset_id="463347048"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260701-1453/rom_type_b.zip" title="rom_type_b.zip" length="406261233" type="application/zip" innioasis:download_count="5" innioasis:asset_id="463347049"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260701-1453/app-release.apk" title="app-release.apk" length="12051734" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="463347050"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260701-1453/rom.zip" title="rom.zip" length="454747067" type="application/zip" innioasis:download_count="111" innioasis:asset_id="463347048"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260701-1453/rom_type_b.zip" title="rom_type_b.zip" length="406261233" type="application/zip" innioasis:download_count="6" innioasis:asset_id="463347049"/>
     <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
 
     Solar is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, Reach (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
@@ -295,9 +295,9 @@ Features
     <innioasis:tag_name>nightly-20260701-1454</innioasis:tag_name>
     <innioasis:prerelease>true</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260701-1454/app-release.apk" title="app-release.apk" length="12051745" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="463347031"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260701-1454/rom.zip" title="rom.zip" length="454788528" type="application/zip" innioasis:download_count="8" innioasis:asset_id="463347034"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260701-1454/rom_type_b.zip" title="rom_type_b.zip" length="407429266" type="application/zip" innioasis:download_count="2" innioasis:asset_id="463347032"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260701-1454/app-release.apk" title="app-release.apk" length="12051745" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="463347031"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260701-1454/rom.zip" title="rom.zip" length="454788528" type="application/zip" innioasis:download_count="9" innioasis:asset_id="463347034"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260701-1454/rom_type_b.zip" title="rom_type_b.zip" length="407429266" type="application/zip" innioasis:download_count="3" innioasis:asset_id="463347032"/>
     <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
 
 &gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
@@ -339,8 +339,8 @@ Features
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1236/app-release.apk" title="app-release.apk" length="11917815" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="462149693"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1236/rom.zip" title="rom.zip" length="454811715" type="application/zip" innioasis:download_count="105" innioasis:asset_id="462149692"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1236/rom_type_b.zip" title="rom_type_b.zip" length="406503923" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462149694"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1236/rom.zip" title="rom.zip" length="454811715" type="application/zip" innioasis:download_count="106" innioasis:asset_id="462149692"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1236/rom_type_b.zip" title="rom_type_b.zip" length="406503923" type="application/zip" innioasis:download_count="4" innioasis:asset_id="462149694"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -380,9 +380,9 @@ Features
     <innioasis:tag_name>20260630-1125</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1125/app-release.apk" title="app-release.apk" length="11915122" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="462100080"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1125/rom.zip" title="rom.zip" length="454745977" type="application/zip" innioasis:download_count="9" innioasis:asset_id="462100083"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1125/rom_type_b.zip" title="rom_type_b.zip" length="406236815" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462100081"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1125/app-release.apk" title="app-release.apk" length="11915122" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="462100080"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1125/rom.zip" title="rom.zip" length="454745977" type="application/zip" innioasis:download_count="10" innioasis:asset_id="462100083"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1125/rom_type_b.zip" title="rom_type_b.zip" length="406236815" type="application/zip" innioasis:download_count="4" innioasis:asset_id="462100081"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -422,9 +422,9 @@ Features
     <innioasis:tag_name>20260630-1120</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1120/app-release.apk" title="app-release.apk" length="11915313" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="462096230"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1120/rom.zip" title="rom.zip" length="454762803" type="application/zip" innioasis:download_count="7" innioasis:asset_id="462096231"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1120/rom_type_b.zip" title="rom_type_b.zip" length="406224357" type="application/zip" innioasis:download_count="2" innioasis:asset_id="462096232"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1120/app-release.apk" title="app-release.apk" length="11915313" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="462096230"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1120/rom.zip" title="rom.zip" length="454762803" type="application/zip" innioasis:download_count="8" innioasis:asset_id="462096231"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1120/rom_type_b.zip" title="rom_type_b.zip" length="406224357" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462096232"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -464,9 +464,9 @@ Features
     <innioasis:tag_name>20260630-1110</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1110/app-release.apk" title="app-release.apk" length="11914912" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="462090016"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1110/rom.zip" title="rom.zip" length="454750046" type="application/zip" innioasis:download_count="4" innioasis:asset_id="462090018"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1110/rom_type_b.zip" title="rom_type_b.zip" length="406555908" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462090017"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1110/app-release.apk" title="app-release.apk" length="11914912" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="462090016"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1110/rom.zip" title="rom.zip" length="454750046" type="application/zip" innioasis:download_count="5" innioasis:asset_id="462090018"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1110/rom_type_b.zip" title="rom_type_b.zip" length="406555908" type="application/zip" innioasis:download_count="4" innioasis:asset_id="462090017"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -506,9 +506,9 @@ Features
     <innioasis:tag_name>20260630-1102</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1102/app-release.apk" title="app-release.apk" length="11914613" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="462084011"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1102/rom.zip" title="rom.zip" length="454766683" type="application/zip" innioasis:download_count="4" innioasis:asset_id="462084009"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1102/rom_type_b.zip" title="rom_type_b.zip" length="411180005" type="application/zip" innioasis:download_count="2" innioasis:asset_id="462084010"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1102/app-release.apk" title="app-release.apk" length="11914613" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="462084011"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1102/rom.zip" title="rom.zip" length="454766683" type="application/zip" innioasis:download_count="5" innioasis:asset_id="462084009"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1102/rom_type_b.zip" title="rom_type_b.zip" length="411180005" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462084010"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -548,9 +548,9 @@ Features
     <innioasis:tag_name>20260630-1023</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1023/app-release.apk" title="app-release.apk" length="11914022" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="462056534"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1023/rom.zip" title="rom.zip" length="454766711" type="application/zip" innioasis:download_count="2" innioasis:asset_id="462056537"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1023/rom_type_b.zip" title="rom_type_b.zip" length="406239262" type="application/zip" innioasis:download_count="2" innioasis:asset_id="462056535"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1023/app-release.apk" title="app-release.apk" length="11914022" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="462056534"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1023/rom.zip" title="rom.zip" length="454766711" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462056537"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1023/rom_type_b.zip" title="rom_type_b.zip" length="406239262" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462056535"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -591,9 +591,9 @@ Features
     <innioasis:tag_name>20260630-1005</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1005/app-release.apk" title="app-release.apk" length="11913472" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="462042401"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1005/rom.zip" title="rom.zip" length="454750593" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462042399"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1005/rom_type_b.zip" title="rom_type_b.zip" length="410355530" type="application/zip" innioasis:download_count="2" innioasis:asset_id="462042398"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1005/app-release.apk" title="app-release.apk" length="11913472" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="462042401"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1005/rom.zip" title="rom.zip" length="454750593" type="application/zip" innioasis:download_count="4" innioasis:asset_id="462042399"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-1005/rom_type_b.zip" title="rom_type_b.zip" length="410355530" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462042398"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -634,9 +634,9 @@ Features
     <innioasis:tag_name>20260630-0956</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0956/app-release.apk" title="app-release.apk" length="11913474" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="462035279"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0956/rom.zip" title="rom.zip" length="454786607" type="application/zip" innioasis:download_count="2" innioasis:asset_id="462035278"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0956/rom_type_b.zip" title="rom_type_b.zip" length="407483884" type="application/zip" innioasis:download_count="2" innioasis:asset_id="462035276"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0956/app-release.apk" title="app-release.apk" length="11913474" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="462035279"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0956/rom.zip" title="rom.zip" length="454786607" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462035278"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0956/rom_type_b.zip" title="rom_type_b.zip" length="407483884" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462035276"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -677,9 +677,9 @@ Features
     <innioasis:tag_name>20260630-0636</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0636/app-release.apk" title="app-release.apk" length="11908438" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="461889816"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0636/rom.zip" title="rom.zip" length="454823470" type="application/zip" innioasis:download_count="4" innioasis:asset_id="461889814"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0636/rom_type_b.zip" title="rom_type_b.zip" length="410330989" type="application/zip" innioasis:download_count="2" innioasis:asset_id="461889813"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0636/app-release.apk" title="app-release.apk" length="11908438" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="461889816"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0636/rom.zip" title="rom.zip" length="454823470" type="application/zip" innioasis:download_count="5" innioasis:asset_id="461889814"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0636/rom_type_b.zip" title="rom_type_b.zip" length="410330989" type="application/zip" innioasis:download_count="3" innioasis:asset_id="461889813"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -721,9 +721,9 @@ Features
     <innioasis:tag_name>20260630-0550</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0550/app-release.apk" title="app-release.apk" length="11906829" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="461862850"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0550/rom.zip" title="rom.zip" length="454788812" type="application/zip" innioasis:download_count="3" innioasis:asset_id="461862851"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0550/rom_type_b.zip" title="rom_type_b.zip" length="407516967" type="application/zip" innioasis:download_count="3" innioasis:asset_id="461862849"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0550/app-release.apk" title="app-release.apk" length="11906829" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="461862850"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0550/rom.zip" title="rom.zip" length="454788812" type="application/zip" innioasis:download_count="4" innioasis:asset_id="461862851"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260630-0550/rom_type_b.zip" title="rom_type_b.zip" length="407516967" type="application/zip" innioasis:download_count="4" innioasis:asset_id="461862849"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -765,9 +765,9 @@ Features
     <innioasis:tag_name>nightly-20260630-1236</innioasis:tag_name>
     <innioasis:prerelease>true</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1236/app-release.apk" title="app-release.apk" length="11917788" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="462149665"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1236/rom.zip" title="rom.zip" length="454826338" type="application/zip" innioasis:download_count="7" innioasis:asset_id="462149668"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1236/rom_type_b.zip" title="rom_type_b.zip" length="407522307" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462149664"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1236/app-release.apk" title="app-release.apk" length="11917788" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="462149665"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1236/rom.zip" title="rom.zip" length="454826338" type="application/zip" innioasis:download_count="8" innioasis:asset_id="462149668"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1236/rom_type_b.zip" title="rom_type_b.zip" length="407522307" type="application/zip" innioasis:download_count="4" innioasis:asset_id="462149664"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -807,9 +807,9 @@ Features
     <innioasis:tag_name>nightly-20260630-1125</innioasis:tag_name>
     <innioasis:prerelease>true</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1125/app-release.apk" title="app-release.apk" length="11915115" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="462099582"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1125/rom.zip" title="rom.zip" length="454808459" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462099581"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1125/rom_type_b.zip" title="rom_type_b.zip" length="407497685" type="application/zip" innioasis:download_count="2" innioasis:asset_id="462099580"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1125/app-release.apk" title="app-release.apk" length="11915115" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="462099582"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1125/rom.zip" title="rom.zip" length="454808459" type="application/zip" innioasis:download_count="4" innioasis:asset_id="462099581"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1125/rom_type_b.zip" title="rom_type_b.zip" length="407497685" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462099580"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -849,9 +849,9 @@ Features
     <innioasis:tag_name>nightly-20260630-1120</innioasis:tag_name>
     <innioasis:prerelease>true</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1120/app-release.apk" title="app-release.apk" length="11915334" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="462096105"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1120/rom.zip" title="rom.zip" length="454809965" type="application/zip" innioasis:download_count="2" innioasis:asset_id="462096104"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1120/rom_type_b.zip" title="rom_type_b.zip" length="407470325" type="application/zip" innioasis:download_count="2" innioasis:asset_id="462096103"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1120/app-release.apk" title="app-release.apk" length="11915334" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="462096105"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1120/rom.zip" title="rom.zip" length="454809965" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462096104"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1120/rom_type_b.zip" title="rom_type_b.zip" length="407470325" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462096103"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -891,9 +891,9 @@ Features
     <innioasis:tag_name>nightly-20260630-1110</innioasis:tag_name>
     <innioasis:prerelease>true</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1110/app-release.apk" title="app-release.apk" length="11915009" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="462090319"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1110/rom.zip" title="rom.zip" length="454784579" type="application/zip" innioasis:download_count="2" innioasis:asset_id="462090320"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1110/rom_type_b.zip" title="rom_type_b.zip" length="407593003" type="application/zip" innioasis:download_count="2" innioasis:asset_id="462090321"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1110/app-release.apk" title="app-release.apk" length="11915009" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="462090319"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1110/rom.zip" title="rom.zip" length="454784579" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462090320"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1110/rom_type_b.zip" title="rom_type_b.zip" length="407593003" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462090321"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -933,9 +933,9 @@ Features
     <innioasis:tag_name>nightly-20260630-1102</innioasis:tag_name>
     <innioasis:prerelease>true</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1102/app-release.apk" title="app-release.apk" length="11914620" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="462084297"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1102/rom.zip" title="rom.zip" length="454737470" type="application/zip" innioasis:download_count="2" innioasis:asset_id="462084298"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1102/rom_type_b.zip" title="rom_type_b.zip" length="406537124" type="application/zip" innioasis:download_count="2" innioasis:asset_id="462084299"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1102/app-release.apk" title="app-release.apk" length="11914620" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="462084297"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1102/rom.zip" title="rom.zip" length="454737470" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462084298"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1102/rom_type_b.zip" title="rom_type_b.zip" length="406537124" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462084299"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -975,9 +975,9 @@ Features
     <innioasis:tag_name>nightly-20260630-1035</innioasis:tag_name>
     <innioasis:prerelease>true</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1035/app-release.apk" title="app-release.apk" length="11914277" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="462065898"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1035/rom.zip" title="rom.zip" length="454865325" type="application/zip" innioasis:download_count="2" innioasis:asset_id="462065895"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1035/rom_type_b.zip" title="rom_type_b.zip" length="411187212" type="application/zip" innioasis:download_count="2" innioasis:asset_id="462065896"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1035/app-release.apk" title="app-release.apk" length="11914277" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="462065898"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1035/rom.zip" title="rom.zip" length="454865325" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462065895"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1035/rom_type_b.zip" title="rom_type_b.zip" length="411187212" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462065896"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -1017,9 +1017,9 @@ Features
     <innioasis:tag_name>nightly-20260630-1024</innioasis:tag_name>
     <innioasis:prerelease>true</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1024/app-release.apk" title="app-release.apk" length="11914103" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="462057452"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1024/rom.zip" title="rom.zip" length="454738152" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462057453"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1024/rom_type_b.zip" title="rom_type_b.zip" length="407541607" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462057454"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1024/app-release.apk" title="app-release.apk" length="11914103" type="application/vnd.android.package-archive" innioasis:download_count="4" innioasis:asset_id="462057452"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1024/rom.zip" title="rom.zip" length="454738152" type="application/zip" innioasis:download_count="4" innioasis:asset_id="462057453"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1024/rom_type_b.zip" title="rom_type_b.zip" length="407541607" type="application/zip" innioasis:download_count="4" innioasis:asset_id="462057454"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -1060,9 +1060,9 @@ Features
     <innioasis:tag_name>nightly-20260630-1005</innioasis:tag_name>
     <innioasis:prerelease>true</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1005/app-release.apk" title="app-release.apk" length="11913510" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="462042893"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1005/rom.zip" title="rom.zip" length="456316899" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462042892"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1005/rom_type_b.zip" title="rom_type_b.zip" length="406194763" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462042894"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1005/app-release.apk" title="app-release.apk" length="11913510" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="462042893"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1005/rom.zip" title="rom.zip" length="456316899" type="application/zip" innioasis:download_count="4" innioasis:asset_id="462042892"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-1005/rom_type_b.zip" title="rom_type_b.zip" length="406194763" type="application/zip" innioasis:download_count="4" innioasis:asset_id="462042894"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -1103,9 +1103,9 @@ Features
     <innioasis:tag_name>nightly-20260630-0957</innioasis:tag_name>
     <innioasis:prerelease>true</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0957/app-release.apk" title="app-release.apk" length="11913516" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="462036066"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0957/rom.zip" title="rom.zip" length="454748168" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462036068"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0957/rom_type_b.zip" title="rom_type_b.zip" length="399998206" type="application/zip" innioasis:download_count="3" innioasis:asset_id="462036069"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0957/app-release.apk" title="app-release.apk" length="11913516" type="application/vnd.android.package-archive" innioasis:download_count="4" innioasis:asset_id="462036066"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0957/rom.zip" title="rom.zip" length="454748168" type="application/zip" innioasis:download_count="4" innioasis:asset_id="462036068"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0957/rom_type_b.zip" title="rom_type_b.zip" length="399998206" type="application/zip" innioasis:download_count="4" innioasis:asset_id="462036069"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -1146,9 +1146,9 @@ Features
     <innioasis:tag_name>nightly-20260630-0636</innioasis:tag_name>
     <innioasis:prerelease>true</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0636/app-release.apk" title="app-release.apk" length="11908449" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="461889403"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0636/rom.zip" title="rom.zip" length="456326463" type="application/zip" innioasis:download_count="4" innioasis:asset_id="461889404"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0636/rom_type_b.zip" title="rom_type_b.zip" length="406305936" type="application/zip" innioasis:download_count="3" innioasis:asset_id="461889405"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0636/app-release.apk" title="app-release.apk" length="11908449" type="application/vnd.android.package-archive" innioasis:download_count="4" innioasis:asset_id="461889403"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0636/rom.zip" title="rom.zip" length="456326463" type="application/zip" innioasis:download_count="5" innioasis:asset_id="461889404"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0636/rom_type_b.zip" title="rom_type_b.zip" length="406305936" type="application/zip" innioasis:download_count="4" innioasis:asset_id="461889405"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -1190,9 +1190,9 @@ Features
     <innioasis:tag_name>nightly-20260630-0549</innioasis:tag_name>
     <innioasis:prerelease>true</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0549/app-release.apk" title="app-release.apk" length="11906835" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="461861913"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0549/rom.zip" title="rom.zip" length="454771254" type="application/zip" innioasis:download_count="3" innioasis:asset_id="461861914"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0549/rom_type_b.zip" title="rom_type_b.zip" length="406484375" type="application/zip" innioasis:download_count="3" innioasis:asset_id="461861912"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0549/app-release.apk" title="app-release.apk" length="11906835" type="application/vnd.android.package-archive" innioasis:download_count="4" innioasis:asset_id="461861913"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0549/rom.zip" title="rom.zip" length="454771254" type="application/zip" innioasis:download_count="4" innioasis:asset_id="461861914"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260630-0549/rom_type_b.zip" title="rom_type_b.zip" length="406484375" type="application/zip" innioasis:download_count="4" innioasis:asset_id="461861912"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -1234,9 +1234,9 @@ Features
     <innioasis:tag_name>20260629-1615</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260629-1615/app-release.apk" title="app-release.apk" length="11855694" type="application/vnd.android.package-archive" innioasis:download_count="5" innioasis:asset_id="461290089"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260629-1615/rom.zip" title="rom.zip" length="454726051" type="application/zip" innioasis:download_count="62" innioasis:asset_id="461290087"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260629-1615/rom_type_b.zip" title="rom_type_b.zip" length="410292538" type="application/zip" innioasis:download_count="3" innioasis:asset_id="461290088"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260629-1615/app-release.apk" title="app-release.apk" length="11855694" type="application/vnd.android.package-archive" innioasis:download_count="6" innioasis:asset_id="461290089"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260629-1615/rom.zip" title="rom.zip" length="454726051" type="application/zip" innioasis:download_count="63" innioasis:asset_id="461290087"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260629-1615/rom_type_b.zip" title="rom_type_b.zip" length="410292538" type="application/zip" innioasis:download_count="4" innioasis:asset_id="461290088"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features
@@ -1278,9 +1278,9 @@ Features
     <innioasis:tag_name>20260629-1610</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260629-1610/app-release.apk" title="app-release.apk" length="11855693" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="461285825"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260629-1610/app-release.apk" title="app-release.apk" length="11855693" type="application/vnd.android.package-archive" innioasis:download_count="4" innioasis:asset_id="461285825"/>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260629-1610/rom.zip" title="rom.zip" length="454770853" type="application/zip" innioasis:download_count="6" innioasis:asset_id="461285827"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260629-1610/rom_type_b.zip" title="rom_type_b.zip" length="407467592" type="application/zip" innioasis:download_count="3" innioasis:asset_id="461285824"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260629-1610/rom_type_b.zip" title="rom_type_b.zip" length="407467592" type="application/zip" innioasis:download_count="4" innioasis:asset_id="461285824"/>
     <content type="text">&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
 ### Features

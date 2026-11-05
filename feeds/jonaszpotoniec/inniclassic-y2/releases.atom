@@ -4,25 +4,25 @@
   <title>Release notes from JonaszPotoniec/inniclassic-y2</title>
   <link rel="alternate" type="text/html" href="https://innioasis.app/firmware.html"/>
   <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/jonaszpotoniec/inniclassic-y2/releases.atom"/>
-  <updated>2026-11-04T20:21:02Z</updated>
+  <updated>2026-11-05T14:40:14Z</updated>
   <entry>
-    <id>tag:innioasis.app,2026:JonaszPotoniec/inniclassic-y2/20261104</id>
-    <updated>2026-11-04T20:21:02Z</updated>
-    <published>2026-11-04T20:21:02Z</published>
-    <title>InniClassic 20261104</title>
-    <link rel="alternate" type="text/html" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/tag/20261104"/>
-    <innioasis:tag_name>20261104</innioasis:tag_name>
+    <id>tag:innioasis.app,2026:JonaszPotoniec/inniclassic-y2/20261105</id>
+    <updated>2026-11-05T14:40:14Z</updated>
+    <published>2026-11-05T14:40:14Z</published>
+    <title>InniClassic 20261105</title>
+    <link rel="alternate" type="text/html" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/tag/20261105"/>
+    <innioasis:tag_name>20261105</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/index.html" title="index.html" length="30965" type="text/html" innioasis:download_count="2" innioasis:asset_id="710801195"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/InniClassic-20261104.apk" title="InniClassic-20261104.apk" length="24527493" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="710801198"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom.zip" title="rom.zip" length="455462943" type="application/zip" innioasis:download_count="7" innioasis:asset_id="710801202"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_type_b.zip" title="rom_type_b.zip" length="422466574" type="application/zip" innioasis:download_count="2" innioasis:asset_id="710801190"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y1_type_a.zip" title="rom_y1_type_a.zip" length="455462943" type="application/zip" innioasis:download_count="5" innioasis:asset_id="710801196"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y1_type_b.zip" title="rom_y1_type_b.zip" length="422466574" type="application/zip" innioasis:download_count="1" innioasis:asset_id="710801197"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y2.zip" title="rom_y2.zip" length="465901262" type="application/zip" innioasis:download_count="10" innioasis:asset_id="710801191"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/SHA256SUMS.txt" title="SHA256SUMS.txt" length="491" type="text/plain" innioasis:download_count="3" innioasis:asset_id="710801194"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/update.json" title="update.json" length="299" type="application/json" innioasis:download_count="2" innioasis:asset_id="710801193"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261105/index.html" title="index.html" length="32699" type="text/html" innioasis:download_count="1" innioasis:asset_id="713717422"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261105/InniClassic-20261105.apk" title="InniClassic-20261105.apk" length="24532442" type="application/vnd.android.package-archive" innioasis:download_count="1" innioasis:asset_id="713717420"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261105/rom.zip" title="rom.zip" length="455463136" type="application/zip" innioasis:download_count="3" innioasis:asset_id="713717416"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261105/rom_type_b.zip" title="rom_type_b.zip" length="422464888" type="application/zip" innioasis:download_count="1" innioasis:asset_id="713717414"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261105/rom_y1_type_a.zip" title="rom_y1_type_a.zip" length="455463136" type="application/zip" innioasis:download_count="1" innioasis:asset_id="713717412"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261105/rom_y1_type_b.zip" title="rom_y1_type_b.zip" length="422464888" type="application/zip" innioasis:download_count="0" innioasis:asset_id="713717421"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261105/rom_y2.zip" title="rom_y2.zip" length="465902259" type="application/zip" innioasis:download_count="3" innioasis:asset_id="713717408"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261105/SHA256SUMS.txt" title="SHA256SUMS.txt" length="491" type="text/plain" innioasis:download_count="1" innioasis:asset_id="713717415"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261105/update.json" title="update.json" length="299" type="application/json" innioasis:download_count="2" innioasis:asset_id="713717407"/>
     <content type="text">### InniClassic Release
 
 Automated build with full support for **Innioasis Y1** (Type A &amp; Type B) and **Innioasis Y2**.
@@ -31,7 +31,7 @@ Automated build with full support for **Innioasis Y1** (Type A &amp; Type B) and
 
 | File | Target Device | Notes |
 | :--- | :--- | :--- |
-| **`InniClassic-20261104.apk`** | All Devices (Y1 / Y2) | Standalone launcher APK (sideload or install) |
+| **`InniClassic-20261105.apk`** | All Devices (Y1 / Y2) | Standalone launcher APK (sideload or install) |
 | **`update.json`** | All Devices | OTA update metadata for in-app updater |
 | **`rom_y2.zip`** | **Innioasis Y2** (MT6582) | Complete flashable ROM with dual-storage, watchdog &amp; clickwheel keylayout |
 | **`rom_y1_type_a.zip`** (`rom.zip`) | **Innioasis Y1** (Type A) | Flashable ROM for Y1 players with original firmware **2.0.0 or higher** |
@@ -49,31 +49,61 @@ Automated build with full support for **Innioasis Y1** (Type A &amp; Type B) and
 
 
 ## What&#x27;s Changed
-* fix(settings): make the Settings rows open the right screens and take effect by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/5
-* fix: small fixes for the menu title, a test, resource ids, old processes and settings in the old prefs files by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/24
-* fix(ui): make the list rows clear and consistent by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/25
-* fix(rom): install the stock Bluetooth.apk without the phone profiles, turn off the low-battery dialog and name the USB device in the Y2 ROM by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/22
-* fix(settings): fix the time zone and the status bar clock, and add Sync Time Now by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/6
-* feat(music): improve the library and the Music menu: album grouping, shuffle, Compilations, Top 25 by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/19
-* feat(coverflow): make Cover Flow and the fast wheel like the iPod: artist order, layout, speed and letter jump by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/20
-* feat(ui): use the iPod Classic layout in the Classic themes, with an iPod status bar and battery warnings by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/23
-* feat(theme): change the theme without a restart, and add an Auto theme by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/26
-* feat(settings): group the Settings rows like the iPod, with On/Off switches by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/27
-* fix(usb): switch USB function to mass_storage before sharing storage by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/7
-* feat(audio): equal 2 dB volume steps, effects only when used, Click Volume, and one audio source at a time by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/31
-* fix(input): act on each button once, on release, and fix the keyboard by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/28
-* feat(connectivity): keep the modem off on the Y2, and make Bluetooth pairing work by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/30
-* fix(player): restore the Now Playing menu, spectrum, lyrics and hold buttons by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/11
-* chore(i18n): remove generate_polish.py, polish.json is the source by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/40
-* fix(browser): allow browsing SD card folders and refine folder navigation by @JonaszPotoniec in https://github.com/JonaszPotoniec/inniclassic-y2/pull/36
-* feat(browser): support multiple genre tags in songs (#34) by @JonaszPotoniec in https://github.com/JonaszPotoniec/inniclassic-y2/pull/37
-* fix(library): detect modified audio metadata during media library scans (#34) by @JonaszPotoniec in https://github.com/JonaszPotoniec/inniclassic-y2/pull/38
-* chore(lint): stop the release build on calls to APIs newer than minSdk 19 by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/39
+* fix(battery): show the battery level from the voltage on the Y2, warn at 10 % and 3 %, and shut down before the cut-off by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/41
+* feat(navigation): navigate like the iPod: one back stack, menu slides, and list screens in place of dialogs by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/42
+* refactor(ui): remove the App Drawer and Screen Recorder screens, which nothing can open by @ferrolho in https://github.com/JonaszPotoniec/inniclassic-y2/pull/44
 
-## New Contributors
-* @ferrolho made their first contribution in https://github.com/JonaszPotoniec/inniclassic-y2/pull/5
 
-**Full Changelog**: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261017...20261104</content>
+**Full Changelog**: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261104...20261105</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:JonaszPotoniec/inniclassic-y2/20261104</id>
+    <updated>2026-11-04T20:21:02Z</updated>
+    <published>2026-11-04T20:21:02Z</published>
+    <title>InniClassic 20261104</title>
+    <link rel="alternate" type="text/html" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/tag/20261104"/>
+    <innioasis:tag_name>20261104</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <innioasis:icon_url>https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png</innioasis:icon_url>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/index.html" title="index.html" length="30965" type="text/html" innioasis:download_count="3" innioasis:asset_id="710801195"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/InniClassic-20261104.apk" title="InniClassic-20261104.apk" length="24527493" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="710801198"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom.zip" title="rom.zip" length="455462943" type="application/zip" innioasis:download_count="11" innioasis:asset_id="710801202"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_type_b.zip" title="rom_type_b.zip" length="422466574" type="application/zip" innioasis:download_count="3" innioasis:asset_id="710801190"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y1_type_a.zip" title="rom_y1_type_a.zip" length="455462943" type="application/zip" innioasis:download_count="6" innioasis:asset_id="710801196"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y1_type_b.zip" title="rom_y1_type_b.zip" length="422466574" type="application/zip" innioasis:download_count="2" innioasis:asset_id="710801197"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y2.zip" title="rom_y2.zip" length="465901262" type="application/zip" innioasis:download_count="22" innioasis:asset_id="710801191"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/SHA256SUMS.txt" title="SHA256SUMS.txt" length="491" type="text/plain" innioasis:download_count="4" innioasis:asset_id="710801194"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/update.json" title="update.json" length="299" type="application/json" innioasis:download_count="3" innioasis:asset_id="710801193"/>
+    <content type="text">Thanks @ferrolho for making this release possible!
+
+many bug fixes
+
+- The volume curve uses thirty equal 2 dB steps (-58 dB to 0 dB) saved independently for each output, and volume buttons step once when clicked with the screen off. Wheel clicks have a dedicated Click Volume setting (Low, Medium, High), equalizer and audio effects run only when custom values are active, and graphic equalizer adjustments apply immediately while editing.
+- Only one audio source plays at a time: starting a track pauses the FM radio, opening a video pauses playback, and starting USB Mass Storage stops the radio. The FM radio remains controllable with media buttons from any screen while active or paused.
+- Long-pressing the center button opens an in-place track menu for playlist actions and album browsing. A single center press toggles a full-width lyrics overlay with edge fades, and a new Lyrics Keep Screen On setting prevents the display from sleeping during playback while lyrics are visible. Holding Play/Pause stops playback and rewinds to the beginning, while holding Next or Previous seeks up to 120x speed.
+- The audio spectrum visualizer draws in the dominant album artwork color, stays visible at low volume levels, and stops its capture thread whenever the screen turns off or another screen is shown. Track times format in the classic style (`2:08`, `-0:34`, `1:02:08`), with a Total Time toggle to display total track length in place of remaining time.
+- Physical button presses now register on release instead of initial push down, preventing duplicate inputs and ensuring held actions trigger cleanly. Hardware and Bluetooth remote controls continue to handle playback when the screen is dark, the on-screen keyboard standardizes on the QWERTY layout, and wheel scrolling loops consistently across Wi-Fi, Bluetooth, Music Quiz, and playlist screens.
+- Cellular modem services stay permanently disabled on the Y2 to conserve battery. Bluetooth pairing accepts numeric comparison requests without requiring a touch screen, a Discoverable toggle makes the player visible to cars and external devices for two minutes, and track metadata transmits over AVRCP to in-vehicle displays. Music automatically pauses on Bluetooth disconnect or headphone removal and resumes if reconnected within four hours.
+- Media scans compare file modification timestamps and sizes, re-reading only altered tracks and speeding up subsequent library rescans. Folder browsing defaults to secondary storage (`/storage/sdcard1/Music`), supports upward navigation (`..`), and lets you switch between storage volumes. Multi-genre tags are cataloged individually across FLAC, Opus, Ogg Vorbis, and ALAC files.
+- Music menus include new options for Compilations, Shuffle Songs, and Group Albums (by Title or Title and Artist). iPod-style smart playlists for Recently Played and Top 25 Most Played tracks replace the legacy album history tracker.
+- Cover Flow sorts albums by artist and then title, positions the artist name below the album cover, and jumps letter by letter during rapid wheel rotation. Fast wheel turns in song and album lists also jump alphabetically.
+- Classic themes use the iPod Classic split-screen layout with slow cover motion, menu drop shadows, and matching zoom transitions. A low-battery warning banner appears at 10% battery with a &quot;Please charge&quot; screen at 2%. In the Y2 ROM, Android&#x27;s stock battery dialog and low-power audio alert are disabled.
+- A long press on the power button opens a dedicated iPod-style Power screen with Restart and Power Off options. Destructive actions like Reset Settings, Clear Album Art, Last.fm Log Out, and Settings Import now confirm on dedicated action screens where Back cancels.
+- Settings are arranged into iPod-style categories with options to export and import settings backups, show On/Off toggles as switches (`Toggle Style`), and fade the top and bottom edges of long lists (`List Edges`). Themes can be switched without restarting the launcher, including an Auto theme that tracks local sunrise and sunset.
+- Connecting storage switches the USB gadget mode to `mass_storage` before sharing partitions so partitions mount cleanly on host systems. The USB device name advertises Innioasis with the model number rather than generic MediaTek defaults, release builds stop on APIs newer than KitKat (API 19), and continuous integration checks verify 100% translation coverage across all seven languages.
+
+#### Release assets
+
+| File | Target device | Notes |
+| :--- | :--- | :--- |
+| `InniClassic-20261104.apk` | All devices (Y1 / Y2) | Standalone launcher APK (sideload or install) |
+| `update.json` | All devices | OTA update metadata for in-app updater |
+| `rom_y2.zip` | Innioasis Y2 (MT6582) | Complete flashable ROM with dual-storage, watchdog &amp; clickwheel keylayout |
+| `rom_y1_type_a.zip` (`rom.zip`) | Innioasis Y1 (Type A) | Flashable ROM for Y1 players with original firmware 2.0.0 or higher |
+| `rom_y1_type_b.zip` (`rom_type_b.zip`) | Innioasis Y1 (Type B) | Flashable ROM for Y1 players with original firmware below 2.0.0 |
+| `SHA256SUMS.txt` | All files | SHA-256 integrity checksums |
+
+Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261017...20261104</content>
   </entry>
   <entry>
     <id>tag:innioasis.app,2026:JonaszPotoniec/inniclassic-y2/20261017</id>
@@ -84,15 +114,15 @@ Automated build with full support for **Innioasis Y1** (Type A &amp; Type B) and
     <innioasis:tag_name>20261017</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/index.html" title="index.html" length="11442" type="text/html" innioasis:download_count="10" innioasis:asset_id="650267207"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/InniClassic-20261017.apk" title="InniClassic-20261017.apk" length="24451136" type="application/vnd.android.package-archive" innioasis:download_count="23" innioasis:asset_id="650267213"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom.zip" title="rom.zip" length="455460055" type="application/zip" innioasis:download_count="203" innioasis:asset_id="650267212"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_type_b.zip" title="rom_type_b.zip" length="422390294" type="application/zip" innioasis:download_count="5" innioasis:asset_id="650267209"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_y1_type_a.zip" title="rom_y1_type_a.zip" length="455460055" type="application/zip" innioasis:download_count="7" innioasis:asset_id="650267214"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_y1_type_b.zip" title="rom_y1_type_b.zip" length="422390294" type="application/zip" innioasis:download_count="5" innioasis:asset_id="650267215"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_y2.zip" title="rom_y2.zip" length="458640295" type="application/zip" innioasis:download_count="110" innioasis:asset_id="650267210"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/SHA256SUMS.txt" title="SHA256SUMS.txt" length="491" type="text/plain" innioasis:download_count="10" innioasis:asset_id="650267211"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/update.json" title="update.json" length="299" type="application/json" innioasis:download_count="13" innioasis:asset_id="650267206"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/index.html" title="index.html" length="11442" type="text/html" innioasis:download_count="11" innioasis:asset_id="650267207"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/InniClassic-20261017.apk" title="InniClassic-20261017.apk" length="24451136" type="application/vnd.android.package-archive" innioasis:download_count="24" innioasis:asset_id="650267213"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom.zip" title="rom.zip" length="455460055" type="application/zip" innioasis:download_count="204" innioasis:asset_id="650267212"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_type_b.zip" title="rom_type_b.zip" length="422390294" type="application/zip" innioasis:download_count="6" innioasis:asset_id="650267209"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_y1_type_a.zip" title="rom_y1_type_a.zip" length="455460055" type="application/zip" innioasis:download_count="8" innioasis:asset_id="650267214"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_y1_type_b.zip" title="rom_y1_type_b.zip" length="422390294" type="application/zip" innioasis:download_count="6" innioasis:asset_id="650267215"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_y2.zip" title="rom_y2.zip" length="458640295" type="application/zip" innioasis:download_count="114" innioasis:asset_id="650267210"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/SHA256SUMS.txt" title="SHA256SUMS.txt" length="491" type="text/plain" innioasis:download_count="11" innioasis:asset_id="650267211"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/update.json" title="update.json" length="299" type="application/json" innioasis:download_count="14" innioasis:asset_id="650267206"/>
     <content type="text">The Biggest Release!
 
 - The entire application codebase has been rewritten from Java to 100% Kotlin, decomposing the monolithic main activity into dedicated domain managers, screen controllers, and an input router, backed by 16 regression test suites running in CI.
@@ -130,14 +160,14 @@ Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/2026101
     <innioasis:tag_name>20261013</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/InniClassic-20261013.apk" title="InniClassic-20261013.apk" length="25302210" type="application/vnd.android.package-archive" innioasis:download_count="9" innioasis:asset_id="636618066"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom.zip" title="rom.zip" length="455407982" type="application/zip" innioasis:download_count="74" innioasis:asset_id="636618069"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_type_b.zip" title="rom_type_b.zip" length="423125776" type="application/zip" innioasis:download_count="4" innioasis:asset_id="636618071"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_y1_type_a.zip" title="rom_y1_type_a.zip" length="455407982" type="application/zip" innioasis:download_count="3" innioasis:asset_id="636618070"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_y1_type_b.zip" title="rom_y1_type_b.zip" length="423125776" type="application/zip" innioasis:download_count="3" innioasis:asset_id="636618072"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_y2.zip" title="rom_y2.zip" length="459507925" type="application/zip" innioasis:download_count="28" innioasis:asset_id="636618061"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/SHA256SUMS.txt" title="SHA256SUMS.txt" length="491" type="text/plain" innioasis:download_count="6" innioasis:asset_id="636618063"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/update.json" title="update.json" length="299" type="application/json" innioasis:download_count="9" innioasis:asset_id="636618058"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/InniClassic-20261013.apk" title="InniClassic-20261013.apk" length="25302210" type="application/vnd.android.package-archive" innioasis:download_count="10" innioasis:asset_id="636618066"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom.zip" title="rom.zip" length="455407982" type="application/zip" innioasis:download_count="75" innioasis:asset_id="636618069"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_type_b.zip" title="rom_type_b.zip" length="423125776" type="application/zip" innioasis:download_count="5" innioasis:asset_id="636618071"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_y1_type_a.zip" title="rom_y1_type_a.zip" length="455407982" type="application/zip" innioasis:download_count="4" innioasis:asset_id="636618070"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_y1_type_b.zip" title="rom_y1_type_b.zip" length="423125776" type="application/zip" innioasis:download_count="4" innioasis:asset_id="636618072"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_y2.zip" title="rom_y2.zip" length="459507925" type="application/zip" innioasis:download_count="30" innioasis:asset_id="636618061"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/SHA256SUMS.txt" title="SHA256SUMS.txt" length="491" type="text/plain" innioasis:download_count="7" innioasis:asset_id="636618063"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/update.json" title="update.json" length="299" type="application/json" innioasis:download_count="10" innioasis:asset_id="636618058"/>
     <content type="text">- Improve Jellyfin sync
 
 #### Release assets
@@ -163,14 +193,14 @@ Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/2026101
     <innioasis:tag_name>20261012</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/InniClassic-20261012.apk" title="InniClassic-20261012.apk" length="25287379" type="application/vnd.android.package-archive" innioasis:download_count="4" innioasis:asset_id="635077116"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom.zip" title="rom.zip" length="455407537" type="application/zip" innioasis:download_count="25" innioasis:asset_id="635077122"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom_type_b.zip" title="rom_type_b.zip" length="423165422" type="application/zip" innioasis:download_count="2" innioasis:asset_id="635077118"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom_y1_type_a.zip" title="rom_y1_type_a.zip" length="455407537" type="application/zip" innioasis:download_count="2" innioasis:asset_id="635077123"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom_y1_type_b.zip" title="rom_y1_type_b.zip" length="423165422" type="application/zip" innioasis:download_count="2" innioasis:asset_id="635077119"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom_y2.zip" title="rom_y2.zip" length="459484049" type="application/zip" innioasis:download_count="8" innioasis:asset_id="635077117"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/SHA256SUMS.txt" title="SHA256SUMS.txt" length="491" type="text/plain" innioasis:download_count="2" innioasis:asset_id="635077120"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/update.json" title="update.json" length="299" type="application/json" innioasis:download_count="4" innioasis:asset_id="635077113"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/InniClassic-20261012.apk" title="InniClassic-20261012.apk" length="25287379" type="application/vnd.android.package-archive" innioasis:download_count="5" innioasis:asset_id="635077116"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom.zip" title="rom.zip" length="455407537" type="application/zip" innioasis:download_count="26" innioasis:asset_id="635077122"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom_type_b.zip" title="rom_type_b.zip" length="423165422" type="application/zip" innioasis:download_count="3" innioasis:asset_id="635077118"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom_y1_type_a.zip" title="rom_y1_type_a.zip" length="455407537" type="application/zip" innioasis:download_count="3" innioasis:asset_id="635077123"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom_y1_type_b.zip" title="rom_y1_type_b.zip" length="423165422" type="application/zip" innioasis:download_count="3" innioasis:asset_id="635077119"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/rom_y2.zip" title="rom_y2.zip" length="459484049" type="application/zip" innioasis:download_count="9" innioasis:asset_id="635077117"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/SHA256SUMS.txt" title="SHA256SUMS.txt" length="491" type="text/plain" innioasis:download_count="3" innioasis:asset_id="635077120"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261012/update.json" title="update.json" length="299" type="application/json" innioasis:download_count="5" innioasis:asset_id="635077113"/>
     <content type="text">- Added Jellyfin sync so you can download music and videos directly from your Jellyfin server over Wi-Fi. You can sign in using QuickConnect (with an on-screen pairing code), username and password, or an API token, then sync all libraries or browse and pick specific folders. Sync options let you download album artwork, transcode videos for playback on the player, and remove local files that were deleted on the server, followed by an automatic library rescan when downloads finish.
 - Fixed four Bluetooth issues on the Y2:
   - Toggling Bluetooth on now starts the MediaTek Bluetooth daemon (`mtkbt`) automatically (and starts it at boot in the ROM), fixing the bug where Bluetooth refused to turn back on or reconnect to paired headphones after being turned off.
@@ -201,14 +231,14 @@ Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/2026101
     <innioasis:tag_name>20261011</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/InniClassic-20261011.apk" title="InniClassic-20261011.apk" length="25249278" type="application/vnd.android.package-archive" innioasis:download_count="11" innioasis:asset_id="631746387"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/InniClassic-20261011.apk" title="InniClassic-20261011.apk" length="25249278" type="application/vnd.android.package-archive" innioasis:download_count="12" innioasis:asset_id="631746387"/>
     <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/rom.zip" title="rom.zip" length="455407764" type="application/zip" innioasis:download_count="26" innioasis:asset_id="631746385"/>
     <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/rom_type_b.zip" title="rom_type_b.zip" length="423133957" type="application/zip" innioasis:download_count="7" innioasis:asset_id="631746386"/>
     <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/rom_y1_type_a.zip" title="rom_y1_type_a.zip" length="455407764" type="application/zip" innioasis:download_count="9" innioasis:asset_id="631746382"/>
     <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/rom_y1_type_b.zip" title="rom_y1_type_b.zip" length="423133957" type="application/zip" innioasis:download_count="8" innioasis:asset_id="631746384"/>
     <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/rom_y2.zip" title="rom_y2.zip" length="459449940" type="application/zip" innioasis:download_count="11" innioasis:asset_id="631746379"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/SHA256SUMS.txt" title="SHA256SUMS.txt" length="491" type="text/plain" innioasis:download_count="7" innioasis:asset_id="631746380"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/update.json" title="update.json" length="299" type="application/json" innioasis:download_count="9" innioasis:asset_id="631746378"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/SHA256SUMS.txt" title="SHA256SUMS.txt" length="491" type="text/plain" innioasis:download_count="8" innioasis:asset_id="631746380"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261011/update.json" title="update.json" length="299" type="application/json" innioasis:download_count="10" innioasis:asset_id="631746378"/>
     <content type="text">- The About screen now uses a scrollable two-column iPod Classic layout showing song, video, album, and artist counts, software version, model number, and separate capacity and free space rows for both internal flash and the microSD card.
 - A new &quot;Battery Percentage&quot; setting draws the exact percentage and a compact charging bolt inside the battery icon, with contrasting text colors across the filled and empty parts of the indicator.
 - Genre browsing now follows the classic iPod hierarchy (`Genre -&gt; Artists / All Songs -&gt; Albums / All Songs -&gt; Songs`), and song lists have a Shuffle banner with a song counter at the top. Returning from Now Playing also highlights the playing track, fast scrolling no longer crashes on lists with header rows, and the wheel no longer gets stuck at list edges.
