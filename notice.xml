@@ -62,34 +62,6 @@
 -->
 <notices updated="2026-11-05">
 
-  <notice id="2026-11-05-test-notice" persistent="false" severity="info" from="2026-11-05" until="2026-11-12">
-    <title>Test notice</title>
-    <content>This is a test notice. It confirms that notices reach Updater CE and this site.</content>
-    <full_content>This is a test notice, safe to dismiss.
-
-- It is shown to everyone, with no model, platform or firmware targeting.
-- It expires on 2026-11-12, so it goes away on its own.
-- Its only job is to confirm the feed is fetched and rendered correctly.
-
-> Nothing needs to be done. If you can read this, notices are working.</full_content>
-  </notice>
-
-  <notice id="2026-11-03-rockbox-y2-warn" persistent="false" severity="warning" from="2026-11-03" until="2026-12-31" models="Y2" firmware_repo="spycemagic/y2-rockbox" firmware_version="*">
-    <title>Users having issues with Rockbox for Y2.</title>
-    <content>Rockbox 360p themes not working and music not reading from MicroSD.</content>
-    <full_content>Rockbox for Y2 has two open problems reported by the community:
-
-- **360p themes do not apply.** The player keeps showing the stock 360p artwork.
-- **Music on a MicroSD card is not listed** after a Rockbox install.
-
-If you rely on a MicroSD library, stay on Original Software until these are fixed.
-
-> Restoring the original firmware takes one run of Updater CE. Music on your MicroSD card is left alone, but music saved to the Y2's internal storage is erased: on Y2 the Keep Data option in Updater CE 2.5.1 only carries data across between firmwares that are cross-compatible, and moving to Original Software is not one of those cases.
-
-The steps are in the [Y2 stock restore guide](https://innioasis.app/guides/restore-original-y2.html).</full_content>
-    <url>https://innioasis.app</url>
-  </notice>
-
   <notice id="2026-10-25-firmware-advisory" persistent="false" severity="info" from="2026-10-25" until="2026-12-31" models="Y1,Y2">
     <title>About Notices in Updater CE</title>
     <content>You'll get important alerts about device safety issues reported by the community here, such as when devices are being bricked by certain firmware.</content>
@@ -99,7 +71,7 @@ The steps are in the [Y2 stock restore guide](https://innioasis.app/guides/resto
 - **The app shows the same text**, with the notice's detail opening from the banner.
 - **A notice without a specific page** simply opens its own page here; a link to the bare site root is ignored.
 
-Use the bell in the header to see the current notices at any time.</full_content>
+Use the bell icon to see the current notices at any time.</full_content>
     <link>https://innioasis.app</link>
   </notice>
 
