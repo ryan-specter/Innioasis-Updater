@@ -1385,7 +1385,7 @@
         var brandSelect = document.getElementById("lumen-brand-filter");
         var BRAND_MODELS = {
             "Innioasis": ["Y1", "Y2", "G1", "G3", "G5", "R1", "PR1"],
-            "Timmkoo": ["A5", "Q5", "Q3", "SR1"]
+            "Timmkoo": ["A5", "Q5", "Q3", "Q3E", "Q8", "SR1"]
         };
         var DEFAULT_BRAND = "Innioasis";
         function brandForModel(value) {

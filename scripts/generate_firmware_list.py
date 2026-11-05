@@ -56,6 +56,8 @@ DEVICE_NAMES = {
     "A5": "Timmkoo A5",
     "Q5": "Timmkoo Q5",
     "Q3": "Timmkoo Q3",
+    "Q3E": "Timmkoo Q3E",
+    "Q8": "Timmkoo Q8",
 }
 
 PLATFORM_LABELS = {
