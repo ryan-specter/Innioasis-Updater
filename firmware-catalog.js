@@ -300,7 +300,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg",
           "size": 30612,
-          "download_count": 724,
+          "download_count": 728,
           "content_type": "image/jpeg"
         }
       ]
@@ -337,7 +337,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/updater.jpg",
           "size": 30612,
-          "download_count": 474,
+          "download_count": 476,
           "content_type": "image/jpeg"
         }
       ]
@@ -1160,7 +1160,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_q5.zip",
           "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2D_Q5D-WV3.28-20250619/rom_q5.zip",
           "size": 337730694,
-          "download_count": 1,
+          "download_count": 2,
           "content_type": "application/octet-stream"
         },
         {
@@ -1257,7 +1257,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/manifest.json",
           "size": 4239,
-          "download_count": 104,
+          "download_count": 105,
           "content_type": "application/json"
         },
         {
@@ -1265,7 +1265,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/manifest.sig",
           "size": 64,
-          "download_count": 105,
+          "download_count": 106,
           "content_type": "application/pgp-signature"
         },
         {
@@ -9402,7 +9402,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rockbox-y2-v2.5-release-square.png",
           "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rockbox-y2-v2.5-release-square.png",
           "size": 1585171,
-          "download_count": 210,
+          "download_count": 211,
           "content_type": "image/png"
         },
         {
@@ -9410,7 +9410,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_y2.zip",
           "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rom_y2.zip",
           "size": 361644736,
-          "download_count": 532,
+          "download_count": 533,
           "content_type": "application/zip"
         },
         {
@@ -13649,7 +13649,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-10-15T03:03:06Z"
   },
   "schulzcode/y2linux": {
-    "downloads": 14299,
+    "downloads": 14301,
     "forks": 5,
     "release_count": 87,
     "stars": 20,
@@ -13663,7 +13663,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-01T20:29:55Z"
   },
   "spycemagic/y2-rockbox": {
-    "downloads": 2884,
+    "downloads": 2886,
     "forks": 1,
     "release_count": 3,
     "stars": 14,
@@ -13716,7 +13716,7 @@ window.INNIOASIS_REPO_STATS = {
     "forks": 14,
     "release_count": 72,
     "stars": 55,
-    "updated_at": "2026-11-05T07:03:20Z"
+    "updated_at": "2026-11-05T07:15:47Z"
   },
   "y1-community/koensayr-auto-mirror": {
     "downloads": 4,
@@ -13740,7 +13740,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-05T06:43:53Z"
   },
   "y1-community/q5-stock-rom": {
-    "downloads": 6,
+    "downloads": 7,
     "forks": 0,
     "release_count": 3,
     "stars": 0,
@@ -13782,7 +13782,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-05T04:11:50Z"
   },
   "y1-community/updater-ce-neo": {
-    "downloads": 575,
+    "downloads": 576,
     "forks": 0,
     "release_count": 3,
     "stars": 0,
@@ -13817,7 +13817,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-04T21:29:30Z"
   },
   "y1-community/y1-stock-rom": {
-    "downloads": 43713,
+    "downloads": 43719,
     "forks": 0,
     "release_count": 9,
     "stars": 6,
