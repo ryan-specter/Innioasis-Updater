@@ -103,6 +103,20 @@ window.INNIOASIS_README_PAGES = {
       "original-software-pr1"
     ]
   },
+  "y1-community/q3-stock-rom": {
+    "name": "Original Software",
+    "page": "firmware-info/y1-community-q3-stock-rom.html",
+    "slugs": [
+      "original-software-q3"
+    ]
+  },
+  "y1-community/q5-stock-rom": {
+    "name": "Original Software",
+    "page": "firmware-info/y1-community-q5-stock-rom.html",
+    "slugs": [
+      "original-software-q5"
+    ]
+  },
   "y1-community/r1-stock-rom": {
     "name": "Original Software",
     "page": "firmware-info/y1-community-r1-stock-rom.html",

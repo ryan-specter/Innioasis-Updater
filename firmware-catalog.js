@@ -12425,7 +12425,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_y2.zip",
           "browser_download_url": "https://github.com/SchulzCode/Y2Player/releases/download/Release2.5/rom_y2.zip",
           "size": 296365314,
-          "download_count": 984,
+          "download_count": 983,
           "content_type": "application/zip"
         },
         {
@@ -13560,7 +13560,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-04T22:07:33Z"
   },
   "schulzcode/y2player": {
-    "downloads": 1773,
+    "downloads": 1772,
     "forks": 4,
     "release_count": 10,
     "stars": 28,
@@ -13616,7 +13616,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-04T22:40:25Z"
   },
   "y1-community/innioasis-updater": {
-    "downloads": 68160,
+    "downloads": 68159,
     "forks": 14,
     "release_count": 72,
     "stars": 55,

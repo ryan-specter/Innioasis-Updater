@@ -43,8 +43,8 @@
     <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/updater.jpg</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/rom_y2.zip" title="rom_y2.zip" length="354780496" type="application/zip" innioasis:download_count="1409" innioasis:asset_id="454784243"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="351" innioasis:asset_id="627526019"/>
-    <content type="text"># This is the original launch-day 3.1.7 firmware for Innioasis Y2
-
+    <content type="text"># This is the original launch-day 3.1.7 firmware for Innioasis Y2
+
 This can be used to restore your Y2 back to its factory conditions and get things back up and running if something has gone wrong.</content>
   </entry>
   <entry>
@@ -71,10 +71,10 @@ This can be used to restore your Y2 back to its factory conditions and get thing
     <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/rom.zip" title="rom.zip" length="249544334" type="application/x-zip-compressed" innioasis:download_count="7793" innioasis:asset_id="404575917"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="1735" innioasis:asset_id="627526526"/>
-    <content type="text">**Changes in 3.0.7** 
-
-This release has a new E-Book reading feature and a new theme named HoloFacet.
-
+    <content type="text">**Changes in 3.0.7** 
+
+This release has a new E-Book reading feature and a new theme named HoloFacet.
+
 Theme creators that haven&#x27;t previously implemented their eBook icons are advised to do so to retain theme compatibility.</content>
   </entry>
   <entry>
@@ -88,15 +88,15 @@ Theme creators that haven&#x27;t previously implemented their eBook icons are ad
     <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom/releases/download/3.0.2/updater.jpg</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.2/rom.zip" title="rom.zip" length="259502414" type="application/x-zip-compressed" innioasis:download_count="11080" innioasis:asset_id="327883399"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.2/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="308" innioasis:asset_id="627526996"/>
-    <content type="text">**Notice: Please do not downgrade to 3.0.2 from newer firmware versions like 3.0.7 as this will break your device, a solution is incoming. Please [contact Innioasis](https://www.innioasis.com/pages/contact) if you have been affected by this,** 
-
-New in System Software 3.0.2:
-
-Language selection at first start-up for new users, in line with new retail units, users will be asked to select their language after installing the firmware, or when they take a new Y1 from the box.
-
-Performance and stability improvements
-
-Known issues:
+    <content type="text">**Notice: Please do not downgrade to 3.0.2 from newer firmware versions like 3.0.7 as this will break your device, a solution is incoming. Please [contact Innioasis](https://www.innioasis.com/pages/contact) if you have been affected by this,** 
+
+New in System Software 3.0.2:
+
+Language selection at first start-up for new users, in line with new retail units, users will be asked to select their language after installing the firmware, or when they take a new Y1 from the box.
+
+Performance and stability improvements
+
+Known issues:
 ADB is currently not enabled on builds newer than 2.1.9. This means that screenshots will can not be taken on this release and that theme and file transfers using Smart Drop in updater will require you to have USB Storage Mode enabled.</content>
   </entry>
   <entry>
@@ -110,55 +110,55 @@ ADB is currently not enabled on builds newer than 2.1.9. This means that screens
     <innioasis:icon_url>https://github.com/y1-community/y1-stock-rom/releases/download/2.8.2/updater.jpg</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/2.8.2/rom.zip" title="rom.zip" length="234564048" type="application/zip" innioasis:download_count="4943" innioasis:asset_id="313062124"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom/releases/download/2.8.2/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg" innioasis:download_count="301" innioasis:asset_id="627527758"/>
-    <content type="text">Video Fix: Resolved an issue that prevented videos from being paused reliably.
-
-Video Stability: Improved handling of video playback to prevent the application from crashing (fixing IllegalStateException on startup).
-
-Video Management: Enhanced logic for checking video folders to ensure that non-folder files are skipped.
-
-Multilingual Support:
-
-User Interface (UI):
-
-Implemented a scrolling marquee effect for file names that are too long to fit on the screen.
-
-Fixed several bugs related to the Theme interface.
-
-File Management:
-
-Improved folder deletion logic to ensure all checks for video files are completed.
-
-Changed file name sorting to be case-insensitive (treating &quot;A&quot; and &quot;a&quot; the same).
-
-Music &amp; Video Sync:
-
-Fixed a bug where the music database was not synchronized when video folders were deleted.
-
-Crucial Fix: Ensured that music playback is completely stopped when a video starts playing.
-
-Database: Database version updated from 3 to 4.
-
-Key Lock: Modified the Key Lock implementation to ensure it persists correctly after a restart.
-
-Video Thumbnails: Reduced the number of concurrent processes for generating video thumbnails to prevent conflicts and improve stability.
-
-Video Thumbnails: Optimized thumbnail generation logic, now saving thumbnails as files for better performance.
-
-Video Error Handling: Adjusted video error detection (error code -38 is no longer treated as a playback failure).
-
-Search/Multi-select: Fixed an issue where the multi-select status and search results were not cleared after adding items to a playlist.
-
-Localization: Corrected German and French translations.
-
-Playback List: Fixed issues where default playback list names were not set according to the device&#x27;s primary language after a factory reset.
-
-Theming/Customization: Fixed bugs related to theme deletion and ensuring the default wallpaper is restored correctly.
-
-Theme Installation: Default themes are now copied in the background to prevent copying from stopping if the screen turns off.
-
-# You can install this update from Innioasis Updater, using SP Flash Tool, or MTK Client with the correct drivers for your system.
-
-# Simply head to www.innioasis.com/pages/download for driver, utility and update instructions for your device.
+    <content type="text">Video Fix: Resolved an issue that prevented videos from being paused reliably.
+
+Video Stability: Improved handling of video playback to prevent the application from crashing (fixing IllegalStateException on startup).
+
+Video Management: Enhanced logic for checking video folders to ensure that non-folder files are skipped.
+
+Multilingual Support:
+
+User Interface (UI):
+
+Implemented a scrolling marquee effect for file names that are too long to fit on the screen.
+
+Fixed several bugs related to the Theme interface.
+
+File Management:
+
+Improved folder deletion logic to ensure all checks for video files are completed.
+
+Changed file name sorting to be case-insensitive (treating &quot;A&quot; and &quot;a&quot; the same).
+
+Music &amp; Video Sync:
+
+Fixed a bug where the music database was not synchronized when video folders were deleted.
+
+Crucial Fix: Ensured that music playback is completely stopped when a video starts playing.
+
+Database: Database version updated from 3 to 4.
+
+Key Lock: Modified the Key Lock implementation to ensure it persists correctly after a restart.
+
+Video Thumbnails: Reduced the number of concurrent processes for generating video thumbnails to prevent conflicts and improve stability.
+
+Video Thumbnails: Optimized thumbnail generation logic, now saving thumbnails as files for better performance.
+
+Video Error Handling: Adjusted video error detection (error code -38 is no longer treated as a playback failure).
+
+Search/Multi-select: Fixed an issue where the multi-select status and search results were not cleared after adding items to a playlist.
+
+Localization: Corrected German and French translations.
+
+Playback List: Fixed issues where default playback list names were not set according to the device&#x27;s primary language after a factory reset.
+
+Theming/Customization: Fixed bugs related to theme deletion and ensuring the default wallpaper is restored correctly.
+
+Theme Installation: Default themes are now copied in the background to prevent copying from stopping if the screen turns off.
+
+# You can install this update from Innioasis Updater, using SP Flash Tool, or MTK Client with the correct drivers for your system.
+
+# Simply head to www.innioasis.com/pages/download for driver, utility and update instructions for your device.
 </content>
   </entry>
   <entry>
