@@ -300,7 +300,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg",
           "size": 30612,
-          "download_count": 776,
+          "download_count": 779,
           "content_type": "image/jpeg"
         }
       ]
@@ -337,7 +337,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/updater.jpg",
           "size": 30612,
-          "download_count": 519,
+          "download_count": 523,
           "content_type": "image/jpeg"
         }
       ]
@@ -366,7 +366,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/updater.jpg",
           "size": 30612,
-          "download_count": 384,
+          "download_count": 387,
           "content_type": "image/jpeg"
         }
       ]
@@ -395,7 +395,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg",
           "size": 30612,
-          "download_count": 2039,
+          "download_count": 2045,
           "content_type": "image/jpeg"
         }
       ]
@@ -424,7 +424,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg",
           "size": 30612,
-          "download_count": 1862,
+          "download_count": 1866,
           "content_type": "image/jpeg"
         }
       ]
@@ -1257,7 +1257,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-223/manifest.json",
           "size": 4239,
-          "download_count": 47,
+          "download_count": 48,
           "content_type": "application/json"
         },
         {
@@ -1265,7 +1265,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-223/manifest.sig",
           "size": 64,
-          "download_count": 44,
+          "download_count": 45,
           "content_type": "application/pgp-signature"
         },
         {
@@ -8136,7 +8136,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.png",
           "browser_download_url": "https://github.com/jarvissax/rondo/releases/download/v1.0.2/updater.png",
           "size": 12952,
-          "download_count": 64,
+          "download_count": 65,
           "content_type": "image/png"
         }
       ]
@@ -14223,7 +14223,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-02T14:49:32Z"
   },
   "jarvissax/rondo": {
-    "downloads": 223,
+    "downloads": 224,
     "forks": 1,
     "release_count": 3,
     "stars": 0,
@@ -14258,7 +14258,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-10-15T03:03:06Z"
   },
   "schulzcode/y2linux": {
-    "downloads": 15397,
+    "downloads": 15399,
     "forks": 5,
     "release_count": 89,
     "stars": 20,
@@ -14314,11 +14314,11 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-05T04:15:40Z"
   },
   "y1-community/innioasis-updater": {
-    "downloads": 68255,
+    "downloads": 68259,
     "forks": 14,
     "release_count": 72,
     "stars": 55,
-    "updated_at": "2026-11-05T20:34:25Z"
+    "updated_at": "2026-11-05T20:38:49Z"
   },
   "y1-community/koensayr-auto-mirror": {
     "downloads": 4,
@@ -14356,7 +14356,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-05T04:10:35Z"
   },
   "y1-community/rockbox-mirror": {
-    "downloads": 137,
+    "downloads": 158,
     "forks": 0,
     "release_count": 22,
     "stars": 0,
@@ -14370,7 +14370,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-05T11:35:27Z"
   },
   "y1-community/solar-mirror": {
-    "downloads": 206,
+    "downloads": 229,
     "forks": 0,
     "release_count": 47,
     "stars": 0,
@@ -14384,7 +14384,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-05T04:11:50Z"
   },
   "y1-community/updater-ce-neo": {
-    "downloads": 689,
+    "downloads": 690,
     "forks": 0,
     "release_count": 4,
     "stars": 0,
@@ -14419,7 +14419,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-05T11:29:28Z"
   },
   "y1-community/y1-stock-rom": {
-    "downloads": 44185,
+    "downloads": 44205,
     "forks": 0,
     "release_count": 9,
     "stars": 6,

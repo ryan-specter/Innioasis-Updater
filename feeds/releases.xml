@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<releases_backup generated_at="2026-11-05T20:34:27Z">
-  <repository name="y1-community/y1-stock-rom" downloads="44185" release_count="9" stars="6" icon="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg" icon_dark="">
+<releases_backup generated_at="2026-11-05T20:43:54Z">
+  <repository name="y1-community/y1-stock-rom" downloads="44205" release_count="9" stars="6" icon="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg" icon_dark="">
     <release id="387902888" tag_name="3.2.1" name="System Software 3.2.1 for Innioasis Y2" published_at="2026-09-13T13:11:31Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.2.1" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg" icon_dark_url="">
       <body>General performance and stability improvements</body>
       <assets>
         <asset id="561232474" name="rom_y2.zip" size="355560849" download_count="1704" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/rom_y2.zip"/>
-        <asset id="627525120" name="updater.jpg" size="30612" download_count="776" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg"/>
+        <asset id="627525120" name="updater.jpg" size="30612" download_count="779" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg"/>
       </assets>
     </release>
     <release id="387891487" tag_name="3.2.0-fm" name="System Software 3.2.0 for Innioasis Y2 with FM Radio" published_at="2026-09-13T12:42:26Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.2.0-fm" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/updater.jpg" icon_dark_url="">
@@ -13,7 +13,7 @@
       <assets>
         <asset id="561172655" name="rom_y2.zip" size="355558382" download_count="515" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/rom_y2.zip"/>
         <asset id="703033870" name="system.img" size="859826928" download_count="24" content_type="application/x-apple-diskimage" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/system.img"/>
-        <asset id="627525519" name="updater.jpg" size="30612" download_count="519" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/updater.jpg"/>
+        <asset id="627525519" name="updater.jpg" size="30612" download_count="523" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/updater.jpg"/>
       </assets>
     </release>
     <release id="343049934" tag_name="3.1.7" name="Original System Software 3.1.7 for Innioasis Y2" published_at="2026-06-22T17:03:20Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.1.7" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/updater.jpg" icon_dark_url="">
@@ -22,14 +22,14 @@
 This can be used to restore your Y2 back to its factory conditions and get things back up and running if something has gone wrong.</body>
       <assets>
         <asset id="454784243" name="rom_y2.zip" size="354780496" download_count="1410" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/rom_y2.zip"/>
-        <asset id="627526019" name="updater.jpg" size="30612" download_count="384" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/updater.jpg"/>
+        <asset id="627526019" name="updater.jpg" size="30612" download_count="387" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/updater.jpg"/>
       </assets>
     </release>
     <release id="354826587" tag_name="3.1.2" name="Original System Software 3.1.2 for Innioasis Y1" published_at="2026-07-16T02:03:48Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.1.2" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg" icon_dark_url="">
       <body>Features improved support for AirPods Pro 2, AirPods 3 and later</body>
       <assets>
         <asset id="478638297" name="rom.zip" size="250125316" download_count="7544" content_type="application/zip" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/rom.zip"/>
-        <asset id="627528645" name="updater.jpg" size="30612" download_count="2039" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg"/>
+        <asset id="627528645" name="updater.jpg" size="30612" download_count="2045" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg"/>
       </assets>
     </release>
     <release id="312645750" tag_name="3.0.7" name="System Software 3.0.7 for Innioasis Y1" published_at="2026-04-23T09:52:31Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.0.7" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg" icon_dark_url="">
@@ -40,7 +40,7 @@ This release has a new E-Book reading feature and a new theme named HoloFacet.
 Theme creators that haven&#x27;t previously implemented their eBook icons are advised to do so to retain theme compatibility.</body>
       <assets>
         <asset id="404575917" name="rom.zip" size="249544334" download_count="7794" content_type="application/x-zip-compressed" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/rom.zip"/>
-        <asset id="627526526" name="updater.jpg" size="30612" download_count="1862" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg"/>
+        <asset id="627526526" name="updater.jpg" size="30612" download_count="1866" content_type="image/jpeg" browser_download_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg"/>
       </assets>
     </release>
     <release id="269918612" tag_name="3.0.2" name="System Software 3.0.2" published_at="2025-12-12T15:15:38Z" prerelease="false" html_url="https://github.com/y1-community/y1-stock-rom/releases/tag/3.0.2" icon_url="https://github.com/y1-community/y1-stock-rom/releases/download/3.0.2/updater.jpg" icon_dark_url="">
@@ -812,7 +812,7 @@ Full archive: &lt;https://innioasis.app/firmware.html?model=Q5&gt;</body>
       </assets>
     </release>
   </repository>
-  <repository name="schulzcode/y2linux" downloads="15397" release_count="89" stars="20" icon="" icon_dark="">
+  <repository name="schulzcode/y2linux" downloads="15399" release_count="89" stars="20" icon="" icon_dark="">
     <release id="435462665" tag_name="baseline-223" name="Y2Linux 1.0 Beta 9.3.15" published_at="2026-11-05T16:45:52Z" prerelease="false" html_url="https://github.com/SchulzCode/Y2Linux/releases/tag/baseline-223" icon_url="" icon_dark_url="">
       <body>**Y2Linux 1.0 Beta 9.3.15: the Quick Menu.** Linux 6.18 and the native Reborn music player for the Innioasis Y2.
 
@@ -869,8 +869,8 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, Aw
 </body>
       <assets>
         <asset id="714087384" name="bootimg.img.gz" size="7539026" download_count="26" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-223/bootimg.img.gz"/>
-        <asset id="714087380" name="manifest.json" size="4239" download_count="47" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-223/manifest.json"/>
-        <asset id="714087503" name="manifest.sig" size="64" download_count="44" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-223/manifest.sig"/>
+        <asset id="714087380" name="manifest.json" size="4239" download_count="48" content_type="application/json" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-223/manifest.json"/>
+        <asset id="714087503" name="manifest.sig" size="64" download_count="45" content_type="application/pgp-signature" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-223/manifest.sig"/>
         <asset id="714087539" name="recovery.img.gz" size="7539047" download_count="30" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-223/recovery.img.gz"/>
         <asset id="714087577" name="rootfs.ext4.gz" size="51358772" download_count="28" content_type="application/gzip" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-223/rootfs.ext4.gz"/>
         <asset id="714087382" name="SHA256SUMS" size="945" download_count="2" content_type="application/octet-stream" browser_download_url="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-223/SHA256SUMS"/>
@@ -6184,7 +6184,7 @@ Assets: `manifest.json` + `manifest.sig` (Ed25519, key `platform-v1-release-2026
       </assets>
     </release>
   </repository>
-  <repository name="jarvissax/rondo" downloads="223" release_count="3" stars="0" icon="https://innioasis.app/assets/rondo_icon.jpg" icon_dark="">
+  <repository name="jarvissax/rondo" downloads="224" release_count="3" stars="0" icon="https://innioasis.app/assets/rondo_icon.jpg" icon_dark="">
     <release id="432440033" tag_name="v1.0.2" name="Rondo 1.0.2" published_at="2026-11-03T08:34:35Z" prerelease="false" html_url="https://github.com/jarvissax/rondo/releases/tag/v1.0.2" icon_url="https://github.com/jarvissax/rondo/releases/download/v1.0.2/updater.png" icon_dark_url="">
       <body>Rondo 1.0.2 is about the server: it now updates itself with one click from its admin page. **Nothing changes on the Y1 itself**; it still offers this version as an update so the Y1 and the server stay on the same number.
 
@@ -6222,7 +6222,7 @@ If your Y1 runs Rondo 1.0.1, **Settings › Software update**, **Install** in th
       <assets>
         <asset id="704945383" name="rom.zip" size="528028371" download_count="21" content_type="application/zip" browser_download_url="https://github.com/jarvissax/rondo/releases/download/v1.0.2/rom.zip"/>
         <asset id="704898289" name="rondo-1.0.2.apk" size="6423022" download_count="9" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/jarvissax/rondo/releases/download/v1.0.2/rondo-1.0.2.apk"/>
-        <asset id="704945379" name="updater.png" size="12952" download_count="64" content_type="image/png" browser_download_url="https://github.com/jarvissax/rondo/releases/download/v1.0.2/updater.png"/>
+        <asset id="704945379" name="updater.png" size="12952" download_count="65" content_type="image/png" browser_download_url="https://github.com/jarvissax/rondo/releases/download/v1.0.2/updater.png"/>
       </assets>
     </release>
     <release id="432404909" tag_name="v1.0.1" name="Rondo 1.0.1" published_at="2026-11-03T07:52:27Z" prerelease="false" html_url="https://github.com/jarvissax/rondo/releases/tag/v1.0.1" icon_url="https://github.com/jarvissax/rondo/releases/download/v1.0.1/updater.png" icon_dark_url="">
@@ -18895,7 +18895,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
       </assets>
     </release>
   </repository>
-  <repository name="y1-community/rockbox-mirror" downloads="137" release_count="22" stars="0" icon="" icon_dark="">
+  <repository name="y1-community/rockbox-mirror" downloads="158" release_count="22" stars="0" icon="" icon_dark="">
     <release id="432921057" tag_name="type-b-base" name="Portable Flashing Package: Rockbox-Y1 Base ROM - Type B" published_at="2026-11-03T16:05:48Z" prerelease="false" html_url="https://github.com/y1-community/rockbox-mirror/releases/tag/type-b-base" icon_url="" icon_dark_url="">
       <body>&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=rockbox-y1%2Frockbox&amp;amp;tag=type-b-base#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rockbox-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -19091,11 +19091,11 @@ Bug Fixes:
         <asset id="706343705" name="rockbox_360p.apk" size="8489269" download_count="1" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.4/rockbox_360p.apk"/>
         <asset id="713275130" name="rom_240p-linux.zip" size="847997238" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.4/rom_240p-linux.zip"/>
         <asset id="713275133" name="rom_240p-macos.zip" size="614586093" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.4/rom_240p-macos.zip"/>
-        <asset id="713275142" name="rom_240p-windows.zip" size="699224205" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.4/rom_240p-windows.zip"/>
+        <asset id="713275142" name="rom_240p-windows.zip" size="699224205" download_count="2" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.4/rom_240p-windows.zip"/>
         <asset id="706343714" name="rom_240p.zip" size="460680702" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.4/rom_240p.zip"/>
         <asset id="713275134" name="rom_240p_type_b-linux.zip" size="812950698" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.4/rom_240p_type_b-linux.zip"/>
         <asset id="713275141" name="rom_240p_type_b-macos.zip" size="579539558" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.4/rom_240p_type_b-macos.zip"/>
-        <asset id="713275898" name="rom_240p_type_b-windows.zip" size="664177665" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.4/rom_240p_type_b-windows.zip"/>
+        <asset id="713275898" name="rom_240p_type_b-windows.zip" size="664177665" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.4/rom_240p_type_b-windows.zip"/>
         <asset id="706343824" name="rom_240p_type_b.zip" size="425619194" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.4/rom_240p_type_b.zip"/>
         <asset id="713276109" name="rom_360p-linux.zip" size="849860837" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.4/rom_360p-linux.zip"/>
         <asset id="713276224" name="rom_360p-macos.zip" size="616449693" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.4/rom_360p-macos.zip"/>
@@ -19198,8 +19198,8 @@ And many bug fixes and general UI/UX improvements. A big thanks to all the contr
         <asset id="713202182" name="rom_360p-macos.zip" size="588651789" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.3/rom_360p-macos.zip"/>
         <asset id="713202212" name="rom_360p-windows.zip" size="673289900" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.3/rom_360p-windows.zip"/>
         <asset id="706241380" name="rom_360p.zip" size="434614251" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.3/rom_360p.zip"/>
-        <asset id="713202307" name="rom_360p_type_b-linux.zip" size="788643989" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.3/rom_360p_type_b-linux.zip"/>
-        <asset id="713203201" name="rom_360p_type_b-macos.zip" size="555232850" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.3/rom_360p_type_b-macos.zip"/>
+        <asset id="713202307" name="rom_360p_type_b-linux.zip" size="788643989" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.3/rom_360p_type_b-linux.zip"/>
+        <asset id="713203201" name="rom_360p_type_b-macos.zip" size="555232850" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.3/rom_360p_type_b-macos.zip"/>
         <asset id="713203184" name="rom_360p_type_b-windows.zip" size="639870956" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.3/rom_360p_type_b-windows.zip"/>
         <asset id="706242507" name="rom_360p_type_b.zip" size="401143742" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.3/rom_360p_type_b.zip"/>
         <asset id="713203181" name="stats.txt" size="3449" download_count="0" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.3/stats.txt"/>
@@ -19240,15 +19240,15 @@ And many bug fixes and general UI/UX improvements. A big thanks to all the contr
 </body>
       <assets>
         <asset id="706465392" name="rockbox.apk" size="16439605" download_count="1" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/rockbox.apk"/>
-        <asset id="713358222" name="rom-linux.zip" size="921723282" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/rom-linux.zip"/>
-        <asset id="713358244" name="rom-macos.zip" size="688312125" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/rom-macos.zip"/>
+        <asset id="713358222" name="rom-linux.zip" size="921723282" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/rom-linux.zip"/>
+        <asset id="713358244" name="rom-macos.zip" size="688312125" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/rom-macos.zip"/>
         <asset id="713358239" name="rom-windows.zip" size="772950249" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/rom-windows.zip"/>
         <asset id="706465429" name="rom.zip" size="534355449" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/rom.zip"/>
-        <asset id="713358221" name="rom_type_b-linux.zip" size="837690466" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/rom_type_b-linux.zip"/>
-        <asset id="713358243" name="rom_type_b-macos.zip" size="604279315" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/rom_type_b-macos.zip"/>
-        <asset id="713359613" name="rom_type_b-windows.zip" size="688917433" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/rom_type_b-windows.zip"/>
+        <asset id="713358221" name="rom_type_b-linux.zip" size="837690466" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/rom_type_b-linux.zip"/>
+        <asset id="713358243" name="rom_type_b-macos.zip" size="604279315" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/rom_type_b-macos.zip"/>
+        <asset id="713359613" name="rom_type_b-windows.zip" size="688917433" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/rom_type_b-windows.zip"/>
         <asset id="706465477" name="rom_type_b.zip" size="450325466" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/rom_type_b.zip"/>
-        <asset id="713359752" name="stats.txt" size="2626" download_count="0" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/stats.txt"/>
+        <asset id="713359752" name="stats.txt" size="2626" download_count="1" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/stats.txt"/>
         <asset id="706465594" name="update.zip" size="98278096" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-f588b0f654632913a2bbb9f832e7ddf4571b7c40/update.zip"/>
       </assets>
     </release>
@@ -19287,15 +19287,15 @@ And many bug fixes and general UI/UX improvements. A big thanks to all the contr
 </body>
       <assets>
         <asset id="706452893" name="rockbox.apk" size="16410933" download_count="1" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rockbox.apk"/>
-        <asset id="713348078" name="rom-linux.zip" size="920487280" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rom-linux.zip"/>
-        <asset id="713348077" name="rom-macos.zip" size="687076123" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rom-macos.zip"/>
-        <asset id="713348068" name="rom-windows.zip" size="771714247" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rom-windows.zip"/>
+        <asset id="713348078" name="rom-linux.zip" size="920487280" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rom-linux.zip"/>
+        <asset id="713348077" name="rom-macos.zip" size="687076123" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rom-macos.zip"/>
+        <asset id="713348068" name="rom-windows.zip" size="771714247" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rom-windows.zip"/>
         <asset id="706452966" name="rom.zip" size="533121549" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rom.zip"/>
-        <asset id="713348075" name="rom_type_b-linux.zip" size="838423403" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rom_type_b-linux.zip"/>
-        <asset id="713348062" name="rom_type_b-macos.zip" size="605012251" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rom_type_b-macos.zip"/>
-        <asset id="713349104" name="rom_type_b-windows.zip" size="689650370" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rom_type_b-windows.zip"/>
+        <asset id="713348075" name="rom_type_b-linux.zip" size="838423403" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rom_type_b-linux.zip"/>
+        <asset id="713348062" name="rom_type_b-macos.zip" size="605012251" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rom_type_b-macos.zip"/>
+        <asset id="713349104" name="rom_type_b-windows.zip" size="689650370" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rom_type_b-windows.zip"/>
         <asset id="706453058" name="rom_type_b.zip" size="451061510" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/rom_type_b.zip"/>
-        <asset id="713349169" name="stats.txt" size="2626" download_count="0" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/stats.txt"/>
+        <asset id="713349169" name="stats.txt" size="2626" download_count="1" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/stats.txt"/>
         <asset id="706453237" name="update.zip" size="98180643" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-ec32a663dfb8396080227de03846c30f07dc258d/update.zip"/>
       </assets>
     </release>
@@ -19335,11 +19335,11 @@ And many bug fixes and general UI/UX improvements. A big thanks to all the contr
       <assets>
         <asset id="707402961" name="rockbox.apk" size="16439605" download_count="1" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rockbox.apk"/>
         <asset id="713370153" name="rom-linux.zip" size="922498996" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rom-linux.zip"/>
-        <asset id="713370144" name="rom-macos.zip" size="689087839" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rom-macos.zip"/>
-        <asset id="713370146" name="rom-windows.zip" size="773725963" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rom-windows.zip"/>
+        <asset id="713370144" name="rom-macos.zip" size="689087839" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rom-macos.zip"/>
+        <asset id="713370146" name="rom-windows.zip" size="773725963" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rom-windows.zip"/>
         <asset id="707403040" name="rom.zip" size="535140170" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rom.zip"/>
-        <asset id="713370147" name="rom_type_b-linux.zip" size="838566150" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rom_type_b-linux.zip"/>
-        <asset id="713370142" name="rom_type_b-macos.zip" size="605154998" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rom_type_b-macos.zip"/>
+        <asset id="713370147" name="rom_type_b-linux.zip" size="838566150" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rom_type_b-linux.zip"/>
+        <asset id="713370142" name="rom_type_b-macos.zip" size="605154998" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rom_type_b-macos.zip"/>
         <asset id="713371428" name="rom_type_b-windows.zip" size="689793117" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rom_type_b-windows.zip"/>
         <asset id="707403517" name="rom_type_b.zip" size="451220956" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rom_type_b.zip"/>
         <asset id="713371514" name="stats.txt" size="2624" download_count="0" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/stats.txt"/>
@@ -23103,7 +23103,7 @@ Credit to @palutenfan123 for building this.
       </assets>
     </release>
   </repository>
-  <repository name="y1-community/solar-mirror" downloads="206" release_count="47" stars="0" icon="" icon_dark="">
+  <repository name="y1-community/solar-mirror" downloads="229" release_count="47" stars="0" icon="" icon_dark="">
     <release id="432887016" tag_name="y2-release" name="Portable Flashing Package: Solar Y2 ROM v20261023-0720" published_at="2026-11-03T15:36:38Z" prerelease="false" html_url="https://github.com/y1-community/solar-mirror/releases/tag/y2-release" icon_url="" icon_dark_url="">
       <body>&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=y2-release#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -23871,7 +23871,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
         <asset id="707407805" name="rom.zip" size="454738152" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1024/rom.zip"/>
         <asset id="713396695" name="rom_type_b-linux.zip" size="795014865" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1024/rom_type_b-linux.zip"/>
         <asset id="713396694" name="rom_type_b-macos.zip" size="561603699" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1024/rom_type_b-macos.zip"/>
-        <asset id="713398609" name="rom_type_b-windows.zip" size="646241832" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1024/rom_type_b-windows.zip"/>
+        <asset id="713398609" name="rom_type_b-windows.zip" size="646241832" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1024/rom_type_b-windows.zip"/>
         <asset id="707407933" name="rom_type_b.zip" size="407541607" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1024/rom_type_b.zip"/>
         <asset id="713399065" name="stats.txt" size="2471" download_count="0" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1024/stats.txt"/>
       </assets>
@@ -23941,15 +23941,15 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
 </body>
       <assets>
         <asset id="706468639" name="app-release.apk" size="11913510" download_count="1" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/app-release.apk"/>
-        <asset id="713385339" name="rom-linux.zip" size="843774183" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/rom-linux.zip"/>
+        <asset id="713385339" name="rom-linux.zip" size="843774183" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/rom-linux.zip"/>
         <asset id="713385337" name="rom-macos.zip" size="610363009" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/rom-macos.zip"/>
-        <asset id="713385351" name="rom-windows.zip" size="695001150" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/rom-windows.zip"/>
+        <asset id="713385351" name="rom-windows.zip" size="695001150" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/rom-windows.zip"/>
         <asset id="706468706" name="rom.zip" size="456316899" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/rom.zip"/>
         <asset id="713385336" name="rom_type_b-linux.zip" size="793674182" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/rom_type_b-linux.zip"/>
         <asset id="713385338" name="rom_type_b-macos.zip" size="560263014" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/rom_type_b-macos.zip"/>
-        <asset id="713387626" name="rom_type_b-windows.zip" size="644901149" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/rom_type_b-windows.zip"/>
+        <asset id="713387626" name="rom_type_b-windows.zip" size="644901149" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/rom_type_b-windows.zip"/>
         <asset id="706468789" name="rom_type_b.zip" size="406194763" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/rom_type_b.zip"/>
-        <asset id="713389086" name="stats.txt" size="2472" download_count="0" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/stats.txt"/>
+        <asset id="713389086" name="stats.txt" size="2472" download_count="1" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/stats.txt"/>
       </assets>
     </release>
     <release id="433007665" tag_name="nightly-20260630-0957" name="Portable Flashing Package: Solar nightly-20260630-0957 (835fd26)" published_at="2026-11-03T17:24:05Z" prerelease="false" html_url="https://github.com/y1-community/solar-mirror/releases/tag/nightly-20260630-0957" icon_url="" icon_dark_url="">
@@ -24017,15 +24017,15 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
 </body>
       <assets>
         <asset id="706457341" name="app-release.apk" size="11913516" download_count="1" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/app-release.apk"/>
-        <asset id="713374655" name="rom-linux.zip" size="842199984" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/rom-linux.zip"/>
-        <asset id="713374665" name="rom-macos.zip" size="608788810" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/rom-macos.zip"/>
-        <asset id="713374661" name="rom-windows.zip" size="693426951" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/rom-windows.zip"/>
+        <asset id="713374655" name="rom-linux.zip" size="842199984" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/rom-linux.zip"/>
+        <asset id="713374665" name="rom-macos.zip" size="608788810" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/rom-macos.zip"/>
+        <asset id="713374661" name="rom-windows.zip" size="693426951" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/rom-windows.zip"/>
         <asset id="706457415" name="rom.zip" size="454748168" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/rom.zip"/>
-        <asset id="713374660" name="rom_type_b-linux.zip" size="787469991" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/rom_type_b-linux.zip"/>
-        <asset id="713374659" name="rom_type_b-macos.zip" size="554058823" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/rom_type_b-macos.zip"/>
-        <asset id="713376795" name="rom_type_b-windows.zip" size="638696958" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/rom_type_b-windows.zip"/>
+        <asset id="713374660" name="rom_type_b-linux.zip" size="787469991" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/rom_type_b-linux.zip"/>
+        <asset id="713374659" name="rom_type_b-macos.zip" size="554058823" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/rom_type_b-macos.zip"/>
+        <asset id="713376795" name="rom_type_b-windows.zip" size="638696958" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/rom_type_b-windows.zip"/>
         <asset id="706457443" name="rom_type_b.zip" size="399998206" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/rom_type_b.zip"/>
-        <asset id="713377003" name="stats.txt" size="2472" download_count="0" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/stats.txt"/>
+        <asset id="713377003" name="stats.txt" size="2472" download_count="1" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/stats.txt"/>
       </assets>
     </release>
     <release id="433003779" tag_name="nightly-20260630-0636" name="Portable Flashing Package: Solar nightly-20260630-0636 (14a251d)" published_at="2026-11-03T17:20:18Z" prerelease="false" html_url="https://github.com/y1-community/solar-mirror/releases/tag/nightly-20260630-0636" icon_url="" icon_dark_url="">
@@ -24094,15 +24094,15 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
 </body>
       <assets>
         <asset id="706446074" name="app-release.apk" size="11908449" download_count="1" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/app-release.apk"/>
-        <asset id="713363496" name="rom-linux.zip" size="843779907" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/rom-linux.zip"/>
+        <asset id="713363496" name="rom-linux.zip" size="843779907" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/rom-linux.zip"/>
         <asset id="713363500" name="rom-macos.zip" size="610368735" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/rom-macos.zip"/>
-        <asset id="713363494" name="rom-windows.zip" size="695006874" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/rom-windows.zip"/>
+        <asset id="713363494" name="rom-windows.zip" size="695006874" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/rom-windows.zip"/>
         <asset id="706446082" name="rom.zip" size="456326463" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/rom.zip"/>
-        <asset id="713363493" name="rom_type_b-linux.zip" size="793791477" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/rom_type_b-linux.zip"/>
-        <asset id="713363498" name="rom_type_b-macos.zip" size="560380311" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/rom_type_b-macos.zip"/>
-        <asset id="713366331" name="rom_type_b-windows.zip" size="645018444" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/rom_type_b-windows.zip"/>
+        <asset id="713363493" name="rom_type_b-linux.zip" size="793791477" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/rom_type_b-linux.zip"/>
+        <asset id="713363498" name="rom_type_b-macos.zip" size="560380311" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/rom_type_b-macos.zip"/>
+        <asset id="713366331" name="rom_type_b-windows.zip" size="645018444" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/rom_type_b-windows.zip"/>
         <asset id="706446115" name="rom_type_b.zip" size="406305936" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/rom_type_b.zip"/>
-        <asset id="713366434" name="stats.txt" size="2473" download_count="0" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/stats.txt"/>
+        <asset id="713366434" name="stats.txt" size="2473" download_count="1" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/stats.txt"/>
       </assets>
     </release>
     <release id="432999801" tag_name="nightly-20260630-0549" name="Portable Flashing Package: Solar nightly-20260630-0549 (b374289)" published_at="2026-11-03T17:16:44Z" prerelease="false" html_url="https://github.com/y1-community/solar-mirror/releases/tag/nightly-20260630-0549" icon_url="" icon_dark_url="">
@@ -24171,12 +24171,12 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
 </body>
       <assets>
         <asset id="706435741" name="app-release.apk" size="11906835" download_count="1" content_type="application/vnd.android.package-archive" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/app-release.apk"/>
-        <asset id="713353378" name="rom-linux.zip" size="842220491" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/rom-linux.zip"/>
-        <asset id="713353377" name="rom-macos.zip" size="608809316" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/rom-macos.zip"/>
-        <asset id="713353376" name="rom-windows.zip" size="693447458" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/rom-windows.zip"/>
+        <asset id="713353378" name="rom-linux.zip" size="842220491" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/rom-linux.zip"/>
+        <asset id="713353377" name="rom-macos.zip" size="608809316" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/rom-macos.zip"/>
+        <asset id="713353376" name="rom-windows.zip" size="693447458" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/rom-windows.zip"/>
         <asset id="706435801" name="rom.zip" size="454771254" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/rom.zip"/>
-        <asset id="713353374" name="rom_type_b-linux.zip" size="793970554" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/rom_type_b-linux.zip"/>
-        <asset id="713353375" name="rom_type_b-macos.zip" size="560559385" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/rom_type_b-macos.zip"/>
+        <asset id="713353374" name="rom_type_b-linux.zip" size="793970554" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/rom_type_b-linux.zip"/>
+        <asset id="713353375" name="rom_type_b-macos.zip" size="560559385" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/rom_type_b-macos.zip"/>
         <asset id="713355118" name="rom_type_b-windows.zip" size="645197521" download_count="0" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/rom_type_b-windows.zip"/>
         <asset id="706435958" name="rom_type_b.zip" size="406484375" download_count="1" content_type="application/zip" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/rom_type_b.zip"/>
         <asset id="713355671" name="stats.txt" size="2472" download_count="0" content_type="text/plain; charset=utf-8" browser_download_url="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/stats.txt"/>
@@ -26556,7 +26556,7 @@ Features
       </assets>
     </release>
   </repository>
-  <repository name="y1-community/updater-ce-neo" downloads="689" release_count="4" stars="0" icon="" icon_dark="">
+  <repository name="y1-community/updater-ce-neo" downloads="690" release_count="4" stars="0" icon="" icon_dark="">
     <release id="434899583" tag_name="2.5.2" name="Innioasis Updater 2.5.2 for Windows" published_at="2026-11-05T07:39:05Z" prerelease="false" html_url="https://github.com/ryan-specter/updater-ce-neo/releases/tag/2.5.2" icon_url="" icon_dark_url="">
       <body>In this release changes include:
 
@@ -26571,7 +26571,7 @@ Support for the full Innioasis and Timmkoo product line in Updater CE and Firmwa
 
 *Where two firmwares are compatible with eachother, for example if coming from the original software to a newer version of the original software, or a mod of it like Better-Y or Koensayr</body>
       <assets>
-        <asset id="712510139" name="UpdaterCE-Windows-Portable.zip" size="238499367" download_count="87" content_type="application/x-zip-compressed" browser_download_url="https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.2/UpdaterCE-Windows-Portable.zip"/>
+        <asset id="712510139" name="UpdaterCE-Windows-Portable.zip" size="238499367" download_count="88" content_type="application/x-zip-compressed" browser_download_url="https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.2/UpdaterCE-Windows-Portable.zip"/>
       </assets>
     </release>
     <release id="427803579" tag_name="2.5.1" name="Innioasis Updater CE 2.5.1" published_at="2026-10-29T11:55:09Z" prerelease="false" html_url="https://github.com/ryan-specter/updater-ce-neo/releases/tag/2.5.1" icon_url="" icon_dark_url="">
@@ -26599,7 +26599,7 @@ Support for the full Innioasis and Timmkoo product line in Updater CE and Firmwa
       </assets>
     </release>
   </repository>
-  <repository name="y1-community/Innioasis-Updater" downloads="68255" release_count="72" stars="55" icon="" icon_dark="">
+  <repository name="y1-community/Innioasis-Updater" downloads="68259" release_count="72" stars="55" icon="" icon_dark="">
     <release id="421295719" tag_name="2.0.7" name="Innioasis Updater CE 2.5.1 for Windows, macOS and Linux" published_at="2026-10-22T23:24:58Z" prerelease="false" html_url="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/2.0.7" icon_url="" icon_dark_url="">
       <body>New rewritten Updater with features including:
 
@@ -26611,8 +26611,8 @@ Support for the full Innioasis and Timmkoo product line in Updater CE and Firmwa
 -Support for 90+ languages with full i18n support
 </body>
       <assets>
-        <asset id="689639023" name="Innioasis.Updater.for.Mac.dmg" size="154209498" download_count="244" content_type="application/x-diskcopy" browser_download_url="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/Innioasis.Updater.for.Mac.dmg"/>
-        <asset id="688792855" name="installer.exe" size="173282764" download_count="648" content_type="application/x-msdownload" browser_download_url="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/installer.exe"/>
+        <asset id="689639023" name="Innioasis.Updater.for.Mac.dmg" size="154209498" download_count="245" content_type="application/x-diskcopy" browser_download_url="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/Innioasis.Updater.for.Mac.dmg"/>
+        <asset id="688792855" name="installer.exe" size="173282764" download_count="651" content_type="application/x-msdownload" browser_download_url="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/installer.exe"/>
         <asset id="688949138" name="UpdaterCE.AppImage" size="300337656" download_count="169" content_type="application/octet-stream" browser_download_url="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/UpdaterCE.AppImage"/>
       </assets>
     </release>
