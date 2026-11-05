@@ -1,5 +1,21 @@
 <?xml version="1.0"?>
 <slidia>
+  <!--
+    Community firmware catalogue read by Updater CE and innioasis.app.
+    One <package/> entry per model. Use the generator at
+    https://innioasis.app/developers.html to build entries.
+
+    Attributes: name, brand, repo, device, url, type="img",
+    handler="Custom Firmware", package_name, asset_pattern, type_a_asset,
+    type_b_asset, icon, icon_dark, image, image_dark, post_install,
+    post_install2, portable_zips, derivative, info_repo, apk_repo,
+    min_version, do_not_keep_data, slug, description.
+
+    package_name defaults to rom.zip on Y1 and rom_MODEL.zip on other models.
+    do_not_keep_data accepts true, 1 or yes. Legacy aliases still read:
+    model, package, portable_zip, post_install_2, min_app_version, image_dark.
+  -->
+
   <!-- App Market: APKs -->
  <!-- <package name="Stock Menu 2.1.9 Update for Type B Y1's" repo="rockbox-y1/rockbox" url="https://github.com/y1-community/com.innioasis.y1/releases/latest" android_package="org.rockbox" device="y1" type="apk" handler="App" /> -->
   <!-- Custom Firmware: Project Gallagher -->
@@ -46,9 +62,9 @@
 
 <package name="Please Update App To Continue" device_type="0" repo="Please-Click/Updates-Available" device="Y1" url="https://github.com/Please-Click/Updates-Available/releases/latest" type="img" handler="Custom Firmware" />
 
-<package name="inniclassic" brand="Innioasis" repo="JonaszPotoniec/inniclassic-y2" portable_zips="y1-community/inniclassic-y2-mirror" device="Y1" url="https://github.com/JonaszPotoniec/inniclassic-y2" type="img" handler="Custom Firmware" package_name="rom.zip" />
+<package name="inniclassic" brand="Innioasis" repo="FabianZettl/inniclassic" device="Y1" url="https://github.com/FabianZettl/inniclassic" type="img" handler="Custom Firmware"  />
 
-<package name="inniclassic" brand="Innioasis" repo="JonaszPotoniec/inniclassic-y2" portable_zips="y1-community/inniclassic-y2-mirror" device="Y2" url="https://github.com/JonaszPotoniec/inniclassic-y2" type="img" icon="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" handler="Custom Firmware" package_name="rom_y2.zip" />
+<package name="inniclassic" brand="Innioasis" repo="JonaszPotoniec/inniclassic-y2" device="Y2" url="https://github.com/JonaszPotoniec/inniclassic-y2" type="img" icon="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" handler="Custom Firmware" />
 
 <package name="Y2Player" brand="Innioasis" repo="schulzcode/Y2Player" portable_zips="y1-community/y2player-mirror" device="Y2" url="https://github.com/schulzcode/Y2Player" type="img" handler="Custom Firmware" />
 
