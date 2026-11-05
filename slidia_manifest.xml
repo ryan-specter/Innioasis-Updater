@@ -28,23 +28,23 @@
        release tag = the build folder name. No portable_zips until portable packages are built,
        and no icon attribute so they use the same stock firmware icon as Y1 and Y2. -->
 
-<package name="Original Software" brand="Innioasis" repo="y1-community/g1-stock-rom" device="G1" url="https://github.com/y1-community/g1-stock-rom" type="img" handler="Custom Firmware" package_name="rom_g1.zip"  />
+<!-- <package name="Original Software" brand="Innioasis" repo="y1-community/g1-stock-rom" device="G1" url="https://github.com/y1-community/g1-stock-rom" type="img" handler="Custom Firmware" package_name="rom_g1.zip"  /> -->
 
-<package name="Original Software" brand="Innioasis" repo="y1-community/g3-stock-rom" device="G3" url="https://github.com/y1-community/g3-stock-rom" type="img" handler="Custom Firmware" package_name="rom_g3.zip"  />
+<!-- <package name="Original Software" brand="Innioasis" repo="y1-community/g3-stock-rom" device="G3" url="https://github.com/y1-community/g3-stock-rom" type="img" handler="Custom Firmware" package_name="rom_g3.zip"  /> -->
 
-<package name="Original Software" brand="Innioasis" repo="y1-community/g5-stock-rom" device="G5" url="https://github.com/y1-community/g5-stock-rom" type="img" handler="Custom Firmware" package_name="rom_g5.zip"  />
+<!-- <package name="Original Software" brand="Innioasis" repo="y1-community/g5-stock-rom" device="G5" url="https://github.com/y1-community/g5-stock-rom" type="img" handler="Custom Firmware" package_name="rom_g5.zip"  /> -->
 
-<package name="Original Software" brand="Innioasis" repo="y1-community/r1-stock-rom" device="R1" url="https://github.com/y1-community/r1-stock-rom" type="img" handler="Custom Firmware" package_name="rom_r1.zip"  />
+<!-- <package name="Original Software" brand="Innioasis" repo="y1-community/r1-stock-rom" device="R1" url="https://github.com/y1-community/r1-stock-rom" type="img" handler="Custom Firmware" package_name="rom_r1.zip"  /> -->
 
-<package name="Original Software" brand="Innioasis" repo="y1-community/pr1-stock-rom" device="PR1" url="https://github.com/y1-community/pr1-stock-rom" type="img" handler="Custom Firmware" package_name="rom_pr1.zip"  />
+<!-- <package name="Original Software" brand="Innioasis" repo="y1-community/pr1-stock-rom" device="PR1" url="https://github.com/y1-community/pr1-stock-rom" type="img" handler="Custom Firmware" package_name="rom_pr1.zip"  /> -->
 
-<package name="Original Software" brand="Timmkoo" repo="y1-community/sr1-stock-rom" device="SR1" url="https://github.com/y1-community/sr1-stock-rom" type="img" handler="Custom Firmware" package_name="rom_sr1.zip" />
+<!-- <package name="Original Software" brand="Timmkoo" repo="y1-community/sr1-stock-rom" device="SR1" url="https://github.com/y1-community/sr1-stock-rom" type="img" handler="Custom Firmware" package_name="rom_sr1.zip" /> -->
 
-<package name="Original Software" brand="Timmkoo" repo="y1-community/q3-stock-rom" device="Q3" url="https://github.com/y1-community/q3-stock-rom" type="img" handler="Custom Firmware" package_name="rom_q3.zip"  />
+<!-- <package name="Original Software" brand="Timmkoo" repo="y1-community/q3-stock-rom" device="Q3" url="https://github.com/y1-community/q3-stock-rom" type="img" handler="Custom Firmware" package_name="rom_q3.zip"  /> -->
 
-<package name="Original Software" brand="Timmkoo" repo="y1-community/q5-stock-rom" device="Q5" url="https://github.com/y1-community/q5-stock-rom" type="img" handler="Custom Firmware" package_name="rom_q5.zip"  />
+<!-- <package name="Original Software" brand="Timmkoo" repo="y1-community/q5-stock-rom" device="Q5" url="https://github.com/y1-community/q5-stock-rom" type="img" handler="Custom Firmware" package_name="rom_q5.zip"  /> -->
 
-<package name="Original Software" brand="Timmkoo" repo="y1-community/q5-stock-rom" device="Q3e" url="https://github.com/y1-community/q5-stock-rom" type="img" handler="Custom Firmware" package_name="rom_q5.zip"  />
+<!-- <package name="Original Software" brand="Timmkoo" repo="y1-community/q5-stock-rom" device="Q3e" url="https://github.com/y1-community/q5-stock-rom" type="img" handler="Custom Firmware" package_name="rom_q5.zip"  /> -->
 
 <package name="Reborn (Y2Linux)" brand="Innioasis" repo="schulzcode/y2linux" portable_zips="y1-community/y2linux-mirror" device="Y2" url="https://github.com/schulzcode/y2linux" type="img" post_install="https://innioasis.app/y2reborn_wifibt.html" handler="Custom Firmware" />
 
