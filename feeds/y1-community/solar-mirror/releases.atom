@@ -160,36 +160,36 @@ Solar Y2 ROM for Innioasis Y2 (MT6582 ATA). Built from 944d14b.
 
 ---
 
-Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
-
-
-&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
-
-### Features
-
-- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
-- 📺 **YouTube** — Play / Download videos and music from YouTube
-- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
-- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
-- 🎨 **Y1 themes** — install and apply themes from the original Y1/Y2 firmware
-
-## Assets
-
-- `app-release.apk` — signed Solar launcher
-- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
-- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
-
-## Recent commits
-
-- d11c9da Merge main: unified Cover Flow, build timestamp CI, OTA hardening.
-- 92cf168 Unify Cover Flow layout, stamp builds from UTC start time, and harden CI OTA.
-- 4e161aa Merge main: home→Flow morph, marquee fix, OTA preflight.
-- ceafe7f Morph home menu album art into Flow and harden OTA publish.
-- 24d3740 Merge branch &#x27;main&#x27; into nightly
-- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
-- 6040935 Bump stable version for next release.
-- 51ae704 Bump nightly version for next release.
-- e7b33af Merge branch &#x27;main&#x27; into nightly
+Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
+
+
+&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
+
+### Features
+
+- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
+- 📺 **YouTube** — Play / Download videos and music from YouTube
+- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
+- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
+- 🎨 **Y1 themes** — install and apply themes from the original Y1/Y2 firmware
+
+## Assets
+
+- `app-release.apk` — signed Solar launcher
+- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
+- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
+
+## Recent commits
+
+- d11c9da Merge main: unified Cover Flow, build timestamp CI, OTA hardening.
+- 92cf168 Unify Cover Flow layout, stamp builds from UTC start time, and harden CI OTA.
+- 4e161aa Merge main: home→Flow morph, marquee fix, OTA preflight.
+- ceafe7f Morph home menu album art into Flow and harden OTA publish.
+- 24d3740 Merge branch &#x27;main&#x27; into nightly
+- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
+- 6040935 Bump stable version for next release.
+- 51ae704 Bump nightly version for next release.
+- e7b33af Merge branch &#x27;main&#x27; into nightly
 - 5e1c4a6 Fix podcast playback speed parameter application and update default album art UI effects
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;0c97d812386d4a5c0d7d21ee9e389fa627b594865e6e3b9853ff651febc6e45f&quot;,&quot;size&quot;:842248912,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;f46907497df19b48b6396217b40cb4e894e853b363eb2f0ef473b7d5a3b3fc06&quot;,&quot;size&quot;:608837750,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;bf096d10ef0d40b54f63366b506941329dd08e3d86655669f4c695b1e026ed02&quot;,&quot;size&quot;:691033748,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;cb0445655297fb23ec82cc06f0e5a768b3bda91ec0439e590344283bd2c3f6af&quot;,&quot;size&quot;:793739585,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;a9a755bbefe28af9f3bf7df00457067edd2d3cc8a7ca6c1519e0527fd5281039&quot;,&quot;size&quot;:560328430,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;5b15dfdb04d55980ec10a3d611c75a5061cbb82e0ef64205082b2748be464c5c&quot;,&quot;size&quot;:642524421,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;}],&quot;built_at&quot;:&quot;2026-11-05T00:46:02Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;69b6f0d48bac3f8db5f21892a1a643ff310ebaeda1a76cbae2e53a726530594d&quot;,&quot;original_assets&quot;:[&quot;app-release.apk&quot;,&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;app-release.apk&quot;:1,&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:1,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:1,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:1,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:1},&quot;generated_at&quot;:&quot;2026-11-05T00:46:02Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -243,34 +243,34 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
 
 ---
 
-Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
-
-&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
-
-### Features
-
-- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
-- 📺 **YouTube** — Play / Download videos and music from YouTube
-- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
-- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
-- 🎨 **Y1 themes** — install and apply themes from the original Y1/Y2 firmware
-## Assets
-
-- `app-release.apk` — signed Solar launcher
-- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
-- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
-
-## Recent commits
-
-- 24d3740 Merge branch &#x27;main&#x27; into nightly
-- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
-- 6040935 Bump stable version for next release.
-- 51ae704 Bump nightly version for next release.
-- e7b33af Merge branch &#x27;main&#x27; into nightly
-- 5e1c4a6 Fix podcast playback speed parameter application and update default album art UI effects
-- 7025188 Merge branch &#x27;main&#x27; into nightly
-- f76ba80 Offload play queue file IO from onResume to background thread
-- e8455dd Merge main into nightly
+Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
+
+&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
+
+### Features
+
+- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
+- 📺 **YouTube** — Play / Download videos and music from YouTube
+- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
+- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
+- 🎨 **Y1 themes** — install and apply themes from the original Y1/Y2 firmware
+## Assets
+
+- `app-release.apk` — signed Solar launcher
+- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
+- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
+
+## Recent commits
+
+- 24d3740 Merge branch &#x27;main&#x27; into nightly
+- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
+- 6040935 Bump stable version for next release.
+- 51ae704 Bump nightly version for next release.
+- e7b33af Merge branch &#x27;main&#x27; into nightly
+- 5e1c4a6 Fix podcast playback speed parameter application and update default album art UI effects
+- 7025188 Merge branch &#x27;main&#x27; into nightly
+- f76ba80 Offload play queue file IO from onResume to background thread
+- e8455dd Merge main into nightly
 - 8ed2e24 Trigger library scan and theme reload when SD card mounts (e.g. after disabling USB storage)
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;5d6fcf4bda7b2ef4cd85765b83e738d11cb30450b64a040bb09eca1a9a5d430d&quot;,&quot;size&quot;:842246122,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;5dae7af4cc9acf559dadffcb8e48beba6ee6384a956ead2e23ef1c506fbb2db1&quot;,&quot;size&quot;:608834949,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;3f6fed08115b73b81e8da026d8ab28b9860c831bbcd05a9b43132f997c7cfb0e&quot;,&quot;size&quot;:691030958,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;e652a0f4246e2b1c358d25661b465aea784f619d330929ef7c097f98d7638d95&quot;,&quot;size&quot;:794908266,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;40f8ecd7b5edca3b181c8792d24bdcb0bb205b802cfbf3cdb42cba59db69a9c3&quot;,&quot;size&quot;:561497100,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;2749b59362f5f6a65fb008a5df12cc9a03e9fb35b3328a03ec395f1919b0d641&quot;,&quot;size&quot;:643693102,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;}],&quot;built_at&quot;:&quot;2026-11-05T00:36:40Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;74ac8dccd97b421392bf909b816e2ec106adc525865b710c95ed0161fd1ca20c&quot;,&quot;original_assets&quot;:[&quot;app-release.apk&quot;,&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;app-release.apk&quot;:1,&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:1,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:1,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:1,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:1},&quot;generated_at&quot;:&quot;2026-11-05T00:36:40Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -1949,7 +1949,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
 
 ---
 
-# Solar nightly-20260627-0209 (9e71c08) — initial nightly release, this is experimental, expect bugs, lots of them.
+# Solar nightly-20260627-0209 (9e71c08) — initial nightly release, this is experimental, expect bugs, lots of them.
 
 &gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
@@ -1962,12 +1962,12 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
 - 🔊 **Rockbox-Y1** — co-installed; switch launchers from Settings (no reboot)
 
 
-
-## Recent commits
-
-- 9e71c08 Y1bridge.apk for future AVRCP implementation - thanks to @seanathanVT&#x27;s Koensayr mod.
-- 0a6ee21 Nightly: media suite, Wi‑Fi/BT quick controls, and Y1 input polish.
-- 3c118d8 Fixes for Soulseek/Deezer playback, now playing improvements
+
+## Recent commits
+
+- 9e71c08 Y1bridge.apk for future AVRCP implementation - thanks to @seanathanVT&#x27;s Koensayr mod.
+- 0a6ee21 Nightly: media suite, Wi‑Fi/BT quick controls, and Y1 input polish.
+- 3c118d8 Fixes for Soulseek/Deezer playback, now playing improvements
 - 2895fe1 Adds toggles for online music services so they can be excluded from search results.
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;c9fed4d95d55b2ff7cf297d7ada2d08829f9646c7c09dfe33af87b58732b32e5&quot;,&quot;size&quot;:844620241,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;60c636029db3ada21710123e415c6434cc075c1129eb7afea3832ae77fec903b&quot;,&quot;size&quot;:611209068,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;80cc4c0714fad131982307ba6b8b786860134f64bd99ace8480028dca6f48e34&quot;,&quot;size&quot;:693405077,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;f7c0470e5aaf81b6959f4f3b18776b8980ad7b887f093b5c66962b3e86f56f88&quot;,&quot;size&quot;:796990636,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;6451e1b283dbf3e3b26bbe2931b035b3b757d903b68ac9c27f9bcc649577fea5&quot;,&quot;size&quot;:563579469,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;36c16b95e60cee001ddb7c67588e31c2a0d472f38ad758f4822c32aae1cfc5ea&quot;,&quot;size&quot;:645775472,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;}],&quot;built_at&quot;:&quot;2026-11-04T21:32:58Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;f8f635bdc00d02bf9b748176a328247d5e074db893cfd0d729e28e84e58de7eb&quot;,&quot;original_assets&quot;:[&quot;app-release.apk&quot;,&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;app-release.apk&quot;:3,&quot;rom-linux.zip&quot;:3,&quot;rom-macos.zip&quot;:3,&quot;rom-windows.zip&quot;:3,&quot;rom.zip&quot;:3,&quot;rom_type_b-linux.zip&quot;:3,&quot;rom_type_b-macos.zip&quot;:3,&quot;rom_type_b-windows.zip&quot;:3,&quot;rom_type_b.zip&quot;:3},&quot;generated_at&quot;:&quot;2026-11-04T21:32:58Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -2025,35 +2025,35 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
 
 ---
 
-&gt; **Solar** is a custom firmware and launcher for the Innioasis Y1 — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), **Stem Player** (stem separation powered by [Lalal.ai](https://www.lalal.ai)), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
-
-### Features
-
-- 🎛️ **Stem Player** — Gen1-style vocal/drums/bass/melody mixing on the wheel; separate local tracks with **Lalal.ai** stem separation (cache local stems; mash up 1–3 songs)
-- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
-- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
-- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
-- 🎨 **Y1 themes** — install and apply themes from the original Y1 firmware
-
-## Assets
-
-- `app-release.apk` — signed Solar launcher
-- `rom.zip` — Y1 type A ATA firmware (2.0.0+, MT6572, SP Flash Tool included)
-- `rom_type_b.zip` — Y1 type B ATA firmware (before 2.0.0, MT6572, SP Flash Tool included)
-- `rom_y2.zip` — Y2 ATA firmware (MT6582, desparsed ext4, permissive root)
-- `rom_a5.zip` — Timmkoo A5 ATA firmware (MT6572, A5 keylayouts, family pin, SP Flash Tool included, no Rockbox bake)
-
-## Recent commits
-
-- 63a4857 Merge pull request #75 from thesolarproject/optimize-fm-presets-db-3443063346962454810
-- 508e91b Fix N+1 database updates in FmPresetStore by wrapping inserts and updates in database transactions.
-- 5f51eae Bump stable version for next release.
-- e5b4829 Merge pull request #71 from thesolarproject/fix-queue-performance-mix-rows-3017496182364856590
-- 6802496 Fix performance issues when viewing the playback queue with stems/Mix rows enabled.
-- 27a819e Bump stable version for next release.
-- 33331da Align Y2 verifier with Solar-only ROMs
-- 230fb40 Fit ROM userdata images to scatter partitions
-- 4a2fe2f Fix writable ext4 mounts for noninteractive ROM builds
+&gt; **Solar** is a custom firmware and launcher for the Innioasis Y1 — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), **Stem Player** (stem separation powered by [Lalal.ai](https://www.lalal.ai)), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
+
+### Features
+
+- 🎛️ **Stem Player** — Gen1-style vocal/drums/bass/melody mixing on the wheel; separate local tracks with **Lalal.ai** stem separation (cache local stems; mash up 1–3 songs)
+- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
+- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
+- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
+- 🎨 **Y1 themes** — install and apply themes from the original Y1 firmware
+
+## Assets
+
+- `app-release.apk` — signed Solar launcher
+- `rom.zip` — Y1 type A ATA firmware (2.0.0+, MT6572, SP Flash Tool included)
+- `rom_type_b.zip` — Y1 type B ATA firmware (before 2.0.0, MT6572, SP Flash Tool included)
+- `rom_y2.zip` — Y2 ATA firmware (MT6582, desparsed ext4, permissive root)
+- `rom_a5.zip` — Timmkoo A5 ATA firmware (MT6572, A5 keylayouts, family pin, SP Flash Tool included, no Rockbox bake)
+
+## Recent commits
+
+- 63a4857 Merge pull request #75 from thesolarproject/optimize-fm-presets-db-3443063346962454810
+- 508e91b Fix N+1 database updates in FmPresetStore by wrapping inserts and updates in database transactions.
+- 5f51eae Bump stable version for next release.
+- e5b4829 Merge pull request #71 from thesolarproject/fix-queue-performance-mix-rows-3017496182364856590
+- 6802496 Fix performance issues when viewing the playback queue with stems/Mix rows enabled.
+- 27a819e Bump stable version for next release.
+- 33331da Align Y2 verifier with Solar-only ROMs
+- 230fb40 Fit ROM userdata images to scatter partitions
+- 4a2fe2f Fix writable ext4 mounts for noninteractive ROM builds
 - 9f487c6 Sync latest Solar launcher and ROM build work
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;325dbddd971146f1cad864ea345fed70a036ae6d499dd898d932dbd6d4b38b51&quot;,&quot;size&quot;:1297654343,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;a413445296a21fb06f932b3891ac5f01220af6cf1a439ffc9117814c43e9ef3e&quot;,&quot;size&quot;:1066043791,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;05972fc8a6b14915c23dbca13cc0df6dae6a997e9773dd896d31061af99a3462&quot;,&quot;size&quot;:1146439179,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_a5-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;c44b8a6b26685219d0e74ff3abae5a55f2f3a777d0c7f87ad960703081b21531&quot;,&quot;size&quot;:609763981,&quot;source_asset&quot;:&quot;rom_a5.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_a5-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;5cd5a3389d52e2a936710567b7515ac4cd5c9ffec83b41f9473b3f88289e3d68&quot;,&quot;size&quot;:378153412,&quot;source_asset&quot;:&quot;rom_a5.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_a5-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;839bfd7c4e6117ad87c8e88611d96d1d4e967166f9912117d51d8990ccb0d0ba&quot;,&quot;size&quot;:458548817,&quot;source_asset&quot;:&quot;rom_a5.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;dd4bd4211fda2983d159978b7130a036ee0f5d040f3c3328b84571e29a31f876&quot;,&quot;size&quot;:804486921,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;c745c34fd001ca42ac27aef9600aa11c2d60dfc0012b8930413d273ab2f3b655&quot;,&quot;size&quot;:572876375,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;31e287c60a59d0b25c097dea5ce0aacdbe8b67674ed3f9fe5f660ae655999e1a&quot;,&quot;size&quot;:653271757,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;}],&quot;built_at&quot;:&quot;2026-11-05T01:54:35Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;2172b27d6ba559c847a4d3b017fa7dba71e9222d4feeb48ee3c980d1eb2d2e01&quot;,&quot;original_assets&quot;:[&quot;app-release.apk&quot;,&quot;rom.zip&quot;,&quot;rom_a5.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;app-release.apk&quot;:1,&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:1,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:1,&quot;rom_a5-linux.zip&quot;:1,&quot;rom_a5-macos.zip&quot;:0,&quot;rom_a5-windows.zip&quot;:1,&quot;rom_a5.zip&quot;:1,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:0,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:1},&quot;generated_at&quot;:&quot;2026-11-05T01:54:35Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -2121,14 +2121,14 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
 
 ---
 
-Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
-
-In this release we have:
-
-YouTube video and music streaming / downloads
-Navidrome integration with music playback
-Improved performance in Flow (cover flow) view
-
+Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
+
+In this release we have:
+
+YouTube video and music streaming / downloads
+Navidrome integration with music playback
+Improved performance in Flow (cover flow) view
+
 After installing for the first time please wait 10-15 minutes for your device to reboot and take itself through its first-time setup process.
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;4d082db3c886cff6f568ae37060e27f770353b76945ac00c7f1455981f4cfcc9&quot;,&quot;size&quot;:860040218,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;d686ec100d6eff68290d28c92ffe9a1d8a22bbbc34703dfc8b34b720cb29753f&quot;,&quot;size&quot;:628429655,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;5986ba269f10c8273f919d85a595a6a56b16c95d57326832633e882b8ebf77ac&quot;,&quot;size&quot;:708825054,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;b38b9b25e545e5de81614a7d23e81f715c4b51766988c3cd6c9c10eb0376f27e&quot;,&quot;size&quot;:860902963,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;69937e7119978d0b78406721150ade9c41da7c1880b8ed566d8d20a64e4a4658&quot;,&quot;size&quot;:629292406,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;6ae59ce8241029dc88c5f9f158a4cddbfc78bc9bcfdfb1ba30920d40a9d4fe2d&quot;,&quot;size&quot;:709687799,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;c48bfb65a7013a4134aced565145c147d1ee09435e27c476ef7a913393c79b7e&quot;,&quot;size&quot;:950762936,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;d5a5c2a231916fcb87764a1099c4186ac4256f2e7fd4ee16bd18ab1474b0adb6&quot;,&quot;size&quot;:719152375,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;1d30728cd8abd3db7e273fa2e97dba1e5d1882f07fdfdc15ccc3735809e02a7b&quot;,&quot;size&quot;:799547772,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;}],&quot;built_at&quot;:&quot;2026-11-05T00:57:18Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;b6780fff6e2aee7755fac3e1fd77306b74a679aea7caa9d4b513ebde789d7186&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;,&quot;rom_y2.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:0,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:1,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:0,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:1,&quot;rom_y2-linux.zip&quot;:1,&quot;rom_y2-macos.zip&quot;:1,&quot;rom_y2-windows.zip&quot;:1,&quot;rom_y2.zip&quot;:0},&quot;generated_at&quot;:&quot;2026-11-05T00:57:18Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -2182,37 +2182,37 @@ After installing for the first time please wait 10-15 minutes for your device to
 
 ---
 
-Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
-
-
-&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
-
-### Features
-
-- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
-- YouTube — Play / Download videos and music from YouTube
-- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
-- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
-- 🎨 **Y1 themes** — install and apply themes from the original Y1/Y2 firmware
-
-
-## Assets
-
-- `app-release.apk` — signed Solar launcher
-- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
-- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
-
-## Recent commits
-
-- f681052 Harden OTA PAT preflight and add manual solar-update sync workflow.
-- 92cf168 Unify Cover Flow layout, stamp builds from UTC start time, and harden CI OTA.
-- ceafe7f Morph home menu album art into Flow and harden OTA publish.
-- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
-- 6040935 Bump stable version for next release.
-- 5e1c4a6 Fix podcast playback speed parameter application and update default album art UI effects
-- f76ba80 Offload play queue file IO from onResume to background thread
-- 8ed2e24 Trigger library scan and theme reload when SD card mounts (e.g. after disabling USB storage)
-- 9b7b72d Fix redundant title in release notes
+Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
+
+
+&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
+
+### Features
+
+- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
+- YouTube — Play / Download videos and music from YouTube
+- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
+- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
+- 🎨 **Y1 themes** — install and apply themes from the original Y1/Y2 firmware
+
+
+## Assets
+
+- `app-release.apk` — signed Solar launcher
+- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
+- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
+
+## Recent commits
+
+- f681052 Harden OTA PAT preflight and add manual solar-update sync workflow.
+- 92cf168 Unify Cover Flow layout, stamp builds from UTC start time, and harden CI OTA.
+- ceafe7f Morph home menu album art into Flow and harden OTA publish.
+- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
+- 6040935 Bump stable version for next release.
+- 5e1c4a6 Fix podcast playback speed parameter application and update default album art UI effects
+- f76ba80 Offload play queue file IO from onResume to background thread
+- 8ed2e24 Trigger library scan and theme reload when SD card mounts (e.g. after disabling USB storage)
+- 9b7b72d Fix redundant title in release notes
 - 9f8bfba Fix USB connection dialog flow and SystemUI suppression lag
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;b695d8f70704d06c52694f5cda36fdd74ff5ecf879a25cc0b08cecc77a3e031d&quot;,&quot;size&quot;:842261146,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;8ba06dc1f6a2d5b7973b97f77313f449a31659de8ad6599a18b0ede9c9673902&quot;,&quot;size&quot;:608849991,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;03292f014f645ca863fff6f3f570c83d429b362989785fb2e7e29c97c0950785&quot;,&quot;size&quot;:691045982,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;f1b87145fa442e7ece13c861d2fc15c5ebc87afeed6eb3329d9012c6c4aad526&quot;,&quot;size&quot;:795077376,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;206684d01ff7344328ac89875fe5df41476e54beffe9aa948f626031ce012e81&quot;,&quot;size&quot;:561666228,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;6e3f0d06826eaaf8fdc3fd24703c6f226ff663fc2cc2d9c46a78f2712b13f72f&quot;,&quot;size&quot;:643862212,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;}],&quot;built_at&quot;:&quot;2026-11-05T00:50:39Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;d427d7dfffbbe81303ed377ca308a6e918b022e1fb8dbae6b2ff4d887d2646b0&quot;,&quot;original_assets&quot;:[&quot;app-release.apk&quot;,&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;app-release.apk&quot;:1,&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:1,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:1,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:1,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:1},&quot;generated_at&quot;:&quot;2026-11-05T00:50:39Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -2266,35 +2266,35 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
 
 ---
 
-Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
-
-    Solar is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, Reach (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
-
-Features
-
-    🎵 Reach — search, play and download music from Deezer and Soulseek
-    YouTube — Play / Download videos and music from YouTube
-    🎙️ Podcasts — search and download episodes to your Y1 over the internet
-    ⚡ Quick menu — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
-    🎨 Y1 themes — install and apply themes from the original Y1/Y2 firmware
-
-## Assets
-
-- `app-release.apk` — signed Solar launcher
-- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
-- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
-
-## Recent commits
-
-- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
-- 6040935 Bump stable version for next release.
-- 5e1c4a6 Fix podcast playback speed parameter application and update default album art UI effects
-- f76ba80 Offload play queue file IO from onResume to background thread
-- 8ed2e24 Trigger library scan and theme reload when SD card mounts (e.g. after disabling USB storage)
-- 9b7b72d Fix redundant title in release notes
-- 9f8bfba Fix USB connection dialog flow and SystemUI suppression lag
-- c439a87 Bump stable version for next release.
-- 0112bc8 Merge remote main
+Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
+
+    Solar is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, Reach (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
+
+Features
+
+    🎵 Reach — search, play and download music from Deezer and Soulseek
+    YouTube — Play / Download videos and music from YouTube
+    🎙️ Podcasts — search and download episodes to your Y1 over the internet
+    ⚡ Quick menu — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
+    🎨 Y1 themes — install and apply themes from the original Y1/Y2 firmware
+
+## Assets
+
+- `app-release.apk` — signed Solar launcher
+- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
+- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
+
+## Recent commits
+
+- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
+- 6040935 Bump stable version for next release.
+- 5e1c4a6 Fix podcast playback speed parameter application and update default album art UI effects
+- f76ba80 Offload play queue file IO from onResume to background thread
+- 8ed2e24 Trigger library scan and theme reload when SD card mounts (e.g. after disabling USB storage)
+- 9b7b72d Fix redundant title in release notes
+- 9f8bfba Fix USB connection dialog flow and SystemUI suppression lag
+- c439a87 Bump stable version for next release.
+- 0112bc8 Merge remote main
 - 879f287 Pause focus polling after user handles USB dialog
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;079aff2db2cc8f6f14ead35e68afe2430340d24c410420f7de169ac3125838b1&quot;,&quot;size&quot;:842205331,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;3d708f73d88bee5819ef9b0d6b0b66cf0346f8a33300f908df26901755c9c07c&quot;,&quot;size&quot;:608794164,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;f2dbe45b18f34e3458fc64a17713b691dc29381f784bee900c98abf9f8e8162f&quot;,&quot;size&quot;:690990167,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;18a1b29ac4a5f5dc31fe30c5fc813bdee6c69c1b057f8fb303e965fb401bed18&quot;,&quot;size&quot;:793744621,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;ef62be93220d58a369056f6d29ca0ab74a38b4a564d45eb515c60f6186596c1b&quot;,&quot;size&quot;:560333461,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;4d4b032a19a4b9db55e5d39689b45509e6d74d1729585ec20046fde08e30ec68&quot;,&quot;size&quot;:642529457,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;}],&quot;built_at&quot;:&quot;2026-11-05T00:41:21Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;9ed3cb57e1942619542bcf7936f56b3ff9dd113156cfc125f1b5a42388a8a26e&quot;,&quot;original_assets&quot;:[&quot;app-release.apk&quot;,&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;app-release.apk&quot;:1,&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:1,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:1,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:1,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:1},&quot;generated_at&quot;:&quot;2026-11-05T00:41:21Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;

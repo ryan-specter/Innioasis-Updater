@@ -300,7 +300,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg",
           "size": 30612,
-          "download_count": 721,
+          "download_count": 724,
           "content_type": "image/jpeg"
         }
       ]
@@ -337,7 +337,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/updater.jpg",
           "size": 30612,
-          "download_count": 472,
+          "download_count": 474,
           "content_type": "image/jpeg"
         }
       ]
@@ -366,7 +366,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/updater.jpg",
           "size": 30612,
-          "download_count": 351,
+          "download_count": 353,
           "content_type": "image/jpeg"
         }
       ]
@@ -387,7 +387,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom.zip",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/rom.zip",
           "size": 250125316,
-          "download_count": 7518,
+          "download_count": 7519,
           "content_type": "application/zip"
         },
         {
@@ -395,7 +395,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg",
           "size": 30612,
-          "download_count": 1903,
+          "download_count": 1908,
           "content_type": "image/jpeg"
         }
       ]
@@ -424,7 +424,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg",
           "size": 30612,
-          "download_count": 1735,
+          "download_count": 1739,
           "content_type": "image/jpeg"
         }
       ]
@@ -554,6 +554,684 @@ window.INNIOASIS_HARDCODED_RELEASES = {
       ]
     }
   ],
+  "y1-community/g1-stock-rom": [
+    {
+      "id": 434802941,
+      "tag_name": "MX3-G1-EN-WM-V5.01-20260805",
+      "name": "MX3-G1-EN-WM-V5.01-20260805",
+      "published_at": "2026-11-05T05:05:03Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/g1-stock-rom/releases/tag/MX3-G1-EN-WM-V5.01-20260805",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Innioasis G1 software **MX3-G1-EN-WM-V5.01-20260805**.\n\n- Model: **G1** (Innioasis)\n- Package: `rom_g1.zip`\n- Build tag: `MX3-G1-EN-WM-V5.01-20260805`\n- Build date: 2026-08-05\n\n## Install\n\n1. Download `rom_g1.zip` (every numbered volume if the release has more than one, then `cat rom_g1.zip.* > rom_g1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g1.zip` | 1569.6 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G1>",
+      "assets": [
+        {
+          "id": 712145567,
+          "name": "rom_g1.zip",
+          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-G1-EN-WM-V5.01-20260805/rom_g1.zip",
+          "size": 1645800503,
+          "download_count": 2,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712152060,
+          "name": "SHA256SUMS.MX3-G1-EN-WM-V5.01-20260805",
+          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-G1-EN-WM-V5.01-20260805/SHA256SUMS.MX3-G1-EN-WM-V5.01-20260805",
+          "size": 78,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    },
+    {
+      "id": 434798724,
+      "tag_name": "MX3-G1-EN-WM-V5.00-20260722",
+      "name": "MX3-G1-EN-WM-V5.00-20260722",
+      "published_at": "2026-11-05T04:57:43Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/g1-stock-rom/releases/tag/MX3-G1-EN-WM-V5.00-20260722",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Innioasis G1 software **MX3-G1-EN-WM-V5.00-20260722**.\n\n- Model: **G1** (Innioasis)\n- Package: `rom_g1.zip`\n- Build tag: `MX3-G1-EN-WM-V5.00-20260722`\n- Build date: 2026-07-22\n\n## Install\n\n1. Download `rom_g1.zip` (every numbered volume if the release has more than one, then `cat rom_g1.zip.* > rom_g1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g1.zip` | 1569.5 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G1>",
+      "assets": [
+        {
+          "id": 712128148,
+          "name": "rom_g1.zip",
+          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-G1-EN-WM-V5.00-20260722/rom_g1.zip",
+          "size": 1645759451,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712134111,
+          "name": "SHA256SUMS.MX3-G1-EN-WM-V5.00-20260722",
+          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-G1-EN-WM-V5.00-20260722/SHA256SUMS.MX3-G1-EN-WM-V5.00-20260722",
+          "size": 78,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    },
+    {
+      "id": 434794779,
+      "tag_name": "MX3-9_G1_MULTI-V3.03-20260826",
+      "name": "MX3-9_G1_MULTI-V3.03-20260826",
+      "published_at": "2026-11-05T04:50:26Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/g1-stock-rom/releases/tag/MX3-9_G1_MULTI-V3.03-20260826",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Innioasis G1 software **MX3-9_G1_MULTI-V3.03-20260826**.\n\n- Model: **G1** (Innioasis)\n- Package: `rom_g1.zip`\n- Build tag: `MX3-9_G1_MULTI-V3.03-20260826`\n- Build date: 2026-08-26\n\n## Install\n\n1. Download `rom_g1.zip` (every numbered volume if the release has more than one, then `cat rom_g1.zip.* > rom_g1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g1.zip` | 1500.3 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G1>",
+      "assets": [
+        {
+          "id": 712107937,
+          "name": "rom_g1.zip",
+          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-9_G1_MULTI-V3.03-20260826/rom_g1.zip",
+          "size": 1573225707,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712114674,
+          "name": "SHA256SUMS.MX3-9_G1_MULTI-V3.03-20260826",
+          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-9_G1_MULTI-V3.03-20260826/SHA256SUMS.MX3-9_G1_MULTI-V3.03-20260826",
+          "size": 78,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    },
+    {
+      "id": 434791282,
+      "tag_name": "MX3-9_G1_MULTI-V3.01-20260720",
+      "name": "MX3-9_G1_MULTI-V3.01-20260720",
+      "published_at": "2026-11-05T04:43:42Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/g1-stock-rom/releases/tag/MX3-9_G1_MULTI-V3.01-20260720",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Innioasis G1 software **MX3-9_G1_MULTI-V3.01-20260720**.\n\n- Model: **G1** (Innioasis)\n- Package: `rom_g1.zip`\n- Build tag: `MX3-9_G1_MULTI-V3.01-20260720`\n- Build date: 2026-07-20\n\n## Install\n\n1. Download `rom_g1.zip` (every numbered volume if the release has more than one, then `cat rom_g1.zip.* > rom_g1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g1.zip` | 1500.4 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G1>",
+      "assets": [
+        {
+          "id": 712092482,
+          "name": "rom_g1.zip",
+          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-9_G1_MULTI-V3.01-20260720/rom_g1.zip",
+          "size": 1573232640,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712098603,
+          "name": "SHA256SUMS.MX3-9_G1_MULTI-V3.01-20260720",
+          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-9_G1_MULTI-V3.01-20260720/SHA256SUMS.MX3-9_G1_MULTI-V3.01-20260720",
+          "size": 78,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    },
+    {
+      "id": 434787340,
+      "tag_name": "MX3-9_EN-V1.04-20260805",
+      "name": "MX3-9_EN-V1.04-20260805",
+      "published_at": "2026-11-05T04:36:55Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/g1-stock-rom/releases/tag/MX3-9_EN-V1.04-20260805",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Innioasis G1 software **MX3-9_EN-V1.04-20260805**.\n\n- Model: **G1** (Innioasis)\n- Package: `rom_g1.zip`\n- Build tag: `MX3-9_EN-V1.04-20260805`\n- Build date: 2026-08-05\n\n## Install\n\n1. Download `rom_g1.zip` (every numbered volume if the release has more than one, then `cat rom_g1.zip.* > rom_g1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g1.zip` | 1569.1 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G1>",
+      "assets": [
+        {
+          "id": 712076820,
+          "name": "rom_g1.zip",
+          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-9_EN-V1.04-20260805/rom_g1.zip",
+          "size": 1645347061,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712082715,
+          "name": "SHA256SUMS.MX3-9_EN-V1.04-20260805",
+          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-9_EN-V1.04-20260805/SHA256SUMS.MX3-9_EN-V1.04-20260805",
+          "size": 78,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    },
+    {
+      "id": 434783060,
+      "tag_name": "MX3-9_EN-V1.03-20260707",
+      "name": "MX3-9_EN-V1.03-20260707",
+      "published_at": "2026-11-05T04:28:59Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/g1-stock-rom/releases/tag/MX3-9_EN-V1.03-20260707",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Innioasis G1 software **MX3-9_EN-V1.03-20260707**.\n\n- Model: **G1** (Innioasis)\n- Package: `rom_g1.zip`\n- Build tag: `MX3-9_EN-V1.03-20260707`\n- Build date: 2026-07-07\n\n## Install\n\n1. Download `rom_g1.zip` (every numbered volume if the release has more than one, then `cat rom_g1.zip.* > rom_g1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g1.zip` | 1569.2 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G1>",
+      "assets": [
+        {
+          "id": 712057109,
+          "name": "rom_g1.zip",
+          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-9_EN-V1.03-20260707/rom_g1.zip",
+          "size": 1645380249,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712063532,
+          "name": "SHA256SUMS.MX3-9_EN-V1.03-20260707",
+          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-9_EN-V1.03-20260707/SHA256SUMS.MX3-9_EN-V1.03-20260707",
+          "size": 78,
+          "download_count": 2,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    }
+  ],
+  "y1-community/g3-stock-rom": [
+    {
+      "id": 434826010,
+      "tag_name": "MX3-G3-EN-WM-V6.01-20260805",
+      "name": "MX3-G3-EN-WM-V6.01-20260805",
+      "published_at": "2026-11-05T05:45:56Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-G3-EN-WM-V6.01-20260805",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Innioasis G3 software **MX3-G3-EN-WM-V6.01-20260805**.\n\n- Model: **G3** (Innioasis)\n- Package: `rom_g3.zip`\n- Build tag: `MX3-G3-EN-WM-V6.01-20260805`\n- Build date: 2026-08-05\n\n## Install\n\n1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* > rom_g3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g3.zip` | 1569.9 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G3>",
+      "assets": [
+        {
+          "id": 712235749,
+          "name": "rom_g3.zip",
+          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-G3-EN-WM-V6.01-20260805/rom_g3.zip",
+          "size": 1646117102,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712241354,
+          "name": "SHA256SUMS.MX3-G3-EN-WM-V6.01-20260805",
+          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-G3-EN-WM-V6.01-20260805/SHA256SUMS.MX3-G3-EN-WM-V6.01-20260805",
+          "size": 78,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    },
+    {
+      "id": 434822073,
+      "tag_name": "MX3-G3-EN-WM-V6.00-20260722",
+      "name": "MX3-G3-EN-WM-V6.00-20260722",
+      "published_at": "2026-11-05T05:39:17Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-G3-EN-WM-V6.00-20260722",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Innioasis G3 software **MX3-G3-EN-WM-V6.00-20260722**.\n\n- Model: **G3** (Innioasis)\n- Package: `rom_g3.zip`\n- Build tag: `MX3-G3-EN-WM-V6.00-20260722`\n- Build date: 2026-07-22\n\n## Install\n\n1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* > rom_g3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g3.zip` | 1569.9 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G3>",
+      "assets": [
+        {
+          "id": 712220915,
+          "name": "rom_g3.zip",
+          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-G3-EN-WM-V6.00-20260722/rom_g3.zip",
+          "size": 1646115909,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712226791,
+          "name": "SHA256SUMS.MX3-G3-EN-WM-V6.00-20260722",
+          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-G3-EN-WM-V6.00-20260722/SHA256SUMS.MX3-G3-EN-WM-V6.00-20260722",
+          "size": 78,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    },
+    {
+      "id": 434818491,
+      "tag_name": "MX3-9_G3_MULTI-V4.03-20260826",
+      "name": "MX3-9_G3_MULTI-V4.03-20260826",
+      "published_at": "2026-11-05T05:32:29Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-9_G3_MULTI-V4.03-20260826",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Innioasis G3 software **MX3-9_G3_MULTI-V4.03-20260826**.\n\n- Model: **G3** (Innioasis)\n- Package: `rom_g3.zip`\n- Build tag: `MX3-9_G3_MULTI-V4.03-20260826`\n- Build date: 2026-08-26\n\n## Install\n\n1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* > rom_g3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g3.zip` | 1500.6 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G3>",
+      "assets": [
+        {
+          "id": 712206288,
+          "name": "rom_g3.zip",
+          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_G3_MULTI-V4.03-20260826/rom_g3.zip",
+          "size": 1573503257,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712211967,
+          "name": "SHA256SUMS.MX3-9_G3_MULTI-V4.03-20260826",
+          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_G3_MULTI-V4.03-20260826/SHA256SUMS.MX3-9_G3_MULTI-V4.03-20260826",
+          "size": 78,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    },
+    {
+      "id": 434814853,
+      "tag_name": "MX3-9_G3_MULTI-V4.02-20260720",
+      "name": "MX3-9_G3_MULTI-V4.02-20260720",
+      "published_at": "2026-11-05T05:26:03Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-9_G3_MULTI-V4.02-20260720",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Innioasis G3 software **MX3-9_G3_MULTI-V4.02-20260720**.\n\n- Model: **G3** (Innioasis)\n- Package: `rom_g3.zip`\n- Build tag: `MX3-9_G3_MULTI-V4.02-20260720`\n- Build date: 2026-07-20\n\n## Install\n\n1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* > rom_g3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g3.zip` | 1500.6 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G3>",
+      "assets": [
+        {
+          "id": 712191481,
+          "name": "rom_g3.zip",
+          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_G3_MULTI-V4.02-20260720/rom_g3.zip",
+          "size": 1573498618,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712197069,
+          "name": "SHA256SUMS.MX3-9_G3_MULTI-V4.02-20260720",
+          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_G3_MULTI-V4.02-20260720/SHA256SUMS.MX3-9_G3_MULTI-V4.02-20260720",
+          "size": 78,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    },
+    {
+      "id": 434811187,
+      "tag_name": "MX3-9_EN_G3-V2.04-20260805",
+      "name": "MX3-9_EN_G3-V2.04-20260805",
+      "published_at": "2026-11-05T05:19:30Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-9_EN_G3-V2.04-20260805",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Innioasis G3 software **MX3-9_EN_G3-V2.04-20260805**.\n\n- Model: **G3** (Innioasis)\n- Package: `rom_g3.zip`\n- Build tag: `MX3-9_EN_G3-V2.04-20260805`\n- Build date: 2026-08-05\n\n## Install\n\n1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* > rom_g3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g3.zip` | 1569.4 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G3>",
+      "assets": [
+        {
+          "id": 712177508,
+          "name": "rom_g3.zip",
+          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_EN_G3-V2.04-20260805/rom_g3.zip",
+          "size": 1645622491,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712183285,
+          "name": "SHA256SUMS.MX3-9_EN_G3-V2.04-20260805",
+          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_EN_G3-V2.04-20260805/SHA256SUMS.MX3-9_EN_G3-V2.04-20260805",
+          "size": 78,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    },
+    {
+      "id": 434806959,
+      "tag_name": "MX3-9_EN_G3-V2.03-20260709",
+      "name": "MX3-9_EN_G3-V2.03-20260709",
+      "published_at": "2026-11-05T05:12:26Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-9_EN_G3-V2.03-20260709",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Innioasis G3 software **MX3-9_EN_G3-V2.03-20260709**.\n\n- Model: **G3** (Innioasis)\n- Package: `rom_g3.zip`\n- Build tag: `MX3-9_EN_G3-V2.03-20260709`\n- Build date: 2026-07-09\n\n## Install\n\n1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* > rom_g3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g3.zip` | 1569.4 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G3>",
+      "assets": [
+        {
+          "id": 712161953,
+          "name": "rom_g3.zip",
+          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_EN_G3-V2.03-20260709/rom_g3.zip",
+          "size": 1645637673,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712167034,
+          "name": "SHA256SUMS.MX3-9_EN_G3-V2.03-20260709",
+          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_EN_G3-V2.03-20260709/SHA256SUMS.MX3-9_EN_G3-V2.03-20260709",
+          "size": 78,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    }
+  ],
+  "y1-community/g5-stock-rom": [
+    {
+      "id": 434778791,
+      "tag_name": "MX4_EN-V1.11-20260727",
+      "name": "MX4_EN-V1.11-20260727",
+      "published_at": "2026-11-05T04:21:06Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/g5-stock-rom/releases/tag/MX4_EN-V1.11-20260727",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Innioasis G5 software **MX4_EN-V1.11-20260727**.\n\n- Model: **G5** (Innioasis)\n- Package: `rom_g5.zip`\n- Build tag: `MX4_EN-V1.11-20260727`\n- Build date: 2026-07-27\n\n## Install\n\n1. Download `rom_g5.zip` (every numbered volume if the release has more than one, then `cat rom_g5.zip.* > rom_g5.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g5.zip` | 1953.7 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G5>",
+      "assets": [
+        {
+          "id": 712038771,
+          "name": "rom_g5.zip",
+          "browser_download_url": "https://github.com/y1-community/g5-stock-rom/releases/download/MX4_EN-V1.11-20260727/rom_g5.zip",
+          "size": 2048654340,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712047709,
+          "name": "SHA256SUMS.MX4_EN-V1.11-20260727",
+          "browser_download_url": "https://github.com/y1-community/g5-stock-rom/releases/download/MX4_EN-V1.11-20260727/SHA256SUMS.MX4_EN-V1.11-20260727",
+          "size": 78,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    }
+  ],
+  "y1-community/r1-stock-rom": [
+    {
+      "id": 434772984,
+      "tag_name": "R1_V1.48.20250425",
+      "name": "R1_V1.48.20250425",
+      "published_at": "2026-11-05T04:10:33Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/r1-stock-rom/releases/tag/R1_V1.48.20250425",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Innioasis R1 software **R1_V1.48.20250425**.\n\n- Model: **R1** (Innioasis)\n- Package: `rom_r1.zip`\n- Build tag: `R1_V1.48.20250425`\n- Build date: 2025-04-25\n\n## Install\n\n1. Download `rom_r1.zip` (every numbered volume if the release has more than one, then `cat rom_r1.zip.* > rom_r1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_r1.zip` | 503.5 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=R1>",
+      "assets": [
+        {
+          "id": 712014404,
+          "name": "rom_r1.zip",
+          "browser_download_url": "https://github.com/y1-community/r1-stock-rom/releases/download/R1_V1.48.20250425/rom_r1.zip",
+          "size": 527923763,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712016312,
+          "name": "SHA256SUMS.R1_V1.48.20250425",
+          "browser_download_url": "https://github.com/y1-community/r1-stock-rom/releases/download/R1_V1.48.20250425/SHA256SUMS.R1_V1.48.20250425",
+          "size": 78,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    }
+  ],
+  "y1-community/pr1-stock-rom": [
+    {
+      "id": 434833381,
+      "tag_name": "R2-V1.34-20260208",
+      "name": "R2-V1.34-20260208",
+      "published_at": "2026-11-05T05:58:34Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/pr1-stock-rom/releases/tag/R2-V1.34-20260208",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Innioasis PR1 software **R2-V1.34-20260208**.\n\n- Model: **PR1** (Innioasis)\n- Package: `rom_pr1.zip`\n- Build tag: `R2-V1.34-20260208`\n- Build date: 2026-02-08\n\n## Install\n\n1. Download `rom_pr1.zip` (every numbered volume if the release has more than one, then `cat rom_pr1.zip.* > rom_pr1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_pr1.zip.001` | 1900.0 MB |\n| `rom_pr1.zip.002` | 1900.0 MB |\n| `rom_pr1.zip.003` | 629.2 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=PR1>",
+      "assets": [
+        {
+          "id": 712334003,
+          "name": "rom_pr1.zip",
+          "browser_download_url": "https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/rom_pr1.zip",
+          "size": 754108851,
+          "download_count": 0,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712353469,
+          "name": "rom_pr1.zip.001",
+          "browser_download_url": "https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/rom_pr1.zip.001",
+          "size": 1992294400,
+          "download_count": 0,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712361350,
+          "name": "rom_pr1.zip.002",
+          "browser_download_url": "https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/rom_pr1.zip.002",
+          "size": 1992294400,
+          "download_count": 0,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712368918,
+          "name": "rom_pr1.zip.003",
+          "browser_download_url": "https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/rom_pr1.zip.003",
+          "size": 659716186,
+          "download_count": 0,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712336817,
+          "name": "SHA256SUMS.R2-V1.34-20260208",
+          "browser_download_url": "https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/SHA256SUMS.R2-V1.34-20260208",
+          "size": 79,
+          "download_count": 0,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    }
+  ],
+  "y1-community/sr1-stock-rom": [
+    {
+      "id": 434774941,
+      "tag_name": "R1P_V2-V2.05.20251011",
+      "name": "R1P_V2-V2.05.20251011",
+      "published_at": "2026-11-05T04:14:02Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/sr1-stock-rom/releases/tag/R1P_V2-V2.05.20251011",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Timmkoo SR1 software **R1P_V2-V2.05.20251011**.\n\n- Model: **SR1** (Timmkoo)\n- Package: `rom_sr1.zip`\n- Build tag: `R1P_V2-V2.05.20251011`\n- Build date: 2025-10-11\n\n## Install\n\n1. Download `rom_sr1.zip` (every numbered volume if the release has more than one, then `cat rom_sr1.zip.* > rom_sr1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_sr1.zip` | 933.8 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=SR1>",
+      "assets": [
+        {
+          "id": 712022619,
+          "name": "rom_sr1.zip",
+          "browser_download_url": "https://github.com/y1-community/sr1-stock-rom/releases/download/R1P_V2-V2.05.20251011/rom_sr1.zip",
+          "size": 979140328,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712026154,
+          "name": "SHA256SUMS.R1P_V2-V2.05.20251011",
+          "browser_download_url": "https://github.com/y1-community/sr1-stock-rom/releases/download/R1P_V2-V2.05.20251011/SHA256SUMS.R1P_V2-V2.05.20251011",
+          "size": 79,
+          "download_count": 1,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    }
+  ],
+  "y1-community/q3-stock-rom": [
+    {
+      "id": 434855668,
+      "tag_name": "MX2E-WVGA_TM-WV3.23-20250528",
+      "name": "MX2E-WVGA_TM-WV3.23-20250528",
+      "published_at": "2026-11-05T06:32:56Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/q3-stock-rom/releases/tag/MX2E-WVGA_TM-WV3.23-20250528",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Timmkoo Q3 software **MX2E-WVGA_TM-WV3.23-20250528**.\n\n- Model: **Q3** (Timmkoo)\n- Package: `rom_q3.zip`\n- Build tag: `MX2E-WVGA_TM-WV3.23-20250528`\n- Build date: 2025-05-28\n\n## Install\n\n1. Download `rom_q3.zip` (every numbered volume if the release has more than one, then `cat rom_q3.zip.* > rom_q3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_q3.zip` | 272.9 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=Q3>",
+      "assets": [
+        {
+          "id": 712345016,
+          "name": "rom_q3.zip",
+          "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2E-WVGA_TM-WV3.23-20250528/rom_q3.zip",
+          "size": 286142520,
+          "download_count": 0,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712346082,
+          "name": "SHA256SUMS.MX2E-WVGA_TM-WV3.23-20250528",
+          "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2E-WVGA_TM-WV3.23-20250528/SHA256SUMS.MX2E-WVGA_TM-WV3.23-20250528",
+          "size": 78,
+          "download_count": 0,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    },
+    {
+      "id": 434855358,
+      "tag_name": "MX2D-WVGA_TM-WV3.20-20250618",
+      "name": "MX2D-WVGA_TM-WV3.20-20250618",
+      "published_at": "2026-11-05T06:32:25Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/q3-stock-rom/releases/tag/MX2D-WVGA_TM-WV3.20-20250618",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Timmkoo Q3 software **MX2D-WVGA_TM-WV3.20-20250618**.\n\n- Model: **Q3** (Timmkoo)\n- Package: `rom_q3.zip`\n- Build tag: `MX2D-WVGA_TM-WV3.20-20250618`\n- Build date: 2025-06-18\n\n## Install\n\n1. Download `rom_q3.zip` (every numbered volume if the release has more than one, then `cat rom_q3.zip.* > rom_q3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_q3.zip` | 267.2 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=Q3>",
+      "assets": [
+        {
+          "id": 712344131,
+          "name": "rom_q3.zip",
+          "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2D-WVGA_TM-WV3.20-20250618/rom_q3.zip",
+          "size": 280175608,
+          "download_count": 0,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712344894,
+          "name": "SHA256SUMS.MX2D-WVGA_TM-WV3.20-20250618",
+          "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2D-WVGA_TM-WV3.20-20250618/SHA256SUMS.MX2D-WVGA_TM-WV3.20-20250618",
+          "size": 78,
+          "download_count": 0,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    },
+    {
+      "id": 434855021,
+      "tag_name": "MX2-ES-WV4.01-20250619",
+      "name": "MX2-ES-WV4.01-20250619",
+      "published_at": "2026-11-05T06:31:54Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/q3-stock-rom/releases/tag/MX2-ES-WV4.01-20250619",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Timmkoo Q3 software **MX2-ES-WV4.01-20250619**.\n\n- Model: **Q3** (Timmkoo)\n- Package: `rom_q3.zip`\n- Build tag: `MX2-ES-WV4.01-20250619`\n- Build date: 2025-06-19\n\n## Install\n\n1. Download `rom_q3.zip` (every numbered volume if the release has more than one, then `cat rom_q3.zip.* > rom_q3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_q3.zip` | 269.0 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=Q3>",
+      "assets": [
+        {
+          "id": 712342980,
+          "name": "rom_q3.zip",
+          "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2-ES-WV4.01-20250619/rom_q3.zip",
+          "size": 282112139,
+          "download_count": 0,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712344035,
+          "name": "SHA256SUMS.MX2-ES-WV4.01-20250619",
+          "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2-ES-WV4.01-20250619/SHA256SUMS.MX2-ES-WV4.01-20250619",
+          "size": 78,
+          "download_count": 0,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    }
+  ],
+  "y1-community/q5-stock-rom": [
+    {
+      "id": 434856881,
+      "tag_name": "MX2D_Q5D-WV3.28-20250619",
+      "name": "MX2D_Q5D-WV3.28-20250619",
+      "published_at": "2026-11-05T06:34:49Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/q5-stock-rom/releases/tag/MX2D_Q5D-WV3.28-20250619",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Timmkoo Q5 software **MX2D_Q5D-WV3.28-20250619**.\n\n- Model: **Q5** (Timmkoo)\n- Package: `rom_q5.zip`\n- Build tag: `MX2D_Q5D-WV3.28-20250619`\n- Build date: 2025-06-19\n\n## Install\n\n1. Download `rom_q5.zip` (every numbered volume if the release has more than one, then `cat rom_q5.zip.* > rom_q5.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_q5.zip` | 322.1 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=Q5>",
+      "assets": [
+        {
+          "id": 712349504,
+          "name": "rom_q5.zip",
+          "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2D_Q5D-WV3.28-20250619/rom_q5.zip",
+          "size": 337730694,
+          "download_count": 0,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712350809,
+          "name": "SHA256SUMS.MX2D_Q5D-WV3.28-20250619",
+          "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2D_Q5D-WV3.28-20250619/SHA256SUMS.MX2D_Q5D-WV3.28-20250619",
+          "size": 78,
+          "download_count": 0,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    },
+    {
+      "id": 434856450,
+      "tag_name": "MX2-WVGA_TM-WV3.27-20250528",
+      "name": "MX2-WVGA_TM-WV3.27-20250528",
+      "published_at": "2026-11-05T06:34:10Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/q5-stock-rom/releases/tag/MX2-WVGA_TM-WV3.27-20250528",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Timmkoo Q5 software **MX2-WVGA_TM-WV3.27-20250528**.\n\n- Model: **Q5** (Timmkoo)\n- Package: `rom_q5.zip`\n- Build tag: `MX2-WVGA_TM-WV3.27-20250528`\n- Build date: 2025-05-28\n\n## Install\n\n1. Download `rom_q5.zip` (every numbered volume if the release has more than one, then `cat rom_q5.zip.* > rom_q5.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_q5.zip` | 328.2 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=Q5>",
+      "assets": [
+        {
+          "id": 712348029,
+          "name": "rom_q5.zip",
+          "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2-WVGA_TM-WV3.27-20250528/rom_q5.zip",
+          "size": 344107791,
+          "download_count": 0,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712349373,
+          "name": "SHA256SUMS.MX2-WVGA_TM-WV3.27-20250528",
+          "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2-WVGA_TM-WV3.27-20250528/SHA256SUMS.MX2-WVGA_TM-WV3.27-20250528",
+          "size": 78,
+          "download_count": 0,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    },
+    {
+      "id": 434856048,
+      "tag_name": "MX2-ES_Q5-WV5.02-20250619",
+      "name": "MX2-ES_Q5-WV5.02-20250619",
+      "published_at": "2026-11-05T06:33:32Z",
+      "prerelease": false,
+      "html_url": "https://github.com/y1-community/q5-stock-rom/releases/tag/MX2-ES_Q5-WV5.02-20250619",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Original Timmkoo Q5 software **MX2-ES_Q5-WV5.02-20250619**.\n\n- Model: **Q5** (Timmkoo)\n- Package: `rom_q5.zip`\n- Build tag: `MX2-ES_Q5-WV5.02-20250619`\n- Build date: 2025-06-19\n\n## Install\n\n1. Download `rom_q5.zip` (every numbered volume if the release has more than one, then `cat rom_q5.zip.* > rom_q5.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_q5.zip` | 328.1 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=Q5>",
+      "assets": [
+        {
+          "id": 712346435,
+          "name": "rom_q5.zip",
+          "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2-ES_Q5-WV5.02-20250619/rom_q5.zip",
+          "size": 344010052,
+          "download_count": 0,
+          "content_type": "application/octet-stream"
+        },
+        {
+          "id": 712347915,
+          "name": "SHA256SUMS.MX2-ES_Q5-WV5.02-20250619",
+          "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2-ES_Q5-WV5.02-20250619/SHA256SUMS.MX2-ES_Q5-WV5.02-20250619",
+          "size": 78,
+          "download_count": 0,
+          "content_type": "application/octet-stream"
+        }
+      ]
+    }
+  ],
   "schulzcode/y2linux": [
     {
       "id": 434509700,
@@ -579,7 +1257,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/manifest.json",
           "size": 4239,
-          "download_count": 99,
+          "download_count": 103,
           "content_type": "application/json"
         },
         {
@@ -587,7 +1265,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/manifest.sig",
           "size": 64,
-          "download_count": 100,
+          "download_count": 104,
           "content_type": "application/pgp-signature"
         },
         {
@@ -8724,7 +9402,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rockbox-y2-v2.5-release-square.png",
           "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rockbox-y2-v2.5-release-square.png",
           "size": 1585171,
-          "download_count": 209,
+          "download_count": 210,
           "content_type": "image/png"
         },
         {
@@ -8732,7 +9410,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_y2.zip",
           "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rom_y2.zip",
           "size": 361644736,
-          "download_count": 531,
+          "download_count": 532,
           "content_type": "application/zip"
         },
         {
@@ -12497,7 +13175,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_y2.zip",
           "browser_download_url": "https://github.com/SchulzCode/Y2Player/releases/download/Release2.5/rom_y2.zip",
           "size": 296365314,
-          "download_count": 983,
+          "download_count": 984,
           "content_type": "application/zip"
         },
         {
@@ -12913,655 +13591,108 @@ window.INNIOASIS_HARDCODED_RELEASES = {
       ]
     }
   ],
-  "y1-community/g1-stock-rom": [
+  "NoahDomingues/Lithium": [
     {
-      "id": 434802941,
-      "tag_name": "MX3-G1-EN-WM-V5.01-20260805",
-      "name": "MX3-G1-EN-WM-V5.01-20260805",
-      "published_at": "2026-11-05T05:05:03Z",
+      "id": 225161267,
+      "tag_name": "v7.1.06.13.25",
+      "name": "Lithium 7 Beta",
+      "published_at": "2025-06-13T12:57:19Z",
       "prerelease": false,
-      "html_url": "https://github.com/y1-community/g1-stock-rom/releases/tag/MX3-G1-EN-WM-V5.01-20260805",
+      "html_url": "https://github.com/NoahDomingues/Lithium/releases/tag/v7.1.06.13.25",
       "icon_url": "",
       "icon_dark_url": "",
-      "body": "Original Innioasis G1 software **MX3-G1-EN-WM-V5.01-20260805**.\n\n- Model: **G1** (Innioasis)\n- Package: `rom_g1.zip`\n- Build tag: `MX3-G1-EN-WM-V5.01-20260805`\n- Build date: 2026-08-05\n\n## Install\n\n1. Download `rom_g1.zip` (every numbered volume if the release has more than one, then `cat rom_g1.zip.* > rom_g1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g1.zip` | 1569.6 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G1>",
+      "body": "## Lithium 7 Beta (pre-release) v7.1.06.13.25\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/9167a80e-4368-42c6-885d-6e374467f574\">](https://discord.gg/3zbfaTNN7V)\r\n\r\nThis is a very early beta release of Lithium 7, complete with kernel & ramdisk, with built-in Xposed support. It has achieved a record-setting boot time of just _40 seconds_, as opposed to the 1:04 boot time of Lithium 5.\r\n\r\nIf you have any issues, feel free to join the **[discussion](https://github.com/NoahDomingues/Lithium/discussions)**, or join the **[Discord server](https://discord.gg/3zbfaTNN7V)**. We recommend joining for updates, and even to just to hang out with the community - we even have our own Minecraft server!\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/f61046f5-1dc5-4b0c-87f8-4a94d6cbac96\">](https://discord.gg/3zbfaTNN7V)\r\n\r\n**Full Changelog**: https://github.com/NoahDomingues/Lithium/commits/Lithium-7\r\n\r\n## What's Changed\r\n* Updated initial boot logo\r\n* Added scatter file within flashing package\r\n* Attempted speaker audio fix, but speaker still does not work\r\n\r\n#### A massive thank you to **Meowing Kibble** for the new initial boot logo, and for other contributions (and for working on the speaker issue)!",
       "assets": [
         {
-          "id": 712145567,
-          "name": "rom_g1.zip",
-          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-G1-EN-WM-V5.01-20260805/rom_g1.zip",
-          "size": 1645800503,
-          "download_count": 2,
-          "content_type": "application/octet-stream"
-        },
+          "id": 263633229,
+          "name": "Lithium.Beta.v7.1.06.13.25.zip",
+          "browser_download_url": "https://github.com/NoahDomingues/Lithium/releases/download/v7.1.06.13.25/Lithium.Beta.v7.1.06.13.25.zip",
+          "size": 307094451,
+          "download_count": 1078,
+          "content_type": "application/x-zip-compressed"
+        }
+      ]
+    },
+    {
+      "id": 224055014,
+      "tag_name": "v7.1.06.09.25",
+      "name": "Lithium 7 Beta",
+      "published_at": "2025-06-09T14:45:37Z",
+      "prerelease": true,
+      "html_url": "https://github.com/NoahDomingues/Lithium/releases/tag/v7.1.06.09.25",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "## Lithium 7 Beta (pre-release) v7.1.06.09.25\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/9167a80e-4368-42c6-885d-6e374467f574\">](https://discord.gg/3zbfaTNN7V)\r\n\r\nThis is a very early beta release of Lithium 7, complete with kernel & ramdisk, with built-in Xposed support. It has achieved a record-setting boot time of just _40 seconds_, as opposed to the 1:04 boot time of Lithium 5.\r\n\r\nIf you have any issues, feel free to join the **[discussion](https://github.com/NoahDomingues/Lithium/discussions)**, or join the **[Discord server](https://discord.gg/3zbfaTNN7V)**.\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/f61046f5-1dc5-4b0c-87f8-4a94d6cbac96\">](https://discord.gg/3zbfaTNN7V)\r\n\r\n**Full Changelog**: https://github.com/NoahDomingues/Lithium/commits/Lithium-7\r\n\r\n## What's Changed\r\n* Upgraded to Lithium 7 from Lithium 5 by @NoahDomingues in https://github.com/NoahDomingues/Lithium/pull/4\r\n* Update SECURITY.MD and other policies by @ItsNoahDomingues in https://github.com/NoahDomingues/Lithium/pull/5\r\n\r\n## New Contributors\r\n* @NoahDomingues made their first contribution in https://github.com/NoahDomingues/Lithium/pull/4\r\n* @ItsNoahDomingues made their first contribution in https://github.com/NoahDomingues/Lithium/pull/5\r\n\r\n**Full Changelog (since last release)**: https://github.com/NoahDomingues/Lithium/compare/Kernel...v0.1.06.09.25",
+      "assets": [
         {
-          "id": 712152060,
-          "name": "SHA256SUMS.MX3-G1-EN-WM-V5.01-20260805",
-          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-G1-EN-WM-V5.01-20260805/SHA256SUMS.MX3-G1-EN-WM-V5.01-20260805",
-          "size": 78,
-          "download_count": 1,
+          "id": 262341064,
+          "name": "Lithium.7.v7.1.06.09.25.zip",
+          "browser_download_url": "https://github.com/NoahDomingues/Lithium/releases/download/v7.1.06.09.25/Lithium.7.v7.1.06.09.25.zip",
+          "size": 328910851,
+          "download_count": 95,
+          "content_type": "application/x-zip-compressed"
+        }
+      ]
+    },
+    {
+      "id": 224527513,
+      "tag_name": "Scatter-v7.1.06.11.25",
+      "name": "Lithium 7 Scatter v7.1.06.11.25",
+      "published_at": "2025-06-11T08:19:26Z",
+      "prerelease": false,
+      "html_url": "https://github.com/NoahDomingues/Lithium/releases/tag/Scatter-v7.1.06.11.25",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "## Lithium 7 Scatter File v7.1.06.11.25\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/9167a80e-4368-42c6-885d-6e374467f574\">](https://discord.gg/3zbfaTNN7V)\r\n\r\nThis is the scatter file for **Lithium 7** and **Lithium 7 Beta**, which allows you to flash the OS using MediaTek SP Flash Tool.\r\n\r\nIf you have any issues, feel free to join the **[discussion](https://github.com/NoahDomingues/Lithium/discussions)**, or join the **[Discord server](https://discord.gg/3zbfaTNN7V)**.\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/f61046f5-1dc5-4b0c-87f8-4a94d6cbac96\">](https://discord.gg/3zbfaTNN7V)\r\n\r\n**Full Changelog**: https://github.com/NoahDomingues/Lithium/commits/Lithium-7\r\n\r\n## New Contributors\r\n* @NoahDomingues made their first contribution in https://github.com/NoahDomingues/Lithium/pull/4\r\n* @ItsNoahDomingues made their first contribution in https://github.com/NoahDomingues/Lithium/pull/5\r\n\r\n**Full Changelog**: https://github.com/NoahDomingues/Lithium/compare/Kernel-v7.1.06.09.25...Scatter-v7.1.06.11.25",
+      "assets": [
+        {
+          "id": 262868441,
+          "name": "MT6582_Android_scatter.txt",
+          "browser_download_url": "https://github.com/NoahDomingues/Lithium/releases/download/Scatter-v7.1.06.11.25/MT6582_Android_scatter.txt",
+          "size": 6876,
+          "download_count": 120,
+          "content_type": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": 224062420,
+      "tag_name": "Kernel-v7.1.06.09.25",
+      "name": "Lithium 7 Kernel v7.1.06.09.25",
+      "published_at": "2025-06-09T14:55:05Z",
+      "prerelease": false,
+      "html_url": "https://github.com/NoahDomingues/Lithium/releases/tag/Kernel-v7.1.06.09.25",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "## Lithium 7 Kernel v7.1.06.09.25\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/9167a80e-4368-42c6-885d-6e374467f574\">](https://discord.gg/3zbfaTNN7V)\r\n\r\nThis is a first official release of the Lithium 7 Android kernel & ramdisk, with built-in Xposed support.\r\n\r\nYou can use this kernel with _some_ other Android 7 ROMs for Timmkoo devices, and you are welcome to modify the kernel and contribute with any changes.\r\n\r\nIf you have any issues, feel free to join the **[discussion](https://github.com/NoahDomingues/Lithium/discussions)**, or join the **[Discord server](https://discord.gg/3zbfaTNN7V)**.\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/f61046f5-1dc5-4b0c-87f8-4a94d6cbac96\">](https://discord.gg/3zbfaTNN7V)\r\n\r\n**Full Changelog**: https://github.com/NoahDomingues/Lithium/commits/Kernel\r\n\r\n## What's Changed\r\n* Added Discord badge to ReadMe. by @NoahDomingues in https://github.com/NoahDomingues/Lithium/pull/4\r\n* Update SECURITY.MD by @ItsNoahDomingues in https://github.com/NoahDomingues/Lithium/pull/5\r\n\r\n## New Contributors\r\n* @NoahDomingues made their first contribution in https://github.com/NoahDomingues/Lithium/pull/4\r\n* @ItsNoahDomingues made their first contribution in https://github.com/NoahDomingues/Lithium/pull/5\r\n\r\n**Full Changelog**: https://github.com/NoahDomingues/Lithium/compare/Kernel...Kernel-v7.1.06.09.25\r\n\r\nThis project, and this particular ROM, was made possible entirely with the efforts of **[Palutenfan123](https://github.com/timmkoo)**. It was his discovery and his work that brought this into existence; therefore, he deserves full credit for it. Also thanks to him for providing the hosting services for our [website](https://lithium.timmkoo.de). He maintains his own custom ROM, called T-ROM, available [here](https://timmkoo.de).",
+      "assets": [
+        {
+          "id": 262344908,
+          "name": "boot.img",
+          "browser_download_url": "https://github.com/NoahDomingues/Lithium/releases/download/Kernel-v7.1.06.09.25/boot.img",
+          "size": 5208064,
+          "download_count": 41,
           "content_type": "application/octet-stream"
         }
       ]
     },
     {
-      "id": 434798724,
-      "tag_name": "MX3-G1-EN-WM-V5.00-20260722",
-      "name": "MX3-G1-EN-WM-V5.00-20260722",
-      "published_at": "2026-11-05T04:57:43Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/g1-stock-rom/releases/tag/MX3-G1-EN-WM-V5.00-20260722",
+      "id": 223022623,
+      "tag_name": "Kernel",
+      "name": "Lithium 5 Kernel Beta v0.06.04.25",
+      "published_at": "2025-06-04T10:21:13Z",
+      "prerelease": true,
+      "html_url": "https://github.com/NoahDomingues/Lithium/releases/tag/Kernel",
       "icon_url": "",
       "icon_dark_url": "",
-      "body": "Original Innioasis G1 software **MX3-G1-EN-WM-V5.00-20260722**.\n\n- Model: **G1** (Innioasis)\n- Package: `rom_g1.zip`\n- Build tag: `MX3-G1-EN-WM-V5.00-20260722`\n- Build date: 2026-07-22\n\n## Install\n\n1. Download `rom_g1.zip` (every numbered volume if the release has more than one, then `cat rom_g1.zip.* > rom_g1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g1.zip` | 1569.5 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G1>",
+      "body": "## Lithium 5 Kernel Beta v0.06.04.25\r\n\r\nThis is a beta release of the Lithium 5 Android kernel & ramdisk, with built-in Magisk support.\r\n\r\nYou can use this kernel with any other Android 5 ROM for Timmkoo devices, and you are welcome to modify the kernel and contribute with any changes.\r\n\r\nIf you have any issues, feel free to join the **[discussion](https://github.com/NoahDomingues/Lithium/discussions)**, or join the **[Discord server](https://discord.gg/3zbfaTNN7V)**.\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/f61046f5-1dc5-4b0c-87f8-4a94d6cbac96\">](https://discord.gg/3zbfaTNN7V)\r\n\r\n**Full Changelog**: https://github.com/NoahDomingues/Lithium/commits/Kernel",
       "assets": [
         {
-          "id": 712128148,
-          "name": "rom_g1.zip",
-          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-G1-EN-WM-V5.00-20260722/rom_g1.zip",
-          "size": 1645759451,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712134111,
-          "name": "SHA256SUMS.MX3-G1-EN-WM-V5.00-20260722",
-          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-G1-EN-WM-V5.00-20260722/SHA256SUMS.MX3-G1-EN-WM-V5.00-20260722",
-          "size": 78,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    },
-    {
-      "id": 434794779,
-      "tag_name": "MX3-9_G1_MULTI-V3.03-20260826",
-      "name": "MX3-9_G1_MULTI-V3.03-20260826",
-      "published_at": "2026-11-05T04:50:26Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/g1-stock-rom/releases/tag/MX3-9_G1_MULTI-V3.03-20260826",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Innioasis G1 software **MX3-9_G1_MULTI-V3.03-20260826**.\n\n- Model: **G1** (Innioasis)\n- Package: `rom_g1.zip`\n- Build tag: `MX3-9_G1_MULTI-V3.03-20260826`\n- Build date: 2026-08-26\n\n## Install\n\n1. Download `rom_g1.zip` (every numbered volume if the release has more than one, then `cat rom_g1.zip.* > rom_g1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g1.zip` | 1500.3 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G1>",
-      "assets": [
-        {
-          "id": 712107937,
-          "name": "rom_g1.zip",
-          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-9_G1_MULTI-V3.03-20260826/rom_g1.zip",
-          "size": 1573225707,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712114674,
-          "name": "SHA256SUMS.MX3-9_G1_MULTI-V3.03-20260826",
-          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-9_G1_MULTI-V3.03-20260826/SHA256SUMS.MX3-9_G1_MULTI-V3.03-20260826",
-          "size": 78,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    },
-    {
-      "id": 434791282,
-      "tag_name": "MX3-9_G1_MULTI-V3.01-20260720",
-      "name": "MX3-9_G1_MULTI-V3.01-20260720",
-      "published_at": "2026-11-05T04:43:42Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/g1-stock-rom/releases/tag/MX3-9_G1_MULTI-V3.01-20260720",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Innioasis G1 software **MX3-9_G1_MULTI-V3.01-20260720**.\n\n- Model: **G1** (Innioasis)\n- Package: `rom_g1.zip`\n- Build tag: `MX3-9_G1_MULTI-V3.01-20260720`\n- Build date: 2026-07-20\n\n## Install\n\n1. Download `rom_g1.zip` (every numbered volume if the release has more than one, then `cat rom_g1.zip.* > rom_g1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g1.zip` | 1500.4 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G1>",
-      "assets": [
-        {
-          "id": 712092482,
-          "name": "rom_g1.zip",
-          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-9_G1_MULTI-V3.01-20260720/rom_g1.zip",
-          "size": 1573232640,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712098603,
-          "name": "SHA256SUMS.MX3-9_G1_MULTI-V3.01-20260720",
-          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-9_G1_MULTI-V3.01-20260720/SHA256SUMS.MX3-9_G1_MULTI-V3.01-20260720",
-          "size": 78,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    },
-    {
-      "id": 434787340,
-      "tag_name": "MX3-9_EN-V1.04-20260805",
-      "name": "MX3-9_EN-V1.04-20260805",
-      "published_at": "2026-11-05T04:36:55Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/g1-stock-rom/releases/tag/MX3-9_EN-V1.04-20260805",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Innioasis G1 software **MX3-9_EN-V1.04-20260805**.\n\n- Model: **G1** (Innioasis)\n- Package: `rom_g1.zip`\n- Build tag: `MX3-9_EN-V1.04-20260805`\n- Build date: 2026-08-05\n\n## Install\n\n1. Download `rom_g1.zip` (every numbered volume if the release has more than one, then `cat rom_g1.zip.* > rom_g1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g1.zip` | 1569.1 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G1>",
-      "assets": [
-        {
-          "id": 712076820,
-          "name": "rom_g1.zip",
-          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-9_EN-V1.04-20260805/rom_g1.zip",
-          "size": 1645347061,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712082715,
-          "name": "SHA256SUMS.MX3-9_EN-V1.04-20260805",
-          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-9_EN-V1.04-20260805/SHA256SUMS.MX3-9_EN-V1.04-20260805",
-          "size": 78,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    },
-    {
-      "id": 434783060,
-      "tag_name": "MX3-9_EN-V1.03-20260707",
-      "name": "MX3-9_EN-V1.03-20260707",
-      "published_at": "2026-11-05T04:28:59Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/g1-stock-rom/releases/tag/MX3-9_EN-V1.03-20260707",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Innioasis G1 software **MX3-9_EN-V1.03-20260707**.\n\n- Model: **G1** (Innioasis)\n- Package: `rom_g1.zip`\n- Build tag: `MX3-9_EN-V1.03-20260707`\n- Build date: 2026-07-07\n\n## Install\n\n1. Download `rom_g1.zip` (every numbered volume if the release has more than one, then `cat rom_g1.zip.* > rom_g1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g1.zip` | 1569.2 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G1>",
-      "assets": [
-        {
-          "id": 712057109,
-          "name": "rom_g1.zip",
-          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-9_EN-V1.03-20260707/rom_g1.zip",
-          "size": 1645380249,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712063532,
-          "name": "SHA256SUMS.MX3-9_EN-V1.03-20260707",
-          "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-9_EN-V1.03-20260707/SHA256SUMS.MX3-9_EN-V1.03-20260707",
-          "size": 78,
-          "download_count": 2,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    }
-  ],
-  "y1-community/g3-stock-rom": [
-    {
-      "id": 434826010,
-      "tag_name": "MX3-G3-EN-WM-V6.01-20260805",
-      "name": "MX3-G3-EN-WM-V6.01-20260805",
-      "published_at": "2026-11-05T05:45:56Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-G3-EN-WM-V6.01-20260805",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Innioasis G3 software **MX3-G3-EN-WM-V6.01-20260805**.\n\n- Model: **G3** (Innioasis)\n- Package: `rom_g3.zip`\n- Build tag: `MX3-G3-EN-WM-V6.01-20260805`\n- Build date: 2026-08-05\n\n## Install\n\n1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* > rom_g3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g3.zip` | 1569.9 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G3>",
-      "assets": [
-        {
-          "id": 712235749,
-          "name": "rom_g3.zip",
-          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-G3-EN-WM-V6.01-20260805/rom_g3.zip",
-          "size": 1646117102,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712241354,
-          "name": "SHA256SUMS.MX3-G3-EN-WM-V6.01-20260805",
-          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-G3-EN-WM-V6.01-20260805/SHA256SUMS.MX3-G3-EN-WM-V6.01-20260805",
-          "size": 78,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    },
-    {
-      "id": 434822073,
-      "tag_name": "MX3-G3-EN-WM-V6.00-20260722",
-      "name": "MX3-G3-EN-WM-V6.00-20260722",
-      "published_at": "2026-11-05T05:39:17Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-G3-EN-WM-V6.00-20260722",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Innioasis G3 software **MX3-G3-EN-WM-V6.00-20260722**.\n\n- Model: **G3** (Innioasis)\n- Package: `rom_g3.zip`\n- Build tag: `MX3-G3-EN-WM-V6.00-20260722`\n- Build date: 2026-07-22\n\n## Install\n\n1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* > rom_g3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g3.zip` | 1569.9 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G3>",
-      "assets": [
-        {
-          "id": 712220915,
-          "name": "rom_g3.zip",
-          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-G3-EN-WM-V6.00-20260722/rom_g3.zip",
-          "size": 1646115909,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712226791,
-          "name": "SHA256SUMS.MX3-G3-EN-WM-V6.00-20260722",
-          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-G3-EN-WM-V6.00-20260722/SHA256SUMS.MX3-G3-EN-WM-V6.00-20260722",
-          "size": 78,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    },
-    {
-      "id": 434818491,
-      "tag_name": "MX3-9_G3_MULTI-V4.03-20260826",
-      "name": "MX3-9_G3_MULTI-V4.03-20260826",
-      "published_at": "2026-11-05T05:32:29Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-9_G3_MULTI-V4.03-20260826",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Innioasis G3 software **MX3-9_G3_MULTI-V4.03-20260826**.\n\n- Model: **G3** (Innioasis)\n- Package: `rom_g3.zip`\n- Build tag: `MX3-9_G3_MULTI-V4.03-20260826`\n- Build date: 2026-08-26\n\n## Install\n\n1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* > rom_g3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g3.zip` | 1500.6 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G3>",
-      "assets": [
-        {
-          "id": 712206288,
-          "name": "rom_g3.zip",
-          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_G3_MULTI-V4.03-20260826/rom_g3.zip",
-          "size": 1573503257,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712211967,
-          "name": "SHA256SUMS.MX3-9_G3_MULTI-V4.03-20260826",
-          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_G3_MULTI-V4.03-20260826/SHA256SUMS.MX3-9_G3_MULTI-V4.03-20260826",
-          "size": 78,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    },
-    {
-      "id": 434814853,
-      "tag_name": "MX3-9_G3_MULTI-V4.02-20260720",
-      "name": "MX3-9_G3_MULTI-V4.02-20260720",
-      "published_at": "2026-11-05T05:26:03Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-9_G3_MULTI-V4.02-20260720",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Innioasis G3 software **MX3-9_G3_MULTI-V4.02-20260720**.\n\n- Model: **G3** (Innioasis)\n- Package: `rom_g3.zip`\n- Build tag: `MX3-9_G3_MULTI-V4.02-20260720`\n- Build date: 2026-07-20\n\n## Install\n\n1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* > rom_g3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g3.zip` | 1500.6 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G3>",
-      "assets": [
-        {
-          "id": 712191481,
-          "name": "rom_g3.zip",
-          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_G3_MULTI-V4.02-20260720/rom_g3.zip",
-          "size": 1573498618,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712197069,
-          "name": "SHA256SUMS.MX3-9_G3_MULTI-V4.02-20260720",
-          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_G3_MULTI-V4.02-20260720/SHA256SUMS.MX3-9_G3_MULTI-V4.02-20260720",
-          "size": 78,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    },
-    {
-      "id": 434811187,
-      "tag_name": "MX3-9_EN_G3-V2.04-20260805",
-      "name": "MX3-9_EN_G3-V2.04-20260805",
-      "published_at": "2026-11-05T05:19:30Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-9_EN_G3-V2.04-20260805",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Innioasis G3 software **MX3-9_EN_G3-V2.04-20260805**.\n\n- Model: **G3** (Innioasis)\n- Package: `rom_g3.zip`\n- Build tag: `MX3-9_EN_G3-V2.04-20260805`\n- Build date: 2026-08-05\n\n## Install\n\n1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* > rom_g3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g3.zip` | 1569.4 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G3>",
-      "assets": [
-        {
-          "id": 712177508,
-          "name": "rom_g3.zip",
-          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_EN_G3-V2.04-20260805/rom_g3.zip",
-          "size": 1645622491,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712183285,
-          "name": "SHA256SUMS.MX3-9_EN_G3-V2.04-20260805",
-          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_EN_G3-V2.04-20260805/SHA256SUMS.MX3-9_EN_G3-V2.04-20260805",
-          "size": 78,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    },
-    {
-      "id": 434806959,
-      "tag_name": "MX3-9_EN_G3-V2.03-20260709",
-      "name": "MX3-9_EN_G3-V2.03-20260709",
-      "published_at": "2026-11-05T05:12:26Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-9_EN_G3-V2.03-20260709",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Innioasis G3 software **MX3-9_EN_G3-V2.03-20260709**.\n\n- Model: **G3** (Innioasis)\n- Package: `rom_g3.zip`\n- Build tag: `MX3-9_EN_G3-V2.03-20260709`\n- Build date: 2026-07-09\n\n## Install\n\n1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* > rom_g3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g3.zip` | 1569.4 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G3>",
-      "assets": [
-        {
-          "id": 712161953,
-          "name": "rom_g3.zip",
-          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_EN_G3-V2.03-20260709/rom_g3.zip",
-          "size": 1645637673,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712167034,
-          "name": "SHA256SUMS.MX3-9_EN_G3-V2.03-20260709",
-          "browser_download_url": "https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_EN_G3-V2.03-20260709/SHA256SUMS.MX3-9_EN_G3-V2.03-20260709",
-          "size": 78,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    }
-  ],
-  "y1-community/g5-stock-rom": [
-    {
-      "id": 434778791,
-      "tag_name": "MX4_EN-V1.11-20260727",
-      "name": "MX4_EN-V1.11-20260727",
-      "published_at": "2026-11-05T04:21:06Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/g5-stock-rom/releases/tag/MX4_EN-V1.11-20260727",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Innioasis G5 software **MX4_EN-V1.11-20260727**.\n\n- Model: **G5** (Innioasis)\n- Package: `rom_g5.zip`\n- Build tag: `MX4_EN-V1.11-20260727`\n- Build date: 2026-07-27\n\n## Install\n\n1. Download `rom_g5.zip` (every numbered volume if the release has more than one, then `cat rom_g5.zip.* > rom_g5.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g5.zip` | 1953.7 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G5>",
-      "assets": [
-        {
-          "id": 712038771,
-          "name": "rom_g5.zip",
-          "browser_download_url": "https://github.com/y1-community/g5-stock-rom/releases/download/MX4_EN-V1.11-20260727/rom_g5.zip",
-          "size": 2048654340,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712047709,
-          "name": "SHA256SUMS.MX4_EN-V1.11-20260727",
-          "browser_download_url": "https://github.com/y1-community/g5-stock-rom/releases/download/MX4_EN-V1.11-20260727/SHA256SUMS.MX4_EN-V1.11-20260727",
-          "size": 78,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    }
-  ],
-  "y1-community/r1-stock-rom": [
-    {
-      "id": 434772984,
-      "tag_name": "R1_V1.48.20250425",
-      "name": "R1_V1.48.20250425",
-      "published_at": "2026-11-05T04:10:33Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/r1-stock-rom/releases/tag/R1_V1.48.20250425",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Innioasis R1 software **R1_V1.48.20250425**.\n\n- Model: **R1** (Innioasis)\n- Package: `rom_r1.zip`\n- Build tag: `R1_V1.48.20250425`\n- Build date: 2025-04-25\n\n## Install\n\n1. Download `rom_r1.zip` (every numbered volume if the release has more than one, then `cat rom_r1.zip.* > rom_r1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_r1.zip` | 503.5 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=R1>",
-      "assets": [
-        {
-          "id": 712014404,
-          "name": "rom_r1.zip",
-          "browser_download_url": "https://github.com/y1-community/r1-stock-rom/releases/download/R1_V1.48.20250425/rom_r1.zip",
-          "size": 527923763,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712016312,
-          "name": "SHA256SUMS.R1_V1.48.20250425",
-          "browser_download_url": "https://github.com/y1-community/r1-stock-rom/releases/download/R1_V1.48.20250425/SHA256SUMS.R1_V1.48.20250425",
-          "size": 78,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    }
-  ],
-  "y1-community/pr1-stock-rom": [
-    {
-      "id": 434833381,
-      "tag_name": "R2-V1.34-20260208",
-      "name": "R2-V1.34-20260208",
-      "published_at": "2026-11-05T05:58:34Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/pr1-stock-rom/releases/tag/R2-V1.34-20260208",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Innioasis PR1 software **R2-V1.34-20260208**.\n\n- Model: **PR1** (Innioasis)\n- Package: `rom_pr1.zip`\n- Build tag: `R2-V1.34-20260208`\n- Build date: 2026-02-08\n\n## Install\n\n1. Download `rom_pr1.zip` (every numbered volume if the release has more than one, then `cat rom_pr1.zip.* > rom_pr1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_pr1.zip.001` | 1900.0 MB |\n| `rom_pr1.zip.002` | 1900.0 MB |\n| `rom_pr1.zip.003` | 629.2 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=PR1>",
-      "assets": [
-        {
-          "id": 712334003,
-          "name": "rom_pr1.zip",
-          "browser_download_url": "https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/rom_pr1.zip",
-          "size": 754108851,
-          "download_count": 0,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712336817,
-          "name": "SHA256SUMS.R2-V1.34-20260208",
-          "browser_download_url": "https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/SHA256SUMS.R2-V1.34-20260208",
-          "size": 79,
-          "download_count": 0,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    }
-  ],
-  "y1-community/sr1-stock-rom": [
-    {
-      "id": 434774941,
-      "tag_name": "R1P_V2-V2.05.20251011",
-      "name": "R1P_V2-V2.05.20251011",
-      "published_at": "2026-11-05T04:14:02Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/sr1-stock-rom/releases/tag/R1P_V2-V2.05.20251011",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Timmkoo SR1 software **R1P_V2-V2.05.20251011**.\n\n- Model: **SR1** (Timmkoo)\n- Package: `rom_sr1.zip`\n- Build tag: `R1P_V2-V2.05.20251011`\n- Build date: 2025-10-11\n\n## Install\n\n1. Download `rom_sr1.zip` (every numbered volume if the release has more than one, then `cat rom_sr1.zip.* > rom_sr1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_sr1.zip` | 933.8 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=SR1>",
-      "assets": [
-        {
-          "id": 712022619,
-          "name": "rom_sr1.zip",
-          "browser_download_url": "https://github.com/y1-community/sr1-stock-rom/releases/download/R1P_V2-V2.05.20251011/rom_sr1.zip",
-          "size": 979140328,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712026154,
-          "name": "SHA256SUMS.R1P_V2-V2.05.20251011",
-          "browser_download_url": "https://github.com/y1-community/sr1-stock-rom/releases/download/R1P_V2-V2.05.20251011/SHA256SUMS.R1P_V2-V2.05.20251011",
-          "size": 79,
-          "download_count": 1,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    }
-  ],
-  "y1-community/q3-stock-rom": [
-    {
-      "id": 434855668,
-      "tag_name": "MX2E-WVGA_TM-WV3.23-20250528",
-      "name": "MX2E-WVGA_TM-WV3.23-20250528",
-      "published_at": "2026-11-05T06:32:56Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/q3-stock-rom/releases/tag/MX2E-WVGA_TM-WV3.23-20250528",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Timmkoo Q3 software **MX2E-WVGA_TM-WV3.23-20250528**.\n\n- Model: **Q3** (Timmkoo)\n- Package: `rom_q3.zip`\n- Build tag: `MX2E-WVGA_TM-WV3.23-20250528`\n- Build date: 2025-05-28\n\n## Install\n\n1. Download `rom_q3.zip` (every numbered volume if the release has more than one, then `cat rom_q3.zip.* > rom_q3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_q3.zip` | 272.9 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=Q3>",
-      "assets": [
-        {
-          "id": 712345016,
-          "name": "rom_q3.zip",
-          "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2E-WVGA_TM-WV3.23-20250528/rom_q3.zip",
-          "size": 286142520,
-          "download_count": 0,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712346082,
-          "name": "SHA256SUMS.MX2E-WVGA_TM-WV3.23-20250528",
-          "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2E-WVGA_TM-WV3.23-20250528/SHA256SUMS.MX2E-WVGA_TM-WV3.23-20250528",
-          "size": 78,
-          "download_count": 0,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    },
-    {
-      "id": 434855358,
-      "tag_name": "MX2D-WVGA_TM-WV3.20-20250618",
-      "name": "MX2D-WVGA_TM-WV3.20-20250618",
-      "published_at": "2026-11-05T06:32:25Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/q3-stock-rom/releases/tag/MX2D-WVGA_TM-WV3.20-20250618",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Timmkoo Q3 software **MX2D-WVGA_TM-WV3.20-20250618**.\n\n- Model: **Q3** (Timmkoo)\n- Package: `rom_q3.zip`\n- Build tag: `MX2D-WVGA_TM-WV3.20-20250618`\n- Build date: 2025-06-18\n\n## Install\n\n1. Download `rom_q3.zip` (every numbered volume if the release has more than one, then `cat rom_q3.zip.* > rom_q3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_q3.zip` | 267.2 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=Q3>",
-      "assets": [
-        {
-          "id": 712344131,
-          "name": "rom_q3.zip",
-          "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2D-WVGA_TM-WV3.20-20250618/rom_q3.zip",
-          "size": 280175608,
-          "download_count": 0,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712344894,
-          "name": "SHA256SUMS.MX2D-WVGA_TM-WV3.20-20250618",
-          "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2D-WVGA_TM-WV3.20-20250618/SHA256SUMS.MX2D-WVGA_TM-WV3.20-20250618",
-          "size": 78,
-          "download_count": 0,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    },
-    {
-      "id": 434855021,
-      "tag_name": "MX2-ES-WV4.01-20250619",
-      "name": "MX2-ES-WV4.01-20250619",
-      "published_at": "2026-11-05T06:31:54Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/q3-stock-rom/releases/tag/MX2-ES-WV4.01-20250619",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Timmkoo Q3 software **MX2-ES-WV4.01-20250619**.\n\n- Model: **Q3** (Timmkoo)\n- Package: `rom_q3.zip`\n- Build tag: `MX2-ES-WV4.01-20250619`\n- Build date: 2025-06-19\n\n## Install\n\n1. Download `rom_q3.zip` (every numbered volume if the release has more than one, then `cat rom_q3.zip.* > rom_q3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_q3.zip` | 269.0 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=Q3>",
-      "assets": [
-        {
-          "id": 712342980,
-          "name": "rom_q3.zip",
-          "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2-ES-WV4.01-20250619/rom_q3.zip",
-          "size": 282112139,
-          "download_count": 0,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712344035,
-          "name": "SHA256SUMS.MX2-ES-WV4.01-20250619",
-          "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2-ES-WV4.01-20250619/SHA256SUMS.MX2-ES-WV4.01-20250619",
-          "size": 78,
-          "download_count": 0,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    }
-  ],
-  "y1-community/q5-stock-rom": [
-    {
-      "id": 434856881,
-      "tag_name": "MX2D_Q5D-WV3.28-20250619",
-      "name": "MX2D_Q5D-WV3.28-20250619",
-      "published_at": "2026-11-05T06:34:49Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/q5-stock-rom/releases/tag/MX2D_Q5D-WV3.28-20250619",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Timmkoo Q5 software **MX2D_Q5D-WV3.28-20250619**.\n\n- Model: **Q5** (Timmkoo)\n- Package: `rom_q5.zip`\n- Build tag: `MX2D_Q5D-WV3.28-20250619`\n- Build date: 2025-06-19\n\n## Install\n\n1. Download `rom_q5.zip` (every numbered volume if the release has more than one, then `cat rom_q5.zip.* > rom_q5.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_q5.zip` | 322.1 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=Q5>",
-      "assets": [
-        {
-          "id": 712349504,
-          "name": "rom_q5.zip",
-          "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2D_Q5D-WV3.28-20250619/rom_q5.zip",
-          "size": 337730694,
-          "download_count": 0,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712350809,
-          "name": "SHA256SUMS.MX2D_Q5D-WV3.28-20250619",
-          "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2D_Q5D-WV3.28-20250619/SHA256SUMS.MX2D_Q5D-WV3.28-20250619",
-          "size": 78,
-          "download_count": 0,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    },
-    {
-      "id": 434856450,
-      "tag_name": "MX2-WVGA_TM-WV3.27-20250528",
-      "name": "MX2-WVGA_TM-WV3.27-20250528",
-      "published_at": "2026-11-05T06:34:10Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/q5-stock-rom/releases/tag/MX2-WVGA_TM-WV3.27-20250528",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Timmkoo Q5 software **MX2-WVGA_TM-WV3.27-20250528**.\n\n- Model: **Q5** (Timmkoo)\n- Package: `rom_q5.zip`\n- Build tag: `MX2-WVGA_TM-WV3.27-20250528`\n- Build date: 2025-05-28\n\n## Install\n\n1. Download `rom_q5.zip` (every numbered volume if the release has more than one, then `cat rom_q5.zip.* > rom_q5.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_q5.zip` | 328.2 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=Q5>",
-      "assets": [
-        {
-          "id": 712348029,
-          "name": "rom_q5.zip",
-          "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2-WVGA_TM-WV3.27-20250528/rom_q5.zip",
-          "size": 344107791,
-          "download_count": 0,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712349373,
-          "name": "SHA256SUMS.MX2-WVGA_TM-WV3.27-20250528",
-          "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2-WVGA_TM-WV3.27-20250528/SHA256SUMS.MX2-WVGA_TM-WV3.27-20250528",
-          "size": 78,
-          "download_count": 0,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    },
-    {
-      "id": 434856048,
-      "tag_name": "MX2-ES_Q5-WV5.02-20250619",
-      "name": "MX2-ES_Q5-WV5.02-20250619",
-      "published_at": "2026-11-05T06:33:32Z",
-      "prerelease": false,
-      "html_url": "https://github.com/y1-community/q5-stock-rom/releases/tag/MX2-ES_Q5-WV5.02-20250619",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "Original Timmkoo Q5 software **MX2-ES_Q5-WV5.02-20250619**.\n\n- Model: **Q5** (Timmkoo)\n- Package: `rom_q5.zip`\n- Build tag: `MX2-ES_Q5-WV5.02-20250619`\n- Build date: 2025-06-19\n\n## Install\n\n1. Download `rom_q5.zip` (every numbered volume if the release has more than one, then `cat rom_q5.zip.* > rom_q5.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_q5.zip` | 328.1 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=Q5>",
-      "assets": [
-        {
-          "id": 712346435,
-          "name": "rom_q5.zip",
-          "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2-ES_Q5-WV5.02-20250619/rom_q5.zip",
-          "size": 344010052,
-          "download_count": 0,
-          "content_type": "application/octet-stream"
-        },
-        {
-          "id": 712347915,
-          "name": "SHA256SUMS.MX2-ES_Q5-WV5.02-20250619",
-          "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2-ES_Q5-WV5.02-20250619/SHA256SUMS.MX2-ES_Q5-WV5.02-20250619",
-          "size": 78,
-          "download_count": 0,
+          "id": 260861043,
+          "name": "boot.img",
+          "browser_download_url": "https://github.com/NoahDomingues/Lithium/releases/download/Kernel/boot.img",
+          "size": 4681728,
+          "download_count": 16,
           "content_type": "application/octet-stream"
         }
       ]
@@ -13610,6 +13741,13 @@ window.INNIOASIS_REPO_STATS = {
     "stars": 8,
     "updated_at": "2026-10-05T06:12:33Z"
   },
+  "noahdomingues/lithium": {
+    "downloads": 1350,
+    "forks": 6,
+    "release_count": 5,
+    "stars": 9,
+    "updated_at": "2026-10-29T20:56:54Z"
+  },
   "rockbox-y1/rockbox": {
     "downloads": 49887,
     "forks": 20,
@@ -13625,21 +13763,21 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-10-15T03:03:06Z"
   },
   "schulzcode/y2linux": {
-    "downloads": 14286,
+    "downloads": 14294,
     "forks": 5,
     "release_count": 87,
     "stars": 20,
     "updated_at": "2026-11-04T22:07:33Z"
   },
   "schulzcode/y2player": {
-    "downloads": 1772,
+    "downloads": 1773,
     "forks": 4,
     "release_count": 10,
     "stars": 28,
     "updated_at": "2026-11-01T20:29:55Z"
   },
   "spycemagic/y2-rockbox": {
-    "downloads": 2882,
+    "downloads": 2884,
     "forks": 1,
     "release_count": 3,
     "stars": 14,
@@ -13688,11 +13826,11 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-04T22:40:25Z"
   },
   "y1-community/innioasis-updater": {
-    "downloads": 68159,
+    "downloads": 68160,
     "forks": 14,
     "release_count": 72,
     "stars": 55,
-    "updated_at": "2026-11-05T06:35:49Z"
+    "updated_at": "2026-11-05T06:45:45Z"
   },
   "y1-community/koensayr-auto-mirror": {
     "downloads": 4,
@@ -13713,14 +13851,14 @@ window.INNIOASIS_REPO_STATS = {
     "forks": 0,
     "release_count": 3,
     "stars": 0,
-    "updated_at": "2026-11-05T06:31:56Z"
+    "updated_at": "2026-11-05T06:43:53Z"
   },
   "y1-community/q5-stock-rom": {
     "downloads": 0,
     "forks": 0,
     "release_count": 3,
     "stars": 0,
-    "updated_at": "2026-11-05T06:33:35Z"
+    "updated_at": "2026-11-05T06:44:00Z"
   },
   "y1-community/r1-stock-rom": {
     "downloads": 2,
@@ -13762,7 +13900,7 @@ window.INNIOASIS_REPO_STATS = {
     "forks": 0,
     "release_count": 3,
     "stars": 0,
-    "updated_at": "2026-11-05T05:05:19Z"
+    "updated_at": "2026-11-05T06:44:07Z"
   },
   "y1-community/y1-ata-rom": {
     "downloads": 639,
@@ -13793,7 +13931,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-04T21:29:30Z"
   },
   "y1-community/y1-stock-rom": {
-    "downloads": 43690,
+    "downloads": 43707,
     "forks": 0,
     "release_count": 9,
     "stars": 6,

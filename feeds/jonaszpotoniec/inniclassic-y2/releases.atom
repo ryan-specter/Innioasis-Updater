@@ -93,32 +93,32 @@ Automated build with full support for **Innioasis Y1** (Type A &amp; Type B) and
     <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/rom_y2.zip" title="rom_y2.zip" length="458640295" type="application/zip" innioasis:download_count="109" innioasis:asset_id="650267210"/>
     <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/SHA256SUMS.txt" title="SHA256SUMS.txt" length="491" type="text/plain" innioasis:download_count="10" innioasis:asset_id="650267211"/>
     <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261017/update.json" title="update.json" length="299" type="application/json" innioasis:download_count="13" innioasis:asset_id="650267206"/>
-    <content type="text">The Biggest Release!
-
-- The entire application codebase has been rewritten from Java to 100% Kotlin, decomposing the monolithic main activity into dedicated domain managers, screen controllers, and an input router, backed by 16 regression test suites running in CI.
-- Audiobooks is now a dedicated top-level section on the main menu, with hierarchical Jellyfin sync (Author -&gt; Book -&gt; Chapter), cover art downloads, continuous bookmark persistence across reboots, full chapter playlist resume, and a unified split-screen layout.
-- The Videos section now provides a hierarchical browser for Movies, TV Series (with seasons and episodes), and raw directories, split-screen poster previews, Jellyfin video and thumbnail sync, and an automatic directory migration for existing files.
-- Music Quiz transitions to an endless survival mode with six questions per round, speed scaling down to five seconds, a between-round pause screen with a heart shop, a persistent top 10 leaderboard, and tiered year question distractors.
-- A new Recently Played Albums menu item beneath Cover Flow tracks up to 50 recently played albums with cover art, track counts, track-number-ordered browsing, and an option to clear playback history.
-- Device shutdown now saves the active queue and playback position, automatically restoring the player in a paused state at the exact track and timestamp after rebooting.
-- Playback cleanly pauses and rewinds to the first track when finishing an album with repeat turned off, while the library scanner now skips files smaller than 1KB and logs corrupt audio files.
-- Back navigation now preserves selected row focus and scroll position across the main menu, settings, playlists, and browser lists instead of resetting to the top item.
-- Split-screen pages in Music, Videos, and Audiobooks now share a unified 242dp status bar width matching the left navigation pane, while video browsing fixes eliminate poster clipping, top gaps, and double padding.
-- Now Playing album art now reliably updates on the main menu and music split panes during playback.
-- The theme catalog has been streamlined to Classic Light and Classic Dark, automatically cleaning up leftover assets from legacy themes during startup.
-- Physical buttons and wheel haptic feedback are now completely muted while the screen is off when Screen-Off Control is disabled, and the idle backlight sleep timer now stays synchronized with system settings.
-
-#### Release assets
-
-| File | Target device | Notes |
-| :--- | :--- | :--- |
-| `InniClassic-20261017.apk` | All devices (Y1 / Y2) | Standalone launcher APK (sideload or install) |
-| `update.json` | All devices | OTA update metadata for in-app updater |
-| `rom_y2.zip` | Innioasis Y2 (MT6582) | Complete flashable ROM with dual-storage, watchdog &amp; clickwheel keylayout |
-| `rom_y1_type_a.zip` (`rom.zip`) | Innioasis Y1 (Type A) | Flashable ROM for Y1 players with original firmware 2.0.0 or higher |
-| `rom_y1_type_b.zip` (`rom_type_b.zip`) | Innioasis Y1 (Type B) | Flashable ROM for Y1 players with original firmware below 2.0.0 |
-| `SHA256SUMS.txt` | All files | SHA-256 integrity checksums |
-
+    <content type="text">The Biggest Release!
+
+- The entire application codebase has been rewritten from Java to 100% Kotlin, decomposing the monolithic main activity into dedicated domain managers, screen controllers, and an input router, backed by 16 regression test suites running in CI.
+- Audiobooks is now a dedicated top-level section on the main menu, with hierarchical Jellyfin sync (Author -&gt; Book -&gt; Chapter), cover art downloads, continuous bookmark persistence across reboots, full chapter playlist resume, and a unified split-screen layout.
+- The Videos section now provides a hierarchical browser for Movies, TV Series (with seasons and episodes), and raw directories, split-screen poster previews, Jellyfin video and thumbnail sync, and an automatic directory migration for existing files.
+- Music Quiz transitions to an endless survival mode with six questions per round, speed scaling down to five seconds, a between-round pause screen with a heart shop, a persistent top 10 leaderboard, and tiered year question distractors.
+- A new Recently Played Albums menu item beneath Cover Flow tracks up to 50 recently played albums with cover art, track counts, track-number-ordered browsing, and an option to clear playback history.
+- Device shutdown now saves the active queue and playback position, automatically restoring the player in a paused state at the exact track and timestamp after rebooting.
+- Playback cleanly pauses and rewinds to the first track when finishing an album with repeat turned off, while the library scanner now skips files smaller than 1KB and logs corrupt audio files.
+- Back navigation now preserves selected row focus and scroll position across the main menu, settings, playlists, and browser lists instead of resetting to the top item.
+- Split-screen pages in Music, Videos, and Audiobooks now share a unified 242dp status bar width matching the left navigation pane, while video browsing fixes eliminate poster clipping, top gaps, and double padding.
+- Now Playing album art now reliably updates on the main menu and music split panes during playback.
+- The theme catalog has been streamlined to Classic Light and Classic Dark, automatically cleaning up leftover assets from legacy themes during startup.
+- Physical buttons and wheel haptic feedback are now completely muted while the screen is off when Screen-Off Control is disabled, and the idle backlight sleep timer now stays synchronized with system settings.
+
+#### Release assets
+
+| File | Target device | Notes |
+| :--- | :--- | :--- |
+| `InniClassic-20261017.apk` | All devices (Y1 / Y2) | Standalone launcher APK (sideload or install) |
+| `update.json` | All devices | OTA update metadata for in-app updater |
+| `rom_y2.zip` | Innioasis Y2 (MT6582) | Complete flashable ROM with dual-storage, watchdog &amp; clickwheel keylayout |
+| `rom_y1_type_a.zip` (`rom.zip`) | Innioasis Y1 (Type A) | Flashable ROM for Y1 players with original firmware 2.0.0 or higher |
+| `rom_y1_type_b.zip` (`rom_type_b.zip`) | Innioasis Y1 (Type B) | Flashable ROM for Y1 players with original firmware below 2.0.0 |
+| `SHA256SUMS.txt` | All files | SHA-256 integrity checksums |
+
 Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261013...20261017</content>
   </entry>
   <entry>
@@ -138,20 +138,20 @@ Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/2026101
     <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/rom_y2.zip" title="rom_y2.zip" length="459507925" type="application/zip" innioasis:download_count="28" innioasis:asset_id="636618061"/>
     <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/SHA256SUMS.txt" title="SHA256SUMS.txt" length="491" type="text/plain" innioasis:download_count="6" innioasis:asset_id="636618063"/>
     <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261013/update.json" title="update.json" length="299" type="application/json" innioasis:download_count="9" innioasis:asset_id="636618058"/>
-    <content type="text">- Improve Jellyfin sync
-
-#### Release assets
-
-| File | Target device | Notes |
-| :--- | :--- | :--- |
-| `InniClassic-20261012.apk` | All devices (Y1 / Y2) | Standalone launcher APK (sideload or install) |
-| `update.json` | All devices | OTA update metadata for in-app updater |
-| `rom_y2.zip` | Innioasis Y2 (MT6582) | Complete flashable ROM with dual-storage, watchdog &amp; clickwheel keylayout |
-| `rom_y1_type_a.zip` (`rom.zip`) | Innioasis Y1 (Type A) | Flashable ROM for Y1 players with original firmware 2.0.0 or higher |
-| `rom_y1_type_b.zip` (`rom_type_b.zip`) | Innioasis Y1 (Type B) | Flashable ROM for Y1 players with original firmware below 2.0.0 |
-| `SHA256SUMS.txt` | All files | SHA-256 integrity checksums |
-
-Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261011...20261012
+    <content type="text">- Improve Jellyfin sync
+
+#### Release assets
+
+| File | Target device | Notes |
+| :--- | :--- | :--- |
+| `InniClassic-20261012.apk` | All devices (Y1 / Y2) | Standalone launcher APK (sideload or install) |
+| `update.json` | All devices | OTA update metadata for in-app updater |
+| `rom_y2.zip` | Innioasis Y2 (MT6582) | Complete flashable ROM with dual-storage, watchdog &amp; clickwheel keylayout |
+| `rom_y1_type_a.zip` (`rom.zip`) | Innioasis Y1 (Type A) | Flashable ROM for Y1 players with original firmware 2.0.0 or higher |
+| `rom_y1_type_b.zip` (`rom_type_b.zip`) | Innioasis Y1 (Type B) | Flashable ROM for Y1 players with original firmware below 2.0.0 |
+| `SHA256SUMS.txt` | All files | SHA-256 integrity checksums |
+
+Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261011...20261012
 </content>
   </entry>
   <entry>

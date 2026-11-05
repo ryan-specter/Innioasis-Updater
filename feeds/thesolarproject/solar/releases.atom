@@ -30,36 +30,36 @@
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260819-0956/rom.zip" title="rom.zip" length="981474469" type="application/zip" innioasis:download_count="890" innioasis:asset_id="520682097"/>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260819-0956/rom_a5.zip" title="rom_a5.zip" length="293722213" type="application/zip" innioasis:download_count="12" innioasis:asset_id="520682095"/>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260819-0956/rom_type_b.zip" title="rom_type_b.zip" length="488296019" type="application/zip" innioasis:download_count="17" innioasis:asset_id="520682098"/>
-    <content type="text">&gt; **Solar** is a custom firmware and launcher for the Innioasis Y1 — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), **Stem Player** (stem separation powered by [Lalal.ai](https://www.lalal.ai)), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
-
-### Features
-
-- 🎛️ **Stem Player** — Gen1-style vocal/drums/bass/melody mixing on the wheel; separate local tracks with **Lalal.ai** stem separation (cache local stems; mash up 1–3 songs)
-- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
-- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
-- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
-- 🎨 **Y1 themes** — install and apply themes from the original Y1 firmware
-
-## Assets
-
-- `app-release.apk` — signed Solar launcher
-- `rom.zip` — Y1 type A ATA firmware (2.0.0+, MT6572, SP Flash Tool included)
-- `rom_type_b.zip` — Y1 type B ATA firmware (before 2.0.0, MT6572, SP Flash Tool included)
-- `rom_y2.zip` — Y2 ATA firmware (MT6582, desparsed ext4, permissive root)
-- `rom_a5.zip` — Timmkoo A5 ATA firmware (MT6572, A5 keylayouts, family pin, SP Flash Tool included, no Rockbox bake)
-
-## Recent commits
-
-- 63a4857 Merge pull request #75 from thesolarproject/optimize-fm-presets-db-3443063346962454810
-- 508e91b Fix N+1 database updates in FmPresetStore by wrapping inserts and updates in database transactions.
-- 5f51eae Bump stable version for next release.
-- e5b4829 Merge pull request #71 from thesolarproject/fix-queue-performance-mix-rows-3017496182364856590
-- 6802496 Fix performance issues when viewing the playback queue with stems/Mix rows enabled.
-- 27a819e Bump stable version for next release.
-- 33331da Align Y2 verifier with Solar-only ROMs
-- 230fb40 Fit ROM userdata images to scatter partitions
-- 4a2fe2f Fix writable ext4 mounts for noninteractive ROM builds
-- 9f487c6 Sync latest Solar launcher and ROM build work
+    <content type="text">&gt; **Solar** is a custom firmware and launcher for the Innioasis Y1 — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), **Stem Player** (stem separation powered by [Lalal.ai](https://www.lalal.ai)), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
+
+### Features
+
+- 🎛️ **Stem Player** — Gen1-style vocal/drums/bass/melody mixing on the wheel; separate local tracks with **Lalal.ai** stem separation (cache local stems; mash up 1–3 songs)
+- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
+- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
+- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
+- 🎨 **Y1 themes** — install and apply themes from the original Y1 firmware
+
+## Assets
+
+- `app-release.apk` — signed Solar launcher
+- `rom.zip` — Y1 type A ATA firmware (2.0.0+, MT6572, SP Flash Tool included)
+- `rom_type_b.zip` — Y1 type B ATA firmware (before 2.0.0, MT6572, SP Flash Tool included)
+- `rom_y2.zip` — Y2 ATA firmware (MT6582, desparsed ext4, permissive root)
+- `rom_a5.zip` — Timmkoo A5 ATA firmware (MT6572, A5 keylayouts, family pin, SP Flash Tool included, no Rockbox bake)
+
+## Recent commits
+
+- 63a4857 Merge pull request #75 from thesolarproject/optimize-fm-presets-db-3443063346962454810
+- 508e91b Fix N+1 database updates in FmPresetStore by wrapping inserts and updates in database transactions.
+- 5f51eae Bump stable version for next release.
+- e5b4829 Merge pull request #71 from thesolarproject/fix-queue-performance-mix-rows-3017496182364856590
+- 6802496 Fix performance issues when viewing the playback queue with stems/Mix rows enabled.
+- 27a819e Bump stable version for next release.
+- 33331da Align Y2 verifier with Solar-only ROMs
+- 230fb40 Fit ROM userdata images to scatter partitions
+- 4a2fe2f Fix writable ext4 mounts for noninteractive ROM builds
+- 9f487c6 Sync latest Solar launcher and ROM build work
 </content>
   </entry>
   <entry>
@@ -98,14 +98,14 @@
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260716-0131/rom.zip" title="rom.zip" length="543852409" type="application/zip" innioasis:download_count="806" innioasis:asset_id="478677341"/>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260716-0131/rom_type_b.zip" title="rom_type_b.zip" length="544709464" type="application/zip" innioasis:download_count="20" innioasis:asset_id="478678607"/>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260716-0131/rom_y2.zip" title="rom_y2.zip" length="635849224" type="application/zip" innioasis:download_count="181" innioasis:asset_id="491574255"/>
-    <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
-
-In this release we have:
-
-YouTube video and music streaming / downloads
-Navidrome integration with music playback
-Improved performance in Flow (cover flow) view
-
+    <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
+
+In this release we have:
+
+YouTube video and music streaming / downloads
+Navidrome integration with music playback
+Improved performance in Flow (cover flow) view
+
 After installing for the first time please wait 10-15 minutes for your device to reboot and take itself through its first-time setup process.</content>
   </entry>
   <entry>
@@ -120,38 +120,38 @@ After installing for the first time please wait 10-15 minutes for your device to
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260702-1521/app-release.apk" title="app-release.apk" length="12079527" type="application/vnd.android.package-archive" innioasis:download_count="11" innioasis:asset_id="464448954"/>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260702-1521/rom.zip" title="rom.zip" length="454799946" type="application/zip" innioasis:download_count="297" innioasis:asset_id="464448953"/>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260702-1521/rom_type_b.zip" title="rom_type_b.zip" length="407592425" type="application/zip" innioasis:download_count="8" innioasis:asset_id="464448955"/>
-    <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
-
-
-&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
-
-### Features
-
-- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
-- YouTube — Play / Download videos and music from YouTube
-- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
-- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
-- 🎨 **Y1 themes** — install and apply themes from the original Y1/Y2 firmware
-
-
-## Assets
-
-- `app-release.apk` — signed Solar launcher
-- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
-- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
-
-## Recent commits
-
-- f681052 Harden OTA PAT preflight and add manual solar-update sync workflow.
-- 92cf168 Unify Cover Flow layout, stamp builds from UTC start time, and harden CI OTA.
-- ceafe7f Morph home menu album art into Flow and harden OTA publish.
-- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
-- 6040935 Bump stable version for next release.
-- 5e1c4a6 Fix podcast playback speed parameter application and update default album art UI effects
-- f76ba80 Offload play queue file IO from onResume to background thread
-- 8ed2e24 Trigger library scan and theme reload when SD card mounts (e.g. after disabling USB storage)
-- 9b7b72d Fix redundant title in release notes
-- 9f8bfba Fix USB connection dialog flow and SystemUI suppression lag
+    <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
+
+
+&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
+
+### Features
+
+- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
+- YouTube — Play / Download videos and music from YouTube
+- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
+- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
+- 🎨 **Y1 themes** — install and apply themes from the original Y1/Y2 firmware
+
+
+## Assets
+
+- `app-release.apk` — signed Solar launcher
+- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
+- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
+
+## Recent commits
+
+- f681052 Harden OTA PAT preflight and add manual solar-update sync workflow.
+- 92cf168 Unify Cover Flow layout, stamp builds from UTC start time, and harden CI OTA.
+- ceafe7f Morph home menu album art into Flow and harden OTA publish.
+- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
+- 6040935 Bump stable version for next release.
+- 5e1c4a6 Fix podcast playback speed parameter application and update default album art UI effects
+- f76ba80 Offload play queue file IO from onResume to background thread
+- 8ed2e24 Trigger library scan and theme reload when SD card mounts (e.g. after disabling USB storage)
+- 9b7b72d Fix redundant title in release notes
+- 9f8bfba Fix USB connection dialog flow and SystemUI suppression lag
 </content>
   </entry>
   <entry>
@@ -164,37 +164,37 @@ After installing for the first time please wait 10-15 minutes for your device to
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260702-1512/app-release.apk" title="app-release.apk" length="12079519" type="application/vnd.android.package-archive" innioasis:download_count="1" innioasis:asset_id="464441460"/>
-    <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
-
-
-&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
-
-### Features
-
-- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
-- YouTube — Play / Download videos and music from YouTube
-- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
-- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
-- 🎨 **Y1 themes** — install and apply themes from the original Y1/Y2 firmware
-
-## Assets
-
-- `app-release.apk` — signed Solar launcher
-- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
-- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
-
-## Recent commits
-
-- 92cf168 Unify Cover Flow layout, stamp builds from UTC start time, and harden CI OTA.
-- ceafe7f Morph home menu album art into Flow and harden OTA publish.
-- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
-- 6040935 Bump stable version for next release.
-- 5e1c4a6 Fix podcast playback speed parameter application and update default album art UI effects
-- f76ba80 Offload play queue file IO from onResume to background thread
-- 8ed2e24 Trigger library scan and theme reload when SD card mounts (e.g. after disabling USB storage)
-- 9b7b72d Fix redundant title in release notes
-- 9f8bfba Fix USB connection dialog flow and SystemUI suppression lag
-- c439a87 Bump stable version for next release.
+    <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
+
+
+&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
+
+### Features
+
+- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
+- YouTube — Play / Download videos and music from YouTube
+- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
+- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
+- 🎨 **Y1 themes** — install and apply themes from the original Y1/Y2 firmware
+
+## Assets
+
+- `app-release.apk` — signed Solar launcher
+- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
+- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
+
+## Recent commits
+
+- 92cf168 Unify Cover Flow layout, stamp builds from UTC start time, and harden CI OTA.
+- ceafe7f Morph home menu album art into Flow and harden OTA publish.
+- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
+- 6040935 Bump stable version for next release.
+- 5e1c4a6 Fix podcast playback speed parameter application and update default album art UI effects
+- f76ba80 Offload play queue file IO from onResume to background thread
+- 8ed2e24 Trigger library scan and theme reload when SD card mounts (e.g. after disabling USB storage)
+- 9b7b72d Fix redundant title in release notes
+- 9f8bfba Fix USB connection dialog flow and SystemUI suppression lag
+- c439a87 Bump stable version for next release.
 </content>
   </entry>
   <entry>
@@ -209,37 +209,37 @@ After installing for the first time please wait 10-15 minutes for your device to
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260702-1512/app-release.apk" title="app-release.apk" length="12079451" type="application/vnd.android.package-archive" innioasis:download_count="3" innioasis:asset_id="464441885"/>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260702-1512/rom.zip" title="rom.zip" length="454787990" type="application/zip" innioasis:download_count="57" innioasis:asset_id="464441882"/>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260702-1512/rom_type_b.zip" title="rom_type_b.zip" length="406268804" type="application/zip" innioasis:download_count="2" innioasis:asset_id="464441884"/>
-    <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
-
-
-&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
-
-### Features
-
-- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
-- 📺 **YouTube** — Play / Download videos and music from YouTube
-- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
-- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
-- 🎨 **Y1 themes** — install and apply themes from the original Y1/Y2 firmware
-
-## Assets
-
-- `app-release.apk` — signed Solar launcher
-- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
-- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
-
-## Recent commits
-
-- d11c9da Merge main: unified Cover Flow, build timestamp CI, OTA hardening.
-- 92cf168 Unify Cover Flow layout, stamp builds from UTC start time, and harden CI OTA.
-- 4e161aa Merge main: home→Flow morph, marquee fix, OTA preflight.
-- ceafe7f Morph home menu album art into Flow and harden OTA publish.
-- 24d3740 Merge branch &#x27;main&#x27; into nightly
-- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
-- 6040935 Bump stable version for next release.
-- 51ae704 Bump nightly version for next release.
-- e7b33af Merge branch &#x27;main&#x27; into nightly
-- 5e1c4a6 Fix podcast playback speed parameter application and update default album art UI effects
+    <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
+
+
+&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
+
+### Features
+
+- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
+- 📺 **YouTube** — Play / Download videos and music from YouTube
+- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
+- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
+- 🎨 **Y1 themes** — install and apply themes from the original Y1/Y2 firmware
+
+## Assets
+
+- `app-release.apk` — signed Solar launcher
+- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
+- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
+
+## Recent commits
+
+- d11c9da Merge main: unified Cover Flow, build timestamp CI, OTA hardening.
+- 92cf168 Unify Cover Flow layout, stamp builds from UTC start time, and harden CI OTA.
+- 4e161aa Merge main: home→Flow morph, marquee fix, OTA preflight.
+- ceafe7f Morph home menu album art into Flow and harden OTA publish.
+- 24d3740 Merge branch &#x27;main&#x27; into nightly
+- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
+- 6040935 Bump stable version for next release.
+- 51ae704 Bump nightly version for next release.
+- e7b33af Merge branch &#x27;main&#x27; into nightly
+- 5e1c4a6 Fix podcast playback speed parameter application and update default album art UI effects
 </content>
   </entry>
   <entry>
@@ -254,36 +254,36 @@ After installing for the first time please wait 10-15 minutes for your device to
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260701-1453/app-release.apk" title="app-release.apk" length="12051734" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="463347050"/>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260701-1453/rom.zip" title="rom.zip" length="454747067" type="application/zip" innioasis:download_count="110" innioasis:asset_id="463347048"/>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260701-1453/rom_type_b.zip" title="rom_type_b.zip" length="406261233" type="application/zip" innioasis:download_count="5" innioasis:asset_id="463347049"/>
-    <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
-
-    Solar is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, Reach (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
-
-Features
-
-    🎵 Reach — search, play and download music from Deezer and Soulseek
-    YouTube — Play / Download videos and music from YouTube
-    🎙️ Podcasts — search and download episodes to your Y1 over the internet
-    ⚡ Quick menu — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
-    🎨 Y1 themes — install and apply themes from the original Y1/Y2 firmware
-
-## Assets
-
-- `app-release.apk` — signed Solar launcher
-- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
-- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
-
-## Recent commits
-
-- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
-- 6040935 Bump stable version for next release.
-- 5e1c4a6 Fix podcast playback speed parameter application and update default album art UI effects
-- f76ba80 Offload play queue file IO from onResume to background thread
-- 8ed2e24 Trigger library scan and theme reload when SD card mounts (e.g. after disabling USB storage)
-- 9b7b72d Fix redundant title in release notes
-- 9f8bfba Fix USB connection dialog flow and SystemUI suppression lag
-- c439a87 Bump stable version for next release.
-- 0112bc8 Merge remote main
-- 879f287 Pause focus polling after user handles USB dialog
+    <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
+
+    Solar is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, Reach (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
+
+Features
+
+    🎵 Reach — search, play and download music from Deezer and Soulseek
+    YouTube — Play / Download videos and music from YouTube
+    🎙️ Podcasts — search and download episodes to your Y1 over the internet
+    ⚡ Quick menu — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
+    🎨 Y1 themes — install and apply themes from the original Y1/Y2 firmware
+
+## Assets
+
+- `app-release.apk` — signed Solar launcher
+- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
+- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
+
+## Recent commits
+
+- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
+- 6040935 Bump stable version for next release.
+- 5e1c4a6 Fix podcast playback speed parameter application and update default album art UI effects
+- f76ba80 Offload play queue file IO from onResume to background thread
+- 8ed2e24 Trigger library scan and theme reload when SD card mounts (e.g. after disabling USB storage)
+- 9b7b72d Fix redundant title in release notes
+- 9f8bfba Fix USB connection dialog flow and SystemUI suppression lag
+- c439a87 Bump stable version for next release.
+- 0112bc8 Merge remote main
+- 879f287 Pause focus polling after user handles USB dialog
 </content>
   </entry>
   <entry>
@@ -298,35 +298,35 @@ Features
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260701-1454/app-release.apk" title="app-release.apk" length="12051745" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="463347031"/>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260701-1454/rom.zip" title="rom.zip" length="454788528" type="application/zip" innioasis:download_count="8" innioasis:asset_id="463347034"/>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260701-1454/rom_type_b.zip" title="rom_type_b.zip" length="407429266" type="application/zip" innioasis:download_count="2" innioasis:asset_id="463347032"/>
-    <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
-
-&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
-
-### Features
-
-- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
-- 📺 **YouTube** — Play / Download videos and music from YouTube
-- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
-- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
-- 🎨 **Y1 themes** — install and apply themes from the original Y1/Y2 firmware
-## Assets
-
-- `app-release.apk` — signed Solar launcher
-- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
-- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
-
-## Recent commits
-
-- 24d3740 Merge branch &#x27;main&#x27; into nightly
-- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
-- 6040935 Bump stable version for next release.
-- 51ae704 Bump nightly version for next release.
-- e7b33af Merge branch &#x27;main&#x27; into nightly
-- 5e1c4a6 Fix podcast playback speed parameter application and update default album art UI effects
-- 7025188 Merge branch &#x27;main&#x27; into nightly
-- f76ba80 Offload play queue file IO from onResume to background thread
-- e8455dd Merge main into nightly
-- 8ed2e24 Trigger library scan and theme reload when SD card mounts (e.g. after disabling USB storage)
+    <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
+
+&gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://innioasis.com/pages/y1) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support and a Stem Player clone.
+
+### Features
+
+- 🎵 **Reach** — search, play and download music from Deezer and Soulseek
+- 📺 **YouTube** — Play / Download videos and music from YouTube
+- 🎙️ **Podcasts** — search and download episodes to your Y1 over the internet
+- ⚡ **Quick menu** — global context menu for playback, queue, Wi‑Fi, Bluetooth, and more
+- 🎨 **Y1 themes** — install and apply themes from the original Y1/Y2 firmware
+## Assets
+
+- `app-release.apk` — signed Solar launcher
+- `rom.zip` — Y1 type A firmware (2.0.0+, MT6572)
+- `rom_type_b.zip` — Y1 type B firmware (before 2.0.0, MT6572)
+
+## Recent commits
+
+- 24d3740 Merge branch &#x27;main&#x27; into nightly
+- ba735c4 Flow handoff polish, screen transitions, and Solar Development support experiment.
+- 6040935 Bump stable version for next release.
+- 51ae704 Bump nightly version for next release.
+- e7b33af Merge branch &#x27;main&#x27; into nightly
+- 5e1c4a6 Fix podcast playback speed parameter application and update default album art UI effects
+- 7025188 Merge branch &#x27;main&#x27; into nightly
+- f76ba80 Offload play queue file IO from onResume to background thread
+- e8455dd Merge main into nightly
+- 8ed2e24 Trigger library scan and theme reload when SD card mounts (e.g. after disabling USB storage)
 </content>
   </entry>
   <entry>
@@ -1951,7 +1951,7 @@ Features
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260627-0209/app-release.apk" title="app-release.apk" length="11815179" type="application/vnd.android.package-archive" innioasis:download_count="4" innioasis:asset_id="459164248"/>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260627-0209/rom.zip" title="rom.zip" length="457157099" type="application/zip" innioasis:download_count="6" innioasis:asset_id="459164249"/>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/nightly-20260627-0209/rom_type_b.zip" title="rom_type_b.zip" length="409500889" type="application/zip" innioasis:download_count="3" innioasis:asset_id="459164246"/>
-    <content type="text"># Solar nightly-20260627-0209 (9e71c08) — initial nightly release, this is experimental, expect bugs, lots of them.
+    <content type="text"># Solar nightly-20260627-0209 (9e71c08) — initial nightly release, this is experimental, expect bugs, lots of them.
 
 &gt; **Solar** is a custom firmware and launcher for the [Innioasis Y1](https://github.com/y1-community/InnioasisY1Themes) — a full interface replacement with podcast downloads, a global quick menu, **Reach** (Deezer + Soulseek), Y1 theme support, and **Rockbox-Y1** on the same ROM (switch without reboot).
 
@@ -1964,12 +1964,12 @@ Features
 - 🔊 **Rockbox-Y1** — co-installed; switch launchers from Settings (no reboot)
 
 
-
-## Recent commits
-
-- 9e71c08 Y1bridge.apk for future AVRCP implementation - thanks to @seanathanVT&#x27;s Koensayr mod.
-- 0a6ee21 Nightly: media suite, Wi‑Fi/BT quick controls, and Y1 input polish.
-- 3c118d8 Fixes for Soulseek/Deezer playback, now playing improvements
+
+## Recent commits
+
+- 9e71c08 Y1bridge.apk for future AVRCP implementation - thanks to @seanathanVT&#x27;s Koensayr mod.
+- 0a6ee21 Nightly: media suite, Wi‑Fi/BT quick controls, and Y1 input polish.
+- 3c118d8 Fixes for Soulseek/Deezer playback, now playing improvements
 - 2895fe1 Adds toggles for online music services so they can be excluded from search results.</content>
   </entry>
 </feed>

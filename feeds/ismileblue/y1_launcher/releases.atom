@@ -38,34 +38,34 @@
     <innioasis:tag_name>v0.11.6</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/v0.11.6/app-release.apk" title="app-release.apk" length="8155685" type="application/vnd.android.package-archive" innioasis:download_count="3514" innioasis:asset_id="519354135"/>
-    <content type="text">
----
-
-### 🚀 JJ Launcher v0.11.6 Release Notes
-
-**Important Notice on FLAC Playback**
-
-* Due to stability issues with the previous downsampling engine, we have reverted to the legacy downsampling engine. Please note that this down-sampling engine downgrade may cause potential side effects or issues with FLAC playback.
-
----
-
-### 🌟 Key Updates &amp; Improvements
-
-* **Audio Engine Downgrade:** Reverted the FLAC downsampling engine to the legacy version for better stability.
-* **Opus Album Art Fix:** Fixed an issue where album art for Opus audio files was not displaying properly.
-* **Player UI Enhancements:** Added playback speed control, a close button, and a sleep timer function directly to the music player screen.
-* **Video Player:** Added a continuous video playback feature.
-* **Library UI:** Resized album art thumbnails in the library view for better layout balance.
-* **Podcast Engine Overhaul:** Significantly improved podcast streaming and channel loading performance. Special thanks to **ArcSmurf** for the amazing contribution!
-* **Language Bug Fix:** Resolved a bug where language settings would randomly reset.
-
----
-
-### 🎵 Last.fm Scrobbling Support &amp; API Announcement
-
-* **Last.fm Scrobbling Integrated:** You can now scrobble your tracks to Last.fm!
-* **Commercial API Access Granted:** Thanks to the support of the Last.fm team, we have been granted **1 year of free commercial API access**.
-* **Seamless Login:** Pro users can now use Last.fm scrobbling using only their account credentials (no separate API key required!). Simply launch the web server and log in.
+    <content type="text">
+---
+
+### 🚀 JJ Launcher v0.11.6 Release Notes
+
+**Important Notice on FLAC Playback**
+
+* Due to stability issues with the previous downsampling engine, we have reverted to the legacy downsampling engine. Please note that this down-sampling engine downgrade may cause potential side effects or issues with FLAC playback.
+
+---
+
+### 🌟 Key Updates &amp; Improvements
+
+* **Audio Engine Downgrade:** Reverted the FLAC downsampling engine to the legacy version for better stability.
+* **Opus Album Art Fix:** Fixed an issue where album art for Opus audio files was not displaying properly.
+* **Player UI Enhancements:** Added playback speed control, a close button, and a sleep timer function directly to the music player screen.
+* **Video Player:** Added a continuous video playback feature.
+* **Library UI:** Resized album art thumbnails in the library view for better layout balance.
+* **Podcast Engine Overhaul:** Significantly improved podcast streaming and channel loading performance. Special thanks to **ArcSmurf** for the amazing contribution!
+* **Language Bug Fix:** Resolved a bug where language settings would randomly reset.
+
+---
+
+### 🎵 Last.fm Scrobbling Support &amp; API Announcement
+
+* **Last.fm Scrobbling Integrated:** You can now scrobble your tracks to Last.fm!
+* **Commercial API Access Granted:** Thanks to the support of the Last.fm team, we have been granted **1 year of free commercial API access**.
+* **Seamless Login:** Pro users can now use Last.fm scrobbling using only their account credentials (no separate API key required!). Simply launch the web server and log in.
 * **Support the Project:** To keep Last.fm integration and other features running continuously in the future, your donations and support are always greatly appreciated!</content>
   </entry>
   <entry>
@@ -79,34 +79,34 @@
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom.zip" title="rom.zip" length="456271826" type="application/zip" innioasis:download_count="470" innioasis:asset_id="541200516"/>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom_type_b.zip" title="rom_type_b.zip" length="399777849" type="application/zip" innioasis:download_count="8" innioasis:asset_id="541200519"/>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom_y2.zip" title="rom_y2.zip" length="443395091" type="application/zip" innioasis:download_count="408" innioasis:asset_id="541200520"/>
-    <content type="text">
----
-
-### 🚀 JJ Launcher v0.11.6 Release Notes
-
-**Important Notice on FLAC Playback**
-
-* Due to stability issues with the previous downsampling engine, we have reverted to the legacy downsampling engine. Please note that this down-sampling engine downgrade may cause potential side effects or issues with FLAC playback.
-
----
-
-### 🌟 Key Updates &amp; Improvements
-
-* **Audio Engine Downgrade:** Reverted the FLAC downsampling engine to the legacy version for better stability.
-* **Opus Album Art Fix:** Fixed an issue where album art for Opus audio files was not displaying properly.
-* **Player UI Enhancements:** Added playback speed control, a close button, and a sleep timer function directly to the music player screen.
-* **Video Player:** Added a continuous video playback feature.
-* **Library UI:** Resized album art thumbnails in the library view for better layout balance.
-* **Podcast Engine Overhaul:** Significantly improved podcast streaming and channel loading performance. Special thanks to **ArcSmurf** for the amazing contribution!
-* **Language Bug Fix:** Resolved a bug where language settings would randomly reset.
-
----
-
-### 🎵 Last.fm Scrobbling Support &amp; API Announcement
-
-* **Last.fm Scrobbling Integrated:** You can now scrobble your tracks to Last.fm!
-* **Commercial API Access Granted:** Thanks to the support of the Last.fm team, we have been granted **1 year of free commercial API access**.
-* **Seamless Login:** Pro users can now use Last.fm scrobbling using only their account credentials (no separate API key required!). Simply launch the web server and log in.
+    <content type="text">
+---
+
+### 🚀 JJ Launcher v0.11.6 Release Notes
+
+**Important Notice on FLAC Playback**
+
+* Due to stability issues with the previous downsampling engine, we have reverted to the legacy downsampling engine. Please note that this down-sampling engine downgrade may cause potential side effects or issues with FLAC playback.
+
+---
+
+### 🌟 Key Updates &amp; Improvements
+
+* **Audio Engine Downgrade:** Reverted the FLAC downsampling engine to the legacy version for better stability.
+* **Opus Album Art Fix:** Fixed an issue where album art for Opus audio files was not displaying properly.
+* **Player UI Enhancements:** Added playback speed control, a close button, and a sleep timer function directly to the music player screen.
+* **Video Player:** Added a continuous video playback feature.
+* **Library UI:** Resized album art thumbnails in the library view for better layout balance.
+* **Podcast Engine Overhaul:** Significantly improved podcast streaming and channel loading performance. Special thanks to **ArcSmurf** for the amazing contribution!
+* **Language Bug Fix:** Resolved a bug where language settings would randomly reset.
+
+---
+
+### 🎵 Last.fm Scrobbling Support &amp; API Announcement
+
+* **Last.fm Scrobbling Integrated:** You can now scrobble your tracks to Last.fm!
+* **Commercial API Access Granted:** Thanks to the support of the Last.fm team, we have been granted **1 year of free commercial API access**.
+* **Seamless Login:** Pro users can now use Last.fm scrobbling using only their account credentials (no separate API key required!). Simply launch the web server and log in.
 * **Support the Project:** To keep Last.fm integration and other features running continuously in the future, your donations and support are always greatly appreciated!</content>
   </entry>
   <entry>
@@ -143,24 +143,24 @@
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.9/rom.zip" title="rom.zip" length="456604912" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541200051"/>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.9/rom_type_b.zip" title="rom_type_b.zip" length="399539309" type="application/zip" innioasis:download_count="4" innioasis:asset_id="541200058"/>
-    <content type="text">
-&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215531&quot; src=&quot;https://github.com/user-attachments/assets/5aacc91f-efb6-4a71-acb2-01a4c241bafc&quot; /&gt;
-&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215549&quot; src=&quot;https://github.com/user-attachments/assets/796379c0-afc7-4d52-9ef5-e1acfe03bccf&quot; /&gt;
-&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215624&quot; src=&quot;https://github.com/user-attachments/assets/7f8fb8e6-0cfd-4825-87fd-cac41e1ac03a&quot; /&gt;
-
-## 🚀 What&#x27;s New in v0.9
-
-### ✨ New Features &amp; Improvements
-
-* **Added User Equalizer (EQ), Bass Boost, and Spatial Audio Engine**
-  * Customize your sound with the new custom EQ settings, enhanced bass boost, and an immersive spatial audio engine.
-* **Full Playlist File Support**
-  * You can now easily create, delete, and manage your playlist files directly within the app.
-* **File Information Display**
-  * Added the ability to view detailed file and track information directly on the player screen.
-* **Bug Fixes**
-  * Fixed various minor bugs and improved overall system stability.
-* **Thanks**
+    <content type="text">
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215531&quot; src=&quot;https://github.com/user-attachments/assets/5aacc91f-efb6-4a71-acb2-01a4c241bafc&quot; /&gt;
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215549&quot; src=&quot;https://github.com/user-attachments/assets/796379c0-afc7-4d52-9ef5-e1acfe03bccf&quot; /&gt;
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215624&quot; src=&quot;https://github.com/user-attachments/assets/7f8fb8e6-0cfd-4825-87fd-cac41e1ac03a&quot; /&gt;
+
+## 🚀 What&#x27;s New in v0.9
+
+### ✨ New Features &amp; Improvements
+
+* **Added User Equalizer (EQ), Bass Boost, and Spatial Audio Engine**
+  * Customize your sound with the new custom EQ settings, enhanced bass boost, and an immersive spatial audio engine.
+* **Full Playlist File Support**
+  * You can now easily create, delete, and manage your playlist files directly within the app.
+* **File Information Display**
+  * Added the ability to view detailed file and track information directly on the player screen.
+* **Bug Fixes**
+  * Fixed various minor bugs and improved overall system stability.
+* **Thanks**
   * MO-ON company</content>
   </entry>
   <entry>
@@ -173,31 +173,31 @@
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.8/rom.zip" title="rom.zip" length="456604601" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541199921"/>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.8/rom_type_b.zip" title="rom_type_b.zip" length="399538066" type="application/zip" innioasis:download_count="4" innioasis:asset_id="541199927"/>
-    <content type="text">## 🚀 What&#x27;s New in v0.8
-
-### 🎨 1. New Theme Engine Implemented
-* A brand-new theme engine has been added to the launcher!
-* You can easily design and customize your own themes using the web editor below:
-  👉 [Go to Theme Editor](https://theme-editor-gules.vercel.app/)
-
-### 🔤 2. Fixed Case-Insensitive Song Sorting Bug
-* Fixed an issue where uppercase and lowercase song titles were not sorting properly in alphabetical order.
-  *(Special thanks to **Whimsical_Sandwich** for reporting this issue!)*
-
-### 🖥️ 3. Server Connection Page UI Redesign
-* Overhauled and improved the User Interface (UI) for the server connection page for a cleaner look.
-
-### 📂 4. Added Folder Playback Feature
-* You can now browse and play your music files directly by folder structure.
-
-### ❤️ 5. Added Favorites Feature
-* Added a bookmarking function so you can easily save and access your favorite songs.
-
-### 🔄 6. Added Rockbox Booting Feature
-* Added the ability to boot directly into Rockbox from the launcher.
-
-&gt; [!WARNING]
-&gt; **⚠️ Important Notice regarding Rockbox Booting**
+    <content type="text">## 🚀 What&#x27;s New in v0.8
+
+### 🎨 1. New Theme Engine Implemented
+* A brand-new theme engine has been added to the launcher!
+* You can easily design and customize your own themes using the web editor below:
+  👉 [Go to Theme Editor](https://theme-editor-gules.vercel.app/)
+
+### 🔤 2. Fixed Case-Insensitive Song Sorting Bug
+* Fixed an issue where uppercase and lowercase song titles were not sorting properly in alphabetical order.
+  *(Special thanks to **Whimsical_Sandwich** for reporting this issue!)*
+
+### 🖥️ 3. Server Connection Page UI Redesign
+* Overhauled and improved the User Interface (UI) for the server connection page for a cleaner look.
+
+### 📂 4. Added Folder Playback Feature
+* You can now browse and play your music files directly by folder structure.
+
+### ❤️ 5. Added Favorites Feature
+* Added a bookmarking function so you can easily save and access your favorite songs.
+
+### 🔄 6. Added Rockbox Booting Feature
+* Added the ability to boot directly into Rockbox from the launcher.
+
+&gt; [!WARNING]
+&gt; **⚠️ Important Notice regarding Rockbox Booting**
 &gt; Please note that **an additional script is required** if you want to safely return to the launcher from Rockbox.</content>
   </entry>
   <entry>
@@ -210,41 +210,41 @@
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.6/rom.zip" title="rom.zip" length="456567803" type="application/zip" innioasis:download_count="6" innioasis:asset_id="541200082"/>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.6/rom_type_b.zip" title="rom_type_b.zip" length="399667887" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541200083"/>
-    <content type="text">## 🚀 Installation &amp; Update Guide
-
-You can easily install the launcher using the **Innioasis Updater**.
-👉 [Download Innioasis Updater](https://www.innioasis.com/pages/download)
-
-&lt;img width=&quot;1214&quot; height=&quot;612&quot; alt=&quot;Installation Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/95e9e82a-7b2a-48ee-a75b-6f055a77db07&quot; /&gt;
-
----
-
-## 🆕 What&#x27;s New in v0.6
-
-### 1. Added Launcher OTA Update Feature
-* You can now download and apply updates directly within the launcher without having to manually reinstall the APK file.
-
-&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Update Feature Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/b34f1026-da50-45f8-a99a-bf83e358bb1f&quot; /&gt;
-
-### 2. Status Bar Enhancement
-* Added a playback status icon to the status bar.
-
-### 3. Bug Fixes
-* Fixed minor bugs and improved overall stability.
-
----
-
-## 🎧 Bluetooth Connection &amp; Pairing
-
-Bluetooth headphone connection testing has been successfully completed, and it works perfectly!
-
-&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Bluetooth Pairing Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/73d0cec4-ddeb-406d-916d-0cdcb788533a&quot; /&gt;
-
-&gt; [!CAUTION]
-&gt; **⚠️ Important Security Permission Note**
-&gt; If you encounter a security-related error message when trying to connect after pairing, you must grant the secure settings permission via ADB by running the following script:
-
-```bash
+    <content type="text">## 🚀 Installation &amp; Update Guide
+
+You can easily install the launcher using the **Innioasis Updater**.
+👉 [Download Innioasis Updater](https://www.innioasis.com/pages/download)
+
+&lt;img width=&quot;1214&quot; height=&quot;612&quot; alt=&quot;Installation Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/95e9e82a-7b2a-48ee-a75b-6f055a77db07&quot; /&gt;
+
+---
+
+## 🆕 What&#x27;s New in v0.6
+
+### 1. Added Launcher OTA Update Feature
+* You can now download and apply updates directly within the launcher without having to manually reinstall the APK file.
+
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Update Feature Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/b34f1026-da50-45f8-a99a-bf83e358bb1f&quot; /&gt;
+
+### 2. Status Bar Enhancement
+* Added a playback status icon to the status bar.
+
+### 3. Bug Fixes
+* Fixed minor bugs and improved overall stability.
+
+---
+
+## 🎧 Bluetooth Connection &amp; Pairing
+
+Bluetooth headphone connection testing has been successfully completed, and it works perfectly!
+
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Bluetooth Pairing Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/73d0cec4-ddeb-406d-916d-0cdcb788533a&quot; /&gt;
+
+&gt; [!CAUTION]
+&gt; **⚠️ Important Security Permission Note**
+&gt; If you encounter a security-related error message when trying to connect after pairing, you must grant the secure settings permission via ADB by running the following script:
+
+```bash
 adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS</content>
   </entry>
   <entry>
@@ -257,23 +257,23 @@ adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS</cont
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.5/rom.zip" title="rom.zip" length="456603017" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541199795"/>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.5/rom_type_b.zip" title="rom_type_b.zip" length="399658877" type="application/zip" innioasis:download_count="3" innioasis:asset_id="541199798"/>
-    <content type="text">&gt; [!WARNING]
-&gt; &lt;span style=&quot;color:#d9381e; font-weight:bold;&quot;&gt;⚠️ IMPORTANT: This has only been tested on System Software version 2.1.9. It is highly recommended to check your own firmware version before proceeding with the installation.&lt;/span&gt;
-
-1. 칼라 테마기능 적용
-2. 위젯기능 추가
-3. 파일 탐색기 시각화 오류수정(노래 파일이 많아지면 느려지는 버그 수정)
-4. 라디오 버튼 제거
-5. 배터리 표시 아이콘으로 변경
-6. 와이파이를 통한 앨범 자동 다운로드
-7. 최적화 및 버그 수정
--------------------------------------
-1. Added color themes
-2. Added widget support
-3. Fixed visual rendering issues in File Explorer (Resolved slowdowns when loading a large number of songs)
-4. Removed radio buttons
-5. Replaced battery indicator with an icon
-6. Auto-Download Album Art via Wi-Fi
+    <content type="text">&gt; [!WARNING]
+&gt; &lt;span style=&quot;color:#d9381e; font-weight:bold;&quot;&gt;⚠️ IMPORTANT: This has only been tested on System Software version 2.1.9. It is highly recommended to check your own firmware version before proceeding with the installation.&lt;/span&gt;
+
+1. 칼라 테마기능 적용
+2. 위젯기능 추가
+3. 파일 탐색기 시각화 오류수정(노래 파일이 많아지면 느려지는 버그 수정)
+4. 라디오 버튼 제거
+5. 배터리 표시 아이콘으로 변경
+6. 와이파이를 통한 앨범 자동 다운로드
+7. 최적화 및 버그 수정
+-------------------------------------
+1. Added color themes
+2. Added widget support
+3. Fixed visual rendering issues in File Explorer (Resolved slowdowns when loading a large number of songs)
+4. Removed radio buttons
+5. Replaced battery indicator with an icon
+6. Auto-Download Album Art via Wi-Fi
 8. Optimized performance and fixed bugs</content>
   </entry>
   <entry>
@@ -286,9 +286,9 @@ adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS</cont
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.3/rom.zip" title="rom.zip" length="456569905" type="application/zip" innioasis:download_count="6" innioasis:asset_id="541199869"/>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.3/rom_type_b.zip" title="rom_type_b.zip" length="399645569" type="application/zip" innioasis:download_count="6" innioasis:asset_id="541199868"/>
-    <content type="text">1. 테마파일 적용(/storage/sdcard0/Y1_Themes/ 폴더에 원하는 테마 파일(.json)을 넣고 설정)
-2. 화면이 커진 상태에서 곡변경 기능 추가
-3. 셔플 재생 알고리즘 수정/아이콘 교체
+    <content type="text">1. 테마파일 적용(/storage/sdcard0/Y1_Themes/ 폴더에 원하는 테마 파일(.json)을 넣고 설정)
+2. 화면이 커진 상태에서 곡변경 기능 추가
+3. 셔플 재생 알고리즘 수정/아이콘 교체
 4. 기타 버그 수정</content>
   </entry>
   <entry>
@@ -302,44 +302,44 @@ adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS</cont
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.4/rom.zip" title="rom.zip" length="456287678" type="application/zip" innioasis:download_count="16" innioasis:asset_id="541199939"/>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.4/rom_type_b.zip" title="rom_type_b.zip" length="399771390" type="application/zip" innioasis:download_count="4" innioasis:asset_id="541199938"/>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.4/rom_y2.zip" title="rom_y2.zip" length="443266446" type="application/zip" innioasis:download_count="15" innioasis:asset_id="541199940"/>
-    <content type="text">
-Here is what’s new in this release:
-
-### 🎵 Audio &amp; Media Upgrades
-
-* **Faster Lossless Playback:** Replaced the downsampling engine, so lossless audio files now start playing much faster!
-* **Improved Library Hierarchy:** Browsing structure is now updated to `Album Artist` &gt; `Album` &gt; `Track`.
-* **Cover Flow Stability:** Cover Flow is now sorted by artist name and operates much more stably.
-* **Radio Sleep Fix:** Fixed the annoying bug where FM radio sound would cut off when the screen turned off.
-* **Smarter File Scanning:** Optimized the media scan method for better performance.
-* **Podcast Episode Deletion:** You can now delete episodes directly within the Podcast menu.
-* **Video Playback Resume &amp; Skip:** Added &quot;Resume from last played position&quot; and skip options for video playback.
-
-### 🎨 UI &amp; Customization
-
-* **Player Screen Customization:** You can now fully apply custom themes to the main Player screen via the Theme Editor!
-* **Improved Text Visibility:** Adjusted text colors dynamically according to theme colors so everything stays readable.
-* **Status Bar Battery %:** Added actual percentage numbers to the status bar battery icon.
-* **Categorized Settings:** Reorganized the cluttered Settings menu into clean categories.
-* **Screen Color Filter:** Added a screen color filter feature for late-night listening.
-
-### ⚙️ Controls &amp; System Improvements
-
-* **Force Reboot Shortcut:** Long-press the Play/Pause button for 5+ seconds to force restart the device.
-* **Quick Repeat Mode:** Long-press Play/Pause on the Player screen to quickly cycle through repeat modes.
-* **Power &amp; Battery Stats:** Enhanced deep sleep / power management and added a dedicated Battery Usage Statistics screen.
-
-### 🎮 Bonus Features!
-
-* **Mini-Games Added:** Take a break and play **2048** or **FreeCell** directly on your device!
-
----
-
-🔍 **Useful Links:**
-
-* 📦 **Download Latest Release:** [[[GitHub Release Link]](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/releases)](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/releases)
-* 💬 **Feedback &amp; Bug Reports:** Feel free to leave a comment below or open an issue on [[[GitHub Issues]](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/issues)](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/issues)!
-
+    <content type="text">
+Here is what’s new in this release:
+
+### 🎵 Audio &amp; Media Upgrades
+
+* **Faster Lossless Playback:** Replaced the downsampling engine, so lossless audio files now start playing much faster!
+* **Improved Library Hierarchy:** Browsing structure is now updated to `Album Artist` &gt; `Album` &gt; `Track`.
+* **Cover Flow Stability:** Cover Flow is now sorted by artist name and operates much more stably.
+* **Radio Sleep Fix:** Fixed the annoying bug where FM radio sound would cut off when the screen turned off.
+* **Smarter File Scanning:** Optimized the media scan method for better performance.
+* **Podcast Episode Deletion:** You can now delete episodes directly within the Podcast menu.
+* **Video Playback Resume &amp; Skip:** Added &quot;Resume from last played position&quot; and skip options for video playback.
+
+### 🎨 UI &amp; Customization
+
+* **Player Screen Customization:** You can now fully apply custom themes to the main Player screen via the Theme Editor!
+* **Improved Text Visibility:** Adjusted text colors dynamically according to theme colors so everything stays readable.
+* **Status Bar Battery %:** Added actual percentage numbers to the status bar battery icon.
+* **Categorized Settings:** Reorganized the cluttered Settings menu into clean categories.
+* **Screen Color Filter:** Added a screen color filter feature for late-night listening.
+
+### ⚙️ Controls &amp; System Improvements
+
+* **Force Reboot Shortcut:** Long-press the Play/Pause button for 5+ seconds to force restart the device.
+* **Quick Repeat Mode:** Long-press Play/Pause on the Player screen to quickly cycle through repeat modes.
+* **Power &amp; Battery Stats:** Enhanced deep sleep / power management and added a dedicated Battery Usage Statistics screen.
+
+### 🎮 Bonus Features!
+
+* **Mini-Games Added:** Take a break and play **2048** or **FreeCell** directly on your device!
+
+---
+
+🔍 **Useful Links:**
+
+* 📦 **Download Latest Release:** [[[GitHub Release Link]](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/releases)](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/releases)
+* 💬 **Feedback &amp; Bug Reports:** Feel free to leave a comment below or open an issue on [[[GitHub Issues]](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/issues)](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/issues)!
+
 </content>
   </entry>
   <entry>
@@ -364,34 +364,34 @@ Here is what’s new in this release:
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11/rom.zip" title="rom.zip" length="457083507" type="application/zip" innioasis:download_count="6" innioasis:asset_id="541200032"/>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11/rom_type_b.zip" title="rom_type_b.zip" length="404522629" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541200031"/>
-    <content type="text">### 🚀 [Update] JJ Launcher v0.11 Release Notes
-
-Hi everyone!
-
-Thanks to your amazing support and numerous feedback/feature requests, the v0.11 update is finally ready! I am incredibly grateful to everyone who has shown interest and helped test the app.
-
-Since many major features have been refactored and added in this version, there might be some unexpected bugs even in areas that used to work fine. Please let me know if you run into any issues, and I will get them patched as soon as possible!
-
-Here is what’s new in v0.11:
-
-* **New Audio Engine:** Switched the encoder setup to an **ExoPlayer + FFmpeg** combination.
-* **Lossless Audio Support:** The launcher can now play high-res lossless FLAC and ALAC files that previously wouldn&#x27;t play.
-* **Hi-Res Metadata:** High-quality audio metadata is now read and displayed correctly.
-* **10-Band EQ:** A brand new **10-band Equalizer** has been implemented.
-* **Podcast Support:** You can now search for and download podcasts directly using the **iTunes API**.
-* **Crossfeed:** Added a crossfeed function for a better headphone listening experience.
-* **Playlist Improvements:** Adding and deleting playlists now works perfectly. *(To trigger, long-press the center button on any song in the list)*.
-* **Quick Alphabet Search:** Added an alphabetical search feature in the song list. *(To trigger, long-press the Play/Pause button at the bottom of the list)*.
-* **Audiobook Support:** Added support for **.m4b** files, including **Chapter navigation**.
-* **Album Track Sorting Bug:** Fixed the issue where albums were not sorting by track number.
-* **Playlist Shuffle Bug:** Fixed the bug where shuffling playlists wouldn&#x27;t work.
-* **UI Improvements:** Switched several default Android dialogs/popups to modern **Material Design** popups.
-* **PC Upload/Download:** Added a download feature to the existing PC upload functionality.
-* **Recently Added:** Added a &quot;Recently Added Songs&quot; list.
-* **Faster Scanning:** Added a duplicate-scanning prevention engine to make library scans significantly faster.
-
-As always, with so many changes under the hood, there might be some unexpected bugs. Please report any issues you find, and I’ll get them fixed in the next update.
-
+    <content type="text">### 🚀 [Update] JJ Launcher v0.11 Release Notes
+
+Hi everyone!
+
+Thanks to your amazing support and numerous feedback/feature requests, the v0.11 update is finally ready! I am incredibly grateful to everyone who has shown interest and helped test the app.
+
+Since many major features have been refactored and added in this version, there might be some unexpected bugs even in areas that used to work fine. Please let me know if you run into any issues, and I will get them patched as soon as possible!
+
+Here is what’s new in v0.11:
+
+* **New Audio Engine:** Switched the encoder setup to an **ExoPlayer + FFmpeg** combination.
+* **Lossless Audio Support:** The launcher can now play high-res lossless FLAC and ALAC files that previously wouldn&#x27;t play.
+* **Hi-Res Metadata:** High-quality audio metadata is now read and displayed correctly.
+* **10-Band EQ:** A brand new **10-band Equalizer** has been implemented.
+* **Podcast Support:** You can now search for and download podcasts directly using the **iTunes API**.
+* **Crossfeed:** Added a crossfeed function for a better headphone listening experience.
+* **Playlist Improvements:** Adding and deleting playlists now works perfectly. *(To trigger, long-press the center button on any song in the list)*.
+* **Quick Alphabet Search:** Added an alphabetical search feature in the song list. *(To trigger, long-press the Play/Pause button at the bottom of the list)*.
+* **Audiobook Support:** Added support for **.m4b** files, including **Chapter navigation**.
+* **Album Track Sorting Bug:** Fixed the issue where albums were not sorting by track number.
+* **Playlist Shuffle Bug:** Fixed the bug where shuffling playlists wouldn&#x27;t work.
+* **UI Improvements:** Switched several default Android dialogs/popups to modern **Material Design** popups.
+* **PC Upload/Download:** Added a download feature to the existing PC upload functionality.
+* **Recently Added:** Added a &quot;Recently Added Songs&quot; list.
+* **Faster Scanning:** Added a duplicate-scanning prevention engine to make library scans significantly faster.
+
+As always, with so many changes under the hood, there might be some unexpected bugs. Please report any issues you find, and I’ll get them fixed in the next update.
+
 Thank you so much for your continued interest and support! Enjoy v0.11! 🙏🚀</content>
   </entry>
   <entry>
@@ -416,42 +416,42 @@ Thank you so much for your continued interest and support! Enjoy v0.11! 🙏🚀
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.10/rom.zip" title="rom.zip" length="457534242" type="application/zip" innioasis:download_count="9" innioasis:asset_id="541200026"/>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.10/rom_type_b.zip" title="rom_type_b.zip" length="399499884" type="application/zip" innioasis:download_count="5" innioasis:asset_id="541200023"/>
-    <content type="text">## 🎉 JJ Launcher v0.10 is Finally Here!
-
-Thanks to everyone&#x27;s incredible interest and feedback, I am thrilled to finally release version 0.10! Thank you all so much for your continuous support and encouragement.
-
-Since the Radio and Audiobook features from the stock launcher aren&#x27;t available when using custom launchers, I have built and integrated brand-new custom Radio and Audiobook features in this update. 
-
-I also tried my best to incorporate the thoughtful feedback you all provided. Please understand that I couldn&#x27;t list the usernames of everyone who gave such great suggestions, but I truly appreciate every single one of you!
-
-### 🚀 Update Changelog (v0.10)
-
-* **Audio Engine Upgrade:** Replaced the audio playback engine from MediaPlayer to ExoPlayer *(Note: FLAC is still decoded via software)*.
-* **New Cover Flow:** Added a new Cover Flow visualizer.
-* **New Radio App:** Added a custom built-in Radio feature.
-* **New Audiobook App:** Added a custom built-in Audiobook feature.
-* **Multi-language Support:** Added support for English, Japanese, Chinese, Spanish, and Russian.
-* **Main Menu List View:** Main screen buttons can now be displayed in a list format.
-* **Album Thumbnails:** Added thumbnails to the album list view.
-* **Track Number Sorting:** The album list is now correctly sorted by track numbers.
-* **Focus Bug Fixed:** Fixed an issue where the UI navigation focus would be lost.
-* **Lyrics Support:** Added support for both embedded and external lyrics.
-* **New Audio Categories:** Added audio categorization by Year and Genre.
-* **Playback Speed Control:** Added fast playback support up to 2x speed *(excluding FLAC)*.
-* **10-Second Skip:** Added the ability to skip backward/forward by 10 seconds using the left/right buttons.
-* **Quick Add to Playlist:** You can now add a song to a playlist by long-pressing the Stop button on the player screen.
-* **Screen-Off Shortcut:** Added a screen-off shortcut by long-pressing the Center button *(Note: Not available in the file list view as it overlaps with the &#x27;add to playlist&#x27; shortcut)*.
-* **Custom Main Buttons:** Added the ability for users to edit/customize the main screen buttons.
-* **Theme Backgrounds:** Added default background image support for themes.
-* **Clock Format:** Added an option to toggle between 12-hour and 24-hour clock formats.
-* **Default Theme Changed:** Updated the default theme for a fresh look.
-* **New List Theme:** Added a new list-style theme.
-* **Infinite Wheel Toggle:** Added an option to turn the infinite wheel scrolling on or off.
-* **General Improvements:** Various bug fixes and UI optimizations.
-
-### 📌 Future Plans
-For future versions, rather than focusing on adding new features, my main priority will be fixing bugs to ensure stable performance and expanding the variety of themes available.
-
+    <content type="text">## 🎉 JJ Launcher v0.10 is Finally Here!
+
+Thanks to everyone&#x27;s incredible interest and feedback, I am thrilled to finally release version 0.10! Thank you all so much for your continuous support and encouragement.
+
+Since the Radio and Audiobook features from the stock launcher aren&#x27;t available when using custom launchers, I have built and integrated brand-new custom Radio and Audiobook features in this update. 
+
+I also tried my best to incorporate the thoughtful feedback you all provided. Please understand that I couldn&#x27;t list the usernames of everyone who gave such great suggestions, but I truly appreciate every single one of you!
+
+### 🚀 Update Changelog (v0.10)
+
+* **Audio Engine Upgrade:** Replaced the audio playback engine from MediaPlayer to ExoPlayer *(Note: FLAC is still decoded via software)*.
+* **New Cover Flow:** Added a new Cover Flow visualizer.
+* **New Radio App:** Added a custom built-in Radio feature.
+* **New Audiobook App:** Added a custom built-in Audiobook feature.
+* **Multi-language Support:** Added support for English, Japanese, Chinese, Spanish, and Russian.
+* **Main Menu List View:** Main screen buttons can now be displayed in a list format.
+* **Album Thumbnails:** Added thumbnails to the album list view.
+* **Track Number Sorting:** The album list is now correctly sorted by track numbers.
+* **Focus Bug Fixed:** Fixed an issue where the UI navigation focus would be lost.
+* **Lyrics Support:** Added support for both embedded and external lyrics.
+* **New Audio Categories:** Added audio categorization by Year and Genre.
+* **Playback Speed Control:** Added fast playback support up to 2x speed *(excluding FLAC)*.
+* **10-Second Skip:** Added the ability to skip backward/forward by 10 seconds using the left/right buttons.
+* **Quick Add to Playlist:** You can now add a song to a playlist by long-pressing the Stop button on the player screen.
+* **Screen-Off Shortcut:** Added a screen-off shortcut by long-pressing the Center button *(Note: Not available in the file list view as it overlaps with the &#x27;add to playlist&#x27; shortcut)*.
+* **Custom Main Buttons:** Added the ability for users to edit/customize the main screen buttons.
+* **Theme Backgrounds:** Added default background image support for themes.
+* **Clock Format:** Added an option to toggle between 12-hour and 24-hour clock formats.
+* **Default Theme Changed:** Updated the default theme for a fresh look.
+* **New List Theme:** Added a new list-style theme.
+* **Infinite Wheel Toggle:** Added an option to turn the infinite wheel scrolling on or off.
+* **General Improvements:** Various bug fixes and UI optimizations.
+
+### 📌 Future Plans
+For future versions, rather than focusing on adding new features, my main priority will be fixing bugs to ensure stable performance and expanding the variety of themes available.
+
 Please continue to show your interest and support. Thank you! :D</content>
   </entry>
   <entry>
@@ -475,44 +475,44 @@ Please continue to show your interest and support. Thank you! :D</content>
     <innioasis:tag_name>v0.11.4</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/v0.11.4/app-release.apk" title="app-release.apk" length="7039489" type="application/vnd.android.package-archive" innioasis:download_count="5462" innioasis:asset_id="496713032"/>
-    <content type="text">
-Here is what’s new in this release:
-
-### 🎵 Audio &amp; Media Upgrades
-
-* **Faster Lossless Playback:** Replaced the downsampling engine, so lossless audio files now start playing much faster!
-* **Improved Library Hierarchy:** Browsing structure is now updated to `Album Artist` &gt; `Album` &gt; `Track`.
-* **Cover Flow Stability:** Cover Flow is now sorted by artist name and operates much more stably.
-* **Radio Sleep Fix:** Fixed the annoying bug where FM radio sound would cut off when the screen turned off.
-* **Smarter File Scanning:** Optimized the media scan method for better performance.
-* **Podcast Episode Deletion:** You can now delete episodes directly within the Podcast menu.
-* **Video Playback Resume &amp; Skip:** Added &quot;Resume from last played position&quot; and skip options for video playback.
-
-### 🎨 UI &amp; Customization
-
-* **Player Screen Customization:** You can now fully apply custom themes to the main Player screen via the Theme Editor!
-* **Improved Text Visibility:** Adjusted text colors dynamically according to theme colors so everything stays readable.
-* **Status Bar Battery %:** Added actual percentage numbers to the status bar battery icon.
-* **Categorized Settings:** Reorganized the cluttered Settings menu into clean categories.
-* **Screen Color Filter:** Added a screen color filter feature for late-night listening.
-
-### ⚙️ Controls &amp; System Improvements
-
-* **Force Reboot Shortcut:** Long-press the Play/Pause button for 5+ seconds to force restart the device.
-* **Quick Repeat Mode:** Long-press Play/Pause on the Player screen to quickly cycle through repeat modes.
-* **Power &amp; Battery Stats:** Enhanced deep sleep / power management and added a dedicated Battery Usage Statistics screen.
-
-### 🎮 Bonus Features!
-
-* **Mini-Games Added:** Take a break and play **2048** or **FreeCell** directly on your device!
-
----
-
-🔍 **Useful Links:**
-
-* 📦 **Download Latest Release:** [[[GitHub Release Link]](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/releases)](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/releases)
-* 💬 **Feedback &amp; Bug Reports:** Feel free to leave a comment below or open an issue on [[[GitHub Issues]](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/issues)](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/issues)!
-
+    <content type="text">
+Here is what’s new in this release:
+
+### 🎵 Audio &amp; Media Upgrades
+
+* **Faster Lossless Playback:** Replaced the downsampling engine, so lossless audio files now start playing much faster!
+* **Improved Library Hierarchy:** Browsing structure is now updated to `Album Artist` &gt; `Album` &gt; `Track`.
+* **Cover Flow Stability:** Cover Flow is now sorted by artist name and operates much more stably.
+* **Radio Sleep Fix:** Fixed the annoying bug where FM radio sound would cut off when the screen turned off.
+* **Smarter File Scanning:** Optimized the media scan method for better performance.
+* **Podcast Episode Deletion:** You can now delete episodes directly within the Podcast menu.
+* **Video Playback Resume &amp; Skip:** Added &quot;Resume from last played position&quot; and skip options for video playback.
+
+### 🎨 UI &amp; Customization
+
+* **Player Screen Customization:** You can now fully apply custom themes to the main Player screen via the Theme Editor!
+* **Improved Text Visibility:** Adjusted text colors dynamically according to theme colors so everything stays readable.
+* **Status Bar Battery %:** Added actual percentage numbers to the status bar battery icon.
+* **Categorized Settings:** Reorganized the cluttered Settings menu into clean categories.
+* **Screen Color Filter:** Added a screen color filter feature for late-night listening.
+
+### ⚙️ Controls &amp; System Improvements
+
+* **Force Reboot Shortcut:** Long-press the Play/Pause button for 5+ seconds to force restart the device.
+* **Quick Repeat Mode:** Long-press Play/Pause on the Player screen to quickly cycle through repeat modes.
+* **Power &amp; Battery Stats:** Enhanced deep sleep / power management and added a dedicated Battery Usage Statistics screen.
+
+### 🎮 Bonus Features!
+
+* **Mini-Games Added:** Take a break and play **2048** or **FreeCell** directly on your device!
+
+---
+
+🔍 **Useful Links:**
+
+* 📦 **Download Latest Release:** [[[GitHub Release Link]](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/releases)](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/releases)
+* 💬 **Feedback &amp; Bug Reports:** Feel free to leave a comment below or open an issue on [[[GitHub Issues]](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/issues)](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/issues)!
+
 </content>
   </entry>
   <entry>
@@ -535,34 +535,34 @@ Here is what’s new in this release:
     <innioasis:tag_name>v0.11</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/v0.11/app-release.apk" title="app-release.apk" length="5764609" type="application/vnd.android.package-archive" innioasis:download_count="85" innioasis:asset_id="477557874"/>
-    <content type="text">### 🚀 [Update] JJ Launcher v0.11 Release Notes
-
-Hi everyone!
-
-Thanks to your amazing support and numerous feedback/feature requests, the v0.11 update is finally ready! I am incredibly grateful to everyone who has shown interest and helped test the app.
-
-Since many major features have been refactored and added in this version, there might be some unexpected bugs even in areas that used to work fine. Please let me know if you run into any issues, and I will get them patched as soon as possible!
-
-Here is what’s new in v0.11:
-
-* **New Audio Engine:** Switched the encoder setup to an **ExoPlayer + FFmpeg** combination.
-* **Lossless Audio Support:** The launcher can now play high-res lossless FLAC and ALAC files that previously wouldn&#x27;t play.
-* **Hi-Res Metadata:** High-quality audio metadata is now read and displayed correctly.
-* **10-Band EQ:** A brand new **10-band Equalizer** has been implemented.
-* **Podcast Support:** You can now search for and download podcasts directly using the **iTunes API**.
-* **Crossfeed:** Added a crossfeed function for a better headphone listening experience.
-* **Playlist Improvements:** Adding and deleting playlists now works perfectly. *(To trigger, long-press the center button on any song in the list)*.
-* **Quick Alphabet Search:** Added an alphabetical search feature in the song list. *(To trigger, long-press the Play/Pause button at the bottom of the list)*.
-* **Audiobook Support:** Added support for **.m4b** files, including **Chapter navigation**.
-* **Album Track Sorting Bug:** Fixed the issue where albums were not sorting by track number.
-* **Playlist Shuffle Bug:** Fixed the bug where shuffling playlists wouldn&#x27;t work.
-* **UI Improvements:** Switched several default Android dialogs/popups to modern **Material Design** popups.
-* **PC Upload/Download:** Added a download feature to the existing PC upload functionality.
-* **Recently Added:** Added a &quot;Recently Added Songs&quot; list.
-* **Faster Scanning:** Added a duplicate-scanning prevention engine to make library scans significantly faster.
-
-As always, with so many changes under the hood, there might be some unexpected bugs. Please report any issues you find, and I’ll get them fixed in the next update.
-
+    <content type="text">### 🚀 [Update] JJ Launcher v0.11 Release Notes
+
+Hi everyone!
+
+Thanks to your amazing support and numerous feedback/feature requests, the v0.11 update is finally ready! I am incredibly grateful to everyone who has shown interest and helped test the app.
+
+Since many major features have been refactored and added in this version, there might be some unexpected bugs even in areas that used to work fine. Please let me know if you run into any issues, and I will get them patched as soon as possible!
+
+Here is what’s new in v0.11:
+
+* **New Audio Engine:** Switched the encoder setup to an **ExoPlayer + FFmpeg** combination.
+* **Lossless Audio Support:** The launcher can now play high-res lossless FLAC and ALAC files that previously wouldn&#x27;t play.
+* **Hi-Res Metadata:** High-quality audio metadata is now read and displayed correctly.
+* **10-Band EQ:** A brand new **10-band Equalizer** has been implemented.
+* **Podcast Support:** You can now search for and download podcasts directly using the **iTunes API**.
+* **Crossfeed:** Added a crossfeed function for a better headphone listening experience.
+* **Playlist Improvements:** Adding and deleting playlists now works perfectly. *(To trigger, long-press the center button on any song in the list)*.
+* **Quick Alphabet Search:** Added an alphabetical search feature in the song list. *(To trigger, long-press the Play/Pause button at the bottom of the list)*.
+* **Audiobook Support:** Added support for **.m4b** files, including **Chapter navigation**.
+* **Album Track Sorting Bug:** Fixed the issue where albums were not sorting by track number.
+* **Playlist Shuffle Bug:** Fixed the bug where shuffling playlists wouldn&#x27;t work.
+* **UI Improvements:** Switched several default Android dialogs/popups to modern **Material Design** popups.
+* **PC Upload/Download:** Added a download feature to the existing PC upload functionality.
+* **Recently Added:** Added a &quot;Recently Added Songs&quot; list.
+* **Faster Scanning:** Added a duplicate-scanning prevention engine to make library scans significantly faster.
+
+As always, with so many changes under the hood, there might be some unexpected bugs. Please report any issues you find, and I’ll get them fixed in the next update.
+
 Thank you so much for your continued interest and support! Enjoy v0.11! 🙏🚀</content>
   </entry>
   <entry>
@@ -573,13 +573,13 @@ Thank you so much for your continued interest and support! Enjoy v0.11! 🙏🚀
     <link rel="alternate" type="text/html" href="https://github.com/ismileblue/y1_launcher/releases/tag/v0.10.4"/>
     <innioasis:tag_name>v0.10.4</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <content type="text">🛠️ Bug Fixes &amp; Improvements
-1. Fixed Bluetooth pairing infinite loop bug
-
-Note: Resolved the issue where rapidly toggling Bluetooth caused the button to freeze and the main screen to lose focus.
-
-2.Added support for Opus file playback
-
+    <content type="text">🛠️ Bug Fixes &amp; Improvements
+1. Fixed Bluetooth pairing infinite loop bug
+
+Note: Resolved the issue where rapidly toggling Bluetooth caused the button to freeze and the main screen to lose focus.
+
+2.Added support for Opus file playback
+
 Note: The expansion module has been successfully compiled, and Opus files are now playing correctly!</content>
   </entry>
   <entry>
@@ -602,42 +602,42 @@ Note: The expansion module has been successfully compiled, and Opus files are no
     <innioasis:tag_name>v0.10</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/v0.10/app-release.apk" title="app-release.apk" length="4155917" type="application/vnd.android.package-archive" innioasis:download_count="78" innioasis:asset_id="467175244"/>
-    <content type="text">## 🎉 JJ Launcher v0.10 is Finally Here!
-
-Thanks to everyone&#x27;s incredible interest and feedback, I am thrilled to finally release version 0.10! Thank you all so much for your continuous support and encouragement.
-
-Since the Radio and Audiobook features from the stock launcher aren&#x27;t available when using custom launchers, I have built and integrated brand-new custom Radio and Audiobook features in this update. 
-
-I also tried my best to incorporate the thoughtful feedback you all provided. Please understand that I couldn&#x27;t list the usernames of everyone who gave such great suggestions, but I truly appreciate every single one of you!
-
-### 🚀 Update Changelog (v0.10)
-
-* **Audio Engine Upgrade:** Replaced the audio playback engine from MediaPlayer to ExoPlayer *(Note: FLAC is still decoded via software)*.
-* **New Cover Flow:** Added a new Cover Flow visualizer.
-* **New Radio App:** Added a custom built-in Radio feature.
-* **New Audiobook App:** Added a custom built-in Audiobook feature.
-* **Multi-language Support:** Added support for English, Japanese, Chinese, Spanish, and Russian.
-* **Main Menu List View:** Main screen buttons can now be displayed in a list format.
-* **Album Thumbnails:** Added thumbnails to the album list view.
-* **Track Number Sorting:** The album list is now correctly sorted by track numbers.
-* **Focus Bug Fixed:** Fixed an issue where the UI navigation focus would be lost.
-* **Lyrics Support:** Added support for both embedded and external lyrics.
-* **New Audio Categories:** Added audio categorization by Year and Genre.
-* **Playback Speed Control:** Added fast playback support up to 2x speed *(excluding FLAC)*.
-* **10-Second Skip:** Added the ability to skip backward/forward by 10 seconds using the left/right buttons.
-* **Quick Add to Playlist:** You can now add a song to a playlist by long-pressing the Stop button on the player screen.
-* **Screen-Off Shortcut:** Added a screen-off shortcut by long-pressing the Center button *(Note: Not available in the file list view as it overlaps with the &#x27;add to playlist&#x27; shortcut)*.
-* **Custom Main Buttons:** Added the ability for users to edit/customize the main screen buttons.
-* **Theme Backgrounds:** Added default background image support for themes.
-* **Clock Format:** Added an option to toggle between 12-hour and 24-hour clock formats.
-* **Default Theme Changed:** Updated the default theme for a fresh look.
-* **New List Theme:** Added a new list-style theme.
-* **Infinite Wheel Toggle:** Added an option to turn the infinite wheel scrolling on or off.
-* **General Improvements:** Various bug fixes and UI optimizations.
-
-### 📌 Future Plans
-For future versions, rather than focusing on adding new features, my main priority will be fixing bugs to ensure stable performance and expanding the variety of themes available.
-
+    <content type="text">## 🎉 JJ Launcher v0.10 is Finally Here!
+
+Thanks to everyone&#x27;s incredible interest and feedback, I am thrilled to finally release version 0.10! Thank you all so much for your continuous support and encouragement.
+
+Since the Radio and Audiobook features from the stock launcher aren&#x27;t available when using custom launchers, I have built and integrated brand-new custom Radio and Audiobook features in this update. 
+
+I also tried my best to incorporate the thoughtful feedback you all provided. Please understand that I couldn&#x27;t list the usernames of everyone who gave such great suggestions, but I truly appreciate every single one of you!
+
+### 🚀 Update Changelog (v0.10)
+
+* **Audio Engine Upgrade:** Replaced the audio playback engine from MediaPlayer to ExoPlayer *(Note: FLAC is still decoded via software)*.
+* **New Cover Flow:** Added a new Cover Flow visualizer.
+* **New Radio App:** Added a custom built-in Radio feature.
+* **New Audiobook App:** Added a custom built-in Audiobook feature.
+* **Multi-language Support:** Added support for English, Japanese, Chinese, Spanish, and Russian.
+* **Main Menu List View:** Main screen buttons can now be displayed in a list format.
+* **Album Thumbnails:** Added thumbnails to the album list view.
+* **Track Number Sorting:** The album list is now correctly sorted by track numbers.
+* **Focus Bug Fixed:** Fixed an issue where the UI navigation focus would be lost.
+* **Lyrics Support:** Added support for both embedded and external lyrics.
+* **New Audio Categories:** Added audio categorization by Year and Genre.
+* **Playback Speed Control:** Added fast playback support up to 2x speed *(excluding FLAC)*.
+* **10-Second Skip:** Added the ability to skip backward/forward by 10 seconds using the left/right buttons.
+* **Quick Add to Playlist:** You can now add a song to a playlist by long-pressing the Stop button on the player screen.
+* **Screen-Off Shortcut:** Added a screen-off shortcut by long-pressing the Center button *(Note: Not available in the file list view as it overlaps with the &#x27;add to playlist&#x27; shortcut)*.
+* **Custom Main Buttons:** Added the ability for users to edit/customize the main screen buttons.
+* **Theme Backgrounds:** Added default background image support for themes.
+* **Clock Format:** Added an option to toggle between 12-hour and 24-hour clock formats.
+* **Default Theme Changed:** Updated the default theme for a fresh look.
+* **New List Theme:** Added a new list-style theme.
+* **Infinite Wheel Toggle:** Added an option to turn the infinite wheel scrolling on or off.
+* **General Improvements:** Various bug fixes and UI optimizations.
+
+### 📌 Future Plans
+For future versions, rather than focusing on adding new features, my main priority will be fixing bugs to ensure stable performance and expanding the variety of themes available.
+
 Please continue to show your interest and support. Thank you! :D</content>
   </entry>
   <entry>
@@ -649,24 +649,24 @@ Please continue to show your interest and support. Thank you! :D</content>
     <innioasis:tag_name>v0.9</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/v0.9/app-release.apk" title="app-release.apk" length="1262186" type="application/vnd.android.package-archive" innioasis:download_count="84" innioasis:asset_id="459481021"/>
-    <content type="text">
-&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215531&quot; src=&quot;https://github.com/user-attachments/assets/5aacc91f-efb6-4a71-acb2-01a4c241bafc&quot; /&gt;
-&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215549&quot; src=&quot;https://github.com/user-attachments/assets/796379c0-afc7-4d52-9ef5-e1acfe03bccf&quot; /&gt;
-&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215624&quot; src=&quot;https://github.com/user-attachments/assets/7f8fb8e6-0cfd-4825-87fd-cac41e1ac03a&quot; /&gt;
-
-## 🚀 What&#x27;s New in v0.9
-
-### ✨ New Features &amp; Improvements
-
-* **Added User Equalizer (EQ), Bass Boost, and Spatial Audio Engine**
-  * Customize your sound with the new custom EQ settings, enhanced bass boost, and an immersive spatial audio engine.
-* **Full Playlist File Support**
-  * You can now easily create, delete, and manage your playlist files directly within the app.
-* **File Information Display**
-  * Added the ability to view detailed file and track information directly on the player screen.
-* **Bug Fixes**
-  * Fixed various minor bugs and improved overall system stability.
-* **Thanks**
+    <content type="text">
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215531&quot; src=&quot;https://github.com/user-attachments/assets/5aacc91f-efb6-4a71-acb2-01a4c241bafc&quot; /&gt;
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215549&quot; src=&quot;https://github.com/user-attachments/assets/796379c0-afc7-4d52-9ef5-e1acfe03bccf&quot; /&gt;
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215624&quot; src=&quot;https://github.com/user-attachments/assets/7f8fb8e6-0cfd-4825-87fd-cac41e1ac03a&quot; /&gt;
+
+## 🚀 What&#x27;s New in v0.9
+
+### ✨ New Features &amp; Improvements
+
+* **Added User Equalizer (EQ), Bass Boost, and Spatial Audio Engine**
+  * Customize your sound with the new custom EQ settings, enhanced bass boost, and an immersive spatial audio engine.
+* **Full Playlist File Support**
+  * You can now easily create, delete, and manage your playlist files directly within the app.
+* **File Information Display**
+  * Added the ability to view detailed file and track information directly on the player screen.
+* **Bug Fixes**
+  * Fixed various minor bugs and improved overall system stability.
+* **Thanks**
   * MO-ON company</content>
   </entry>
   <entry>
@@ -679,31 +679,31 @@ Please continue to show your interest and support. Thank you! :D</content>
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/v0.8/app-release.apk" title="app-release.apk" length="1250544" type="application/vnd.android.package-archive" innioasis:download_count="71" innioasis:asset_id="456682154"/>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/v0.8/Y1_Themes.zip" title="Y1_Themes.zip" length="819854" type="application/x-zip-compressed" innioasis:download_count="6" innioasis:asset_id="456683120"/>
-    <content type="text">## 🚀 What&#x27;s New in v0.8
-
-### 🎨 1. New Theme Engine Implemented
-* A brand-new theme engine has been added to the launcher!
-* You can easily design and customize your own themes using the web editor below:
-  👉 [Go to Theme Editor](https://theme-editor-gules.vercel.app/)
-
-### 🔤 2. Fixed Case-Insensitive Song Sorting Bug
-* Fixed an issue where uppercase and lowercase song titles were not sorting properly in alphabetical order.
-  *(Special thanks to **Whimsical_Sandwich** for reporting this issue!)*
-
-### 🖥️ 3. Server Connection Page UI Redesign
-* Overhauled and improved the User Interface (UI) for the server connection page for a cleaner look.
-
-### 📂 4. Added Folder Playback Feature
-* You can now browse and play your music files directly by folder structure.
-
-### ❤️ 5. Added Favorites Feature
-* Added a bookmarking function so you can easily save and access your favorite songs.
-
-### 🔄 6. Added Rockbox Booting Feature
-* Added the ability to boot directly into Rockbox from the launcher.
-
-&gt; [!WARNING]
-&gt; **⚠️ Important Notice regarding Rockbox Booting**
+    <content type="text">## 🚀 What&#x27;s New in v0.8
+
+### 🎨 1. New Theme Engine Implemented
+* A brand-new theme engine has been added to the launcher!
+* You can easily design and customize your own themes using the web editor below:
+  👉 [Go to Theme Editor](https://theme-editor-gules.vercel.app/)
+
+### 🔤 2. Fixed Case-Insensitive Song Sorting Bug
+* Fixed an issue where uppercase and lowercase song titles were not sorting properly in alphabetical order.
+  *(Special thanks to **Whimsical_Sandwich** for reporting this issue!)*
+
+### 🖥️ 3. Server Connection Page UI Redesign
+* Overhauled and improved the User Interface (UI) for the server connection page for a cleaner look.
+
+### 📂 4. Added Folder Playback Feature
+* You can now browse and play your music files directly by folder structure.
+
+### ❤️ 5. Added Favorites Feature
+* Added a bookmarking function so you can easily save and access your favorite songs.
+
+### 🔄 6. Added Rockbox Booting Feature
+* Added the ability to boot directly into Rockbox from the launcher.
+
+&gt; [!WARNING]
+&gt; **⚠️ Important Notice regarding Rockbox Booting**
 &gt; Please note that **an additional script is required** if you want to safely return to the launcher from Rockbox.</content>
   </entry>
   <entry>
@@ -715,41 +715,41 @@ Please continue to show your interest and support. Thank you! :D</content>
     <innioasis:tag_name>v0.6</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/v0.6/app-release.apk" title="app-release.apk" length="414094" type="application/vnd.android.package-archive" innioasis:download_count="81" innioasis:asset_id="449890131"/>
-    <content type="text">## 🚀 Installation &amp; Update Guide
-
-You can easily install the launcher using the **Innioasis Updater**.
-👉 [Download Innioasis Updater](https://www.innioasis.com/pages/download)
-
-&lt;img width=&quot;1214&quot; height=&quot;612&quot; alt=&quot;Installation Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/95e9e82a-7b2a-48ee-a75b-6f055a77db07&quot; /&gt;
-
----
-
-## 🆕 What&#x27;s New in v0.6
-
-### 1. Added Launcher OTA Update Feature
-* You can now download and apply updates directly within the launcher without having to manually reinstall the APK file.
-
-&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Update Feature Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/b34f1026-da50-45f8-a99a-bf83e358bb1f&quot; /&gt;
-
-### 2. Status Bar Enhancement
-* Added a playback status icon to the status bar.
-
-### 3. Bug Fixes
-* Fixed minor bugs and improved overall stability.
-
----
-
-## 🎧 Bluetooth Connection &amp; Pairing
-
-Bluetooth headphone connection testing has been successfully completed, and it works perfectly!
-
-&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Bluetooth Pairing Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/73d0cec4-ddeb-406d-916d-0cdcb788533a&quot; /&gt;
-
-&gt; [!CAUTION]
-&gt; **⚠️ Important Security Permission Note**
-&gt; If you encounter a security-related error message when trying to connect after pairing, you must grant the secure settings permission via ADB by running the following script:
-
-```bash
+    <content type="text">## 🚀 Installation &amp; Update Guide
+
+You can easily install the launcher using the **Innioasis Updater**.
+👉 [Download Innioasis Updater](https://www.innioasis.com/pages/download)
+
+&lt;img width=&quot;1214&quot; height=&quot;612&quot; alt=&quot;Installation Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/95e9e82a-7b2a-48ee-a75b-6f055a77db07&quot; /&gt;
+
+---
+
+## 🆕 What&#x27;s New in v0.6
+
+### 1. Added Launcher OTA Update Feature
+* You can now download and apply updates directly within the launcher without having to manually reinstall the APK file.
+
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Update Feature Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/b34f1026-da50-45f8-a99a-bf83e358bb1f&quot; /&gt;
+
+### 2. Status Bar Enhancement
+* Added a playback status icon to the status bar.
+
+### 3. Bug Fixes
+* Fixed minor bugs and improved overall stability.
+
+---
+
+## 🎧 Bluetooth Connection &amp; Pairing
+
+Bluetooth headphone connection testing has been successfully completed, and it works perfectly!
+
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Bluetooth Pairing Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/73d0cec4-ddeb-406d-916d-0cdcb788533a&quot; /&gt;
+
+&gt; [!CAUTION]
+&gt; **⚠️ Important Security Permission Note**
+&gt; If you encounter a security-related error message when trying to connect after pairing, you must grant the secure settings permission via ADB by running the following script:
+
+```bash
 adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS</content>
   </entry>
   <entry>
@@ -762,23 +762,23 @@ adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS</cont
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/v0.5/app-release_0.5.apk" title="app-release_0.5.apk" length="406717" type="application/vnd.android.package-archive" innioasis:download_count="92" innioasis:asset_id="448008404"/>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/v0.5/Y1_Themes.zip" title="Y1_Themes.zip" length="339264" type="application/x-zip-compressed" innioasis:download_count="6" innioasis:asset_id="448009809"/>
-    <content type="text">&gt; [!WARNING]
-&gt; &lt;span style=&quot;color:#d9381e; font-weight:bold;&quot;&gt;⚠️ IMPORTANT: This has only been tested on System Software version 2.1.9. It is highly recommended to check your own firmware version before proceeding with the installation.&lt;/span&gt;
-
-1. 칼라 테마기능 적용
-2. 위젯기능 추가
-3. 파일 탐색기 시각화 오류수정(노래 파일이 많아지면 느려지는 버그 수정)
-4. 라디오 버튼 제거
-5. 배터리 표시 아이콘으로 변경
-6. 와이파이를 통한 앨범 자동 다운로드
-7. 최적화 및 버그 수정
--------------------------------------
-1. Added color themes
-2. Added widget support
-3. Fixed visual rendering issues in File Explorer (Resolved slowdowns when loading a large number of songs)
-4. Removed radio buttons
-5. Replaced battery indicator with an icon
-6. Auto-Download Album Art via Wi-Fi
+    <content type="text">&gt; [!WARNING]
+&gt; &lt;span style=&quot;color:#d9381e; font-weight:bold;&quot;&gt;⚠️ IMPORTANT: This has only been tested on System Software version 2.1.9. It is highly recommended to check your own firmware version before proceeding with the installation.&lt;/span&gt;
+
+1. 칼라 테마기능 적용
+2. 위젯기능 추가
+3. 파일 탐색기 시각화 오류수정(노래 파일이 많아지면 느려지는 버그 수정)
+4. 라디오 버튼 제거
+5. 배터리 표시 아이콘으로 변경
+6. 와이파이를 통한 앨범 자동 다운로드
+7. 최적화 및 버그 수정
+-------------------------------------
+1. Added color themes
+2. Added widget support
+3. Fixed visual rendering issues in File Explorer (Resolved slowdowns when loading a large number of songs)
+4. Removed radio buttons
+5. Replaced battery indicator with an icon
+6. Auto-Download Album Art via Wi-Fi
 8. Optimized performance and fixed bugs</content>
   </entry>
   <entry>
@@ -802,9 +802,9 @@ adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS</cont
     <innioasis:tag_name>v0.3</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ismileblue/y1_launcher/releases/download/v0.3/app-release_0.3.apk" title="app-release_0.3.apk" length="391469" type="application/vnd.android.package-archive" innioasis:download_count="92" innioasis:asset_id="445466905"/>
-    <content type="text">1. 테마파일 적용(/storage/sdcard0/Y1_Themes/ 폴더에 원하는 테마 파일(.json)을 넣고 설정)
-2. 화면이 커진 상태에서 곡변경 기능 추가
-3. 셔플 재생 알고리즘 수정/아이콘 교체
+    <content type="text">1. 테마파일 적용(/storage/sdcard0/Y1_Themes/ 폴더에 원하는 테마 파일(.json)을 넣고 설정)
+2. 화면이 커진 상태에서 곡변경 기능 추가
+3. 셔플 재생 알고리즘 수정/아이콘 교체
 4. 기타 버그 수정</content>
   </entry>
   <entry>
