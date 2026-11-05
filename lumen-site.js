@@ -1699,7 +1699,7 @@
             var tag = (release.tag_name || "").trim();
             var dated = tagVersionAndDate(tag);
             var titleVersion = name ? versionFromTitle(name) : "";
-            var version = titleVersion || (dated ? dated.version : (tag ? displayVersion(tag) : (name || "Public release")));
+            var version = dated ? dated.version : (titleVersion || (tag ? displayVersion(tag) : (name || "Public release")));
             return { version: version, date: dated ? dated.date : "" };
         }
 
