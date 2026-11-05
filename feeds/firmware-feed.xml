@@ -4,7 +4,7 @@
   <title>Innioasis and Timmkoo firmware releases</title>
   <link rel="alternate" type="text/html" href="https://innioasis.app/firmware-list.html"/>
   <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/firmware-feed.xml"/>
-  <updated>2026-11-05T04:53:22Z</updated>
+  <updated>2026-11-05T06:37:18Z</updated>
   <inni:schema_version>2</inni:schema_version>
   <inni:manifest_url>https://innioasis.app/slidia_manifest.xml</inni:manifest_url>
   <inni:firmware_list_url>https://innioasis.app/firmware-list.html</inni:firmware_list_url>
@@ -17,6 +17,8 @@
     <inni:package name="Original Software" brand="Innioasis" repo="y1-community/r1-stock-rom" device="R1" url="https://github.com/y1-community/r1-stock-rom" type="img" handler="Custom Firmware" package_name="rom_r1.zip"/>
     <inni:package name="Original Software" brand="Innioasis" repo="y1-community/pr1-stock-rom" device="PR1" url="https://github.com/y1-community/pr1-stock-rom" type="img" handler="Custom Firmware" package_name="rom_pr1.zip"/>
     <inni:package name="Original Software" brand="Timmkoo" repo="y1-community/sr1-stock-rom" device="SR1" url="https://github.com/y1-community/sr1-stock-rom" type="img" handler="Custom Firmware" package_name="rom_sr1.zip"/>
+    <inni:package name="Original Software" brand="Timmkoo" repo="y1-community/q3-stock-rom" device="Q3" url="https://github.com/y1-community/q3-stock-rom" type="img" handler="Custom Firmware" package_name="rom_q3.zip"/>
+    <inni:package name="Original Software" brand="Timmkoo" repo="y1-community/q5-stock-rom" device="Q5" url="https://github.com/y1-community/q5-stock-rom" type="img" handler="Custom Firmware" package_name="rom_q5.zip"/>
     <inni:package name="Reborn (Y2Linux)" brand="Innioasis" repo="schulzcode/y2linux" portable_zips="y1-community/y2linux-mirror" device="Y2" url="https://github.com/schulzcode/y2linux" type="img" post_install="https://innioasis.app/y2reborn_wifibt.html" handler="Custom Firmware"/>
     <inni:package name="Rockbox" brand="Innioasis" repo="rockbox-y1/rockbox" portable_zips="y1-community/rockbox-mirror" device="Y1" url="https://github.com/rockbox-y1/rockbox" type="img" icon="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" handler="Custom Firmware"/>
     <inni:package name="Rockbox" brand="Innioasis" repo="spycemagic/y2-rockbox" portable_zips="y1-community/y2-rockbox-mirror" device="Y2" url="https://github.com/spycemagic/y2-rockbox" icon="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" type="img" handler="Custom Firmware"/>
@@ -2954,7 +2956,7 @@
         </inni:mirror_asset>
       </inni:release>
     </inni:mirror>
-    <inni:mirror repo="y1-community/y2player-mirror" source_repo="schulzcode/y2player" updated_at="2026-11-05T04:53:22Z">
+    <inni:mirror repo="y1-community/y2player-mirror" source_repo="schulzcode/y2player" updated_at="2026-11-05T06:37:18Z">
       <inni:release tag="ReleaseV2.3" original_tag="ReleaseV2.3" mirror_tag="ReleaseV2.3" release_name="Portable Flashing Package: Y2Player V2.3" published_at="2026-11-03T16:10:44Z">
         <inni:mirror_asset name="rom_y2-linux.zip" tag="ReleaseV2.3" original_url="" original_size="624788284" mirror_original_url="https://github.com/y1-community/y2player-mirror/releases/download/ReleaseV2.3/rom_y2-linux.zip">
         </inni:mirror_asset>
@@ -15696,6 +15698,80 @@ Adds Spanish language support.
 </content>
   </entry>
   <entry>
+    <id>tag:innioasis.app,2026:y1-community/g1-stock-rom/MX3-G1-EN-WM-V5.01-20260805</id>
+    <updated>2026-11-05T05:05:03Z</updated>
+    <published>2026-11-05T05:05:03Z</published>
+    <title>MX3-G1-EN-WM-V5.01-20260805</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/g1-stock-rom/releases/tag/MX3-G1-EN-WM-V5.01-20260805"/>
+    <inni:repo>y1-community/g1-stock-rom</inni:repo>
+    <inni:tag_name>MX3-G1-EN-WM-V5.01-20260805</inni:tag_name>
+    <inni:name>MX3-G1-EN-WM-V5.01-20260805</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/g1-stock-rom/releases/download/MX3-G1-EN-WM-V5.01-20260805/rom_g1.zip" title="rom_g1.zip" length="1645800503" type="application/octet-stream"/>
+    <link rel="enclosure" href="https://github.com/y1-community/g1-stock-rom/releases/download/MX3-G1-EN-WM-V5.01-20260805/SHA256SUMS.MX3-G1-EN-WM-V5.01-20260805" title="SHA256SUMS.MX3-G1-EN-WM-V5.01-20260805" length="78" type="application/octet-stream"/>
+    <content type="text">Original Innioasis G1 software **MX3-G1-EN-WM-V5.01-20260805**.
+
+- Model: **G1** (Innioasis)
+- Package: `rom_g1.zip`
+- Build tag: `MX3-G1-EN-WM-V5.01-20260805`
+- Build date: 2026-08-05
+
+## Install
+
+1. Download `rom_g1.zip` (every numbered volume if the release has more than one, then `cat rom_g1.zip.* &gt; rom_g1.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_g1.zip` | 1569.6 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=G1&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/g1-stock-rom/MX3-G1-EN-WM-V5.00-20260722</id>
+    <updated>2026-11-05T04:57:43Z</updated>
+    <published>2026-11-05T04:57:43Z</published>
+    <title>MX3-G1-EN-WM-V5.00-20260722</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/g1-stock-rom/releases/tag/MX3-G1-EN-WM-V5.00-20260722"/>
+    <inni:repo>y1-community/g1-stock-rom</inni:repo>
+    <inni:tag_name>MX3-G1-EN-WM-V5.00-20260722</inni:tag_name>
+    <inni:name>MX3-G1-EN-WM-V5.00-20260722</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/g1-stock-rom/releases/download/MX3-G1-EN-WM-V5.00-20260722/rom_g1.zip" title="rom_g1.zip" length="1645759451" type="application/octet-stream"/>
+    <link rel="enclosure" href="https://github.com/y1-community/g1-stock-rom/releases/download/MX3-G1-EN-WM-V5.00-20260722/SHA256SUMS.MX3-G1-EN-WM-V5.00-20260722" title="SHA256SUMS.MX3-G1-EN-WM-V5.00-20260722" length="78" type="application/octet-stream"/>
+    <content type="text">Original Innioasis G1 software **MX3-G1-EN-WM-V5.00-20260722**.
+
+- Model: **G1** (Innioasis)
+- Package: `rom_g1.zip`
+- Build tag: `MX3-G1-EN-WM-V5.00-20260722`
+- Build date: 2026-07-22
+
+## Install
+
+1. Download `rom_g1.zip` (every numbered volume if the release has more than one, then `cat rom_g1.zip.* &gt; rom_g1.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_g1.zip` | 1569.5 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=G1&gt;</content>
+  </entry>
+  <entry>
     <id>tag:innioasis.app,2026:y1-community/g1-stock-rom/MX3-9_G1_MULTI-V3.03-20260826</id>
     <updated>2026-11-05T04:50:26Z</updated>
     <published>2026-11-05T04:50:26Z</published>
@@ -15844,6 +15920,228 @@ This wipes the player. Back up music and recordings first.
 Full archive: &lt;https://innioasis.app/firmware.html?model=G1&gt;</content>
   </entry>
   <entry>
+    <id>tag:innioasis.app,2026:y1-community/g3-stock-rom/MX3-G3-EN-WM-V6.01-20260805</id>
+    <updated>2026-11-05T05:45:56Z</updated>
+    <published>2026-11-05T05:45:56Z</published>
+    <title>MX3-G3-EN-WM-V6.01-20260805</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-G3-EN-WM-V6.01-20260805"/>
+    <inni:repo>y1-community/g3-stock-rom</inni:repo>
+    <inni:tag_name>MX3-G3-EN-WM-V6.01-20260805</inni:tag_name>
+    <inni:name>MX3-G3-EN-WM-V6.01-20260805</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-G3-EN-WM-V6.01-20260805/rom_g3.zip" title="rom_g3.zip" length="1646117102" type="application/octet-stream"/>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-G3-EN-WM-V6.01-20260805/SHA256SUMS.MX3-G3-EN-WM-V6.01-20260805" title="SHA256SUMS.MX3-G3-EN-WM-V6.01-20260805" length="78" type="application/octet-stream"/>
+    <content type="text">Original Innioasis G3 software **MX3-G3-EN-WM-V6.01-20260805**.
+
+- Model: **G3** (Innioasis)
+- Package: `rom_g3.zip`
+- Build tag: `MX3-G3-EN-WM-V6.01-20260805`
+- Build date: 2026-08-05
+
+## Install
+
+1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* &gt; rom_g3.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_g3.zip` | 1569.9 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=G3&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/g3-stock-rom/MX3-G3-EN-WM-V6.00-20260722</id>
+    <updated>2026-11-05T05:39:17Z</updated>
+    <published>2026-11-05T05:39:17Z</published>
+    <title>MX3-G3-EN-WM-V6.00-20260722</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-G3-EN-WM-V6.00-20260722"/>
+    <inni:repo>y1-community/g3-stock-rom</inni:repo>
+    <inni:tag_name>MX3-G3-EN-WM-V6.00-20260722</inni:tag_name>
+    <inni:name>MX3-G3-EN-WM-V6.00-20260722</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-G3-EN-WM-V6.00-20260722/rom_g3.zip" title="rom_g3.zip" length="1646115909" type="application/octet-stream"/>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-G3-EN-WM-V6.00-20260722/SHA256SUMS.MX3-G3-EN-WM-V6.00-20260722" title="SHA256SUMS.MX3-G3-EN-WM-V6.00-20260722" length="78" type="application/octet-stream"/>
+    <content type="text">Original Innioasis G3 software **MX3-G3-EN-WM-V6.00-20260722**.
+
+- Model: **G3** (Innioasis)
+- Package: `rom_g3.zip`
+- Build tag: `MX3-G3-EN-WM-V6.00-20260722`
+- Build date: 2026-07-22
+
+## Install
+
+1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* &gt; rom_g3.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_g3.zip` | 1569.9 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=G3&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/g3-stock-rom/MX3-9_G3_MULTI-V4.03-20260826</id>
+    <updated>2026-11-05T05:32:29Z</updated>
+    <published>2026-11-05T05:32:29Z</published>
+    <title>MX3-9_G3_MULTI-V4.03-20260826</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-9_G3_MULTI-V4.03-20260826"/>
+    <inni:repo>y1-community/g3-stock-rom</inni:repo>
+    <inni:tag_name>MX3-9_G3_MULTI-V4.03-20260826</inni:tag_name>
+    <inni:name>MX3-9_G3_MULTI-V4.03-20260826</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_G3_MULTI-V4.03-20260826/rom_g3.zip" title="rom_g3.zip" length="1573503257" type="application/octet-stream"/>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_G3_MULTI-V4.03-20260826/SHA256SUMS.MX3-9_G3_MULTI-V4.03-20260826" title="SHA256SUMS.MX3-9_G3_MULTI-V4.03-20260826" length="78" type="application/octet-stream"/>
+    <content type="text">Original Innioasis G3 software **MX3-9_G3_MULTI-V4.03-20260826**.
+
+- Model: **G3** (Innioasis)
+- Package: `rom_g3.zip`
+- Build tag: `MX3-9_G3_MULTI-V4.03-20260826`
+- Build date: 2026-08-26
+
+## Install
+
+1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* &gt; rom_g3.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_g3.zip` | 1500.6 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=G3&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/g3-stock-rom/MX3-9_G3_MULTI-V4.02-20260720</id>
+    <updated>2026-11-05T05:26:03Z</updated>
+    <published>2026-11-05T05:26:03Z</published>
+    <title>MX3-9_G3_MULTI-V4.02-20260720</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-9_G3_MULTI-V4.02-20260720"/>
+    <inni:repo>y1-community/g3-stock-rom</inni:repo>
+    <inni:tag_name>MX3-9_G3_MULTI-V4.02-20260720</inni:tag_name>
+    <inni:name>MX3-9_G3_MULTI-V4.02-20260720</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_G3_MULTI-V4.02-20260720/rom_g3.zip" title="rom_g3.zip" length="1573498618" type="application/octet-stream"/>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_G3_MULTI-V4.02-20260720/SHA256SUMS.MX3-9_G3_MULTI-V4.02-20260720" title="SHA256SUMS.MX3-9_G3_MULTI-V4.02-20260720" length="78" type="application/octet-stream"/>
+    <content type="text">Original Innioasis G3 software **MX3-9_G3_MULTI-V4.02-20260720**.
+
+- Model: **G3** (Innioasis)
+- Package: `rom_g3.zip`
+- Build tag: `MX3-9_G3_MULTI-V4.02-20260720`
+- Build date: 2026-07-20
+
+## Install
+
+1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* &gt; rom_g3.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_g3.zip` | 1500.6 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=G3&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/g3-stock-rom/MX3-9_EN_G3-V2.04-20260805</id>
+    <updated>2026-11-05T05:19:30Z</updated>
+    <published>2026-11-05T05:19:30Z</published>
+    <title>MX3-9_EN_G3-V2.04-20260805</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-9_EN_G3-V2.04-20260805"/>
+    <inni:repo>y1-community/g3-stock-rom</inni:repo>
+    <inni:tag_name>MX3-9_EN_G3-V2.04-20260805</inni:tag_name>
+    <inni:name>MX3-9_EN_G3-V2.04-20260805</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_EN_G3-V2.04-20260805/rom_g3.zip" title="rom_g3.zip" length="1645622491" type="application/octet-stream"/>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_EN_G3-V2.04-20260805/SHA256SUMS.MX3-9_EN_G3-V2.04-20260805" title="SHA256SUMS.MX3-9_EN_G3-V2.04-20260805" length="78" type="application/octet-stream"/>
+    <content type="text">Original Innioasis G3 software **MX3-9_EN_G3-V2.04-20260805**.
+
+- Model: **G3** (Innioasis)
+- Package: `rom_g3.zip`
+- Build tag: `MX3-9_EN_G3-V2.04-20260805`
+- Build date: 2026-08-05
+
+## Install
+
+1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* &gt; rom_g3.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_g3.zip` | 1569.4 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=G3&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/g3-stock-rom/MX3-9_EN_G3-V2.03-20260709</id>
+    <updated>2026-11-05T05:12:26Z</updated>
+    <published>2026-11-05T05:12:26Z</published>
+    <title>MX3-9_EN_G3-V2.03-20260709</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-9_EN_G3-V2.03-20260709"/>
+    <inni:repo>y1-community/g3-stock-rom</inni:repo>
+    <inni:tag_name>MX3-9_EN_G3-V2.03-20260709</inni:tag_name>
+    <inni:name>MX3-9_EN_G3-V2.03-20260709</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_EN_G3-V2.03-20260709/rom_g3.zip" title="rom_g3.zip" length="1645637673" type="application/octet-stream"/>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_EN_G3-V2.03-20260709/SHA256SUMS.MX3-9_EN_G3-V2.03-20260709" title="SHA256SUMS.MX3-9_EN_G3-V2.03-20260709" length="78" type="application/octet-stream"/>
+    <content type="text">Original Innioasis G3 software **MX3-9_EN_G3-V2.03-20260709**.
+
+- Model: **G3** (Innioasis)
+- Package: `rom_g3.zip`
+- Build tag: `MX3-9_EN_G3-V2.03-20260709`
+- Build date: 2026-07-09
+
+## Install
+
+1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* &gt; rom_g3.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_g3.zip` | 1569.4 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=G3&gt;</content>
+  </entry>
+  <entry>
     <id>tag:innioasis.app,2026:y1-community/g5-stock-rom/MX4_EN-V1.11-20260727</id>
     <updated>2026-11-05T04:21:06Z</updated>
     <published>2026-11-05T04:21:06Z</published>
@@ -15918,6 +16216,45 @@ This wipes the player. Back up music and recordings first.
 Full archive: &lt;https://innioasis.app/firmware.html?model=R1&gt;</content>
   </entry>
   <entry>
+    <id>tag:innioasis.app,2026:y1-community/pr1-stock-rom/R2-V1.34-20260208</id>
+    <updated>2026-11-05T05:58:34Z</updated>
+    <published>2026-11-05T05:58:34Z</published>
+    <title>R2-V1.34-20260208</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/pr1-stock-rom/releases/tag/R2-V1.34-20260208"/>
+    <inni:repo>y1-community/pr1-stock-rom</inni:repo>
+    <inni:tag_name>R2-V1.34-20260208</inni:tag_name>
+    <inni:name>R2-V1.34-20260208</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/rom_pr1.zip" title="rom_pr1.zip" length="754108851" type="application/octet-stream"/>
+    <link rel="enclosure" href="https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/SHA256SUMS.R2-V1.34-20260208" title="SHA256SUMS.R2-V1.34-20260208" length="79" type="application/octet-stream"/>
+    <content type="text">Original Innioasis PR1 software **R2-V1.34-20260208**.
+
+- Model: **PR1** (Innioasis)
+- Package: `rom_pr1.zip`
+- Build tag: `R2-V1.34-20260208`
+- Build date: 2026-02-08
+
+## Install
+
+1. Download `rom_pr1.zip` (every numbered volume if the release has more than one, then `cat rom_pr1.zip.* &gt; rom_pr1.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_pr1.zip.001` | 1900.0 MB |
+| `rom_pr1.zip.002` | 1900.0 MB |
+| `rom_pr1.zip.003` | 629.2 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=PR1&gt;</content>
+  </entry>
+  <entry>
     <id>tag:innioasis.app,2026:y1-community/sr1-stock-rom/R1P_V2-V2.05.20251011</id>
     <updated>2026-11-05T04:14:02Z</updated>
     <published>2026-11-05T04:14:02Z</published>
@@ -15953,6 +16290,228 @@ This wipes the player. Back up music and recordings first.
 | `SHA256SUMS` | 0.0 MB |
 
 Full archive: &lt;https://innioasis.app/firmware.html?model=SR1&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/q3-stock-rom/MX2E-WVGA_TM-WV3.23-20250528</id>
+    <updated>2026-11-05T06:32:56Z</updated>
+    <published>2026-11-05T06:32:56Z</published>
+    <title>MX2E-WVGA_TM-WV3.23-20250528</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/q3-stock-rom/releases/tag/MX2E-WVGA_TM-WV3.23-20250528"/>
+    <inni:repo>y1-community/q3-stock-rom</inni:repo>
+    <inni:tag_name>MX2E-WVGA_TM-WV3.23-20250528</inni:tag_name>
+    <inni:name>MX2E-WVGA_TM-WV3.23-20250528</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2E-WVGA_TM-WV3.23-20250528/rom_q3.zip" title="rom_q3.zip" length="286142520" type="application/octet-stream"/>
+    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2E-WVGA_TM-WV3.23-20250528/SHA256SUMS.MX2E-WVGA_TM-WV3.23-20250528" title="SHA256SUMS.MX2E-WVGA_TM-WV3.23-20250528" length="78" type="application/octet-stream"/>
+    <content type="text">Original Timmkoo Q3 software **MX2E-WVGA_TM-WV3.23-20250528**.
+
+- Model: **Q3** (Timmkoo)
+- Package: `rom_q3.zip`
+- Build tag: `MX2E-WVGA_TM-WV3.23-20250528`
+- Build date: 2025-05-28
+
+## Install
+
+1. Download `rom_q3.zip` (every numbered volume if the release has more than one, then `cat rom_q3.zip.* &gt; rom_q3.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_q3.zip` | 272.9 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=Q3&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/q3-stock-rom/MX2D-WVGA_TM-WV3.20-20250618</id>
+    <updated>2026-11-05T06:32:25Z</updated>
+    <published>2026-11-05T06:32:25Z</published>
+    <title>MX2D-WVGA_TM-WV3.20-20250618</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/q3-stock-rom/releases/tag/MX2D-WVGA_TM-WV3.20-20250618"/>
+    <inni:repo>y1-community/q3-stock-rom</inni:repo>
+    <inni:tag_name>MX2D-WVGA_TM-WV3.20-20250618</inni:tag_name>
+    <inni:name>MX2D-WVGA_TM-WV3.20-20250618</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2D-WVGA_TM-WV3.20-20250618/rom_q3.zip" title="rom_q3.zip" length="280175608" type="application/octet-stream"/>
+    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2D-WVGA_TM-WV3.20-20250618/SHA256SUMS.MX2D-WVGA_TM-WV3.20-20250618" title="SHA256SUMS.MX2D-WVGA_TM-WV3.20-20250618" length="78" type="application/octet-stream"/>
+    <content type="text">Original Timmkoo Q3 software **MX2D-WVGA_TM-WV3.20-20250618**.
+
+- Model: **Q3** (Timmkoo)
+- Package: `rom_q3.zip`
+- Build tag: `MX2D-WVGA_TM-WV3.20-20250618`
+- Build date: 2025-06-18
+
+## Install
+
+1. Download `rom_q3.zip` (every numbered volume if the release has more than one, then `cat rom_q3.zip.* &gt; rom_q3.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_q3.zip` | 267.2 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=Q3&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/q3-stock-rom/MX2-ES-WV4.01-20250619</id>
+    <updated>2026-11-05T06:31:54Z</updated>
+    <published>2026-11-05T06:31:54Z</published>
+    <title>MX2-ES-WV4.01-20250619</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/q3-stock-rom/releases/tag/MX2-ES-WV4.01-20250619"/>
+    <inni:repo>y1-community/q3-stock-rom</inni:repo>
+    <inni:tag_name>MX2-ES-WV4.01-20250619</inni:tag_name>
+    <inni:name>MX2-ES-WV4.01-20250619</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2-ES-WV4.01-20250619/rom_q3.zip" title="rom_q3.zip" length="282112139" type="application/octet-stream"/>
+    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2-ES-WV4.01-20250619/SHA256SUMS.MX2-ES-WV4.01-20250619" title="SHA256SUMS.MX2-ES-WV4.01-20250619" length="78" type="application/octet-stream"/>
+    <content type="text">Original Timmkoo Q3 software **MX2-ES-WV4.01-20250619**.
+
+- Model: **Q3** (Timmkoo)
+- Package: `rom_q3.zip`
+- Build tag: `MX2-ES-WV4.01-20250619`
+- Build date: 2025-06-19
+
+## Install
+
+1. Download `rom_q3.zip` (every numbered volume if the release has more than one, then `cat rom_q3.zip.* &gt; rom_q3.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_q3.zip` | 269.0 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=Q3&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/q5-stock-rom/MX2D_Q5D-WV3.28-20250619</id>
+    <updated>2026-11-05T06:34:49Z</updated>
+    <published>2026-11-05T06:34:49Z</published>
+    <title>MX2D_Q5D-WV3.28-20250619</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/q5-stock-rom/releases/tag/MX2D_Q5D-WV3.28-20250619"/>
+    <inni:repo>y1-community/q5-stock-rom</inni:repo>
+    <inni:tag_name>MX2D_Q5D-WV3.28-20250619</inni:tag_name>
+    <inni:name>MX2D_Q5D-WV3.28-20250619</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/q5-stock-rom/releases/download/MX2D_Q5D-WV3.28-20250619/rom_q5.zip" title="rom_q5.zip" length="337730694" type="application/octet-stream"/>
+    <link rel="enclosure" href="https://github.com/y1-community/q5-stock-rom/releases/download/MX2D_Q5D-WV3.28-20250619/SHA256SUMS.MX2D_Q5D-WV3.28-20250619" title="SHA256SUMS.MX2D_Q5D-WV3.28-20250619" length="78" type="application/octet-stream"/>
+    <content type="text">Original Timmkoo Q5 software **MX2D_Q5D-WV3.28-20250619**.
+
+- Model: **Q5** (Timmkoo)
+- Package: `rom_q5.zip`
+- Build tag: `MX2D_Q5D-WV3.28-20250619`
+- Build date: 2025-06-19
+
+## Install
+
+1. Download `rom_q5.zip` (every numbered volume if the release has more than one, then `cat rom_q5.zip.* &gt; rom_q5.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_q5.zip` | 322.1 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=Q5&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/q5-stock-rom/MX2-WVGA_TM-WV3.27-20250528</id>
+    <updated>2026-11-05T06:34:10Z</updated>
+    <published>2026-11-05T06:34:10Z</published>
+    <title>MX2-WVGA_TM-WV3.27-20250528</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/q5-stock-rom/releases/tag/MX2-WVGA_TM-WV3.27-20250528"/>
+    <inni:repo>y1-community/q5-stock-rom</inni:repo>
+    <inni:tag_name>MX2-WVGA_TM-WV3.27-20250528</inni:tag_name>
+    <inni:name>MX2-WVGA_TM-WV3.27-20250528</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/q5-stock-rom/releases/download/MX2-WVGA_TM-WV3.27-20250528/rom_q5.zip" title="rom_q5.zip" length="344107791" type="application/octet-stream"/>
+    <link rel="enclosure" href="https://github.com/y1-community/q5-stock-rom/releases/download/MX2-WVGA_TM-WV3.27-20250528/SHA256SUMS.MX2-WVGA_TM-WV3.27-20250528" title="SHA256SUMS.MX2-WVGA_TM-WV3.27-20250528" length="78" type="application/octet-stream"/>
+    <content type="text">Original Timmkoo Q5 software **MX2-WVGA_TM-WV3.27-20250528**.
+
+- Model: **Q5** (Timmkoo)
+- Package: `rom_q5.zip`
+- Build tag: `MX2-WVGA_TM-WV3.27-20250528`
+- Build date: 2025-05-28
+
+## Install
+
+1. Download `rom_q5.zip` (every numbered volume if the release has more than one, then `cat rom_q5.zip.* &gt; rom_q5.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_q5.zip` | 328.2 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=Q5&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/q5-stock-rom/MX2-ES_Q5-WV5.02-20250619</id>
+    <updated>2026-11-05T06:33:32Z</updated>
+    <published>2026-11-05T06:33:32Z</published>
+    <title>MX2-ES_Q5-WV5.02-20250619</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/q5-stock-rom/releases/tag/MX2-ES_Q5-WV5.02-20250619"/>
+    <inni:repo>y1-community/q5-stock-rom</inni:repo>
+    <inni:tag_name>MX2-ES_Q5-WV5.02-20250619</inni:tag_name>
+    <inni:name>MX2-ES_Q5-WV5.02-20250619</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/q5-stock-rom/releases/download/MX2-ES_Q5-WV5.02-20250619/rom_q5.zip" title="rom_q5.zip" length="344010052" type="application/octet-stream"/>
+    <link rel="enclosure" href="https://github.com/y1-community/q5-stock-rom/releases/download/MX2-ES_Q5-WV5.02-20250619/SHA256SUMS.MX2-ES_Q5-WV5.02-20250619" title="SHA256SUMS.MX2-ES_Q5-WV5.02-20250619" length="78" type="application/octet-stream"/>
+    <content type="text">Original Timmkoo Q5 software **MX2-ES_Q5-WV5.02-20250619**.
+
+- Model: **Q5** (Timmkoo)
+- Package: `rom_q5.zip`
+- Build tag: `MX2-ES_Q5-WV5.02-20250619`
+- Build date: 2025-06-19
+
+## Install
+
+1. Download `rom_q5.zip` (every numbered volume if the release has more than one, then `cat rom_q5.zip.* &gt; rom_q5.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_q5.zip` | 328.1 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=Q5&gt;</content>
   </entry>
   <entry>
     <id>tag:innioasis.app,2026:y1-community/y2linux-mirror/baseline-220</id>

@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-11-05T04:53:22Z",
+  "generated_at": "2026-11-05T06:37:18Z",
   "manifest_url": "https://innioasis.app/slidia_manifest.xml",
   "firmware_list_url": "https://innioasis.app/firmware-list.html",
   "feeds": {
@@ -139,6 +139,18 @@
       "releases_json": "https://innioasis.app/feeds/y1-community/sr1-stock-rom/releases.json",
       "releases_atom": "https://innioasis.app/feeds/y1-community/sr1-stock-rom/releases.atom",
       "repo_json": "https://innioasis.app/feeds/y1-community/sr1-stock-rom/repo.json"
+    },
+    "y1-community/q3-stock-rom": {
+      "repo": "y1-community/q3-stock-rom",
+      "releases_json": "https://innioasis.app/feeds/y1-community/q3-stock-rom/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/q3-stock-rom/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/q3-stock-rom/repo.json"
+    },
+    "y1-community/q5-stock-rom": {
+      "repo": "y1-community/q5-stock-rom",
+      "releases_json": "https://innioasis.app/feeds/y1-community/q5-stock-rom/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/q5-stock-rom/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/q5-stock-rom/repo.json"
     },
     "y1-community/y2linux-mirror": {
       "repo": "y1-community/y2linux-mirror",
@@ -286,7 +298,7 @@
     },
     "y1-community/y2player-mirror": {
       "source_repo": "schulzcode/y2player",
-      "updated_at": "2026-11-05T04:53:22Z"
+      "updated_at": "2026-11-05T06:37:18Z"
     }
   }
 }

@@ -4,5 +4,215 @@
   <title>Release notes from y1-community/g3-stock-rom</title>
   <link rel="alternate" type="text/html" href="https://innioasis.app/firmware.html"/>
   <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/y1-community/g3-stock-rom/releases.atom"/>
-  <updated>2026-11-05T04:53:22Z</updated>
+  <updated>2026-11-05T05:45:56Z</updated>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/g3-stock-rom/MX3-G3-EN-WM-V6.01-20260805</id>
+    <updated>2026-11-05T05:45:56Z</updated>
+    <published>2026-11-05T05:45:56Z</published>
+    <title>MX3-G3-EN-WM-V6.01-20260805</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-G3-EN-WM-V6.01-20260805"/>
+    <innioasis:tag_name>MX3-G3-EN-WM-V6.01-20260805</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-G3-EN-WM-V6.01-20260805/rom_g3.zip" title="rom_g3.zip" length="1646117102" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712235749"/>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-G3-EN-WM-V6.01-20260805/SHA256SUMS.MX3-G3-EN-WM-V6.01-20260805" title="SHA256SUMS.MX3-G3-EN-WM-V6.01-20260805" length="78" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712241354"/>
+    <content type="text">Original Innioasis G3 software **MX3-G3-EN-WM-V6.01-20260805**.
+
+- Model: **G3** (Innioasis)
+- Package: `rom_g3.zip`
+- Build tag: `MX3-G3-EN-WM-V6.01-20260805`
+- Build date: 2026-08-05
+
+## Install
+
+1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* &gt; rom_g3.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_g3.zip` | 1569.9 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=G3&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/g3-stock-rom/MX3-G3-EN-WM-V6.00-20260722</id>
+    <updated>2026-11-05T05:39:17Z</updated>
+    <published>2026-11-05T05:39:17Z</published>
+    <title>MX3-G3-EN-WM-V6.00-20260722</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-G3-EN-WM-V6.00-20260722"/>
+    <innioasis:tag_name>MX3-G3-EN-WM-V6.00-20260722</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-G3-EN-WM-V6.00-20260722/rom_g3.zip" title="rom_g3.zip" length="1646115909" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712220915"/>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-G3-EN-WM-V6.00-20260722/SHA256SUMS.MX3-G3-EN-WM-V6.00-20260722" title="SHA256SUMS.MX3-G3-EN-WM-V6.00-20260722" length="78" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712226791"/>
+    <content type="text">Original Innioasis G3 software **MX3-G3-EN-WM-V6.00-20260722**.
+
+- Model: **G3** (Innioasis)
+- Package: `rom_g3.zip`
+- Build tag: `MX3-G3-EN-WM-V6.00-20260722`
+- Build date: 2026-07-22
+
+## Install
+
+1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* &gt; rom_g3.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_g3.zip` | 1569.9 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=G3&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/g3-stock-rom/MX3-9_G3_MULTI-V4.03-20260826</id>
+    <updated>2026-11-05T05:32:29Z</updated>
+    <published>2026-11-05T05:32:29Z</published>
+    <title>MX3-9_G3_MULTI-V4.03-20260826</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-9_G3_MULTI-V4.03-20260826"/>
+    <innioasis:tag_name>MX3-9_G3_MULTI-V4.03-20260826</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_G3_MULTI-V4.03-20260826/rom_g3.zip" title="rom_g3.zip" length="1573503257" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712206288"/>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_G3_MULTI-V4.03-20260826/SHA256SUMS.MX3-9_G3_MULTI-V4.03-20260826" title="SHA256SUMS.MX3-9_G3_MULTI-V4.03-20260826" length="78" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712211967"/>
+    <content type="text">Original Innioasis G3 software **MX3-9_G3_MULTI-V4.03-20260826**.
+
+- Model: **G3** (Innioasis)
+- Package: `rom_g3.zip`
+- Build tag: `MX3-9_G3_MULTI-V4.03-20260826`
+- Build date: 2026-08-26
+
+## Install
+
+1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* &gt; rom_g3.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_g3.zip` | 1500.6 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=G3&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/g3-stock-rom/MX3-9_G3_MULTI-V4.02-20260720</id>
+    <updated>2026-11-05T05:26:03Z</updated>
+    <published>2026-11-05T05:26:03Z</published>
+    <title>MX3-9_G3_MULTI-V4.02-20260720</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-9_G3_MULTI-V4.02-20260720"/>
+    <innioasis:tag_name>MX3-9_G3_MULTI-V4.02-20260720</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_G3_MULTI-V4.02-20260720/rom_g3.zip" title="rom_g3.zip" length="1573498618" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712191481"/>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_G3_MULTI-V4.02-20260720/SHA256SUMS.MX3-9_G3_MULTI-V4.02-20260720" title="SHA256SUMS.MX3-9_G3_MULTI-V4.02-20260720" length="78" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712197069"/>
+    <content type="text">Original Innioasis G3 software **MX3-9_G3_MULTI-V4.02-20260720**.
+
+- Model: **G3** (Innioasis)
+- Package: `rom_g3.zip`
+- Build tag: `MX3-9_G3_MULTI-V4.02-20260720`
+- Build date: 2026-07-20
+
+## Install
+
+1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* &gt; rom_g3.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_g3.zip` | 1500.6 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=G3&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/g3-stock-rom/MX3-9_EN_G3-V2.04-20260805</id>
+    <updated>2026-11-05T05:19:30Z</updated>
+    <published>2026-11-05T05:19:30Z</published>
+    <title>MX3-9_EN_G3-V2.04-20260805</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-9_EN_G3-V2.04-20260805"/>
+    <innioasis:tag_name>MX3-9_EN_G3-V2.04-20260805</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_EN_G3-V2.04-20260805/rom_g3.zip" title="rom_g3.zip" length="1645622491" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712177508"/>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_EN_G3-V2.04-20260805/SHA256SUMS.MX3-9_EN_G3-V2.04-20260805" title="SHA256SUMS.MX3-9_EN_G3-V2.04-20260805" length="78" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712183285"/>
+    <content type="text">Original Innioasis G3 software **MX3-9_EN_G3-V2.04-20260805**.
+
+- Model: **G3** (Innioasis)
+- Package: `rom_g3.zip`
+- Build tag: `MX3-9_EN_G3-V2.04-20260805`
+- Build date: 2026-08-05
+
+## Install
+
+1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* &gt; rom_g3.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_g3.zip` | 1569.4 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=G3&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/g3-stock-rom/MX3-9_EN_G3-V2.03-20260709</id>
+    <updated>2026-11-05T05:12:26Z</updated>
+    <published>2026-11-05T05:12:26Z</published>
+    <title>MX3-9_EN_G3-V2.03-20260709</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/g3-stock-rom/releases/tag/MX3-9_EN_G3-V2.03-20260709"/>
+    <innioasis:tag_name>MX3-9_EN_G3-V2.03-20260709</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_EN_G3-V2.03-20260709/rom_g3.zip" title="rom_g3.zip" length="1645637673" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712161953"/>
+    <link rel="enclosure" href="https://github.com/y1-community/g3-stock-rom/releases/download/MX3-9_EN_G3-V2.03-20260709/SHA256SUMS.MX3-9_EN_G3-V2.03-20260709" title="SHA256SUMS.MX3-9_EN_G3-V2.03-20260709" length="78" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712167034"/>
+    <content type="text">Original Innioasis G3 software **MX3-9_EN_G3-V2.03-20260709**.
+
+- Model: **G3** (Innioasis)
+- Package: `rom_g3.zip`
+- Build tag: `MX3-9_EN_G3-V2.03-20260709`
+- Build date: 2026-07-09
+
+## Install
+
+1. Download `rom_g3.zip` (every numbered volume if the release has more than one, then `cat rom_g3.zip.* &gt; rom_g3.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_g3.zip` | 1569.4 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=G3&gt;</content>
+  </entry>
 </feed>
