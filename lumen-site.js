@@ -310,6 +310,28 @@
         return extracted || clean;
     }
 
+    /* Split a tag that carries both a version and a calendar date, such as
+       "v2.3.0-20261104" or "2026-11-04-v2.3.0". Returns null unless the tag
+       has a real date and a dotted version to show beside it. */
+    function tagVersionAndDate(tag) {
+        var text = String(tag == null ? "" : tag);
+        var date = text.match(/(^|[^0-9])((?:19|20)\d{2})([-_.]?)(0[1-9]|1[0-2])\3(0[1-9]|[12]\d|3[01])(?!\d)/);
+        if (!date) return null;
+        var year = Number(date[2]);
+        var month = Number(date[4]);
+        var day = Number(date[5]);
+        var stamp = new Date(Date.UTC(year, month - 1, day));
+        if (stamp.getUTCFullYear() !== year || stamp.getUTCMonth() !== month - 1 || stamp.getUTCDate() !== day) return null;
+        var dateEnd = date.index + date[0].length;
+        var rest = text.slice(0, date.index + date[1].length) + " " + text.slice(dateEnd);
+        var version = rest.match(/(?:^|[^0-9A-Za-z])v?(\d+(?:\.\d+)+)(?![0-9A-Za-z])/i);
+        if (!version) return null;
+        return {
+            version: version[1],
+            date: year + "-" + ("0" + month).slice(-2) + "-" + ("0" + day).slice(-2)
+        };
+    }
+
     /* Sortable key for a release so newer builds come first, mirroring the
        Updater app's _release_sort_key: a tag-embedded YYYYMMDD-HHMM
        timestamp sorts highest, then the semantic version tuple, then the
@@ -1669,32 +1691,34 @@
         }
 
         /* List a release by the semantic version its GitHub title carries at
-           the start or end, and parse the tag for a version only when the
-           title has none to show. */
-        function extractReleaseVersion(release, item) {
-            if (!release) return item ? item.name : "Public release";
+           the start or end, or by the version in its tag. A tag that also
+           carries a date shows it in brackets beside the version. */
+        function releaseVersionDetails(release, item) {
+            if (!release) return { version: item ? item.name : "Public release", date: "" };
             var name = (release.name || "").trim();
             var tag = (release.tag_name || "").trim();
-            if (name) {
-                var titleVersion = versionFromTitle(name);
-                if (titleVersion) return titleVersion;
-            }
-            return tag ? displayVersion(tag) : (name || "Public release");
+            var dated = tagVersionAndDate(tag);
+            var titleVersion = name ? versionFromTitle(name) : "";
+            var version = titleVersion || (dated ? dated.version : (tag ? displayVersion(tag) : (name || "Public release")));
+            return { version: version, date: dated ? dated.date : "" };
         }
 
         function releaseRows(release, item, state) {
             /* The Release column label with icon and semver detection. */
             var iconHtml = firmwareIconLink(resolveFirmwareIcon(release, item), item);
-            var versionLabel = release ? extractReleaseVersion(release, item)
+            var versionDetails = release ? releaseVersionDetails(release, item) : null;
+            var versionLabel = versionDetails ? versionDetails.version
                 : state === "failed" ? item.name
                 : state === "empty" ? "No public releases"
                 : state === "nomatch" ? "No release with " + item.packageName
                 : state === "filtered-stable" ? "No stable release yet"
                 : state === "blocked" ? "Not available right now"
                 : "Checking public releases";
+            var versionInnerHtml = escapeHtml(versionLabel) +
+                (versionDetails && versionDetails.date ? ' <em>(' + escapeHtml(versionDetails.date) + ')</em>' : "");
             var plainVersionHtml = (state === "failed" && !release)
-                ? "<strong>" + escapeHtml(versionLabel) + "</strong>"
-                : '<span class="lumen-version-pill" style="font-weight:700;font-size:0.95rem;">' + escapeHtml(versionLabel) + '</span>';
+                ? "<strong>" + versionInnerHtml + "</strong>"
+                : '<span class="lumen-version-pill" style="font-weight:700;font-size:0.95rem;">' + versionInnerHtml + '</span>';
             /* The version is the way into that release's parsed notes. The
                info glyph sits beside it so the behaviour is visible without
                guessing that the number is a link. */

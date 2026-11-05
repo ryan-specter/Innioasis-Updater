@@ -91,6 +91,32 @@ def human_size(size) -> str:
     return "%.0f MB" % max(1, round(value / 1024 ** 2))
 
 
+TAG_DATE_RE = re.compile(
+    r"(^|[^0-9])((?:19|20)\d{2})([-_.]?)(0[1-9]|1[0-2])\3(0[1-9]|[12]\d|3[01])(?!\d)"
+)
+TAG_VERSION_RE = re.compile(
+    r"(?:^|[^0-9A-Za-z])v?(\d+(?:\.\d+)+)(?![0-9A-Za-z])", re.IGNORECASE
+)
+
+
+def tag_version_and_date(tag: str) -> tuple[str, str] | None:
+    """The version and ISO date in a tag that carries both, else ``None``."""
+    text = str(tag or "")
+    match = TAG_DATE_RE.search(text)
+    if not match:
+        return None
+    year, month, day = int(match.group(2)), int(match.group(4)), int(match.group(5))
+    try:
+        date_value = dt.date(year, month, day)
+    except ValueError:
+        return None
+    without_date = text[:match.start(2)] + " " + text[match.end(5):]
+    version = TAG_VERSION_RE.search(without_date)
+    if not version:
+        return None
+    return version.group(1), date_value.isoformat()
+
+
 # ---------------------------------------------------------------- data
 
 
@@ -293,6 +319,10 @@ def software_section(item: dict, releases: list[dict], mirrors: list[dict], feed
         published = str(release.get("published_at") or release.get("created_at") or "")[:10]
         portable = portable_packages(mirrors, tag, str(asset.get("name") or ""))
         title = str(release.get("name") or "").strip() or ("%s %s" % (label, tag))
+        version, version_date = tag_version_and_date(tag) or (tag, "")
+        version_html = "<strong>%s</strong>" % esc(version)
+        if version_date:
+            version_html += ' <em>(%s)</em>' % esc(version_date)
         anchor = release_anchor(item, tag)
         notes = notes_url(item, tag)
         live_notes = parsed_notes_url(item, tag)
@@ -318,13 +348,13 @@ def software_section(item: dict, releases: list[dict], mirrors: list[dict], feed
             meta.append("preview build")
         rows.append(
             '<tr id="%s"><td><a class="lumen-version-link" href="%s" title="Release notes for %s">'
-            '<strong>%s</strong></a>'
+            '%s</a>'
             '<a class="lumen-readme-info" href="%s" title="Release notes for %s" aria-label="Release notes for %s">&#9432;</a>'
             '<div class="lumen-meta">%s</div></td>'
             '<td><a href="%s">%s</a></td>'
             '<td>%s</td>'
             '<td><a href="%s">Release notes</a></td></tr>'
-            % (esc(anchor), esc(live_notes), esc(tag), esc(tag),
+            % (esc(anchor), esc(live_notes), esc(tag), version_html,
                esc(info_notes), esc(tag), esc(tag),
                esc(" · ".join(meta)),
                esc(str(release.get("html_url") or project_page)), esc(title),
