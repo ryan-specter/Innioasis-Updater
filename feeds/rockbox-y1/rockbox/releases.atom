@@ -181,10 +181,10 @@
     <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/airpods-2-fix/libbluetoothdrv.so" title="libbluetoothdrv.so" length="8736" type="application/x-sharedlib" innioasis:download_count="19" innioasis:asset_id="470754717"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/airpods-2-fix/libbluetoothdrv_real.so" title="libbluetoothdrv_real.so" length="9280" type="application/x-sharedlib" innioasis:download_count="19" innioasis:asset_id="470754756"/>
-    <content type="text">Courtesy of @Semy0nBu (https://github.com/Semy0nBu/y1-airpods-rtpfix/releases/tag/v1.0.0)
-
-Release for use in pipelines.
-
+    <content type="text">Courtesy of @Semy0nBu (https://github.com/Semy0nBu/y1-airpods-rtpfix/releases/tag/v1.0.0)
+
+Release for use in pipelines.
+
 License: MIT</content>
   </entry>
   <entry>
@@ -212,27 +212,27 @@ License: MIT</content>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rockbox.apk" title="rockbox.apk" length="16402741" type="application/vnd.android.package-archive" innioasis:download_count="141" innioasis:asset_id="421443278"/>
-    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom.zip" title="rom.zip" length="534484127" type="application/zip" innioasis:download_count="12564" innioasis:asset_id="421443341"/>
-    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom_type_b.zip" title="rom_type_b.zip" length="442208156" type="application/zip" innioasis:download_count="238" innioasis:asset_id="421443603"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom.zip" title="rom.zip" length="534484127" type="application/zip" innioasis:download_count="12568" innioasis:asset_id="421443341"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom_type_b.zip" title="rom_type_b.zip" length="442208156" type="application/zip" innioasis:download_count="239" innioasis:asset_id="421443603"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/update.zip" title="update.zip" length="98160230" type="application/zip" innioasis:download_count="1237" innioasis:asset_id="421443283"/>
-    <content type="text">As a preparation for eventually submitting this port to the upstream Rockbox project a lot had to change under the hood.
-
-For now this means the removal of very specific and rarely used features like the Apps menu. It also means simpler merges of new upstream features. 360p only, there won&#x27;t be any future 240p releases.
-
-If you have issues, try these steps:
-1. Full flash of the new ROM.
-2. Delete `.rockbox` on your SD card, this should fix any weird path issues you might encounter (especially shortcuts)
-3. Themes have been updated, see here: https://github.com/rockbox-y1/themes/releases/tag/for_the_gays_and_the_theys
-4. If you want to use any custom themes that worked for older Rockbox-Y1 versions, you will need to change paths in the theme files from `/.rockbox` to `/sdcard/.rockbox`
-5. Install font pack: https://download.rockbox.org/release/4.0/rockbox-fonts-4.0.zip
-
-New:
-- Discontinuation of the 240p versions
-- Updated stock app
-- Support for devices that came with stock firmware 3.0.7
-- Black screen bug mitigations
-- Fixes plugins as start screen
-- Fixes audio not pausing on BT disconnect
+    <content type="text">As a preparation for eventually submitting this port to the upstream Rockbox project a lot had to change under the hood.
+
+For now this means the removal of very specific and rarely used features like the Apps menu. It also means simpler merges of new upstream features. 360p only, there won&#x27;t be any future 240p releases.
+
+If you have issues, try these steps:
+1. Full flash of the new ROM.
+2. Delete `.rockbox` on your SD card, this should fix any weird path issues you might encounter (especially shortcuts)
+3. Themes have been updated, see here: https://github.com/rockbox-y1/themes/releases/tag/for_the_gays_and_the_theys
+4. If you want to use any custom themes that worked for older Rockbox-Y1 versions, you will need to change paths in the theme files from `/.rockbox` to `/sdcard/.rockbox`
+5. Install font pack: https://download.rockbox.org/release/4.0/rockbox-fonts-4.0.zip
+
+New:
+- Discontinuation of the 240p versions
+- Updated stock app
+- Support for devices that came with stock firmware 3.0.7
+- Black screen bug mitigations
+- Fixes plugins as start screen
+- Fixes audio not pausing on BT disconnect
 - Minor fixes (scrobble upload)</content>
   </entry>
   <entry>
@@ -248,17 +248,17 @@ New:
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-051dece4e43d9ec5c35ab2809d28cfa3b9251e0d/rom.zip" title="rom.zip" length="535108830" type="application/zip" innioasis:download_count="1882" innioasis:asset_id="414905798"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-051dece4e43d9ec5c35ab2809d28cfa3b9251e0d/rom_type_b.zip" title="rom_type_b.zip" length="443151244" type="application/zip" innioasis:download_count="34" innioasis:asset_id="414905968"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-051dece4e43d9ec5c35ab2809d28cfa3b9251e0d/update.zip" title="update.zip" length="98161403" type="application/zip" innioasis:download_count="180" innioasis:asset_id="414905763"/>
-    <content type="text">New:
-- Support for devices that came with stock firmware 3.0.7
-- Black screen bug mitigations
-- Fixes plugins as start screen
-- Fixes audio not pausing on BT disconnect
-
-If you have issues, try these steps:
-1. Full flash of the new ROM.
-2. Delete `.rockbox` on your SD card.
-3. Install any of the patched themes from here: https://github.com/rockbox-y1/themes/archive/refs/heads/patch.zip
-4. If you want to use any custom themes that worked for older Rockbox-Y1 versions, you will need to change paths in the theme files from `/.rockbox` to `/sdcard/.rockbox`
+    <content type="text">New:
+- Support for devices that came with stock firmware 3.0.7
+- Black screen bug mitigations
+- Fixes plugins as start screen
+- Fixes audio not pausing on BT disconnect
+
+If you have issues, try these steps:
+1. Full flash of the new ROM.
+2. Delete `.rockbox` on your SD card.
+3. Install any of the patched themes from here: https://github.com/rockbox-y1/themes/archive/refs/heads/patch.zip
+4. If you want to use any custom themes that worked for older Rockbox-Y1 versions, you will need to change paths in the theme files from `/.rockbox` to `/sdcard/.rockbox`
 5. Install font pack: https://download.rockbox.org/release/4.0/rockbox-fonts-4.0.zip</content>
   </entry>
   <entry>
@@ -273,22 +273,22 @@ If you have issues, try these steps:
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-e76215b31d9d9106a461383ae1ec4f378db6d2d8/rockbox.apk" title="rockbox.apk" length="16304437" type="application/vnd.android.package-archive" innioasis:download_count="14" innioasis:asset_id="385081047"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-e76215b31d9d9106a461383ae1ec4f378db6d2d8/rom.zip" title="rom.zip" length="473838040" type="application/zip" innioasis:download_count="209" innioasis:asset_id="385081096"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-e76215b31d9d9106a461383ae1ec4f378db6d2d8/rom_type_b.zip" title="rom_type_b.zip" length="441474494" type="application/zip" innioasis:download_count="14" innioasis:asset_id="385081231"/>
-    <content type="text"># **Please read!**
-
-This release is especially experimental and will probably cause issues. Follow the guide at the end if you want to try it.
-
-This is a full rebase on the current upstream Rockbox repository as a preparation for eventually submitting this port to the Rockbox project.
-
-For now this means the removal of very specific and rarely used features like the Apps menu. It also means simpler merges of new upstream features. 360p only, there won&#x27;t be any future 240p releases. 
-
-Since a lot had to change under the hood you will need to do the following:
-
-1. Delete `.rockbox` on your SD card.
-2. Full flash of the new ROM.
-4. Install any of the patched themes from here: https://github.com/rockbox-y1/themes/archive/refs/heads/patch.zip
-5. If you want to use any custom themes that worked for older Rockbox-Y1 versions, you will need to change paths in the theme files from `/.rockbox` to `/sdcard/.rockbox`
-
-Other changes:
+    <content type="text"># **Please read!**
+
+This release is especially experimental and will probably cause issues. Follow the guide at the end if you want to try it.
+
+This is a full rebase on the current upstream Rockbox repository as a preparation for eventually submitting this port to the Rockbox project.
+
+For now this means the removal of very specific and rarely used features like the Apps menu. It also means simpler merges of new upstream features. 360p only, there won&#x27;t be any future 240p releases. 
+
+Since a lot had to change under the hood you will need to do the following:
+
+1. Delete `.rockbox` on your SD card.
+2. Full flash of the new ROM.
+4. Install any of the patched themes from here: https://github.com/rockbox-y1/themes/archive/refs/heads/patch.zip
+5. If you want to use any custom themes that worked for older Rockbox-Y1 versions, you will need to change paths in the theme files from `/.rockbox` to `/sdcard/.rockbox`
+
+Other changes:
 - fixes WPS hotkey for plugins</content>
   </entry>
   <entry>
@@ -309,30 +309,30 @@ Other changes:
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/update_240p.zip" title="update_240p.zip" length="91413335" type="application/zip" innioasis:download_count="44" innioasis:asset_id="380760932"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/update_360p.zip" title="update_360p.zip" length="92139133" type="application/zip" innioasis:download_count="67" innioasis:asset_id="380760867"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.4/voices.zip" title="voices.zip" length="76500020" type="application/zip" innioasis:download_count="12" innioasis:asset_id="382038488"/>
-    <content type="text">New Features:
-- Extend lastfm_scrobbler plugin to [upload directly to Last.fm + ListenBrainz](https://github.com/rockbox-y1/rockbox/blob/y1/INTERNET.md#scrobbling-lastfm-listenbrainz-maloja)
-- [Podcast downloader plugin](https://github.com/rockbox-y1/rockbox/blob/y1/INTERNET.md#podcasts)
-- Software Keyboard ([LeanKeyboard](https://github.com/yuliskov/LeanKeyboard))
-- Implement stereo balance
-- Increase available memory to 256MB  
-- Podcast Downloader optimizations
-- Remappings for FM Radio App
-- Rudimentary remaining battery time estimation
-- Use iPod Classic button mappings (mostly)
-- Feature to shutdown device with a 5s press of the center button  
-- Function to reset bluetooth devices
-- Information for Taptic Engine mods
-- Update functionality
-- Enable most plugins
-- Enable regular db updates and autoupdate
-
-Bug Fixes:
-- A-B repeat
-- Idle shutdown/sleep timer when no music is playing
-- Keylock feature + advanced keylock
-- License viewer
-- runtimedb and autoresume
-- Battery optimization: only use wake lock when needed for sleep timers
+    <content type="text">New Features:
+- Extend lastfm_scrobbler plugin to [upload directly to Last.fm + ListenBrainz](https://github.com/rockbox-y1/rockbox/blob/y1/INTERNET.md#scrobbling-lastfm-listenbrainz-maloja)
+- [Podcast downloader plugin](https://github.com/rockbox-y1/rockbox/blob/y1/INTERNET.md#podcasts)
+- Software Keyboard ([LeanKeyboard](https://github.com/yuliskov/LeanKeyboard))
+- Implement stereo balance
+- Increase available memory to 256MB  
+- Podcast Downloader optimizations
+- Remappings for FM Radio App
+- Rudimentary remaining battery time estimation
+- Use iPod Classic button mappings (mostly)
+- Feature to shutdown device with a 5s press of the center button  
+- Function to reset bluetooth devices
+- Information for Taptic Engine mods
+- Update functionality
+- Enable most plugins
+- Enable regular db updates and autoupdate
+
+Bug Fixes:
+- A-B repeat
+- Idle shutdown/sleep timer when no music is playing
+- Keylock feature + advanced keylock
+- License viewer
+- runtimedb and autoresume
+- Battery optimization: only use wake lock when needed for sleep timers
 - Enable brightness settings for compatibility with existing themes + quickscreen</content>
   </entry>
   <entry>
@@ -390,19 +390,19 @@ Bug Fixes:
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-35e926bd6ea663ab0aacb2f138c7f71ae744971f/rom_360p_type_b.zip" title="rom_360p_type_b.zip" length="427867790" type="application/zip" innioasis:download_count="9" innioasis:asset_id="364156784"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-35e926bd6ea663ab0aacb2f138c7f71ae744971f/update_240p.zip" title="update_240p.zip" length="91413275" type="application/zip" innioasis:download_count="8" innioasis:asset_id="364271787"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-35e926bd6ea663ab0aacb2f138c7f71ae744971f/update_360p.zip" title="update_360p.zip" length="92139719" type="application/zip" innioasis:download_count="38" innioasis:asset_id="364274821"/>
-    <content type="text">**Note:** *This is a re-release because the old version had broken builds.*
-
-Adds a few new features that use the wifi chip:
-* Adds a Podcast Downloader Plugin
-* Extends the Last.fm Scrobble Plugin to directly upload to Last.fm, ListenBrainz and compatible endpoints
-
-More information:
-https://github.com/rockbox-y1/rockbox/blob/y1/INTERNET.md
-
-Also:
-* Adds many plugins
-* Battery optimization: only use wake lock when needed for sleep timers, should increase standby battery life significantly
-* Fixes A-B repeat: start/stop can be triggered using center button in WPS
+    <content type="text">**Note:** *This is a re-release because the old version had broken builds.*
+
+Adds a few new features that use the wifi chip:
+* Adds a Podcast Downloader Plugin
+* Extends the Last.fm Scrobble Plugin to directly upload to Last.fm, ListenBrainz and compatible endpoints
+
+More information:
+https://github.com/rockbox-y1/rockbox/blob/y1/INTERNET.md
+
+Also:
+* Adds many plugins
+* Battery optimization: only use wake lock when needed for sleep timers, should increase standby battery life significantly
+* Fixes A-B repeat: start/stop can be triggered using center button in WPS
 * Typo fixes</content>
   </entry>
   <entry>
@@ -434,41 +434,41 @@ Also:
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.3/rom_240p_type_b.zip" title="rom_240p_type_b.zip" length="400796233" type="application/zip" innioasis:download_count="42" innioasis:asset_id="363863686"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.3/rom_360p.zip" title="rom_360p.zip" length="434614251" type="application/zip" innioasis:download_count="1066" innioasis:asset_id="363864037"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.3/rom_360p_type_b.zip" title="rom_360p_type_b.zip" length="401143742" type="application/zip" innioasis:download_count="27" innioasis:asset_id="363864426"/>
-    <content type="text">| &lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;screenshot_1&quot; src=&quot;https://github.com/user-attachments/assets/4e37aabb-d373-4899-8893-224d05c43c89&quot; /&gt; |  &lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;screenshot_3&quot; src=&quot;https://github.com/user-attachments/assets/fd4a1b7e-39f7-4caa-84ea-69777e61c284&quot; /&gt; | 
-|:--:|:--:|
-
- _**Theme:** [Adwaitapod](https://github.com/rockbox-y1/themes/releases/download/for_the_gays_and_the_theys/adwaitapod_360p.zip) by [Dook](https://ko-fi.com/dook_)_
-
-# Changelog
-A lot has happened since v0.2 and Rockbox on the Y1. If you are still running v0.2 you might want to consider updating.
-
-## Major Changes
-- Dual Boot Stock OS/Rockbox
-- Type A &amp; Type B support - use Type B if you have click wheel issues
-- 240p and 360p versions
-- Idle Poweroff, Timed Shutdown
-- Lyrics (lrc) support
-
-## Improvements for Audiobooks
-### Playback Speed Setting 
-- WPS &gt; hold Center button &gt; Pitch
-- You might need to enable Timestretch in the Sound Settings first if you only see options for pitch, not speed
-
-### Automatic Bookmarking
-- Enabling &quot;Bookmark on Stop&quot;
-- To stop press play 3-4 times
-- Or: use Timed Shutdown (General Settings &gt; Startup/Shutdown &gt; Start Sleep Timer)
-
-## UI/UX
-- Accessibility: WPS voice announcements
-- Button combination to restart Rockbox if it got stuck
-- Enabled charging indicator
-- Enabled plugin to rearrange Main Menu (Plugins &gt; Applications &gt; main_menu_config)
-- Many button mapping improvements, e.g., for PictureFlow
-- Larger memory allocation for larger themes
-- App only starts when SD is ready, no Rockbox restarts necessary after copying files over or on initial boot
-- Battery optimizations (you may still need to recalibrate your battery after installation https://www.ifixit.com/Wiki/Battery_Calibration#Section_How_to_calibrate_your_battery)
-
+    <content type="text">| &lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;screenshot_1&quot; src=&quot;https://github.com/user-attachments/assets/4e37aabb-d373-4899-8893-224d05c43c89&quot; /&gt; |  &lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;screenshot_3&quot; src=&quot;https://github.com/user-attachments/assets/fd4a1b7e-39f7-4caa-84ea-69777e61c284&quot; /&gt; | 
+|:--:|:--:|
+
+ _**Theme:** [Adwaitapod](https://github.com/rockbox-y1/themes/releases/download/for_the_gays_and_the_theys/adwaitapod_360p.zip) by [Dook](https://ko-fi.com/dook_)_
+
+# Changelog
+A lot has happened since v0.2 and Rockbox on the Y1. If you are still running v0.2 you might want to consider updating.
+
+## Major Changes
+- Dual Boot Stock OS/Rockbox
+- Type A &amp; Type B support - use Type B if you have click wheel issues
+- 240p and 360p versions
+- Idle Poweroff, Timed Shutdown
+- Lyrics (lrc) support
+
+## Improvements for Audiobooks
+### Playback Speed Setting 
+- WPS &gt; hold Center button &gt; Pitch
+- You might need to enable Timestretch in the Sound Settings first if you only see options for pitch, not speed
+
+### Automatic Bookmarking
+- Enabling &quot;Bookmark on Stop&quot;
+- To stop press play 3-4 times
+- Or: use Timed Shutdown (General Settings &gt; Startup/Shutdown &gt; Start Sleep Timer)
+
+## UI/UX
+- Accessibility: WPS voice announcements
+- Button combination to restart Rockbox if it got stuck
+- Enabled charging indicator
+- Enabled plugin to rearrange Main Menu (Plugins &gt; Applications &gt; main_menu_config)
+- Many button mapping improvements, e.g., for PictureFlow
+- Larger memory allocation for larger themes
+- App only starts when SD is ready, no Rockbox restarts necessary after copying files over or on initial boot
+- Battery optimizations (you may still need to recalibrate your battery after installation https://www.ifixit.com/Wiki/Battery_Calibration#Section_How_to_calibrate_your_battery)
+
 And many bug fixes and general UI/UX improvements. A big thanks to all the contributors on Github!</content>
   </entry>
   <entry>
@@ -493,8 +493,8 @@ And many bug fixes and general UI/UX improvements. A big thanks to all the contr
     <innioasis:prerelease>true</innioasis:prerelease>
     <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/type-b-base/rom.zip" title="rom.zip" length="399460715" type="application/zip" innioasis:download_count="7997" innioasis:asset_id="317209790"/>
-    <content type="text">Used for building ROM releases
-
+    <content type="text">Used for building ROM releases
+
 </content>
   </entry>
   <entry>
@@ -522,36 +522,36 @@ And many bug fixes and general UI/UX improvements. A big thanks to all the contr
     <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/16761617720/libs.zip" title="libs.zip" length="3996666" type="application/zip" innioasis:download_count="57" innioasis:asset_id="279675112"/>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/16761617720/rockbox-v0.2.apk" title="rockbox-v0.2.apk" length="4184373" type="application/vnd.android.package-archive" innioasis:download_count="101" innioasis:asset_id="279675108"/>
-    <content type="text">Release v0.2
-
-**Rockbox is now a system app:** This should drastically help with stability but requires a different manual installation process. Please refer to the README.md for details.
-
-## UI/UX &amp; Accessibility
-- Pre-built voice files are available for a good amount of languages (Download here: https://github.com/rockbox-y1/rockbox/releases/download/016733367579/voices.zip)
-- Long-press of Menu/Back opens context menus
-- Long-press of Play/Pause opens WPS
-- Add settings menu for screen timeout
-
-## New Features
-- Enable LastFM scrobbler
-- Enable Imageviewer plugin
-- Enable more Plugins (mostly demos)
-- Automatically restart Rockbox if necessary (after DB update)
-- SD Card Mount check (automatically restart Rockbox when theme/config can&#x27;t be loaded)
-
-## Bug Fixes
-- Fix time setting function
-- Fix bookmarking in playlists and database
-- Only use db rebuild to avoid duplicates
-- Playlist copy feature should overwrite existing playlists (assumes people manage earlier copied lists on PC anyway)
-- Fix shutdown function
-- Fix freeze that randomly occurred (Screen didn&#x27;t wake up again)
-- Faster app start
-- Fix keymap instructions in README
-- Remove empty LCD menu, remove touchscreen menu
-- Fix playlist paths
-
-## Other Changes
+    <content type="text">Release v0.2
+
+**Rockbox is now a system app:** This should drastically help with stability but requires a different manual installation process. Please refer to the README.md for details.
+
+## UI/UX &amp; Accessibility
+- Pre-built voice files are available for a good amount of languages (Download here: https://github.com/rockbox-y1/rockbox/releases/download/016733367579/voices.zip)
+- Long-press of Menu/Back opens context menus
+- Long-press of Play/Pause opens WPS
+- Add settings menu for screen timeout
+
+## New Features
+- Enable LastFM scrobbler
+- Enable Imageviewer plugin
+- Enable more Plugins (mostly demos)
+- Automatically restart Rockbox if necessary (after DB update)
+- SD Card Mount check (automatically restart Rockbox when theme/config can&#x27;t be loaded)
+
+## Bug Fixes
+- Fix time setting function
+- Fix bookmarking in playlists and database
+- Only use db rebuild to avoid duplicates
+- Playlist copy feature should overwrite existing playlists (assumes people manage earlier copied lists on PC anyway)
+- Fix shutdown function
+- Fix freeze that randomly occurred (Screen didn&#x27;t wake up again)
+- Faster app start
+- Fix keymap instructions in README
+- Remove empty LCD menu, remove touchscreen menu
+- Fix playlist paths
+
+## Other Changes
 - Rename External Apps to Apps</content>
   </entry>
   <entry>
@@ -564,33 +564,33 @@ And many bug fixes and general UI/UX improvements. A big thanks to all the contr
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/016733367579/voices.zip" title="voices.zip" length="76155485" type="application/zip" innioasis:download_count="131" innioasis:asset_id="279340035"/>
-    <content type="text">## Voice Files for Rockbox-Y1 v0.2
-
-Includes these languages:
-- Basque
-- Bulgarian
-- Czech
-- Dansk
-- Deutsch
-- Eesti
-- English
-- Espanol
-- Francais
-- Greek
-- Italiano
-- Latviesu
-- Magyar
-- Moldoveneste
-- Nederlands
-- Norsk
-- Polski
-- Portugues-Brasileiro
-- Romaneste
-- Russian
-- Slovak
-- Srpski
-- Svenska
-- Turkce
+    <content type="text">## Voice Files for Rockbox-Y1 v0.2
+
+Includes these languages:
+- Basque
+- Bulgarian
+- Czech
+- Dansk
+- Deutsch
+- Eesti
+- English
+- Espanol
+- Francais
+- Greek
+- Italiano
+- Latviesu
+- Magyar
+- Moldoveneste
+- Nederlands
+- Norsk
+- Polski
+- Portugues-Brasileiro
+- Romaneste
+- Russian
+- Slovak
+- Srpski
+- Svenska
+- Turkce
 - Ukrainian</content>
   </entry>
   <entry>
@@ -603,12 +603,12 @@ Includes these languages:
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/360p-16483586614/rockbox-360p-52611309ae289810e942da2521a22ac6823975a9.apk" title="rockbox-360p-52611309ae289810e942da2521a22ac6823975a9.apk" length="3889461" type="application/vnd.android.package-archive" innioasis:download_count="22" innioasis:asset_id="275740686"/>
-    <content type="text">**Release v0.1 - 360p Edition**
-
-[Differences between 240p and 360p releases](https://github.com/rockbox-y1/rockbox?tab=readme-ov-file#240p-vs-360p-releases)
-
-[Changes vs. upstream Rockbox](https://github.com/rockbox-y1/rockbox?tab=readme-ov-file#changes-vs-upstream-rockbox)
-
+    <content type="text">**Release v0.1 - 360p Edition**
+
+[Differences between 240p and 360p releases](https://github.com/rockbox-y1/rockbox?tab=readme-ov-file#240p-vs-360p-releases)
+
+[Changes vs. upstream Rockbox](https://github.com/rockbox-y1/rockbox?tab=readme-ov-file#changes-vs-upstream-rockbox)
+
 [Installation guide](https://github.com/rockbox-y1/rockbox?tab=readme-ov-file#installation)</content>
   </entry>
   <entry>
@@ -621,12 +621,12 @@ Includes these languages:
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/240p-16483614697/rockbox-240p-74e8d231185c722a8346fd6b89f3bb1cd6e0c7d6.apk" title="rockbox-240p-74e8d231185c722a8346fd6b89f3bb1cd6e0c7d6.apk" length="3963189" type="application/vnd.android.package-archive" innioasis:download_count="75" innioasis:asset_id="275740997"/>
-    <content type="text">**Release v0.1 - 240p Edition**
-
-[Differences between 240p and 360p releases](https://github.com/rockbox-y1/rockbox?tab=readme-ov-file#240p-vs-360p-releases)
-
-[Changes vs. upstream Rockbox](https://github.com/rockbox-y1/rockbox?tab=readme-ov-file#changes-vs-upstream-rockbox)
-
+    <content type="text">**Release v0.1 - 240p Edition**
+
+[Differences between 240p and 360p releases](https://github.com/rockbox-y1/rockbox?tab=readme-ov-file#240p-vs-360p-releases)
+
+[Changes vs. upstream Rockbox](https://github.com/rockbox-y1/rockbox?tab=readme-ov-file#changes-vs-upstream-rockbox)
+
 [Installation guide](https://github.com/rockbox-y1/rockbox?tab=readme-ov-file#installation)</content>
   </entry>
 </feed>

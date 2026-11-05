@@ -14,16 +14,16 @@
     <innioasis:tag_name>y2-ata</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/y1-community/y2-ata-rom/releases/download/y2-ata/rom_y2.zip" title="rom_y2.zip" length="662798399" type="application/zip" innioasis:download_count="211" innioasis:asset_id="477998702"/>
-    <content type="text"># This is a bare android firmware for modifications to the Innioasis Y2 - it includes flash_tool.exe to install it from Windows systems
-# This is not suitable for everyday use - the original firmware is [available here](https://github.com/y1-community/y1-stock-rom/releases/tag/3.1.7)
-Disconnect your Y2 from USB, fully power it off using a paper clip or pin between the headphone jack and charging port
-
-Run flash_tool.exe
-
-Select Format All + Download from the dropdown that reads &quot;Download&quot;
-
-Click Download (green arrow)
-
+    <content type="text"># This is a bare android firmware for modifications to the Innioasis Y2 - it includes flash_tool.exe to install it from Windows systems
+# This is not suitable for everyday use - the original firmware is [available here](https://github.com/y1-community/y1-stock-rom/releases/tag/3.1.7)
+Disconnect your Y2 from USB, fully power it off using a paper clip or pin between the headphone jack and charging port
+
+Run flash_tool.exe
+
+Select Format All + Download from the dropdown that reads &quot;Download&quot;
+
+Click Download (green arrow)
+
 Connect your Y2 and wait for install to finish.</content>
   </entry>
 </feed>

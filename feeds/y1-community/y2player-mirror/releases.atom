@@ -38,141 +38,141 @@
 
 ---
 
-# Y2Player v2.3 - Up Next Queue, Library Browsing, and Menu Artwork
-
-Version 2.3 focuses on making the playback queue predictable, expanding the ways a library can be browsed, and bringing album artwork into the menu system.
-
-It also separates audiobooks more cleanly from music, improves repeated Vorbis metadata handling, and removes unused internal state across the application.
-
-## A Queue That Shows What Will Actually Play
-
-The playback queue has been rebuilt around two explicit sections:
-
-- **Up Next** contains tracks deliberately added by the user.
-- **Continuation** contains the remaining tracks from the album, playlist, library collection, or shuffled collection that started playback.
-
-**Play Next** puts a track or selected collection directly after the current track. **Add to Up Next** appends tracks in the order they were added. When Up Next is empty, playback returns to the original continuation instead of abandoning the album or collection that was already playing.
-
-Shuffle now exposes the actual upcoming playback order in the queue. Manually added tracks remain ahead of the shuffled continuation and keep their deliberate order. Turning Shuffle off restores the remaining source collection to its original order without losing Up Next.
-
-Repeat All repeats the source collection rather than repeatedly injecting manually added Up Next entries. Duplicate tracks also receive distinct queue-entry identities, so moving or removing one occurrence does not affect another copy of the same song.
-
-## Queue Controls Designed for the Click Wheel
-
-The queue screen now places **Queue Actions** at the top and then shows the current and upcoming songs in playback order.
-
-Pressing Center on a queue entry opens a circular action menu containing the actions that apply to that occurrence:
-
-- Play Now
-- Play Next
-- Move
-- Remove
-
-Move opens the queue itself as a wheel-controlled position selector. Reordering stays inside the relevant Up Next or continuation section, so an ordinary move cannot accidentally change the meaning of the queue.
-
-Queue Actions provides focused cleanup commands:
-
-- **Clear Up Next** removes only manually added songs.
-- **Clear After Current** keeps the current song and removes everything after it.
-- **Stop &amp; Clear** stops playback and removes the complete queue after confirmation.
-
-The navigation has also been flattened. Queue management no longer requires opening several nested menus from an individual song, and holding Center on a queue row remains a quick Play Now shortcut.
-
-## Add Albums, Collections, or Several Selected Songs
-
-Queue actions are no longer limited to one track at a time.
-
-Holding Center on an album or another supported collection opens batch actions for the complete collection:
-
-- Play Next
-- Add to Up Next
-- Add Shuffled
-
-Track Options also includes **Select Multiple**. Center toggles individual songs in the current list, and holding Center opens the same batch queue actions for the selected set.
-
-This makes it possible to start an album or Shuffle All, choose several songs to hear first, and then return automatically to the original playback sequence.
-
-## Browse Music by Genre and Year
-
-The Music menu now includes **Genres** and **Years**.
-
-Opening a genre or year provides separate destinations for all matching tracks, artists, and albums. The selected filter is retained while navigating through an artist and into one of their albums, so a year or genre view does not unexpectedly expand back into the entire library.
-
-Genre values separated by repeated Vorbis comments or semicolons are treated as separate genres. Duplicate values are collapsed case-insensitively, while names containing characters such as the slash in `R&amp;B/Soul` remain intact. Tracks without a genre or year remain available under **Unknown Genre** and **Unknown Year**.
-
-Album identity now includes the album artist. Two artists can therefore each have an album called *Greatest Hits* without their tracks being merged into one global album entry.
-
-## More Sorting Choices
-
-Sort Order under Settings → Library is now divided into three groups:
-
-- **Tracks** retains the existing track-order choices.
-- **Albums** can be ordered by title, artist, oldest release first, or newest release first.
-- **Year Lists** can show newest or oldest years first.
-
-Album rows display their release year where it is available. Unknown years stay at the end in both directions, and the chronological order of songs inside an album is not changed by a library-level sorting preference.
-
-The new album and year sorting preferences are included in Backup &amp; Restore. Older backups receive stable defaults when imported.
-
-## Album Artwork in Menus
-
-Album artwork is now displayed on the left side of song lists and on representative rows for albums, artists, genres, years, playlists, and audiobooks. Queue entries and filtered library views use the same artwork path.
-
-The existing artwork rules still apply: embedded artwork is preferred, followed by supported external cover files such as `folder.jpg`, `folder.jpeg`, `folder.png`, `cover.jpg`, `cover.jpeg`, and `cover.png`.
-
-The Y2 has limited CPU and memory, so list artwork is deliberately bounded:
-
-- only rows currently visible on screen are scheduled;
-- images are decoded at thumbnail size through the shared artwork cache;
-- visible requests are processed in a controlled sequence;
-- requests are cancelled when rows move offscreen, the screen changes, or the view is hidden;
-- stale results are rejected if the library or source file changed;
-- missing, unavailable, blank, oversized, or damaged artwork is ignored safely.
-
-Album track lists continue showing track numbers instead of thumbnails, preserving the most useful information for ordered album playback.
-
-## Better Audiobook Separation
-
-Files stored under `AUDIOBOOKS` remain fully available through the dedicated Audiobooks section, including chapters, resume progress, and queue continuation.
-
-They are no longer mixed into the music-facing Songs, Albums, Artists, Genres, Years, Favorites, Recently Played, Folders, playlists, track counts, or Shuffle All views. This keeps audiobook chapters from appearing as ordinary songs while preserving their dedicated playback behavior.
-
-The circular menu for an audiobook chapter is also more focused. It contains Chapters, Queue, Sleep Timer, and Track Details instead of music-only actions such as Shuffle, Repeat, Favorite, and Add to Playlist.
-
-## Repeated Vorbis Artist Values
-
-Ogg Vorbis and Opus files can store several `ARTIST` comments. FFmpeg exposes repeated values as one semicolon-separated string, which Y2Player previously treated as a single artist name.
-
-Repeated values are now parsed into individual artist entries. Feature-credit parsing still applies, duplicate names are removed case-insensitively, and the complete original credit remains available for display and playback metadata.
-
-## Internal Cleanup and Validation
-
-Version 2.3 also removes unused fields, counters, wrappers, and duplicate state from the device, display, diagnostics, playback, queue, backup, and playlist code. Media-key classification is shared between the hardware gate and broadcast receiver, and several result objects that carried values no caller used have been simplified.
-
-These changes are maintenance rather than feature removal. The updated code and new visible-row artwork planner are covered by the complete debug unit-test suite.
-
-## Installation
-
-The release provides the existing system-only update path as well as a complete `rom_y2.zip` package for the Innioasis Updater.
-
-For the system-only method, use SP Flash Tool in **Download Only** mode with only the **ANDROID** partition selected, pointing to the supplied `system.img`. Do not select or format any other partition.
-
-The `rom_y2.zip` package performs a full-device installation and erases user data. Create a Y2Player backup and copy important media, exports, and other files off the device before using the full-ROM method.
-
-Verify the supplied checksums and read the complete installation guide in the repository before flashing either package.
-
-## Reporting Bugs
-
-If you encounter a problem, enable verbose diagnostics first:
-
-**Settings → System → Diagnostics → Verbose Diagnostics**
-
-Reproduce the problem, then export the report:
-
-**Settings → System → Diagnostics → Export Diagnostics**
-
-Please attach the exported report to a GitHub issue. For queue problems, include the collection that started playback, the queue action used, and whether Shuffle or Repeat was enabled. For artwork problems, mention whether the cover is embedded or external and include the external filename where applicable.
-
+# Y2Player v2.3 - Up Next Queue, Library Browsing, and Menu Artwork
+
+Version 2.3 focuses on making the playback queue predictable, expanding the ways a library can be browsed, and bringing album artwork into the menu system.
+
+It also separates audiobooks more cleanly from music, improves repeated Vorbis metadata handling, and removes unused internal state across the application.
+
+## A Queue That Shows What Will Actually Play
+
+The playback queue has been rebuilt around two explicit sections:
+
+- **Up Next** contains tracks deliberately added by the user.
+- **Continuation** contains the remaining tracks from the album, playlist, library collection, or shuffled collection that started playback.
+
+**Play Next** puts a track or selected collection directly after the current track. **Add to Up Next** appends tracks in the order they were added. When Up Next is empty, playback returns to the original continuation instead of abandoning the album or collection that was already playing.
+
+Shuffle now exposes the actual upcoming playback order in the queue. Manually added tracks remain ahead of the shuffled continuation and keep their deliberate order. Turning Shuffle off restores the remaining source collection to its original order without losing Up Next.
+
+Repeat All repeats the source collection rather than repeatedly injecting manually added Up Next entries. Duplicate tracks also receive distinct queue-entry identities, so moving or removing one occurrence does not affect another copy of the same song.
+
+## Queue Controls Designed for the Click Wheel
+
+The queue screen now places **Queue Actions** at the top and then shows the current and upcoming songs in playback order.
+
+Pressing Center on a queue entry opens a circular action menu containing the actions that apply to that occurrence:
+
+- Play Now
+- Play Next
+- Move
+- Remove
+
+Move opens the queue itself as a wheel-controlled position selector. Reordering stays inside the relevant Up Next or continuation section, so an ordinary move cannot accidentally change the meaning of the queue.
+
+Queue Actions provides focused cleanup commands:
+
+- **Clear Up Next** removes only manually added songs.
+- **Clear After Current** keeps the current song and removes everything after it.
+- **Stop &amp; Clear** stops playback and removes the complete queue after confirmation.
+
+The navigation has also been flattened. Queue management no longer requires opening several nested menus from an individual song, and holding Center on a queue row remains a quick Play Now shortcut.
+
+## Add Albums, Collections, or Several Selected Songs
+
+Queue actions are no longer limited to one track at a time.
+
+Holding Center on an album or another supported collection opens batch actions for the complete collection:
+
+- Play Next
+- Add to Up Next
+- Add Shuffled
+
+Track Options also includes **Select Multiple**. Center toggles individual songs in the current list, and holding Center opens the same batch queue actions for the selected set.
+
+This makes it possible to start an album or Shuffle All, choose several songs to hear first, and then return automatically to the original playback sequence.
+
+## Browse Music by Genre and Year
+
+The Music menu now includes **Genres** and **Years**.
+
+Opening a genre or year provides separate destinations for all matching tracks, artists, and albums. The selected filter is retained while navigating through an artist and into one of their albums, so a year or genre view does not unexpectedly expand back into the entire library.
+
+Genre values separated by repeated Vorbis comments or semicolons are treated as separate genres. Duplicate values are collapsed case-insensitively, while names containing characters such as the slash in `R&amp;B/Soul` remain intact. Tracks without a genre or year remain available under **Unknown Genre** and **Unknown Year**.
+
+Album identity now includes the album artist. Two artists can therefore each have an album called *Greatest Hits* without their tracks being merged into one global album entry.
+
+## More Sorting Choices
+
+Sort Order under Settings → Library is now divided into three groups:
+
+- **Tracks** retains the existing track-order choices.
+- **Albums** can be ordered by title, artist, oldest release first, or newest release first.
+- **Year Lists** can show newest or oldest years first.
+
+Album rows display their release year where it is available. Unknown years stay at the end in both directions, and the chronological order of songs inside an album is not changed by a library-level sorting preference.
+
+The new album and year sorting preferences are included in Backup &amp; Restore. Older backups receive stable defaults when imported.
+
+## Album Artwork in Menus
+
+Album artwork is now displayed on the left side of song lists and on representative rows for albums, artists, genres, years, playlists, and audiobooks. Queue entries and filtered library views use the same artwork path.
+
+The existing artwork rules still apply: embedded artwork is preferred, followed by supported external cover files such as `folder.jpg`, `folder.jpeg`, `folder.png`, `cover.jpg`, `cover.jpeg`, and `cover.png`.
+
+The Y2 has limited CPU and memory, so list artwork is deliberately bounded:
+
+- only rows currently visible on screen are scheduled;
+- images are decoded at thumbnail size through the shared artwork cache;
+- visible requests are processed in a controlled sequence;
+- requests are cancelled when rows move offscreen, the screen changes, or the view is hidden;
+- stale results are rejected if the library or source file changed;
+- missing, unavailable, blank, oversized, or damaged artwork is ignored safely.
+
+Album track lists continue showing track numbers instead of thumbnails, preserving the most useful information for ordered album playback.
+
+## Better Audiobook Separation
+
+Files stored under `AUDIOBOOKS` remain fully available through the dedicated Audiobooks section, including chapters, resume progress, and queue continuation.
+
+They are no longer mixed into the music-facing Songs, Albums, Artists, Genres, Years, Favorites, Recently Played, Folders, playlists, track counts, or Shuffle All views. This keeps audiobook chapters from appearing as ordinary songs while preserving their dedicated playback behavior.
+
+The circular menu for an audiobook chapter is also more focused. It contains Chapters, Queue, Sleep Timer, and Track Details instead of music-only actions such as Shuffle, Repeat, Favorite, and Add to Playlist.
+
+## Repeated Vorbis Artist Values
+
+Ogg Vorbis and Opus files can store several `ARTIST` comments. FFmpeg exposes repeated values as one semicolon-separated string, which Y2Player previously treated as a single artist name.
+
+Repeated values are now parsed into individual artist entries. Feature-credit parsing still applies, duplicate names are removed case-insensitively, and the complete original credit remains available for display and playback metadata.
+
+## Internal Cleanup and Validation
+
+Version 2.3 also removes unused fields, counters, wrappers, and duplicate state from the device, display, diagnostics, playback, queue, backup, and playlist code. Media-key classification is shared between the hardware gate and broadcast receiver, and several result objects that carried values no caller used have been simplified.
+
+These changes are maintenance rather than feature removal. The updated code and new visible-row artwork planner are covered by the complete debug unit-test suite.
+
+## Installation
+
+The release provides the existing system-only update path as well as a complete `rom_y2.zip` package for the Innioasis Updater.
+
+For the system-only method, use SP Flash Tool in **Download Only** mode with only the **ANDROID** partition selected, pointing to the supplied `system.img`. Do not select or format any other partition.
+
+The `rom_y2.zip` package performs a full-device installation and erases user data. Create a Y2Player backup and copy important media, exports, and other files off the device before using the full-ROM method.
+
+Verify the supplied checksums and read the complete installation guide in the repository before flashing either package.
+
+## Reporting Bugs
+
+If you encounter a problem, enable verbose diagnostics first:
+
+**Settings → System → Diagnostics → Verbose Diagnostics**
+
+Reproduce the problem, then export the report:
+
+**Settings → System → Diagnostics → Export Diagnostics**
+
+Please attach the exported report to a GitHub issue. For queue problems, include the collection that started playback, the queue action used, and whether Shuffle or Repeat was enabled. For artwork problems, mention whether the cover is embedded or external and include the external filename where applicable.
+
 Thank you to everyone who reported the queue, metadata, audiobook, browsing, and menu-artwork issues that shaped this release.
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;2079e3d43bae25532ff8f92bc4727849d141b9f0b01e2ee7f08bd24369d15d15&quot;,&quot;size&quot;:624788284,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;4c7f8c73bf6ed87227915f867bc0f838e7563d6fe25dd9521778c7e357113271&quot;,&quot;size&quot;:393177736,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;7ad76e34914aa954e7cb4a7e07b23ff86d198e8b2be70f88253f62374854661b&quot;,&quot;size&quot;:473573120,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;}],&quot;built_at&quot;:&quot;2026-11-04T21:34:41Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;74980330d258625ace630519ac92e5c4abafd4dad1c9dbf85a2c206bce590bb1&quot;,&quot;original_assets&quot;:[&quot;rom_y2.zip&quot;,&quot;system.img&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom_y2-linux.zip&quot;:2,&quot;rom_y2-macos.zip&quot;:2,&quot;rom_y2-windows.zip&quot;:1,&quot;rom_y2.zip&quot;:3,&quot;system.img&quot;:3},&quot;generated_at&quot;:&quot;2026-11-04T21:34:41Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -211,153 +211,153 @@ Thank you to everyone who reported the queue, metadata, audiobook, browsing, and
 
 ---
 
-# Y2Player v2.2.1 — Playback Stability, Improved Controls, and Now Playing Updates
-
-  Version 2.2.1 focuses on feedback received after the 2.2 release. The largest changes address volume peaks, lock-screen playback, physical controls, queue reliability, and the Now Playing interface.
-
-  ## Volume and Lock-Screen Playback
-
-  Several issues could cause the output volume to briefly jump when changing volume modes, pausing playback, locking the device, or waking the screen.
-
-  Volume ownership has been reworked so that the player&#x27;s software gain is applied before Android&#x27;s system stream is changed. This prevents the system stream from becoming audible at full volume during the handover.
-
-  The following cases have been corrected:
-
-  - Switching between In-App and System / Hardware Keys volume modes no longer causes a brief volume peak.
-  - Starting playback after changing volume mode while paused no longer produces a loud initial burst.
-  - Pausing, locking, unlocking, and waking the screen no longer briefly exposes the system stream at maximum volume.
-  - Volume changes made while the screen is locked are no longer overwritten when the screen turns back on.
-  - In-App volume can now be raised and lowered while the screen is locked.
-  - Holding a volume button continues changing the volume instead of requiring repeated individual presses.
-  - Paused tracks remain loaded when the interface or screen goes away, preventing playback from unexpectedly returning to the beginning.
-
-  ## Firmware Volume-Key Handling
-
-  The firmware now contains a guarded keypad-layout patch for the Y2&#x27;s physical volume buttons.
-
-  The local volume keys are delivered directly to Y2Player instead of allowing Android to modify the system stream before the app can respond. This is particularly important for In-App volume control and screen-off operation.
-
-  Only the Y2&#x27;s physical volume scan codes are remapped. Genuine headset and Bluetooth media controls remain unchanged.
-
-  ## Playback and Queue Reliability
-
-  Paused playback is now treated as an active, resumable session. Locking the device or leaving the interface no longer unloads a paused track simply because the activity disconnected.
-
-  Shuffle handling has also been corrected. Changing Shuffle mode now preserves the portion of the queue that has already been played and rebuilds only the remaining order. This prevents unplayed tracks from becoming stranded behind the current position and avoids reaching a false end of the shuffled queue.
-
-  Seeking has additional endpoint protection so a seek cannot land inside an unusable final fragment of a track.
-
-  ## Navigation Changes
-
-  Left and Right now have one consistent purpose throughout the entire interface:
-
-  - Left plays the previous track.
-  - Right plays the next track.
-  - Hold Left or Right seeks backward or forward.
-  - Center opens the selected menu or activates the selected option.
-  - Back returns to the previous menu.
-
-  Left and Right no longer enter or leave menus. Context menus that were previously opened with Right are now opened by holding Center.
-
-  A short Center press on the Now Playing screen no longer pauses or resumes playback. It simply keeps the display awake. The dedicated Play/Pause button remains responsible for playback.
-
-  ## Main Menu Cleanup
-
-  The duplicate Now Playing entry has been removed from the main menu because the current track is already visible in the Now Playing panel.
-
-  When there is no active or restored playback session, the same position is used for Shuffle All. Shuffle All is hidden once a session exists so it cannot accidentally replace the current queue.
-
-  ## Circular Now Playing Menu
-
-  Holding Center on the Now Playing screen now opens a new circular playback menu over the current screen.
-
-  The scroll wheel moves around the available controls, and a short Center press activates the selected item. Back or another long Center press closes the menu.
-
-  The radial menu includes:
-
-  - Shuffle
-  - Repeat
-  - Queue
-  - Favorite
-  - Sleep Timer
-  - Add to Playlist
-  - Track Options
-
-  The menu blends over the Now Playing screen with a short fade and scale animation. Active options use the same accent color and visual state system as the rest of the interface.
-
-  ## Now Playing Status Information
-
-  The old button-hint footer has been replaced with useful playback information.
-
-  The footer now displays:
-
-  - Shuffle status
-  - Repeat mode
-  - Effective transition mode
-  - Current queue position
-
-  The transition indicator distinguishes between standard playback, gapless playback, and crossfade, including the configured fade duration.
-
-  ## Additional Metadata Layout
-
-  When Additional Metadata is enabled, its information is now divided into two dedicated lines:
-
-  1. Genre
-  2. Codec, bitrate, sample rate, and bit depth
-
-  This prevents the metadata from being compressed into one long line and reduces clipping on the right side of the display.
-
-  Long selected text can now scroll after a short delay instead of remaining permanently truncated. Scrolling stops while the screen is off and restarts when needed.
-
-  ## Album Information
-
-  The album line on the Now Playing screen is now always displayed when album information exists.
-
-  Previously, the album line disappeared when an album had the same name as its artist. Artist and album are separate metadata fields, so matching names no longer cause either field to be hidden.
-
-  ## Favorites and Active-State Indicators
-
-  Favorite actions now have a clear visual state.
-
-  Favorited tracks use a filled heart instead of continuing to display the same empty heart. Other enabled options also use consistent accent coloring, active surfaces, markers, or check indicators where appropriate.
-
-  This makes it easier to tell whether options such as Favorite, Shuffle, Repeat, and other toggles are currently enabled.
-
-  ## Scroll-Wheel Improvements
-
-  Rapid wheel movement now accelerates through long collections such as Songs, Albums, Artists, Playlists, Queue, and Audiobooks.
-
-  Acceleration is deliberately disabled in short settings menus so individual options remain easy to select. Slowing down or reversing direction immediately restores one-row precision.
-
-  A new Wrap Lists option has also been added under Controls:
-
-  - When enabled, moving past the final item returns to the first.
-  - When disabled, selection stops at the beginning and end of ordinary lists.
-  - Circular selectors and the new radial menu continue wrapping naturally.
-
-  ## Haptic Feedback
-
-  Haptic feedback now occurs only when an input was actually accepted.
-
-  Pressing against the end of a non-wrapping list or performing an unavailable action no longer produces a misleading vibration. Accepted navigation and control actions still provide immediate feedback.
-
-  ## Library and Browsing Fixes
-
-  Several smaller library issues have also been corrected:
-
-  - Artist names differing only by capitalization or surrounding spaces are now treated as the same artist.
-  - Various Artists is filtered consistently regardless of capitalization.
-  - Multi-disc audiobook chapters now sort by disc, folder, track number, filename, and title instead of interleaving tracks whose numbering restarts on each disc.
-  - Single-track playlists no longer display a meaningless Shuffle option.
-  - Library reset now waits for scanning and pending state writes before deleting and rebuilding the library.
-  - User-copyable exports prefer removable storage when it is available.
-  
-   ### Update schedule notice
-  Development of Y2Player will continue, but future updates may take a little longer to arrive. My vacation from work is now over, so I have less free time available for development and testing. I still plan to address reported issues and improve the player whenever possible, and I appreciate your patience and continued feedback.
-  
-  ### What’s Planned Next
-  The next update is planned to focus on improvements to the queue and playback systems, alongside multi-select actions and faster library navigation with letter-based scrolling. I also want to make the scroll wheel configurable on the Now Playing screen, allowing it to control either volume or seeking. FM Radio
-  support has already been implemented experimentally, but the device is not currently receiving a signal, so further hardware investigation is required and may take some time. Additional themes and interface options are also planned, with the goal of supporting more personal preferences without making the player
+# Y2Player v2.2.1 — Playback Stability, Improved Controls, and Now Playing Updates
+
+  Version 2.2.1 focuses on feedback received after the 2.2 release. The largest changes address volume peaks, lock-screen playback, physical controls, queue reliability, and the Now Playing interface.
+
+  ## Volume and Lock-Screen Playback
+
+  Several issues could cause the output volume to briefly jump when changing volume modes, pausing playback, locking the device, or waking the screen.
+
+  Volume ownership has been reworked so that the player&#x27;s software gain is applied before Android&#x27;s system stream is changed. This prevents the system stream from becoming audible at full volume during the handover.
+
+  The following cases have been corrected:
+
+  - Switching between In-App and System / Hardware Keys volume modes no longer causes a brief volume peak.
+  - Starting playback after changing volume mode while paused no longer produces a loud initial burst.
+  - Pausing, locking, unlocking, and waking the screen no longer briefly exposes the system stream at maximum volume.
+  - Volume changes made while the screen is locked are no longer overwritten when the screen turns back on.
+  - In-App volume can now be raised and lowered while the screen is locked.
+  - Holding a volume button continues changing the volume instead of requiring repeated individual presses.
+  - Paused tracks remain loaded when the interface or screen goes away, preventing playback from unexpectedly returning to the beginning.
+
+  ## Firmware Volume-Key Handling
+
+  The firmware now contains a guarded keypad-layout patch for the Y2&#x27;s physical volume buttons.
+
+  The local volume keys are delivered directly to Y2Player instead of allowing Android to modify the system stream before the app can respond. This is particularly important for In-App volume control and screen-off operation.
+
+  Only the Y2&#x27;s physical volume scan codes are remapped. Genuine headset and Bluetooth media controls remain unchanged.
+
+  ## Playback and Queue Reliability
+
+  Paused playback is now treated as an active, resumable session. Locking the device or leaving the interface no longer unloads a paused track simply because the activity disconnected.
+
+  Shuffle handling has also been corrected. Changing Shuffle mode now preserves the portion of the queue that has already been played and rebuilds only the remaining order. This prevents unplayed tracks from becoming stranded behind the current position and avoids reaching a false end of the shuffled queue.
+
+  Seeking has additional endpoint protection so a seek cannot land inside an unusable final fragment of a track.
+
+  ## Navigation Changes
+
+  Left and Right now have one consistent purpose throughout the entire interface:
+
+  - Left plays the previous track.
+  - Right plays the next track.
+  - Hold Left or Right seeks backward or forward.
+  - Center opens the selected menu or activates the selected option.
+  - Back returns to the previous menu.
+
+  Left and Right no longer enter or leave menus. Context menus that were previously opened with Right are now opened by holding Center.
+
+  A short Center press on the Now Playing screen no longer pauses or resumes playback. It simply keeps the display awake. The dedicated Play/Pause button remains responsible for playback.
+
+  ## Main Menu Cleanup
+
+  The duplicate Now Playing entry has been removed from the main menu because the current track is already visible in the Now Playing panel.
+
+  When there is no active or restored playback session, the same position is used for Shuffle All. Shuffle All is hidden once a session exists so it cannot accidentally replace the current queue.
+
+  ## Circular Now Playing Menu
+
+  Holding Center on the Now Playing screen now opens a new circular playback menu over the current screen.
+
+  The scroll wheel moves around the available controls, and a short Center press activates the selected item. Back or another long Center press closes the menu.
+
+  The radial menu includes:
+
+  - Shuffle
+  - Repeat
+  - Queue
+  - Favorite
+  - Sleep Timer
+  - Add to Playlist
+  - Track Options
+
+  The menu blends over the Now Playing screen with a short fade and scale animation. Active options use the same accent color and visual state system as the rest of the interface.
+
+  ## Now Playing Status Information
+
+  The old button-hint footer has been replaced with useful playback information.
+
+  The footer now displays:
+
+  - Shuffle status
+  - Repeat mode
+  - Effective transition mode
+  - Current queue position
+
+  The transition indicator distinguishes between standard playback, gapless playback, and crossfade, including the configured fade duration.
+
+  ## Additional Metadata Layout
+
+  When Additional Metadata is enabled, its information is now divided into two dedicated lines:
+
+  1. Genre
+  2. Codec, bitrate, sample rate, and bit depth
+
+  This prevents the metadata from being compressed into one long line and reduces clipping on the right side of the display.
+
+  Long selected text can now scroll after a short delay instead of remaining permanently truncated. Scrolling stops while the screen is off and restarts when needed.
+
+  ## Album Information
+
+  The album line on the Now Playing screen is now always displayed when album information exists.
+
+  Previously, the album line disappeared when an album had the same name as its artist. Artist and album are separate metadata fields, so matching names no longer cause either field to be hidden.
+
+  ## Favorites and Active-State Indicators
+
+  Favorite actions now have a clear visual state.
+
+  Favorited tracks use a filled heart instead of continuing to display the same empty heart. Other enabled options also use consistent accent coloring, active surfaces, markers, or check indicators where appropriate.
+
+  This makes it easier to tell whether options such as Favorite, Shuffle, Repeat, and other toggles are currently enabled.
+
+  ## Scroll-Wheel Improvements
+
+  Rapid wheel movement now accelerates through long collections such as Songs, Albums, Artists, Playlists, Queue, and Audiobooks.
+
+  Acceleration is deliberately disabled in short settings menus so individual options remain easy to select. Slowing down or reversing direction immediately restores one-row precision.
+
+  A new Wrap Lists option has also been added under Controls:
+
+  - When enabled, moving past the final item returns to the first.
+  - When disabled, selection stops at the beginning and end of ordinary lists.
+  - Circular selectors and the new radial menu continue wrapping naturally.
+
+  ## Haptic Feedback
+
+  Haptic feedback now occurs only when an input was actually accepted.
+
+  Pressing against the end of a non-wrapping list or performing an unavailable action no longer produces a misleading vibration. Accepted navigation and control actions still provide immediate feedback.
+
+  ## Library and Browsing Fixes
+
+  Several smaller library issues have also been corrected:
+
+  - Artist names differing only by capitalization or surrounding spaces are now treated as the same artist.
+  - Various Artists is filtered consistently regardless of capitalization.
+  - Multi-disc audiobook chapters now sort by disc, folder, track number, filename, and title instead of interleaving tracks whose numbering restarts on each disc.
+  - Single-track playlists no longer display a meaningless Shuffle option.
+  - Library reset now waits for scanning and pending state writes before deleting and rebuilding the library.
+  - User-copyable exports prefer removable storage when it is available.
+  
+   ### Update schedule notice
+  Development of Y2Player will continue, but future updates may take a little longer to arrive. My vacation from work is now over, so I have less free time available for development and testing. I still plan to address reported issues and improve the player whenever possible, and I appreciate your patience and continued feedback.
+  
+  ### What’s Planned Next
+  The next update is planned to focus on improvements to the queue and playback systems, alongside multi-select actions and faster library navigation with letter-based scrolling. I also want to make the scroll wheel configurable on the Now Playing screen, allowing it to control either volume or seeking. FM Radio
+  support has already been implemented experimentally, but the device is not currently receiving a signal, so further hardware investigation is required and may take some time. Additional themes and interface options are also planned, with the goal of supporting more personal preferences without making the player
   bloated or unintuitive. This is one of the most challenging parts of development, as different users often prefer very different controls and layouts, so these features will need careful design and testing.
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;588e52053bea0dd1a48718d46889b6e124faf605229edc81bd7ea11e33e3bdf2&quot;,&quot;size&quot;:624741757,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;d9b7bed2e7a963d47742a12b4a401d6ded13e33ee877332223d3ea349a1300f5&quot;,&quot;size&quot;:393131209,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;5f2f9112b9442d0f344eb0d05808f3d6e5e166dc49d3573e980010db07f0ff6a&quot;,&quot;size&quot;:473526593,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;}],&quot;built_at&quot;:&quot;2026-11-04T21:30:28Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;32ed2f43e68fb6f68dc6b5f09a7be8646234e4e0d1cde12c2d4d017042837a30&quot;,&quot;original_assets&quot;:[&quot;rom_y2.zip&quot;,&quot;system.img.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom_y2-linux.zip&quot;:1,&quot;rom_y2-macos.zip&quot;:2,&quot;rom_y2-windows.zip&quot;:1,&quot;rom_y2.zip&quot;:3,&quot;system.img.zip&quot;:3},&quot;generated_at&quot;:&quot;2026-11-04T21:30:28Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -396,317 +396,317 @@ Thank you to everyone who reported the queue, metadata, audiobook, browsing, and
 
 ---
 
-# Y2Player v2.5 - Search, FM Radio, Faster Navigation, and Playback Reliability
-
-Version 2.5 brings whole-device search, FM radio support for compatible Y2 hardware, faster navigation through large libraries, more flexible sleep-timer controls, and a redesigned equalizer interface.
-
-This release also addresses several reported problems involving screen-off playback, shuffle ordering, audiobook seeking, queue controls, embedded artwork, list wrapping, and general navigation.
-
-## Whole-Device Search
-
-Search is now available directly from the main menu.
-
-The new wheel-driven QWERTY keyboard searches across:
-
-- Songs
-- Albums
-- Artists
-- Playlists
-- Audiobooks
-
-Track searches include title, artist, album, filename, genre, and composer metadata. Matching is accent-insensitive and supports multiple search terms, with exact and prefix matches ranked first.
-
-Search results reuse the existing playback and browsing flows. Tracks can be played or opened through their context menus, while albums, artists, playlists, and audiobooks open their corresponding library views.
-
-The interface was designed for the Y2’s 480 × 360 display:
-
-- The keyboard remains visible at the bottom of the screen.
-- Two complete result rows remain visible above it.
-- The wheel moves through keys in QWERTY order.
-- Left and Right move within the current keyboard row.
-- Center enters the selected key.
-- Back deletes the previous character.
-- The Results key moves focus to the matching items.
-- Direct touch works on both keyboard keys and results.
-- Playback controls are suppressed while typing to prevent accidental track changes.
-
-Search also has separate instructions before typing and a dedicated message when no results are found.
-
-To keep it responsive with large libraries, searchable metadata is indexed once per active library. Recent queries are cached, and only the best 100 results are retained. In a synthetic 10,000-track benchmark, ordinary indexed queries completed in approximately 2–5 ms, while cached queries completed in approximately 0.02 ms.
-
-## FM Radio
-
-Y2Player now includes support for the MediaTek MT6627 FM tuner found in newer FM-equipped Y2 hardware revisions.
-
-The FM Radio interface supports:
-
-- Wheel-controlled frequency tuning
-- Previous and next station seeking
-- Frequency and signal information
-- Wired-headphone antenna detection
-- Tuner power control
-- Safe switching between music playback and FM audio
-- Proper tuner cleanup when leaving the FM screen
-
-### Important Y2 Hardware Notice
-
-Innioasis has confirmed that there are two Y2 hardware revisions.
-
-The original Y2 batch does not contain the required FM radio hardware. These devices may be able to open the FM interface and tune frequencies, but they cannot receive a usable radio signal and will normally output only static.
-
-Newer Y2 units include the required FM circuitry and use the FM-enabled stock firmware.
-
-Because many existing Y2 devices cannot receive FM, the FM Radio entry is hidden by default. Owners of compatible newer hardware can enable it under:
-
-Settings → Interface → FM Radio
-
-Flashing FM-enabled stock firmware cannot add the missing tuner circuitry to an original Y2. FM reception depends on the physical hardware revision, not only the installed firmware.
-
-## Faster Alphabet Navigation
-
-Large alphabetically sorted libraries now support iPod-style alphabet scrolling.
-
-Normal and moderately fast wheel movement retain the existing precise scrolling behavior. Sustained fast movement activates an alphabet scrub mode with a large temporary `#` or `A–Z` overlay.
-
-Alphabet scrolling is available where the visible order is genuinely alphabetical, including supported:
-
-- Song lists
-- Favorites
-- Artists
-- Albums sorted by title
-- Playlists
-- Filtered library views
-
-It remains disabled for album track order, Recently Played, chronologically sorted albums, Queue, folders, settings, confirmation screens, and circular menus.
-
-The first position for each letter is indexed once per visible list, so moving through a large library does not repeatedly scan every row.
-
-## Improved Sleep Timer
-
-The sleep timer now opens a dedicated wheel-controlled selection screen instead of cycling through a small number of presets.
-
-Available choices include:
-
-- Off
-- End of track
-- End of album
-- End of queue
-- Every exact duration from 1 through 60 minutes
-
-Reopening the Sleep Timer screen returns to the currently selected option.
-
-Active minute timers now show a live remaining-time countdown throughout the interface. Expired timers are cleared correctly instead of remaining visibly enabled after playback stops.
-
-End of Album and End of Queue follow the active playback collection and queue rather than using an approximate duration.
-
-## More Reliable Screen-Off Playback
-
-Y2Player now holds a service-level playback wake lock throughout Preparing and Playing.
-
-Previously, the decoder-level wake lock could be released during the brief asynchronous handoff between one completed track and the next. If the display was asleep at that exact moment, Android could suspend the CPU before the service completed the transition.
-
-The new ownership closes that gap while still releasing the wake lock when playback is:
-
-- Paused
-- Idle
-- Stopped
-- In an error state
-- Shutting down
-
-This fixes playback potentially stopping at the end of a track until the screen was turned back on.
-
-## Optional Seeking While Locked
-
-A new option allows the Y2’s Left and Right buttons to seek while the device is locked instead of changing tracks or audiobook chapters.
-
-It can be enabled under:
-
-Settings → Audio → Seeking → Seek When Locked
-
-When enabled, Left and Right use the configured held-seek interval. The option is disabled by default, and headset or Bluetooth transport controls retain their normal behavior.
-
-## Wake-Up Seek Fix
-
-A separate input-routing fix prevents a held seek button from being interpreted as multiple Previous or Next commands when the display wakes.
-
-When the unlocked activity is visible, it now has exclusive ownership of local keypad gestures. The vendor broadcast remains available as a screen-off fallback, while genuine headset and Bluetooth media commands remain unaffected.
-
-This is particularly useful for audiobooks, where an interrupted seek could previously skip several chapters.
-
-## Correct Playback Order After Disabling Shuffle
-
-Disabling Shuffle now rebuilds the ordered continuation around the currently playing track.
-
-Previously, turning Shuffle off after progressing through a playlist could restart or incorrectly arrange the remaining ordered playback.
-
-The corrected behavior:
-
-- Keeps the current track active.
-- Restores the remaining playlist or collection order.
-- Preserves deliberately added Up Next tracks.
-- Keeps those Up Next entries ahead of the restored continuation.
-- Handles the final track and progressed shuffle sessions correctly.
-
-## Queue Control Fixes
-
-Center-button behavior in Queue now matches other track lists.
-
-A short Center press opens the selected queue entry’s action menu. Holding Center uses the corresponding long-press behavior without accidentally performing both actions.
-
-This removes inconsistent behavior where Queue treated Center differently from Songs and other track views.
-
-## Redesigned Equalizer Controls
-
-Equalizer configuration has been redesigned around explicit wheel-controlled selection screens.
-
-Preset selection now displays a complete list instead of cycling blindly through available presets. The list includes Custom whenever individual band values are active.
-
-Selecting an equalizer band opens a dedicated dB value screen:
-
-- The current value is preselected.
-- Values use valid 1 dB steps within the range reported by the device.
-- Exact minimum and maximum values remain available.
-- Center applies the selected value and returns.
-- Back cancels without changing the band.
-- Left and Right retain their normal global playback behavior.
-
-This replaces the previous short-press and long-press band adjustment system, making the current and resulting values much clearer.
-
-## Consistent List Wrapping
-
-The Wrap Lists preference is now respected across all selectable screens.
-
-It applies consistently to:
-
-- Library lists
-- Settings
-- Confirmation choices
-- Equalizer selectors
-- Circular action menus
-- Search keyboard navigation
-
-When Wrap Lists is disabled, selection stops at the beginning and end. When enabled, selection continues from the final item to the first and vice versa.
-
-Queue reordering remains intentionally bounded because that screen edits a target position rather than navigating an ordinary menu.
-
-## Improved Back Navigation
-
-Holding the Y2’s top Back button now returns directly to the main menu, matching classic iPod behavior.
-
-- A short press returns one screen.
-- A held press clears the navigation stack and returns home.
-- Hold detection works with normal Android key repeats.
-- Release-based detection also supports firmware that does not emit repeat events.
-- The short Back action is suppressed after a recognized hold.
-
-Back also dismisses temporary alerts and status messages before navigating away. A second press performs the normal Back action.
-
-Persistent library, playback, Bluetooth, and diagnostic status information is not intercepted.
-
-## Artist Navigation Fix
-
-Track Options → Browse Track → Go to Artist now opens the selected artist’s album list.
-
-Previously, this route bypassed the normal artist view and opened a flat list containing every song by that artist.
-
-The corrected behavior now matches:
-
-Music → Artists → Artist Albums
-
-Go to Album and existing featured-artist normalization remain unchanged.
-
-## Safer Embedded Artwork
-
-Oversized or malformed embedded artwork is now rejected safely.
-
-Previously, invalid artwork data could trigger an exception while constructing the artwork byte array and potentially crash Y2Player.
-
-The native metadata bridge now:
-
-- Enforces the configured artwork-size limit before allocation.
-- Detects JNI allocation failures.
-- Clears the resulting exception safely.
-- Returns no artwork instead of bringing down the application.
-
-Valid embedded and external artwork behavior is unchanged.
-
-## Cleaner Now Playing Footer
-
-The permanent transition-mode item and its divider have been removed from the Now Playing footer.
-
-Shuffle and Repeat remain on the left, while queue position remains right-aligned. This gives the footer a more balanced layout and removes information that did not need to remain visible continuously.
-
-This is only a presentation change. Gapless playback, Crossfade, Crossfade Mode, their settings, and their playback behavior remain available.
-
-## USB Connection Feedback
-
-Connecting USB now produces a single perceptible haptic response when haptics are enabled and supported by the device.
-
-The implementation uses the existing coalesced USB state instead of reacting independently to every Android power and USB broadcast.
-
-The following do not cause duplicate vibrations:
-
-- Initial USB state detection
-- Repeated connected-state broadcasts
-- Power-state refreshes
-- Disconnecting the cable
-
-## Settings and Backup Compatibility
-
-The following new preferences are included in Backup &amp; Restore:
-
-- FM Radio main-menu visibility
-- Seek When Locked
-
-Older backups remain compatible and receive safe defaults:
-
-- FM Radio is hidden.
-- Seek When Locked is disabled.
-
-## Validation
-
-Version 2.5 has been checked with the complete debug unit-test suite and Android lint.
-
-The latest validation completed successfully with more than 930 unit tests covering navigation, Search, FM state, playback, queue behavior, sleep timers, input routing, artwork, preferences, and backup compatibility.
-
-## Installation
-
-The release provides the existing system-only update path as well as a complete `rom_y2.zip` package for the Innioasis Updater.
-
-For the system-only method, use SP Flash Tool in Download Only mode with only the ANDROID partition selected, pointing to the supplied `system.img`.
-
-Do not select, format, or flash unrelated partitions.
-
-The complete `rom_y2.zip` installation performs a full-device installation and erases user data. Before using it:
-
-1. Export a Y2Player backup.
-2. Copy the backup off the device.
-3. Copy any important music, playlists, diagnostics, and other files to a computer.
-4. Verify the supplied package checksum.
-5. Follow the installation instructions for the Y2 specifically.
-
-Do not use a Y1 package on a Y2.
-
-## Reporting Problems
-
-If you encounter a problem, enable verbose diagnostics before reproducing it:
-
-Settings → System → Diagnostics → Verbose Diagnostics
-
-After reproducing the problem, export the report:
-
-Settings → System → Diagnostics → Export Diagnostics
-
-Attach the exported report to a GitHub issue and include:
-
-- Whether your Y2 is from the original or FM-enabled hardware batch
-- The audio format being played
-- Whether playback used the speaker, wired headphones, or Bluetooth
-- Whether Shuffle, Repeat, Crossfade, ReplayGain, or the equalizer was enabled
-- The exact screen and hardware-button sequence that produced the problem
-
-For FM problems, also mention whether wired headphones were connected and whether FM works in the FM-enabled Innioasis stock firmware.
-
+# Y2Player v2.5 - Search, FM Radio, Faster Navigation, and Playback Reliability
+
+Version 2.5 brings whole-device search, FM radio support for compatible Y2 hardware, faster navigation through large libraries, more flexible sleep-timer controls, and a redesigned equalizer interface.
+
+This release also addresses several reported problems involving screen-off playback, shuffle ordering, audiobook seeking, queue controls, embedded artwork, list wrapping, and general navigation.
+
+## Whole-Device Search
+
+Search is now available directly from the main menu.
+
+The new wheel-driven QWERTY keyboard searches across:
+
+- Songs
+- Albums
+- Artists
+- Playlists
+- Audiobooks
+
+Track searches include title, artist, album, filename, genre, and composer metadata. Matching is accent-insensitive and supports multiple search terms, with exact and prefix matches ranked first.
+
+Search results reuse the existing playback and browsing flows. Tracks can be played or opened through their context menus, while albums, artists, playlists, and audiobooks open their corresponding library views.
+
+The interface was designed for the Y2’s 480 × 360 display:
+
+- The keyboard remains visible at the bottom of the screen.
+- Two complete result rows remain visible above it.
+- The wheel moves through keys in QWERTY order.
+- Left and Right move within the current keyboard row.
+- Center enters the selected key.
+- Back deletes the previous character.
+- The Results key moves focus to the matching items.
+- Direct touch works on both keyboard keys and results.
+- Playback controls are suppressed while typing to prevent accidental track changes.
+
+Search also has separate instructions before typing and a dedicated message when no results are found.
+
+To keep it responsive with large libraries, searchable metadata is indexed once per active library. Recent queries are cached, and only the best 100 results are retained. In a synthetic 10,000-track benchmark, ordinary indexed queries completed in approximately 2–5 ms, while cached queries completed in approximately 0.02 ms.
+
+## FM Radio
+
+Y2Player now includes support for the MediaTek MT6627 FM tuner found in newer FM-equipped Y2 hardware revisions.
+
+The FM Radio interface supports:
+
+- Wheel-controlled frequency tuning
+- Previous and next station seeking
+- Frequency and signal information
+- Wired-headphone antenna detection
+- Tuner power control
+- Safe switching between music playback and FM audio
+- Proper tuner cleanup when leaving the FM screen
+
+### Important Y2 Hardware Notice
+
+Innioasis has confirmed that there are two Y2 hardware revisions.
+
+The original Y2 batch does not contain the required FM radio hardware. These devices may be able to open the FM interface and tune frequencies, but they cannot receive a usable radio signal and will normally output only static.
+
+Newer Y2 units include the required FM circuitry and use the FM-enabled stock firmware.
+
+Because many existing Y2 devices cannot receive FM, the FM Radio entry is hidden by default. Owners of compatible newer hardware can enable it under:
+
+Settings → Interface → FM Radio
+
+Flashing FM-enabled stock firmware cannot add the missing tuner circuitry to an original Y2. FM reception depends on the physical hardware revision, not only the installed firmware.
+
+## Faster Alphabet Navigation
+
+Large alphabetically sorted libraries now support iPod-style alphabet scrolling.
+
+Normal and moderately fast wheel movement retain the existing precise scrolling behavior. Sustained fast movement activates an alphabet scrub mode with a large temporary `#` or `A–Z` overlay.
+
+Alphabet scrolling is available where the visible order is genuinely alphabetical, including supported:
+
+- Song lists
+- Favorites
+- Artists
+- Albums sorted by title
+- Playlists
+- Filtered library views
+
+It remains disabled for album track order, Recently Played, chronologically sorted albums, Queue, folders, settings, confirmation screens, and circular menus.
+
+The first position for each letter is indexed once per visible list, so moving through a large library does not repeatedly scan every row.
+
+## Improved Sleep Timer
+
+The sleep timer now opens a dedicated wheel-controlled selection screen instead of cycling through a small number of presets.
+
+Available choices include:
+
+- Off
+- End of track
+- End of album
+- End of queue
+- Every exact duration from 1 through 60 minutes
+
+Reopening the Sleep Timer screen returns to the currently selected option.
+
+Active minute timers now show a live remaining-time countdown throughout the interface. Expired timers are cleared correctly instead of remaining visibly enabled after playback stops.
+
+End of Album and End of Queue follow the active playback collection and queue rather than using an approximate duration.
+
+## More Reliable Screen-Off Playback
+
+Y2Player now holds a service-level playback wake lock throughout Preparing and Playing.
+
+Previously, the decoder-level wake lock could be released during the brief asynchronous handoff between one completed track and the next. If the display was asleep at that exact moment, Android could suspend the CPU before the service completed the transition.
+
+The new ownership closes that gap while still releasing the wake lock when playback is:
+
+- Paused
+- Idle
+- Stopped
+- In an error state
+- Shutting down
+
+This fixes playback potentially stopping at the end of a track until the screen was turned back on.
+
+## Optional Seeking While Locked
+
+A new option allows the Y2’s Left and Right buttons to seek while the device is locked instead of changing tracks or audiobook chapters.
+
+It can be enabled under:
+
+Settings → Audio → Seeking → Seek When Locked
+
+When enabled, Left and Right use the configured held-seek interval. The option is disabled by default, and headset or Bluetooth transport controls retain their normal behavior.
+
+## Wake-Up Seek Fix
+
+A separate input-routing fix prevents a held seek button from being interpreted as multiple Previous or Next commands when the display wakes.
+
+When the unlocked activity is visible, it now has exclusive ownership of local keypad gestures. The vendor broadcast remains available as a screen-off fallback, while genuine headset and Bluetooth media commands remain unaffected.
+
+This is particularly useful for audiobooks, where an interrupted seek could previously skip several chapters.
+
+## Correct Playback Order After Disabling Shuffle
+
+Disabling Shuffle now rebuilds the ordered continuation around the currently playing track.
+
+Previously, turning Shuffle off after progressing through a playlist could restart or incorrectly arrange the remaining ordered playback.
+
+The corrected behavior:
+
+- Keeps the current track active.
+- Restores the remaining playlist or collection order.
+- Preserves deliberately added Up Next tracks.
+- Keeps those Up Next entries ahead of the restored continuation.
+- Handles the final track and progressed shuffle sessions correctly.
+
+## Queue Control Fixes
+
+Center-button behavior in Queue now matches other track lists.
+
+A short Center press opens the selected queue entry’s action menu. Holding Center uses the corresponding long-press behavior without accidentally performing both actions.
+
+This removes inconsistent behavior where Queue treated Center differently from Songs and other track views.
+
+## Redesigned Equalizer Controls
+
+Equalizer configuration has been redesigned around explicit wheel-controlled selection screens.
+
+Preset selection now displays a complete list instead of cycling blindly through available presets. The list includes Custom whenever individual band values are active.
+
+Selecting an equalizer band opens a dedicated dB value screen:
+
+- The current value is preselected.
+- Values use valid 1 dB steps within the range reported by the device.
+- Exact minimum and maximum values remain available.
+- Center applies the selected value and returns.
+- Back cancels without changing the band.
+- Left and Right retain their normal global playback behavior.
+
+This replaces the previous short-press and long-press band adjustment system, making the current and resulting values much clearer.
+
+## Consistent List Wrapping
+
+The Wrap Lists preference is now respected across all selectable screens.
+
+It applies consistently to:
+
+- Library lists
+- Settings
+- Confirmation choices
+- Equalizer selectors
+- Circular action menus
+- Search keyboard navigation
+
+When Wrap Lists is disabled, selection stops at the beginning and end. When enabled, selection continues from the final item to the first and vice versa.
+
+Queue reordering remains intentionally bounded because that screen edits a target position rather than navigating an ordinary menu.
+
+## Improved Back Navigation
+
+Holding the Y2’s top Back button now returns directly to the main menu, matching classic iPod behavior.
+
+- A short press returns one screen.
+- A held press clears the navigation stack and returns home.
+- Hold detection works with normal Android key repeats.
+- Release-based detection also supports firmware that does not emit repeat events.
+- The short Back action is suppressed after a recognized hold.
+
+Back also dismisses temporary alerts and status messages before navigating away. A second press performs the normal Back action.
+
+Persistent library, playback, Bluetooth, and diagnostic status information is not intercepted.
+
+## Artist Navigation Fix
+
+Track Options → Browse Track → Go to Artist now opens the selected artist’s album list.
+
+Previously, this route bypassed the normal artist view and opened a flat list containing every song by that artist.
+
+The corrected behavior now matches:
+
+Music → Artists → Artist Albums
+
+Go to Album and existing featured-artist normalization remain unchanged.
+
+## Safer Embedded Artwork
+
+Oversized or malformed embedded artwork is now rejected safely.
+
+Previously, invalid artwork data could trigger an exception while constructing the artwork byte array and potentially crash Y2Player.
+
+The native metadata bridge now:
+
+- Enforces the configured artwork-size limit before allocation.
+- Detects JNI allocation failures.
+- Clears the resulting exception safely.
+- Returns no artwork instead of bringing down the application.
+
+Valid embedded and external artwork behavior is unchanged.
+
+## Cleaner Now Playing Footer
+
+The permanent transition-mode item and its divider have been removed from the Now Playing footer.
+
+Shuffle and Repeat remain on the left, while queue position remains right-aligned. This gives the footer a more balanced layout and removes information that did not need to remain visible continuously.
+
+This is only a presentation change. Gapless playback, Crossfade, Crossfade Mode, their settings, and their playback behavior remain available.
+
+## USB Connection Feedback
+
+Connecting USB now produces a single perceptible haptic response when haptics are enabled and supported by the device.
+
+The implementation uses the existing coalesced USB state instead of reacting independently to every Android power and USB broadcast.
+
+The following do not cause duplicate vibrations:
+
+- Initial USB state detection
+- Repeated connected-state broadcasts
+- Power-state refreshes
+- Disconnecting the cable
+
+## Settings and Backup Compatibility
+
+The following new preferences are included in Backup &amp; Restore:
+
+- FM Radio main-menu visibility
+- Seek When Locked
+
+Older backups remain compatible and receive safe defaults:
+
+- FM Radio is hidden.
+- Seek When Locked is disabled.
+
+## Validation
+
+Version 2.5 has been checked with the complete debug unit-test suite and Android lint.
+
+The latest validation completed successfully with more than 930 unit tests covering navigation, Search, FM state, playback, queue behavior, sleep timers, input routing, artwork, preferences, and backup compatibility.
+
+## Installation
+
+The release provides the existing system-only update path as well as a complete `rom_y2.zip` package for the Innioasis Updater.
+
+For the system-only method, use SP Flash Tool in Download Only mode with only the ANDROID partition selected, pointing to the supplied `system.img`.
+
+Do not select, format, or flash unrelated partitions.
+
+The complete `rom_y2.zip` installation performs a full-device installation and erases user data. Before using it:
+
+1. Export a Y2Player backup.
+2. Copy the backup off the device.
+3. Copy any important music, playlists, diagnostics, and other files to a computer.
+4. Verify the supplied package checksum.
+5. Follow the installation instructions for the Y2 specifically.
+
+Do not use a Y1 package on a Y2.
+
+## Reporting Problems
+
+If you encounter a problem, enable verbose diagnostics before reproducing it:
+
+Settings → System → Diagnostics → Verbose Diagnostics
+
+After reproducing the problem, export the report:
+
+Settings → System → Diagnostics → Export Diagnostics
+
+Attach the exported report to a GitHub issue and include:
+
+- Whether your Y2 is from the original or FM-enabled hardware batch
+- The audio format being played
+- Whether playback used the speaker, wired headphones, or Bluetooth
+- Whether Shuffle, Repeat, Crossfade, ReplayGain, or the equalizer was enabled
+- The exact screen and hardware-button sequence that produced the problem
+
+For FM problems, also mention whether wired headphones were connected and whether FM works in the FM-enabled Innioasis stock firmware.
+
 Thank you to everyone who submitted issues, tested builds, provided diagnostics, and helped investigate the Y2’s different hardware revisions. Your reports directly shaped the Search interface, navigation improvements, timer redesign, playback fixes, and hardware compatibility behavior in this release.
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;d4812285dd5d8a46c79cee1e802a767b053f54fd72e0c331c4e2d4b1d176d252&quot;,&quot;size&quot;:624814464,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;ef21e37809beae682d3c65f68e4b4eff1b0e012eb4ab813be3181c9d4a641ca8&quot;,&quot;size&quot;:393203916,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;c27c265905d3d41c070ec5d0f6ce464f9e09584f2c3a252d1b164c01b2388f13&quot;,&quot;size&quot;:473599300,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;}],&quot;built_at&quot;:&quot;2026-11-04T21:36:49Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;60960d271297c142f5b9861222c6b79bdafe5c858d8520d3d6498cf0518a3917&quot;,&quot;original_assets&quot;:[&quot;rom_y2.zip&quot;,&quot;system.img&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom_y2-linux.zip&quot;:1,&quot;rom_y2-macos.zip&quot;:1,&quot;rom_y2-windows.zip&quot;:1,&quot;rom_y2.zip&quot;:3,&quot;system.img&quot;:3},&quot;generated_at&quot;:&quot;2026-11-04T21:36:49Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -745,18 +745,18 @@ Thank you to everyone who submitted issues, tested builds, provided diagnostics,
 
 ---
 
-## 2.2.2 backup, artwork, and playback reliability
-
-- Added a versioned Backup &amp; Restore screen for settings, favorites, Y2Player-created playlists, audiobook progress, recent plays, the saved queue and session, and listening history.
-- Made backups portable across library rescans and storage mount aliases, checksum-verified them before import, and made failed restores roll back cleanly.
-- Added external Now Playing artwork from `folder.jpg`, `folder.jpeg`, `folder.png`, `cover.jpg`, `cover.jpeg`, and `cover.png`, while continuing to prefer embedded artwork.
-- Fixed album navigation for comma-separated and featured artist credits so an album stays intact and opens with every track from any credited artist.
-- Added live playback progress to the menu banner and allowed long title, artist, and album lines on Now Playing to scroll independently.
-- Fixed Wrap Lists behavior in settings menus and made every brightness preset survive Android&#x27;s percentage conversion without changing value.
-- Matched the low-battery warning sound to the active playback volume and kept it silent when playback volume is muted.
-- Fixed end-of-track output draining that could prevent ordinary queue advancement, while preserving repeat, shuffle, gapless, and crossfade behavior.
-- Hardened preloading, seeking, pausing, and track transitions so stale callbacks cannot publish the wrong playback state and a track change is reported only after output becomes audible.
-- Hardened held volume-button handling and In-App/System volume-mode handoffs with bounded repeat behavior and playback-thread acknowledgement before raising the system stream.
+## 2.2.2 backup, artwork, and playback reliability
+
+- Added a versioned Backup &amp; Restore screen for settings, favorites, Y2Player-created playlists, audiobook progress, recent plays, the saved queue and session, and listening history.
+- Made backups portable across library rescans and storage mount aliases, checksum-verified them before import, and made failed restores roll back cleanly.
+- Added external Now Playing artwork from `folder.jpg`, `folder.jpeg`, `folder.png`, `cover.jpg`, `cover.jpeg`, and `cover.png`, while continuing to prefer embedded artwork.
+- Fixed album navigation for comma-separated and featured artist credits so an album stays intact and opens with every track from any credited artist.
+- Added live playback progress to the menu banner and allowed long title, artist, and album lines on Now Playing to scroll independently.
+- Fixed Wrap Lists behavior in settings menus and made every brightness preset survive Android&#x27;s percentage conversion without changing value.
+- Matched the low-battery warning sound to the active playback volume and kept it silent when playback volume is muted.
+- Fixed end-of-track output draining that could prevent ordinary queue advancement, while preserving repeat, shuffle, gapless, and crossfade behavior.
+- Hardened preloading, seeking, pausing, and track transitions so stale callbacks cannot publish the wrong playback state and a track change is reported only after output becomes audible.
+- Hardened held volume-button handling and In-App/System volume-mode handoffs with bounded repeat behavior and playback-thread acknowledgement before raising the system stream.
 - Added a confirmed Clear Diagnostic Log action and made internal logging, card mirroring, rotation, crash flushing, and fresh diagnostic exports more resilient.
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;ca99ca85e4ac87a90b7cc276aa1d5fd98c7fd04ee94c47b7d59ba05ab0f08413&quot;,&quot;size&quot;:624775885,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;12ed39ef2c5d382630d66980e2c497dcab3e3a09601f53b198ffcd03a324cf01&quot;,&quot;size&quot;:393165337,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;8ad9630d77d2dac251231570869d824548279ec835e48123422efb1cd0cbfb66&quot;,&quot;size&quot;:473560721,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;}],&quot;built_at&quot;:&quot;2026-11-04T21:32:35Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;5ecb5d75e71a2fdcd786d5f3e60bf5f331a2ffa63f1f37abeba4d17b74a63757&quot;,&quot;original_assets&quot;:[&quot;rom_y2.zip&quot;,&quot;system.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom_y2-linux.zip&quot;:1,&quot;rom_y2-macos.zip&quot;:2,&quot;rom_y2-windows.zip&quot;:1,&quot;rom_y2.zip&quot;:3,&quot;system.zip&quot;:3},&quot;generated_at&quot;:&quot;2026-11-04T21:32:35Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;

@@ -1521,9 +1521,12 @@
                     found.push(item.model);
                 }
             });
-            /* Every model for the brand stays in the picker, even before its
-               first package is listed, so brand and model links agree. */
-            var availableModels = order.slice();
+            /* A model with no catalogue entry has nothing to install, so it
+               would be a dead end in both pickers. Keep registry order, but
+               only for models that actually appear in the catalogue. */
+            var availableModels = order.filter(function (name) {
+                return found.indexOf(name) !== -1;
+            });
             found.forEach(function (name) {
                 if (availableModels.indexOf(name) === -1) availableModels.push(name);
             });
@@ -1538,6 +1541,30 @@
             }
         }
         fillModelFilter();
+        /* A brand whose models all have nothing to install is not a useful
+           filter row either. Leave the static options alone until the cached
+           catalogue has loaded, so an offline first paint does not empty the
+           picker. */
+        (function fillBrandFilter() {
+            if (!brandSelect) return;
+            var present = {};
+            catalog.forEach(function (item) {
+                if (item.model) present[brandForModel(item.model)] = true;
+            });
+            if (!Object.keys(present).length) return;
+            Array.prototype.forEach.call(brandSelect.options, function (option) {
+                var keep = present[option.value] === true;
+                option.hidden = !keep;
+                option.disabled = !keep;
+            });
+            var selected = brandSelect.options[brandSelect.selectedIndex];
+            if (selected && selected.disabled) {
+                var first = Array.prototype.filter.call(brandSelect.options, function (o) {
+                    return !o.disabled;
+                })[0];
+                if (first) brandSelect.value = first.value;
+            }
+        })();
 
         /* Y1 shipped in two hardware revisions, and the ROMs are not
            interchangeable, so the app asks for the type alongside the model.

@@ -1,0 +1,113 @@
+[
+  {
+    "id": 434855668,
+    "tag_name": "MX2E-WVGA_TM-WV3.23-20250528",
+    "name": "MX2E-WVGA_TM-WV3.23-20250528",
+    "body": "Original Timmkoo Q3 software **MX2E-WVGA_TM-WV3.23-20250528**.\n\n- Model: **Q3** (Timmkoo)\n- Package: `rom_q3.zip`\n- Build tag: `MX2E-WVGA_TM-WV3.23-20250528`\n- Build date: 2025-05-28\n\n## Install\n\n1. Download `rom_q3.zip` (every numbered volume if the release has more than one, then `cat rom_q3.zip.* > rom_q3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_q3.zip` | 272.9 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=Q3>",
+    "draft": false,
+    "prerelease": false,
+    "created_at": "2026-11-05T06:31:52Z",
+    "published_at": "2026-11-05T06:32:56Z",
+    "html_url": "https://github.com/y1-community/q3-stock-rom/releases/tag/MX2E-WVGA_TM-WV3.23-20250528",
+    "icon_url": "",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 712345016,
+        "name": "rom_q3.zip",
+        "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2E-WVGA_TM-WV3.23-20250528/rom_q3.zip",
+        "size": 286142520,
+        "download_count": 0,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T06:32:57Z",
+        "updated_at": "2026-11-05T06:33:25Z",
+        "url": "https://api.github.com/repos/y1-community/q3-stock-rom/releases/assets/712345016"
+      },
+      {
+        "id": 712346082,
+        "name": "SHA256SUMS.MX2E-WVGA_TM-WV3.23-20250528",
+        "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2E-WVGA_TM-WV3.23-20250528/SHA256SUMS.MX2E-WVGA_TM-WV3.23-20250528",
+        "size": 78,
+        "download_count": 0,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T06:33:26Z",
+        "updated_at": "2026-11-05T06:33:26Z",
+        "url": "https://api.github.com/repos/y1-community/q3-stock-rom/releases/assets/712346082"
+      }
+    ]
+  },
+  {
+    "id": 434855358,
+    "tag_name": "MX2D-WVGA_TM-WV3.20-20250618",
+    "name": "MX2D-WVGA_TM-WV3.20-20250618",
+    "body": "Original Timmkoo Q3 software **MX2D-WVGA_TM-WV3.20-20250618**.\n\n- Model: **Q3** (Timmkoo)\n- Package: `rom_q3.zip`\n- Build tag: `MX2D-WVGA_TM-WV3.20-20250618`\n- Build date: 2025-06-18\n\n## Install\n\n1. Download `rom_q3.zip` (every numbered volume if the release has more than one, then `cat rom_q3.zip.* > rom_q3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_q3.zip` | 267.2 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=Q3>",
+    "draft": false,
+    "prerelease": false,
+    "created_at": "2026-11-05T06:31:52Z",
+    "published_at": "2026-11-05T06:32:25Z",
+    "html_url": "https://github.com/y1-community/q3-stock-rom/releases/tag/MX2D-WVGA_TM-WV3.20-20250618",
+    "icon_url": "",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 712344131,
+        "name": "rom_q3.zip",
+        "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2D-WVGA_TM-WV3.20-20250618/rom_q3.zip",
+        "size": 280175608,
+        "download_count": 0,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T06:32:26Z",
+        "updated_at": "2026-11-05T06:32:53Z",
+        "url": "https://api.github.com/repos/y1-community/q3-stock-rom/releases/assets/712344131"
+      },
+      {
+        "id": 712344894,
+        "name": "SHA256SUMS.MX2D-WVGA_TM-WV3.20-20250618",
+        "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2D-WVGA_TM-WV3.20-20250618/SHA256SUMS.MX2D-WVGA_TM-WV3.20-20250618",
+        "size": 78,
+        "download_count": 0,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T06:32:54Z",
+        "updated_at": "2026-11-05T06:32:54Z",
+        "url": "https://api.github.com/repos/y1-community/q3-stock-rom/releases/assets/712344894"
+      }
+    ]
+  },
+  {
+    "id": 434855021,
+    "tag_name": "MX2-ES-WV4.01-20250619",
+    "name": "MX2-ES-WV4.01-20250619",
+    "body": "Original Timmkoo Q3 software **MX2-ES-WV4.01-20250619**.\n\n- Model: **Q3** (Timmkoo)\n- Package: `rom_q3.zip`\n- Build tag: `MX2-ES-WV4.01-20250619`\n- Build date: 2025-06-19\n\n## Install\n\n1. Download `rom_q3.zip` (every numbered volume if the release has more than one, then `cat rom_q3.zip.* > rom_q3.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_q3.zip` | 269.0 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=Q3>",
+    "draft": false,
+    "prerelease": false,
+    "created_at": "2026-11-05T06:31:52Z",
+    "published_at": "2026-11-05T06:31:54Z",
+    "html_url": "https://github.com/y1-community/q3-stock-rom/releases/tag/MX2-ES-WV4.01-20250619",
+    "icon_url": "",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 712342980,
+        "name": "rom_q3.zip",
+        "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2-ES-WV4.01-20250619/rom_q3.zip",
+        "size": 282112139,
+        "download_count": 0,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T06:31:55Z",
+        "updated_at": "2026-11-05T06:32:23Z",
+        "url": "https://api.github.com/repos/y1-community/q3-stock-rom/releases/assets/712342980"
+      },
+      {
+        "id": 712344035,
+        "name": "SHA256SUMS.MX2-ES-WV4.01-20250619",
+        "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2-ES-WV4.01-20250619/SHA256SUMS.MX2-ES-WV4.01-20250619",
+        "size": 78,
+        "download_count": 0,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T06:32:23Z",
+        "updated_at": "2026-11-05T06:32:24Z",
+        "url": "https://api.github.com/repos/y1-community/q3-stock-rom/releases/assets/712344035"
+      }
+    ]
+  }
+]

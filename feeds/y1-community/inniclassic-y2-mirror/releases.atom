@@ -196,32 +196,32 @@ Automated build with full support for **Innioasis Y1** (Type A &amp; Type B) and
 
 ---
 
-The Biggest Release!
-
-- The entire application codebase has been rewritten from Java to 100% Kotlin, decomposing the monolithic main activity into dedicated domain managers, screen controllers, and an input router, backed by 16 regression test suites running in CI.
-- Audiobooks is now a dedicated top-level section on the main menu, with hierarchical Jellyfin sync (Author -&gt; Book -&gt; Chapter), cover art downloads, continuous bookmark persistence across reboots, full chapter playlist resume, and a unified split-screen layout.
-- The Videos section now provides a hierarchical browser for Movies, TV Series (with seasons and episodes), and raw directories, split-screen poster previews, Jellyfin video and thumbnail sync, and an automatic directory migration for existing files.
-- Music Quiz transitions to an endless survival mode with six questions per round, speed scaling down to five seconds, a between-round pause screen with a heart shop, a persistent top 10 leaderboard, and tiered year question distractors.
-- A new Recently Played Albums menu item beneath Cover Flow tracks up to 50 recently played albums with cover art, track counts, track-number-ordered browsing, and an option to clear playback history.
-- Device shutdown now saves the active queue and playback position, automatically restoring the player in a paused state at the exact track and timestamp after rebooting.
-- Playback cleanly pauses and rewinds to the first track when finishing an album with repeat turned off, while the library scanner now skips files smaller than 1KB and logs corrupt audio files.
-- Back navigation now preserves selected row focus and scroll position across the main menu, settings, playlists, and browser lists instead of resetting to the top item.
-- Split-screen pages in Music, Videos, and Audiobooks now share a unified 242dp status bar width matching the left navigation pane, while video browsing fixes eliminate poster clipping, top gaps, and double padding.
-- Now Playing album art now reliably updates on the main menu and music split panes during playback.
-- The theme catalog has been streamlined to Classic Light and Classic Dark, automatically cleaning up leftover assets from legacy themes during startup.
-- Physical buttons and wheel haptic feedback are now completely muted while the screen is off when Screen-Off Control is disabled, and the idle backlight sleep timer now stays synchronized with system settings.
-
-#### Release assets
-
-| File | Target device | Notes |
-| :--- | :--- | :--- |
-| `InniClassic-20261017.apk` | All devices (Y1 / Y2) | Standalone launcher APK (sideload or install) |
-| `update.json` | All devices | OTA update metadata for in-app updater |
-| `rom_y2.zip` | Innioasis Y2 (MT6582) | Complete flashable ROM with dual-storage, watchdog &amp; clickwheel keylayout |
-| `rom_y1_type_a.zip` (`rom.zip`) | Innioasis Y1 (Type A) | Flashable ROM for Y1 players with original firmware 2.0.0 or higher |
-| `rom_y1_type_b.zip` (`rom_type_b.zip`) | Innioasis Y1 (Type B) | Flashable ROM for Y1 players with original firmware below 2.0.0 |
-| `SHA256SUMS.txt` | All files | SHA-256 integrity checksums |
-
+The Biggest Release!
+
+- The entire application codebase has been rewritten from Java to 100% Kotlin, decomposing the monolithic main activity into dedicated domain managers, screen controllers, and an input router, backed by 16 regression test suites running in CI.
+- Audiobooks is now a dedicated top-level section on the main menu, with hierarchical Jellyfin sync (Author -&gt; Book -&gt; Chapter), cover art downloads, continuous bookmark persistence across reboots, full chapter playlist resume, and a unified split-screen layout.
+- The Videos section now provides a hierarchical browser for Movies, TV Series (with seasons and episodes), and raw directories, split-screen poster previews, Jellyfin video and thumbnail sync, and an automatic directory migration for existing files.
+- Music Quiz transitions to an endless survival mode with six questions per round, speed scaling down to five seconds, a between-round pause screen with a heart shop, a persistent top 10 leaderboard, and tiered year question distractors.
+- A new Recently Played Albums menu item beneath Cover Flow tracks up to 50 recently played albums with cover art, track counts, track-number-ordered browsing, and an option to clear playback history.
+- Device shutdown now saves the active queue and playback position, automatically restoring the player in a paused state at the exact track and timestamp after rebooting.
+- Playback cleanly pauses and rewinds to the first track when finishing an album with repeat turned off, while the library scanner now skips files smaller than 1KB and logs corrupt audio files.
+- Back navigation now preserves selected row focus and scroll position across the main menu, settings, playlists, and browser lists instead of resetting to the top item.
+- Split-screen pages in Music, Videos, and Audiobooks now share a unified 242dp status bar width matching the left navigation pane, while video browsing fixes eliminate poster clipping, top gaps, and double padding.
+- Now Playing album art now reliably updates on the main menu and music split panes during playback.
+- The theme catalog has been streamlined to Classic Light and Classic Dark, automatically cleaning up leftover assets from legacy themes during startup.
+- Physical buttons and wheel haptic feedback are now completely muted while the screen is off when Screen-Off Control is disabled, and the idle backlight sleep timer now stays synchronized with system settings.
+
+#### Release assets
+
+| File | Target device | Notes |
+| :--- | :--- | :--- |
+| `InniClassic-20261017.apk` | All devices (Y1 / Y2) | Standalone launcher APK (sideload or install) |
+| `update.json` | All devices | OTA update metadata for in-app updater |
+| `rom_y2.zip` | Innioasis Y2 (MT6582) | Complete flashable ROM with dual-storage, watchdog &amp; clickwheel keylayout |
+| `rom_y1_type_a.zip` (`rom.zip`) | Innioasis Y1 (Type A) | Flashable ROM for Y1 players with original firmware 2.0.0 or higher |
+| `rom_y1_type_b.zip` (`rom_type_b.zip`) | Innioasis Y1 (Type B) | Flashable ROM for Y1 players with original firmware below 2.0.0 |
+| `SHA256SUMS.txt` | All files | SHA-256 integrity checksums |
+
 Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261013...20261017
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;098538202f2cc4e6d2104f534ceb8ec32d126617d8fa67a580a73ca7f8049876&quot;,&quot;size&quot;:842924183,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;18208db1c8dccd34f34f49fcfe36038b1e3e5d0164058c98ddb10d97557d97b9&quot;,&quot;size&quot;:609513030,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;7918ddbcf7bd46c09d7e9abd7a5370f97c25459f4157c40c5f029691441635e1&quot;,&quot;size&quot;:691709019,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;135b624e51e1367f114c640509a92c212ab8b9123df993c514cc6c506fe869df&quot;,&quot;size&quot;:809872184,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;07317601777c9a3236fef671a6b73348fa630a796c28b0b351fac15bc9d15674&quot;,&quot;size&quot;:576461036,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;b04cbc752117b42f89f3820ad68a92265d1c1ebbc95beb5e5306442fa5a766e9&quot;,&quot;size&quot;:658657020,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;2b4d297c372359ba515015cebdb910ec87a5c6a7e95c1279ca7f1f04bdd2c07e&quot;,&quot;size&quot;:772559070,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;1ee777870b73d6129f43df96b103803e49830466e1780a263bba3cc65dad22d6&quot;,&quot;size&quot;:540948522,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;1e913ad6ece742c480841c45fa622df205edfdbef5ade98fe21610c50eaf24a4&quot;,&quot;size&quot;:621343906,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;}],&quot;built_at&quot;:&quot;2026-11-04T22:33:42Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;13db3a8bf9eee7f70dea3fb95e9519867bb8c868c1d569972b2595c63ec25cd8&quot;,&quot;original_assets&quot;:[&quot;index.html&quot;,&quot;InniClassic-20261017.apk&quot;,&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;,&quot;rom_y1_type_a.zip&quot;,&quot;rom_y1_type_b.zip&quot;,&quot;rom_y2.zip&quot;,&quot;SHA256SUMS.txt&quot;,&quot;update.json&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;InniClassic-20261017.apk&quot;:3,&quot;SHA256SUMS.txt&quot;:3,&quot;index.html&quot;:3,&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:4,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:3,&quot;rom_type_b-linux.zip&quot;:2,&quot;rom_type_b-macos.zip&quot;:4,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:3,&quot;rom_y1_type_a.zip&quot;:0,&quot;rom_y1_type_b.zip&quot;:0,&quot;rom_y2-linux.zip&quot;:1,&quot;rom_y2-macos.zip&quot;:4,&quot;rom_y2-windows.zip&quot;:1,&quot;rom_y2.zip&quot;:3,&quot;update.json&quot;:0},&quot;generated_at&quot;:&quot;2026-11-04T22:33:42Z&quot;,&quot;retired&quot;:{&quot;rom_y1_type_a-linux.zip&quot;:0,&quot;rom_y1_type_a-macos.zip&quot;:4,&quot;rom_y1_type_a-windows.zip&quot;:1,&quot;rom_y1_type_b-linux.zip&quot;:1,&quot;rom_y1_type_b-macos.zip&quot;:4,&quot;rom_y1_type_b-windows.zip&quot;:1}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -294,19 +294,19 @@ Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/2026101
 
 ---
 
-- Improve Jellyfin sync
-
-#### Release assets
-
-| File | Target device | Notes |
-| :--- | :--- | :--- |
-| `InniClassic-20261012.apk` | All devices (Y1 / Y2) | Standalone launcher APK (sideload or install) |
-| `update.json` | All devices | OTA update metadata for in-app updater |
-| `rom_y2.zip` | Innioasis Y2 (MT6582) | Complete flashable ROM with dual-storage, watchdog &amp; clickwheel keylayout |
-| `rom_y1_type_a.zip` (`rom.zip`) | Innioasis Y1 (Type A) | Flashable ROM for Y1 players with original firmware 2.0.0 or higher |
-| `rom_y1_type_b.zip` (`rom_type_b.zip`) | Innioasis Y1 (Type B) | Flashable ROM for Y1 players with original firmware below 2.0.0 |
-| `SHA256SUMS.txt` | All files | SHA-256 integrity checksums |
-
+- Improve Jellyfin sync
+
+#### Release assets
+
+| File | Target device | Notes |
+| :--- | :--- | :--- |
+| `InniClassic-20261012.apk` | All devices (Y1 / Y2) | Standalone launcher APK (sideload or install) |
+| `update.json` | All devices | OTA update metadata for in-app updater |
+| `rom_y2.zip` | Innioasis Y2 (MT6582) | Complete flashable ROM with dual-storage, watchdog &amp; clickwheel keylayout |
+| `rom_y1_type_a.zip` (`rom.zip`) | Innioasis Y1 (Type A) | Flashable ROM for Y1 players with original firmware 2.0.0 or higher |
+| `rom_y1_type_b.zip` (`rom_type_b.zip`) | Innioasis Y1 (Type B) | Flashable ROM for Y1 players with original firmware below 2.0.0 |
+| `SHA256SUMS.txt` | All files | SHA-256 integrity checksums |
+
 Full changelog: https://github.com/JonaszPotoniec/inniclassic-y2/compare/20261011...20261012
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;5b34c340eb544f66294ecc4e78c1c69f0810cd4d33dd98262669dadf7f0d2f38&quot;,&quot;size&quot;:842873459,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;c79755a0218cfaec8f3f26ab9a6293e495f64e0d8f05fd9cef0045328d13776c&quot;,&quot;size&quot;:609462306,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;28d1b6e6f204f4e941710e15663b8dd91a7d64728f4daff390fe301f9c2a0e2b&quot;,&quot;size&quot;:691658295,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;a0238ddebc53dfc657041def8e463d2c636774dfd180bfb2992dfa6e60cd6349&quot;,&quot;size&quot;:810584818,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;4ee443be75a37e8ca6a34bcdeb9ade686d384c641a1839c84c73112fc12138d1&quot;,&quot;size&quot;:577173670,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;3997cd56187d7ca57d97ffb818f5cf6c00f291283590e2eeb4a4fb3b35611dab&quot;,&quot;size&quot;:659369654,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;9af556ef56ec504069be68d670bdd99761753d1608880b03e0763fc0bb1b6b03&quot;,&quot;size&quot;:773432922,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;d199ff7993563300e5323c6dbf0ba8402c8de3753172f1d133afad5b780d30c3&quot;,&quot;size&quot;:541822374,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;e110fda5a3a82b7dea399d8e62dfa37e6d2c5afdd781a879520978a7e1658053&quot;,&quot;size&quot;:622217758,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;}],&quot;built_at&quot;:&quot;2026-11-04T22:28:19Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;730ab34f69cc42ac596abd735ea8a969d6d1bf3ec9e7473da40cc7a86c4998d4&quot;,&quot;original_assets&quot;:[&quot;InniClassic-20261013.apk&quot;,&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;,&quot;rom_y1_type_a.zip&quot;,&quot;rom_y1_type_b.zip&quot;,&quot;rom_y2.zip&quot;,&quot;SHA256SUMS.txt&quot;,&quot;update.json&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;InniClassic-20261013.apk&quot;:1,&quot;SHA256SUMS.txt&quot;:1,&quot;rom.zip&quot;:1,&quot;rom_type_b.zip&quot;:1,&quot;rom_y1_type_a.zip&quot;:0,&quot;rom_y1_type_b.zip&quot;:0,&quot;rom_y2.zip&quot;:1,&quot;update.json&quot;:1},&quot;generated_at&quot;:&quot;2026-11-04T22:28:19Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
