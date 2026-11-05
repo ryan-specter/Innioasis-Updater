@@ -14,8 +14,8 @@
     <innioasis:tag_name>baseline-220</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/bootimg.img.gz" title="bootimg.img.gz" length="7539259" type="application/gzip" innioasis:download_count="35" innioasis:asset_id="711110433"/>
-    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/manifest.json" title="manifest.json" length="4239" type="application/json" innioasis:download_count="99" innioasis:asset_id="711110487"/>
-    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/manifest.sig" title="manifest.sig" length="64" type="application/pgp-signature" innioasis:download_count="100" innioasis:asset_id="711110540"/>
+    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/manifest.json" title="manifest.json" length="4239" type="application/json" innioasis:download_count="103" innioasis:asset_id="711110487"/>
+    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/manifest.sig" title="manifest.sig" length="64" type="application/pgp-signature" innioasis:download_count="104" innioasis:asset_id="711110540"/>
     <link rel="enclosure" href="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/recovery.img.gz" title="recovery.img.gz" length="7539285" type="application/gzip" innioasis:download_count="36" innioasis:asset_id="711110612"/>
     <link rel="enclosure" href="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/rootfs.ext4.gz" title="rootfs.ext4.gz" length="51334920" type="application/gzip" innioasis:download_count="33" innioasis:asset_id="711110744"/>
     <link rel="enclosure" href="https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/SHA256SUMS" title="SHA256SUMS" length="945" type="application/octet-stream" innioasis:download_count="4" innioasis:asset_id="711110431"/>

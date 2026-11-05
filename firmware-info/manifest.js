@@ -32,6 +32,14 @@ window.INNIOASIS_README_PAGES = {
       "better-y-y1"
     ]
   },
+  "noahdomingues/lithium": {
+    "name": "Lithium",
+    "page": "firmware-info/noahdomingues-lithium.html",
+    "slugs": [
+      "lithium-q3e",
+      "lithium-q5"
+    ]
+  },
   "rockbox-y1/rockbox": {
     "name": "Rockbox",
     "page": "firmware-info/rockbox-y1-rockbox.html",
@@ -79,56 +87,57 @@ window.INNIOASIS_README_PAGES = {
     "name": "Original Software",
     "page": "firmware-info/y1-community-g1-stock-rom.html",
     "slugs": [
-      "original-software-g1"
+      "original-g1"
     ]
   },
   "y1-community/g3-stock-rom": {
     "name": "Original Software",
     "page": "firmware-info/y1-community-g3-stock-rom.html",
     "slugs": [
-      "original-software-g3"
+      "original-g3"
     ]
   },
   "y1-community/g5-stock-rom": {
     "name": "Original Software",
     "page": "firmware-info/y1-community-g5-stock-rom.html",
     "slugs": [
-      "original-software-g5"
+      "original-g5"
     ]
   },
   "y1-community/pr1-stock-rom": {
     "name": "Original Software",
     "page": "firmware-info/y1-community-pr1-stock-rom.html",
     "slugs": [
-      "original-software-pr1"
+      "original-pr1"
     ]
   },
   "y1-community/q3-stock-rom": {
     "name": "Original Software",
     "page": "firmware-info/y1-community-q3-stock-rom.html",
     "slugs": [
-      "original-software-q3"
+      "original-q3"
     ]
   },
   "y1-community/q5-stock-rom": {
     "name": "Original Software",
     "page": "firmware-info/y1-community-q5-stock-rom.html",
     "slugs": [
-      "original-software-q5"
+      "original-q5",
+      "original-software-q3e"
     ]
   },
   "y1-community/r1-stock-rom": {
     "name": "Original Software",
     "page": "firmware-info/y1-community-r1-stock-rom.html",
     "slugs": [
-      "original-software-r1"
+      "original-r1"
     ]
   },
   "y1-community/sr1-stock-rom": {
     "name": "Original Software",
     "page": "firmware-info/y1-community-sr1-stock-rom.html",
     "slugs": [
-      "original-software-sr1"
+      "original-sr1"
     ]
   },
   "y1-community/y1-ata-rom": {

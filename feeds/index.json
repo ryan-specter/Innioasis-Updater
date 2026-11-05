@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-11-05T06:37:18Z",
+  "generated_at": "2026-11-05T06:45:52Z",
   "manifest_url": "https://innioasis.app/slidia_manifest.xml",
   "firmware_list_url": "https://innioasis.app/firmware-list.html",
   "feeds": {
@@ -19,6 +19,54 @@
       "releases_json": "https://innioasis.app/feeds/y1-community/y1-stock-rom/releases.json",
       "releases_atom": "https://innioasis.app/feeds/y1-community/y1-stock-rom/releases.atom",
       "repo_json": "https://innioasis.app/feeds/y1-community/y1-stock-rom/repo.json"
+    },
+    "y1-community/g1-stock-rom": {
+      "repo": "y1-community/g1-stock-rom",
+      "releases_json": "https://innioasis.app/feeds/y1-community/g1-stock-rom/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/g1-stock-rom/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/g1-stock-rom/repo.json"
+    },
+    "y1-community/g3-stock-rom": {
+      "repo": "y1-community/g3-stock-rom",
+      "releases_json": "https://innioasis.app/feeds/y1-community/g3-stock-rom/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/g3-stock-rom/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/g3-stock-rom/repo.json"
+    },
+    "y1-community/g5-stock-rom": {
+      "repo": "y1-community/g5-stock-rom",
+      "releases_json": "https://innioasis.app/feeds/y1-community/g5-stock-rom/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/g5-stock-rom/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/g5-stock-rom/repo.json"
+    },
+    "y1-community/r1-stock-rom": {
+      "repo": "y1-community/r1-stock-rom",
+      "releases_json": "https://innioasis.app/feeds/y1-community/r1-stock-rom/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/r1-stock-rom/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/r1-stock-rom/repo.json"
+    },
+    "y1-community/pr1-stock-rom": {
+      "repo": "y1-community/pr1-stock-rom",
+      "releases_json": "https://innioasis.app/feeds/y1-community/pr1-stock-rom/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/pr1-stock-rom/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/pr1-stock-rom/repo.json"
+    },
+    "y1-community/sr1-stock-rom": {
+      "repo": "y1-community/sr1-stock-rom",
+      "releases_json": "https://innioasis.app/feeds/y1-community/sr1-stock-rom/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/sr1-stock-rom/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/sr1-stock-rom/repo.json"
+    },
+    "y1-community/q3-stock-rom": {
+      "repo": "y1-community/q3-stock-rom",
+      "releases_json": "https://innioasis.app/feeds/y1-community/q3-stock-rom/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/q3-stock-rom/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/q3-stock-rom/repo.json"
+    },
+    "y1-community/q5-stock-rom": {
+      "repo": "y1-community/q5-stock-rom",
+      "releases_json": "https://innioasis.app/feeds/y1-community/q5-stock-rom/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/y1-community/q5-stock-rom/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/y1-community/q5-stock-rom/repo.json"
     },
     "schulzcode/y2linux": {
       "repo": "schulzcode/y2linux",
@@ -104,53 +152,11 @@
       "releases_atom": "https://innioasis.app/feeds/y1-community/y1-stock-rom-mirror/releases.atom",
       "repo_json": "https://innioasis.app/feeds/y1-community/y1-stock-rom-mirror/repo.json"
     },
-    "y1-community/g1-stock-rom": {
-      "repo": "y1-community/g1-stock-rom",
-      "releases_json": "https://innioasis.app/feeds/y1-community/g1-stock-rom/releases.json",
-      "releases_atom": "https://innioasis.app/feeds/y1-community/g1-stock-rom/releases.atom",
-      "repo_json": "https://innioasis.app/feeds/y1-community/g1-stock-rom/repo.json"
-    },
-    "y1-community/g3-stock-rom": {
-      "repo": "y1-community/g3-stock-rom",
-      "releases_json": "https://innioasis.app/feeds/y1-community/g3-stock-rom/releases.json",
-      "releases_atom": "https://innioasis.app/feeds/y1-community/g3-stock-rom/releases.atom",
-      "repo_json": "https://innioasis.app/feeds/y1-community/g3-stock-rom/repo.json"
-    },
-    "y1-community/g5-stock-rom": {
-      "repo": "y1-community/g5-stock-rom",
-      "releases_json": "https://innioasis.app/feeds/y1-community/g5-stock-rom/releases.json",
-      "releases_atom": "https://innioasis.app/feeds/y1-community/g5-stock-rom/releases.atom",
-      "repo_json": "https://innioasis.app/feeds/y1-community/g5-stock-rom/repo.json"
-    },
-    "y1-community/r1-stock-rom": {
-      "repo": "y1-community/r1-stock-rom",
-      "releases_json": "https://innioasis.app/feeds/y1-community/r1-stock-rom/releases.json",
-      "releases_atom": "https://innioasis.app/feeds/y1-community/r1-stock-rom/releases.atom",
-      "repo_json": "https://innioasis.app/feeds/y1-community/r1-stock-rom/repo.json"
-    },
-    "y1-community/pr1-stock-rom": {
-      "repo": "y1-community/pr1-stock-rom",
-      "releases_json": "https://innioasis.app/feeds/y1-community/pr1-stock-rom/releases.json",
-      "releases_atom": "https://innioasis.app/feeds/y1-community/pr1-stock-rom/releases.atom",
-      "repo_json": "https://innioasis.app/feeds/y1-community/pr1-stock-rom/repo.json"
-    },
-    "y1-community/sr1-stock-rom": {
-      "repo": "y1-community/sr1-stock-rom",
-      "releases_json": "https://innioasis.app/feeds/y1-community/sr1-stock-rom/releases.json",
-      "releases_atom": "https://innioasis.app/feeds/y1-community/sr1-stock-rom/releases.atom",
-      "repo_json": "https://innioasis.app/feeds/y1-community/sr1-stock-rom/repo.json"
-    },
-    "y1-community/q3-stock-rom": {
-      "repo": "y1-community/q3-stock-rom",
-      "releases_json": "https://innioasis.app/feeds/y1-community/q3-stock-rom/releases.json",
-      "releases_atom": "https://innioasis.app/feeds/y1-community/q3-stock-rom/releases.atom",
-      "repo_json": "https://innioasis.app/feeds/y1-community/q3-stock-rom/repo.json"
-    },
-    "y1-community/q5-stock-rom": {
-      "repo": "y1-community/q5-stock-rom",
-      "releases_json": "https://innioasis.app/feeds/y1-community/q5-stock-rom/releases.json",
-      "releases_atom": "https://innioasis.app/feeds/y1-community/q5-stock-rom/releases.atom",
-      "repo_json": "https://innioasis.app/feeds/y1-community/q5-stock-rom/repo.json"
+    "NoahDomingues/Lithium": {
+      "repo": "NoahDomingues/Lithium",
+      "releases_json": "https://innioasis.app/feeds/noahdomingues/lithium/releases.json",
+      "releases_atom": "https://innioasis.app/feeds/noahdomingues/lithium/releases.atom",
+      "repo_json": "https://innioasis.app/feeds/noahdomingues/lithium/repo.json"
     },
     "y1-community/y2linux-mirror": {
       "repo": "y1-community/y2linux-mirror",
@@ -298,7 +304,7 @@
     },
     "y1-community/y2player-mirror": {
       "source_repo": "schulzcode/y2player",
-      "updated_at": "2026-11-05T06:37:18Z"
+      "updated_at": "2026-11-05T06:45:52Z"
     }
   }
 }

@@ -128,24 +128,24 @@ Used for building ROM releases
 
 ---
 
-As a preparation for eventually submitting this port to the upstream Rockbox project a lot had to change under the hood.
-
-For now this means the removal of very specific and rarely used features like the Apps menu. It also means simpler merges of new upstream features. 360p only, there won&#x27;t be any future 240p releases.
-
-If you have issues, try these steps:
-1. Full flash of the new ROM.
-2. Delete `.rockbox` on your SD card, this should fix any weird path issues you might encounter (especially shortcuts)
-3. Themes have been updated, see here: https://github.com/rockbox-y1/themes/releases/tag/for_the_gays_and_the_theys
-4. If you want to use any custom themes that worked for older Rockbox-Y1 versions, you will need to change paths in the theme files from `/.rockbox` to `/sdcard/.rockbox`
-5. Install font pack: https://download.rockbox.org/release/4.0/rockbox-fonts-4.0.zip
-
-New:
-- Discontinuation of the 240p versions
-- Updated stock app
-- Support for devices that came with stock firmware 3.0.7
-- Black screen bug mitigations
-- Fixes plugins as start screen
-- Fixes audio not pausing on BT disconnect
+As a preparation for eventually submitting this port to the upstream Rockbox project a lot had to change under the hood.
+
+For now this means the removal of very specific and rarely used features like the Apps menu. It also means simpler merges of new upstream features. 360p only, there won&#x27;t be any future 240p releases.
+
+If you have issues, try these steps:
+1. Full flash of the new ROM.
+2. Delete `.rockbox` on your SD card, this should fix any weird path issues you might encounter (especially shortcuts)
+3. Themes have been updated, see here: https://github.com/rockbox-y1/themes/releases/tag/for_the_gays_and_the_theys
+4. If you want to use any custom themes that worked for older Rockbox-Y1 versions, you will need to change paths in the theme files from `/.rockbox` to `/sdcard/.rockbox`
+5. Install font pack: https://download.rockbox.org/release/4.0/rockbox-fonts-4.0.zip
+
+New:
+- Discontinuation of the 240p versions
+- Updated stock app
+- Support for devices that came with stock firmware 3.0.7
+- Black screen bug mitigations
+- Fixes plugins as start screen
+- Fixes audio not pausing on BT disconnect
 - Minor fixes (scrobble upload)
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;2360ec964e53f7086ba68d9b5ae7edf8a9a5d9f4b37dbdbf73e1bcdbebf79a07&quot;,&quot;size&quot;:921854863,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;d245d8c8f5b57f14f14776a90e55b298b26a3186869ec346874be21826b5b4b8&quot;,&quot;size&quot;:688443713,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;f142deca833381db10702a66e5386a070d0aa73b54f6baf8ce1f890c59949455&quot;,&quot;size&quot;:770639699,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;daf8a31b23883d406bbc707fc1c63831d35ba341716db017b228f9961dcd174f&quot;,&quot;size&quot;:829543637,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;a3a7fab4fa964d49a204168fd334784bc8571904c7431fc8bd90a3b7165d74cf&quot;,&quot;size&quot;:596132493,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;3bef18d01e60929ce573023669d3f7df44ff670dc18a447c9504c0cc0ba67997&quot;,&quot;size&quot;:678328473,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;}],&quot;built_at&quot;:&quot;2026-11-04T22:32:26Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;28faa28d79c62bf59a21f8f4cf5208d8df827b433857dc0af52cc1ae7a392b07&quot;,&quot;original_assets&quot;:[&quot;rockbox.apk&quot;,&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;,&quot;update.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rockbox.apk&quot;:4,&quot;rom-linux.zip&quot;:2,&quot;rom-macos.zip&quot;:2,&quot;rom-windows.zip&quot;:7,&quot;rom.zip&quot;:2,&quot;rom_type_b-linux.zip&quot;:2,&quot;rom_type_b-macos.zip&quot;:2,&quot;rom_type_b-windows.zip&quot;:2,&quot;rom_type_b.zip&quot;:2,&quot;update.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-04T22:32:26Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -211,30 +211,30 @@ New:
 
 ---
 
-New Features:
-- Extend lastfm_scrobbler plugin to [upload directly to Last.fm + ListenBrainz](https://github.com/rockbox-y1/rockbox/blob/y1/INTERNET.md#scrobbling-lastfm-listenbrainz-maloja)
-- [Podcast downloader plugin](https://github.com/rockbox-y1/rockbox/blob/y1/INTERNET.md#podcasts)
-- Software Keyboard ([LeanKeyboard](https://github.com/yuliskov/LeanKeyboard))
-- Implement stereo balance
-- Increase available memory to 256MB  
-- Podcast Downloader optimizations
-- Remappings for FM Radio App
-- Rudimentary remaining battery time estimation
-- Use iPod Classic button mappings (mostly)
-- Feature to shutdown device with a 5s press of the center button  
-- Function to reset bluetooth devices
-- Information for Taptic Engine mods
-- Update functionality
-- Enable most plugins
-- Enable regular db updates and autoupdate
-
-Bug Fixes:
-- A-B repeat
-- Idle shutdown/sleep timer when no music is playing
-- Keylock feature + advanced keylock
-- License viewer
-- runtimedb and autoresume
-- Battery optimization: only use wake lock when needed for sleep timers
+New Features:
+- Extend lastfm_scrobbler plugin to [upload directly to Last.fm + ListenBrainz](https://github.com/rockbox-y1/rockbox/blob/y1/INTERNET.md#scrobbling-lastfm-listenbrainz-maloja)
+- [Podcast downloader plugin](https://github.com/rockbox-y1/rockbox/blob/y1/INTERNET.md#podcasts)
+- Software Keyboard ([LeanKeyboard](https://github.com/yuliskov/LeanKeyboard))
+- Implement stereo balance
+- Increase available memory to 256MB  
+- Podcast Downloader optimizations
+- Remappings for FM Radio App
+- Rudimentary remaining battery time estimation
+- Use iPod Classic button mappings (mostly)
+- Feature to shutdown device with a 5s press of the center button  
+- Function to reset bluetooth devices
+- Information for Taptic Engine mods
+- Update functionality
+- Enable most plugins
+- Enable regular db updates and autoupdate
+
+Bug Fixes:
+- A-B repeat
+- Idle shutdown/sleep timer when no music is playing
+- Keylock feature + advanced keylock
+- License viewer
+- runtimedb and autoresume
+- Battery optimization: only use wake lock when needed for sleep timers
 - Enable brightness settings for compatibility with existing themes + quickscreen
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;057ba0dd2e16578ecc399d7202ea9376de53990792a0d62b7c5bc2c6c0836f2d&quot;,&quot;size&quot;:847997238,&quot;source_asset&quot;:&quot;rom_240p.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;a35cfffd5461d2daf8e3840f0760407e6d515d6d8a2b2ec4acb664096ee8fc16&quot;,&quot;size&quot;:614586093,&quot;source_asset&quot;:&quot;rom_240p.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;535a793836d511da02df7c283933c3dbc058f7b6a3676bd288b8fe5bcc5510ea&quot;,&quot;size&quot;:696782074,&quot;source_asset&quot;:&quot;rom_240p.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;f21e37a3db320fc56dd30bd15bf9229a2050a7f67f4879780cdaa1d0c72218c8&quot;,&quot;size&quot;:812950698,&quot;source_asset&quot;:&quot;rom_240p_type_b.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;e30d94b45ecb648cbc53c5b8e9378ae15fe2e7d8129710def65558eeeaaf9ed1&quot;,&quot;size&quot;:579539558,&quot;source_asset&quot;:&quot;rom_240p_type_b.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;d84501a92c8e2847f4535a2b5e995de13e1dfa2db70e4898fe5d64b3f2b540fb&quot;,&quot;size&quot;:661735534,&quot;source_asset&quot;:&quot;rom_240p_type_b.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;b6a6356da2dbd4c58ff48f59cd58aeb6469d0fb7a795f37c7c5dafdffba9e749&quot;,&quot;size&quot;:849860837,&quot;source_asset&quot;:&quot;rom_360p.zip&quot;,&quot;type&quot;:&quot;360p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;538ecc386cca767698df580cd6bef71f841c3b485d0447e83a6a75d73b1f04aa&quot;,&quot;size&quot;:616449693,&quot;source_asset&quot;:&quot;rom_360p.zip&quot;,&quot;type&quot;:&quot;360p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;e25cf244669a6634307a573646455a54e3045a1f0803504d57b5dc0ef761fbd8&quot;,&quot;size&quot;:698645673,&quot;source_asset&quot;:&quot;rom_360p.zip&quot;,&quot;type&quot;:&quot;360p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;976ed56273693d49aad0c6c6bf9b963f7963d7f9ab3d5a21898ea595ea3e99b9&quot;,&quot;size&quot;:815207744,&quot;source_asset&quot;:&quot;rom_360p_type_b.zip&quot;,&quot;type&quot;:&quot;360p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;2809a267069f9c53bd2b396abc27341889b0ad4e488c628023458ddf9aa1dde0&quot;,&quot;size&quot;:581796605,&quot;source_asset&quot;:&quot;rom_360p_type_b.zip&quot;,&quot;type&quot;:&quot;360p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;018755a75b9ece64df561ab6103a8fa78a07cc9a3b97d15d8613f2c859e84238&quot;,&quot;size&quot;:663992580,&quot;source_asset&quot;:&quot;rom_360p_type_b.zip&quot;,&quot;type&quot;:&quot;360p&quot;}],&quot;built_at&quot;:&quot;2026-11-04T22:16:59Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;aadb5da5a07aabd165caad44d4b82bbfee63d2f3444edc74365efe226692d6b0&quot;,&quot;original_assets&quot;:[&quot;rockbox_240p.apk&quot;,&quot;rockbox_360p.apk&quot;,&quot;rom_240p.zip&quot;,&quot;rom_240p_type_b.zip&quot;,&quot;rom_360p.zip&quot;,&quot;rom_360p_type_b.zip&quot;,&quot;update_240p.zip&quot;,&quot;update_360p.zip&quot;,&quot;voices.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rockbox_240p.apk&quot;:3,&quot;rockbox_360p.apk&quot;:3,&quot;rom_240p-linux.zip&quot;:3,&quot;rom_240p-macos.zip&quot;:3,&quot;rom_240p-windows.zip&quot;:4,&quot;rom_240p.zip&quot;:3,&quot;rom_240p_type_b-linux.zip&quot;:2,&quot;rom_240p_type_b-macos.zip&quot;:3,&quot;rom_240p_type_b-windows.zip&quot;:3,&quot;rom_240p_type_b.zip&quot;:3,&quot;rom_360p-linux.zip&quot;:3,&quot;rom_360p-macos.zip&quot;:3,&quot;rom_360p-windows.zip&quot;:5,&quot;rom_360p.zip&quot;:3,&quot;rom_360p_type_b-linux.zip&quot;:2,&quot;rom_360p_type_b-macos.zip&quot;:3,&quot;rom_360p_type_b-windows.zip&quot;:4,&quot;rom_360p_type_b.zip&quot;:3,&quot;update_240p.zip&quot;:3,&quot;update_360p.zip&quot;:3,&quot;voices.zip&quot;:3},&quot;generated_at&quot;:&quot;2026-11-04T22:16:59Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -299,41 +299,41 @@ Bug Fixes:
 
 ---
 
-| &lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;screenshot_1&quot; src=&quot;https://github.com/user-attachments/assets/4e37aabb-d373-4899-8893-224d05c43c89&quot; /&gt; |  &lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;screenshot_3&quot; src=&quot;https://github.com/user-attachments/assets/fd4a1b7e-39f7-4caa-84ea-69777e61c284&quot; /&gt; | 
-|:--:|:--:|
-
- _**Theme:** [Adwaitapod](https://github.com/rockbox-y1/themes/releases/download/for_the_gays_and_the_theys/adwaitapod_360p.zip) by [Dook](https://ko-fi.com/dook_)_
-
-# Changelog
-A lot has happened since v0.2 and Rockbox on the Y1. If you are still running v0.2 you might want to consider updating.
-
-## Major Changes
-- Dual Boot Stock OS/Rockbox
-- Type A &amp; Type B support - use Type B if you have click wheel issues
-- 240p and 360p versions
-- Idle Poweroff, Timed Shutdown
-- Lyrics (lrc) support
-
-## Improvements for Audiobooks
-### Playback Speed Setting 
-- WPS &gt; hold Center button &gt; Pitch
-- You might need to enable Timestretch in the Sound Settings first if you only see options for pitch, not speed
-
-### Automatic Bookmarking
-- Enabling &quot;Bookmark on Stop&quot;
-- To stop press play 3-4 times
-- Or: use Timed Shutdown (General Settings &gt; Startup/Shutdown &gt; Start Sleep Timer)
-
-## UI/UX
-- Accessibility: WPS voice announcements
-- Button combination to restart Rockbox if it got stuck
-- Enabled charging indicator
-- Enabled plugin to rearrange Main Menu (Plugins &gt; Applications &gt; main_menu_config)
-- Many button mapping improvements, e.g., for PictureFlow
-- Larger memory allocation for larger themes
-- App only starts when SD is ready, no Rockbox restarts necessary after copying files over or on initial boot
-- Battery optimizations (you may still need to recalibrate your battery after installation https://www.ifixit.com/Wiki/Battery_Calibration#Section_How_to_calibrate_your_battery)
-
+| &lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;screenshot_1&quot; src=&quot;https://github.com/user-attachments/assets/4e37aabb-d373-4899-8893-224d05c43c89&quot; /&gt; |  &lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;screenshot_3&quot; src=&quot;https://github.com/user-attachments/assets/fd4a1b7e-39f7-4caa-84ea-69777e61c284&quot; /&gt; | 
+|:--:|:--:|
+
+ _**Theme:** [Adwaitapod](https://github.com/rockbox-y1/themes/releases/download/for_the_gays_and_the_theys/adwaitapod_360p.zip) by [Dook](https://ko-fi.com/dook_)_
+
+# Changelog
+A lot has happened since v0.2 and Rockbox on the Y1. If you are still running v0.2 you might want to consider updating.
+
+## Major Changes
+- Dual Boot Stock OS/Rockbox
+- Type A &amp; Type B support - use Type B if you have click wheel issues
+- 240p and 360p versions
+- Idle Poweroff, Timed Shutdown
+- Lyrics (lrc) support
+
+## Improvements for Audiobooks
+### Playback Speed Setting 
+- WPS &gt; hold Center button &gt; Pitch
+- You might need to enable Timestretch in the Sound Settings first if you only see options for pitch, not speed
+
+### Automatic Bookmarking
+- Enabling &quot;Bookmark on Stop&quot;
+- To stop press play 3-4 times
+- Or: use Timed Shutdown (General Settings &gt; Startup/Shutdown &gt; Start Sleep Timer)
+
+## UI/UX
+- Accessibility: WPS voice announcements
+- Button combination to restart Rockbox if it got stuck
+- Enabled charging indicator
+- Enabled plugin to rearrange Main Menu (Plugins &gt; Applications &gt; main_menu_config)
+- Many button mapping improvements, e.g., for PictureFlow
+- Larger memory allocation for larger themes
+- App only starts when SD is ready, no Rockbox restarts necessary after copying files over or on initial boot
+- Battery optimizations (you may still need to recalibrate your battery after installation https://www.ifixit.com/Wiki/Battery_Calibration#Section_How_to_calibrate_your_battery)
+
 And many bug fixes and general UI/UX improvements. A big thanks to all the contributors on Github!
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;23a17c65e9f6e58ab85fe0c387e12990e6ace1f71ab4a8872c63eb44c3ad9040&quot;,&quot;size&quot;:820041730,&quot;source_asset&quot;:&quot;rom_240p.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;cc361e40d95fda3abc733c74622ed38acf6f799295edad06ffbd20d183ec2ad5&quot;,&quot;size&quot;:586630585,&quot;source_asset&quot;:&quot;rom_240p.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;1ad01d470e8681120ab594a7b76e18bbdaf791ee056bed10f3e019f0ff49c25e&quot;,&quot;size&quot;:668826566,&quot;source_asset&quot;:&quot;rom_240p.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;94520d2455ca70b0932623ada09241c320c9d32583cc1f1f42ab70478f020dcc&quot;,&quot;size&quot;:788286088,&quot;source_asset&quot;:&quot;rom_240p_type_b.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;19672f1e51f9924a1e8dffb5ed41c8c36b900f17f377bd310c01bc20348ecd5f&quot;,&quot;size&quot;:554874949,&quot;source_asset&quot;:&quot;rom_240p_type_b.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;d3dbdf1754fce4298573faf234343a1d0f2e01384229ce2d48e23b3959f90fed&quot;,&quot;size&quot;:637070924,&quot;source_asset&quot;:&quot;rom_240p_type_b.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;7cc1c63adc29edc5d70f23d8bbcd19f10e9f4f50a33500371ae4d631cb59720c&quot;,&quot;size&quot;:822062933,&quot;source_asset&quot;:&quot;rom_360p.zip&quot;,&quot;type&quot;:&quot;360p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;ba1923c860a3830c008a984d83868ec6ce427777129a023ee6d712d2a23d93f9&quot;,&quot;size&quot;:588651789,&quot;source_asset&quot;:&quot;rom_360p.zip&quot;,&quot;type&quot;:&quot;360p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;1f74422c38730376dc513e4e842cce92c9878e59ac3deddf52bc404a402936f9&quot;,&quot;size&quot;:670847769,&quot;source_asset&quot;:&quot;rom_360p.zip&quot;,&quot;type&quot;:&quot;360p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;abb7ca3059568b900f63913ae33657e8f92a97b4c0ade1e822d62ac26262cafa&quot;,&quot;size&quot;:788643989,&quot;source_asset&quot;:&quot;rom_360p_type_b.zip&quot;,&quot;type&quot;:&quot;360p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;06ee0c00e6b47bebb52248599b18f12a96354f3720d42ba4262df1fad0d7839c&quot;,&quot;size&quot;:555232850,&quot;source_asset&quot;:&quot;rom_360p_type_b.zip&quot;,&quot;type&quot;:&quot;360p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;8ee427eb1de01ad1cf478c5f77bb0220e30506874e217ec631b46a59cf5b218b&quot;,&quot;size&quot;:637428825,&quot;source_asset&quot;:&quot;rom_360p_type_b.zip&quot;,&quot;type&quot;:&quot;360p&quot;}],&quot;built_at&quot;:&quot;2026-11-04T21:41:52Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;1bac383f7b267979a28b910d8963eb3c6a67447ce73c02ece8fedbd4a6420e50&quot;,&quot;original_assets&quot;:[&quot;libs_240p.tar.gz&quot;,&quot;libs_360p.tar.gz&quot;,&quot;rockbox_240p.apk&quot;,&quot;rockbox_360p.apk&quot;,&quot;rom_240p.zip&quot;,&quot;rom_240p_type_b.zip&quot;,&quot;rom_360p.zip&quot;,&quot;rom_360p_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;libs_240p.tar.gz&quot;:3,&quot;libs_360p.tar.gz&quot;:3,&quot;rockbox_240p.apk&quot;:3,&quot;rockbox_360p.apk&quot;:3,&quot;rom_240p-linux.zip&quot;:3,&quot;rom_240p-macos.zip&quot;:3,&quot;rom_240p-windows.zip&quot;:3,&quot;rom_240p.zip&quot;:3,&quot;rom_240p_type_b-linux.zip&quot;:3,&quot;rom_240p_type_b-macos.zip&quot;:3,&quot;rom_240p_type_b-windows.zip&quot;:3,&quot;rom_240p_type_b.zip&quot;:3,&quot;rom_360p-linux.zip&quot;:3,&quot;rom_360p-macos.zip&quot;:3,&quot;rom_360p-windows.zip&quot;:3,&quot;rom_360p.zip&quot;:3,&quot;rom_360p_type_b-linux.zip&quot;:3,&quot;rom_360p_type_b-macos.zip&quot;:3,&quot;rom_360p_type_b-windows.zip&quot;:3,&quot;rom_360p_type_b.zip&quot;:3},&quot;generated_at&quot;:&quot;2026-11-04T21:41:52Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -595,22 +595,22 @@ And many bug fixes and general UI/UX improvements. A big thanks to all the contr
 
 ---
 
-# **Please read!**
-
-This release is especially experimental and will probably cause issues. Follow the guide at the end if you want to try it.
-
-This is a full rebase on the current upstream Rockbox repository as a preparation for eventually submitting this port to the Rockbox project.
-
-For now this means the removal of very specific and rarely used features like the Apps menu. It also means simpler merges of new upstream features. 360p only, there won&#x27;t be any future 240p releases. 
-
-Since a lot had to change under the hood you will need to do the following:
-
-1. Delete `.rockbox` on your SD card.
-2. Full flash of the new ROM.
-4. Install any of the patched themes from here: https://github.com/rockbox-y1/themes/archive/refs/heads/patch.zip
-5. If you want to use any custom themes that worked for older Rockbox-Y1 versions, you will need to change paths in the theme files from `/.rockbox` to `/sdcard/.rockbox`
-
-Other changes:
+# **Please read!**
+
+This release is especially experimental and will probably cause issues. Follow the guide at the end if you want to try it.
+
+This is a full rebase on the current upstream Rockbox repository as a preparation for eventually submitting this port to the Rockbox project.
+
+For now this means the removal of very specific and rarely used features like the Apps menu. It also means simpler merges of new upstream features. 360p only, there won&#x27;t be any future 240p releases. 
+
+Since a lot had to change under the hood you will need to do the following:
+
+1. Delete `.rockbox` on your SD card.
+2. Full flash of the new ROM.
+4. Install any of the patched themes from here: https://github.com/rockbox-y1/themes/archive/refs/heads/patch.zip
+5. If you want to use any custom themes that worked for older Rockbox-Y1 versions, you will need to change paths in the theme files from `/.rockbox` to `/sdcard/.rockbox`
+
+Other changes:
 - fixes WPS hotkey for plugins
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;c4d8a72eb701516c3db561b37c422ec08a8c025ca7404fffe58751d335b441f9&quot;,&quot;size&quot;:861159475,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;762f268646b9c7a524b05aa69662ce843f08e6daed3072fccd2a347a131bc649&quot;,&quot;size&quot;:627748318,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;4b22da694e115b6b844dae1f0bc84b8e2026261506b1fc6f1726b30f5f37e43d&quot;,&quot;size&quot;:709944311,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;718cb359c6f7530637dd4753f11d2839e3260439afe3d80656256684e89a72f8&quot;,&quot;size&quot;:828780752,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;f58b43914816bf50f0ac2b64139fae576eee67804a8dd977a134c7e138221f58&quot;,&quot;size&quot;:595369601,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;a37a24ecb2d3265c89cab584dea82ac0b5f1f1f6d95695e78d344b8ca709c1bc&quot;,&quot;size&quot;:677565588,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;}],&quot;built_at&quot;:&quot;2026-11-04T22:22:58Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;6a9e8270160ca41999cb05d54354d58122cbbd455d153dc7fe80f159e4fcd263&quot;,&quot;original_assets&quot;:[&quot;rockbox.apk&quot;,&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rockbox.apk&quot;:3,&quot;rom-linux.zip&quot;:3,&quot;rom-macos.zip&quot;:2,&quot;rom-windows.zip&quot;:4,&quot;rom.zip&quot;:4,&quot;rom_type_b-linux.zip&quot;:3,&quot;rom_type_b-macos.zip&quot;:3,&quot;rom_type_b-windows.zip&quot;:3,&quot;rom_type_b.zip&quot;:4},&quot;generated_at&quot;:&quot;2026-11-04T22:22:58Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -895,19 +895,19 @@ Adds seamless switching between Rockbox and better-Y without reboot
 
 ---
 
-**Note:** *This is a re-release because the old version had broken builds.*
-
-Adds a few new features that use the wifi chip:
-* Adds a Podcast Downloader Plugin
-* Extends the Last.fm Scrobble Plugin to directly upload to Last.fm, ListenBrainz and compatible endpoints
-
-More information:
-https://github.com/rockbox-y1/rockbox/blob/y1/INTERNET.md
-
-Also:
-* Adds many plugins
-* Battery optimization: only use wake lock when needed for sleep timers, should increase standby battery life significantly
-* Fixes A-B repeat: start/stop can be triggered using center button in WPS
+**Note:** *This is a re-release because the old version had broken builds.*
+
+Adds a few new features that use the wifi chip:
+* Adds a Podcast Downloader Plugin
+* Extends the Last.fm Scrobble Plugin to directly upload to Last.fm, ListenBrainz and compatible endpoints
+
+More information:
+https://github.com/rockbox-y1/rockbox/blob/y1/INTERNET.md
+
+Also:
+* Adds many plugins
+* Battery optimization: only use wake lock when needed for sleep timers, should increase standby battery life significantly
+* Fixes A-B repeat: start/stop can be triggered using center button in WPS
 * Typo fixes
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;31d39b4117f26ffbf7e3349e10993f60115989fd222fb400b00e6b4d647db5d8&quot;,&quot;size&quot;:845588355,&quot;source_asset&quot;:&quot;rom_240p.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;a5630d245c126b693ab39d79e3bf25230a7421882063219ed4bba1f8c424e32d&quot;,&quot;size&quot;:612177205,&quot;source_asset&quot;:&quot;rom_240p.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;6bd9b937df85afebc4d0cbacd21f01cafefb1da10101366412e396f33a15bb32&quot;,&quot;size&quot;:694373191,&quot;source_asset&quot;:&quot;rom_240p.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;a8edd0bebc2b49787fba8f4f2f6bd11dd9b0e64ca138375359a7f57d80b2d11d&quot;,&quot;size&quot;:815631345,&quot;source_asset&quot;:&quot;rom_240p_type_b.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;79b51765e5e0f9788d9d8ca6d56a7cedba917866f19f60f2e9d0df4412a99ec8&quot;,&quot;size&quot;:582220200,&quot;source_asset&quot;:&quot;rom_240p_type_b.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_240p_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;3108aa678de9724f1a9b5b83a1f9740484e3f26274ba5ea779b91f9f98dfd1ba&quot;,&quot;size&quot;:664416181,&quot;source_asset&quot;:&quot;rom_240p_type_b.zip&quot;,&quot;type&quot;:&quot;240p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;2c0a051b8e2c8f040289770288d34125734a665fec49601f27b0799b996cff19&quot;,&quot;size&quot;:850671154,&quot;source_asset&quot;:&quot;rom_360p.zip&quot;,&quot;type&quot;:&quot;360p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;d665c2c330963774f6c7215f7c3240296927ed0fcdb1e77a0f5ced74a4abb214&quot;,&quot;size&quot;:617260004,&quot;source_asset&quot;:&quot;rom_360p.zip&quot;,&quot;type&quot;:&quot;360p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;d7b5e5700f86899b13ad80982f2987449cc57ef3b95e99d6b9f237ea6a64007d&quot;,&quot;size&quot;:699455990,&quot;source_asset&quot;:&quot;rom_360p.zip&quot;,&quot;type&quot;:&quot;360p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;8f67e3af6bdbf71fbecefba11d692009c6200a1a7f9e36aab7c44576a249b9b8&quot;,&quot;size&quot;:815188144,&quot;source_asset&quot;:&quot;rom_360p_type_b.zip&quot;,&quot;type&quot;:&quot;360p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;5bb9102dcf31cbbc3e4d6ad3aebed02b62dc63e4b17b1cabf85d3a9c50e7131a&quot;,&quot;size&quot;:581776999,&quot;source_asset&quot;:&quot;rom_360p_type_b.zip&quot;,&quot;type&quot;:&quot;360p&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_360p_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;7c244094cfa2a0cb5720b97483758a0c7b2bbf39da5dbad04cbd73b3ec777b5e&quot;,&quot;size&quot;:663972980,&quot;source_asset&quot;:&quot;rom_360p_type_b.zip&quot;,&quot;type&quot;:&quot;360p&quot;}],&quot;built_at&quot;:&quot;2026-11-04T21:50:33Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;22ba272b177c21dff867ca9fd581b6391f8ca2415805b5a5ab196830663919d6&quot;,&quot;original_assets&quot;:[&quot;rockbox_240p.apk&quot;,&quot;rockbox_360p.apk&quot;,&quot;rom_240p.zip&quot;,&quot;rom_240p_type_b.zip&quot;,&quot;rom_360p.zip&quot;,&quot;rom_360p_type_b.zip&quot;,&quot;update_240p.zip&quot;,&quot;update_360p.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rockbox_240p.apk&quot;:3,&quot;rockbox_360p.apk&quot;:3,&quot;rom_240p-linux.zip&quot;:3,&quot;rom_240p-macos.zip&quot;:4,&quot;rom_240p-windows.zip&quot;:3,&quot;rom_240p.zip&quot;:3,&quot;rom_240p_type_b-linux.zip&quot;:3,&quot;rom_240p_type_b-macos.zip&quot;:3,&quot;rom_240p_type_b-windows.zip&quot;:3,&quot;rom_240p_type_b.zip&quot;:3,&quot;rom_360p-linux.zip&quot;:3,&quot;rom_360p-macos.zip&quot;:3,&quot;rom_360p-windows.zip&quot;:3,&quot;rom_360p.zip&quot;:3,&quot;rom_360p_type_b-linux.zip&quot;:3,&quot;rom_360p_type_b-macos.zip&quot;:3,&quot;rom_360p_type_b-windows.zip&quot;:3,&quot;rom_360p_type_b.zip&quot;:3,&quot;update_240p.zip&quot;:3,&quot;update_360p.zip&quot;:3},&quot;generated_at&quot;:&quot;2026-11-04T21:50:33Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -1222,17 +1222,17 @@ Also:
 
 ---
 
-New:
-- Support for devices that came with stock firmware 3.0.7
-- Black screen bug mitigations
-- Fixes plugins as start screen
-- Fixes audio not pausing on BT disconnect
-
-If you have issues, try these steps:
-1. Full flash of the new ROM.
-2. Delete `.rockbox` on your SD card.
-3. Install any of the patched themes from here: https://github.com/rockbox-y1/themes/archive/refs/heads/patch.zip
-4. If you want to use any custom themes that worked for older Rockbox-Y1 versions, you will need to change paths in the theme files from `/.rockbox` to `/sdcard/.rockbox`
+New:
+- Support for devices that came with stock firmware 3.0.7
+- Black screen bug mitigations
+- Fixes plugins as start screen
+- Fixes audio not pausing on BT disconnect
+
+If you have issues, try these steps:
+1. Full flash of the new ROM.
+2. Delete `.rockbox` on your SD card.
+3. Install any of the patched themes from here: https://github.com/rockbox-y1/themes/archive/refs/heads/patch.zip
+4. If you want to use any custom themes that worked for older Rockbox-Y1 versions, you will need to change paths in the theme files from `/.rockbox` to `/sdcard/.rockbox`
 5. Install font pack: https://download.rockbox.org/release/4.0/rockbox-fonts-4.0.zip
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;d4f3020c548368cd7e2b29a20dcac09ce22b976e6553629bfa43dd1e54940fa3&quot;,&quot;size&quot;:922442858,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;ac766a214439d4a0bb150cbf6f16f2cfebe77879d4cf42c859295fcb465d7ba4&quot;,&quot;size&quot;:689031699,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;3e330fd8aa61dfe4e6ceb03fceb06a0bef23140fa659bdd148037ea1c106754f&quot;,&quot;size&quot;:771227694,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;348d20bf2512a694948c65a54559c1fa6d1b023e8b5a2b55eb5093609970a66d&quot;,&quot;size&quot;:830485702,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;82c5c2c67ddac6353fcd13516ba90ca00ac2eba7969208fff384c69e095a87b0&quot;,&quot;size&quot;:597074549,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;2ad16e2f938d84b2d5a14e29cdaa6271b2236ab6907450345474b5c54f8e472b&quot;,&quot;size&quot;:679270538,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;}],&quot;built_at&quot;:&quot;2026-11-04T22:27:37Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;8ea7a71e70d61734ab6d8284aced490ef19284bb89f23a9cf86153f84d6c949f&quot;,&quot;original_assets&quot;:[&quot;rockbox.apk&quot;,&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;,&quot;update.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rockbox.apk&quot;:2,&quot;rom-linux.zip&quot;:2,&quot;rom-macos.zip&quot;:2,&quot;rom-windows.zip&quot;:2,&quot;rom.zip&quot;:2,&quot;rom_type_b-linux.zip&quot;:2,&quot;rom_type_b-macos.zip&quot;:2,&quot;rom_type_b-windows.zip&quot;:2,&quot;rom_type_b.zip&quot;:2,&quot;update.zip&quot;:2},&quot;generated_at&quot;:&quot;2026-11-04T22:27:37Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;

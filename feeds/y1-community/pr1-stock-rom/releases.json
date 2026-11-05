@@ -24,6 +24,39 @@
         "url": "https://api.github.com/repos/y1-community/pr1-stock-rom/releases/assets/712334003"
       },
       {
+        "id": 712353469,
+        "name": "rom_pr1.zip.001",
+        "browser_download_url": "https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/rom_pr1.zip.001",
+        "size": 1992294400,
+        "download_count": 0,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T06:36:35Z",
+        "updated_at": "2026-11-05T06:39:42Z",
+        "url": "https://api.github.com/repos/y1-community/pr1-stock-rom/releases/assets/712353469"
+      },
+      {
+        "id": 712361350,
+        "name": "rom_pr1.zip.002",
+        "browser_download_url": "https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/rom_pr1.zip.002",
+        "size": 1992294400,
+        "download_count": 0,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T06:39:47Z",
+        "updated_at": "2026-11-05T06:42:44Z",
+        "url": "https://api.github.com/repos/y1-community/pr1-stock-rom/releases/assets/712361350"
+      },
+      {
+        "id": 712368918,
+        "name": "rom_pr1.zip.003",
+        "browser_download_url": "https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/rom_pr1.zip.003",
+        "size": 659716186,
+        "download_count": 0,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T06:42:46Z",
+        "updated_at": "2026-11-05T06:43:47Z",
+        "url": "https://api.github.com/repos/y1-community/pr1-stock-rom/releases/assets/712368918"
+      },
+      {
         "id": 712336817,
         "name": "SHA256SUMS.R2-V1.34-20260208",
         "browser_download_url": "https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/SHA256SUMS.R2-V1.34-20260208",

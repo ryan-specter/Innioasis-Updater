@@ -52,23 +52,23 @@
 
 ---
 
-&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215531&quot; src=&quot;https://github.com/user-attachments/assets/5aacc91f-efb6-4a71-acb2-01a4c241bafc&quot; /&gt;
-&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215549&quot; src=&quot;https://github.com/user-attachments/assets/796379c0-afc7-4d52-9ef5-e1acfe03bccf&quot; /&gt;
-&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215624&quot; src=&quot;https://github.com/user-attachments/assets/7f8fb8e6-0cfd-4825-87fd-cac41e1ac03a&quot; /&gt;
-
-## 🚀 What&#x27;s New in v0.9
-
-### ✨ New Features &amp; Improvements
-
-* **Added User Equalizer (EQ), Bass Boost, and Spatial Audio Engine**
-  * Customize your sound with the new custom EQ settings, enhanced bass boost, and an immersive spatial audio engine.
-* **Full Playlist File Support**
-  * You can now easily create, delete, and manage your playlist files directly within the app.
-* **File Information Display**
-  * Added the ability to view detailed file and track information directly on the player screen.
-* **Bug Fixes**
-  * Fixed various minor bugs and improved overall system stability.
-* **Thanks**
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215531&quot; src=&quot;https://github.com/user-attachments/assets/5aacc91f-efb6-4a71-acb2-01a4c241bafc&quot; /&gt;
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215549&quot; src=&quot;https://github.com/user-attachments/assets/796379c0-afc7-4d52-9ef5-e1acfe03bccf&quot; /&gt;
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Screenshot_20260627_215624&quot; src=&quot;https://github.com/user-attachments/assets/7f8fb8e6-0cfd-4825-87fd-cac41e1ac03a&quot; /&gt;
+
+## 🚀 What&#x27;s New in v0.9
+
+### ✨ New Features &amp; Improvements
+
+* **Added User Equalizer (EQ), Bass Boost, and Spatial Audio Engine**
+  * Customize your sound with the new custom EQ settings, enhanced bass boost, and an immersive spatial audio engine.
+* **Full Playlist File Support**
+  * You can now easily create, delete, and manage your playlist files directly within the app.
+* **File Information Display**
+  * Added the ability to view detailed file and track information directly on the player screen.
+* **Bug Fixes**
+  * Fixed various minor bugs and improved overall system stability.
+* **Thanks**
   * MO-ON company
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;b34019822a8e817e7db569687086182165607b3f8a64b7d615f9518353810ac1&quot;,&quot;size&quot;:844066523,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;48e8b7f84f8cde5bef1527fe03cfd3e04f67eb1936cf18574793e994a83b4573&quot;,&quot;size&quot;:610655369,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;5c29e944340d659eb245110b07a5f0389592c5ce124106d19852a8f98d3f43ba&quot;,&quot;size&quot;:692851359,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;17a4ca346281d8cefd5df159d4813ebd120cc384f01696e257dfb5951030d21b&quot;,&quot;size&quot;:786994056,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;b1975868bb309de37ab1f5622239a4f5245ab1669d40865f4779d6e5cda50615&quot;,&quot;size&quot;:553582908,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;d48fa7bb863a3572b448f2324a838ec9ab0d9d994e3c04a196797b27938f2fba&quot;,&quot;size&quot;:635778892,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;}],&quot;built_at&quot;:&quot;2026-11-04T22:14:46Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;1a801759c7ec5395af701c688d3d1340f3c51fddb0181db97bb9cf8aa0441615&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:3,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:4,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:3},&quot;generated_at&quot;:&quot;2026-11-04T22:14:46Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -121,31 +121,31 @@
 
 ---
 
-## 🚀 What&#x27;s New in v0.8
-
-### 🎨 1. New Theme Engine Implemented
-* A brand-new theme engine has been added to the launcher!
-* You can easily design and customize your own themes using the web editor below:
-  👉 [Go to Theme Editor](https://theme-editor-gules.vercel.app/)
-
-### 🔤 2. Fixed Case-Insensitive Song Sorting Bug
-* Fixed an issue where uppercase and lowercase song titles were not sorting properly in alphabetical order.
-  *(Special thanks to **Whimsical_Sandwich** for reporting this issue!)*
-
-### 🖥️ 3. Server Connection Page UI Redesign
-* Overhauled and improved the User Interface (UI) for the server connection page for a cleaner look.
-
-### 📂 4. Added Folder Playback Feature
-* You can now browse and play your music files directly by folder structure.
-
-### ❤️ 5. Added Favorites Feature
-* Added a bookmarking function so you can easily save and access your favorite songs.
-
-### 🔄 6. Added Rockbox Booting Feature
-* Added the ability to boot directly into Rockbox from the launcher.
-
-&gt; [!WARNING]
-&gt; **⚠️ Important Notice regarding Rockbox Booting**
+## 🚀 What&#x27;s New in v0.8
+
+### 🎨 1. New Theme Engine Implemented
+* A brand-new theme engine has been added to the launcher!
+* You can easily design and customize your own themes using the web editor below:
+  👉 [Go to Theme Editor](https://theme-editor-gules.vercel.app/)
+
+### 🔤 2. Fixed Case-Insensitive Song Sorting Bug
+* Fixed an issue where uppercase and lowercase song titles were not sorting properly in alphabetical order.
+  *(Special thanks to **Whimsical_Sandwich** for reporting this issue!)*
+
+### 🖥️ 3. Server Connection Page UI Redesign
+* Overhauled and improved the User Interface (UI) for the server connection page for a cleaner look.
+
+### 📂 4. Added Folder Playback Feature
+* You can now browse and play your music files directly by folder structure.
+
+### ❤️ 5. Added Favorites Feature
+* Added a bookmarking function so you can easily save and access your favorite songs.
+
+### 🔄 6. Added Rockbox Booting Feature
+* Added the ability to boot directly into Rockbox from the launcher.
+
+&gt; [!WARNING]
+&gt; **⚠️ Important Notice regarding Rockbox Booting**
 &gt; Please note that **an additional script is required** if you want to safely return to the launcher from Rockbox.
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;3184b2cff568102fb2ebbbe4283d48bcbc74b138483eab1d70ea093cbc809288&quot;,&quot;size&quot;:844067648,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;3042d0bfd4f4a40a0014b504afd3629606ec8ce45eb9fb12bd64941889632334&quot;,&quot;size&quot;:610656495,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;1db262a1b0c6904febbc46f2bf122e7ec1c3a06df3486135baa079750f304684&quot;,&quot;size&quot;:692852484,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;ca2b3da6d0b7e9b61025366776cd646eee3f9d97d0aafda6bf38f27028ab238a&quot;,&quot;size&quot;:787010638,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;6456cefd03e8bb1f932d0e38e94c07625309f0476fe2ce8718af282c6825ff3c&quot;,&quot;size&quot;:553599490,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;35ec748b3a02c24ab6a3e06eeb58349632af99eb1db5d5beec1cdf047eacecb5&quot;,&quot;size&quot;:635795474,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;}],&quot;built_at&quot;:&quot;2026-11-04T22:10:37Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;1efaf1f47d45e907db772c68b4a2c3136576fc22b900d06c518fac6a2930df85&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:3,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:4,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:3},&quot;generated_at&quot;:&quot;2026-11-04T22:10:37Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -198,41 +198,41 @@
 
 ---
 
-## 🚀 Installation &amp; Update Guide
-
-You can easily install the launcher using the **Innioasis Updater**.
-👉 [Download Innioasis Updater](https://www.innioasis.com/pages/download)
-
-&lt;img width=&quot;1214&quot; height=&quot;612&quot; alt=&quot;Installation Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/95e9e82a-7b2a-48ee-a75b-6f055a77db07&quot; /&gt;
-
----
-
-## 🆕 What&#x27;s New in v0.6
-
-### 1. Added Launcher OTA Update Feature
-* You can now download and apply updates directly within the launcher without having to manually reinstall the APK file.
-
-&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Update Feature Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/b34f1026-da50-45f8-a99a-bf83e358bb1f&quot; /&gt;
-
-### 2. Status Bar Enhancement
-* Added a playback status icon to the status bar.
-
-### 3. Bug Fixes
-* Fixed minor bugs and improved overall stability.
-
----
-
-## 🎧 Bluetooth Connection &amp; Pairing
-
-Bluetooth headphone connection testing has been successfully completed, and it works perfectly!
-
-&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Bluetooth Pairing Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/73d0cec4-ddeb-406d-916d-0cdcb788533a&quot; /&gt;
-
-&gt; [!CAUTION]
-&gt; **⚠️ Important Security Permission Note**
-&gt; If you encounter a security-related error message when trying to connect after pairing, you must grant the secure settings permission via ADB by running the following script:
-
-```bash
+## 🚀 Installation &amp; Update Guide
+
+You can easily install the launcher using the **Innioasis Updater**.
+👉 [Download Innioasis Updater](https://www.innioasis.com/pages/download)
+
+&lt;img width=&quot;1214&quot; height=&quot;612&quot; alt=&quot;Installation Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/95e9e82a-7b2a-48ee-a75b-6f055a77db07&quot; /&gt;
+
+---
+
+## 🆕 What&#x27;s New in v0.6
+
+### 1. Added Launcher OTA Update Feature
+* You can now download and apply updates directly within the launcher without having to manually reinstall the APK file.
+
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Update Feature Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/b34f1026-da50-45f8-a99a-bf83e358bb1f&quot; /&gt;
+
+### 2. Status Bar Enhancement
+* Added a playback status icon to the status bar.
+
+### 3. Bug Fixes
+* Fixed minor bugs and improved overall stability.
+
+---
+
+## 🎧 Bluetooth Connection &amp; Pairing
+
+Bluetooth headphone connection testing has been successfully completed, and it works perfectly!
+
+&lt;img width=&quot;480&quot; height=&quot;360&quot; alt=&quot;Bluetooth Pairing Screenshot&quot; src=&quot;https://github.com/user-attachments/assets/73d0cec4-ddeb-406d-916d-0cdcb788533a&quot; /&gt;
+
+&gt; [!CAUTION]
+&gt; **⚠️ Important Security Permission Note**
+&gt; If you encounter a security-related error message when trying to connect after pairing, you must grant the secure settings permission via ADB by running the following script:
+
+```bash
 adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;d59e70c3c2c4b8a32b47eb1571640b7cfd4c708e9f8a3f56d5dfbe42a71b515a&quot;,&quot;size&quot;:844045166,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;940719b83226daf7cc5192c2a0eee974efb9ba1b3028e4afe8e32f15c0118768&quot;,&quot;size&quot;:610634012,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;0579118756bf4bc241a8d9daacc56623d9e2263465ee62fe2355a9856cb03e90&quot;,&quot;size&quot;:692830002,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;ad5df93c0bfb61ed266bbfe4761fa0554480acb7b2d6ae17d0b5f8265ee7bb8c&quot;,&quot;size&quot;:787152579,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;628a859e310b06f8f1e144247284c65a81c95d1efb15526e1188054817cf0ec8&quot;,&quot;size&quot;:553741431,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;4e708d9f8dd6dce59c7af411023b39a40be899bebaaf6fb27d286e9dfdb84bed&quot;,&quot;size&quot;:635937415,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;}],&quot;built_at&quot;:&quot;2026-11-04T22:06:22Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;902aa070ed99f9e6fe9c896f2ef18db6c95c06ce4a00a47460088e15ddf4003b&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:3,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:4,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:3},&quot;generated_at&quot;:&quot;2026-11-04T22:06:22Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -285,23 +285,23 @@ adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS
 
 ---
 
-&gt; [!WARNING]
-&gt; &lt;span style=&quot;color:#d9381e; font-weight:bold;&quot;&gt;⚠️ IMPORTANT: This has only been tested on System Software version 2.1.9. It is highly recommended to check your own firmware version before proceeding with the installation.&lt;/span&gt;
-
-1. 칼라 테마기능 적용
-2. 위젯기능 추가
-3. 파일 탐색기 시각화 오류수정(노래 파일이 많아지면 느려지는 버그 수정)
-4. 라디오 버튼 제거
-5. 배터리 표시 아이콘으로 변경
-6. 와이파이를 통한 앨범 자동 다운로드
-7. 최적화 및 버그 수정
--------------------------------------
-1. Added color themes
-2. Added widget support
-3. Fixed visual rendering issues in File Explorer (Resolved slowdowns when loading a large number of songs)
-4. Removed radio buttons
-5. Replaced battery indicator with an icon
-6. Auto-Download Album Art via Wi-Fi
+&gt; [!WARNING]
+&gt; &lt;span style=&quot;color:#d9381e; font-weight:bold;&quot;&gt;⚠️ IMPORTANT: This has only been tested on System Software version 2.1.9. It is highly recommended to check your own firmware version before proceeding with the installation.&lt;/span&gt;
+
+1. 칼라 테마기능 적용
+2. 위젯기능 추가
+3. 파일 탐색기 시각화 오류수정(노래 파일이 많아지면 느려지는 버그 수정)
+4. 라디오 버튼 제거
+5. 배터리 표시 아이콘으로 변경
+6. 와이파이를 통한 앨범 자동 다운로드
+7. 최적화 및 버그 수정
+-------------------------------------
+1. Added color themes
+2. Added widget support
+3. Fixed visual rendering issues in File Explorer (Resolved slowdowns when loading a large number of songs)
+4. Removed radio buttons
+5. Replaced battery indicator with an icon
+6. Auto-Download Album Art via Wi-Fi
 8. Optimized performance and fixed bugs
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;2c9725b03391e00f14ba8ecd288f1e0c1746888559e8fba343b9dfa73138495a&quot;,&quot;size&quot;:844064409,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;cc226932f9e39f889d7308b7d38d4b320d2289344208c4251b7afa43ba5e489d&quot;,&quot;size&quot;:610653255,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;4171a53582bd121e7a5599e1cc24e234400c8f6f2366c9d6910c628849c6ede1&quot;,&quot;size&quot;:692849245,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;9a4ddae1e3ac9c6e5f173a4bec3b3450ebcbc5cf18b292cec2b81d2e10ca0409&quot;,&quot;size&quot;:787140350,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;20495ddf56a4fa29b2e4b0434e7534da0bd5a869be313eb8095e7ce4cbca543e&quot;,&quot;size&quot;:553729202,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;8880bf4987705f706af9be13f5384c29ab7a79e03349eacb70a9cfad81306f97&quot;,&quot;size&quot;:635925186,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;}],&quot;built_at&quot;:&quot;2026-11-04T22:02:05Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;9869e34454f73dd87e2545305b6adc8263b669da7af30c500ecd61d8bc7bcd99&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:3,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:5,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:3},&quot;generated_at&quot;:&quot;2026-11-04T22:02:05Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -354,9 +354,9 @@ adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS
 
 ---
 
-1. 테마파일 적용(/storage/sdcard0/Y1_Themes/ 폴더에 원하는 테마 파일(.json)을 넣고 설정)
-2. 화면이 커진 상태에서 곡변경 기능 추가
-3. 셔플 재생 알고리즘 수정/아이콘 교체
+1. 테마파일 적용(/storage/sdcard0/Y1_Themes/ 폴더에 원하는 테마 파일(.json)을 넣고 설정)
+2. 화면이 커진 상태에서 곡변경 기능 추가
+3. 셔플 재생 알고리즘 수정/아이콘 교체
 4. 기타 버그 수정
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;dbb91bfc92f1e47c0de85a357fd8f0ebf129ba7d76d3c6aba44535c436e2c8db&quot;,&quot;size&quot;:844048036,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;6836ec3613bea76cfb415b8446390adfc95a72e085f7b5024169a188ae65afd6&quot;,&quot;size&quot;:610636882,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;72bfd66e66dcab6d105efd8fdef5eb8816ef8d93abf44cfdc7e8f065168b046c&quot;,&quot;size&quot;:692832872,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;9d3df09ee904169ebf06041d3bce4503322b4daa0fd07cefc78040e2625cf86a&quot;,&quot;size&quot;:787138448,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;f6d7f4a989775f3c2d2533783f89981b4ce6724ac67f9788767fb56f4ee01adf&quot;,&quot;size&quot;:553727300,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;e671e9afd5b46004ad4521f9c91759a67d3ac2a3946b10d7a70333b442f1b6b1&quot;,&quot;size&quot;:635923284,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;}],&quot;built_at&quot;:&quot;2026-11-04T21:57:58Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;ca4c4706ed2ef7875e725c795f48c416951ccc960b227c987474a840293ee17e&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:3,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:5,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:3},&quot;generated_at&quot;:&quot;2026-11-04T21:57:58Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -489,33 +489,33 @@ adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS
 
 ---
 
----
-
-### 🚀 JJ Launcher v0.11.6 Release Notes
-
-**Important Notice on FLAC Playback**
-
-* Due to stability issues with the previous downsampling engine, we have reverted to the legacy downsampling engine. Please note that this down-sampling engine downgrade may cause potential side effects or issues with FLAC playback.
-
----
-
-### 🌟 Key Updates &amp; Improvements
-
-* **Audio Engine Downgrade:** Reverted the FLAC downsampling engine to the legacy version for better stability.
-* **Opus Album Art Fix:** Fixed an issue where album art for Opus audio files was not displaying properly.
-* **Player UI Enhancements:** Added playback speed control, a close button, and a sleep timer function directly to the music player screen.
-* **Video Player:** Added a continuous video playback feature.
-* **Library UI:** Resized album art thumbnails in the library view for better layout balance.
-* **Podcast Engine Overhaul:** Significantly improved podcast streaming and channel loading performance. Special thanks to **ArcSmurf** for the amazing contribution!
-* **Language Bug Fix:** Resolved a bug where language settings would randomly reset.
-
----
-
-### 🎵 Last.fm Scrobbling Support &amp; API Announcement
-
-* **Last.fm Scrobbling Integrated:** You can now scrobble your tracks to Last.fm!
-* **Commercial API Access Granted:** Thanks to the support of the Last.fm team, we have been granted **1 year of free commercial API access**.
-* **Seamless Login:** Pro users can now use Last.fm scrobbling using only their account credentials (no separate API key required!). Simply launch the web server and log in.
+---
+
+### 🚀 JJ Launcher v0.11.6 Release Notes
+
+**Important Notice on FLAC Playback**
+
+* Due to stability issues with the previous downsampling engine, we have reverted to the legacy downsampling engine. Please note that this down-sampling engine downgrade may cause potential side effects or issues with FLAC playback.
+
+---
+
+### 🌟 Key Updates &amp; Improvements
+
+* **Audio Engine Downgrade:** Reverted the FLAC downsampling engine to the legacy version for better stability.
+* **Opus Album Art Fix:** Fixed an issue where album art for Opus audio files was not displaying properly.
+* **Player UI Enhancements:** Added playback speed control, a close button, and a sleep timer function directly to the music player screen.
+* **Video Player:** Added a continuous video playback feature.
+* **Library UI:** Resized album art thumbnails in the library view for better layout balance.
+* **Podcast Engine Overhaul:** Significantly improved podcast streaming and channel loading performance. Special thanks to **ArcSmurf** for the amazing contribution!
+* **Language Bug Fix:** Resolved a bug where language settings would randomly reset.
+
+---
+
+### 🎵 Last.fm Scrobbling Support &amp; API Announcement
+
+* **Last.fm Scrobbling Integrated:** You can now scrobble your tracks to Last.fm!
+* **Commercial API Access Granted:** Thanks to the support of the Last.fm team, we have been granted **1 year of free commercial API access**.
+* **Seamless Login:** Pro users can now use Last.fm scrobbling using only their account credentials (no separate API key required!). Simply launch the web server and log in.
 * **Support the Project:** To keep Last.fm integration and other features running continuously in the future, your donations and support are always greatly appreciated!
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;d229c4107abd22e3e75d81c20e33202fdc47f70f0c8bfc719349fb7141b9d084&quot;,&quot;size&quot;:843744458,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;1913077e3b859f5ecc9ebae260bfa2027ff24b583d9abbab5c5bdaaf4d5564e2&quot;,&quot;size&quot;:610333304,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;030161ce5e7c66fc185cb09a1da43e6f097b196cca902e047053b480bd950529&quot;,&quot;size&quot;:692529294,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;845875bcaecc356faa400c349a8abacccce8b4ea5371a551182549ccbe7594b3&quot;,&quot;size&quot;:787257547,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;7bdae510a11cda20a4a0ca7d063b1301fc8681a231776fc43b65a5e406cbe3e1&quot;,&quot;size&quot;:553846400,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;7d8176f5c0883a21aaf190be6134f068e1451ea97c920621f6052127343b9997&quot;,&quot;size&quot;:636042383,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;1b5a86064138e46a41ef96472e52088f7ec7583d66adbad19c98e3e066a8be3e&quot;,&quot;size&quot;:758283281,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;5dc0ad2eb7a7dad384a817adcc8413bb34bd7973c6762b61e480e1203eec8c1b&quot;,&quot;size&quot;:526672733,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;68ab3c180c89d9dccc4ea4329480192c9bd91073bfedc13e2dd83d89e8455d89&quot;,&quot;size&quot;:607068117,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;}],&quot;built_at&quot;:&quot;2026-11-04T22:25:59Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;c04d3a5c4a9a73238b8fd4c1f00276a5aa6e54539edec8241a6b5e312216709e&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;,&quot;rom_y2.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:4,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:3,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:3,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:3,&quot;rom_y2-linux.zip&quot;:1,&quot;rom_y2-macos.zip&quot;:3,&quot;rom_y2-windows.zip&quot;:1,&quot;rom_y2.zip&quot;:3},&quot;generated_at&quot;:&quot;2026-11-04T22:25:59Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -650,41 +650,41 @@ Fixed an issue where FLAC files would not play in v0.11.4.
 
 ---
 
-Here is what’s new in this release:
-
-### 🎵 Audio &amp; Media Upgrades
-
-* **Faster Lossless Playback:** Replaced the downsampling engine, so lossless audio files now start playing much faster!
-* **Improved Library Hierarchy:** Browsing structure is now updated to `Album Artist` &gt; `Album` &gt; `Track`.
-* **Cover Flow Stability:** Cover Flow is now sorted by artist name and operates much more stably.
-* **Radio Sleep Fix:** Fixed the annoying bug where FM radio sound would cut off when the screen turned off.
-* **Smarter File Scanning:** Optimized the media scan method for better performance.
-* **Podcast Episode Deletion:** You can now delete episodes directly within the Podcast menu.
-* **Video Playback Resume &amp; Skip:** Added &quot;Resume from last played position&quot; and skip options for video playback.
-
-### 🎨 UI &amp; Customization
-
-* **Player Screen Customization:** You can now fully apply custom themes to the main Player screen via the Theme Editor!
-* **Improved Text Visibility:** Adjusted text colors dynamically according to theme colors so everything stays readable.
-* **Status Bar Battery %:** Added actual percentage numbers to the status bar battery icon.
-* **Categorized Settings:** Reorganized the cluttered Settings menu into clean categories.
-* **Screen Color Filter:** Added a screen color filter feature for late-night listening.
-
-### ⚙️ Controls &amp; System Improvements
-
-* **Force Reboot Shortcut:** Long-press the Play/Pause button for 5+ seconds to force restart the device.
-* **Quick Repeat Mode:** Long-press Play/Pause on the Player screen to quickly cycle through repeat modes.
-* **Power &amp; Battery Stats:** Enhanced deep sleep / power management and added a dedicated Battery Usage Statistics screen.
-
-### 🎮 Bonus Features!
-
-* **Mini-Games Added:** Take a break and play **2048** or **FreeCell** directly on your device!
-
----
-
-🔍 **Useful Links:**
-
-* 📦 **Download Latest Release:** [[[GitHub Release Link]](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/releases)](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/releases)
+Here is what’s new in this release:
+
+### 🎵 Audio &amp; Media Upgrades
+
+* **Faster Lossless Playback:** Replaced the downsampling engine, so lossless audio files now start playing much faster!
+* **Improved Library Hierarchy:** Browsing structure is now updated to `Album Artist` &gt; `Album` &gt; `Track`.
+* **Cover Flow Stability:** Cover Flow is now sorted by artist name and operates much more stably.
+* **Radio Sleep Fix:** Fixed the annoying bug where FM radio sound would cut off when the screen turned off.
+* **Smarter File Scanning:** Optimized the media scan method for better performance.
+* **Podcast Episode Deletion:** You can now delete episodes directly within the Podcast menu.
+* **Video Playback Resume &amp; Skip:** Added &quot;Resume from last played position&quot; and skip options for video playback.
+
+### 🎨 UI &amp; Customization
+
+* **Player Screen Customization:** You can now fully apply custom themes to the main Player screen via the Theme Editor!
+* **Improved Text Visibility:** Adjusted text colors dynamically according to theme colors so everything stays readable.
+* **Status Bar Battery %:** Added actual percentage numbers to the status bar battery icon.
+* **Categorized Settings:** Reorganized the cluttered Settings menu into clean categories.
+* **Screen Color Filter:** Added a screen color filter feature for late-night listening.
+
+### ⚙️ Controls &amp; System Improvements
+
+* **Force Reboot Shortcut:** Long-press the Play/Pause button for 5+ seconds to force restart the device.
+* **Quick Repeat Mode:** Long-press Play/Pause on the Player screen to quickly cycle through repeat modes.
+* **Power &amp; Battery Stats:** Enhanced deep sleep / power management and added a dedicated Battery Usage Statistics screen.
+
+### 🎮 Bonus Features!
+
+* **Mini-Games Added:** Take a break and play **2048** or **FreeCell** directly on your device!
+
+---
+
+🔍 **Useful Links:**
+
+* 📦 **Download Latest Release:** [[[GitHub Release Link]](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/releases)](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/releases)
 * 💬 **Feedback &amp; Bug Reports:** Feel free to leave a comment below or open an issue on [[[GitHub Issues]](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/issues)](https://www.google.com/search?q=https://github.com/ismileblue/y1_launcher/issues)!
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;4bb84480fd2f69ce6c5b804c990f88f84606e1e83a5d346d7ad1f1cd4713cf78&quot;,&quot;size&quot;:843760134,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;ce299693eaaefb2aaa22227f2ce3f328d641a20eab2ee1de905285598f2d89fe&quot;,&quot;size&quot;:610348980,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;3fa006361126b3de58450a0f79c61a7f1aed25b4632809f46435b5da8ae9e29b&quot;,&quot;size&quot;:692544970,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;04c19e68471a4abb592c06d97086df566bc5c8dd57f8819657142d1f218cf61b&quot;,&quot;size&quot;:787258700,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;1b45ba58bde926ae321eef1090a367bbffa09d28bc8011833ce7e3937d3e2df2&quot;,&quot;size&quot;:553847552,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;a4ac8023cb0d9e713d821eec31d6d0b10e8fc91201a5186d8f03d8356ce28d9c&quot;,&quot;size&quot;:636043536,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;62d70c5a28385128c5bdbb70b34e2b5a332e2a34476a0906ff956656c30f2779&quot;,&quot;size&quot;:758164472,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;8c61f13d69054f293e63122ed6fcb1887f3a5db2036d7ecd2d14ce427d28ff2e&quot;,&quot;size&quot;:526553923,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;rom_y2-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;00d6b5d82e244ef954970e2e629c5a71471c154c61a9ade44a87bceda13ac838&quot;,&quot;size&quot;:606949308,&quot;source_asset&quot;:&quot;rom_y2.zip&quot;,&quot;type&quot;:&quot;Stock&quot;}],&quot;built_at&quot;:&quot;2026-11-04T21:53:40Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;5999049876d0ed1363c6e0759c16d7b4658c73cca9e51a1dd91eeb232684e128&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;,&quot;rom_y2.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:3,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:5,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:3,&quot;rom_y2-linux.zip&quot;:1,&quot;rom_y2-macos.zip&quot;:5,&quot;rom_y2-windows.zip&quot;:1,&quot;rom_y2.zip&quot;:3},&quot;generated_at&quot;:&quot;2026-11-04T21:53:40Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -789,34 +789,34 @@ This is a new test version that adds full support for firmware 3.1.2 and introdu
 
 ---
 
-### 🚀 [Update] JJ Launcher v0.11 Release Notes
-
-Hi everyone!
-
-Thanks to your amazing support and numerous feedback/feature requests, the v0.11 update is finally ready! I am incredibly grateful to everyone who has shown interest and helped test the app.
-
-Since many major features have been refactored and added in this version, there might be some unexpected bugs even in areas that used to work fine. Please let me know if you run into any issues, and I will get them patched as soon as possible!
-
-Here is what’s new in v0.11:
-
-* **New Audio Engine:** Switched the encoder setup to an **ExoPlayer + FFmpeg** combination.
-* **Lossless Audio Support:** The launcher can now play high-res lossless FLAC and ALAC files that previously wouldn&#x27;t play.
-* **Hi-Res Metadata:** High-quality audio metadata is now read and displayed correctly.
-* **10-Band EQ:** A brand new **10-band Equalizer** has been implemented.
-* **Podcast Support:** You can now search for and download podcasts directly using the **iTunes API**.
-* **Crossfeed:** Added a crossfeed function for a better headphone listening experience.
-* **Playlist Improvements:** Adding and deleting playlists now works perfectly. *(To trigger, long-press the center button on any song in the list)*.
-* **Quick Alphabet Search:** Added an alphabetical search feature in the song list. *(To trigger, long-press the Play/Pause button at the bottom of the list)*.
-* **Audiobook Support:** Added support for **.m4b** files, including **Chapter navigation**.
-* **Album Track Sorting Bug:** Fixed the issue where albums were not sorting by track number.
-* **Playlist Shuffle Bug:** Fixed the bug where shuffling playlists wouldn&#x27;t work.
-* **UI Improvements:** Switched several default Android dialogs/popups to modern **Material Design** popups.
-* **PC Upload/Download:** Added a download feature to the existing PC upload functionality.
-* **Recently Added:** Added a &quot;Recently Added Songs&quot; list.
-* **Faster Scanning:** Added a duplicate-scanning prevention engine to make library scans significantly faster.
-
-As always, with so many changes under the hood, there might be some unexpected bugs. Please report any issues you find, and I’ll get them fixed in the next update.
-
+### 🚀 [Update] JJ Launcher v0.11 Release Notes
+
+Hi everyone!
+
+Thanks to your amazing support and numerous feedback/feature requests, the v0.11 update is finally ready! I am incredibly grateful to everyone who has shown interest and helped test the app.
+
+Since many major features have been refactored and added in this version, there might be some unexpected bugs even in areas that used to work fine. Please let me know if you run into any issues, and I will get them patched as soon as possible!
+
+Here is what’s new in v0.11:
+
+* **New Audio Engine:** Switched the encoder setup to an **ExoPlayer + FFmpeg** combination.
+* **Lossless Audio Support:** The launcher can now play high-res lossless FLAC and ALAC files that previously wouldn&#x27;t play.
+* **Hi-Res Metadata:** High-quality audio metadata is now read and displayed correctly.
+* **10-Band EQ:** A brand new **10-band Equalizer** has been implemented.
+* **Podcast Support:** You can now search for and download podcasts directly using the **iTunes API**.
+* **Crossfeed:** Added a crossfeed function for a better headphone listening experience.
+* **Playlist Improvements:** Adding and deleting playlists now works perfectly. *(To trigger, long-press the center button on any song in the list)*.
+* **Quick Alphabet Search:** Added an alphabetical search feature in the song list. *(To trigger, long-press the Play/Pause button at the bottom of the list)*.
+* **Audiobook Support:** Added support for **.m4b** files, including **Chapter navigation**.
+* **Album Track Sorting Bug:** Fixed the issue where albums were not sorting by track number.
+* **Playlist Shuffle Bug:** Fixed the bug where shuffling playlists wouldn&#x27;t work.
+* **UI Improvements:** Switched several default Android dialogs/popups to modern **Material Design** popups.
+* **PC Upload/Download:** Added a download feature to the existing PC upload functionality.
+* **Recently Added:** Added a &quot;Recently Added Songs&quot; list.
+* **Faster Scanning:** Added a duplicate-scanning prevention engine to make library scans significantly faster.
+
+As always, with so many changes under the hood, there might be some unexpected bugs. Please report any issues you find, and I’ll get them fixed in the next update.
+
 Thank you so much for your continued interest and support! Enjoy v0.11! 🙏🚀
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;b1fc89240e2b197595f182f08bf777715c501c695b0b0da0e52190d6d09b978d&quot;,&quot;size&quot;:844547024,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;4316b4608062d972da4a635ec20b014e8c4db750a9c2786fb0c911474ebbbefb&quot;,&quot;size&quot;:611135871,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;cc10448a05672039d460216f1d96826bc8e599df591429a02b2a2d18e17a3f59&quot;,&quot;size&quot;:693331860,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;5db599720a567ec6896aac862c50276d4075f50eb7616eb13128b0361eb5a2f7&quot;,&quot;size&quot;:792011868,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;6c8835aabc9bc88f2047b57c6a76fdfc0b37a2614e067e25364f68dd10fc75f0&quot;,&quot;size&quot;:558600722,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;41727e1c83ae04ee65f8755b45010ac0cbf3052d8db18c960ad9becbca97cdbf&quot;,&quot;size&quot;:640796704,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;}],&quot;built_at&quot;:&quot;2026-11-04T21:44:23Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;b23de389350fdf0e804eaf0122543dc96b018cddd3e1dca8c18a4526ca6d96fc&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:3,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:5,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:3},&quot;generated_at&quot;:&quot;2026-11-04T21:44:23Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
@@ -921,42 +921,42 @@ This patch fixes the error that could occur during the update process. Please up
 
 ---
 
-## 🎉 JJ Launcher v0.10 is Finally Here!
-
-Thanks to everyone&#x27;s incredible interest and feedback, I am thrilled to finally release version 0.10! Thank you all so much for your continuous support and encouragement.
-
-Since the Radio and Audiobook features from the stock launcher aren&#x27;t available when using custom launchers, I have built and integrated brand-new custom Radio and Audiobook features in this update. 
-
-I also tried my best to incorporate the thoughtful feedback you all provided. Please understand that I couldn&#x27;t list the usernames of everyone who gave such great suggestions, but I truly appreciate every single one of you!
-
-### 🚀 Update Changelog (v0.10)
-
-* **Audio Engine Upgrade:** Replaced the audio playback engine from MediaPlayer to ExoPlayer *(Note: FLAC is still decoded via software)*.
-* **New Cover Flow:** Added a new Cover Flow visualizer.
-* **New Radio App:** Added a custom built-in Radio feature.
-* **New Audiobook App:** Added a custom built-in Audiobook feature.
-* **Multi-language Support:** Added support for English, Japanese, Chinese, Spanish, and Russian.
-* **Main Menu List View:** Main screen buttons can now be displayed in a list format.
-* **Album Thumbnails:** Added thumbnails to the album list view.
-* **Track Number Sorting:** The album list is now correctly sorted by track numbers.
-* **Focus Bug Fixed:** Fixed an issue where the UI navigation focus would be lost.
-* **Lyrics Support:** Added support for both embedded and external lyrics.
-* **New Audio Categories:** Added audio categorization by Year and Genre.
-* **Playback Speed Control:** Added fast playback support up to 2x speed *(excluding FLAC)*.
-* **10-Second Skip:** Added the ability to skip backward/forward by 10 seconds using the left/right buttons.
-* **Quick Add to Playlist:** You can now add a song to a playlist by long-pressing the Stop button on the player screen.
-* **Screen-Off Shortcut:** Added a screen-off shortcut by long-pressing the Center button *(Note: Not available in the file list view as it overlaps with the &#x27;add to playlist&#x27; shortcut)*.
-* **Custom Main Buttons:** Added the ability for users to edit/customize the main screen buttons.
-* **Theme Backgrounds:** Added default background image support for themes.
-* **Clock Format:** Added an option to toggle between 12-hour and 24-hour clock formats.
-* **Default Theme Changed:** Updated the default theme for a fresh look.
-* **New List Theme:** Added a new list-style theme.
-* **Infinite Wheel Toggle:** Added an option to turn the infinite wheel scrolling on or off.
-* **General Improvements:** Various bug fixes and UI optimizations.
-
-### 📌 Future Plans
-For future versions, rather than focusing on adding new features, my main priority will be fixing bugs to ensure stable performance and expanding the variety of themes available.
-
+## 🎉 JJ Launcher v0.10 is Finally Here!
+
+Thanks to everyone&#x27;s incredible interest and feedback, I am thrilled to finally release version 0.10! Thank you all so much for your continuous support and encouragement.
+
+Since the Radio and Audiobook features from the stock launcher aren&#x27;t available when using custom launchers, I have built and integrated brand-new custom Radio and Audiobook features in this update. 
+
+I also tried my best to incorporate the thoughtful feedback you all provided. Please understand that I couldn&#x27;t list the usernames of everyone who gave such great suggestions, but I truly appreciate every single one of you!
+
+### 🚀 Update Changelog (v0.10)
+
+* **Audio Engine Upgrade:** Replaced the audio playback engine from MediaPlayer to ExoPlayer *(Note: FLAC is still decoded via software)*.
+* **New Cover Flow:** Added a new Cover Flow visualizer.
+* **New Radio App:** Added a custom built-in Radio feature.
+* **New Audiobook App:** Added a custom built-in Audiobook feature.
+* **Multi-language Support:** Added support for English, Japanese, Chinese, Spanish, and Russian.
+* **Main Menu List View:** Main screen buttons can now be displayed in a list format.
+* **Album Thumbnails:** Added thumbnails to the album list view.
+* **Track Number Sorting:** The album list is now correctly sorted by track numbers.
+* **Focus Bug Fixed:** Fixed an issue where the UI navigation focus would be lost.
+* **Lyrics Support:** Added support for both embedded and external lyrics.
+* **New Audio Categories:** Added audio categorization by Year and Genre.
+* **Playback Speed Control:** Added fast playback support up to 2x speed *(excluding FLAC)*.
+* **10-Second Skip:** Added the ability to skip backward/forward by 10 seconds using the left/right buttons.
+* **Quick Add to Playlist:** You can now add a song to a playlist by long-pressing the Stop button on the player screen.
+* **Screen-Off Shortcut:** Added a screen-off shortcut by long-pressing the Center button *(Note: Not available in the file list view as it overlaps with the &#x27;add to playlist&#x27; shortcut)*.
+* **Custom Main Buttons:** Added the ability for users to edit/customize the main screen buttons.
+* **Theme Backgrounds:** Added default background image support for themes.
+* **Clock Format:** Added an option to toggle between 12-hour and 24-hour clock formats.
+* **Default Theme Changed:** Updated the default theme for a fresh look.
+* **New List Theme:** Added a new list-style theme.
+* **Infinite Wheel Toggle:** Added an option to turn the infinite wheel scrolling on or off.
+* **General Improvements:** Various bug fixes and UI optimizations.
+
+### 📌 Future Plans
+For future versions, rather than focusing on adding new features, my main priority will be fixing bugs to ensure stable performance and expanding the variety of themes available.
+
 Please continue to show your interest and support. Thank you! :D
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;e36c341e7b68acdedce260380877b8830b450b570ff1248dda1d379167d063de&quot;,&quot;size&quot;:845012345,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;0baf325f7036d7c7494e6629ace02559619d9c888740fbf5a7491fe54efbe10b&quot;,&quot;size&quot;:611601191,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;98b50ce98f09bbae3d61b79562aae93c44c2df98249bcc8303f705f1bcc269e1&quot;,&quot;size&quot;:693797181,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;e2d3215d9b794b2d8bb115cb5e2174e91099354c0e82f0300e5c1aeda9dde682&quot;,&quot;size&quot;:786975731,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;79f66c459b498f891e2e0098465410664f71b0cd5de3b1c79eaf05c9b2c9cfa2&quot;,&quot;size&quot;:553564583,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;62d35ac456e216f8b610196bad9a8b7d5f2ef6b7a03f76e655edc6b40efa7143&quot;,&quot;size&quot;:635760567,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;}],&quot;built_at&quot;:&quot;2026-11-04T21:36:22Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;ec62d0ebff60c18ebeea19e4833932ccd03a7b8a4df4dbaa1eb5d744141d6aca&quot;,&quot;original_assets&quot;:[&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;rom-linux.zip&quot;:1,&quot;rom-macos.zip&quot;:5,&quot;rom-windows.zip&quot;:1,&quot;rom.zip&quot;:3,&quot;rom_type_b-linux.zip&quot;:1,&quot;rom_type_b-macos.zip&quot;:5,&quot;rom_type_b-windows.zip&quot;:1,&quot;rom_type_b.zip&quot;:3},&quot;generated_at&quot;:&quot;2026-11-04T21:36:22Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:236551244,&quot;tag&quot;:&quot;2.5.1&quot;}},&quot;v&quot;:11} --&gt;
