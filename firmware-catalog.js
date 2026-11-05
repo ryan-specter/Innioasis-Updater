@@ -20,6 +20,78 @@ window.INNIOASIS_FIRMWARE_CATALOG = [
         "description": "The stock Software path for restoring an Innioasis Y2."
     },
     {
+        "slug": "original-g1",
+        "name": "Original Software",
+        "model": "G1",
+        "repo": "y1-community/g1-stock-rom",
+        "packageName": "rom_g1.zip",
+        "guide": "guides/restore-original-g1.html",
+        "description": "The stock Software path for restoring a Innioasis G1."
+    },
+    {
+        "slug": "original-g3",
+        "name": "Original Software",
+        "model": "G3",
+        "repo": "y1-community/g3-stock-rom",
+        "packageName": "rom_g3.zip",
+        "guide": "guides/restore-original-g3.html",
+        "description": "The stock Software path for restoring a Innioasis G3."
+    },
+    {
+        "slug": "original-g5",
+        "name": "Original Software",
+        "model": "G5",
+        "repo": "y1-community/g5-stock-rom",
+        "packageName": "rom_g5.zip",
+        "guide": "guides/restore-original-g5.html",
+        "description": "The stock Software path for restoring a Innioasis G5."
+    },
+    {
+        "slug": "original-r1",
+        "name": "Original Software",
+        "model": "R1",
+        "repo": "y1-community/r1-stock-rom",
+        "packageName": "rom_r1.zip",
+        "guide": "guides/restore-original-r1.html",
+        "description": "The stock Software path for restoring a Innioasis R1."
+    },
+    {
+        "slug": "original-pr1",
+        "name": "Original Software",
+        "model": "PR1",
+        "repo": "y1-community/pr1-stock-rom",
+        "packageName": "rom_pr1.zip",
+        "guide": "guides/restore-original-pr1.html",
+        "description": "The stock Software path for restoring a Innioasis PR1."
+    },
+    {
+        "slug": "original-sr1",
+        "name": "Original Software",
+        "model": "SR1",
+        "repo": "y1-community/sr1-stock-rom",
+        "packageName": "rom_sr1.zip",
+        "guide": "guides/restore-original-sr1.html",
+        "description": "The stock Software path for restoring a Timmkoo SR1."
+    },
+    {
+        "slug": "original-q3",
+        "name": "Original Software",
+        "model": "Q3",
+        "repo": "y1-community/q3-stock-rom",
+        "packageName": "rom_q3.zip",
+        "guide": "guides/restore-original-q3.html",
+        "description": "The stock Software path for restoring a Timmkoo Q3."
+    },
+    {
+        "slug": "original-q5",
+        "name": "Original Software",
+        "model": "Q5",
+        "repo": "y1-community/q5-stock-rom",
+        "packageName": "rom_q5.zip",
+        "guide": "guides/restore-original-q5.html",
+        "description": "The stock Software path for restoring a Timmkoo Q5."
+    },
+    {
         "slug": "reborn-y2linux-y2",
         "name": "Reborn (Y2Linux)",
         "model": "Y2",
