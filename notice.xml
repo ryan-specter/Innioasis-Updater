@@ -60,7 +60,19 @@
       its own page instead.
   - <link>: optional URL alias for backwards compatibility with earlier builds.
 -->
-<notices updated="2026-11-03">
+<notices updated="2026-11-05">
+
+  <notice id="2026-11-05-test-notice" persistent="false" severity="info" from="2026-11-05" until="2026-11-12">
+    <title>Test notice</title>
+    <content>This is a test notice. It confirms that notices reach Updater CE and this site.</content>
+    <full_content>This is a test notice, safe to dismiss.
+
+- It is shown to everyone, with no model, platform or firmware targeting.
+- It expires on 2026-11-12, so it goes away on its own.
+- Its only job is to confirm the feed is fetched and rendered correctly.
+
+> Nothing needs to be done. If you can read this, notices are working.</full_content>
+  </notice>
 
   <notice id="2026-11-03-rockbox-y2-warn" persistent="false" severity="warning" from="2026-11-03" until="2026-12-31" models="Y2" firmware_repo="spycemagic/y2-rockbox" firmware_version="*">
     <title>Users having issues with Rockbox for Y2.</title>
