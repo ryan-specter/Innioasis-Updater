@@ -1816,8 +1816,29 @@
   var MONTHLY_TARGET = 200.0;
   var WEEKLY_TARGET = MONTHLY_TARGET / 4;
   var DAILY_TARGET = MONTHLY_TARGET / 20;
+  // The slow weekdays (Tuesday, Wednesday, Saturday) are the days the $10
+  // rung is meant to carry; a day still short of $9.99 names today on every
+  // weekday, and a paid day climbs to the week/month choice.
+  var DAILY_REACHED = 9.99;
+  var WEEK_MONTH_SHARE = 0.5;
+  var MONTHLY_BOOST_USD = 60.0;
+  var MONTHLY_BOOST_SHARE = 0.8;
 
-  function fundingGoalView(donations, monthTotal, now) {
+  // One roll per calendar day, kept for the page's lifetime: the bar
+  // re-renders after each donation fetch, and the week/month choice must not
+  // flip under the reader every few seconds.
+  var fundingGoalRolls = window.__innioasisFundingGoalRolls ||
+    (window.__innioasisFundingGoalRolls = {});
+
+  function fundingGoalRoll(now) {
+    var key = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
+    if (!Object.prototype.hasOwnProperty.call(fundingGoalRolls, key)) {
+      fundingGoalRolls[key] = Math.random();
+    }
+    return fundingGoalRolls[key];
+  }
+
+  function fundingGoalView(donations, monthTotal, now, monthlyRoll) {
     now = now || new Date();
     var daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
     var dayOfMonth = now.getDate();
@@ -1826,7 +1847,8 @@
     var starts = {
       monthly: new Date(now.getFullYear(), now.getMonth(), 1),
       weekly: new Date(now.getFullYear(), now.getMonth(), now.getDate() - ((now.getDay() + 6) % 7)),
-      daily: new Date(now.getFullYear(), now.getMonth(), now.getDate())
+      daily: new Date(now.getFullYear(), now.getMonth(), now.getDate()),
+      rolling: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6)
     };
     function raisedSince(start) {
       var total = 0;
@@ -1838,18 +1860,21 @@
     }
     var monthRaised = Math.max(monthTotal || 0, raisedSince(starts.monthly));
     var raisedBy = { monthly: monthRaised, weekly: raisedSince(starts.weekly), daily: raisedSince(starts.daily) };
+    var rollingRaised = raisedSince(starts.rolling);
     var scope = null;
     var metScope = null;
     if (monthRaised >= MONTHLY_TARGET) {
       metScope = "monthly";
     } else if (monthSummary) {
       scope = "monthly";
-    } else if (raisedBy.daily < DAILY_TARGET) {
+    } else if (raisedBy.daily < DAILY_REACHED) {
       scope = "daily";
-    } else if (raisedBy.weekly < WEEKLY_TARGET) {
-      scope = "weekly";
-    } else {
+    } else if (raisedBy.weekly >= WEEKLY_TARGET) {
       scope = "monthly";
+    } else {
+      var roll = (typeof monthlyRoll === "number") ? monthlyRoll : fundingGoalRoll(now);
+      var monthlyShare = rollingRaised >= MONTHLY_BOOST_USD ? MONTHLY_BOOST_SHARE : WEEK_MONTH_SHARE;
+      scope = roll < monthlyShare ? "monthly" : "weekly";
     }
     var code = detectCurrencyCode();
     var symbol = fxSymbol(code);
