@@ -26,10 +26,6 @@
 
 <package name="Original Software" brand="Timmkoo" repo="y1-community/q3-stock-rom" device="Q3" url="https://github.com/y1-community/q3-stock-rom" type="img" handler="Custom Firmware" package_name="rom_q3.zip"  />
 
-<package name="Lithium" brand="Timmkoo" repo="NoahDomingues/Lithium" device="Q3e" url="https://github.com/NoahDomingues/Lithium" package_name="*.zip" type="img" handler="Custom Firmware" />
-
-<package name="Lithium" brand="Timmkoo" repo="NoahDomingues/Lithium" device="Q5" url="https://github.com/NoahDomingues/Lithium" type="img" package_name="*.zip" handler="Custom Firmware" />
-
 <package name="Original Software" brand="Timmkoo" repo="y1-community/q5-stock-rom" device="Q5" url="https://github.com/y1-community/q5-stock-rom" type="img" handler="Custom Firmware" package_name="rom_q5.zip"  />
 
 <package name="Original Software" brand="Timmkoo" repo="y1-community/q5-stock-rom" device="Q3e" url="https://github.com/y1-community/q5-stock-rom" type="img" handler="Custom Firmware" package_name="rom_q5.zip"  />
