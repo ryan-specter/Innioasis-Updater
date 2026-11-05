@@ -30,7 +30,7 @@
   <script src="jszip.min.js" defer></script>
   <script src="firmware-catalog.js?v=20261104cite" defer></script>
   <script src="firmware-info/manifest.js?v=20261104cite"></script>
-  <script src="lumen-site.js?v=20261105tagdate2" defer></script>
+  <script src="lumen-site.js?v=20261105savename" defer></script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Innioasis and Timmkoo Firmware Archive","description":"Verified Original Software, software updates, and custom firmware downloads for Innioasis Y1, Y2, G1, G3, G5, Q8, R1, PR1, D1 and Timmkoo Q5, Q3.","url":"https://innioasis.app/firmware.html"}</script>
 <meta property="og:site_name" content="Innioasis Software Updates">
 <!-- BEGIN GENERATED FIRMWARE SEO -->
@@ -48,8 +48,22 @@
   <main id="main" class="lumen-directory">
     <header class="lumen-directory-hero">
       <div><p class="lumen-kicker">Innioasis &amp; Timmkoo Firmware Archive</p><h1>Software Updates and Firmware</h1></div>
-      <div><p>Official software, updates and restore files. Custom systems too: Rockbox, Better-Y, Solar and more. Innioasis Y1, Y2, G1, G3, G5, Q8, R1, PR1, D1 and Timmkoo A5, Q5, Q3.</p><p class="lumen-meta">Updater CE installs Timmkoo's ZIP and RAR packages. Pick your model first.</p><div class="lumen-actions"><a class="lumen-button lumen-button--primary" href="guide.html#platform">Get Updater CE</a><a class="lumen-button" href="release_notes.html">Release notes</a><a class="lumen-button" href="developers.html">Add your project</a></div></div>
+      <div data-cn-hide><p>Official software, updates and restore files. Custom systems too: Rockbox, Better-Y, Solar and more. Innioasis Y1, Y2, G1, G3, G5, Q8, R1, PR1, D1 and Timmkoo A5, Q5, Q3.</p><p class="lumen-meta">Updater CE installs Timmkoo's ZIP and RAR packages. Pick your model first.</p><div class="lumen-actions"><a class="lumen-button lumen-button--primary" href="guide.html#platform">Get Updater CE</a><a class="lumen-button" href="release_notes.html">Release notes</a><a class="lumen-button" href="developers.html">Add your project</a></div></div>
+      <div data-cn-only hidden style="display:none"><p>官方固件、恢复包与社区系统，一台设备一个版本。请先按播放器上印的型号选择 Y1 或 Y2，再挑选需要的软件。<strong>中国大陆页面只提供固件列表与刷机包下载，不提供 Innioasis Updater CE 应用。</strong></p><p class="lumen-meta">便携刷机包已经包含刷机工具；没有便携包的版本会回退到独立 ZIP，可用 SP Flash Tool 刷入。</p><div class="lumen-actions"><a class="lumen-button lumen-button--primary" href="#firmware-filters">选择机型与固件</a><a class="lumen-button" href="firmware-list.html">完整固件列表</a><a class="lumen-button" href="sp-flash-tool.html">刷机说明</a></div></div>
     </header>
+    <section class="lumen-section" data-cn-only hidden style="display:none" aria-labelledby="cn-notice-title">
+      <div class="lumen-callout">
+        <p class="lumen-kicker">中国版 · 直接下载</p>
+        <h2 id="cn-notice-title">为什么没有 Updater CE 下载？</h2>
+        <p>Innioasis Updater CE 依赖境外在线服务查询版本与下载固件包，这些服务在中国大陆可能无法连接。因此中国版页面只保留可以直接下载的<strong>便携刷机包</strong>与<strong>独立固件 ZIP</strong>，以及完整的固件列表。</p>
+        <ol class="lumen-directory-steps">
+          <li>在下方选择机型（Y1 或 Y2），再选择需要的软件。</li>
+          <li>点击<strong>下载刷机包 ZIP</strong>。浏览器会优先使用适合你电脑的便携刷机包；该版本没有便携包时会自动回退到项目发布的独立 ZIP。</li>
+          <li>解压后按包内说明使用 SP Flash Tool 刷入。第一次刷机请先阅读 <a href="sp-flash-tool.html">SP Flash Tool 教程</a> 与 <a href="drivers.html">驱动说明</a>。</li>
+        </ol>
+        <p class="lumen-meta">固件文件托管在 GitHub Releases，中国大陆访问可能较慢。下载后请核对文件名与机型再刷入。</p>
+      </div>
+    </section>
     <section id="firmware-filters" aria-labelledby="filter-title">
       <span id="y1" class="lumen-visually-hidden" aria-hidden="true"></span><span id="y2" class="lumen-visually-hidden" aria-hidden="true"></span>
       <h2 id="filter-title" class="lumen-visually-hidden">Choose a model and Software</h2>
@@ -86,7 +100,7 @@
         </table>
       </div>
     </section>
-    <section class="lumen-section" style="width:100%;padding-bottom:0" aria-labelledby="install-title"><div class="lumen-callout"><h2 id="install-title">Install your choice with Updater CE</h2><ol class="lumen-directory-steps"><li>Open the guide and install Innioasis Updater CE for your computer if you do not have it yet.</li><li>In Updater CE, select the model printed on your player from <strong>Device Model</strong>.</li><li>From <strong>Software</strong>, select the software you want to run on that model.</li><li>Select a release, click <strong>Install / Restore</strong>, then power off and connect the player only when Updater CE asks.</li></ol><p>Need the installer? <a href="guide.html#download-updater">Open the guide and expand the Updater CE download section</a>.</p></div></section>
+    <section class="lumen-section" data-cn-hide style="width:100%;padding-bottom:0" aria-labelledby="install-title"><div class="lumen-callout"><h2 id="install-title">Install your choice with Updater CE</h2><ol class="lumen-directory-steps"><li>Open the guide and install Innioasis Updater CE for your computer if you do not have it yet.</li><li>In Updater CE, select the model printed on your player from <strong>Device Model</strong>.</li><li>From <strong>Software</strong>, select the software you want to run on that model.</li><li>Select a release, click <strong>Install / Restore</strong>, then power off and connect the player only when Updater CE asks.</li></ol><p>Need the installer? <a href="guide.html#download-updater">Open the guide and expand the Updater CE download section</a>.</p></div></section>
     <section class="lumen-section" style="width:100%;padding-bottom:0" aria-labelledby="advanced-title"><div class="lumen-section-head"><div><p class="lumen-kicker">If something goes wrong</p><h2 id="advanced-title">The safe way back</h2></div></div><div class="lumen-grid"><article class="lumen-card"><h3>Check the model</h3><p>Y1 and Y2 Software is not interchangeable. Re-select the model in Updater CE and start again.</p></article><article class="lumen-card"><h3>Wait for the prompt</h3><p>Power the player fully off and connect it only when Updater CE says it is ready.</p></article><article class="lumen-card"><h3>Restore Original Software</h3><p>Choose Original Software for the same model. If manual recovery is needed, open the <a href="troubleshooting.html">troubleshooting guide</a> first.</p></article></div></section>
     <section class="lumen-section" style="width:100%;padding-bottom:0" aria-labelledby="archive-coverage-title">
       <div class="lumen-callout">
@@ -114,9 +128,10 @@
         <p class="lumen-meta" style="margin-top: 1rem;">New releases appear here as soon as they are ready. Timmkoo Q5 and Q3 install through Updater CE too.</p>
       </div>
     </section>
-    <section class="lumen-section" id="which-updater" aria-labelledby="which-updater-title"><div class="lumen-callout"><p class="lumen-kicker">A note on the two tools</p><h2 id="which-updater-title">Which tool should I use?</h2><p><strong>Innioasis Updater CE</strong> is the safest way to update your player. It keeps your music, videos, and settings. It tells you when updates are ready. It runs on Windows, macOS, and Linux.</p><p>The Innioasis Universal Flash Tool still exists for recovery. They wipe your player and need manual steps. You do not need them for a normal install. The Universal Flash Tool is also limited on newer Macs and not available on Linux.</p><p class="lumen-meta">Creators recommend Updater CE too: <a href="https://www.tiktok.com/@catsteal3r/video/7572687586867612942" target="_blank" rel="noopener noreferrer">Catsteal3r</a> and <a href="https://www.youtube.com/watch?v=3d2cATPt8Nk&amp;t=477" target="_blank" rel="noopener noreferrer">Dammit Jeff</a>.</p><div class="lumen-actions"><a class="lumen-button" href="updater-comparison.html">Which tool should I use?</a></div></div></section>
+    <section class="lumen-section" data-cn-hide id="which-updater" aria-labelledby="which-updater-title"><div class="lumen-callout"><p class="lumen-kicker">A note on the two tools</p><h2 id="which-updater-title">Which tool should I use?</h2><p><strong>Innioasis Updater CE</strong> is the safest way to update your player. It keeps your music, videos, and settings. It tells you when updates are ready. It runs on Windows, macOS, and Linux.</p><p>The Innioasis Universal Flash Tool still exists for recovery. They wipe your player and need manual steps. You do not need them for a normal install. The Universal Flash Tool is also limited on newer Macs and not available on Linux.</p><p class="lumen-meta">Creators recommend Updater CE too: <a href="https://www.tiktok.com/@catsteal3r/video/7572687586867612942" target="_blank" rel="noopener noreferrer">Catsteal3r</a> and <a href="https://www.youtube.com/watch?v=3d2cATPt8Nk&amp;t=477" target="_blank" rel="noopener noreferrer">Dammit Jeff</a>.</p><div class="lumen-actions"><a class="lumen-button" href="updater-comparison.html">Which tool should I use?</a></div></div></section>
   </main>
   <div id="footer-root"></div><div id="support-toolbar-slot"></div>
   <script src="nav.js?v=20261113noticefilter" defer></script>
+<script src="cn-region.js?v=20261105" defer></script>
 <script src="site-i18n.js?v=20261113blocklist" defer></script></body>
 </html>

@@ -129,7 +129,24 @@
   <a class="lumen-skip-link" href="#main">Skip to content</a>
   <div id="nav-root"></div>
   <main id="main" class="lumen-home">
-    <section class="lumen-hero" aria-labelledby="home-title">
+    <section class="lumen-hero cn-hero" data-cn-only hidden style="display:none" aria-labelledby="cn-home-title">
+      <div>
+        <p class="cn-region-kicker">中国版 · 固件与刷机包下载</p>
+        <h1 id="cn-home-title">Innioasis 与 Timmkoo 播放器固件下载</h1>
+        <p class="lumen-hero-lead">支持 Innioasis <strong>Y1、Y2、G1、G3、G5、Q8、R1、PR1、D1</strong> 与 Timmkoo <strong>A5、Q5、Q3</strong>。这里提供官方固件、恢复包，以及 Rockbox、Better-Y、Solar、JJ Launcher、Inniclassic、Y2Player 等社区系统的<strong>便携刷机包（ROM ZIP）</strong>与独立固件包下载。Innioasis Updater CE 的在线功能在中国大陆可能无法正常使用，因此本站不再提供该应用。</p>
+        <div class="lumen-actions">
+          <a class="lumen-button lumen-button--primary" href="firmware.html">浏览固件与刷机包</a>
+          <a class="lumen-button" href="firmware-list.html">完整固件列表</a>
+          <a class="lumen-button" href="sp-flash-tool.html">刷机说明</a>
+        </div>
+        <p class="lumen-meta cn-region-note">优先下载便携刷机包：它已经包含刷机工具，解压后即可在 Windows 上使用。没有便携包的版本会回退到项目发布的独立 ZIP，可配合 SP Flash Tool 刷入。</p>
+      </div>
+      <figure class="lumen-hero-art">
+        <img src="y1_illustration.png" width="1080" height="1080" alt="Innioasis 音乐播放器示意图" decoding="async">
+      </figure>
+    </section>
+
+    <section class="lumen-hero" data-cn-hide aria-labelledby="home-title">
       <div>
         <h1 id="home-title">Software Updates and Firmware</h1>
         <p class="lumen-hero-lead">Supporting every Innioasis and Timmkoo player, new and old alike. Official software, updates and restore files, plus community software like <a href="rockbox-benefits.html">Rockbox</a>, <a href="better-y-benefits.html">Better-Y</a>, <a href="solar-benefits.html">Solar</a>, <a href="jj-launcher-benefits.html">JJ Launcher</a>, <a href="inniclassic-benefits.html">Inniclassic</a> and <a href="y2player-benefits.html">Y2Player</a>. Innioasis <strong>Y1, Y2, G1, G3, G5, Q8, R1, PR1, D1</strong> and Timmkoo A5, Q5, Q3. Updater CE installs Timmkoo's updates too.</p>
@@ -144,7 +161,7 @@
       </figure>
     </section>
 
-    <section class="lumen-section" aria-labelledby="reviews-title">
+    <section class="lumen-section" data-cn-hide aria-labelledby="reviews-title">
       <div class="lumen-section-head"><div><p class="lumen-kicker">Videos</p><h2 id="reviews-title">Get to Know Innioasis Updater</h2></div></div>
       <div class="lumen-carousel" data-lumen-carousel role="region" aria-roledescription="carousel" aria-label="Get to Know Innioasis Updater videos" tabindex="0">
         <div class="lumen-carousel-stage">
@@ -185,11 +202,32 @@
           <tbody id="lumen-home-firmware-table"></tbody>
         </table>
       </div>
-      <p class="lumen-meta">All software listed is from the <a href="firmware.html">Software Archive</a>. The <a href="firmware.html">full release directory</a> shows the releases for each model, with install guides, manual ZIP downloads, and the <a href="guide.html#platform">Updater setup route</a>.</p>
+      <p class="lumen-meta" data-cn-hide>All software listed is from the <a href="firmware.html">Software Archive</a>. The <a href="firmware.html">full release directory</a> shows the releases for each model, with install guides, manual ZIP downloads, and the <a href="guide.html#platform">Updater setup route</a>.</p>
+      <p class="lumen-meta" data-cn-only hidden style="display:none">以上版本均来自 <a href="firmware.html">固件档案</a>。<a href="firmware-list.html">完整固件列表</a>按机型列出每个版本，并提供原始下载地址与便携刷机包；需要手动刷入时请参考 <a href="sp-flash-tool.html">SP Flash Tool 说明</a>。</p>
     </section>
 
-    <section class="lumen-section" aria-labelledby="origin-title">
+    <section class="lumen-section" data-cn-only hidden style="display:none" aria-labelledby="cn-package-title">
+      <div class="lumen-section-head"><div><p class="lumen-kicker">中国版下载方式</p><h2 id="cn-package-title">便携刷机包与独立固件包</h2></div><a class="lumen-button" href="firmware-list.html">查看全部下载</a></div>
+      <div class="lumen-grid">
+        <article class="lumen-card"><small>01</small><h3>选择机型</h3><p>先确认播放器上印的型号：Y1 与 Y2 的固件完全不能混用。G 系列、Q 系列与 Timmkoo 机型请在固件列表中选择对应条目。</p><div class="lumen-actions"><a class="lumen-button" href="firmware.html?model=Y1">Y1 固件</a><a class="lumen-button" href="firmware.html?model=Y2">Y2 固件</a></div></article>
+        <article class="lumen-card"><small>02</small><h3>下载刷机包</h3><p>在固件页点击“下载刷机包 ZIP”。浏览器会优先使用适合你电脑的便携刷机包；该版本没有便携包时，会自动回退到项目发布的独立 ZIP。</p></article>
+        <article class="lumen-card"><small>03</small><h3>按说明刷入</h3><p>便携包内已带刷机工具与配置文件。需要手动操作时，请使用 SP Flash Tool 并严格按机型选择 scatter 文件，不要混用机型。</p><div class="lumen-actions"><a class="lumen-button" href="sp-flash-tool.html">刷机说明</a><a class="lumen-button" href="drivers.html">驱动设置</a></div></article>
+      </div>
+      <p class="lumen-meta cn-region-section-note">固件下载托管在 GitHub Releases。中国大陆访问可能较慢，建议在网络状况较好时下载，并在刷机前核对文件名与机型。</p>
+    </section>
+
+    <section class="lumen-section" data-cn-only hidden style="display:none" aria-labelledby="cn-why-title">
       <div class="lumen-callout">
+        <p class="lumen-kicker">关于中国大陆网络</p>
+        <h2 id="cn-why-title">为什么这里不提供 Updater CE？</h2>
+        <p>Innioasis Updater CE 需要访问境外服务来查询版本、下载固件包并完成在线校验。这些服务在中国大陆可能无法连接或被限速，导致应用无法正常完成刷机。</p>
+        <p>因此中国版页面只提供<strong>固件列表</strong>与<strong>便携刷机包 / 独立 ZIP</strong>下载：文件直接来自各项目发布页，不依赖应用的在线功能。没有便携包的版本仍可下载独立 ZIP，使用 SP Flash Tool 手动刷入。</p>
+        <div class="lumen-actions"><a class="lumen-button lumen-button--primary" href="firmware.html">打开固件下载</a><a class="lumen-button" href="sp-flash-tool.html">SP Flash Tool 说明</a></div>
+      </div>
+    </section>
+
+    <section class="lumen-section" data-cn-hide aria-labelledby="origin-title">
+      <div class="lumen-callout" data-cn-hide>
         <p class="lumen-kicker">Built for you</p>
         <h2 id="origin-title">What is Innioasis Updater CE?</h2>
         <p><strong>Innioasis Updater CE</strong> is the easy way to update your player. It is free to use. It is the tool creators recommend first.</p>
@@ -242,7 +280,7 @@
       <p class="lumen-meta" style="margin-top:1rem">Every package here is tested before it goes up. New builds and models appear as soon as they're ready.</p>
     </section>
 
-    <section class="lumen-section" aria-labelledby="path-title">
+    <section class="lumen-section" data-cn-hide aria-labelledby="path-title">
       <div class="lumen-section-head"><div><p class="lumen-kicker">Start here</p><h2 id="path-title">Using Innioasis Updater</h2></div></div>
       <div class="lumen-grid">
         <article class="lumen-card"><small>01</small><h3>Choose Y1 or Y2</h3><p>Use the model printed on the player. Y1 and Y2 files are different.</p></article>
@@ -251,7 +289,7 @@
       </div>
     </section>
 
-    <section class="lumen-section" aria-labelledby="featured-title">
+    <section class="lumen-section" data-cn-hide aria-labelledby="featured-title">
       <div class="lumen-section-head"><div><p class="lumen-kicker">Choose a route</p><h2 id="featured-title">Getting started with Rockbox on your Innioasis</h2></div></div>
       <div class="lumen-grid">
         <article class="lumen-card"><h3>Install Rockbox on Y1</h3><p>Choose Y1, select Rockbox, pick a stable release, then connect only when Updater asks.</p><div class="lumen-actions"><a class="lumen-button" href="guides/rockbox-y1.html">Read Y1 steps</a><a class="lumen-benefit-link" href="rockbox-benefits.html">Why Rockbox?</a></div></article>
@@ -265,6 +303,6 @@
     </section>
   </main>
   <div id="footer-root"></div><div id="support-toolbar-slot"></div>
-  <script src="nav.js?v=20261103brand" defer></script><script src="firmware-catalog.js?v=20260803" defer></script><script src="lumen-site.js?v=20261105tagdate2" defer></script>
+  <script src="nav.js?v=20261103brand" defer></script><script src="cn-region.js?v=20261105" defer></script><script src="firmware-catalog.js?v=20260803" defer></script><script src="lumen-site.js?v=20261105savename" defer></script>
 <script src="site-i18n.js?v=20260830" defer></script></body>
 </html>
