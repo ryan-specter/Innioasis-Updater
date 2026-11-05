@@ -1444,6 +1444,32 @@
             isTarget: true
           };
 
+      var now = new Date();
+      var weekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - ((now.getDay() + 6) % 7));
+      var todayNames = {};
+      var weekNames = {};
+      (lastDonations || []).forEach(function (d) {
+        if (!d || !d.dt || !(d.amount > 0)) return;
+        if (String(d.name || "").toLowerCase().indexOf("innioasis") === 0) return;
+        if (d.dt < weekStart || d.dt > now) return;
+        var key = String(d.name || "supporter").toLowerCase().trim();
+        weekNames[key] = true;
+        if (d.dt.getFullYear() === now.getFullYear() && d.dt.getMonth() === now.getMonth() && d.dt.getDate() === now.getDate()) todayNames[key] = true;
+      });
+      var todayCount = Object.keys(todayNames).length;
+      var weekCount = Object.keys(weekNames).length;
+      var supporterPhrase = todayCount === 0
+        ? {
+            desktop: "No one has donated today, will you be the first?",
+            mobile: "No one has donated today, will you be the first?",
+            isTarget: false
+          }
+        : {
+            desktop: weekCount + (weekCount === 1 ? " supporter has helped us this week" : " supporters have helped us this week") + "  -  join them to keep downloads free for everyone.",
+            mobile: weekCount + (weekCount === 1 ? " supporter helped us this week  -  join them" : " supporters helped us this week  -  join them"),
+            isTarget: false
+          };
+
       var generalPhrases = goal.met
         ? [
             {
@@ -1484,11 +1510,7 @@
               mobile: "Zero ads or paywalls  -  chip in $3 to support us",
               isTarget: false
             },
-            {
-              desktop: "7 supporters helped this week  -  join them to keep downloads free for everyone.",
-              mobile: "7 members supported us this week  -  join them",
-              isTarget: false
-            },
+            supporterPhrase,
             {
               desktop: "If 1 in 50 visitors bought us a coffee, we'd cover most of a test player this month.",
               mobile: "If 1 in 50 visitors bought a coffee, we'd cover a test player",
