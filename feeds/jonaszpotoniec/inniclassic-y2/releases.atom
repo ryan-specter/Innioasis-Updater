@@ -14,15 +14,15 @@
     <innioasis:tag_name>20261104</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/index.html" title="index.html" length="30965" type="text/html" innioasis:download_count="1" innioasis:asset_id="710801195"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/InniClassic-20261104.apk" title="InniClassic-20261104.apk" length="24527493" type="application/vnd.android.package-archive" innioasis:download_count="1" innioasis:asset_id="710801198"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom.zip" title="rom.zip" length="455462943" type="application/zip" innioasis:download_count="1" innioasis:asset_id="710801202"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_type_b.zip" title="rom_type_b.zip" length="422466574" type="application/zip" innioasis:download_count="1" innioasis:asset_id="710801190"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y1_type_a.zip" title="rom_y1_type_a.zip" length="455462943" type="application/zip" innioasis:download_count="2" innioasis:asset_id="710801196"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y1_type_b.zip" title="rom_y1_type_b.zip" length="422466574" type="application/zip" innioasis:download_count="0" innioasis:asset_id="710801197"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y2.zip" title="rom_y2.zip" length="465901262" type="application/zip" innioasis:download_count="1" innioasis:asset_id="710801191"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/SHA256SUMS.txt" title="SHA256SUMS.txt" length="491" type="text/plain" innioasis:download_count="1" innioasis:asset_id="710801194"/>
-    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/update.json" title="update.json" length="299" type="application/json" innioasis:download_count="1" innioasis:asset_id="710801193"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/index.html" title="index.html" length="30965" type="text/html" innioasis:download_count="2" innioasis:asset_id="710801195"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/InniClassic-20261104.apk" title="InniClassic-20261104.apk" length="24527493" type="application/vnd.android.package-archive" innioasis:download_count="2" innioasis:asset_id="710801198"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom.zip" title="rom.zip" length="455462943" type="application/zip" innioasis:download_count="4" innioasis:asset_id="710801202"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_type_b.zip" title="rom_type_b.zip" length="422466574" type="application/zip" innioasis:download_count="2" innioasis:asset_id="710801190"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y1_type_a.zip" title="rom_y1_type_a.zip" length="455462943" type="application/zip" innioasis:download_count="3" innioasis:asset_id="710801196"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y1_type_b.zip" title="rom_y1_type_b.zip" length="422466574" type="application/zip" innioasis:download_count="1" innioasis:asset_id="710801197"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y2.zip" title="rom_y2.zip" length="465901262" type="application/zip" innioasis:download_count="4" innioasis:asset_id="710801191"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/SHA256SUMS.txt" title="SHA256SUMS.txt" length="491" type="text/plain" innioasis:download_count="2" innioasis:asset_id="710801194"/>
+    <link rel="enclosure" href="https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/update.json" title="update.json" length="299" type="application/json" innioasis:download_count="2" innioasis:asset_id="710801193"/>
     <content type="text">### InniClassic Release
 
 Automated build with full support for **Innioasis Y1** (Type A &amp; Type B) and **Innioasis Y2**.

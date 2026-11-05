@@ -10,12 +10,12 @@
     <updated>2026-10-22T23:24:58Z</updated>
     <published>2026-10-22T23:24:58Z</published>
     <title>Innioasis Updater CE 2.5.1 for Windows, macOS and Linux</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/2.0.7"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/2.0.7"/>
     <innioasis:tag_name>2.0.7</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="154209498" type="application/x-diskcopy" innioasis:download_count="200" innioasis:asset_id="689639023"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/installer.exe" title="installer.exe" length="173282764" type="application/x-msdownload" innioasis:download_count="559" innioasis:asset_id="688792855"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.7/UpdaterCE.AppImage" title="UpdaterCE.AppImage" length="300337656" type="application/octet-stream" innioasis:download_count="154" innioasis:asset_id="688949138"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="154209498" type="application/x-diskcopy" innioasis:download_count="208" innioasis:asset_id="689639023"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/installer.exe" title="installer.exe" length="173282764" type="application/x-msdownload" innioasis:download_count="589" innioasis:asset_id="688792855"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/UpdaterCE.AppImage" title="UpdaterCE.AppImage" length="300337656" type="application/octet-stream" innioasis:download_count="157" innioasis:asset_id="688949138"/>
     <content type="text">New rewritten Updater with features including:
 
 
@@ -31,12 +31,12 @@
     <updated>2026-10-03T15:44:25Z</updated>
     <published>2026-10-03T15:44:25Z</published>
     <title>Innioasis Updater CE 2.0.6 Mac and Linux and 2.5 for Windows (phased re-write rollout)</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/2.0.6"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/2.0.6"/>
     <innioasis:tag_name>2.0.6</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.6/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="665" innioasis:asset_id="608063290"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.6/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="34" innioasis:asset_id="666644030"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.6/run_linux.sh" title="run_linux.sh" length="87903" type="text/x-shellscript" innioasis:download_count="454" innioasis:asset_id="608063931"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.6/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="665" innioasis:asset_id="608063290"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.6/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="34" innioasis:asset_id="666644030"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.6/run_linux.sh" title="run_linux.sh" length="87903" type="text/x-shellscript" innioasis:download_count="454" innioasis:asset_id="608063931"/>
     <content type="text">This release of Innioasis Updater CE (Community Edition) improves reliability of SP Flash Tool and MTKclient installs, especially on Linux and Mac systems.
 
 If after installing this update you still have issues installing on one of those platforms, please power off and restart your computer, and if that doesn&#x27;t get things going, please file at issue at github.com/y1-community/innioasis-updater/issues.
@@ -50,12 +50,12 @@ Ryan - Maintainer of Updater CE.</content>
     <updated>2026-09-23T21:22:07Z</updated>
     <published>2026-09-23T21:22:07Z</published>
     <title>Updater CE 2.0.5 for Windows, Mac and Linux</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/2.0.5"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/2.0.5"/>
     <innioasis:tag_name>2.0.5</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.5/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="351" innioasis:asset_id="584600767"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.5/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="933" innioasis:asset_id="584600685"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.5/run_linux.sh" title="run_linux.sh" length="88880" type="text/x-shellscript" innioasis:download_count="225" innioasis:asset_id="584601397"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.5/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="351" innioasis:asset_id="584600767"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.5/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="933" innioasis:asset_id="584600685"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.5/run_linux.sh" title="run_linux.sh" length="88880" type="text/x-shellscript" innioasis:download_count="225" innioasis:asset_id="584601397"/>
     <content type="text">This release of Innioasis Updater CE (Community Edition) improves reliability of SP Flash Tool and MTKclient installs, especially on Linux and Mac systems. 
 
 If after installing this update you still have issues installing on one of those platforms, please power off and restart your computer, and if that doesn&#x27;t get things going, please file at issue at github.com/y1-community/innioasis-updater/issues.
@@ -69,12 +69,12 @@ Ryan - Maintainer of Updater CE.</content>
     <updated>2026-08-19T01:52:52Z</updated>
     <published>2026-08-19T01:52:52Z</published>
     <title>Innioasis Updater CE 2.0.4 for Windows, Mac and Linux</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/2.0.4"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/2.0.4"/>
     <innioasis:tag_name>2.0.4</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.4/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="1369" innioasis:asset_id="520238058"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.4/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="4140" innioasis:asset_id="520238168"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.4/run_linux.sh" title="run_linux.sh" length="87903" type="application/octet-stream" innioasis:download_count="1079" innioasis:asset_id="520237990"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.4/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="1369" innioasis:asset_id="520238058"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.4/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="4140" innioasis:asset_id="520238168"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.4/run_linux.sh" title="run_linux.sh" length="87903" type="application/octet-stream" innioasis:download_count="1079" innioasis:asset_id="520237990"/>
     <content type="text"># Looking to get started with Updater, and custom firmware on your Innioasis Y1 or Y2 Please visit www.innioasis.app to get started. 
 Innioasis Updater can be used to automatically download firmware releases from the [Community Firmware Archive](https://innioasis.app/firmware.html), a community driven archival of the stock firmware releases posted on Google Drive by Innioasis, but also of custom firmware projects and releases.
 
@@ -88,12 +88,12 @@ You can contribute to this project for free by [sharing 100MB on Honeygain](http
     <updated>2026-08-02T09:53:39Z</updated>
     <published>2026-08-02T09:53:39Z</published>
     <title>Innioasis Updater 2.0.3 for Windows, Mac and Linux</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/2.0.3"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/2.0.3"/>
     <innioasis:tag_name>2.0.3</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="636" innioasis:asset_id="498780553"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.3/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="2240" innioasis:asset_id="498780685"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.3/run_linux.sh" title="run_linux.sh" length="87903" type="text/x-shellscript" innioasis:download_count="64" innioasis:asset_id="516914711"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="636" innioasis:asset_id="498780553"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.3/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="2240" innioasis:asset_id="498780685"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.3/run_linux.sh" title="run_linux.sh" length="87903" type="text/x-shellscript" innioasis:download_count="64" innioasis:asset_id="516914711"/>
     <content type="text"># Looking to get started with Updater, and custom firmware on your Innioasis Y1 or Y2 Please visit www.innioasis.app to get started. 
 Innioasis Updater can be used to automatically download firmware releases from the [Community Firmware Archive](https://innioasis.app/firmware.html), a community driven archival of the stock firmware releases posted on Google Drive by Innioasis, but also of custom firmware projects and releases.
 
@@ -107,12 +107,12 @@ You can contribute to this project for free by [sharing 100MB on Honeygain](http
     <updated>2026-08-01T20:27:44Z</updated>
     <published>2026-08-01T20:27:44Z</published>
     <title>Innioasis Updater 2.0.2 for Windows, Mac and Linux</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/2.0.2"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/2.0.2"/>
     <innioasis:tag_name>2.0.2</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="24" innioasis:asset_id="498238552"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.2/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="126" innioasis:asset_id="498237175"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.2/run_linux.sh" title="run_linux.sh" length="91280" type="text/x-shellscript" innioasis:download_count="23" innioasis:asset_id="498238748"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="24" innioasis:asset_id="498238552"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.2/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="126" innioasis:asset_id="498237175"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.2/run_linux.sh" title="run_linux.sh" length="91280" type="text/x-shellscript" innioasis:download_count="23" innioasis:asset_id="498238748"/>
     <content type="text"># Looking to get started with Updater, and custom firmware on your Innioasis Y1 or Y2 Please visit www.innioasis.app to get started. 
 Innioasis Updater can be used to automatically download firmware releases from the [Community Firmware Archive](https://innioasis.app/firmware.html), a community driven archival of the stock firmware releases posted on Google Drive by Innioasis, but also of custom firmware projects and releases.
 
@@ -126,12 +126,12 @@ You can contribute to this project for free by [sharing 100MB on Honeygain](http
     <updated>2026-07-27T15:51:50Z</updated>
     <published>2026-07-27T15:51:50Z</published>
     <title>Innioasis Updater 2.0.1 for Windows, Mac and Linux</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/2.0.1"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/2.0.1"/>
     <innioasis:tag_name>2.0.1</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="189" innioasis:asset_id="491634076"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="755" innioasis:asset_id="491631261"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.1/run_linux.sh" title="run_linux.sh" length="84289" type="text/x-shellscript" innioasis:download_count="96" innioasis:asset_id="491634364"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="189" innioasis:asset_id="491634076"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="755" innioasis:asset_id="491631261"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.1/run_linux.sh" title="run_linux.sh" length="84289" type="text/x-shellscript" innioasis:download_count="96" innioasis:asset_id="491634364"/>
     <content type="text">**This release adds support for installing firmware on Y2 devices on Windows and Linux (Mac support for Y2 not yet tested / ready so currently unavailable)**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -184,12 +184,12 @@ curl -fsSL https://innioasis.app/run_linux.sh | bash
     <updated>2026-07-26T13:42:57Z</updated>
     <published>2026-07-26T13:42:57Z</published>
     <title>Innioasis Updater 2.0.0 for Windows, Mac and Linux</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/2.0.0"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/2.0.0"/>
     <innioasis:tag_name>2.0.0</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.0/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="27" innioasis:asset_id="490388625"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.0/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="130" innioasis:asset_id="490388170"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/2.0.0/run_linux.sh" title="run_linux.sh" length="84289" type="text/x-shellscript" innioasis:download_count="10" innioasis:asset_id="490388858"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.0/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="27" innioasis:asset_id="490388625"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.0/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="130" innioasis:asset_id="490388170"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.0/run_linux.sh" title="run_linux.sh" length="84289" type="text/x-shellscript" innioasis:download_count="10" innioasis:asset_id="490388858"/>
     <content type="text">**This release adds support for installing firmware on Y2 devices on Windows and Linux (Mac support for Y2 not yet tested / ready so currently unavailable)**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -242,10 +242,10 @@ curl -fsSL https://innioasis.app/run_linux.sh | bash
     <updated>2026-07-26T11:06:20Z</updated>
     <published>2026-07-26T11:06:20Z</published>
     <title>flash_tool</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/flash_tool"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/flash_tool"/>
     <innioasis:tag_name>flash_tool</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/flash_tool/flash_tool_linux.zip" title="flash_tool_linux.zip" length="73234593" type="application/zip" innioasis:download_count="197" innioasis:asset_id="681078297"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/flash_tool/flash_tool_linux.zip" title="flash_tool_linux.zip" length="73234593" type="application/zip" innioasis:download_count="197" innioasis:asset_id="681078297"/>
     <content type="text"></content>
   </entry>
   <entry>
@@ -253,12 +253,12 @@ curl -fsSL https://innioasis.app/run_linux.sh | bash
     <updated>2026-07-16T04:54:16Z</updated>
     <published>2026-07-16T04:54:16Z</published>
     <title>Innioasis Updater 1.9.10 for Windows, Linux and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.10"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.10"/>
     <innioasis:tag_name>1.9.10</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.10/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="270" innioasis:asset_id="478781742"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.10/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="1293" innioasis:asset_id="478782149"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.10/run_linux.sh" title="run_linux.sh" length="91280" type="text/x-shellscript" innioasis:download_count="179" innioasis:asset_id="478780314"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.10/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="270" innioasis:asset_id="478781742"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.10/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="1293" innioasis:asset_id="478782149"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.10/run_linux.sh" title="run_linux.sh" length="91280" type="text/x-shellscript" innioasis:download_count="179" innioasis:asset_id="478780314"/>
     <content type="text">**This release improves datestamp handling on firmware versions**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -311,12 +311,12 @@ curl -fsSL https://innioasis.app/run_linux.sh | bash
     <updated>2026-06-30T16:42:01Z</updated>
     <published>2026-06-30T16:42:01Z</published>
     <title>Innioasis Updater 1.9.9.9 for Windows, Mac and Linux</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.9.9"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.9.9"/>
     <innioasis:tag_name>1.9.9.9</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.9/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="403" innioasis:asset_id="462332296"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.9/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="1978" innioasis:asset_id="462333016"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.9/run_linux.sh" title="run_linux.sh" length="91280" type="application/x-shellscript" innioasis:download_count="304" innioasis:asset_id="462332318"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.9/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="403" innioasis:asset_id="462332296"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.9/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="1978" innioasis:asset_id="462333016"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.9/run_linux.sh" title="run_linux.sh" length="91280" type="application/x-shellscript" innioasis:download_count="304" innioasis:asset_id="462332318"/>
     <content type="text">**This release improves datestamp handling on firmware versions**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -379,12 +379,12 @@ python firmware_downloader.py
     <updated>2026-06-29T10:20:55Z</updated>
     <published>2026-06-29T10:20:55Z</published>
     <title>Innioasis Updater 1.9.9.8 for Windows, Linux and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.9.8"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.9.8"/>
     <innioasis:tag_name>1.9.9.8</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.8/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="54" innioasis:asset_id="461006307"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.8/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="136" innioasis:asset_id="461006445"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.8/run_linux.sh" title="run_linux.sh" length="91280" type="application/x-shellscript" innioasis:download_count="36" innioasis:asset_id="461006982"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.8/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="54" innioasis:asset_id="461006307"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.8/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="136" innioasis:asset_id="461006445"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.8/run_linux.sh" title="run_linux.sh" length="91280" type="application/x-shellscript" innioasis:download_count="36" innioasis:asset_id="461006982"/>
     <content type="text">**New to Updater: Preliminary support for the upcoming Innioasis Y2 and a new Software option &quot;Solar + Rockbox-Y1&quot; which adds online music streaming and downloads from Deezer and Soulseek, and a better Rockbox dual-boot experience (useful for times where you&#x27;d like to use the video player but prefer to use Rockbox)**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -447,12 +447,12 @@ python firmware_downloader.py
     <updated>2026-06-29T10:02:51Z</updated>
     <published>2026-06-29T10:02:51Z</published>
     <title>Innioasis Updater 1.9.9.7 for Windows, Linux and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.9.7"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.9.7"/>
     <innioasis:tag_name>1.9.9.7</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="0" innioasis:asset_id="460994615"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.7/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="0" innioasis:asset_id="460993701"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.7/run_linux.sh" title="run_linux.sh" length="91280" type="application/x-shellscript" innioasis:download_count="0" innioasis:asset_id="460993629"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="0" innioasis:asset_id="460994615"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.7/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="0" innioasis:asset_id="460993701"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.7/run_linux.sh" title="run_linux.sh" length="91280" type="application/x-shellscript" innioasis:download_count="0" innioasis:asset_id="460993629"/>
     <content type="text">**New to Updater: Preliminary support for the upcoming Innioasis Y2 and a new Software option &quot;Solar + Rockbox-Y1&quot; which adds online music streaming and downloads from Deezer and Soulseek, and a better Rockbox dual-boot experience (useful for times where you&#x27;d like to use the video player but prefer to use Rockbox)**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -515,12 +515,12 @@ python firmware_downloader.py
     <updated>2026-06-15T11:35:08Z</updated>
     <published>2026-06-15T11:35:08Z</published>
     <title>Innioasis Updater 1.9.9.6 for Windows, Mac and Linux</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.9.6"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.9.6"/>
     <innioasis:tag_name>1.9.9.6</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.6/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="355" innioasis:asset_id="448115420"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.6/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="1584" innioasis:asset_id="448113938"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.6/run_linux.sh" title="run_linux.sh" length="91280" type="application/x-shellscript" innioasis:download_count="276" innioasis:asset_id="448115610"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.6/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="355" innioasis:asset_id="448115420"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.6/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="1584" innioasis:asset_id="448113938"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.6/run_linux.sh" title="run_linux.sh" length="91280" type="application/x-shellscript" innioasis:download_count="276" innioasis:asset_id="448115610"/>
     <content type="text">**New to Updater: You can now install JJ Launcher (MO-ON) directly to your device using Updater without first needing to install Rockbox, it adds useful Wi-Fi functionality to your player like wireless music transfer and automatic album art downloads**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -583,12 +583,12 @@ python firmware_downloader.py
     <updated>2026-06-15T11:06:45Z</updated>
     <published>2026-06-15T11:06:45Z</published>
     <title>Innioasis Updater 1.9.9.5 for Windows, Mac and Linux</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.9.5"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.9.5"/>
     <innioasis:tag_name>1.9.9.5</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.5/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="0" innioasis:asset_id="448105099"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.5/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="2" innioasis:asset_id="448097246"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.5/run_linux.sh" title="run_linux.sh" length="91280" type="application/x-shellscript" innioasis:download_count="1" innioasis:asset_id="448105170"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.5/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="0" innioasis:asset_id="448105099"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.5/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="2" innioasis:asset_id="448097246"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.5/run_linux.sh" title="run_linux.sh" length="91280" type="application/x-shellscript" innioasis:download_count="1" innioasis:asset_id="448105170"/>
     <content type="text">**New to Updater: You can now install JJ Launcher (MO-ON) directly to your device using Updater without first needing to install Rockbox, it adds useful Wi-Fi functionality to your player like wireless music transfer and automatic album art downloads**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -651,12 +651,12 @@ python firmware_downloader.py
     <updated>2026-05-30T21:13:45Z</updated>
     <published>2026-05-30T21:13:45Z</published>
     <title>Innioasis Updater 1.9.9.3 for Windows, Mac and Linux</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.9.3"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.9.3"/>
     <innioasis:tag_name>1.9.9.3</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="273" innioasis:asset_id="434012784"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.3/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="1644" innioasis:asset_id="434012925"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.3/run_linux.sh" title="run_linux.sh" length="91280" type="text/x-sh" innioasis:download_count="336" innioasis:asset_id="434012828"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="273" innioasis:asset_id="434012784"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.3/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="1644" innioasis:asset_id="434012925"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.3/run_linux.sh" title="run_linux.sh" length="91280" type="text/x-sh" innioasis:download_count="336" innioasis:asset_id="434012828"/>
     <content type="text">**This version improves installation for Linux users, with unnecessary MTKclient dependencies now being lazy loaded to smooth installation where certain packages like pycryptodome could not be installed by the script on certain distributions - as this is an MTKclient dependency that was never needed for flashing a Y1, users should no longer encounter issues installing software on their Y1 where this had not installed successfully.**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -719,12 +719,12 @@ python firmware_downloader.py
     <updated>2026-05-30T20:29:13Z</updated>
     <published>2026-05-30T20:29:13Z</published>
     <title>Innioasis Updater 1.9.9.2 for Windows, Mac and Linux</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.9.2"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.9.2"/>
     <innioasis:tag_name>1.9.9.2</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="2" innioasis:asset_id="433995170"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.2/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="5" innioasis:asset_id="433995371"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.2/run_linux.sh" title="run_linux.sh" length="91280" type="application/x-shellscript" innioasis:download_count="4" innioasis:asset_id="433995029"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="2" innioasis:asset_id="433995170"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.2/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="5" innioasis:asset_id="433995371"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.2/run_linux.sh" title="run_linux.sh" length="91280" type="application/x-shellscript" innioasis:download_count="4" innioasis:asset_id="433995029"/>
     <content type="text">**This version improves installation for Linux users, with unnecessary MTKclient dependencies now being lazy loaded to smooth installation where certain packages like pycryptodome could not be installed by the script on certain distributions - as this is an MTKclient dependency that was never needed for flashing a Y1, users should no longer encounter issues installing software on their Y1 where this had not installed successfully.**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -787,12 +787,12 @@ python firmware_downloader.py
     <updated>2026-05-30T19:31:01Z</updated>
     <published>2026-05-30T19:31:01Z</published>
     <title>Innioasis Updater 1.9.9.1 for Windows, Mac and Linux</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.9.1"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.9.1"/>
     <innioasis:tag_name>1.9.9.1</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="0" innioasis:asset_id="433970569"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="3" innioasis:asset_id="433970738"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9.1/run_linux.sh" title="run_linux.sh" length="91280" type="application/x-shellscript" innioasis:download_count="1" innioasis:asset_id="433970533"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="0" innioasis:asset_id="433970569"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="3" innioasis:asset_id="433970738"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9.1/run_linux.sh" title="run_linux.sh" length="91280" type="application/x-shellscript" innioasis:download_count="1" innioasis:asset_id="433970533"/>
     <content type="text">**This version improves installation for Linux users, with unnecessary MTKclient dependencies now being lazy loaded to smooth installation where certain packages like pycryptodome could not be installed by the script on certain distributions - as this is an MTKclient dependency that was never needed for flashing a Y1, users should no longer encounter issues installing software on their Y1 where this had not installed successfully.**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -855,12 +855,12 @@ python firmware_downloader.py
     <updated>2026-05-28T09:55:37Z</updated>
     <published>2026-05-28T09:55:37Z</published>
     <title>Innioasis Updater 1.9.9 for Windows, Mac and Linux</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.9"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.9"/>
     <innioasis:tag_name>1.9.9</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="37" innioasis:asset_id="431959884"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="274" innioasis:asset_id="431959411"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.9/run_linux.sh" title="run_linux.sh" length="91280" type="application/x-shellscript" innioasis:download_count="7" innioasis:asset_id="431959353"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="37" innioasis:asset_id="431959884"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="274" innioasis:asset_id="431959411"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.9/run_linux.sh" title="run_linux.sh" length="91280" type="application/x-shellscript" innioasis:download_count="7" innioasis:asset_id="431959353"/>
     <content type="text">**This version improves installation for Linux users, with unnecessary MTKclient dependencies now being lazy loaded to smooth installation where certain packages like pycryptodome could not be installed by the script on certain distributions - as this is an MTKclient dependency that was never needed for flashing a Y1, users should no longer encounter issues installing software on their Y1 where this had not installed successfully.**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -923,11 +923,11 @@ python firmware_downloader.py
     <updated>2026-05-22T22:29:00Z</updated>
     <published>2026-05-22T22:29:00Z</published>
     <title>Innioasis Updater 1.9.8.1 for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.8.1"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.8.1"/>
     <innioasis:tag_name>1.9.8.1</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.8.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="155" innioasis:asset_id="427427319"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.8.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="619" innioasis:asset_id="427427429"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.8.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="155" innioasis:asset_id="427427319"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.8.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="619" innioasis:asset_id="427427429"/>
     <content type="text">**This build offers the installation of the Koensayr mod which improves the artists view to show your chosen artist&#x27;s albums and implements AVRCP 1.3 support so you&#x27;ll see track names displayed and have remote control when connecting the Y1 to car stereos / infotainment systems, Smart TVs, bluetooth Hi-FI receivers etc.**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -990,11 +990,11 @@ python firmware_downloader.py
     <updated>2026-05-07T06:26:18Z</updated>
     <published>2026-05-07T06:26:18Z</published>
     <title>Innioasis Updater 1.9.8 for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.8"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.8"/>
     <innioasis:tag_name>1.9.8</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.8/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="510" innioasis:asset_id="414159804"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.8/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="2260" innioasis:asset_id="414159684"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.8/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="510" innioasis:asset_id="414159804"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.8/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="2260" innioasis:asset_id="414159684"/>
     <content type="text">**NOTICE If you&#x27;re looking to install Rockbox on your Y1 purchased after March 24 2026, please use the latest &quot;nightly&quot; build of Rockbox-y1 as earlier versions are not compatible with these newer devices and the device may not start up correctly, if this happens to you you can make your Y1 work again by installing the newest Rockbox build or by re-installing the original 3.0.7 OS**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -1057,11 +1057,11 @@ python firmware_downloader.py
     <updated>2026-05-06T14:01:42Z</updated>
     <published>2026-05-06T14:01:42Z</published>
     <title>Innioasis Updater 1.9.7.9 for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.7.9"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.7.9"/>
     <innioasis:tag_name>1.9.7.9</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.9/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="28" innioasis:asset_id="413563231"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.9/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="135" innioasis:asset_id="413563397"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.9/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="28" innioasis:asset_id="413563231"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.9/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="135" innioasis:asset_id="413563397"/>
     <content type="text">**NOTICE Due to recent hardware changes to the Y1,  Rockbox-Y1 is not compatible with Y1s that came with OS 3.0.7 out of the box and will break your device. If this has happened to you please try installing 3.0.7 in Updater, and if this does not work, please contact [Innioasis](https://www.innioasis.com/pages/contact) for assistance. Existing Users of devices running Rockbox-Y1 are not affected.**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -1124,11 +1124,11 @@ python firmware_downloader.py
     <updated>2026-04-29T11:04:47Z</updated>
     <published>2026-04-29T11:04:47Z</published>
     <title>Innioasis Updater 1.9.7.8 for Windows and Mac </title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.7.8"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.7.8"/>
     <innioasis:tag_name>1.9.7.8</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.8/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="284" innioasis:asset_id="408148039"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.8/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="1060" innioasis:asset_id="408148045"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.8/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="284" innioasis:asset_id="408148039"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.8/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="1060" innioasis:asset_id="408148045"/>
     <content type="text">**NOTICE Due to recent hardware changes to the Y1,  Rockbox-Y1 is not compatible with Y1s that came with OS 3.0.7 out of the box and will break your device. If this has happened to you please try installing 3.0.7 in Updater, and if this does not work, please contact [Innioasis](https://www.innioasis.com/pages/contact) for assistance. Existing Users of devices running Rockbox-Y1 are not affected.**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -1191,11 +1191,11 @@ python firmware_downloader.py
     <updated>2026-04-29T10:42:15Z</updated>
     <published>2026-04-29T10:42:15Z</published>
     <title>Innioasis Updater 1.9.7.7 for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.7.7"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.7.7"/>
     <innioasis:tag_name>1.9.7.7</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="408135652"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.7/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="3" innioasis:asset_id="408134973"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="408135652"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.7/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="3" innioasis:asset_id="408134973"/>
     <content type="text">**NOTICE Due to recent hardware changes to the Y1,  Rockbox-Y1 is not compatible with Y1s that came with OS 3.0.7 out of the box and will break your device. If this has happened to you please try installing 3.0.7 in Updater, and if this does not work, please contact [Innioasis](https://www.innioasis.com/pages/contact) for assistance. Existing Users of devices running Rockbox-Y1 are not affected.**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -1260,11 +1260,11 @@ python firmware_downloader.py
     <updated>2026-04-26T10:08:37Z</updated>
     <published>2026-04-26T10:08:37Z</published>
     <title>Innioasis Updater 1.7.9.6 for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.7.6"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.7.6"/>
     <innioasis:tag_name>1.9.7.6</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.6/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="122" innioasis:asset_id="405846050"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.6/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="589" innioasis:asset_id="405846680"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.6/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="122" innioasis:asset_id="405846050"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.6/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="589" innioasis:asset_id="405846680"/>
     <content type="text">**NOTICE Due to recent hardware changes to the Y1,  Rockbox-Y1 is not compatible with Y1s that came with OS 3.0.7 out of the box and will break your device. If this has happened to you please try installing 3.0.7 in Updater, and if this does not work, please contact [Innioasis](https://www.innioasis.com/pages/contact) for assistance. Existing Users of devices running Rockbox-Y1 are not affected.**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -1329,11 +1329,11 @@ python firmware_downloader.py
     <updated>2026-04-24T16:12:58Z</updated>
     <published>2026-04-24T16:12:58Z</published>
     <title>Innioasis Updater 1.9.7.5 for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.7.5"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.7.5"/>
     <innioasis:tag_name>1.9.7.5</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.5/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="74" innioasis:asset_id="404585677"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.5/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="313" innioasis:asset_id="404585365"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.5/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="74" innioasis:asset_id="404585677"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.5/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="313" innioasis:asset_id="404585365"/>
     <content type="text">**NOTICE Due to recent hardware changes to the Y1,  Rockbox-Y1 is not compatible with Y1s that came with OS 3.0.7 out of the box and will break your device. If this has happened to you please try installing 3.0.7 in Updater, and if this does not work, please contact [Innioasis](https://www.innioasis.com/pages/contact) for assistance. Existing Users of devices running Rockbox-Y1 are not affected.**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -1398,11 +1398,11 @@ python firmware_downloader.py
     <updated>2026-04-23T10:34:12Z</updated>
     <published>2026-04-23T10:34:12Z</published>
     <title>Innioasis Updater 1.9.7.4 for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.7.4"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.7.4"/>
     <innioasis:tag_name>1.9.7.4</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.4/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="113" innioasis:asset_id="403336426"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.4/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="84" innioasis:asset_id="403336160"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.4/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="113" innioasis:asset_id="403336426"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.4/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="84" innioasis:asset_id="403336160"/>
     <content type="text">**NOTICE Due to recent hardware changes to the Y1,  Rockbox-Y1 is not compatible with Y1s that came with OS 3.0.7 out of the box and will break your device. If this has happened to you please try installing 3.0.7 in Updater, and if this does not work, please contact [Innioasis](https://www.innioasis.com/pages/contact) for assistance. Existing Users of devices running Rockbox-Y1 are not affected.**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -1467,11 +1467,11 @@ python firmware_downloader.py
     <updated>2026-04-22T23:52:38Z</updated>
     <published>2026-04-22T23:52:38Z</published>
     <title>Innioasis Updater 1.9.7.3</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.7.3"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.7.3"/>
     <innioasis:tag_name>1.9.7.3</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="16" innioasis:asset_id="402943119"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.3/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="60" innioasis:asset_id="402943698"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="16" innioasis:asset_id="402943119"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.3/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="60" innioasis:asset_id="402943698"/>
     <content type="text">**NOTICE Due to recent hardware changes to the Y1,  Rockbox-Y1 is not compatible with Y1s that came with OS 3.0.7 out of the box and will break your device. If this has happened to you please try installing 3.0.7 in Updater, and if this does not work, please contact [Innioasis](https://www.innioasis.com/pages/contact) for assistance. Existing Users of devices running Rockbox-Y1 are not affected.**
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -1537,11 +1537,11 @@ python firmware_downloader.py
     <updated>2026-03-25T15:07:19Z</updated>
     <published>2026-03-25T15:07:19Z</published>
     <title>Innioasis Updater 1.9.7.2 for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.7.2"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.7.2"/>
     <innioasis:tag_name>1.9.7.2</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="1079" innioasis:asset_id="381338733"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.2/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="3933" innioasis:asset_id="381338744"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="1079" innioasis:asset_id="381338733"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.2/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="3933" innioasis:asset_id="381338744"/>
     <content type="text">Y1 owner looking for a firmware update? Or came from a Y1 Helper or Rockbox tutorial? Get started at [innioasis.app/guide.html](https://innioasis.app/guide.html)
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -1607,11 +1607,11 @@ python firmware_downloader.py
     <updated>2026-03-24T18:19:39Z</updated>
     <published>2026-03-24T18:19:39Z</published>
     <title>Innioasis Updater 1.9.7.1 for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.7.1"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.7.1"/>
     <innioasis:tag_name>1.9.7.1</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="26" innioasis:asset_id="380633995"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="71" innioasis:asset_id="380634020"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="26" innioasis:asset_id="380633995"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="71" innioasis:asset_id="380634020"/>
     <content type="text">Y1 owner looking for a firmware update? Or came from a Y1 Helper or Rockbox tutorial? Get started at [innioasis.app/guide.html](https://innioasis.app/guide.html)
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -1677,11 +1677,11 @@ python firmware_downloader.py
     <updated>2026-03-04T21:26:28Z</updated>
     <published>2026-03-04T21:26:28Z</published>
     <title>Innioasis Updater 1.9.7 for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.7"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.7"/>
     <innioasis:tag_name>1.9.7</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="695" innioasis:asset_id="367042261"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.7/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="2116" innioasis:asset_id="367042273"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="695" innioasis:asset_id="367042261"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.7/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="2116" innioasis:asset_id="367042273"/>
     <content type="text">Y1 owner looking for a firmware update? Or came from a Y1 Helper or Rockbox tutorial? Get started at [innioasis.app/guide.html](https://innioasis.app/guide.html)
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -1751,11 +1751,11 @@ Compatibility with new Rockbox-Y1 build pipeline and releases file structure</co
     <updated>2026-03-01T15:16:06Z</updated>
     <published>2026-03-01T15:16:06Z</published>
     <title>Innioasis Updater 1.9.6.2 for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.6.2"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.6.2"/>
     <innioasis:tag_name>1.9.6.2</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.6.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="172" innioasis:asset_id="364174589"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.6.2/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="595" innioasis:asset_id="364174620"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.6.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="172" innioasis:asset_id="364174589"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.6.2/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="595" innioasis:asset_id="364174620"/>
     <content type="text"></content>
   </entry>
   <entry>
@@ -1763,11 +1763,11 @@ Compatibility with new Rockbox-Y1 build pipeline and releases file structure</co
     <updated>2026-02-28T09:26:24Z</updated>
     <published>2026-02-28T09:26:24Z</published>
     <title>Innioasis Updater 1.9.6.1 for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.6.1"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.6.1"/>
     <innioasis:tag_name>1.9.6.1</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.6.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/octet-stream" innioasis:download_count="57" innioasis:asset_id="364113175"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.6.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="227" innioasis:asset_id="364022280"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.6.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/octet-stream" innioasis:download_count="57" innioasis:asset_id="364113175"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.6.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="227" innioasis:asset_id="364022280"/>
     <content type="text">Y1 owner looking for a firmware update? Or came from a Y1 Helper or Rockbox tutorial? Get started at [www.innioasis.com/pages/download](https://innioasis.com/pages/download)
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -1837,11 +1837,11 @@ Cache replacement to fix non-listed Rockbox releases following February 28th Nig
     <updated>2026-02-24T16:34:58Z</updated>
     <published>2026-02-24T16:34:58Z</published>
     <title>Innioasis Updater 1.9.6 for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.6"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.6"/>
     <innioasis:tag_name>1.9.6</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.6/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/octet-stream" innioasis:download_count="129" innioasis:asset_id="361553311"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.6/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="519" innioasis:asset_id="361553361"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.6/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/octet-stream" innioasis:download_count="129" innioasis:asset_id="361553311"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.6/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="519" innioasis:asset_id="361553361"/>
     <content type="text">Y1 owner looking for a firmware update? Or came from a Y1 Helper or Rockbox tutorial? Let [www.innioasis.app](https://innioasis.app) lead the way. It has all the [firmware downloads](https://innioasis.app), [links to themes](https://innioasis.app) and useful info on how to install updates and themes.
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -1911,11 +1911,11 @@ Changes to URLs to reflect move to driver and Windows installation guidance on I
     <updated>2025-12-30T12:10:45Z</updated>
     <published>2025-12-30T12:10:45Z</published>
     <title>Innioasis Updater 1.9.5.1</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.5.1"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.5.1"/>
     <innioasis:tag_name>1.9.5.1</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.5.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/octet-stream" innioasis:download_count="3771" innioasis:asset_id="334460028"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.5.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="12690" innioasis:asset_id="334459809"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.5.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/octet-stream" innioasis:download_count="3771" innioasis:asset_id="334460028"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.5.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="12690" innioasis:asset_id="334459809"/>
     <content type="text">Y1 owner looking for a firmware update? Or came from a Y1 Helper or Rockbox tutorial? Let [www.innioasis.app](https://innioasis.app) lead the way. It has all the [firmware downloads](https://innioasis.app), [links to themes](https://innioasis.app) and useful info on how to install updates and themes.
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -1985,11 +1985,11 @@ Improvements to first time startup performance for new users.</content>
     <updated>2025-12-10T19:45:04Z</updated>
     <published>2025-12-10T19:45:04Z</published>
     <title>Innioasis Updater 1.9.5</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.5"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.5"/>
     <innioasis:tag_name>1.9.5</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.5/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-diskcopy" innioasis:download_count="862" innioasis:asset_id="327023225"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.5/installer.exe" title="installer.exe" length="264870688" type="application/octet-stream" innioasis:download_count="3040" innioasis:asset_id="327023148"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.5/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-diskcopy" innioasis:download_count="862" innioasis:asset_id="327023225"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.5/installer.exe" title="installer.exe" length="264870688" type="application/octet-stream" innioasis:download_count="3040" innioasis:asset_id="327023148"/>
     <content type="text">Y1 owner looking for a firmware update? Or came from a Y1 Helper or Rockbox tutorial? Let [www.innioasis.app](https://innioasis.app) lead the way. It has all the [firmware downloads](https://innioasis.app), [links to themes](https://innioasis.app) and useful info on how to install updates and themes.
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -2059,11 +2059,11 @@ Improvements to first time startup performance for new users.</content>
     <updated>2025-12-02T09:30:21Z</updated>
     <published>2025-12-02T09:30:21Z</published>
     <title>Innioasis Updater 1.9.4</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.4"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.4"/>
     <innioasis:tag_name>1.9.4</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.4/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="175" innioasis:asset_id="323312618"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.4/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="507" innioasis:asset_id="323312388"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.4/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="175" innioasis:asset_id="323312618"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.4/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="507" innioasis:asset_id="323312388"/>
     <content type="text">Y1 owner looking for a firmware update? Or came from a Y1 Helper or Rockbox tutorial? Let [www.innioasis.app](https://innioasis.app) lead the way. It has all the [firmware downloads](https://innioasis.app), [links to themes](https://innioasis.app) and useful info on how to install updates and themes.
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -2133,11 +2133,11 @@ Further improvements to Rockbox theme button discovery to improve understanding 
     <updated>2025-11-30T20:42:29Z</updated>
     <published>2025-11-30T20:42:29Z</published>
     <title>Innioasis Updater 1.9.3.6</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.3.6"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.3.6"/>
     <innioasis:tag_name>1.9.3.6</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.3.6/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="50" innioasis:asset_id="322610456"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.3.6/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="87" innioasis:asset_id="322610389"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.3.6/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="50" innioasis:asset_id="322610456"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.3.6/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="87" innioasis:asset_id="322610389"/>
     <content type="text">Y1 owner looking for a firmware update? Or came from a Y1 Helper or Rockbox tutorial? Let [www.innioasis.app](https://innioasis.app) lead the way. It has all the [firmware downloads](https://innioasis.app), [links to themes](https://innioasis.app) and useful info on how to install updates and themes.
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -2207,11 +2207,11 @@ Fixes listing of stable Rockbox firmwares, releases like 0.3 should show up when
     <updated>2025-11-30T15:33:56Z</updated>
     <published>2025-11-30T15:33:56Z</published>
     <title>Innioasis Updater 1.9.3.5</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.3.5"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.3.5"/>
     <innioasis:tag_name>1.9.3.5</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.3.5/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-diskcopy" innioasis:download_count="7" innioasis:asset_id="322547862"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.3.5/installer.exe" title="installer.exe" length="264870688" type="application/octet-stream" innioasis:download_count="16" innioasis:asset_id="322547833"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.3.5/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-diskcopy" innioasis:download_count="7" innioasis:asset_id="322547862"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.3.5/installer.exe" title="installer.exe" length="264870688" type="application/octet-stream" innioasis:download_count="16" innioasis:asset_id="322547833"/>
     <content type="text">Y1 owner looking for a firmware update? Or came from a Y1 Helper or Rockbox tutorial? Let [www.innioasis.app](https://innioasis.app) lead the way. It has all the [firmware downloads](https://innioasis.app), [links to themes](https://innioasis.app) and useful info on how to install updates and themes.
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -2281,11 +2281,11 @@ Internal changes to maintain stability in future releases</content>
     <updated>2025-11-27T16:27:37Z</updated>
     <published>2025-11-27T16:27:37Z</published>
     <title>Innioasis Updater 1.9.3.4</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.3.4"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.3.4"/>
     <innioasis:tag_name>1.9.3.4</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.3.4/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-diskcopy" innioasis:download_count="41" innioasis:asset_id="321546088"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.3.4/installer.exe" title="installer.exe" length="264870688" type="application/octet-stream" innioasis:download_count="192" innioasis:asset_id="321545892"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.3.4/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-diskcopy" innioasis:download_count="41" innioasis:asset_id="321546088"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.3.4/installer.exe" title="installer.exe" length="264870688" type="application/octet-stream" innioasis:download_count="192" innioasis:asset_id="321545892"/>
     <content type="text">Y1 owner looking for a firmware update? Or came from a Y1 Helper or Rockbox tutorial? Let [www.innioasis.app](https://innioasis.app) lead the way. It has all the [firmware downloads](https://innioasis.app), [links to themes](https://innioasis.app) and useful info on how to install updates and themes.
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -2355,11 +2355,11 @@ Improvements to button labelling to help new Rockbox users find themes more easi
     <updated>2025-11-24T08:28:07Z</updated>
     <published>2025-11-24T08:28:07Z</published>
     <title>Innioasis Updater 1.9.3.3</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.3.3"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.3.3"/>
     <innioasis:tag_name>1.9.3.3</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.3.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-diskcopy" innioasis:download_count="48" innioasis:asset_id="320164677"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.3.3/installer.exe" title="installer.exe" length="264870688" type="application/octet-stream" innioasis:download_count="200" innioasis:asset_id="320164576"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.3.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-diskcopy" innioasis:download_count="48" innioasis:asset_id="320164677"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.3.3/installer.exe" title="installer.exe" length="264870688" type="application/octet-stream" innioasis:download_count="200" innioasis:asset_id="320164576"/>
     <content type="text">Y1 owner looking for a firmware update? Or came from a Y1 Helper or Rockbox tutorial? Let [www.innioasis.app](https://innioasis.app) lead the way. It has all the [firmware downloads](https://innioasis.app), [links to themes](https://innioasis.app) and useful info on how to install updates and themes.
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -2429,11 +2429,11 @@ Improvements to firmware labelling</content>
     <updated>2025-11-22T02:50:15Z</updated>
     <published>2025-11-22T02:50:15Z</published>
     <title>Innioasis Updater 1.9.3.2</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.3.2"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.3.2"/>
     <innioasis:tag_name>1.9.3.2</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.3.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-diskcopy" innioasis:download_count="30" innioasis:asset_id="319261263"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.3.2/installer.exe" title="installer.exe" length="264870688" type="application/octet-stream" innioasis:download_count="126" innioasis:asset_id="319261162"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.3.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-diskcopy" innioasis:download_count="30" innioasis:asset_id="319261263"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.3.2/installer.exe" title="installer.exe" length="264870688" type="application/octet-stream" innioasis:download_count="126" innioasis:asset_id="319261162"/>
     <content type="text">Y1 owner looking for a firmware update? Or came from a Y1 Helper or Rockbox tutorial? Let [www.innioasis.app](https://innioasis.app) lead the way. It has all the [firmware downloads](https://innioasis.app), [links to themes](https://innioasis.app) and useful info on how to install updates and themes.
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -2505,11 +2505,11 @@ Improvements to self-patching</content>
     <updated>2025-11-19T09:06:50Z</updated>
     <published>2025-11-19T09:06:50Z</published>
     <title>Innioasis Updater 1.9.3.1</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.3.1"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.3.1"/>
     <innioasis:tag_name>1.9.3.1</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.3.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="50" innioasis:asset_id="318272049"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.3.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="150" innioasis:asset_id="318271585"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.3.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="50" innioasis:asset_id="318272049"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.3.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="150" innioasis:asset_id="318271585"/>
     <content type="text">Y1 owner looking for a firmware update? Or came from a Y1 Helper or Rockbox tutorial? Let [www.innioasis.app](https://innioasis.app) lead the way. It has all the [firmware downloads](https://innioasis.app), [links to themes](https://innioasis.app) and useful info on how to install updates and themes.
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
@@ -2581,11 +2581,11 @@ patch to show pre-releases when no stable release tags can be parsed.</content>
     <updated>2025-11-16T17:04:49Z</updated>
     <published>2025-11-16T17:04:49Z</published>
     <title>Innioasis Updater 1.9.3</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.3"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.3"/>
     <innioasis:tag_name>1.9.3</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="53" innioasis:asset_id="317094412"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.3/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="167" innioasis:asset_id="317094929"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="53" innioasis:asset_id="317094412"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.3/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="167" innioasis:asset_id="317094929"/>
     <content type="text"># Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
 
 # Came from an old Rockbox tutorial or guide? We&#x27;ve got a new, guided tool called Innioasis Updater, To get started with it, or if you&#x27;re looking for firmware downloads or updates for another Innioasis device, please head to [innioasis.com/pages/download](https://innioasis.com/pages/download)
@@ -2655,11 +2655,11 @@ Performance improvements under the hood. </content>
     <updated>2025-11-14T17:29:01Z</updated>
     <published>2025-11-14T17:29:01Z</published>
     <title>Innioasis Updater 1.9.2</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.2"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.2"/>
     <innioasis:tag_name>1.9.2</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="33" innioasis:asset_id="316476862"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.2/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="113" innioasis:asset_id="316476865"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="33" innioasis:asset_id="316476862"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.2/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="113" innioasis:asset_id="316476865"/>
     <content type="text">Here for a firmware update? Or came from a Y1 Helper, Rockbox tutorial?
 You&#x27;re in the right place. All its these features are now in Innioasis Updater head to [Innioasis.app](https://innioasis.app) to begin
 
@@ -2732,11 +2732,11 @@ Bug fixes to Y1 Wi-Fi settings dialog that prevented some users from clicking Y1
     <updated>2025-11-14T17:25:15Z</updated>
     <published>2025-11-14T17:25:15Z</published>
     <title>Innioasis Updater 1.9.1</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.1"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.1"/>
     <innioasis:tag_name>1.9.1</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="3" innioasis:asset_id="316475813"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="4" innioasis:asset_id="316475816"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="3" innioasis:asset_id="316475813"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="4" innioasis:asset_id="316475816"/>
     <content type="text">General bug fixes and stability improvements</content>
   </entry>
   <entry>
@@ -2744,11 +2744,11 @@ Bug fixes to Y1 Wi-Fi settings dialog that prevented some users from clicking Y1
     <updated>2025-11-13T10:11:44Z</updated>
     <published>2025-11-13T10:11:44Z</published>
     <title>Innioasis Updater 1.9.0</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.9.0"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.9.0"/>
     <innioasis:tag_name>1.9.0</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.0/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="20" innioasis:asset_id="315908901"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.9.0/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="56" innioasis:asset_id="315908906"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.0/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="20" innioasis:asset_id="315908901"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.9.0/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="56" innioasis:asset_id="315908906"/>
     <content type="text"># Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
 
 # Came from an old Rockbox tutorial or guide? We&#x27;ve got a new, guided tool called Innioasis Updater, To get started with it, or if you&#x27;re looking for firmware downloads or updates for another Innioasis device, please head to [innioasis.com/pages/download](https://innioasis.com/pages/download)
@@ -2820,11 +2820,11 @@ Fixes to incorrect update releases downloading in Innioasis Updater.</content>
     <updated>2025-11-12T17:09:08Z</updated>
     <published>2025-11-12T17:09:08Z</published>
     <title>Innioasis Updater 1.8.2.9</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.8.2.9"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.8.2.9"/>
     <innioasis:tag_name>1.8.2.9</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.9/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="6" innioasis:asset_id="315602687"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.9/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="34" innioasis:asset_id="315602697"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.9/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="6" innioasis:asset_id="315602687"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.9/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="34" innioasis:asset_id="315602697"/>
     <content type="text"># Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
 
 # Came from an old Rockbox tutorial or guide? We&#x27;ve got a new, guided tool called Innioasis Updater, To get started with it, or if you&#x27;re looking for firmware downloads or updates for another Innioasis device, please head to [innioasis.com/pages/download](https://innioasis.com/pages/download)
@@ -2896,11 +2896,11 @@ Improvements to status display</content>
     <updated>2025-11-12T08:36:13Z</updated>
     <published>2025-11-12T08:36:13Z</published>
     <title>Innioasis Updater 1.8.2.8</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.8.2.8"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.8.2.8"/>
     <innioasis:tag_name>1.8.2.8</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.8/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="7" innioasis:asset_id="315449600"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.8/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="10" innioasis:asset_id="315449605"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.8/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="7" innioasis:asset_id="315449600"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.8/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="10" innioasis:asset_id="315449605"/>
     <content type="text"># Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
 
 # Came from an old Y1 Helper tutorial? We&#x27;ve got a new, guided tool called Innioasis Updater, To get started with it, or if you&#x27;re looking for firmware downloads or updates for another Innioasis device, please head to [innioasis.com/pages/download](https://innioasis.com/pages/download)
@@ -2970,11 +2970,11 @@ Improvements to status display</content>
     <updated>2025-11-12T08:26:56Z</updated>
     <published>2025-11-12T08:26:56Z</published>
     <title>Innioasis Updater 1.8.2.7</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.8.2.7"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.8.2.7"/>
     <innioasis:tag_name>1.8.2.7</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="5" innioasis:asset_id="315445849"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.7/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="4" innioasis:asset_id="315445855"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="5" innioasis:asset_id="315445849"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.7/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="4" innioasis:asset_id="315445855"/>
     <content type="text"># Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
 
 # Came from an old Y1 Helper tutorial? We&#x27;ve got a new, guided tool called Innioasis Updater, To get started with it, or if you&#x27;re looking for firmware downloads or updates for another Innioasis device, please head to [innioasis.com/pages/download](https://innioasis.com/pages/download)
@@ -3045,11 +3045,11 @@ Send Wi-Fi connection settings to Y1 over ADB</content>
     <updated>2025-11-12T00:46:01Z</updated>
     <published>2025-11-12T00:46:01Z</published>
     <title>Innioasis Updater 1.8.2.6</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.8.2.6"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.8.2.6"/>
     <innioasis:tag_name>1.8.2.6</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.6/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="3" innioasis:asset_id="315305639"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.6/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="22" innioasis:asset_id="315305642"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.6/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="3" innioasis:asset_id="315305639"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.6/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="22" innioasis:asset_id="315305642"/>
     <content type="text"># Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
 
 # Came from an old Y1 Helper tutorial? We&#x27;ve got a new, guided tool called Innioasis Updater, To get started with it, or if you&#x27;re looking for firmware downloads or updates for another Innioasis device, please head to [innioasis.com/pages/download](https://innioasis.com/pages/download)
@@ -3119,11 +3119,11 @@ Further Improvements to ADB and USB Storage Mode functionality in Smart Drop (Be
     <updated>2025-11-11T23:17:40Z</updated>
     <published>2025-11-11T23:17:40Z</published>
     <title>Innioasis Updater 1.8.2.5</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.8.2.5"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.8.2.5"/>
     <innioasis:tag_name>1.8.2.5</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.5/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="6" innioasis:asset_id="315278469"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.5/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="6" innioasis:asset_id="315278475"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.5/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="6" innioasis:asset_id="315278469"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.5/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="6" innioasis:asset_id="315278475"/>
     <content type="text"># Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
 
 # Came from an old Y1 Helper tutorial? We&#x27;ve got a new, guided tool called Innioasis Updater, To get started with it, or if you&#x27;re looking for firmware downloads or updates for another Innioasis device, please head to [innioasis.com/pages/download](https://innioasis.com/pages/download)
@@ -3193,11 +3193,11 @@ Further Improvements to ADB and USB Storage Mode functionality in Smart Drop (Be
     <updated>2025-11-11T22:48:11Z</updated>
     <published>2025-11-11T22:48:11Z</published>
     <title>Innioasis Updater 1.8.2.4</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.8.2.4"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.8.2.4"/>
     <innioasis:tag_name>1.8.2.4</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.4/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="5" innioasis:asset_id="315263792"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.4/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="6" innioasis:asset_id="315263800"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.4/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="5" innioasis:asset_id="315263792"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.4/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="6" innioasis:asset_id="315263800"/>
     <content type="text"># Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
 
 # Came from an old Y1 Helper tutorial? We&#x27;ve got a new, guided tool called Innioasis Updater, To get started with it, or if you&#x27;re looking for firmware downloads or updates for another Innioasis device, please head to [innioasis.com/pages/download](https://innioasis.com/pages/download)
@@ -3267,11 +3267,11 @@ Further Improvements to ADB and USB Storage Mode functionality in Smart Drop (Be
     <updated>2025-11-11T21:58:51Z</updated>
     <published>2025-11-11T21:58:51Z</published>
     <title>Innioasis Updater 1.8.2.3</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.8.2.3"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.8.2.3"/>
     <innioasis:tag_name>1.8.2.3</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="3" innioasis:asset_id="315246875"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.3/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="5" innioasis:asset_id="315246877"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="3" innioasis:asset_id="315246875"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.3/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="5" innioasis:asset_id="315246877"/>
     <content type="text"># Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
 
 # Came from an old Y1 Helper tutorial? We&#x27;ve got a new, guided tool called Innioasis Updater, To get started with it, or if you&#x27;re looking for firmware downloads or updates for another Innioasis device, please head to [innioasis.com/pages/download](https://innioasis.com/pages/download)
@@ -3341,11 +3341,11 @@ Further Improvements to ADB and USB Storage Mode functionality in Smart Drop (Be
     <updated>2025-11-11T20:51:09Z</updated>
     <published>2025-11-11T20:51:09Z</published>
     <title>Innioasis Updater 1.8.8.2</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.8.2.2"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.8.2.2"/>
     <innioasis:tag_name>1.8.2.2</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="6" innioasis:asset_id="315231309"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.2/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="6" innioasis:asset_id="315231315"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="6" innioasis:asset_id="315231309"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.2/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="6" innioasis:asset_id="315231315"/>
     <content type="text"># Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
 
 # Came from an old Y1 Helper tutorial? We&#x27;ve got a new, guided tool called Innioasis Updater, To get started with it, or if you&#x27;re looking for firmware downloads or updates for another Innioasis device, please head to [innioasis.com/pages/download](https://innioasis.com/pages/download)
@@ -3415,11 +3415,11 @@ Further Improvements to ADB and USB Storage Mode functionality in Smart Drop (Be
     <updated>2025-11-11T19:14:04Z</updated>
     <published>2025-11-11T19:14:04Z</published>
     <title>Innioasis Updater 1.8.2.1</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.8.2.1"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.8.2.1"/>
     <innioasis:tag_name>1.8.2.1</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="2" innioasis:asset_id="315206246"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="5" innioasis:asset_id="315205934"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="2" innioasis:asset_id="315206246"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="5" innioasis:asset_id="315205934"/>
     <content type="text"># Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
 
 # Came from an old Y1 Helper tutorial? We&#x27;ve got a new, guided tool called Innioasis Updater, To get started with it, or if you&#x27;re looking for firmware downloads or updates for another Innioasis device, please head to [innioasis.com/pages/download](https://innioasis.com/pages/download)
@@ -3489,11 +3489,11 @@ Improvements to ADB and USB Storage Mode functionality in Smart Drop (Beta previ
     <updated>2025-11-13T09:43:50Z</updated>
     <published>2025-11-13T09:43:50Z</published>
     <title>Innioasis Updater 1.8.3</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.8.3"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.8.3"/>
     <innioasis:tag_name>1.8.3</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="6" innioasis:asset_id="315899943"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.3/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="7" innioasis:asset_id="315899946"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="6" innioasis:asset_id="315899943"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.3/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="7" innioasis:asset_id="315899946"/>
     <content type="text"># Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
 
 # Came from an old Rockbox tutorial or guide? We&#x27;ve got a new, guided tool called Innioasis Updater, To get started with it, or if you&#x27;re looking for firmware downloads or updates for another Innioasis device, please head to [innioasis.com/pages/download](https://innioasis.com/pages/download)
@@ -3561,11 +3561,11 @@ This release features a new window for configuring Wi-Fi connections on your Y1 
     <updated>2025-11-09T20:00:12Z</updated>
     <published>2025-11-09T20:00:12Z</published>
     <title>Innioasis Updater 1.8.2</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.8.2"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.8.2"/>
     <innioasis:tag_name>1.8.2</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/x-apple-diskimage" innioasis:download_count="12" innioasis:asset_id="314427005"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.2/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="69" innioasis:asset_id="314427009"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/x-apple-diskimage" innioasis:download_count="12" innioasis:asset_id="314427005"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.2/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="69" innioasis:asset_id="314427009"/>
     <content type="text"># Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
 
 # Came from an old Y1 Helper tutorial? We&#x27;ve got a new, guided tool called Innioasis Updater, To get started with it, or if you&#x27;re looking for firmware downloads or updates for another Innioasis device, please head to [innioasis.com/pages/download](https://innioasis.com/pages/download)
@@ -3639,11 +3639,11 @@ Preview of Wireless ADB connectivity feature for Smart Drop and Fast Update, all
     <updated>2025-11-09T18:22:36Z</updated>
     <published>2025-11-09T18:22:36Z</published>
     <title>Innioasis Updater 1.8.1 for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.8.1"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.8.1"/>
     <innioasis:tag_name>1.8.1</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/x-apple-diskimage" innioasis:download_count="3" innioasis:asset_id="314409016"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="2" innioasis:asset_id="314409022"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/x-apple-diskimage" innioasis:download_count="3" innioasis:asset_id="314409016"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.1/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="2" innioasis:asset_id="314409022"/>
     <content type="text">Autopatcher stability improvements</content>
   </entry>
   <entry>
@@ -3651,11 +3651,11 @@ Preview of Wireless ADB connectivity feature for Smart Drop and Fast Update, all
     <updated>2025-11-06T00:10:13Z</updated>
     <published>2025-11-06T00:10:13Z</published>
     <title>Innioasis Updater 1.8.0 for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.8.0"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.8.0"/>
     <innioasis:tag_name>1.8.0</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.0/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/octet-stream" innioasis:download_count="44" innioasis:asset_id="313067239"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.8.0/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="131" innioasis:asset_id="313067106"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.0/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/octet-stream" innioasis:download_count="44" innioasis:asset_id="313067239"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.8.0/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="131" innioasis:asset_id="313067106"/>
     <content type="text">New in this release:
 
 - Automatic Fast Install setup for connected Rockbox Y1&#x27;s
@@ -3672,11 +3672,11 @@ Simply update to the latest version of Updater and when you connect a powered on
     <updated>2025-11-05T18:56:31Z</updated>
     <published>2025-11-05T18:56:31Z</published>
     <title>Innioasis Updater 1.7.9 for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.7.9"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.7.9"/>
     <innioasis:tag_name>1.7.9</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.9/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/octet-stream" innioasis:download_count="6" innioasis:asset_id="312963375"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.9/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="18" innioasis:asset_id="312963491"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.9/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/octet-stream" innioasis:download_count="6" innioasis:asset_id="312963375"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.9/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="18" innioasis:asset_id="312963491"/>
     <content type="text"># This update features deep performance improvements and a couple of new features
 
 - Display of update release notes in the GUI
@@ -3688,11 +3688,11 @@ Simply update to the latest version of Updater and when you connect a powered on
     <updated>2025-11-04T06:39:27Z</updated>
     <published>2025-11-04T06:39:27Z</published>
     <title>Innioasis Updater 1.7.8 for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.7.8"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.7.8"/>
     <innioasis:tag_name>1.7.8</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.8/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/octet-stream" innioasis:download_count="13" innioasis:asset_id="312286271"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.8/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="56" innioasis:asset_id="312286277"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.8/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/octet-stream" innioasis:download_count="13" innioasis:asset_id="312286271"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.8/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="56" innioasis:asset_id="312286277"/>
     <content type="text">&lt;img width=&quot;4294&quot; height=&quot;2069&quot; alt=&quot;presteps&quot; src=&quot;https://github.com/user-attachments/assets/8bed5607-a02e-4afc-8db8-8cb7b46e84f3&quot; /&gt;
 
 What&#x27;s new in 1.7.8?
@@ -3756,11 +3756,11 @@ Innioasis Updater is an easy, one-click firmware installer for the Innioasis Y1 
     <updated>2025-11-03T10:16:32Z</updated>
     <published>2025-11-03T10:16:32Z</published>
     <title>Labs build testing stability improvements</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.7.7"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.7.7"/>
     <innioasis:tag_name>1.7.7</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/x-apple-diskimage" innioasis:download_count="10" innioasis:asset_id="311910783"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.7/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="50" innioasis:asset_id="311910790"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/x-apple-diskimage" innioasis:download_count="10" innioasis:asset_id="311910783"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.7/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="50" innioasis:asset_id="311910790"/>
     <content type="text">#  Innioasis Updater is the official firmware update tool for Y1 players (more to come in future) and is compatible with [MediaTek SP USB Drivers](https://innioasis.app/DriverInstall.exe) and its [open-source alternative](https://github.com/daynix/UsbDk) [USB Development Kit](https://github.com/daynix/UsbDk/releases/download/v1.00-22/UsbDk_1.0.22_x64.msi)
 New in 1.7.7:
 
@@ -3817,11 +3817,11 @@ Innioasis Updater is an easy, one-click firmware installer for the Innioasis Y1 
     <updated>2025-10-22T19:50:37Z</updated>
     <published>2025-10-22T19:50:37Z</published>
     <title>Innioasis Updater 1.7.6: Self patching improvements.</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.7.6"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.7.6"/>
     <innioasis:tag_name>1.7.6</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.6/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/x-apple-diskimage" innioasis:download_count="88" innioasis:asset_id="307435928"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.6/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="372" innioasis:asset_id="307435936"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.6/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/x-apple-diskimage" innioasis:download_count="88" innioasis:asset_id="307435928"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.6/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="372" innioasis:asset_id="307435936"/>
     <content type="text">#  Innioasis Updater is the official firmware update tool for Y1 players (more to come in future) and is compatible with [MediaTek SP USB Drivers](https://innioasis.app/DriverInstall.exe) and its [open-source alternative](https://github.com/daynix/UsbDk) [USB Development Kit](https://github.com/daynix/UsbDk/releases/download/v1.00-22/UsbDk_1.0.22_x64.msi)
 New in 1.7.6:
 
@@ -3878,11 +3878,11 @@ Innioasis Updater is an easy, one-click firmware installer for the Innioasis Y1 
     <updated>2025-10-19T14:45:42Z</updated>
     <published>2025-10-19T14:45:42Z</published>
     <title>Innioasis Updater </title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.7.5"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.7.5"/>
     <innioasis:tag_name>1.7.5</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.5/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/x-apple-diskimage" innioasis:download_count="26" innioasis:asset_id="306145107"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.5/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="155" innioasis:asset_id="306145143"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.5/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/x-apple-diskimage" innioasis:download_count="26" innioasis:asset_id="306145107"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.5/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="155" innioasis:asset_id="306145143"/>
     <content type="text">### Looking to update the firmware on your Innioasis player or install Rockbox on your Y1? 
 Please visit www.innioasis.com/pages/download and select the link for your model to begin
 
@@ -3900,11 +3900,11 @@ Please visit www.innioasis.com/pages/download and select the link for your model
     <updated>2025-10-19T13:13:07Z</updated>
     <published>2025-10-19T13:13:07Z</published>
     <title>1.7.4 Security Response: MTK Driver Concerns</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.7.4"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.7.4"/>
     <innioasis:tag_name>1.7.4</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.4/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/x-apple-diskimage" innioasis:download_count="0" innioasis:asset_id="306127626"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.4/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="2" innioasis:asset_id="306127623"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.4/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/x-apple-diskimage" innioasis:download_count="0" innioasis:asset_id="306127626"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.4/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="2" innioasis:asset_id="306127623"/>
     <content type="text">In response to concerns raised around the drivers used by SP Flash Tool to install firmware on the Innioasis Y1, Innioasis Updater has been patched to no longer prompt users to use MediaTek&#x27;s proprietary USB Driver, existing versions will work without this driver anyway, but having it allowed the use of SP Flash Tool which provides a better experience on Windows, but you&#x27;ll be shown a popup encouraging you to install it, this version removes that popup.
 
 Users that would prefer not to have this driver will be able to use the [USB Development Kit](https://github.com/daynix/UsbDk) driver. 
@@ -3921,11 +3921,11 @@ If your system allows for this it may be advisable to enable Secure Boot (a defa
     <updated>2025-10-09T16:50:23Z</updated>
     <published>2025-10-09T16:50:23Z</published>
     <title>1.7.3</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.7.3"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.7.3"/>
     <innioasis:tag_name>1.7.3</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/x-apple-diskimage" innioasis:download_count="80" innioasis:asset_id="303007716"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.3/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="367" innioasis:asset_id="302396733"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.3/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1416801" type="application/x-apple-diskimage" innioasis:download_count="80" innioasis:asset_id="303007716"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.3/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="367" innioasis:asset_id="302396733"/>
     <content type="text">Bug fixes and stability improvements</content>
   </entry>
   <entry>
@@ -3933,11 +3933,11 @@ If your system allows for this it may be advisable to enable Secure Boot (a defa
     <updated>2025-10-07T12:01:00Z</updated>
     <published>2025-10-07T12:01:00Z</published>
     <title>1.7.2</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.7.2"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.7.2"/>
     <innioasis:tag_name>1.7.2</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1457727" type="application/x-apple-diskimage" innioasis:download_count="15" innioasis:asset_id="301498066"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.2/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="92" innioasis:asset_id="301498127"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.2/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1457727" type="application/x-apple-diskimage" innioasis:download_count="15" innioasis:asset_id="301498066"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.2/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="92" innioasis:asset_id="301498127"/>
     <content type="text">New in 1.7.2:
 
 - Right click shortcuts to open the Firmware Directory and view the GitHub repository for the selected firmware. Thanks @waamelyn for the suggestion!
@@ -3997,11 +3997,11 @@ Innioasis Updater is an easy, one-click firmware installer for the Innioasis Y1 
     <updated>2025-10-07T11:35:21Z</updated>
     <published>2025-10-07T11:35:21Z</published>
     <title>1.7.0</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.7.0"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.7.0"/>
     <innioasis:tag_name>1.7.0</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.0/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1457727" type="application/x-apple-diskimage" innioasis:download_count="1" innioasis:asset_id="301491845"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.7.0/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="0" innioasis:asset_id="301491855"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.0/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1457727" type="application/x-apple-diskimage" innioasis:download_count="1" innioasis:asset_id="301491845"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.7.0/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="0" innioasis:asset_id="301491855"/>
     <content type="text">New in 1.7.0:
 
 - Cleaner Interface, work towards future support for other devices, ensuring that &quot;Type&quot; dialog and help prompts are only shown for models where hardware variation is relevant in firmware installs.
@@ -4059,12 +4059,12 @@ Innioasis Updater is an easy, one-click firmware installer for the Innioasis Y1 
     <updated>2025-10-03T18:02:50Z</updated>
     <published>2025-10-03T18:02:50Z</published>
     <title>1.6.9</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.6.9"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.6.9"/>
     <innioasis:tag_name>1.6.9</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.6.9/Innioasis.Updater.-.Windows.exe" title="Innioasis.Updater.-.Windows.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="143" innioasis:asset_id="300207580"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.6.9/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1457727" type="application/x-apple-diskimage" innioasis:download_count="31" innioasis:asset_id="300207658"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.6.9/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="18" innioasis:asset_id="300207661"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.6.9/Innioasis.Updater.-.Windows.exe" title="Innioasis.Updater.-.Windows.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="143" innioasis:asset_id="300207580"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.6.9/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1457727" type="application/x-apple-diskimage" innioasis:download_count="31" innioasis:asset_id="300207658"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.6.9/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="18" innioasis:asset_id="300207661"/>
     <content type="text">New in 1.6.9:
 
 - Made updates manual
@@ -4126,17 +4126,17 @@ Innioasis Updater is an easy, one-click firmware installer for the Innioasis Y1 
     <updated>2025-08-22T18:10:08Z</updated>
     <published>2025-08-22T18:10:08Z</published>
     <title>Innioasis Updater for Windows and Mac</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.6.0"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.6.0"/>
     <innioasis:tag_name>1.6.0</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.6.0/Innioasis.Updater.-.Windows.exe" title="Innioasis.Updater.-.Windows.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="1213" innioasis:asset_id="289678818"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.6.0/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1457727" type="application/x-apple-diskimage" innioasis:download_count="23" innioasis:asset_id="298994295"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.6.0/only.download.from.innioasis.app.dmg" title="only.download.from.innioasis.app.dmg" length="416256" type="application/x-diskcopy" innioasis:download_count="158" innioasis:asset_id="287762626"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.6.0/only.download.from.innioasis.app.exe" title="only.download.from.innioasis.app.exe" length="9534578" type="application/x-msdownload" innioasis:download_count="955" innioasis:asset_id="285371175"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.6.0/only.download.from.innioasis.app.msi" title="only.download.from.innioasis.app.msi" length="6348800" type="application/octet-stream" innioasis:download_count="880" innioasis:asset_id="285370538"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.6.0/only.download.from.innioasis.app.zip" title="only.download.from.innioasis.app.zip" length="40044" type="application/x-zip-compressed" innioasis:download_count="20" innioasis:asset_id="288113432"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.6.0/only.download.from.website.dmg" title="only.download.from.website.dmg" length="418304" type="application/x-diskcopy" innioasis:download_count="170" innioasis:asset_id="292207287"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.6.0/patch.exe" title="patch.exe" length="264870688" type="application/octet-stream" innioasis:download_count="40" innioasis:asset_id="291726506"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.6.0/Innioasis.Updater.-.Windows.exe" title="Innioasis.Updater.-.Windows.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="1213" innioasis:asset_id="289678818"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.6.0/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1457727" type="application/x-apple-diskimage" innioasis:download_count="23" innioasis:asset_id="298994295"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.6.0/only.download.from.innioasis.app.dmg" title="only.download.from.innioasis.app.dmg" length="416256" type="application/x-diskcopy" innioasis:download_count="158" innioasis:asset_id="287762626"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.6.0/only.download.from.innioasis.app.exe" title="only.download.from.innioasis.app.exe" length="9534578" type="application/x-msdownload" innioasis:download_count="955" innioasis:asset_id="285371175"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.6.0/only.download.from.innioasis.app.msi" title="only.download.from.innioasis.app.msi" length="6348800" type="application/octet-stream" innioasis:download_count="880" innioasis:asset_id="285370538"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.6.0/only.download.from.innioasis.app.zip" title="only.download.from.innioasis.app.zip" length="40044" type="application/x-zip-compressed" innioasis:download_count="20" innioasis:asset_id="288113432"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.6.0/only.download.from.website.dmg" title="only.download.from.website.dmg" length="418304" type="application/x-diskcopy" innioasis:download_count="170" innioasis:asset_id="292207287"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.6.0/patch.exe" title="patch.exe" length="264870688" type="application/octet-stream" innioasis:download_count="40" innioasis:asset_id="291726506"/>
     <content type="text"># This is the GitHub Repository for Innioasis Updater. please take care to ensure you use the www.innioasis.app website to install the app. 
 
 [&lt;img src=&quot;https://innioasis.app/start_here.png&quot; alt=&quot;Innioasis Updater Screenshot&quot;/&gt;](https://innioasis.app)
@@ -4281,11 +4281,11 @@ python3 updater.py
     <updated>2025-11-30T17:06:23Z</updated>
     <published>2025-11-30T17:06:23Z</published>
     <title>Innioasis Updater 1.0.0</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/Innioasis-Updater/releases/tag/1.0.0"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/1.0.0"/>
     <innioasis:tag_name>1.0.0</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.0.0/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="6" innioasis:asset_id="322563778"/>
-    <link rel="enclosure" href="https://github.com/y1-community/Innioasis-Updater/releases/download/1.0.0/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="8" innioasis:asset_id="322563701"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.0.0/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/x-apple-diskimage" innioasis:download_count="6" innioasis:asset_id="322563778"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/1.0.0/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="8" innioasis:asset_id="322563701"/>
     <content type="text">Y1 owner looking for a firmware update? Or came from a Y1 Helper or Rockbox tutorial? Let [www.innioasis.app](https://innioasis.app) lead the way. It has all the [firmware downloads](https://innioasis.app), [links to themes](https://innioasis.app) and useful info on how to install updates and themes.
 
 # Innioasis Updater is the official firmware installation tool for the Innioasis Y1, built by the users, _for_ the users.
