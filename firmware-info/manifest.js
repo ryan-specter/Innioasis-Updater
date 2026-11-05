@@ -2,6 +2,13 @@
    Repositories whose README names Updater CE, mapped to their static page.
    Release-table icons link here; anything missing opens firmware_info.html. */
 window.INNIOASIS_README_PAGES = {
+  "fabianzettl/inniclassic": {
+    "name": "Inniclassic",
+    "page": "firmware-info/fabianzettl-inniclassic.html",
+    "slugs": [
+      "inniclassic-y1"
+    ]
+  },
   "ismileblue/y1_launcher": {
     "name": "JJ Launcher",
     "page": "firmware-info/ismileblue-y1-launcher.html",
@@ -21,7 +28,6 @@ window.INNIOASIS_README_PAGES = {
     "name": "Inniclassic",
     "page": "firmware-info/jonaszpotoniec-inniclassic-y2.html",
     "slugs": [
-      "inniclassic-y1",
       "inniclassic-y2"
     ]
   },
