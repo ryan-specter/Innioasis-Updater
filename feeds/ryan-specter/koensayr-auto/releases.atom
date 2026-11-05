@@ -13,8 +13,8 @@
     <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/koensayr-auto/releases/tag/2.4.0-koensayr-3.0.7"/>
     <innioasis:tag_name>2.4.0-koensayr-3.0.7</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ryan-specter/koensayr-auto/releases/download/2.4.0-koensayr-3.0.7/build-manifest.json" title="build-manifest.json" length="545" type="application/json" innioasis:download_count="15" innioasis:asset_id="427486582"/>
-    <link rel="enclosure" href="https://github.com/ryan-specter/koensayr-auto/releases/download/2.4.0-koensayr-3.0.7/rom.zip" title="rom.zip" length="309074505" type="application/zip" innioasis:download_count="881" innioasis:asset_id="427486583"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/koensayr-auto/releases/download/2.4.0-koensayr-3.0.7/build-manifest.json" title="build-manifest.json" length="545" type="application/json" innioasis:download_count="16" innioasis:asset_id="427486582"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/koensayr-auto/releases/download/2.4.0-koensayr-3.0.7/rom.zip" title="rom.zip" length="309074505" type="application/zip" innioasis:download_count="883" innioasis:asset_id="427486583"/>
     <content type="text"># 2.4.0-koensayr-3.0.7
 
 Koensayr is a mod for the Y1&#x27;s OS that makes the following improvements to the original OS:
@@ -75,8 +75,8 @@ adb shell rm -rf /data/data/com.innioasis.y1/code_cache/secondary-dexes/
     <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/koensayr-auto/releases/tag/2.4.0-koensayr-3.0.2"/>
     <innioasis:tag_name>2.4.0-koensayr-3.0.2</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ryan-specter/koensayr-auto/releases/download/2.4.0-koensayr-3.0.2/build-manifest.json" title="build-manifest.json" length="538" type="application/json" innioasis:download_count="15" innioasis:asset_id="427486711"/>
-    <link rel="enclosure" href="https://github.com/ryan-specter/koensayr-auto/releases/download/2.4.0-koensayr-3.0.2/rom.zip" title="rom.zip" length="329013283" type="application/zip" innioasis:download_count="165" innioasis:asset_id="427486710"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/koensayr-auto/releases/download/2.4.0-koensayr-3.0.2/build-manifest.json" title="build-manifest.json" length="538" type="application/json" innioasis:download_count="16" innioasis:asset_id="427486711"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/koensayr-auto/releases/download/2.4.0-koensayr-3.0.2/rom.zip" title="rom.zip" length="329013283" type="application/zip" innioasis:download_count="166" innioasis:asset_id="427486710"/>
     <content type="text"># 2.4.0-koensayr-3.0.2
 
 Koensayr is a mod for the Y1&#x27;s OS that makes the following improvements to the original OS:

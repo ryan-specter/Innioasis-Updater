@@ -13,8 +13,8 @@
     <link rel="alternate" type="text/html" href="https://github.com/SchulzCode/Y2Player/releases/tag/Release2.5"/>
     <innioasis:tag_name>Release2.5</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Player/releases/download/Release2.5/rom_y2.zip" title="rom_y2.zip" length="296365314" type="application/zip" innioasis:download_count="984" innioasis:asset_id="544807385"/>
-    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Player/releases/download/Release2.5/system.img" title="system.img" length="369235868" type="application/octet-stream" innioasis:download_count="55" innioasis:asset_id="544805127"/>
+    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Player/releases/download/Release2.5/rom_y2.zip" title="rom_y2.zip" length="296365314" type="application/zip" innioasis:download_count="989" innioasis:asset_id="544807385"/>
+    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Player/releases/download/Release2.5/system.img" title="system.img" length="369235868" type="application/octet-stream" innioasis:download_count="56" innioasis:asset_id="544805127"/>
     <content type="text"># Y2Player v2.5 - Search, FM Radio, Faster Navigation, and Playback Reliability
 
 Version 2.5 brings whole-device search, FM radio support for compatible Y2 hardware, faster navigation through large libraries, more flexible sleep-timer controls, and a redesigned equalizer interface.
@@ -337,8 +337,8 @@ Thank you to everyone who submitted issues, tested builds, provided diagnostics,
     <link rel="alternate" type="text/html" href="https://github.com/SchulzCode/Y2Player/releases/tag/ReleaseV2.3"/>
     <innioasis:tag_name>ReleaseV2.3</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Player/releases/download/ReleaseV2.3/rom_y2.zip" title="rom_y2.zip" length="296556198" type="application/x-zip-compressed" innioasis:download_count="315" innioasis:asset_id="515579954"/>
-    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Player/releases/download/ReleaseV2.3/system.img" title="system.img" length="369211292" type="application/octet-stream" innioasis:download_count="39" innioasis:asset_id="515584395"/>
+    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Player/releases/download/ReleaseV2.3/rom_y2.zip" title="rom_y2.zip" length="296556198" type="application/x-zip-compressed" innioasis:download_count="316" innioasis:asset_id="515579954"/>
+    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Player/releases/download/ReleaseV2.3/system.img" title="system.img" length="369211292" type="application/octet-stream" innioasis:download_count="40" innioasis:asset_id="515584395"/>
     <content type="text"># Y2Player v2.3 - Up Next Queue, Library Browsing, and Menu Artwork
 
 Version 2.3 focuses on making the playback queue predictable, expanding the ways a library can be browsed, and bringing album artwork into the menu system.
@@ -485,8 +485,8 @@ Thank you to everyone who reported the queue, metadata, audiobook, browsing, and
     <link rel="alternate" type="text/html" href="https://github.com/SchulzCode/Y2Player/releases/tag/RealeaseV2.2.2"/>
     <innioasis:tag_name>RealeaseV2.2.2</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Player/releases/download/RealeaseV2.2.2/rom_y2.zip" title="rom_y2.zip" length="296538727" type="application/x-zip-compressed" innioasis:download_count="73" innioasis:asset_id="509095935"/>
-    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Player/releases/download/RealeaseV2.2.2/system.zip" title="system.zip" length="225531225" type="application/x-zip-compressed" innioasis:download_count="26" innioasis:asset_id="509095127"/>
+    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Player/releases/download/RealeaseV2.2.2/rom_y2.zip" title="rom_y2.zip" length="296538727" type="application/x-zip-compressed" innioasis:download_count="74" innioasis:asset_id="509095935"/>
+    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Player/releases/download/RealeaseV2.2.2/system.zip" title="system.zip" length="225531225" type="application/x-zip-compressed" innioasis:download_count="27" innioasis:asset_id="509095127"/>
     <content type="text">## 2.2.2 backup, artwork, and playback reliability
 
 - Added a versioned Backup &amp; Restore screen for settings, favorites, Y2Player-created playlists, audiobook progress, recent plays, the saved queue and session, and listening history.
@@ -509,8 +509,8 @@ Thank you to everyone who reported the queue, metadata, audiobook, browsing, and
     <link rel="alternate" type="text/html" href="https://github.com/SchulzCode/Y2Player/releases/tag/ReleaseV2.2.1"/>
     <innioasis:tag_name>ReleaseV2.2.1</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Player/releases/download/ReleaseV2.2.1/rom_y2.zip" title="rom_y2.zip" length="296506638" type="application/x-zip-compressed" innioasis:download_count="87" innioasis:asset_id="500356950"/>
-    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Player/releases/download/ReleaseV2.2.1/system.img.zip" title="system.img.zip" length="225498405" type="application/x-zip-compressed" innioasis:download_count="31" innioasis:asset_id="500302691"/>
+    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Player/releases/download/ReleaseV2.2.1/rom_y2.zip" title="rom_y2.zip" length="296506638" type="application/x-zip-compressed" innioasis:download_count="88" innioasis:asset_id="500356950"/>
+    <link rel="enclosure" href="https://github.com/SchulzCode/Y2Player/releases/download/ReleaseV2.2.1/system.img.zip" title="system.img.zip" length="225498405" type="application/x-zip-compressed" innioasis:download_count="32" innioasis:asset_id="500302691"/>
     <content type="text"> # Y2Player v2.2.1 — Playback Stability, Improved Controls, and Now Playing Updates
 
   Version 2.2.1 focuses on feedback received after the 2.2 release. The largest changes address volume peaks, lock-screen playback, physical controls, queue reliability, and the Now Playing interface.

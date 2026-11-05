@@ -14,8 +14,8 @@
     <innioasis:tag_name>v1.1.0</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/Leska1337/better-Y/raw/main/screenshots/plus_logo.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/Leska1337/better-Y/releases/download/v1.1.0/better-Y_3.1.2_v1.1.0.apk" title="better-Y_3.1.2_v1.1.0.apk" length="60200797" type="application/vnd.android.package-archive" innioasis:download_count="20" innioasis:asset_id="589006754"/>
-    <link rel="enclosure" href="https://github.com/Leska1337/better-Y/releases/download/v1.1.0/rom.zip" title="rom.zip" length="181243963" type="application/x-zip-compressed" innioasis:download_count="343" innioasis:asset_id="588998617"/>
+    <link rel="enclosure" href="https://github.com/Leska1337/better-Y/releases/download/v1.1.0/better-Y_3.1.2_v1.1.0.apk" title="better-Y_3.1.2_v1.1.0.apk" length="60200797" type="application/vnd.android.package-archive" innioasis:download_count="21" innioasis:asset_id="589006754"/>
+    <link rel="enclosure" href="https://github.com/Leska1337/better-Y/releases/download/v1.1.0/rom.zip" title="rom.zip" length="181243963" type="application/x-zip-compressed" innioasis:download_count="344" innioasis:asset_id="588998617"/>
     <content type="text">![Image](https://github.com/Leska1337/better-Y/raw/v1.1.0/screenshots/themes_support.png &quot;Logo&quot;)
 
 Settings marked with ⚙️ are new rows in the better-Y menu.
@@ -211,7 +211,7 @@ it re-reads every MP3 whose tag is over the limit, even if the file has not chan
     <innioasis:tag_name>v1.0.0</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
     <innioasis:icon_url>https://github.com/Leska1337/better-Y/raw/main/screenshots/plus_logo.png</innioasis:icon_url>
-    <link rel="enclosure" href="https://github.com/Leska1337/better-Y/releases/download/v1.0.0/rom.zip" title="rom.zip" length="181072948" type="application/x-zip-compressed" innioasis:download_count="178" innioasis:asset_id="543801871"/>
+    <link rel="enclosure" href="https://github.com/Leska1337/better-Y/releases/download/v1.0.0/rom.zip" title="rom.zip" length="181072948" type="application/x-zip-compressed" innioasis:download_count="179" innioasis:asset_id="543801871"/>
     <content type="text">&gt; [!WARNING]
 &gt; Y1, type A only</content>
   </entry>

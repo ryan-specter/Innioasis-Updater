@@ -3,7 +3,7 @@
     "id": 432888923,
     "tag_name": "0.1",
     "name": "Portable Flashing Package: Y1 ATA ROM for Type A and Type B",
-    "body": "<p align=\"center\">\n  <a href=\"https://innioasis.app/guide.html?repo=y1-community%2Fy1-ata-rom&amp;tag=0.1#download-updater\"><img src=\"https://raw.githubusercontent.com/y1-community/y1-ata-rom-mirror/main/.mirror-assets/release-button-updater.svg\" width=\"400\" alt=\"Get it on Updater CE - with guided install\"></a>\n</p>\n\n### Downloads\n\n#### Y1 \u00b7 Type A\n\n<p align=\"center\">\n  <a href=\"https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom-windows.zip\"><img src=\"https://raw.githubusercontent.com/y1-community/y1-ata-rom-mirror/main/.mirror-assets/release-button-windows.svg\" width=\"400\" alt=\"Download .zip for Windows for Y1 \u00b7 Type A - x86-64 \u00b7 portable package\"></a>\n  <a href=\"https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom-linux.zip\"><img src=\"https://raw.githubusercontent.com/y1-community/y1-ata-rom-mirror/main/.mirror-assets/release-button-linux.svg\" width=\"400\" alt=\"Download .zip for Linux for Y1 \u00b7 Type A - x86-64 \u00b7 portable package\"></a>\n</p>\n\n<p align=\"center\">\n  <a href=\"https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom-macos.zip\"><img src=\"https://raw.githubusercontent.com/y1-community/y1-ata-rom-mirror/main/.mirror-assets/release-button-macos.svg\" width=\"400\" alt=\"Download .zip for macOS 12+ for Y1 \u00b7 Type A - Intel + Apple silicon\"></a>\n</p>\n\n#### Y1 \u00b7 Type B\n\n<p align=\"center\">\n  <a href=\"https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom_type_b-windows.zip\"><img src=\"https://raw.githubusercontent.com/y1-community/y1-ata-rom-mirror/main/.mirror-assets/release-button-windows.svg\" width=\"400\" alt=\"Download .zip for Windows for Y1 \u00b7 Type B - x86-64 \u00b7 portable package\"></a>\n  <a href=\"https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom_type_b-linux.zip\"><img src=\"https://raw.githubusercontent.com/y1-community/y1-ata-rom-mirror/main/.mirror-assets/release-button-linux.svg\" width=\"400\" alt=\"Download .zip for Linux for Y1 \u00b7 Type B - x86-64 \u00b7 portable package\"></a>\n</p>\n\n<p align=\"center\">\n  <a href=\"https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom_type_b-macos.zip\"><img src=\"https://raw.githubusercontent.com/y1-community/y1-ata-rom-mirror/main/.mirror-assets/release-button-macos.svg\" width=\"400\" alt=\"Download .zip for macOS 12+ for Y1 \u00b7 Type B - Intel + Apple silicon\"></a>\n</p>\n\n---\n\n<!-- portable-mirror:{\"assets\":[{\"model\":\"Y1\",\"name\":\"rom-linux.zip\",\"platform\":\"linux\",\"sha256\":\"4472b6442bc0561fbc495b872fd0dd09343e131be1ac76eade723993266cf8d0\",\"size\":842274407,\"source_asset\":\"rom.zip\",\"type\":\"Type A\"},{\"model\":\"Y1\",\"name\":\"rom-macos.zip\",\"platform\":\"macos\",\"sha256\":\"be0ddad5d467b377e821bdc13ef8a946932d11983e2f6d52c261c6f43ba06bb6\",\"size\":610663846,\"source_asset\":\"rom.zip\",\"type\":\"Type A\"},{\"model\":\"Y1\",\"name\":\"rom-windows.zip\",\"platform\":\"windows\",\"sha256\":\"4a67c66fbca7e11639a548f62688b1191dc81f9220fd204decef215ec53e7974\",\"size\":691059243,\"source_asset\":\"rom.zip\",\"type\":\"Type A\"},{\"model\":\"Y1\",\"name\":\"rom_type_b-linux.zip\",\"platform\":\"linux\",\"sha256\":\"ac2619341233d4a60d85a355bdcba05848dedaa5968b3a5df8b725641b8ab2b9\",\"size\":785144190,\"source_asset\":\"rom_type_b.zip\",\"type\":\"Type B\"},{\"model\":\"Y1\",\"name\":\"rom_type_b-macos.zip\",\"platform\":\"macos\",\"sha256\":\"c7bcf7ef9a05330eebe2ccefc656004a8f6b7b570f62b0c7eae70fe418e71825\",\"size\":553533635,\"source_asset\":\"rom_type_b.zip\",\"type\":\"Type B\"},{\"model\":\"Y1\",\"name\":\"rom_type_b-windows.zip\",\"platform\":\"windows\",\"sha256\":\"eb71733fe561310e1742aa494a5d1b8b7a30a897e857a7907a7a8b30f0c9c25b\",\"size\":633929026,\"source_asset\":\"rom_type_b.zip\",\"type\":\"Type B\"}],\"built_at\":\"2026-11-04T21:30:40Z\",\"button_assets\":[{\"name\":\"release-button-updater.svg\",\"size\":1540},{\"name\":\"release-button-windows.svg\",\"size\":1522},{\"name\":\"release-button-linux.svg\",\"size\":1518},{\"name\":\"release-button-macos.svg\",\"size\":1516}],\"failures\":[],\"fingerprint\":\"f3138e99e4ecfd37d74448e6b4e7c889b5743507419991cb4d92edcb9e8b36ff\",\"original_assets\":[\"rom.zip\",\"rom_type_b.zip\"],\"skipped\":[],\"stats\":{\"baseline\":{\"rom-linux.zip\":1,\"rom-macos.zip\":4,\"rom-windows.zip\":2,\"rom.zip\":3,\"rom_type_b-linux.zip\":2,\"rom_type_b-macos.zip\":2,\"rom_type_b-windows.zip\":1,\"rom_type_b.zip\":3},\"generated_at\":\"2026-11-04T21:30:40Z\",\"retired\":{}},\"updater\":{\"linux\":{\"name\":\"UpdaterCE-Linux-Portable.zip\",\"size\":387920108,\"tag\":\"2.5.1\"},\"macos\":{\"name\":\"Innioasis.Updater.for.Mac.dmg\",\"size\":154209498,\"tag\":\"2.0.7\"},\"windows\":{\"name\":\"UpdaterCE-Windows-Portable.zip\",\"size\":236551244,\"tag\":\"2.5.1\"}},\"v\":11} -->\n",
+    "body": "<p align=\"center\">\n  <a href=\"https://innioasis.app/guide.html?repo=y1-community%2Fy1-ata-rom&amp;tag=0.1#download-updater\"><img src=\"https://raw.githubusercontent.com/y1-community/y1-ata-rom-mirror/main/.mirror-assets/release-button-updater.svg\" width=\"400\" alt=\"Get it on Updater CE - with guided install\"></a>\n</p>\n\n### Downloads\n\n#### Y1 \u00b7 Type A\n\n<p align=\"center\">\n  <a href=\"https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom-windows.zip\"><img src=\"https://raw.githubusercontent.com/y1-community/y1-ata-rom-mirror/main/.mirror-assets/release-button-windows.svg\" width=\"400\" alt=\"Download .zip for Windows for Y1 \u00b7 Type A - x86-64 \u00b7 portable package\"></a>\n  <a href=\"https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom-linux.zip\"><img src=\"https://raw.githubusercontent.com/y1-community/y1-ata-rom-mirror/main/.mirror-assets/release-button-linux.svg\" width=\"400\" alt=\"Download .zip for Linux for Y1 \u00b7 Type A - x86-64 \u00b7 portable package\"></a>\n</p>\n\n<p align=\"center\">\n  <a href=\"https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom-macos.zip\"><img src=\"https://raw.githubusercontent.com/y1-community/y1-ata-rom-mirror/main/.mirror-assets/release-button-macos.svg\" width=\"400\" alt=\"Download .zip for macOS 12+ for Y1 \u00b7 Type A - Intel + Apple silicon\"></a>\n</p>\n\n#### Y1 \u00b7 Type B\n\n<p align=\"center\">\n  <a href=\"https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom_type_b-windows.zip\"><img src=\"https://raw.githubusercontent.com/y1-community/y1-ata-rom-mirror/main/.mirror-assets/release-button-windows.svg\" width=\"400\" alt=\"Download .zip for Windows for Y1 \u00b7 Type B - x86-64 \u00b7 portable package\"></a>\n  <a href=\"https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom_type_b-linux.zip\"><img src=\"https://raw.githubusercontent.com/y1-community/y1-ata-rom-mirror/main/.mirror-assets/release-button-linux.svg\" width=\"400\" alt=\"Download .zip for Linux for Y1 \u00b7 Type B - x86-64 \u00b7 portable package\"></a>\n</p>\n\n<p align=\"center\">\n  <a href=\"https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom_type_b-macos.zip\"><img src=\"https://raw.githubusercontent.com/y1-community/y1-ata-rom-mirror/main/.mirror-assets/release-button-macos.svg\" width=\"400\" alt=\"Download .zip for macOS 12+ for Y1 \u00b7 Type B - Intel + Apple silicon\"></a>\n</p>\n\n---\n\n<!-- portable-mirror:{\"assets\":[{\"model\":\"Y1\",\"name\":\"rom-linux.zip\",\"platform\":\"linux\",\"sha256\":\"ffcddcf036c77ec5d943b2b2c05fc55bc130a3daefa9910142b8fe8e9ae44e23\",\"size\":842274407,\"source_asset\":\"rom.zip\",\"type\":\"Type A\"},{\"model\":\"Y1\",\"name\":\"rom-macos.zip\",\"platform\":\"macos\",\"sha256\":\"4fd710294ab05e0397a9978afd66e42e64a2be3c2cd0659b579de20a5dd45a58\",\"size\":610663846,\"source_asset\":\"rom.zip\",\"type\":\"Type A\"},{\"model\":\"Y1\",\"name\":\"rom-windows.zip\",\"platform\":\"windows\",\"sha256\":\"5435365feb41add530a4599a21f80a8bd3e3b5d8e89704dc5613429750ef2562\",\"size\":693501374,\"source_asset\":\"rom.zip\",\"type\":\"Type A\"},{\"model\":\"Y1\",\"name\":\"rom_type_b-linux.zip\",\"platform\":\"linux\",\"sha256\":\"8798437e50da8c1b10e4623b14adb0a8bb1250cbad8c8b8f6c8ef623b6f2e26e\",\"size\":785144190,\"source_asset\":\"rom_type_b.zip\",\"type\":\"Type B\"},{\"model\":\"Y1\",\"name\":\"rom_type_b-macos.zip\",\"platform\":\"macos\",\"sha256\":\"554dd45c6137560317bd795db6083f8a76cf156b812952026c8cea4968ab0100\",\"size\":553533635,\"source_asset\":\"rom_type_b.zip\",\"type\":\"Type B\"},{\"model\":\"Y1\",\"name\":\"rom_type_b-windows.zip\",\"platform\":\"windows\",\"sha256\":\"a6a9fb1f0a17817954ef33ab97490f9a012e77a10a6c5116fc1ca1a6860a0e1c\",\"size\":636371157,\"source_asset\":\"rom_type_b.zip\",\"type\":\"Type B\"}],\"built_at\":\"2026-11-05T11:31:12Z\",\"button_assets\":[{\"name\":\"release-button-updater.svg\",\"size\":1540},{\"name\":\"release-button-windows.svg\",\"size\":1522},{\"name\":\"release-button-linux.svg\",\"size\":1518},{\"name\":\"release-button-macos.svg\",\"size\":1516}],\"failures\":[],\"fingerprint\":\"ce2c36babe591f2a23746fb47c601a9664e4c06f081be4d46200807f6f65b522\",\"original_assets\":[\"rom.zip\",\"rom_type_b.zip\"],\"skipped\":[],\"stats\":{\"baseline\":{\"rom-linux.zip\":1,\"rom-macos.zip\":4,\"rom-windows.zip\":2,\"rom.zip\":4,\"rom_type_b-linux.zip\":2,\"rom_type_b-macos.zip\":2,\"rom_type_b-windows.zip\":1,\"rom_type_b.zip\":4},\"generated_at\":\"2026-11-05T11:31:12Z\",\"retired\":{}},\"updater\":{\"linux\":{\"name\":\"UpdaterCE-Linux-Portable.zip\",\"size\":387920108,\"tag\":\"2.5.1\"},\"macos\":{\"name\":\"Innioasis.Updater.for.Mac.dmg\",\"size\":154209498,\"tag\":\"2.0.7\"},\"windows\":{\"name\":\"UpdaterCE-Windows-Portable.zip\",\"size\":238499367,\"tag\":\"2.5.2\"}},\"v\":11} -->\n",
     "draft": false,
     "prerelease": false,
     "created_at": "2026-11-03T15:20:27Z",
@@ -13,37 +13,37 @@
     "icon_dark_url": "",
     "assets": [
       {
-        "id": 711005513,
+        "id": 713180546,
         "name": "rom-linux.zip",
         "browser_download_url": "https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom-linux.zip",
         "size": 842274407,
         "download_count": 0,
         "content_type": "application/zip",
-        "created_at": "2026-11-04T21:30:44Z",
-        "updated_at": "2026-11-04T21:31:28Z",
-        "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/711005513"
+        "created_at": "2026-11-05T11:31:18Z",
+        "updated_at": "2026-11-05T11:32:08Z",
+        "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/713180546"
       },
       {
-        "id": 711005511,
+        "id": 713180545,
         "name": "rom-macos.zip",
         "browser_download_url": "https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom-macos.zip",
         "size": 610663846,
         "download_count": 0,
         "content_type": "application/zip",
-        "created_at": "2026-11-04T21:30:44Z",
-        "updated_at": "2026-11-04T21:31:19Z",
-        "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/711005511"
+        "created_at": "2026-11-05T11:31:18Z",
+        "updated_at": "2026-11-05T11:31:43Z",
+        "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/713180545"
       },
       {
-        "id": 711005518,
+        "id": 713180558,
         "name": "rom-windows.zip",
         "browser_download_url": "https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom-windows.zip",
-        "size": 691059243,
+        "size": 693501374,
         "download_count": 0,
         "content_type": "application/zip",
-        "created_at": "2026-11-04T21:30:44Z",
-        "updated_at": "2026-11-04T21:31:08Z",
-        "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/711005518"
+        "created_at": "2026-11-05T11:31:18Z",
+        "updated_at": "2026-11-05T11:31:56Z",
+        "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/713180558"
       },
       {
         "id": 706121780,
@@ -57,37 +57,37 @@
         "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/706121780"
       },
       {
-        "id": 711005516,
+        "id": 713180544,
         "name": "rom_type_b-linux.zip",
         "browser_download_url": "https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom_type_b-linux.zip",
         "size": 785144190,
         "download_count": 0,
         "content_type": "application/zip",
-        "created_at": "2026-11-04T21:30:44Z",
-        "updated_at": "2026-11-04T21:31:12Z",
-        "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/711005516"
+        "created_at": "2026-11-05T11:31:18Z",
+        "updated_at": "2026-11-05T11:31:55Z",
+        "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/713180544"
       },
       {
-        "id": 711005512,
+        "id": 713180542,
         "name": "rom_type_b-macos.zip",
         "browser_download_url": "https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom_type_b-macos.zip",
         "size": 553533635,
         "download_count": 0,
         "content_type": "application/zip",
-        "created_at": "2026-11-04T21:30:44Z",
-        "updated_at": "2026-11-04T21:31:16Z",
-        "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/711005512"
+        "created_at": "2026-11-05T11:31:18Z",
+        "updated_at": "2026-11-05T11:31:52Z",
+        "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/713180542"
       },
       {
-        "id": 711006630,
+        "id": 713182003,
         "name": "rom_type_b-windows.zip",
         "browser_download_url": "https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom_type_b-windows.zip",
-        "size": 633929026,
+        "size": 636371157,
         "download_count": 0,
         "content_type": "application/zip",
-        "created_at": "2026-11-04T21:31:09Z",
-        "updated_at": "2026-11-04T21:31:31Z",
-        "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/711006630"
+        "created_at": "2026-11-05T11:31:44Z",
+        "updated_at": "2026-11-05T11:32:09Z",
+        "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/713182003"
       },
       {
         "id": 706122215,
@@ -101,15 +101,15 @@
         "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/706122215"
       },
       {
-        "id": 711650829,
+        "id": 713182388,
         "name": "stats.txt",
         "browser_download_url": "https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/stats.txt",
         "size": 2344,
         "download_count": 0,
         "content_type": "text/plain; charset=utf-8",
-        "created_at": "2026-11-05T01:45:50Z",
-        "updated_at": "2026-11-05T01:45:50Z",
-        "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/711650829"
+        "created_at": "2026-11-05T11:31:54Z",
+        "updated_at": "2026-11-05T11:31:55Z",
+        "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/713182388"
       }
     ]
   }

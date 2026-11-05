@@ -13,9 +13,9 @@
     <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/2.0.7"/>
     <innioasis:tag_name>2.0.7</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="154209498" type="application/x-diskcopy" innioasis:download_count="213" innioasis:asset_id="689639023"/>
-    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/installer.exe" title="installer.exe" length="173282764" type="application/x-msdownload" innioasis:download_count="601" innioasis:asset_id="688792855"/>
-    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/UpdaterCE.AppImage" title="UpdaterCE.AppImage" length="300337656" type="application/octet-stream" innioasis:download_count="162" innioasis:asset_id="688949138"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="154209498" type="application/x-diskcopy" innioasis:download_count="229" innioasis:asset_id="689639023"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/installer.exe" title="installer.exe" length="173282764" type="application/x-msdownload" innioasis:download_count="614" innioasis:asset_id="688792855"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/UpdaterCE.AppImage" title="UpdaterCE.AppImage" length="300337656" type="application/octet-stream" innioasis:download_count="163" innioasis:asset_id="688949138"/>
     <content type="text">New rewritten Updater with features including:
 
 
@@ -245,7 +245,7 @@ curl -fsSL https://innioasis.app/run_linux.sh | bash
     <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/flash_tool"/>
     <innioasis:tag_name>flash_tool</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/flash_tool/flash_tool_linux.zip" title="flash_tool_linux.zip" length="73234593" type="application/zip" innioasis:download_count="197" innioasis:asset_id="681078297"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/flash_tool/flash_tool_linux.zip" title="flash_tool_linux.zip" length="73234593" type="application/zip" innioasis:download_count="200" innioasis:asset_id="681078297"/>
     <content type="text"></content>
   </entry>
   <entry>
