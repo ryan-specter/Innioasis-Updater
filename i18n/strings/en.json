@@ -1,0 +1,907 @@
+{
+ "generated": "2026-11-05T04:03:02+00:00",
+ "tiers": [
+  "core"
+ ],
+ "pages": 102,
+ "occurrences": 498,
+ "count": 224,
+ "strings": {
+  "Innioasis Updater": {
+   "n": 10,
+   "pages": 10
+  },
+  "A friendly place to support Updater CE, see the community projects it helps, and thank the people who keep it going.": {
+   "n": 6,
+   "pages": 2
+  },
+  "Innioasis stock firmware, Timmkoo stock firmware, original firmware, Innioasis Y1 stock firmware, Innioasis Y2 stock firmware, Innioasis G1 firmware, Innioasis G3 firmware, Innioasis G5 firmware, Innioasis Q8 firmware, Innioasis R1 firmware, Innioasis PR1 firmware, Innioasis D1 firmware, Timmkoo A5 stock firmware, Timmkoo Q5 stock firmware, Timmkoo Q3 original firmware, factory restore ROM, unbrick Innioasis, Innioasis Updater CE, Rockbox, Better-Y": {
+   "n": 2,
+   "pages": 2
+  },
+  "Innioasis stock firmware, Timmkoo stock firmware, original firmware, factory restore ROM, unbrick Innioasis, Innioasis Y1, Innioasis Y2, Innioasis G1, Innioasis G3, Innioasis G5, Innioasis Q8, Innioasis R1, Innioasis PR1, Timmkoo Q5, Timmkoo Q3": {
+   "n": 2,
+   "pages": 2
+  },
+  "About Notices in Updater CE - Innioasis Updater": {
+   "n": 3,
+   "pages": 1
+  },
+  "All Innioasis firmware versions - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Android 4.2 (Dev) firmware for Innioasis Y1 | Install tutorial - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Android 4.4 (Dev) firmware for Innioasis Y2 | Install tutorial - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Better-Y firmware for Innioasis Y1 | Install tutorial - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Better-Y upgrades the Innioasis Y1 stock experience: track numbers in album views, multi-artist/genre tag splitting, Now Playing shortcuts, RAM caching, and 3.1.2 AirPods support.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Browse all available Innioasis and Timmkoo firmware projects and releases in the firmware directory.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Check the JJ Launcher Y2 entry and install route for Innioasis Y2. Match the model, confirm the current release, and use Updater without mixing Y1 files.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Check the Solar Y2 firmware entry and install route for Innioasis Y2. Match the model, read the current release notes, and use Updater rather than mixing Y1 files.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Compare Rockbox-Y1 and Rockbox-Y2 for the Innioasis Y1 and Y2: developer repositories, ROM package names, build options, themes, and factory restore paths.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Current Innioasis Updater notices and device safety advisories.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Developer documentation for adding a custom Innioasis Y1 or Y2 firmware to Updater CE: fork the repository, publish rom.zip assets, edit slidia_manifest.xml, test, and open a pull request.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Developers | Add custom firmware to Innioasis Updater CE - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Download Innioasis Updater CE for Windows, macOS, or Linux, then install or restore firmware on any Innioasis or Timmkoo player in a few guided steps.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Download Rockbox ROM firmware packages for the Innioasis Y1 (Rockbox-Y1) and Y2 (Rockbox-Y2) directly from the community developers, or install in one click with Innioasis Updater CE.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Every Innioasis and Timmkoo firmware release in one static list: model, software, author, original download URL and portable packages for Windows, macOS and Linux.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Firmware Installation & Stock Restore Guide | Innioasis Updater CE - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Firmware list - every Innioasis and Timmkoo release | Innioasis Updater": {
+   "n": 3,
+   "pages": 1
+  },
+  "Fix Innioasis Updater installs on any Innioasis or Timmkoo player. Check the model, cable, driver, power-off timing, and where the install stopped — then get it flashing again.": {
+   "n": 3,
+   "pages": 1
+  },
+  "How to install Android 4.2 (Dev) on your Innioasis Y1 - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "How to install Android 4.4 (Dev) on your Innioasis Y2 - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "How to install Better-Y on your Innioasis Y1 - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "How to install Inniclassic on your Innioasis Y1 - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "How to install Inniclassic on your Innioasis Y2 - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "How to install JJ Launcher on your Innioasis Y1 - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "How to install JJ Launcher on your Innioasis Y1 or Y2 - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "How to install JJ Launcher on your Innioasis Y2 - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "How to install Koensayr on your Innioasis Y1 - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "How to install Linux on your Innioasis Y1 - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "How to install Rockbox on your Innioasis Y1 - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "How to install Rockbox on your Innioasis Y1 or Y2 - Innioasis Updater": {
+   "n": 3,
+   "pages": 1
+  },
+  "How to install Rockbox on your Innioasis Y2 - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "How to install Solar on your Innioasis Y1 - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "How to install Solar on your Innioasis Y2 - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "How to install Y2Player on your Innioasis Y2 - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "How to install, manage, and reset Rockbox-Y2 themes on the Innioasis Y2: where themes live in the .rockbox folder and how to check build compatibility.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Inniclassic brings an iPod Classic tribute to the Innioasis Y1 and Y2: classic menus, cover browsing, a Music Quiz, synced lyrics, and modern format support.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Inniclassic firmware for Innioasis Y1 | Install tutorial - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Inniclassic firmware for Innioasis Y2 | Install tutorial - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Innioasis & Timmkoo Firmware FAQ | Stock Firmware, Restores & Custom OS - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Innioasis Updater troubleshooting | Innioasis and Timmkoo install problems - Innioasis Updater": {
+   "n": 3,
+   "pages": 1
+  },
+  "Innioasis Updater | Flash Tool for Innioasis & Timmkoo Players": {
+   "n": 3,
+   "pages": 1
+  },
+  "Innioasis Y1 Scroll Wheel Not Working After Update | Innioasis Firmware Archive - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Innioasis Y1 Won't Turn On | Innioasis Firmware Archive - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Innioasis Y1 and Y2 Recovery Guide | Innioasis Firmware Archive - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Innioasis Y1 and Y2 USB drivers | Windows driver and Linux permissions - Innioasis Updater": {
+   "n": 3,
+   "pages": 1
+  },
+  "Innioasis Y1 scroll wheel or click wheel not working after an update? Reinstall Y1 Original Software, check the ring, and separate firmware from hardware faults.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Innioasis Y1 won't turn on or charge? Force a restart, check whether a computer sees it, then restore Y1 firmware or use manual SP Flash Tool recovery.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Innioasis Y2 Scroll Wheel Not Working After Update | Innioasis Firmware Archive - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Innioasis Y2 Won't Turn On | Innioasis Firmware Archive - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Innioasis Y2 scroll wheel or click wheel not working after an update? Reinstall Y2 Original Software, check the ring, and separate firmware from hardware faults.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Innioasis Y2 won't turn on or charge? Force a restart, check whether a computer sees it, then restore Y2 firmware or use manual SP Flash Tool recovery.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Android 4.2 development ROM on an Innioasis Y1 with Innioasis Updater. Select Y1, choose Android 4.2 (Dev), and follow the guided install steps.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Android 4.2 development firmware on an Innioasis Y1 with Innioasis Updater. Select Y1, choose Android 4.2 (Dev), and connect at the prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Android 4.4 development ROM on an Innioasis Y2 with Innioasis Updater. Select Y2, choose Android 4.4 (Dev), and follow the guided install steps.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Android 4.4 development firmware on an Innioasis Y2 with Innioasis Updater. Select Y2, choose Android 4.4 (Dev), and connect at the prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Better-Y on an Innioasis Y1 with Innioasis Updater. Select Y1, choose Better-Y, and follow the guided install and restore steps.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Better-Y on an Innioasis Y1 with Innioasis Updater. Select Y1, choose Better-Y, use the listed release, and connect at the prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Inniclassic on an Innioasis Y1 with Innioasis Updater. Select Y1, choose Inniclassic, and follow the guided install and restore steps.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Inniclassic on an Innioasis Y1 with Innioasis Updater. Select Y1, choose Inniclassic, use the listed release, and connect at the prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Inniclassic on an Innioasis Y2 with Innioasis Updater. Select Y2, choose Inniclassic, and follow the model-correct connection steps.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Inniclassic on an Innioasis Y2 with Innioasis Updater. Select Y2, choose Inniclassic, use the listed release, and connect at the prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install JJ Launcher on a supported Innioasis Y1 or Y2 with Updater. Select the model first, choose JJ Launcher, and follow Install / Restore.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install JJ Launcher on an Innioasis Y1 with Innioasis Updater. Choose Y1 first, select JJ Launcher, and follow the model-matched connection steps.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install JJ Launcher on an Innioasis Y2 with Innioasis Updater. Choose Y2, select JJ Launcher, check the release, run Install / Restore, and follow the connection prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install JJ Launcher on your Innioasis Y1 with Innioasis Updater. Choose Y1, select JJ Launcher, run Install / Restore, and follow the connection prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Koensayr on an Innioasis Y1 with Innioasis Updater. Select Y1, choose Koensayr, and follow Install / Restore.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Koensayr on an Innioasis Y1 with Innioasis Updater. Select Y1, choose Koensayr, use the listed release, and follow the USB prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Linux for Y1 (Dev) on an Innioasis Y1 with Innioasis Updater. Select Y1, choose Linux for Y1 (Dev), and connect at the prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Linux for Y1 (Dev) on an Innioasis Y1 with Innioasis Updater. Select Y1, choose Linux for Y1 (Dev), and follow the guided install steps.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Rockbox firmware on an Innioasis Y1 with Innioasis Updater. Choose Y1, select Rockbox, pick a release, and connect only at the prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Rockbox on an Innioasis Y1 or Y2 with Updater: themes, stable releases, Type A and Type B notes, and how to restore Original Software after.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Rockbox on an Innioasis Y1 using Device Model, Software, Install / Restore, and the real Updater connection flow.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Solar firmware on an Innioasis Y1 with Innioasis Updater. Choose Y1, select Solar, read the release note, and connect at the prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Solar on an Innioasis Y2 with Innioasis Updater. Choose Y2, select Solar, check the release, run Install / Restore, and follow the connection prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Solar on your Innioasis Y1 with Innioasis Updater. Choose Y1, select Solar, run Install / Restore, and follow the connection prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Y2Player on an Innioasis Y2 with Innioasis Updater. Select Y2, choose Y2Player, and follow the model-correct connection steps.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install Y2Player on an Innioasis Y2 with Innioasis Updater. Select Y2, choose Y2Player, check the release, and connect only at the prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install or restore the original stock firmware on an Innioasis Y1 with Innioasis Updater. Match Y1, choose Original Software, and follow the USB prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install or restore the original stock firmware on an Innioasis Y2 with Innioasis Updater. Match Y2, choose Original Software, and use the live USB prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install the Y2 Rockbox build with Innioasis Updater. Choose Y2 first, select Rockbox, use Install / Restore, and follow the connection prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Install the Y2 Rockbox firmware with Innioasis Updater. Choose Y2 first, select Rockbox, use the matching release, and follow the USB prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "JJ Launcher for Innioasis Y1 | Install tutorial - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "JJ Launcher for Innioasis Y2 | Compatibility and install guide - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "JJ Launcher makes your Innioasis fast: rapid library scanning, hardware-button track skipping, EQ presets, wireless uploads, and themes without code.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Koensayr firmware for Innioasis Y1 | Install tutorial - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Koensayr patches the stock Y1 firmware: Artist to Album navigation and AVRCP 1.3 Bluetooth metadata and controls for car stereos, without changing the interface.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Linux (Dev) firmware for Innioasis Y1 | Install tutorial - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Notices - Innioasis Updater": {
+   "n": 3,
+   "pages": 1
+  },
+  "Original stock firmware for Innioasis Y1 | Install and restore - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Original stock firmware for Innioasis Y2 | Install and restore - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Recovery guide for Innioasis Y1 and Y2 players that won't turn on or have a scroll wheel that stopped working after an update. Reset and firmware steps.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Restore Original Software on an Innioasis Y1 with Updater. Choose Y1, select Original Software, and follow the power-off and USB steps.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Restore Original Software on an Innioasis Y2 with Updater. Choose Y2, use the Y2 stock package, and follow the connection prompt.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Restore Original Software on your Innioasis Y1 - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Restore Original Software on your Innioasis Y2 - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Rockbox 360p themes not working and music not reading from MicroSD.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Rockbox ROM download for Innioasis Y1 and Y2": {
+   "n": 3,
+   "pages": 1
+  },
+  "Rockbox firmware for Innioasis Y1 | Install tutorial - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Rockbox firmware for Innioasis Y2 | Install tutorial - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Rockbox for Y1 (Rockbox-Y1): overview, builds and install guide": {
+   "n": 3,
+   "pages": 1
+  },
+  "Rockbox for Y1, Rockbox-Y1 and rockbox-y1 all refer to the community Rockbox firmware for the Innioasis Y1. Learn what it adds, which build to pick, and how to install it with Innioasis Updater CE.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Rockbox for Y2 (Rockbox-Y2): overview, builds and install guide": {
+   "n": 3,
+   "pages": 1
+  },
+  "Rockbox for Y2, Rockbox-Y2 and rockbox-y2 refer to the community Rockbox firmware port for the Innioasis Y2. Learn what it includes and how to install it with Innioasis Updater CE.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Rockbox turns your Innioasis into a tag-based music database with gapless playback, an equalizer, themes, podcasts, scrobbling, and dual boot with stock software.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Rockbox-Y1 themes: transferring themes with Updater CE, 240p vs 360p & applying a theme": {
+   "n": 3,
+   "pages": 1
+  },
+  "Rockbox-Y1 vs Rockbox-Y2: which build belongs on your player": {
+   "n": 3,
+   "pages": 1
+  },
+  "Rockbox-Y2 themes: installing and resetting themes on the Y2": {
+   "n": 3,
+   "pages": 1
+  },
+  "SP Flash Tool for Innioasis & Timmkoo Players": {
+   "n": 3,
+   "pages": 1
+  },
+  "Set up your computer for Innioasis Updater: Windows MediaTek driver and Linux USB permissions — plus cable and timing fixes.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Solar adds Wi-Fi to your Innioasis: Deezer and Soulseek via Reach, podcast downloads, YouTube playback, a stem player, and Rockbox on the same ROM.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Solar firmware for Innioasis Y1 | Install with Updater CE - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Solar firmware for Innioasis Y2 | Compatibility and install guide - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Support Innioasis Updater & Community Credits - Innioasis Updater": {
+   "n": 3,
+   "pages": 1
+  },
+  "Users having issues with Rockbox for Y2. - Innioasis Updater": {
+   "n": 3,
+   "pages": 1
+  },
+  "Why Better-Y for your Innioasis Y1 | Better-Y benefits - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Why Inniclassic for your Innioasis Y1 and Y2 | Inniclassic benefits - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Why JJ Launcher for your Innioasis Y1 or Y2 | JJ Launcher benefits - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Why Koensayr for your Innioasis Y1 | Koensayr benefits - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Why Rockbox for your Innioasis Y1 or Y2 | Rockbox benefits - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Why Solar for your Innioasis Y1 or Y2 | Solar benefits - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Why Y2Player for your Innioasis Y2 | Y2Player benefits - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Y2Player firmware for Innioasis Y2 | Install tutorial - Innioasis Firmware Downloads": {
+   "n": 3,
+   "pages": 1
+  },
+  "Y2Player makes the Innioasis Y2 a focused music player: offline playback, a persistent queue, audiobook resume, gapless and crossfade, and Bluetooth audio.": {
+   "n": 3,
+   "pages": 1
+  },
+  "You'll get important alerts about device safety issues reported by the community here, such as when devices are being bricked by certain firmware.": {
+   "n": 3,
+   "pages": 1
+  },
+  "Community support & credits - Innioasis Updater": {
+   "n": 2,
+   "pages": 1
+  },
+  "Find SP Flash Tool bundled with Innioasis Updater on Windows and Linux, extract rom.zip or rom_y2.zip, and flash an Innioasis Y1 or Y2 with the matching scatter file.": {
+   "n": 2,
+   "pages": 1
+  },
+  "Frequently asked questions about Innioasis and Timmkoo stock firmware, original factory restore images, and custom OS builds (Rockbox, Better-Y, Solar, JJ Launcher).": {
+   "n": 2,
+   "pages": 1
+  },
+  "Getting started with Innioasis Updater CE - Innioasis Updater": {
+   "n": 2,
+   "pages": 1
+  },
+  "How Updater CE transfers themes to your Y1 automatically when it can and guides you step by step when it can't (such as after an MTKClient flash on macOS or Linux), plus 240p vs 360p compatibility.": {
+   "n": 2,
+   "pages": 1
+  },
+  "Innioasis Firmware Downloads": {
+   "n": 2,
+   "pages": 1
+  },
+  "Install custom firmware or restore official factory stock firmware on Innioasis and Timmkoo players with Innioasis Updater CE.": {
+   "n": 2,
+   "pages": 1
+  },
+  "Official factory stock firmware, original restore packages, and custom OS releases for every Innioasis player (Y1, Y2, G1, G3, G5, Q8, R1, PR1, D1) and every Timmkoo player (A5, Q5, Q3).": {
+   "n": 2,
+   "pages": 1
+  },
+  "A comprehensive comparison between Innioasis Updater CE and the Innioasis Universal Flash Tool (Shared Flash Tool). Discover why creators recommend Innioasis Updater CE.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Add the Innioasis Updater installation guide to another website with a responsive iframe embed and a copy-ready example.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Browse Y1 and 360p Rockbox themes, download theme bundles, and follow the manual installation steps for your player.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Browse verified stock firmware, original factory restore packages, and custom firmware for Innioasis Y1, Y2, G1, G3, G5, Q8, R1, PR1 and Timmkoo Q5, Q3.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Community Notices & Safety Announcements - Innioasis Updater": {
+   "n": 1,
+   "pages": 1
+  },
+  "Community support & credits · Innioasis Updater": {
+   "n": 1,
+   "pages": 1
+  },
+  "Complete tutorial for installing Rondo on an Innioasis Y1 (Type A or Type B) using Innioasis Updater CE, including post-install setup steps.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Copy the Innioasis Updater embed snippet or preview the install guide widget on your own website.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Discover Reborn (Y2Linux / Y2Reborn) by SchulzCode for the Innioasis Y2: a fast, native Debian Linux environment and clickwheel music player that fixes Bluetooth headphone issues and replaces Y2Player.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Discover the benefits of Original Software factory firmware for Innioasis Y1, Y2, G1, G3, G5, Q8, R1, PR1 and Timmkoo Q3, Q5. Full Themes Gallery compatibility, Bluetooth audio, FM radio, audiobooks, and factory recovery.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Download official Innioasis A5 and Timmkoo A5 firmware updates, factory restore ROMs (rom_a5.zip), and recovery packages. Easily restore or upgrade with Innioasis Updater CE.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Download official Innioasis G5 firmware updates, factory restore ROM packages (rom_g5.zip), and recovery software. Safely update or unbrick your Innioasis G5 player with Innioasis Updater CE.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Download official and custom firmware for Innioasis Y1 players. Browse Rockbox, Better-Y, Solar, Koensayr, Inniclassic, JJ Launcher, Rondo, Android 4.2, and Original Software restore packages.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Download official and custom firmware releases for Innioasis Y2 players. Browse Reborn (Y2Linux), Rockbox, Solar, Y2Player, Inniclassic, JJ Launcher, Android 4.4, and factory restore images.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Download official firmware, recovery packages, and updates for Innioasis G3 and G1 MP3 players (rom_g3.zip, rom_g1.zip). Install safely with Innioasis Updater CE.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Download official stock firmware, original factory restore packages, and custom OS builds (Rockbox, Better-Y) for every Innioasis player (Y1, Y2, G1, G3, G5, Q8, R1, PR1, D1) and every Timmkoo player (A5, Q5, Q3).": {
+   "n": 1,
+   "pages": 1
+  },
+  "Download official stock firmware, original factory restore packages, and custom OS builds for Innioasis Y1, Y2, G1, G3, G5, Q8, R1, PR1 and Timmkoo Q5, Q3.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Embed the Innioasis Updater guide - Innioasis Updater": {
+   "n": 1,
+   "pages": 1
+  },
+  "Embed the Innioasis Updater install guide - Innioasis Updater": {
+   "n": 1,
+   "pages": 1
+  },
+  "Explore and compare firmware choices for Innioasis and Timmkoo players: Original Software, Rockbox, Better-Y, Solar, JJ Launcher, Reborn (Y2Linux), Rondo, Inniclassic, and Y2Player.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Firmware Benefits & Software Comparison - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Firmware README - Innioasis Firmware Archive": {
+   "n": 1,
+   "pages": 1
+  },
+  "Firmware for Innioasis Y1 - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Firmware for Innioasis Y1, Innioasis Y1 firmware, Y1 ROM download, Innioasis Y1 Rockbox, Better-Y, Solar, Koensayr, Y1 stock restore, Innioasis Updater CE, Firmware Archive": {
+   "n": 1,
+   "pages": 1
+  },
+  "Firmware for Innioasis Y2 - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Firmware for Innioasis Y2, Innioasis Y2 firmware, Y2 ROM download, Reborn Y2Linux, Y2Reborn, Y2 Rockbox, Y2 stock restore, Innioasis Updater CE, Firmware Archive": {
+   "n": 1,
+   "pages": 1
+  },
+  "Firmware release notes - Innioasis Updater": {
+   "n": 1,
+   "pages": 1
+  },
+  "Fix Innioasis Updater & Y1 Helper with a Clean Install - Innioasis Updater": {
+   "n": 1,
+   "pages": 1
+  },
+  "Frequently asked questions about Innioasis and Timmkoo stock firmware, original factory restore images, and custom OS builds.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Getting started with Innioasis Updater CE | Install or restore firmware on any Innioasis or Timmkoo player - Innioasis Updater": {
+   "n": 1,
+   "pages": 1
+  },
+  "How to install Reborn (Y2Linux / Y2Reborn) on Innioasis Y2 - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "How to install Rondo on Innioasis Y1 - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "How to transfer themes to the Innioasis Y1 with Updater CE (automatic push when available or guided step-by-step transfer after an MTKClient flash on macOS and Linux), plus 240p vs 360p compatibility and applying a theme.": {
+   "n": 1,
+   "pages": 1
+  },
+  "In-depth guide comparing the Innioasis Universal Flash Tool (Shared Flash Tool) and Innioasis Updater CE. Discover why Updater CE is the installer for Windows, macOS, and Linux.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Innioasis A5 Firmware Downloads - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Innioasis A5 Firmware Downloads, Innioasis A5 firmware, Timmkoo A5 firmware, A5 ROM zip, Innioasis A5 update, Firmware Archive, Innioasis Updater CE": {
+   "n": 1,
+   "pages": 1
+  },
+  "Innioasis Firmware Archive - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Innioasis G3 & G1 Firmware Downloads - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Innioasis G3 firmware, Innioasis G1 firmware, Timmkoo firmware, rom_g3.zip, rom_g1.zip, Innioasis Updater CE, Innioasis Firmware Archive": {
+   "n": 1,
+   "pages": 1
+  },
+  "Innioasis G5 Firmware Downloads - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Innioasis G5 Firmware Downloads, Innioasis G5 firmware, Innioasis G5 software update, Innioasis G5 flash tool, G5 ROM zip, Timmkoo G5 firmware, Firmware Archive, Innioasis Updater CE": {
+   "n": 1,
+   "pages": 1
+  },
+  "Innioasis Universal Flash Tool (Shared Flash Tool) vs Updater CE - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Innioasis Universal Flash Tool, Shared Flash Tool, Innioasis Flash Tool, Universal Flashing Tool, Innioasis Updater CE, Firmware Archive, flash tool comparison, Y1 flash tool, Y2 flash tool": {
+   "n": 1,
+   "pages": 1
+  },
+  "Innioasis Updater - Embeddable Install Guide - Innioasis Updater": {
+   "n": 1,
+   "pages": 1
+  },
+  "Innioasis Updater developer guide, slidia_manifest.xml, custom firmware, Y1 ROM, Y2 ROM, rom.zip, rom_type_b.zip, rom_y2.zip, release assets": {
+   "n": 1,
+   "pages": 1
+  },
+  "Innioasis Updater installation guide - Innioasis Updater": {
+   "n": 1,
+   "pages": 1
+  },
+  "Innioasis firmware comparison, Rockbox benefits, Better-Y features, Solar firmware, Reborn Y2Linux, Original Software benefits, Timmkoo firmware, Software Updates, Custom Firmware downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Innioasis notices, Timmkoo firmware alerts, device safety notice, Updater CE announcements": {
+   "n": 1,
+   "pages": 1
+  },
+  "Innioasis stock firmware, Timmkoo stock firmware, original software, factory restore ROM, Innioasis Y1, Innioasis Y2, Innioasis G1, Innioasis G3, Innioasis G5, Innioasis Q8, Innioasis R1, Innioasis PR1, Innioasis D1, Timmkoo Q5, Timmkoo Q3, Rockbox themes, unbrick Innioasis, Software Updates, Custom Firmware downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Install Reborn (Y2Linux) custom firmware on an Innioasis Y2 with Innioasis Updater CE. Choose Y2, select Reborn (Y2Linux), pick a release, and connect only when prompted.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Install Rondo custom firmware on an Innioasis Y1 with Innioasis Updater CE. Choose Y1, select Rondo, pick a release, and connect only when prompted.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Install custom firmware or restore official factory stock firmware on Innioasis Y1, Y2, G1, G3, G5, Q8, R1, PR1 and Timmkoo Q5, Q3 with Innioasis Updater CE.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Learn about Rondo custom firmware for the Innioasis Y1: a modern clickwheel audio player experience featuring high fidelity audio playback and responsive navigation.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Learn how Slidia organizes Innioasis Y1 firmware packages, themes, and developer resources. Browse the project repository and related Updater guides.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Low-level MediaTek recovery, bootloader unbrick instructions, and driver diagnostics for Innioasis and Timmkoo players using MTKClient and SP Flash Tool.": {
+   "n": 1,
+   "pages": 1
+  },
+  "MTKClient & Low-Level Recovery Guide - Innioasis & Timmkoo - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Official community bulletins, device safety notices, and firmware alerts for Innioasis and Timmkoo players.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Original Software Benefits & Factory Stock ROM Downloads - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Page not found - Innioasis Updater": {
+   "n": 1,
+   "pages": 1
+  },
+  "Post-install setup - Innioasis Updater": {
+   "n": 1,
+   "pages": 1
+  },
+  "Post-install setup instructions for community firmware on Innioasis Y1 and Y2 players, presented in the Innioasis site style.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Projects We've Supported · Innioasis Updater - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Read a community firmware project's own README, with its release statistics and the Updater CE install route, without leaving the Innioasis site.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Reborn (Y2Linux) firmware for Innioasis Y2 | Install tutorial - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Release notes for community firmware on Innioasis Y1 and Y2 players, with direct downloads from the developers and one-click install through Innioasis Updater CE.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Restore Original Software on Innioasis A5 - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Restore Original Software on Innioasis G5 - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Rondo firmware for Innioasis Y1 | Install tutorial - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Rondo firmware, Innioasis Y1 Rondo, Y1 custom ROM, JarvisSax Rondo, clickwheel music player, Innioasis Updater CE": {
+   "n": 1,
+   "pages": 1
+  },
+  "Short post-install guide for Reborn (Y2Linux / Y2Reborn) on Innioasis Y2: copy system.img, then set up Wi-Fi, Bluetooth and FM radio.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Slidia | Innioasis Y1 firmware resources - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Special Thanks & Credits - Innioasis Updater": {
+   "n": 1,
+   "pages": 1
+  },
+  "Step-by-step clean install for Innioasis Updater and the Y1 Helper: remove leftover files, reinstall, and get back to flashing firmware.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Step-by-step tutorial for installing Reborn (Y2Linux / Y2Reborn) on an Innioasis Y2 with Innioasis Updater CE, including post-install Wi-Fi and Bluetooth setup.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Step-by-step tutorial to restore official Original Software on Innioasis A5 and Timmkoo A5 players with Innioasis Updater CE and rom_a5.zip.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Step-by-step tutorial to restore official Original Software on the Innioasis G5 audio player with Innioasis Updater CE and rom_g5.zip.": {
+   "n": 1,
+   "pages": 1
+  },
+  "The Innioasis Updater is the flash tool for Innioasis and Timmkoo players. Install or restore official software on Y1, Y2, G1, G3, G5, Q8, R1, PR1, D1, A5, Q5 and Q3 from Windows, macOS or Linux.": {
+   "n": 1,
+   "pages": 1
+  },
+  "The simple Innioasis Updater installation guide for Windows, macOS, and Linux, including Y1 and Y2 firmware installation.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Use the SP Flash Tool that comes with Innioasis Updater to manually flash an Innioasis Y1 or Y2 from rom.zip or rom_y2.zip.": {
+   "n": 1,
+   "pages": 1
+  },
+  "Which tool should I use, Innioasis Updater CE, Innioasis Universal Flash Tool, Shared Flash Tool, Innioasis flashing tool, Rockbox install, Intel Mac support, Timmkoo updater, Software Updates, Custom Firmware downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Which tool should I use? Updater CE vs Universal Flash Tool - Innioasis Updater": {
+   "n": 1,
+   "pages": 1
+  },
+  "Why install Reborn (Y2Linux / Y2Reborn) on Innioasis Y2? - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Why install Rondo on Innioasis Y1? - Innioasis Firmware Downloads": {
+   "n": 1,
+   "pages": 1
+  },
+  "Wi-Fi, Bluetooth & FM Radio Setup for Reborn (Y2Linux) - Innioasis Updater": {
+   "n": 1,
+   "pages": 1
+  },
+  "Y1 and 360p Rockbox Theme Downloader - Innioasis Updater": {
+   "n": 1,
+   "pages": 1
+  },
+  "Y2Reborn Wi-Fi setup, Y2Linux Bluetooth guide, Innioasis Y2 radio firmware, system.img download, Y2Reborn post install, Innioasis Updater CE, custom firmware": {
+   "n": 1,
+   "pages": 1
+  },
+  "Y2Reborn, Y2Linux, Reborn Y2Linux, Innioasis Y2 custom firmware, SchulzCode Y2Reborn, Y2 Bluetooth fix, Y2Player replacement, Innioasis Updater CE, Software Updates, Custom Firmware downloads": {
+   "n": 1,
+   "pages": 1
+  }
+ }
+}

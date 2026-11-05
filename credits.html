@@ -1890,16 +1890,27 @@
 
     }
 
+    /* The root path is tried first (a relative "donors.csv" from a nested
+       page asks for the wrong file first), the path that worked is remembered
+       for next time, and the file is left cacheable instead of being busted
+       on every load. */
+    var DONORS_URL_KEY = "innioasis-donors-url";
+    var rememberedUrl = null;
+    try { rememberedUrl = localStorage.getItem(DONORS_URL_KEY); } catch (_) {}
     var candidates = [
-      "donors.csv",
+      "https://raw.githubusercontent.com/y1-community/Innioasis-Updater/main/donors.csv",
       "/donors.csv",
+      "donors.csv",
       "https://innioasis.app/donors.csv"
     ];
+    if (rememberedUrl) {
+      candidates = [rememberedUrl].concat(candidates.filter(function (item) { return item !== rememberedUrl; }));
+    }
     var cIdx = 0;
     function tryFetch() {
       if (cIdx >= candidates.length) return;
-      var u = candidates[cIdx++] + "?_t=" + Date.now();
-      fetch(u, { cache: "no-cache" })
+      var u = candidates[cIdx++];
+      fetch(u, { cache: "default" })
         .then(function (res) {
           if (!res.ok) throw new Error(res.status);
           return res.text();
@@ -1908,6 +1919,7 @@
           var data = parseCSV(txt);
           if (data && data.length > 0) {
             renderCreditsPage(data);
+            try { localStorage.setItem(DONORS_URL_KEY, new URL(u, window.location.href).href); } catch (_) {}
           }
         })
         .catch(function (err) {

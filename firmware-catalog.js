@@ -118,7 +118,7 @@ window.INNIOASIS_FIRMWARE_CATALOG = [
         "slug": "inniclassic-y1",
         "name": "Inniclassic",
         "model": "Y1",
-        "repo": "FabianZettl/inniclassic",
+        "repo": "JonaszPotoniec/inniclassic-y2",
         "packageName": "rom.zip",
         "benefits": "inniclassic-benefits.html",
         "guide": "guides/inniclassic-y1.html",

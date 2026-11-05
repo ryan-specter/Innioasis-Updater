@@ -106,7 +106,17 @@
          we need rather than pulling the whole catalogue in. */
       function mergeManifest(state) {
         if (!state.software && !state.repo) return Promise.resolve(null);
-        return fetch("slidia_manifest.xml", { cache: "no-cache" })
+        /* The repository copy is the file Updater CE itself reads, so it is
+           tried first; the site's own copy is the fallback, which keeps these
+           page views off this domain's traffic. */
+        return fetch("https://raw.githubusercontent.com/y1-community/Innioasis-Updater/main/slidia_manifest.xml", { cache: "no-cache" })
+          .then(function (res) {
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            return res;
+          })
+          .catch(function () {
+            return fetch("slidia_manifest.xml", { cache: "no-cache" });
+          })
           .then(function (res) { return res.ok ? res.text() : ""; })
           .then(function (xml) {
             if (!xml) return null;
@@ -324,7 +334,14 @@
         var section = document.getElementById("post-install-directory");
         var list = document.getElementById("post-install-directory-list");
         if (!section || !list) return;
-        fetch("slidia_manifest.xml", { cache: "no-cache" })
+        fetch("https://raw.githubusercontent.com/y1-community/Innioasis-Updater/main/slidia_manifest.xml", { cache: "no-cache" })
+          .then(function (res) {
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            return res;
+          })
+          .catch(function () {
+            return fetch("slidia_manifest.xml", { cache: "no-cache" });
+          })
           .then(function (res) { return res.ok ? res.text() : ""; })
           .then(function (xml) {
             if (!xml) return;

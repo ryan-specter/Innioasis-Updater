@@ -25,7 +25,7 @@
 - [Solar on Y2](https://innioasis.app/solar-y2-software.html): Solar Y2 entry with Wi-Fi, GPS, and FM.
 - [JJ Launcher on Y1](https://innioasis.app/jj-launcher-y1-software.html): Fast, wheel-friendly launcher for the Y1.
 - [JJ Launcher on Y2](https://innioasis.app/jj-launcher-y2-software.html): JJ Launcher for the Y2.
-- [Inniclassic on Y1](https://innioasis.app/inniclassic-y1-software.html): iPod Classic-style interface for the Y1.
+- [Inniclassic on Y1](https://innioasis.app/inniclassic-y1-software.html) and [Inniclassic on Y2](https://innioasis.app/inniclassic-y2-software.html): iPod Classic-style interface, available on both models from the same maintained project.
 - [Y2Player on Y2](https://innioasis.app/y2player-y2-software.html): Music-first home screen for the Y2.
 - [Koensayr on Y1](https://innioasis.app/koensayr-y1-software.html): Koensayr patch for the stock Y1 software.
 
@@ -34,7 +34,7 @@
 - [Why Rockbox](https://innioasis.app/rockbox-benefits.html): What Rockbox adds — tag database, gapless playback, EQ, and themes.
 - [Why Solar](https://innioasis.app/solar-benefits.html): Streaming, Wi-Fi, podcasts, and stem playback.
 - [Why JJ Launcher](https://innioasis.app/jj-launcher-benefits.html): Speed, hardware-key skipping, and wireless uploads.
-- [Why Inniclassic](https://innioasis.app/inniclassic-benefits.html): iPod Classic tribute on JJ Launcher.
+- [Why Inniclassic](https://innioasis.app/inniclassic-benefits.html): iPod Classic tribute on the Y1 and Y2.
 - [Why Y2Player](https://innioasis.app/y2player-benefits.html): Offline music-first interface for the Y2.
 - [Why Koensayr](https://innioasis.app/koensayr-benefits.html): Improves the stock Y1 software with Artist-to-Album navigation and root.
 
@@ -44,7 +44,7 @@
 - [Rockbox Y2 tutorial](https://innioasis.app/guides/rockbox-y2.html): The full Y2 install walkthrough.
 - [Restore Original Software Y1](https://innioasis.app/guides/restore-original-y1.html): Step-by-step Y1 stock restore.
 - [Restore Original Software Y2](https://innioasis.app/guides/restore-original-y2.html): Step-by-step Y2 stock restore.
-- [Solar Y1](https://innioasis.app/guides/solar-y1.html), [Solar Y2](https://innioasis.app/guides/solar-y2.html), [JJ Launcher Y1](https://innioasis.app/guides/jj-launcher-y1.html), [JJ Launcher Y2](https://innioasis.app/guides/jj-launcher-y2.html), [Inniclassic Y1](https://innioasis.app/guides/inniclassic-y1.html), [Y2Player Y2](https://innioasis.app/guides/y2player-y2.html), [Koensayr Y1](https://innioasis.app/guides/koensayr-y1.html).
+- [Solar Y1](https://innioasis.app/guides/solar-y1.html), [Solar Y2](https://innioasis.app/guides/solar-y2.html), [JJ Launcher Y1](https://innioasis.app/guides/jj-launcher-y1.html), [JJ Launcher Y2](https://innioasis.app/guides/jj-launcher-y2.html), [Inniclassic Y1](https://innioasis.app/guides/inniclassic-y1.html), [Inniclassic Y2](https://innioasis.app/guides/inniclassic-y2.html), [Y2Player Y2](https://innioasis.app/guides/y2player-y2.html), [Koensayr Y1](https://innioasis.app/guides/koensayr-y1.html).
 
 ## Optional
 

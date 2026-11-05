@@ -7,6 +7,33 @@
         });
     }
 
+    /* Project-owned data files are read from the repository first: the manifest
+       is the same file Updater CE reads, and serving it from GitHub keeps these
+       page views off the site's own domain. The site's copy is the fallback for
+       a blocked or unavailable GitHub, so a page still works without it. */
+    var MANIFEST_SOURCES = [
+        "https://raw.githubusercontent.com/y1-community/Innioasis-Updater/main/slidia_manifest.xml",
+        "slidia_manifest.xml",
+        "../slidia_manifest.xml",
+        "/slidia_manifest.xml",
+        "https://innioasis.app/slidia_manifest.xml"
+    ];
+
+    function fetchManifestText() {
+        var index = 0;
+        function attempt() {
+            if (index >= MANIFEST_SOURCES.length) return Promise.resolve("");
+            var url = MANIFEST_SOURCES[index++];
+            return fetch(url, { cache: "no-cache" })
+                .then(function (response) {
+                    if (!response.ok) throw new Error("HTTP " + response.status);
+                    return response.text();
+                })
+                .catch(function () { return attempt(); });
+        }
+        return attempt();
+    }
+
     function zipAssets(release) {
         if (!release || !Array.isArray(release.assets)) return [];
         return release.assets.filter(function (asset) {
@@ -1278,7 +1305,15 @@
 
         try {
             var portableZip = await resolvePortableZip(portableZips, releaseTag, zipName);
-            if (portableZip) {
+            /* A mirror package is only handed over when its save name can be
+               forced to the firmware's own. Browsers ignore the download
+               attribute on a cross-origin link and the mirror serves its file
+               under the platform name (rom-windows.zip), so a direct mirror
+               URL is saved as rom-windows.zip instead of rom.zip, which
+               Updater CE will not accept. Unless the same-origin proxy really
+               serves the file, the reader gets the project's own rom.zip:
+               the same ROM, under the name the updater requires. */
+            if (portableZip && portableZip.proxied) {
                 clearIntroTimers();
                 if (bar) bar.style.width = "100%";
                 if (label) label.textContent = "Starting portable package download…";
@@ -2135,8 +2170,7 @@
             });
         }
 
-        fetch("slidia_manifest.xml", { cache: "no-cache" })
-            .then(function (response) { return response.ok ? response.text() : null; })
+        fetchManifestText()
             .then(function (text) {
                 if (!text) return;
                 var doc = new DOMParser().parseFromString(text, "application/xml");
@@ -2518,16 +2552,9 @@
     }
 
     function loadAndMergeManifest() {
-        var manifestPath = "slidia_manifest.xml";
-        if (window.location.pathname.indexOf("/guides/") !== -1 || window.location.pathname.indexOf("/guides") !== -1) {
-            manifestPath = "../slidia_manifest.xml";
-        }
-        return fetch(manifestPath, { cache: "no-cache" })
-            .then(function (res) {
-                if (!res.ok) throw new Error("HTTP " + res.status);
-                return res.text();
-            })
+        return fetchManifestText()
             .then(function (xmlText) {
+                if (!xmlText) return;
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(xmlText, "application/xml");
                 if (doc.querySelector("parsererror")) return;

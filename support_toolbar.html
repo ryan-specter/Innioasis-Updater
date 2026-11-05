@@ -2112,32 +2112,102 @@
     }, 6500);
   }
 
-  function fetchDonors() {
-    var candidates = [
-      "donors.csv",
+  /* donors.csv is a small static file that changes a few times a day, so it
+     does not need downloading on every page view, let alone every minute.
+     Three things keep the request count down: the first path that works is
+     remembered (a sub-directory page used to probe guides/donors.csv and take
+     a 404 first), one download is reused for a few minutes across pages in the
+     same tab, and the refresh timer only fires while the page is visible. */
+  var DONORS_URL_KEY = "innioasis-donors-url";
+  var DONORS_CACHE_KEY = "innioasis-donors-cache";
+  var DONORS_TTL_MS = 5 * 60 * 1000;
+  var DONORS_POLL_MS = 10 * 60 * 1000;
+  var donorsText = "";
+  var donorsAt = 0;
+  var donorsBusy = false;
+
+  /* GitHub first, the site's own paths only as fallback: this file is read on
+     every page view, and serving it from the repository keeps those requests
+     off the domain's own traffic figures. */
+  var DONORS_GITHUB_URL = "https://raw.githubusercontent.com/y1-community/Innioasis-Updater/main/donors.csv";
+
+  function donorsSources() {
+    var remembered = null;
+    try { remembered = localStorage.getItem(DONORS_URL_KEY); } catch (_) {}
+    var bases = [
+      DONORS_GITHUB_URL,
       "/donors.csv",
+      "donors.csv",
       "../donors.csv",
       "../../donors.csv",
       "https://innioasis.app/donors.csv"
     ];
+    if (!remembered) return bases;
+    var others = bases.filter(function (base) { return base !== remembered; });
+    return [remembered].concat(others);
+  }
+
+  function applyDonorsText(text, at) {
+    if (!text) return false;
+    donorsAt = Number(at) || Date.now();
+    if (text === donorsText) return true;
+    var donations = parseCSV(text);
+    if (!donations || !donations.length) return false;
+    donorsText = text;
+    renderGoalAndDonors(donations);
+    return true;
+  }
+
+  function readDonorsCache() {
+    try {
+      var raw = sessionStorage.getItem(DONORS_CACHE_KEY);
+      if (!raw) return null;
+      var data = JSON.parse(raw);
+      var at = Number(data && data.at) || 0;
+      if (!data || typeof data.text !== "string") return null;
+      if (Date.now() - at > DONORS_TTL_MS) return null;
+      return { text: data.text, at: at };
+    } catch (_) {}
+    return null;
+  }
+
+  function writeDonorsCache(text, at) {
+    try { sessionStorage.setItem(DONORS_CACHE_KEY, JSON.stringify({ text: text, at: at })); } catch (_) {}
+  }
+
+  function fetchDonors(options) {
+    if (donorsBusy) return;
+    if (!(options && options.force)) {
+      var cached = readDonorsCache();
+      if (cached && applyDonorsText(cached.text, cached.at)) return;
+    }
+    var candidates = donorsSources();
     var candidateIndex = 0;
+    donorsBusy = true;
+
+    function finish() {
+      donorsBusy = false;
+    }
 
     function tryNext() {
       if (candidateIndex >= candidates.length) {
+        finish();
         return;
       }
       var baseUrl = candidates[candidateIndex++];
-      var url = baseUrl + (baseUrl.indexOf("?") === -1 ? "?_t=" : "&_t=") + Date.now();
-      fetch(url, { cache: "no-cache" })
+      /* No cache-busting query: this file is allowed to be cached by the
+         browser and the CDN, which is the difference between one request and
+         one request per navigation. */
+      fetch(baseUrl, { cache: "default" })
         .then(function (res) {
           if (!res.ok) throw new Error("HTTP " + res.status);
           return res.text();
         })
         .then(function (text) {
-          var donations = parseCSV(text);
-          if (donations && donations.length > 0) {
-            renderGoalAndDonors(donations);
-          }
+          if (!applyDonorsText(text, Date.now())) throw new Error("Unusable donors.csv");
+          try { localStorage.setItem(DONORS_URL_KEY, new URL(baseUrl, window.location.href).href); } catch (_) {}
+          writeDonorsCache(text, donorsAt);
+          finish();
         })
         .catch(function () {
           tryNext();
@@ -2146,6 +2216,20 @@
 
     tryNext();
   }
+
+  /* A one-minute tick only decides whether a download is due, so a tab left
+     open costs nothing; the file is re-read at most every ten minutes and
+     never while the tab is in the background. */
+  setInterval(function () {
+    if (document.hidden) return;
+    if (Date.now() - donorsAt < DONORS_POLL_MS) return;
+    fetchDonors({ force: true });
+  }, 60000);
+
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) return;
+    if (Date.now() - donorsAt >= DONORS_POLL_MS) fetchDonors({ force: true });
+  });
 
   (function paintInitialGoal() {
     var goal = fundingGoalView([], 0, new Date());
@@ -2161,6 +2245,5 @@
     }
   });
   fetchDonors();
-  setInterval(fetchDonors, 60000);
 })();
 </script>

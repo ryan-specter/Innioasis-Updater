@@ -1,0 +1,25 @@
+{
+ "generated": "2026-11-05T04:03:21+00:00",
+ "locales": [
+  {
+   "code": "de",
+   "dir": "ltr",
+   "name": "German",
+   "native": "Deutsch"
+  },
+  {
+   "base": "de",
+   "code": "de-AT",
+   "dir": "ltr",
+   "name": "German (Austria)",
+   "native": "Deutsch (Österreich)"
+  },
+  {
+   "base": "de",
+   "code": "de-CH",
+   "dir": "ltr",
+   "name": "German (Switzerland)",
+   "native": "Deutsch (Schweiz)"
+  }
+ ]
+}

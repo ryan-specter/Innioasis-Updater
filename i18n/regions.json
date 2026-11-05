@@ -1,0 +1,253 @@
+{
+  "version": 1,
+  "note": "A region decides what the site may offer and which copy describes it. Capabilities are referenced from HTML with data-availability=\"<flag>\" / data-availability-hide=\"<flag>\", and whole blocks with data-region-only / data-region-hide. Region copy overrides are applied after translation, so the value may be in any language the region serves.",
+  "default": "intl",
+  "capabilities": [
+    "updater",
+    "portable-zip",
+    "themes",
+    "github",
+    "discord",
+    "reddit",
+    "youtube",
+    "tiktok",
+    "kofi",
+    "paypal",
+    "patreon",
+    "revolut",
+    "boosty",
+    "bitcoin"
+  ],
+  "regions": {
+    "intl": {
+      "label": "International",
+      "locales": ["en"],
+      "autoLocales": { "US": "en", "GB": "en-GB", "AU": "en-AU", "CA": "en-CA", "NZ": "en-NZ", "IE": "en", "DE": "de", "AT": "de-AT", "CH": "de-CH", "FR": "fr", "BE": "fr-BE", "ES": "es-ES", "MX": "es-MX", "AR": "es-AR", "BR": "pt-BR", "PT": "pt-PT", "JP": "ja", "KR": "ko", "IT": "it", "NL": "nl", "PL": "pl", "SE": "sv", "NO": "no", "DK": "da", "FI": "fi", "TR": "tr", "UA": "uk", "VN": "vi", "TH": "th", "ID": "id", "PH": "fil", "MY": "ms", "SA": "ar-SA", "AE": "ar-SA", "EG": "ar-SA", "IL": "he", "IN": "en-IN", "PK": "ur", "BD": "bn-IN", "TW": "zh-TW", "HK": "zh-HK", "SG": "en" },
+      "availability": {
+        "updater": true,
+        "portable-zip": true,
+        "themes": true,
+        "github": true,
+        "discord": true,
+        "reddit": true,
+        "youtube": true,
+        "tiktok": true,
+        "kofi": true,
+        "paypal": true,
+        "patreon": true,
+        "revolut": true,
+        "boosty": true,
+        "bitcoin": true
+      },
+      "copy": {}
+    },
+    "cn": {
+      "label": "China mainland",
+      "edition": "China edition",
+      "locales": ["zh-CN"],
+      "autoLocales": { "CN": "zh-CN" },
+      "availability": {
+        "updater": false,
+        "portable-zip": true,
+        "themes": false,
+        "github": false,
+        "discord": false,
+        "reddit": false,
+        "youtube": false,
+        "tiktok": false,
+        "kofi": false,
+        "paypal": false,
+        "patreon": false,
+        "revolut": false,
+        "boosty": false,
+        "bitcoin": true
+      },
+      "copy": {
+        "Get Innioasis Updater": {
+          "en": "Download the portable firmware package",
+          "zh-CN": "下载便携固件包"
+        },
+        "Install with Updater CE": {
+          "en": "Download the flashable ZIP",
+          "zh-CN": "下载刷机包"
+        },
+        "Innioasis Updater is the flash tool for Innioasis and Timmkoo players.": {
+          "en": "Innioasis and Timmkoo firmware and portable flash packages for players.",
+          "zh-CN": "为播放器提供 Innioasis 与 Timmkoo 固件及便携刷机包。"
+        },
+        "Support Updater and the Themes Gallery.": {
+          "en": "Support the firmware archive.",
+          "zh-CN": "支持固件档案。"
+        }
+      }
+    },
+    "ru": {
+      "label": "Russia",
+      "locales": ["ru"],
+      "autoLocales": { "RU": "ru", "BY": "be", "KZ": "kk" },
+      "availability": {
+        "updater": true,
+        "portable-zip": true,
+        "themes": true,
+        "github": false,
+        "discord": false,
+        "reddit": false,
+        "youtube": false,
+        "tiktok": true,
+        "kofi": false,
+        "paypal": false,
+        "patreon": false,
+        "revolut": false,
+        "boosty": true,
+        "bitcoin": true
+      },
+      "copy": {
+        "Support Updater and the Themes Gallery.": {
+          "en": "Support the project on Boosty or with Bitcoin.",
+          "ru": "Поддержите проект на Boosty или биткоином."
+        }
+      }
+    },
+    "ir": {
+      "label": "Iran",
+      "locales": ["fa"],
+      "autoLocales": { "IR": "fa", "AF": "ps", "TJ": "tg" },
+      "availability": {
+        "updater": true,
+        "portable-zip": true,
+        "themes": true,
+        "github": false,
+        "discord": false,
+        "reddit": false,
+        "youtube": false,
+        "tiktok": false,
+        "kofi": false,
+        "paypal": false,
+        "patreon": false,
+        "revolut": false,
+        "boosty": false,
+        "bitcoin": true
+      },
+      "copy": {
+        "Support Updater and the Themes Gallery.": {
+          "en": "Support the project with Bitcoin.",
+          "fa": "از پروژه با بیت‌کوین پشتیبانی کنید."
+        }
+      }
+    },
+    "tr": {
+      "label": "Türkiye",
+      "locales": ["tr"],
+      "autoLocales": { "TR": "tr" },
+      "availability": {
+        "updater": true,
+        "portable-zip": true,
+        "themes": true,
+        "github": true,
+        "discord": true,
+        "reddit": true,
+        "youtube": false,
+        "tiktok": true,
+        "kofi": true,
+        "paypal": false,
+        "patreon": false,
+        "revolut": false,
+        "boosty": false,
+        "bitcoin": true
+      },
+      "copy": {
+        "Support Updater and the Themes Gallery.": {
+          "en": "Support the project on Ko-fi.",
+          "tr": "Projeyi Ko-fi üzerinden destekleyin."
+        }
+      }
+    },
+    "in": {
+      "label": "India",
+      "locales": ["en-IN", "hi"],
+      "autoLocales": { "IN": "en-IN" },
+      "availability": {
+        "updater": true,
+        "portable-zip": true,
+        "themes": true,
+        "github": true,
+        "discord": true,
+        "reddit": true,
+        "youtube": true,
+        "tiktok": false,
+        "kofi": true,
+        "paypal": false,
+        "patreon": true,
+        "revolut": false,
+        "boosty": false,
+        "bitcoin": true
+      },
+      "copy": {}
+    },
+    "eu": {
+      "label": "European Union",
+      "locales": ["en"],
+      "autoLocales": {},
+      "availability": {
+        "updater": true,
+        "portable-zip": true,
+        "themes": true,
+        "github": true,
+        "discord": true,
+        "reddit": true,
+        "youtube": true,
+        "tiktok": true,
+        "kofi": true,
+        "paypal": true,
+        "patreon": true,
+        "revolut": true,
+        "boosty": false,
+        "bitcoin": true
+      },
+      "copy": {
+        "No cookies. No fingerprinting.": {
+          "en": "No cookies. No fingerprinting. GDPR rights honoured.",
+          "zh-CN": "不使用 Cookie，不进行浏览器指纹识别，保障 GDPR 权利。"
+        }
+      }
+    }
+  },
+  "countryRegions": {
+    "CN": "cn",
+    "RU": "ru",
+    "BY": "ru",
+    "KZ": "ru",
+    "IR": "ir",
+    "AF": "ir",
+    "TJ": "ir",
+    "TR": "tr",
+    "IN": "in",
+    "AT": "eu",
+    "BE": "eu",
+    "BG": "eu",
+    "HR": "eu",
+    "CY": "eu",
+    "CZ": "eu",
+    "DK": "eu",
+    "EE": "eu",
+    "FI": "eu",
+    "FR": "eu",
+    "DE": "eu",
+    "GR": "eu",
+    "HU": "eu",
+    "IE": "eu",
+    "IT": "eu",
+    "LV": "eu",
+    "LT": "eu",
+    "LU": "eu",
+    "MT": "eu",
+    "NL": "eu",
+    "PL": "eu",
+    "PT": "eu",
+    "RO": "eu",
+    "SK": "eu",
+    "SI": "eu",
+    "ES": "eu",
+    "SE": "eu"
+  }
+}

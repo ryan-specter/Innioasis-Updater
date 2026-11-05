@@ -259,7 +259,7 @@
         var hash = (window.location.hash || "").replace(/^#/, "");
         return hash.indexOf("notice-") === 0 ? hash.slice(7) : "";
       }
-      var candidates = ["notice.xml", "/notice.xml", "https://innioasis.app/notice.xml"];
+      var candidates = ["https://raw.githubusercontent.com/y1-community/Innioasis-Updater/main/notice.xml", "notice.xml", "/notice.xml", "https://innioasis.app/notice.xml"];
       function load(index) {
         if (index >= candidates.length) {
           listEl.innerHTML = "<p>Could not load notices feed.</p>";

@@ -84,10 +84,19 @@
     /* repo -> mirror repositories, straight from the manifest the app reads. */
     function mirrorMap() {
         if (!manifestCache) {
-            manifestCache = fetch(SITE_ROOT + "slidia_manifest.xml", { cache: "no-cache" })
+            /* The repository copy is read first and SITE_ROOT is the fallback,
+               so opening a page does not count against this domain. */
+            manifestCache = fetch("https://raw.githubusercontent.com/y1-community/Innioasis-Updater/main/slidia_manifest.xml", { cache: "no-cache" })
                 .then(function (res) {
                     if (!res.ok) throw new Error("HTTP " + res.status);
                     return res.text();
+                })
+                .catch(function () {
+                    return fetch(SITE_ROOT + "slidia_manifest.xml", { cache: "no-cache" })
+                        .then(function (res) {
+                            if (!res.ok) throw new Error("HTTP " + res.status);
+                            return res.text();
+                        });
                 })
                 .then(function (text) {
                     var doc = new DOMParser().parseFromString(text, "application/xml");
