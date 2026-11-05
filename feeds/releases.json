@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-11-05T07:03:24Z",
+  "generated_at": "2026-11-05T07:15:53Z",
   "repos": {
     "y1-community/y1-stock-rom": {
       "repo": "y1-community/y1-stock-rom",
       "icon": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg",
       "icon_dark": "",
       "stats": {
-        "downloads": 43713,
+        "downloads": 43719,
         "release_count": 9,
         "stars": 6,
         "forks": 0,
@@ -54,7 +54,7 @@
               "name": "updater.jpg",
               "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg",
               "size": 30612,
-              "download_count": 724,
+              "download_count": 728,
               "content_type": "image/jpeg",
               "created_at": "2026-10-10T09:17:30Z",
               "updated_at": "2026-10-10T09:17:30Z",
@@ -102,7 +102,7 @@
               "name": "updater.jpg",
               "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/updater.jpg",
               "size": 30612,
-              "download_count": 474,
+              "download_count": 476,
               "content_type": "image/jpeg",
               "created_at": "2026-10-10T09:17:43Z",
               "updated_at": "2026-10-10T09:17:43Z",
@@ -1305,7 +1305,7 @@
       "icon": "",
       "icon_dark": "",
       "stats": {
-        "downloads": 6,
+        "downloads": 7,
         "release_count": 3,
         "stars": 0,
         "forks": 0,
@@ -1342,7 +1342,7 @@
               "name": "rom_q5.zip",
               "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2D_Q5D-WV3.28-20250619/rom_q5.zip",
               "size": 337730694,
-              "download_count": 1,
+              "download_count": 2,
               "content_type": "application/octet-stream",
               "created_at": "2026-11-05T06:34:50Z",
               "updated_at": "2026-11-05T06:35:23Z",
@@ -1442,7 +1442,7 @@
       "icon": "",
       "icon_dark": "",
       "stats": {
-        "downloads": 14299,
+        "downloads": 14301,
         "release_count": 87,
         "stars": 20,
         "forks": 5,
@@ -1490,7 +1490,7 @@
               "name": "manifest.json",
               "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/manifest.json",
               "size": 4239,
-              "download_count": 104,
+              "download_count": 105,
               "content_type": "application/json",
               "created_at": "2026-11-04T22:07:33Z",
               "updated_at": "2026-11-04T22:07:33Z",
@@ -1501,7 +1501,7 @@
               "name": "manifest.sig",
               "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/manifest.sig",
               "size": 64,
-              "download_count": 105,
+              "download_count": 106,
               "content_type": "application/pgp-signature",
               "created_at": "2026-11-04T22:07:34Z",
               "updated_at": "2026-11-04T22:07:35Z",
@@ -12325,7 +12325,7 @@
       "icon": "https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png",
       "icon_dark": "",
       "stats": {
-        "downloads": 2884,
+        "downloads": 2886,
         "release_count": 3,
         "stars": 14,
         "forks": 1,
@@ -12417,7 +12417,7 @@
               "name": "rockbox-y2-v2.5-release-square.png",
               "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rockbox-y2-v2.5-release-square.png",
               "size": 1585171,
-              "download_count": 210,
+              "download_count": 211,
               "content_type": "image/png",
               "created_at": "2026-09-29T12:14:46Z",
               "updated_at": "2026-09-29T12:14:47Z",
@@ -12428,7 +12428,7 @@
               "name": "rom_y2.zip",
               "browser_download_url": "https://github.com/SPYCEMAGIC/Y2-Rockbox/releases/download/v0.2.5-beta/rom_y2.zip",
               "size": 361644736,
-              "download_count": 532,
+              "download_count": 533,
               "content_type": "application/zip",
               "created_at": "2026-09-29T12:14:45Z",
               "updated_at": "2026-09-29T12:16:13Z",
@@ -47546,7 +47546,7 @@
       "icon": "",
       "icon_dark": "",
       "stats": {
-        "downloads": 575,
+        "downloads": 576,
         "release_count": 3,
         "stars": 0,
         "forks": 0,
@@ -47638,7 +47638,7 @@
               "name": "Innioasis.Updater.for.Mac.dmg",
               "browser_download_url": "https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.1/Innioasis.Updater.for.Mac.dmg",
               "size": 154209498,
-              "download_count": 11,
+              "download_count": 12,
               "content_type": "application/x-diskcopy",
               "created_at": "2026-10-29T19:21:24Z",
               "updated_at": "2026-10-29T19:22:01Z",
@@ -47720,7 +47720,7 @@
         "release_count": 72,
         "stars": 55,
         "forks": 14,
-        "updated_at": "2026-11-05T07:03:20Z"
+        "updated_at": "2026-11-05T07:15:47Z"
       },
       "repo_info": {
         "full_name": "ryan-specter/Innioasis-Updater",
@@ -47730,8 +47730,8 @@
         "stargazers_count": 55,
         "forks_count": 14,
         "open_issues_count": 2,
-        "updated_at": "2026-11-05T07:03:20Z",
-        "pushed_at": "2026-11-05T07:03:12Z",
+        "updated_at": "2026-11-05T07:15:47Z",
+        "pushed_at": "2026-11-05T07:15:42Z",
         "license": "GPL-3.0"
       },
       "releases": [
