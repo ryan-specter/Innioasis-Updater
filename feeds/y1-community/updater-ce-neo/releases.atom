@@ -10,15 +10,15 @@
     <updated>2026-10-29T11:55:09Z</updated>
     <published>2026-10-29T11:55:09Z</published>
     <title>Innioasis Updater CE 2.5.1</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/updater-ce-neo/releases/tag/2.5.1"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/updater-ce-neo/releases/tag/2.5.1"/>
     <innioasis:tag_name>2.5.1</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/UpdaterCE.AppImage" title="UpdaterCE.AppImage" length="300337656" type="application/octet-stream" innioasis:download_count="0" innioasis:asset_id="688890139"/>
-    <link rel="enclosure" href="https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/Innioasis.Updater.for.Mac.zip" title="Innioasis.Updater.for.Mac.zip" length="187914366" type="application/zip" innioasis:download_count="80" innioasis:asset_id="688901923"/>
-    <link rel="enclosure" href="https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/UpdaterCE-Windows-Portable.zip" title="UpdaterCE-Windows-Portable.zip" length="236551244" type="application/zip" innioasis:download_count="86" innioasis:asset_id="688912014"/>
-    <link rel="enclosure" href="https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/UpdaterCE-Linux-Portable.zip" title="UpdaterCE-Linux-Portable.zip" length="387920108" type="application/zip" innioasis:download_count="73" innioasis:asset_id="688922148"/>
-    <link rel="enclosure" href="https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/installer.exe" title="installer.exe" length="173282764" type="application/x-msdownload" innioasis:download_count="211" innioasis:asset_id="688959440"/>
-    <link rel="enclosure" href="https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="154209498" type="application/x-diskcopy" innioasis:download_count="9" innioasis:asset_id="689641553"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.1/UpdaterCE.AppImage" title="UpdaterCE.AppImage" length="300337656" type="application/octet-stream" innioasis:download_count="0" innioasis:asset_id="688890139"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.1/Innioasis.Updater.for.Mac.zip" title="Innioasis.Updater.for.Mac.zip" length="187914366" type="application/zip" innioasis:download_count="80" innioasis:asset_id="688901923"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.1/UpdaterCE-Windows-Portable.zip" title="UpdaterCE-Windows-Portable.zip" length="236551244" type="application/zip" innioasis:download_count="90" innioasis:asset_id="688912014"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.1/UpdaterCE-Linux-Portable.zip" title="UpdaterCE-Linux-Portable.zip" length="387920108" type="application/zip" innioasis:download_count="77" innioasis:asset_id="688922148"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.1/installer.exe" title="installer.exe" length="173282764" type="application/x-msdownload" innioasis:download_count="218" innioasis:asset_id="688959440"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.1/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="154209498" type="application/x-diskcopy" innioasis:download_count="11" innioasis:asset_id="689641553"/>
     <content type="text">Rewritten application with improved firmware install reliability, native macOS GUI with Liquid Glass integration, i18n support for 90 languages and guided Rockbox themes installation for Rockbox-Y1</content>
   </entry>
   <entry>
@@ -26,10 +26,10 @@
     <updated>2026-10-22T22:15:34Z</updated>
     <published>2026-10-22T22:15:34Z</published>
     <title>2.5</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/updater-ce-neo/releases/tag/2.5"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/updater-ce-neo/releases/tag/2.5"/>
     <innioasis:tag_name>2.5</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/updater-ce-neo/releases/download/2.5/installer.exe" title="installer.exe" length="111057481" type="application/x-msdownload" innioasis:download_count="64" innioasis:asset_id="681971513"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5/installer.exe" title="installer.exe" length="111057481" type="application/x-msdownload" innioasis:download_count="64" innioasis:asset_id="681971513"/>
     <content type="text"></content>
   </entry>
   <entry>
@@ -37,11 +37,11 @@
     <updated>2026-09-07T13:13:19Z</updated>
     <published>2026-09-07T13:13:19Z</published>
     <title>SP Flash Tool</title>
-    <link rel="alternate" type="text/html" href="https://github.com/y1-community/updater-ce-neo/releases/tag/flash_tool"/>
+    <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/updater-ce-neo/releases/tag/flash_tool"/>
     <innioasis:tag_name>flash_tool</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/updater-ce-neo/releases/download/flash_tool/flash_tool_linux.zip" title="flash_tool_linux.zip" length="67786907" type="application/zip" innioasis:download_count="25" innioasis:asset_id="548814370"/>
-    <link rel="enclosure" href="https://github.com/y1-community/updater-ce-neo/releases/download/flash_tool/UpdaterCE2.5Test.AppImage" title="UpdaterCE2.5Test.AppImage" length="220924408" type="application/octet-stream" innioasis:download_count="7" innioasis:asset_id="655934273"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/updater-ce-neo/releases/download/flash_tool/flash_tool_linux.zip" title="flash_tool_linux.zip" length="67786907" type="application/zip" innioasis:download_count="25" innioasis:asset_id="548814370"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/updater-ce-neo/releases/download/flash_tool/UpdaterCE2.5Test.AppImage" title="UpdaterCE2.5Test.AppImage" length="220924408" type="application/octet-stream" innioasis:download_count="7" innioasis:asset_id="655934273"/>
     <content type="text"></content>
   </entry>
 </feed>
