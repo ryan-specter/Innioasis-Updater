@@ -24,6 +24,10 @@
 
 <package name="Original Software" brand="Timmkoo" repo="y1-community/sr1-stock-rom" device="SR1" url="https://github.com/y1-community/sr1-stock-rom" type="img" handler="Custom Firmware" package_name="rom_sr1.zip" />
 
+<package name="Original Software" brand="Timmkoo" repo="y1-community/q3-stock-rom" device="Q3" url="https://github.com/y1-community/q3-stock-rom" type="img" handler="Custom Firmware" package_name="rom_q3.zip" />
+
+<package name="Original Software" brand="Timmkoo" repo="y1-community/q5-stock-rom" device="Q5" url="https://github.com/y1-community/q5-stock-rom" type="img" handler="Custom Firmware" package_name="rom_q5.zip" />
+
 <package name="Reborn (Y2Linux)" brand="Innioasis" repo="schulzcode/y2linux" portable_zips="y1-community/y2linux-mirror" device="Y2" url="https://github.com/schulzcode/y2linux" type="img" post_install="https://innioasis.app/y2reborn_wifibt.html" handler="Custom Firmware" />
 
 <package name="Rockbox" brand="Innioasis" repo="rockbox-y1/rockbox" portable_zips="y1-community/rockbox-mirror" device="Y1" url="https://github.com/rockbox-y1/rockbox" type="img" icon="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" handler="Custom Firmware" />

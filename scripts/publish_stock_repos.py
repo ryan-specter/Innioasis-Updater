@@ -66,6 +66,10 @@ DEVICES = {
                      "package": "rom_r1.zip", "name": "Innioasis R1"},
     "Timmkoo SR1": {"device": "SR1", "brand": "Timmkoo", "repo": "sr1-stock-rom",
                     "package": "rom_sr1.zip", "name": "Timmkoo SR1"},
+    "Timmkoo Q3": {"device": "Q3", "brand": "Timmkoo", "repo": "q3-stock-rom",
+                   "package": "rom_q3.zip", "name": "Timmkoo Q3"},
+    "Timmkoo Q5": {"device": "Q5", "brand": "Timmkoo", "repo": "q5-stock-rom",
+                   "package": "rom_q5.zip", "name": "Timmkoo Q5"},
 }
 
 
@@ -226,17 +230,27 @@ def version_folders(folder: pathlib.Path) -> list[tuple[str, pathlib.Path]]:
     as ``R2-V1.34-20260208(1)``) is addressed by its inner name, because that
     is the build's own tag.
     """
-    versions: list[tuple[str, pathlib.Path]] = []
+    chosen: dict[str, pathlib.Path] = {}
     for entry in sorted(folder.iterdir(), key=lambda item: item.name):
+        if entry.is_file():
+            # Some vendor drops (Timmkoo Q5) are the finished package itself,
+            # named after the build. The zip is the release, not a folder, and
+            # it wins over an extracted copy of the same build beside it.
+            if entry.suffix.lower() in (".zip", ".rar", ".7z"):
+                tag = re.sub(r"\(\d+\)$", "", entry.stem).strip()
+                chosen[tag] = entry
+            continue
         if not entry.is_dir():
             continue
         tag = re.sub(r"\(\d+\)$", "", entry.name).strip()
+        if tag in chosen:
+            continue
         source = entry
         inner = entry / tag
         if inner.is_dir() and any(child.is_file() for child in inner.iterdir()):
             source = inner
-        versions.append((tag, source))
-    return versions
+        chosen[tag] = source
+    return sorted(chosen.items(), key=lambda item: item[1].name)
 
 
 def build_zip(source: pathlib.Path, target: pathlib.Path) -> None:
@@ -267,6 +281,29 @@ def build_zip(source: pathlib.Path, target: pathlib.Path) -> None:
     print("    zip %.2f GB -> %s%s"
           % (target.stat().st_size / 1024 ** 3, target.name,
              " (%d unsigned duplicates skipped)" % skipped if skipped else ""))
+
+
+def prepare_package(source: pathlib.Path, meta: dict, target: pathlib.Path) -> pathlib.Path:
+    """Write one release package, reusing a package the vendor already zipped.
+
+    Timmkoo ships Q3 and Q5 as ready-made ``rom_q3.zip`` / ``.zip`` files. Zip
+    inside zip would only add size, so those are copied under the release's
+    package name instead of being archived again.
+    """
+    if source.is_file():
+        shutil.copyfile(source, target)
+        print("    using %s -> %s" % (source.name, target.name))
+        return target
+    packaged = [
+        path for path in source.rglob("*")
+        if path.is_file() and path.name.lower() == meta["package"].lower()
+    ]
+    if len(packaged) == 1:
+        shutil.copyfile(packaged[0], target)
+        print("    using %s -> %s" % (packaged[0].name, target.name))
+        return target
+    build_zip(source, target)
+    return target
 
 
 def split_volumes(path: pathlib.Path) -> list[pathlib.Path]:
@@ -316,7 +353,7 @@ def publish_release(repo: str, meta: dict, tag: str, folder: pathlib.Path,
     WORK.mkdir(parents=True, exist_ok=True)
     zip_path = WORK / meta["package"]
     if not zip_path.exists():
-        build_zip(folder, zip_path)
+        prepare_package(folder, meta, zip_path)
     else:
         print("    reusing %s" % zip_path.name)
 
@@ -367,7 +404,12 @@ def publish_release(repo: str, meta: dict, tag: str, folder: pathlib.Path,
             print("    ! stopped after a failed upload; rerun to resume")
             return
     for part in parts:
-        part.unlink(missing_ok=True)
+        # Windows can still hold the upload's handle for a moment; a leftover
+        # file is only disk space, never a failed release.
+        try:
+            part.unlink(missing_ok=True)
+        except OSError:
+            print("    leaving %s on disk (still open by another process)" % part.name)
     print("    done: %s/releases/tag/%s" % (repo, tag))
 
 

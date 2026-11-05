@@ -19,3 +19,5 @@ i18n/logs/
 i18n/cache/
 i18n/translate.log
 i18n/http.log
+/scripts
+/scripts
