@@ -1325,6 +1325,7 @@
       '<div class="footer-col">' +
       '<h4>Software &amp; Guides</h4>' +
       '<a href="' + escapeHtml(decorateMainSiteHref("/guide.html")) + '">Installation Guide</a>' +
+      '<a href="' + escapeHtml(decorateMainSiteHref("/manuals/index.html")) + '">Player manuals</a>' +
       (isThemesSite
         ? '<a href="' + escapeHtml(decorateMainSiteHref("/firmware.html")) + '">Player Updates and Firmware</a>'
         : '<a href="' + escapeHtml(decorateMainSiteHref("/firmware.html?view=software")) + '">Software Updates</a>' +
