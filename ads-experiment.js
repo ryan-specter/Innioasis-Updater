@@ -149,7 +149,7 @@
         },
         {
             title: "Every stock firmware release, archived",
-            copy: "Original software and restore files for Y1, Y2, G1, G3, G5, Q8, R1, PR1 and D1, checked before they go up.",
+            copy: "Original software and restore files for Y1, Y2, G1, G3, G5, R1, PR1 and D1, checked before they go up.",
             href: "/firmware.html",
             cta: "Browse firmware"
         },

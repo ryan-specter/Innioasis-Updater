@@ -472,7 +472,7 @@ def render_page(feed: dict, software: list[dict]) -> tuple[str, list[dict]]:
                 "name": "Firmware list - every Innioasis and Timmkoo release",
                 "url": SITE + "/firmware-list.html",
                 "description": "A static, searchable list of every firmware and software release "
-                               "for Innioasis Y1, Y2, G1, G3, G5, Q8, R1, PR1, D1 and Timmkoo A5, Q5, Q3.",
+                               "for Innioasis Y1, Y2, G1, G3, G5, R1, PR1 and Timmkoo A5, Q5, Q3.",
                 "dateModified": generated_at,
                 "author": AUTHOR_ORG,
                 "isPartOf": {"@type": "WebSite", "name": "Innioasis Updater", "url": SITE + "/"},

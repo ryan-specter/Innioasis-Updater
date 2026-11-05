@@ -1,6 +1,6 @@
 # Innioasis Updater
 
-> Innioasis Updater is the free, open-source tool for installing and restoring software on every Innioasis player (Y1, Y2, G1, G3, G5, Q8, R1, PR1, D1) and every Timmkoo player (A5, Q5, Q3), running on Windows, macOS, and Linux. The site also hosts the Themes Gallery and plain-English guides for custom software projects such as Rockbox, Solar, JJ Launcher, Inniclassic, Y2Player, and Koensayr. Install flows always ask the user to pick the model first and to connect the powered-off player only when Updater prompts.
+> Innioasis Updater is the free, open-source tool for installing and restoring software on every Innioasis player (Y1, Y2, G1, G3, G5, R1, PR1) and every Timmkoo player (A5, Q5, Q3), running on Windows, macOS, and Linux. The site also hosts the Themes Gallery and plain-English guides for custom software projects such as Rockbox, Solar, JJ Launcher, Inniclassic, Y2Player, and Koensayr. Install flows always ask the user to pick the model first and to connect the powered-off player only when Updater prompts.
 
 ## Key pages
 
