@@ -495,8 +495,8 @@
       <div class="y1-dock-secondary-line" id="y1-dock-secondary-line" aria-label="Running costs and community contributions - click to support" role="button" tabindex="0">
         <div class="y1-dock-secondary-goal-view" id="y1-dock-secondary-goal-view">
           <span class="y1-dock-secondary-text" id="y1-dock-secondary-text">
-            <span class="y1-dock-text-desktop">You've helped us raise $0 of our $200 costs for this month.</span>
-            <span class="y1-dock-text-mobile">You've helped us raise $0 of our $200 costs for this month.</span>
+            <span class="y1-dock-text-desktop">You've helped us raise $0 of our $10 costs for today.</span>
+            <span class="y1-dock-text-mobile">You've helped us raise $0 of our $10 costs for today.</span>
           </span>
           <div class="y1-dock-secondary-bar-wrap" id="y1-dock-secondary-bar-wrap" aria-hidden="true"><div class="y1-dock-secondary-bar-fill" id="y1-dock-secondary-bar-fill"></div></div>
         </div>
@@ -506,11 +506,11 @@
       </div>
       <div class="y1-dock-goal-layer is-goal-view" id="y1-dock-goal-layer" aria-hidden="true" hidden tabindex="-1">
         <div class="y1-dock-idle-goal-view" id="y1-dock-idle-goal-view">
-          <span class="y1-dock-idle-heart" id="y1-dock-idle-goal-heading">Help us cover this month's running costs</span>
+          <span class="y1-dock-idle-heart" id="y1-dock-idle-goal-heading">Help us cover today's running costs</span>
           <div class="y1-dock-goal-bar-wrap" aria-hidden="true">
             <div class="y1-dock-goal-bar-fill" id="y1-dock-idle-bar-fill"></div>
           </div>
-          <span class="y1-dock-goal-text" id="y1-dock-idle-goal-text">You've helped us raise $0 of our $200 costs for this month.</span>
+          <span class="y1-dock-goal-text" id="y1-dock-idle-goal-text">You've helped us raise $0 of our $10 costs for today.</span>
         </div>
         <div class="y1-dock-idle-ticker-view" id="y1-dock-idle-ticker-view" aria-live="polite" hidden>
           <span class="y1-dock-idle-ticker" id="y1-dock-idle-ticker-text">Loading...</span>
@@ -1794,42 +1794,16 @@
   var MONTHLY_TARGET = 200.0;
   var WEEKLY_TARGET = MONTHLY_TARGET / 4;
   var DAILY_TARGET = MONTHLY_TARGET / 20;
-  var DAILY_WEEKDAYS = [2, 3, 6];
-  var MONTHLY_SKIP_WEEKDAYS = [2, 3, 5];
-  var MONTHLY_COHORT_KEY = "y1_goal_monthly_cohort";
-  var WIDE_MAX_PERCENT = 25.0;
-
-  function inMonthlyCohort() {
-    try {
-      var raw = localStorage.getItem(MONTHLY_COHORT_KEY);
-      if (raw === null) {
-        var chosen = Math.random() < 0.5;
-        localStorage.setItem(MONTHLY_COHORT_KEY, chosen ? "1" : "0");
-        return chosen;
-      }
-      return raw === "1";
-    } catch (_) {
-      return false;
-    }
-  }
 
   function fundingGoalView(donations, monthTotal, now) {
     now = now || new Date();
     var daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-    var weekday = now.getDay();
-    var base = "weekly";
-    if (DAILY_WEEKDAYS.indexOf(weekday) !== -1) {
-      base = "daily";
-    } else if (MONTHLY_SKIP_WEEKDAYS.indexOf(weekday) === -1 && inMonthlyCohort() &&
-      (now.getDate() <= 5 || now.getDate() > daysInMonth - 7)) {
-      base = "monthly";
-    }
-    var ladder = base === "daily" ? ["daily"]
-      : base === "weekly" ? ["weekly", "daily"] : ["monthly", "weekly", "daily"];
+    var dayOfMonth = now.getDate();
+    var monthSummary = dayOfMonth <= 3 || dayOfMonth > daysInMonth - 3;
     var targets = { monthly: MONTHLY_TARGET, weekly: WEEKLY_TARGET, daily: DAILY_TARGET };
     var starts = {
       monthly: new Date(now.getFullYear(), now.getMonth(), 1),
-      weekly: new Date(now.getFullYear(), now.getMonth(), Math.max(1, 6 + Math.floor((now.getDate() - 6) / 7) * 7)),
+      weekly: new Date(now.getFullYear(), now.getMonth(), now.getDate() - ((now.getDay() + 6) % 7)),
       daily: new Date(now.getFullYear(), now.getMonth(), now.getDate())
     };
     function raisedSince(start) {
@@ -1843,18 +1817,17 @@
     var monthRaised = Math.max(monthTotal || 0, raisedSince(starts.monthly));
     var raisedBy = { monthly: monthRaised, weekly: raisedSince(starts.weekly), daily: raisedSince(starts.daily) };
     var scope = null;
-    var metScope = monthRaised >= MONTHLY_TARGET ? "monthly" : null;
-    if (monthRaised < MONTHLY_TARGET) {
-      for (var i = 0; i < ladder.length; i++) {
-        var rung = ladder[i];
-        if (targets[rung] - raisedBy[rung] < 1) {
-          if (!metScope) metScope = rung;
-          continue;
-        }
-        if (rung !== "daily" && (raisedBy[rung] / targets[rung]) * 100 > WIDE_MAX_PERCENT) continue;
-        scope = rung;
-        break;
-      }
+    var metScope = null;
+    if (monthRaised >= MONTHLY_TARGET) {
+      metScope = "monthly";
+    } else if (monthSummary) {
+      scope = "monthly";
+    } else if (raisedBy.daily < DAILY_TARGET) {
+      scope = "daily";
+    } else if (raisedBy.weekly < WEEKLY_TARGET) {
+      scope = "weekly";
+    } else {
+      scope = "monthly";
     }
     var code = detectCurrencyCode();
     var symbol = fxSymbol(code);
