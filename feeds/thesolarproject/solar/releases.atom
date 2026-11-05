@@ -97,7 +97,7 @@
     <innioasis:icon_url>https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png</innioasis:icon_url>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260716-0131/rom.zip" title="rom.zip" length="543852409" type="application/zip" innioasis:download_count="806" innioasis:asset_id="478677341"/>
     <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260716-0131/rom_type_b.zip" title="rom_type_b.zip" length="544709464" type="application/zip" innioasis:download_count="20" innioasis:asset_id="478678607"/>
-    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260716-0131/rom_y2.zip" title="rom_y2.zip" length="635849224" type="application/zip" innioasis:download_count="180" innioasis:asset_id="491574255"/>
+    <link rel="enclosure" href="https://github.com/thesolarproject/solar/releases/download/20260716-0131/rom_y2.zip" title="rom_y2.zip" length="635849224" type="application/zip" innioasis:download_count="181" innioasis:asset_id="491574255"/>
     <content type="text">Solar is not yet stable for everyday use - we recommend using this only if you&#x27;re willing to face bugs and report issues at github.com/thesolarproject/solar/issues
 
 In this release we have:

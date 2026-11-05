@@ -1,0 +1,39 @@
+[
+  {
+    "id": 434772984,
+    "tag_name": "R1_V1.48.20250425",
+    "name": "R1_V1.48.20250425",
+    "body": "Original Innioasis R1 software **R1_V1.48.20250425**.\n\n- Model: **R1** (Innioasis)\n- Package: `rom_r1.zip`\n- Build tag: `R1_V1.48.20250425`\n- Build date: 2025-04-25\n\n## Install\n\n1. Download `rom_r1.zip` (every numbered volume if the release has more than one, then `cat rom_r1.zip.* > rom_r1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_r1.zip` | 503.5 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=R1>",
+    "draft": false,
+    "prerelease": false,
+    "created_at": "2026-11-05T04:10:31Z",
+    "published_at": "2026-11-05T04:10:33Z",
+    "html_url": "https://github.com/y1-community/r1-stock-rom/releases/tag/R1_V1.48.20250425",
+    "icon_url": "",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 712014404,
+        "name": "rom_r1.zip",
+        "browser_download_url": "https://github.com/y1-community/r1-stock-rom/releases/download/R1_V1.48.20250425/rom_r1.zip",
+        "size": 527923763,
+        "download_count": 1,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T04:10:35Z",
+        "updated_at": "2026-11-05T04:11:26Z",
+        "url": "https://api.github.com/repos/y1-community/r1-stock-rom/releases/assets/712014404"
+      },
+      {
+        "id": 712016312,
+        "name": "SHA256SUMS.R1_V1.48.20250425",
+        "browser_download_url": "https://github.com/y1-community/r1-stock-rom/releases/download/R1_V1.48.20250425/SHA256SUMS.R1_V1.48.20250425",
+        "size": 78,
+        "download_count": 1,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T04:11:26Z",
+        "updated_at": "2026-11-05T04:11:27Z",
+        "url": "https://api.github.com/repos/y1-community/r1-stock-rom/releases/assets/712016312"
+      }
+    ]
+  }
+]
