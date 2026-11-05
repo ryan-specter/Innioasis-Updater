@@ -12,3 +12,10 @@ notices.html
 release_blocklist.csv
 /Retrace steps and ensure work completed
 /All Timmkoo and Innioasis Firmware
+
+# Locale build output and translation scratch
+dist/
+i18n/logs/
+i18n/cache/
+i18n/translate.log
+i18n/http.log

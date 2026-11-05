@@ -112,10 +112,22 @@ def http_post(url: str, data: bytes, headers: Dict[str, str], timeout: int = 30)
         return response.read()
 
 
+class ProviderUnavailable(RuntimeError):
+    """The endpoint answered with a redirect or HTML, which means it is
+    throttling or blocking us rather than translating."""
+
+
 def http_get(url: str, timeout: int = 30) -> bytes:
     request = urllib.request.Request(url, headers={"User-Agent": "innioasis-site-i18n/1.0"})
     with urllib.request.urlopen(request, timeout=timeout) as response:
-        return response.read()
+        body = response.read()
+        content_type = (response.headers.get("Content-Type") or "").lower()
+    if "html" in content_type or body[:1] not in (b"[", b"{"):
+        raise ProviderUnavailable(
+            "the translation endpoint returned HTML instead of JSON "
+            "(throttled or redirected). Wait a while, or use a keyed provider."
+        )
+    return body
 
 
 class Provider:
@@ -139,6 +151,8 @@ class GoogleWeb(Provider):
         self.endpoint = config.get("endpoint", self.endpoint)
 
     def translate(self, texts: Sequence[str], target: str) -> List[str]:
+        # GET only. A POST to this endpoint answers 302 and urllib turns that
+        # into an HTML body, which looks like a failed batch on every retry.
         query = urllib.parse.urlencode(
             {"client": "gtx", "sl": "en", "tl": target, "dt": "t", "q": "\n".join(texts)}
         )
@@ -267,6 +281,7 @@ def translate_texts(
     result: Dict[str, str] = {}
     total_batches = 0
     failed = 0
+    consecutive_failures = 0
 
     for batch in chunk(texts, provider.max_chars):
         total_batches += 1
@@ -296,17 +311,32 @@ def translate_texts(
             if translated is None and attempt < retries - 1:
                 time.sleep(min(4.0, 0.4 * (2**attempt)))
 
+        consecutive_failures = 0 if translated is not None else consecutive_failures + 1
+        if consecutive_failures >= 3 and not result:
+            # Three dead batches in a row with nothing to show means the
+            # service is refusing this client, not that a string is awkward.
+            raise ProviderUnavailable(
+                f"{target}: three consecutive batches failed; stopping rather "
+                "than sending more traffic at a blocked endpoint."
+            )
+
         if translated is None:
-            # Retry one at a time: a single awkward string should not take a
-            # whole batch down with it.
-            translated = []
-            for text in masked:
-                try:
-                    single = provider.translate([text], target)
-                    translated.append(single[0].strip() if single else "")
-                except Exception:  # noqa: BLE001 - reported through the counter
-                    translated.append("")
-                time.sleep(provider.sleep)
+            if len(masked) <= 12:
+                # A small batch is worth retrying one at a time: a single
+                # awkward string should not take the others down with it.
+                translated = []
+                for text in masked:
+                    try:
+                        single = provider.translate([text], target)
+                        translated.append(single[0].strip() if single else "")
+                    except Exception:  # noqa: BLE001 - reported through the counter
+                        translated.append("")
+                    time.sleep(provider.sleep)
+            else:
+                # A large failing batch means the endpoint is unhappy. Skip it
+                # and let the next incremental run pick the strings up, rather
+                # than firing one request per string at a rate limiter.
+                translated = [""] * len(masked)
             failed += 1
 
         for source, target_language_text, found in zip(batch, translated, masks):
@@ -328,7 +358,12 @@ def select_locales(requested: str, bases: List[dict], variants: List[dict]) -> L
     variant_by_code = {entry["code"]: entry for entry in variants}
 
     if requested.strip().lower() == "all":
-        return bases
+        # Ship the audiences the archive actually hears from first, so a long
+        # run still leaves the most useful locales complete if it is stopped.
+        priority = {code: index for index, code in enumerate(CORE_LOCALES)}
+        return sorted(
+            bases, key=lambda entry: (priority.get(entry["code"], len(CORE_LOCALES)), entry["code"])
+        )
     if requested.strip().lower() == "core":
         return [by_code[code] for code in CORE_LOCALES if code in by_code] or bases
 
@@ -469,7 +504,17 @@ def main() -> int:
         print(f"[{position}/{len(selected)}] {code:<8} {len(cache):>5} cached, {len(pending):>5} to go", flush=True)
 
         if pending:
-            produced = translate_texts(provider, pending, target, masker)
+            try:
+                produced = translate_texts(provider, pending, target, masker)
+            except ProviderUnavailable as error:
+                print(f"\nStopped: {error}", file=sys.stderr)
+                print(
+                    "No catalogs were damaged; finished strings already on disk are kept.\n"
+                    "Options: retry later, or set GOOGLE_TRANSLATE_API_KEY / DEEPL_API_KEY "
+                    "and use --provider google-cloud|deepl.",
+                    file=sys.stderr,
+                )
+                return 3
             cache.update(produced)
             save_json(cache_path, {"locale": code, "strings": cache})
 

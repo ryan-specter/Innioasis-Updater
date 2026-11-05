@@ -328,7 +328,7 @@ def publish_release(repo: str, meta: dict, tag: str, folder: pathlib.Path,
         for part in parts:
             print("    volume %s (%.2f GB)" % (part.name, part.stat().st_size / 1024 ** 3))
 
-    sums = WORK / "SHA256SUMS.%s" % tag
+    sums = WORK / ("SHA256SUMS.%s" % re.sub(r"[^A-Za-z0-9._-]+", "-", tag))
     sums.write_text("".join("%s  %s\n" % (sha256(part), part.name) for part in parts),
                     encoding="utf-8")
 

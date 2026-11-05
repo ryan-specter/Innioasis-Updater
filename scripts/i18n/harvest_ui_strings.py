@@ -33,8 +33,15 @@ SHELL_FILES = [
     "tutorial-video.js",
     "portable-zip-links.js",
     "docs-viewer.js",
+    "site-locale.js",
     "support_toolbar.html",
 ]
+
+# Inline scripts inside a page render their own copy too, so they are scanned
+# alongside the shared shell files.
+INLINE_SCRIPT_RE = re.compile(
+    r"<script\b(?![^>]*\bsrc\s*=)[^>]*>([\s\S]*?)</script>", re.IGNORECASE
+)
 
 LITERAL_RE = re.compile(r"""(['"])((?:\\.|(?!\1)[^\\\n]){6,240}?)\1""")
 HAS_WORD_RE = re.compile(r"[A-Za-z]{2,}")
@@ -79,6 +86,9 @@ def looks_like_prose(value: str) -> bool:
         return False
     if re.fullmatch(r"[A-Z0-9 .&+-]+", text):
         return False
+    # Copy already written in another script belongs to that edition.
+    if re.search(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uac00-\ud7af]", text):
+        return False
     # Currency and symbol tables are data, not copy.
     if re.search(r"[\u20a0-\u20bf\u060b\u09f3\u0e3f\u17db\ufdfc]", text):
         return False
@@ -91,6 +101,14 @@ def looks_like_prose(value: str) -> bool:
     return True
 
 
+def collect(source: str, origin: str, found: dict[str, list[str]]) -> None:
+    for match in LITERAL_RE.finditer(source):
+        value = match.group(2)
+        if not looks_like_prose(value):
+            continue
+        found.setdefault(value.strip(), []).append(origin)
+
+
 def main() -> int:
     found: dict[str, list[str]] = {}
     for relative in SHELL_FILES:
@@ -98,12 +116,27 @@ def main() -> int:
         if not os.path.exists(path):
             continue
         with open(path, "r", encoding="utf-8", errors="replace") as handle:
-            source = handle.read()
-        for match in LITERAL_RE.finditer(source):
-            value = match.group(2)
-            if not looks_like_prose(value):
+            collect(handle.read(), relative, found)
+
+    inline_pages = 0
+    for directory, dirnames, filenames in os.walk(ROOT):
+        dirnames[:] = [
+            name for name in dirnames
+            if name not in {".git", "node_modules", "dist", "_site", ".cache", "__pycache__", "i18n"}
+        ]
+        for filename in filenames:
+            if not filename.lower().endswith((".html", ".htm")):
                 continue
-            found.setdefault(value.strip(), []).append(relative)
+            path = os.path.join(directory, filename)
+            with open(path, "r", encoding="utf-8", errors="replace") as handle:
+                markup = handle.read()
+            blocks = INLINE_SCRIPT_RE.findall(markup)
+            if not blocks:
+                continue
+            inline_pages += 1
+            relative = os.path.relpath(path, ROOT).replace(os.sep, "/")
+            for block in blocks:
+                collect(block, relative, found)
 
     output = {
         "note": "Strings rendered by the JS shell. Merged into the source catalog by extract_strings.py.",
@@ -116,7 +149,8 @@ def main() -> int:
         json.dump(output, handle, ensure_ascii=False, indent=1)
         handle.write("\n")
 
-    print(f"Harvested {len(found)} shell strings into {os.path.relpath(target, ROOT)}")
+    print(f"Harvested {len(found)} shell strings from {len(SHELL_FILES)} files "
+          f"and {inline_pages} pages with inline scripts into {os.path.relpath(target, ROOT)}")
     if "--list" in sys.argv:
         for text in sorted(found, key=len, reverse=True):
             print(repr(text))

@@ -10,56 +10,54 @@ translated once.
 Nothing here depends on a third-party parser; the tokenizer only needs to know
 where tags end, which it tracks with quote awareness so an attribute containing
 '>' does not split a tag in half.
+
+Skip regions are tracked as a stack of element names, not a depth counter: a
+counter cannot tell which closing tag it is looking at, and one unbalanced
+</script> would silently discard the rest of the page.
 """
 
 from __future__ import annotations
 
 import html as html_lib
+import json
 import re
 from typing import Dict, Iterable, Iterator, List, Optional, Sequence, Tuple
 
 # Elements whose text is code, not prose. Their contents are never translated.
 DEFAULT_SKIP_TAGS = frozenset(
-    {"script", "style", "pre", "code", "kbd", "samp", "textarea", "option"}
+    {"script", "style", "pre", "code", "kbd", "samp", "textarea"}
 )
 
 VOID_TAGS = frozenset(
     {
-        "area",
-        "base",
-        "br",
-        "col",
-        "embed",
-        "hr",
-        "img",
-        "input",
-        "link",
-        "meta",
-        "param",
-        "source",
-        "track",
-        "wbr",
+        "area", "base", "br", "col", "embed", "hr", "img", "input",
+        "link", "meta", "param", "source", "track", "wbr",
     }
 )
 
 # Meta tags whose content is user-facing prose worth translating.
 META_CONTENT_NAMES = frozenset(
     {
-        "description",
-        "keywords",
-        "og:title",
-        "og:description",
-        "og:site_name",
-        "twitter:title",
-        "twitter:description",
+        "description", "keywords", "og:title", "og:description",
+        "og:site_name", "twitter:title", "twitter:description",
     }
 )
 
-TAG_NAME_RE = re.compile(r"<\s*([A-Za-z][A-Za-z0-9:-]*)")
+# Accepts both <div ...> and </div>.
+TAG_NAME_RE = re.compile(r"<\s*/?\s*([A-Za-z][A-Za-z0-9:-]*)")
 ATTR_RE = re.compile(
     r"""([A-Za-z_:][-A-Za-z0-9_:.]*)\s*=\s*("([^"]*)"|'([^']*)'|([^\s"'=<>`]+))"""
 )
-HAS_LETTER_RE = re.compile(r"[A-Za-z\u00c0-\u024f\u0400-\u04ff]")
+# Boolean attributes carry no value: <section data-cn-only hidden>. They are
+# what the region system actually uses, so they must be read too.
+BARE_ATTR_RE = re.compile(r"\s([A-Za-z_:][-A-Za-z0-9_:.]*)(?=\s|/?>)")
+QUOTED_RE = re.compile(r'"[^"]*"|\'[^\']*\'')
+HAS_LETTER_RE = re.compile(r"[A-Za-z\u00c0-\u024f\u0400-\u04ff\u0370-\u03ff]")
+# Source copy is English. A string already written in CJK belongs to another
+# edition and must never enter the English catalog as if it were source.
+NON_SOURCE_RE = re.compile(r"[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uac00-\ud7af]")
+
+TRANSLATABLE_ATTRIBUTES = ("title", "alt", "placeholder", "aria-label", "aria-description")
 
 
 def tokenize(markup: str) -> Iterator[Tuple[str, str]]:
@@ -127,7 +125,35 @@ def attributes(tag: str) -> Dict[str, str]:
         if value is None:
             value = match.group(5) or ""
         found.setdefault(name, html_lib.unescape(value))
+
+    # Anything left is a value-less attribute. Quoted values are blanked first
+    # so a word inside title="..." is never mistaken for an attribute name.
+    without_values = QUOTED_RE.sub('""', tag)
+    for match in BARE_ATTR_RE.finditer(without_values):
+        name = match.group(1).lower()
+        if name not in found:
+            found[name] = ""
     return found
+
+
+def opens_skip_region(tag: str, name: str, attrs: Dict[str, str], skip: Iterable[str]) -> bool:
+    if is_self_closing(tag):
+        return False
+    if name in skip:
+        return True
+    if "data-i18n-skip" in attrs:
+        return True
+    if attrs.get("translate", "").lower() == "no":
+        return True
+    # Copy that is already in another language is that edition's source, not
+    # English prose to translate. The China edition writes its blocks in
+    # Chinese and is applied by cn-region.js, so it is left untouched here.
+    lang = (attrs.get("lang") or "").strip().lower()
+    if lang and not lang.startswith("en"):
+        return True
+    if "data-cn-only" in attrs or "data-cn-hide" in attrs:
+        return True
+    return False
 
 
 def normalise(text: str) -> str:
@@ -164,7 +190,17 @@ def encode_attr(value: str) -> str:
     return html_lib.escape(value, quote=True).replace("&#x27;", "&#39;")
 
 
-def _apply_rules(core: str, rules: Sequence[Sequence[str]]) -> Optional[str]:
+def lookup(core: str, strings: Dict[str, str], rules: Sequence[Sequence[str]] = ()) -> Optional[str]:
+    """Find a translation for one normalised source string."""
+    direct = strings.get(core)
+    if direct is not None:
+        return direct
+    # The page may carry the entity form ("&amp;") while the catalog stores
+    # the decoded text.
+    if "&" in core:
+        decoded = normalise(decode_entities(core))
+        if decoded in strings:
+            return strings[decoded]
     for rule in rules:
         pattern, replacement = rule[0], rule[1]
         try:
@@ -172,22 +208,6 @@ def _apply_rules(core: str, rules: Sequence[Sequence[str]]) -> Optional[str]:
                 return re.sub(pattern, replacement.replace("$", "\\"), core)
         except re.error:
             continue
-    return None
-
-
-def lookup(core: str, strings: Dict[str, str], rules: Sequence[Sequence[str]]) -> Optional[str]:
-    """Find a translation for one normalised source string."""
-    direct = strings.get(core)
-    if direct is not None:
-        return direct
-    # The source page may carry the HTML entity form ("&amp;") while the
-    # catalog stores the decoded text.
-    if "&" in core:
-        decoded = normalise(decode_entities(core))
-        if decoded in strings:
-            return strings[decoded]
-    if rules:
-        return _apply_rules(core, rules)
     return None
 
 
@@ -199,9 +219,7 @@ def extract(markup: str, skip_tags: Iterable[str] = DEFAULT_SKIP_TAGS) -> List[T
     """
     skip = {tag.lower() for tag in skip_tags}
     found: List[Tuple[str, str]] = []
-    stack: List[str] = []
-    skip_depth = 0
-    skip_attr_depth = 0
+    skip_open: List[str] = []
 
     for kind, raw in tokenize(markup):
         if kind == "tag":
@@ -209,40 +227,33 @@ def extract(markup: str, skip_tags: Iterable[str] = DEFAULT_SKIP_TAGS) -> List[T
             if not name:
                 continue
             if is_end_tag(raw):
-                if stack and stack[-1] == name:
-                    stack.pop()
-                if name in skip and skip_depth:
-                    skip_depth -= 1
-                if skip_attr_depth:
-                    skip_attr_depth -= 1
+                if skip_open and skip_open[-1] == name:
+                    skip_open.pop()
                 continue
 
             attrs = attributes(raw)
-            if skip_depth == 0 and skip_attr_depth == 0:
-                for attr_name, value in attrs.items():
-                    if attr_name in ("title", "alt", "placeholder", "aria-label", "aria-description"):
-                        if is_translatable(value):
-                            found.append(("attr:" + attr_name, normalise(decode_entities(value))))
+            if not skip_open and not NON_SOURCE_RE.search(raw):
+                for attr_name in TRANSLATABLE_ATTRIBUTES:
+                    value = attrs.get(attr_name)
+                    if value and is_translatable(value):
+                        found.append(("attr:" + attr_name, normalise(decode_entities(value))))
                 if name == "meta":
-                    meta_name = attrs.get("name") or attrs.get("property") or ""
-                    if meta_name.lower() in META_CONTENT_NAMES:
+                    meta_name = (attrs.get("name") or attrs.get("property") or "").lower()
+                    if meta_name in META_CONTENT_NAMES:
                         content = attrs.get("content") or ""
                         if is_translatable(content):
-                            found.append(("meta:" + meta_name.lower(), normalise(decode_entities(content))))
+                            found.append(("meta:" + meta_name, normalise(decode_entities(content))))
 
-            if name in skip and not is_self_closing(raw):
-                stack.append(name)
-                skip_depth += 1
-            elif "data-i18n-skip" in attrs or attrs.get("translate") == "no":
-                if not is_self_closing(raw):
-                    skip_attr_depth += 1
+            if opens_skip_region(raw, name, attrs, skip):
+                skip_open.append(name)
             continue
 
-        if skip_depth or skip_attr_depth:
+        if skip_open:
             continue
         decoded = decode_entities(raw)
-        if is_translatable(decoded):
-            found.append(("text", normalise(decoded)))
+        if not is_translatable(decoded) or NON_SOURCE_RE.search(decoded):
+            continue
+        found.append(("text", normalise(decoded)))
 
     return found
 
@@ -257,28 +268,25 @@ def apply_catalog(
     """Return (translated markup, number of replacements)."""
     skip = {tag.lower() for tag in skip_tags}
     out: List[str] = []
-    stack: List[str] = []
-    skip_depth = 0
-    skip_attr_depth = 0
+    skip_open: List[str] = []
     replaced = 0
 
     for kind, raw in tokenize(markup):
         if kind == "tag":
             name = tag_name(raw)
-            if name and is_end_tag(raw):
-                if stack and stack[-1] == name:
-                    stack.pop()
-                if name in skip and skip_depth:
-                    skip_depth -= 1
-                if skip_attr_depth:
-                    skip_attr_depth -= 1
+            if not name:
+                out.append(raw)
+                continue
+            if is_end_tag(raw):
+                if skip_open and skip_open[-1] == name:
+                    skip_open.pop()
                 out.append(raw)
                 continue
 
-            if name and skip_depth == 0 and skip_attr_depth == 0 and translate_attributes:
-                attrs = attributes(raw)
+            attrs = attributes(raw)
+            if not skip_open and translate_attributes:
                 rewritten = raw
-                for attr_name in ("title", "alt", "placeholder", "aria-label", "aria-description"):
+                for attr_name in TRANSLATABLE_ATTRIBUTES:
                     if attr_name not in attrs:
                         continue
                     source = normalise(decode_entities(attrs[attr_name]))
@@ -302,16 +310,12 @@ def apply_catalog(
                                 replaced += 1
                 raw = rewritten
 
-            if name in skip and not is_self_closing(raw):
-                stack.append(name)
-                skip_depth += 1
-            elif "data-i18n-skip" in attributes(raw) or attributes(raw).get("translate") == "no":
-                if not is_self_closing(raw):
-                    skip_attr_depth += 1
+            if opens_skip_region(raw, name, attrs, skip):
+                skip_open.append(name)
             out.append(raw)
             continue
 
-        if skip_depth or skip_attr_depth:
+        if skip_open:
             out.append(raw)
             continue
 
@@ -343,58 +347,6 @@ def _replace_attribute(tag: str, name: str, value: str) -> str:
     return pattern.sub(lambda m: m.group(1) + m.group(2) + value + m.group(2), tag, count=1)
 
 
-def strip_by_region(
-    markup: str, region: str, availability: Dict[str, bool]
-) -> str:
-    """Drop elements a region must not show.
-
-    Supported attributes:
-      data-region-only="cn,ru"     keep only in those regions
-      data-region-hide="cn"        drop in those regions
-      data-availability="updater"  keep only when the region has the capability
-      data-availability-hide="updater"  drop when the region has the capability
-    """
-    out: List[str] = []
-    skip_until: List[str] = []
-    pending_depth = 0
-
-    for kind, raw in tokenize(markup):
-        if kind == "text":
-            if pending_depth == 0:
-                out.append(raw)
-            continue
-
-        name = tag_name(raw)
-        if not name:
-            out.append(raw)
-            continue
-
-        if is_end_tag(raw):
-            if pending_depth:
-                if skip_until and name == skip_until[-1]:
-                    skip_until.pop()
-                pending_depth -= 1
-                continue
-            out.append(raw)
-            continue
-
-        attrs = attributes(raw)
-        should_drop = _region_drops(attrs, region, availability)
-        if pending_depth:
-            if not is_self_closing(raw):
-                pending_depth += 1
-            continue
-        if should_drop:
-            if is_self_closing(raw):
-                continue
-            skip_until.append(name)
-            pending_depth = 1
-            continue
-        out.append(raw)
-
-    return "".join(out)
-
-
 def _region_drops(attrs: Dict[str, str], region: str, availability: Dict[str, bool]) -> bool:
     def listed(value: str) -> List[str]:
         return [part.strip().lower() for part in value.split(",") if part.strip()]
@@ -414,9 +366,52 @@ def _region_drops(attrs: Dict[str, str], region: str, availability: Dict[str, bo
     return False
 
 
-def load_locales(path: str) -> Tuple[List[dict], List[dict]]:
-    import json
+def strip_by_region(markup: str, region: str, availability: Dict[str, bool]) -> str:
+    """Drop elements a region must not show.
 
+    Supported attributes:
+      data-region-only="cn,ru"          keep only in those regions
+      data-region-hide="cn"             drop in those regions
+      data-availability="updater"       keep only when the region has it
+      data-availability-hide="updater"  drop when the region has it
+    """
+    out: List[str] = []
+    drop_open: List[str] = []
+
+    for kind, raw in tokenize(markup):
+        if kind == "text":
+            if not drop_open:
+                out.append(raw)
+            continue
+
+        name = tag_name(raw)
+        if not name:
+            out.append(raw)
+            continue
+
+        if is_end_tag(raw):
+            if drop_open and drop_open[-1] == name:
+                drop_open.pop()
+                continue
+            if not drop_open:
+                out.append(raw)
+            continue
+
+        if drop_open:
+            if not is_self_closing(raw):
+                drop_open.append(name)
+            continue
+
+        if _region_drops(attributes(raw), region, availability):
+            if not is_self_closing(raw):
+                drop_open.append(name)
+            continue
+        out.append(raw)
+
+    return "".join(out)
+
+
+def load_locales(path: str) -> Tuple[List[dict], List[dict]]:
     with open(path, "r", encoding="utf-8") as handle:
         data = json.load(handle)
     return data.get("locales", []), data.get("variants", [])
@@ -426,7 +421,6 @@ def base_of(code: str, bases: Dict[str, dict]) -> str:
     """Resolve a locale code to the catalog that actually stores its strings."""
     if code in bases:
         return code
-    # Exact region variant first (pt-BR has its own alias), then the language.
     language = code.split("-")[0]
     if language in bases:
         return language

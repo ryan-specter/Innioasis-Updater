@@ -90,6 +90,15 @@ def candidate_pages(config: dict) -> List[str]:
     return sorted(selected)
 
 
+def load_ui_strings() -> Dict[str, str]:
+    """Shell copy rendered by nav.js and friends, harvested separately."""
+    path = os.path.join(ROOT, "i18n", "strings", "ui.json")
+    if not os.path.exists(path):
+        return {}
+    with open(path, "r", encoding="utf-8") as handle:
+        return json.load(handle).get("strings", {})
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -141,6 +150,15 @@ def main() -> int:
             strings[text]["pages"] += 1
 
     ordered = dict(sorted(strings.items(), key=lambda item: (-item[1]["pages"], -item[1]["n"], item[0])))
+
+    # Copy that only exists inside the JS shell still has to be translated.
+    ui_strings = load_ui_strings()
+    for text, files in ui_strings.items():
+        entry = ordered.get(text)
+        if entry is None:
+            ordered[text] = {"n": 1, "pages": max(1, len(files)), "script": True}
+        else:
+            entry["script"] = True
 
     output = {
         "generated": datetime.now(timezone.utc).isoformat(timespec="seconds"),

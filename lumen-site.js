@@ -1380,6 +1380,33 @@
         var y2Switch = document.querySelector("[data-y2-switch]");
         var filterSection = document.getElementById("firmware-filters");
         var catalog = window.INNIOASIS_FIRMWARE_CATALOG;
+        /* Brand is the name on the player, and each brand lists only its own
+           models. Mirrors the brand attribute in slidia_manifest.xml. */
+        var brandSelect = document.getElementById("lumen-brand-filter");
+        var BRAND_MODELS = {
+            "Innioasis": ["Y1", "Y2", "G1", "G3", "G5", "Q8", "R1", "PR1", "D1"],
+            "Timmkoo": ["A5", "Q5", "Q3", "SR1"]
+        };
+        var DEFAULT_BRAND = "Innioasis";
+        function brandForModel(value) {
+            var name = String(value || "").toUpperCase();
+            var names = Object.keys(BRAND_MODELS);
+            for (var i = 0; i < names.length; i++) {
+                if (BRAND_MODELS[names[i]].indexOf(name) !== -1) return names[i];
+            }
+            return DEFAULT_BRAND;
+        }
+        function currentBrand() {
+            return brandSelect && brandSelect.value ? brandSelect.value : DEFAULT_BRAND;
+        }
+        function brandFromUrl() {
+            var raw = (new URLSearchParams(window.location.search).get("brand") || "").trim().toLowerCase();
+            var names = Object.keys(BRAND_MODELS);
+            for (var i = 0; i < names.length; i++) {
+                if (names[i].toLowerCase() === raw) return names[i];
+            }
+            return "";
+        }
         var releases = {};
         var releaseState = {};
         var fetchedRepos = {};
@@ -1396,6 +1423,12 @@
            #y1 / #y2 hash anchors still work for older links. */
         var searchParams = new URLSearchParams(window.location.search);
         var modelParam = (searchParams.get("model") || "").toUpperCase();
+        /* A specific model is more precise than a brand, so a link that names
+           both lands on the model's own brand. */
+        var wantedBrand = brandFromUrl();
+        if (modelParam) wantedBrand = brandForModel(modelParam);
+        if (!wantedBrand) wantedBrand = DEFAULT_BRAND;
+        if (brandSelect) brandSelect.value = wantedBrand;
         var typeParam = (searchParams.get("type") || "").toUpperCase();
         var viewParam = (searchParams.get("view") || "software").toLowerCase();
         var heroKicker = document.querySelector("#main > header .lumen-kicker");
@@ -1480,25 +1513,28 @@
 
         function fillModelFilter() {
             if (!model) return;
-            var availableModels = [];
+            var brand = currentBrand();
+            var order = BRAND_MODELS[brand] || [];
+            var found = [];
             catalog.forEach(function (item) {
-                if (item.model && availableModels.indexOf(item.model) === -1) {
-                    availableModels.push(item.model);
+                if (item.model && brandForModel(item.model) === brand && found.indexOf(item.model) === -1) {
+                    found.push(item.model);
                 }
             });
-            if (availableModels.indexOf("Y1") === -1) availableModels.unshift("Y1");
-            if (availableModels.indexOf("Y2") === -1) {
-                var y1Idx = availableModels.indexOf("Y1");
-                availableModels.splice(y1Idx + 1, 0, "Y2");
-            }
-            var currentVal = model.value || "Y1";
+            /* Every model for the brand stays in the picker, even before its
+               first package is listed, so brand and model links agree. */
+            var availableModels = order.slice();
+            found.forEach(function (name) {
+                if (availableModels.indexOf(name) === -1) availableModels.push(name);
+            });
+            var currentVal = model.value;
             model.innerHTML = availableModels.map(function (m) {
                 return '<option value="' + escapeHtml(m) + '">' + escapeHtml(m) + '</option>';
             }).join("");
             if (availableModels.indexOf(currentVal) !== -1) {
                 model.value = currentVal;
             } else {
-                model.value = availableModels[0] || "Y1";
+                model.value = availableModels[0] || "";
             }
         }
         fillModelFilter();
@@ -1519,7 +1555,7 @@
         }
         syncTypeField();
 
-        var availableModels = Array.from(new Set(catalog.map(function (item) { return item.model; }).concat(["Y1", "Y2"])));
+        var availableModels = Array.prototype.map.call(model ? model.options : [], function (option) { return option.value; });
         var hashModel = (window.location.hash || "").slice(1).toUpperCase();
         var wantedModel = (availableModels.indexOf(modelParam) !== -1) ? modelParam : ((availableModels.indexOf(hashModel) !== -1) ? hashModel : "");
         if (model && wantedModel) {
@@ -1550,12 +1586,15 @@
         if (y2Switch) {
             y2Switch.addEventListener("click", function (event) {
                 event.preventDefault();
+                if (brandSelect) brandSelect.value = "Innioasis";
+                fillModelFilter();
                 if (model) {
                     model.value = "Y2";
                     syncTypeField();
                     fillSoftwareFilter();
                     render();
                     refreshLive();
+                    refreshAvailability();
                     if (filterSection) filterSection.scrollIntoView({ block: "start" });
                 }
             });
@@ -1570,6 +1609,35 @@
                 return item.model === selectedModel && item.slug === selectedSoftware;
             });
         }
+
+        /* Every project the current model covers, whether or not it has a
+           release yet. The Software picker offers the installable subset; the
+           page names the rest so a manifest entry with nothing to download is
+           still visible instead of silently missing. */
+        function catalogItemsForModel() {
+            var selectedModel = model ? model.value : "Y1";
+            return catalog.filter(function (item) {
+                return item.model === selectedModel && brandForModel(item.model) === currentBrand();
+            });
+        }
+
+        /* What the release lookup says about one project. "available" needs a
+           release carrying a ZIP package; "empty" is a repository with no
+           public releases at all; "nozip" is releases without a package ZIP;
+           "unknown" means the lookup has not answered yet, so the project
+           stays on offer rather than vanishing while GitHub is asked. */
+        function itemAvailability(item) {
+            if (!item || !item.repo) return "unknown";
+            var key = repoKey(item.repo);
+            var list = releases[key];
+            var state = releaseState[key];
+            if (Array.isArray(list) && list.length) {
+                return matchingReleases(list, item, "").length ? "available" : "nozip";
+            }
+            if (state === "empty") return "empty";
+            return "unknown";
+        }
+
 
         /* The Software filter always names one project, so only that project's
            repos are fetched. Shared repos (stock, Solar, JJ Launcher) hold
@@ -1831,7 +1899,21 @@
         function render() {
             var items = matchingItems();
             if (!items.length) {
-                table.innerHTML = '<tr><td colspan="3">No software project is currently listed for this model and filter. Try another project or check the project release pages.</td></tr>';
+                var brandNow = currentBrand();
+                var modelNow = model ? model.value : "";
+                var listed = catalogItemsForModel();
+                var brandHasSoftware = catalog.some(function (item) { return brandForModel(item.model) === brandNow; });
+                var emptyCopy;
+                if (listed.length) {
+                    emptyCopy = "None of the " + listed.length + " project" + (listed.length === 1 ? "" : "s") + " listed for the " + modelNow + " has an installable release yet. Each one is named below and joins the Software list as soon as it publishes a release with a ROM ZIP.";
+                } else if (!brandHasSoftware) {
+                    emptyCopy = "No " + brandNow + " software is listed in the archive yet. Switch the brand to Innioasis for every published release.";
+                } else {
+                    emptyCopy = "No software is listed for the " + brandNow + " " + modelNow + " yet. Choose another model, or check back soon.";
+                }
+                table.innerHTML = '<tr><td colspan="3">' + escapeHtml(emptyCopy) + '</td></tr>';
+                if (status) status.textContent = emptyCopy;
+                renderUnavailable();
                 rowsPainted = true;
                 return;
             }
@@ -1882,6 +1964,47 @@
             /* Model, type, software and release are all known here: hand them
                to the notice card so it can re-rank and surface what applies. */
             syncNoticeContext();
+            renderUnavailable();
+        }
+
+
+        /* A manifest entry can have nothing to install: the repository is new,
+           or its releases carry no ROM ZIP. The picker hides those projects,
+           so the page names them and the reason, rather than leaving a reader
+           to wonder where a listed project went. */
+        var unavailableSlot = null;
+        function renderUnavailable() {
+            if (!table || !table.parentNode || !table.parentNode.parentNode) return;
+            if (!unavailableSlot) {
+                unavailableSlot = document.createElement("div");
+                unavailableSlot.id = "lumen-unavailable-projects";
+                unavailableSlot.className = "lumen-callout lumen-unavailable-projects";
+                unavailableSlot.hidden = true;
+                table.parentNode.parentNode.insertBefore(unavailableSlot, table.parentNode.nextSibling);
+            }
+            var missing = catalogItemsForModel().filter(function (item) {
+                var availability = itemAvailability(item);
+                return availability === "empty" || availability === "nozip";
+            });
+            if (!missing.length) {
+                unavailableSlot.hidden = true;
+                unavailableSlot.innerHTML = "";
+                return;
+            }
+            var rows = missing.map(function (item) {
+                var reason = itemAvailability(item) === "nozip"
+                    ? "no ROM ZIP for the " + item.model + " in its releases"
+                    : "no public releases yet";
+                var repoLink = item.repo
+                    ? '<a href="https://github.com/' + escapeHtml(item.repo) + '/releases" target="_blank" rel="noopener noreferrer">' + escapeHtml(item.repo) + '</a>'
+                    : "";
+                return '<li><strong>' + escapeHtml(item.name) + '</strong> <span class="lumen-meta">' + repoLink + (repoLink ? " · " : "") + escapeHtml(reason) + '</span></li>';
+            }).join("");
+            unavailableSlot.innerHTML =
+                '<h3>Listed firmware with no installable release</h3>' +
+                '<p class="lumen-meta">These projects are listed in <code>slidia_manifest.xml</code> but are not in the Software dropdown until a release carries a ZIP package for the selected model.</p>' +
+                '<ul>' + rows + '</ul>';
+            unavailableSlot.hidden = false;
         }
 
         /* ---- Contextual community notices ----
@@ -1915,24 +2038,96 @@
             }
         }
 
+        /* One lookup per repository, shared by the picker (which has to know
+           what exists before it offers anything) and the release table. This
+           site's feed paints rows first; GitHub is the source of truth and
+           replaces or extends them when it answers. */
+        var repoLoads = {};
+        function ensureRepo(repo) {
+            if (!repo) return Promise.resolve();
+            if (fetchedRepos[repo]) return Promise.resolve();
+            if (repoLoads[repo]) return repoLoads[repo];
+            releaseState[repo] = "loading";
+            var load = fetchBackupReleases(repo)
+                .then(function (backup) {
+                    if (!backup || !Array.isArray(backup.releases) || !backup.releases.length) return;
+                    releases[repo] = mergeReleaseLists(releases[repo], backup.releases);
+                    render();
+                })
+                .then(function () { return fetchAllReleases(repo, 1, []); })
+                .then(function (result) {
+                    if (result && Array.isArray(result.releases) && result.releases.length) {
+                        releases[repo] = mergeReleaseLists(releases[repo], result.releases);
+                        releaseState[repo] = result.complete ? "loaded" : "partial";
+                    } else if (!releases[repo] || !releases[repo].length) {
+                        /* GitHub answered, and the repository has no releases:
+                           that is a fact about the project, not a failure. */
+                        releaseState[repo] = "empty";
+                    }
+                })
+                .catch(function () {
+                    if (!releases[repo] || !releases[repo].length) releaseState[repo] = "failed";
+                })
+                .then(function () {
+                    fetchedRepos[repo] = true;
+                    delete repoLoads[repo];
+                });
+            repoLoads[repo] = load;
+            return load;
+        }
+
+        /* Check every project of the current model, so the picker never offers
+           one that would only open an empty release list. */
+        function refreshAvailability() {
+            fillSoftwareFilter();
+            renderUnavailable();
+            var pending = Array.from(new Set(catalogItemsForModel()
+                .filter(function (item) { return itemAvailability(item) === "unknown"; })
+                .map(function (item) { return repoKey(item.repo); })))
+                .filter(function (repo) { return !!repo && !fetchedRepos[repo]; });
+            if (!pending.length) return Promise.resolve();
+            return Promise.all(pending.map(ensureRepo)).then(function () {
+                fillSoftwareFilter();
+                render();
+                if (activeRepos().length) refreshLive();
+            });
+        }
+
+        /* The Software picker lists only projects that can actually be
+           installed: a repository with no releases, or with releases carrying
+           no ZIP for this model, is left out here and named under the table
+           instead (renderUnavailable), so every option leads to a download. */
         function fillSoftwareFilter() {
             if (!software) return;
             var previous = software.value;
-            var items = catalog.filter(function (item) { return !model || item.model === model.value; });
+            var items = catalogItemsForModel().filter(function (item) {
+                var availability = itemAvailability(item);
+                return availability !== "empty" && availability !== "nozip";
+            });
             var options = Array.from(new Map(items.map(function (item) { return [item.slug, item.name]; })).entries()).sort(function (a, b) { return a[1].localeCompare(b[1]); });
             software.innerHTML = options.map(function (entry) { return '<option value="' + escapeHtml(entry[0]) + '">' + escapeHtml(entry[1]) + '</option>'; }).join("");
             var requested = softwareParam && options.some(function (entry) { return entry[0] === softwareParam; }) ? softwareParam : previous;
-            software.value = options.some(function (entry) { return entry[0] === requested; }) ? requested : originalSlug();
+            var fallback = originalSlug();
+            if (options.some(function (entry) { return entry[0] === requested; })) {
+                software.value = requested;
+            } else if (options.some(function (entry) { return entry[0] === fallback; })) {
+                software.value = fallback;
+            } else {
+                /* Every project for this model is waiting on a release; the
+                   table explains that and the page names each one below. */
+                software.value = options.length ? options[0][0] : "";
+            }
             if (y2Switch) {
                 var selectedModel = model ? model.value : "Y1";
-                if (selectedModel === "Y2") {
-                    y2Switch.setAttribute("aria-hidden", "true");
-                    y2Switch.setAttribute("tabindex", "-1");
-                    y2Switch.textContent = "Y2";
-                } else {
+                var y2Offered = currentBrand() === "Innioasis" && selectedModel !== "Y2";
+                if (y2Offered) {
                     y2Switch.removeAttribute("aria-hidden");
                     y2Switch.removeAttribute("tabindex");
                     y2Switch.textContent = "Y2 ready";
+                } else {
+                    y2Switch.setAttribute("aria-hidden", "true");
+                    y2Switch.setAttribute("tabindex", "-1");
+                    y2Switch.textContent = "Y2";
                 }
             }
         }
@@ -1940,6 +2135,11 @@
 
         function refreshLive() {
             var repos = activeRepos();
+            if (!repos.length) {
+                render();
+                if (table) table.setAttribute("aria-busy", "false");
+                return;
+            }
             var selectedItem = matchingItems()[0] || null;
             var softwareName = selectedItem ? selectedItem.name : (software && software.options && software.options.length ? software.options[software.selectedIndex].textContent : "");
             var pending = repos.filter(function (repo) { return !fetchedRepos[repo]; });
@@ -1952,49 +2152,17 @@
                 }
             }
             if (table) table.setAttribute("aria-busy", "true");
-            pending.forEach(function (repo) {
-                if (!releases[repo] || !releases[repo].length) {
-                    releaseState[repo] = "loading";
-                    /* Nothing cached for this repo yet: the per-repo feed on
-                       this site puts a list on screen while GitHub is asked,
-                       and GitHub replaces or extends it when it answers. */
-                    fetchBackupReleases(repo).then(function (backup) {
-                        if (!backup || !Array.isArray(backup.releases) || !backup.releases.length) return;
-                        releases[repo] = mergeReleaseLists(releases[repo], backup.releases);
-                        render();
-                    }).catch(function () {});
-                }
-            });
-            Promise.all(pending.map(function (repo) {
-                return fetchAllReleases(repo, 1, [])
-                    .then(function (result) {
-                        fetchedRepos[repo] = true;
-                        if (result && Array.isArray(result.releases) && result.releases.length > 0) {
-                            /* GitHub is the source of truth. A tag it carries
-                               replaces our cached copy (fresh notes, assets
-                               and title); tags our feed has never seen are
-                               appended as they arrive. */
-                            releases[repo] = mergeReleaseLists(releases[repo], result.releases);
-                            releaseState[repo] = result.complete ? "loaded" : "partial";
-                            render();
-                        } else if (!releases[repo] || !releases[repo].length) {
-                            releaseState[repo] = "failed";
-                        }
-                    })
-                    .catch(function () {
-                        fetchedRepos[repo] = true;
-                        if (!releases[repo] || !releases[repo].length) {
-                            releaseState[repo] = "failed";
-                        }
-                    });
-            })).then(function () {
+            Promise.all(pending.map(ensureRepo)).then(function () {
                 render();
                 if (table) table.setAttribute("aria-busy", "false");
                 var liveLoaded = repos.filter(function (repo) { return releaseState[repo] === "loaded" || releaseState[repo] === "partial"; }).length;
+                var emptyRepos = repos.filter(function (repo) { return releaseState[repo] === "empty"; }).length;
                 var cachedActive = repos.filter(function (repo) { return releaseState[repo] === "cached"; }).length;
                 if (status) {
                     if (liveLoaded) {
                         status.textContent = "All public " + softwareName + " releases loaded.";
+                    } else if (emptyRepos) {
+                        status.textContent = "No public releases were found for " + softwareName + ".";
                     } else if (cachedActive) {
                         status.textContent = "Showing " + softwareName + " releases from the catalogue archive.";
                     } else {
@@ -2009,6 +2177,8 @@
         function syncUrl() {
             if (!model) return;
             var params = new URLSearchParams(window.location.search);
+            if (brandSelect && brandSelect.value) params.set("brand", brandSelect.value);
+            else params.delete("brand");
             if (model.value) params.set("model", model.value);
             else params.delete("model");
             if (software && software.value) params.set("software", software.value);
@@ -2054,7 +2224,13 @@
             if (tag) syncNoticeContext(tag);
         });
 
-        if (model) model.addEventListener("change", function () { syncTypeField(); fillSoftwareFilter(); render(); refreshLive(); syncUrl(); });
+        if (model) model.addEventListener("change", function () {
+            if (brandSelect) brandSelect.value = brandForModel(model.value);
+syncTypeField(); fillSoftwareFilter(); render(); refreshLive(); refreshAvailability(); syncUrl();
+        });
+        if (brandSelect) brandSelect.addEventListener("change", function () {
+            fillModelFilter(); syncTypeField(); fillSoftwareFilter(); render(); refreshLive(); refreshAvailability(); syncUrl();
+        });
         if (typeSelect) typeSelect.addEventListener("change", function () { render(); refreshLive(); syncUrl(); });
         /* A new Software choice has its own repos to fetch (shared model repos
            are no longer pre-loaded), so the live feed refreshes here too. */
@@ -2062,6 +2238,7 @@
         fillSoftwareFilter();
         render();
         refreshLive();
+        refreshAvailability();
         loadBlocklist();
     }
 
@@ -2568,7 +2745,9 @@
                     var icon = (pkg.getAttribute("icon") || "").trim();
                     var postInstall = (pkg.getAttribute("post_install") || "").trim();
                     var postInstall2 = (pkg.getAttribute("post_install2") || "").trim();
-                    var portableZips = (pkg.getAttribute("portable_zips") || "").trim();                    var handler = pkg.getAttribute("handler") || "";
+                    var portableZips = (pkg.getAttribute("portable_zips") || "").trim();
+                    var packageName = (pkg.getAttribute("package_name") || "").trim();
+                    var handler = pkg.getAttribute("handler") || "";
                     if (!name || /please update/i.test(name)) return;
                     if (handler && handler !== "Custom Firmware") return;
 
@@ -2584,7 +2763,9 @@
                         if (repo) match.repo = repo;
                         if (postInstall) match.post_install = postInstall;
                         if (postInstall2) match.post_install2 = postInstall2;
-                        if (portableZips) match.portable_zips = portableZips;                    } else if (name && device) {
+                        if (portableZips) match.portable_zips = portableZips;
+                        if (packageName && !match.packageName) match.packageName = packageName;
+                    } else if (name && device) {
                         var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
                         catalog.push({
                             name: name,
@@ -2595,7 +2776,7 @@
                             icon: icon,
                             post_install: postInstall,
                             post_install2: postInstall2,
-                            portable_zips: portableZips,                            packageName: "rom.zip",
+                            portable_zips: portableZips,                            packageName: packageName || (device === "Y2" ? "rom_y2.zip" : "rom.zip"),
                             description: "Community firmware package for the " + device + "."
                         });
                     }

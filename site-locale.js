@@ -186,7 +186,13 @@
     function resolveLocale() {
         var map = localeIndex();
         var requested = normalizeTag(param("lang"));
-        if (requested && map[requested]) return map[requested].code;
+        if (requested) {
+            if (map[requested]) return map[requested].code;
+            /* The picker list can be missing on a partial deploy; an explicit
+               ?lang= is still the visitor's instruction, so honour it and let
+               the catalog fetch decide whether the language exists. */
+            if (/^[a-z]{2,3}(-[a-z0-9]{2,4})?$/.test(requested)) return requested;
+        }
         var fromPath = pathLocale();
         if (fromPath) return fromPath;
         var stored = normalizeTag(readStorage(STORAGE_LOCALE));
@@ -711,15 +717,23 @@
             return confirmCountry();
         }).then(function () {
             state.region = resolveRegion();
-            var region = state.regions && state.regions.regions
-                ? state.regions.regions[state.region]
-                : null;
-            state.availability = (region && region.availability) || {};
-            state.regionCopy = (region && region.copy) || {};
             state.locale = resolveLocale();
             var map = localeIndex();
             var entry = map[normalizeTag(state.locale)] || {};
             state.dir = entry.dir || "ltr";
+
+            /* The China edition is a Chinese-language edition. A stored or
+               auto-detected edition must not survive an explicit choice of
+               another language, or the page ends up Chinese in German
+               clothing. An explicit ?region= stays respected. */
+            if (!param("region") && state.region === "cn" && !/^zh(-|$)/.test(state.locale)) {
+                state.region = (state.regions && state.regions.default) || "intl";
+            }
+            var resolvedRegion = state.regions && state.regions.regions
+                ? state.regions.regions[state.region]
+                : null;
+            state.availability = (resolvedRegion && resolvedRegion.availability) || {};
+            state.regionCopy = (resolvedRegion && resolvedRegion.copy) || {};
 
             applyRegions();
             applyLanguage();

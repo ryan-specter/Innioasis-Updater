@@ -1,6 +1,12 @@
 {
  "note": "Strings rendered by the JS shell. Merged into the source catalog by extract_strings.py.",
  "strings": {
+  "A Spanish-language walkthrough of installing Rockbox on an Innioasis Y1 with Updater CE.": [
+   "index.html"
+  ],
+  "A TikTok walkthrough of Rockbox on the Innioasis Y1 with Updater.": [
+   "index.html"
+  ],
   "A Y1 custom Software maintained by the community.": [
    "firmware-catalog.js"
   ],
@@ -9,6 +15,9 @@
   ],
   "A Y2 custom Software.": [
    "firmware-catalog.js"
+  ],
+  "A brief video about general Innioasis player use.": [
+   "index.html"
   ],
   "A classic-style Y1 Software.": [
    "firmware-catalog.js"
@@ -19,23 +28,61 @@
   "A lightweight, custom audio operating system for the Innioasis Y1.": [
    "firmware-catalog.js"
   ],
+  "A model-aware Rockbox installation reference for Innioasis Updater.": [
+   "rockbox.html"
+  ],
   "A music-first custom Software with deep playback and theme options.": [
    "firmware-catalog.js"
+  ],
+  "A reference for installing Original Software on an Innioasis player.": [
+   "index.html"
+  ],
+  "A reference for setting up Rockbox on an Innioasis player.": [
+   "index.html"
+  ],
+  "A short TikTok walkthrough of the Innioasis Updater CE Rockbox route.": [
+   "index.html"
+  ],
+  "A short video installing JJ Launcher on an Innioasis Y1 and troubleshooting.": [
+   "index.html"
   ],
   "A single coffee keeps our servers online this month": [
    "support_toolbar.html"
   ],
-  "A supporter": [
+  "A top supporter": [
+   "credits.html",
+   "support_devs.html",
    "support_toolbar.html"
   ],
-  "A top supporter": [
-   "support_toolbar.html"
+  "A tutorial about Rockbox and themes on an Innioasis player.": [
+   "index.html"
+  ],
+  "A video about Innioasis player use and Rockbox.": [
+   "index.html"
+  ],
+  "A video about Rockbox and using Innioasis Updater CE.": [
+   "index.html"
+  ],
+  "A video about the Innioasis Rockbox route.": [
+   "index.html"
+  ],
+  "A video reference for the Innioasis Rockbox route.": [
+   "index.html"
+  ],
+  "A video using Updater CE to install Rockbox on an Innioasis player.": [
+   "index.html"
+  ],
+  "A walkthrough of using Innioasis Updater to install Rockbox.": [
+   "index.html"
   ],
   "Ad-free and tracker-free, and still mostly paid for out of pocket  -  thank you to everyone who chipped in!": [
    "support_toolbar.html"
   ],
   "Ad-free, tracker-free, mostly self-funded  -  thank you!": [
    "support_toolbar.html"
+  ],
+  "Add custom firmware to Innioasis Updater CE": [
+   "developers.html"
   ],
   "Adds Spanish language support.": [
    "firmware-catalog.js"
@@ -44,7 +91,12 @@
    "firmware-catalog.js"
   ],
   "All donations are appreciated.": [
+   "credits.html",
+   "support_devs.html",
    "support_toolbar.html"
+  ],
+  "All languages": [
+   "site-locale.js"
   ],
   "All public": [
    "lumen-site.js"
@@ -55,11 +107,25 @@
   "Android 4.4 development ROM for Innioasis Y2.": [
    "firmware-catalog.js"
   ],
-  "BBD Bds$ BSD B$ BZD BZ$ GYD G$ SRD Sr$ HTG G IQD ع.د LBP ل.ل SYP £ YER ﷼": [
-   "support_toolbar.html"
+  "Apple certification + $": [
+   "credits.html",
+   "support_devs.html"
   ],
-  "BND B$ MVR Rf AFN ؋ PGK K FJD FJ$ SBD SI$ VUV VT WST WS$ TOP T$ BOB Bs PYG ₲": [
-   "support_toolbar.html"
+  "Are Rockbox, Rockbox-Y1, and Rockbox for Y1 the same thing?": [
+   "rockbox-y1/faq.html"
+  ],
+  "Are Rockbox, Rockbox-Y2, and Rockbox for Y2 the same thing?": [
+   "rockbox-y2/faq.html"
+  ],
+  "Better-Y firmware for Innioasis Y1": [
+   "better-y-y1-software.html"
+  ],
+  "Better-Y for Innioasis Y1": [
+   "firmware-list.html",
+   "firmware.html"
+  ],
+  "Better-Y on Innioasis Y1": [
+   "firmware-list.html"
   ],
   "Building your zip…": [
    "lumen-site.js"
@@ -68,13 +134,156 @@
    "support_toolbar.html"
   ],
   "CDF FC AOA Kz GMD D GNF FG SLE Le LRD L$ SDG ج.س LYD ل.د SOS Sh NAD N$ LSL L": [
+   "credits.html",
+   "support_devs.html",
    "support_toolbar.html"
+  ],
+  "Can I copy the ROM ZIP onto the MicroSD card to install it?": [
+   "rockbox-y1/download.html",
+   "rockbox-y2/download.html"
+  ],
+  "Can I downgrade to an earlier release?": [
+   "rockbox-y1/update.html",
+   "rockbox-y2/update.html"
+  ],
+  "Can I flash the ZIP from the player's MicroSD card?": [
+   "rockbox-y1/portable-zip.html",
+   "rockbox-y2/portable-zip.html"
+  ],
+  "Can I install Rockbox-Y1 again later?": [
+   "rockbox-y1/restore-stock.html"
+  ],
+  "Can I install Rockbox-Y1 on an Innioasis Y2?": [
+   "rockbox-for-y1.html",
+   "rockbox-y1/faq.html",
+   "rockbox-y1/index.html"
+  ],
+  "Can I install Rockbox-Y2 again later?": [
+   "rockbox-y2/restore-stock.html"
+  ],
+  "Can I install Rockbox-Y2 on an Innioasis Y1?": [
+   "rockbox-y2/faq.html",
+   "rockbox-y2/index.html"
+  ],
+  "Can I install Y1 firmware on Y2?": [
+   "firmware-faq.html"
+  ],
+  "Can I recover a Y1 that won't power on?": [
+   "guides/y1-wont-turn-on.html"
+  ],
+  "Can I recover a Y2 that won't power on?": [
+   "guides/y2-wont-turn-on.html"
+  ],
+  "Can I reinstall Rockbox-Y1 after restoring Original Software?": [
+   "rockbox-y1/uninstall.html"
+  ],
+  "Can I reinstall Rockbox-Y2 after restoring Original Software?": [
+   "rockbox-y2/uninstall.html"
+  ],
+  "Can I return from a custom firmware to original software?": [
+   "firmware-faq.html"
+  ],
+  "Can I switch back to Original Software if I prefer how the player shipped?": [
+   "rockbox-y1/vs-stock.html",
+   "rockbox-y2/vs-stock.html"
+  ],
+  "Can I switch back to the original software?": [
+   "rockbox-y1/first-start.html",
+   "rockbox-y2/first-start.html"
+  ],
+  "Can I switch between 240p and 360p later?": [
+   "rockbox-y1/resolution.html",
+   "rockbox-y2/resolution.html"
+  ],
+  "Can I use a Y1 firmware package to fix a Y2 wheel problem?": [
+   "guides/y2-scroll-wheel-not-working.html"
+  ],
+  "Can I use a Y2 firmware package to fix a Y1 wheel problem?": [
+   "guides/y1-scroll-wheel-not-working.html"
+  ],
+  "Can I use the Y1 Rockbox package on a Y2?": [
+   "rockbox-for-y2.html"
+  ],
+  "Can Innioasis Updater CE restore stock firmware?": [
+   "firmware-faq.html"
+  ],
+  "Can installing the wrong resolution harm my player?": [
+   "rockbox-y1/resolution.html",
+   "rockbox-y2/resolution.html"
+  ],
+  "Catsteal3r · Updater and Rockbox": [
+   "index.html"
+  ],
+  "Check and install JJ Launcher on Innioasis Y2": [
+   "jj-launcher-y2-software.html"
+  ],
+  "Check and install Solar on Innioasis Y2": [
+   "solar-y2-software.html"
+  ],
+  "Check the Rockbox-Y1 release notes for the build you installed.": [
+   "rockbox-y1/dual-boot.html"
+  ],
+  "Check the Rockbox-Y2 release notes for the build you installed.": [
+   "rockbox-y2/dual-boot.html"
   ],
   "Checking public releases": [
    "lumen-site.js"
   ],
+  "Choose Better-Y and a Y1 release.": [
+   "better-y-y1-software.html"
+  ],
+  "Choose Inniclassic and a Y1 release.": [
+   "inniclassic-y1-software.html"
+  ],
+  "Choose Inniclassic and a Y2 release.": [
+   "inniclassic-y2-software.html"
+  ],
+  "Choose JJ Launcher and a Y1 release.": [
+   "jj-launcher-y1-software.html"
+  ],
+  "Choose Koensayr and a Y1 release.": [
+   "koensayr-y1-software.html"
+  ],
+  "Choose Original Software and a Y1 release.": [
+   "original-software-y1.html"
+  ],
+  "Choose Original Software and a Y2 release.": [
+   "original-software-y2.html"
+  ],
+  "Choose Rockbox and a Y1 release.": [
+   "rockbox-y1-software.html"
+  ],
+  "Choose Rockbox and a Y2 release.": [
+   "rockbox-y2-software.html"
+  ],
+  "Choose Solar and a Y1 release.": [
+   "solar-y1-software.html"
+  ],
+  "Choose Y1 or Y2, then choose a firmware project in Updater CE.": [
+   "guide.html"
+  ],
+  "Choose Y2Player and a Y2 release.": [
+   "y2player-y2-software.html"
+  ],
+  "Choose a release": [
+   "firmware-guide.html",
+   "guide.html"
+  ],
+  "Choose a stable release for the selected model and project.": [
+   "guide.html"
+  ],
   "Choose site colour theme": [
    "nav.js"
+  ],
+  "Choose the latest stable release for everyday use. Nightly builds are preview releases for testing new changes.": [
+   "rockbox-y1/install.html",
+   "rockbox-y2/install.html"
+  ],
+  "Choose the model and software": [
+   "firmware-guide.html"
+  ],
+  "Choose your model and software": [
+   "guide.html"
   ],
   "Close bottom toolbar": [
    "support_toolbar.html"
@@ -91,8 +300,23 @@
   "Close toolbar": [
    "support_toolbar.html"
   ],
+  "Community Project": [
+   "credits.html",
+   "support_devs.html"
+  ],
   "Community firmware package for the": [
    "lumen-site.js"
+  ],
+  "Community project donation ·": [
+   "credits.html",
+   "support_devs.html"
+  ],
+  "Community theme directory, artwork archive, and documentation hub for Rockbox and stock player customizations. Maintained by Ryan Specter.": [
+   "credits.html",
+   "support_devs.html"
+  ],
+  "Compare Rockbox-Y1 and Rockbox-Y2 for the Innioasis Y1 and Y2: developer repositories, ROM package names, build options, and restore paths.": [
+   "rockbox-y1-vs-y2.html"
   ],
   "Complete final setup for Wi-Fi, FM radio & Bluetooth": [
    "lumen-site.js"
@@ -100,32 +324,160 @@
   "Complete post-install setup": [
    "lumen-site.js"
   ],
+  "Computer with Innioasis Updater CE": [
+   "firmware-guide.html"
+  ],
+  "Computer with Innioasis Updater installed": [
+   "sp-flash-tool.html"
+  ],
   "Connect the player only when Updater says it is ready.": [
    "lumen-site.js"
   ],
-  "Contribution of": [
-   "support_toolbar.html"
+  "Could not load the latest manifest — the generator still works offline.": [
+   "developers.html"
+  ],
+  "Cristian Plaza · Rockbox on the Y1": [
+   "index.html"
   ],
   "Custom Firmware": [
    "lumen-site.js"
   ],
+  "Dammit Jeff · Rockbox and Updater CE": [
+   "index.html"
+  ],
+  "Daniel T. Gaming · Updater and Rockbox": [
+   "index.html"
+  ],
   "Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.": [
    "firmware-catalog.js"
+  ],
+  "Developer · general player use": [
+   "index.html"
   ],
   "Discord community": [
    "nav.js"
   ],
+  "Do I need to install Python or MediaTek tools separately?": [
+   "rockbox-y1/portable-zip.html",
+   "rockbox-y2/portable-zip.html"
+  ],
+  "Do I need to root or unlock the Y1 first?": [
+   "rockbox-y1/install.html"
+  ],
+  "Do I need to root or unlock the Y2 first?": [
+   "rockbox-y2/install.html"
+  ],
+  "Do I need to uninstall the old version before updating?": [
+   "rockbox-y1/update.html",
+   "rockbox-y2/update.html"
+  ],
+  "Does Rockbox browse large music libraries faster?": [
+   "rockbox-y1/vs-stock.html",
+   "rockbox-y2/vs-stock.html"
+  ],
+  "Does Rockbox-Y1 require Wi-Fi or an account?": [
+   "rockbox-y1/offline.html"
+  ],
+  "Does Rockbox-Y2 require Wi-Fi or an account?": [
+   "rockbox-y2/offline.html"
+  ],
+  "Does Updater CE use the website's standalone portable ZIP mirror?": [
+   "rockbox-y1/portable-zip.html",
+   "rockbox-y2/portable-zip.html"
+  ],
+  "Does Updater CE work on Apple Silicon Macs, Windows, and Linux?": [
+   "rockbox-y1/requirements.html",
+   "rockbox-y2/requirements.html"
+  ],
+  "Does a Y1 need to be charged before flashing?": [
+   "guides/y1-wont-turn-on.html"
+  ],
+  "Does a Y2 need to be charged before flashing?": [
+   "guides/y2-wont-turn-on.html"
+  ],
+  "Does deleting .rockbox uninstall the firmware?": [
+   "rockbox-y1/uninstall.html",
+   "rockbox-y2/uninstall.html"
+  ],
+  "Does my player need to be charged before flashing?": [
+   "rockbox-y1/requirements.html",
+   "rockbox-y2/requirements.html"
+  ],
+  "Does restoring Original Software delete my music?": [
+   "rockbox-y1/restore-stock.html",
+   "rockbox-y2/restore-stock.html"
+  ],
+  "Does the player need Wi-Fi to install Rockbox-Y1?": [
+   "rockbox-y1/requirements.html"
+  ],
+  "Does the player need Wi-Fi to install Rockbox-Y2?": [
+   "rockbox-y2/requirements.html"
+  ],
   "Donations are processed through Boosty": [
    "support_toolbar.html"
+  ],
+  "Download Innioasis Updater CE for Windows, macOS, or Linux.": [
+   "guide.html"
+  ],
+  "Download Rockbox-Y1 firmware ROM packages published by the community developers for the Innioasis Y1, or install directly in Innioasis Updater CE.": [
+   "rockbox-y1/download.html"
+  ],
+  "Download Rockbox-Y2 firmware ROM packages published by the community developers for the Innioasis Y2, or install directly in Innioasis Updater CE.": [
+   "rockbox-y2/download.html"
+  ],
+  "Download error:": [
+   "theme_downloader.html"
+  ],
+  "Download for Linux": [
+   "slidia.html"
+  ],
+  "Download for Windows": [
+   "slidia.html"
+  ],
+  "Download for Windows ARM64": [
+   "slidia.html"
   ],
   "Download started": [
    "lumen-site.js"
   ],
+  "Download the ROM ZIP to your computer.": [
+   "rockbox-y1/portable-zip.html",
+   "rockbox-y2/portable-zip.html"
+  ],
+  "Error downloading themes. Please try again.": [
+   "theme_downloader.html"
+  ],
+  "Error loading themes. Please check your internet connection.": [
+   "theme_downloader.html"
+  ],
+  "Error loading themes:": [
+   "theme_downloader.html"
+  ],
   "Every extra coffee funds future tool mirrors and development.": [
    "support_toolbar.html"
   ],
+  "Every software option in the Innioasis Firmware Archive, its author, its current version, its download URL and its portable packages.": [
+   "firmware-list.html"
+  ],
+  "Explore Themes Gallery →": [
+   "credits.html",
+   "support_devs.html"
+  ],
   "Extra donations fund future mirrors & development": [
    "support_toolbar.html"
+  ],
+  "Extract the firmware ZIP": [
+   "sp-flash-tool.html"
+  ],
+  "Factory firmware restore packages and software updates for Innioasis A5 and Timmkoo A5 digital audio players.": [
+   "innioasis-a5-firmware.html"
+  ],
+  "Failed to copy:": [
+   "embed-snippet.html",
+   "innioasis-integration-snippet.html"
+  ],
+  "Fallback: Oops, unable to copy": [
+   "slidia.html"
   ],
   "Features improved support for AirPods Pro 2, AirPods 3 and later": [
    "firmware-catalog.js"
@@ -136,17 +488,104 @@
   "Firmware Archive": [
    "nav.js"
   ],
+  "Firmware Downloads": [
+   "rockbox-for-y1.html",
+   "rockbox-for-y2.html",
+   "rockbox-rom-download.html",
+   "rockbox-y1-themes.html",
+   "rockbox-y1-vs-y2.html",
+   "rockbox-y1/download.html",
+   "rockbox-y1/dual-boot.html",
+   "rockbox-y1/faq.html",
+   "rockbox-y1/first-start.html",
+   "rockbox-y1/index.html",
+   "rockbox-y1/install.html",
+   "rockbox-y1/offline.html",
+   "rockbox-y1/portable-zip.html",
+   "rockbox-y1/requirements.html",
+   "rockbox-y1/resolution.html",
+   "rockbox-y1/restore-stock.html",
+   "rockbox-y1/sd-card.html",
+   "rockbox-y1/troubleshooting.html",
+   "rockbox-y1/uninstall.html",
+   "rockbox-y1/update.html",
+   "rockbox-y1/vs-stock.html",
+   "rockbox-y2-themes.html",
+   "rockbox-y2/download.html",
+   "rockbox-y2/dual-boot.html",
+   "rockbox-y2/faq.html",
+   "rockbox-y2/first-start.html",
+   "rockbox-y2/index.html",
+   "rockbox-y2/install.html",
+   "rockbox-y2/offline.html",
+   "rockbox-y2/portable-zip.html",
+   "rockbox-y2/requirements.html",
+   "rockbox-y2/resolution.html",
+   "rockbox-y2/restore-stock.html",
+   "rockbox-y2/sd-card.html",
+   "rockbox-y2/troubleshooting.html",
+   "rockbox-y2/uninstall.html",
+   "rockbox-y2/update.html",
+   "rockbox-y2/vs-stock.html"
+  ],
+  "Firmware archive": [
+   "firmware-list.html"
+  ],
+  "Firmware downloads for the Innioasis Y1, including stock software and custom builds.": [
+   "firmware-y1.html"
+  ],
+  "Firmware downloads for the Innioasis Y2, including stock software and custom builds.": [
+   "firmware-y2.html"
+  ],
+  "Firmware list": [
+   "firmware-list.html"
+  ],
+  "Firmware list - every Innioasis and Timmkoo release": [
+   "firmware-list.html"
+  ],
+  "Firmware release notes": [
+   "release_notes.html"
+  ],
+  "Firmware release notes - Innioasis Updater": [
+   "release_notes.html"
+  ],
+  "Firmware release notes ·": [
+   "release_notes.html"
+  ],
+  "Fix common Rockbox-Y1 installation issues on the Innioasis Y1: model selection, USB data cables, drivers, and connection timing.": [
+   "rockbox-y1/troubleshooting.html"
+  ],
+  "Fix common Rockbox-Y2 installation issues on the Innioasis Y2: model selection, USB data cables, drivers, and connection timing.": [
+   "rockbox-y2/troubleshooting.html"
+  ],
   "Fixed an issue where FLAC files would not play in v0.11.4.": [
    "firmware-catalog.js"
   ],
+  "Flash an Innioasis Y1 or Y2 with SP Flash Tool": [
+   "sp-flash-tool.html"
+  ],
+  "Flash the player": [
+   "sp-flash-tool.html"
+  ],
+  "Folders starting with a dot are hidden by default on Windows, macOS, and Linux. Enable hidden files in your file manager.": [
+   "rockbox-y1/sd-card.html",
+   "rockbox-y2/sd-card.html"
+  ],
   "Follow along with the setup guide to complete post-install setup on your Y1.": [
    "lumen-site.js"
+  ],
+  "Follow the 6-step install guide in Innioasis Updater CE.": [
+   "rockbox-y1/faq.html",
+   "rockbox-y2/faq.html"
   ],
   "Follow these steps in Updater. The player you want to restore is the": [
    "lumen-site.js"
   ],
   "Follow these steps in Updater. You have the": [
    "lumen-site.js"
+  ],
+  "Frawgeeys · Updater and Rockbox": [
+   "index.html"
   ],
   "Free contribution": [
    "support_toolbar.html"
@@ -157,29 +596,199 @@
   "General performance and stability improvements": [
    "firmware-catalog.js"
   ],
+  "Get Innioasis Updater CE": [
+   "guide.html"
+  ],
   "Get Updater": [
    "nav.js"
   ],
   "Get Updater CE": [
    "nav.js"
   ],
+  "Get and use Innioasis Updater CE to discover, install, or restore firmware on an Innioasis Y1 or Y2.": [
+   "guide.html"
+  ],
   "Get it in Updater": [
    "docs-viewer.js"
+  ],
+  "Get it in Updater CE": [
+   "release_notes.html"
+  ],
+  "Get to Know Innioasis Updater videos": [
+   "index.html"
+  ],
+  "Getting started after installing Rockbox-Y1 on your Innioasis Y1: adding music to the MicroSD card, refreshing the library database, and installing themes.": [
+   "rockbox-y1/first-start.html"
+  ],
+  "Getting started after installing Rockbox-Y2 on your Innioasis Y2: adding music to the MicroSD card, refreshing the library database, and installing themes.": [
+   "rockbox-y2/first-start.html"
+  ],
+  "Getting started with Innioasis Updater CE": [
+   "guide.html"
   ],
   "GitHub Gist": [
    "docs-viewer.js"
   ],
+  "Glad this guide helped you get set up!": [
+   "y2reborn_wifibt.html"
+  ],
+  "Hide Crypto Options": [
+   "credits.html",
+   "support_devs.html"
+  ],
   "Hide crypto options · BTC, ETH, SHIB": [
    "support_toolbar.html"
   ],
-  "ISK kr HRK € RSD дин BAM KM MKD ден ALL L MDL L BYN Br XPF F XOF FCFA XAF FCFA": [
-   "support_toolbar.html"
+  "How Rockbox-Y1 and Original Software work together on the Innioasis Y1, and how to switch between them.": [
+   "rockbox-y1/dual-boot.html"
+  ],
+  "How Rockbox-Y1 uses the MicroSD card on the Innioasis Y1: the hidden .rockbox folder, formatting, library updates, and resetting settings safely.": [
+   "rockbox-y1/sd-card.html"
+  ],
+  "How Rockbox-Y2 and Original Software work together on the Innioasis Y2, and how to switch between them.": [
+   "rockbox-y2/dual-boot.html"
+  ],
+  "How Rockbox-Y2 uses the MicroSD card on the Innioasis Y2: the hidden .rockbox folder, formatting, library updates, and resetting settings safely.": [
+   "rockbox-y2/sd-card.html"
+  ],
+  "How can I tell whether the Y1 click wheel is broken or the firmware is faulty?": [
+   "guides/y1-scroll-wheel-not-working.html"
+  ],
+  "How can I tell whether the Y2 click wheel is broken or the firmware is faulty?": [
+   "guides/y2-scroll-wheel-not-working.html"
+  ],
+  "How do I fix an Innioasis player that won't turn on?": [
+   "guides/recovery.html"
+  ],
+  "How do I force restart an Innioasis Y1?": [
+   "guides/y1-wont-turn-on.html"
+  ],
+  "How do I force restart an Innioasis Y2?": [
+   "guides/y2-wont-turn-on.html"
+  ],
+  "How do I go back to factory software?": [
+   "rockbox-y1/faq.html",
+   "rockbox-y2/faq.html"
+  ],
+  "How do I install Rockbox-Y1?": [
+   "rockbox-y1/faq.html"
+  ],
+  "How do I install Rockbox-Y2?": [
+   "rockbox-y2/faq.html"
+  ],
+  "How do I install themes?": [
+   "rockbox-y1/first-start.html",
+   "rockbox-y2/first-start.html"
+  ],
+  "How do I return to the original factory software?": [
+   "rockbox-y1/index.html",
+   "rockbox-y2/index.html"
+  ],
+  "How do I transfer themes to the Innioasis Y1 with Updater CE?": [
+   "rockbox-y1-themes.html"
+  ],
+  "How do I undo a broken theme?": [
+   "rockbox-y1-themes.html"
+  ],
+  "How long does installing Rockbox-Y1 take?": [
+   "rockbox-y1/install.html"
+  ],
+  "How long does installing Rockbox-Y2 take?": [
+   "rockbox-y2/install.html"
+  ],
+  "How to install Better-Y on your Innioasis Y1": [
+   "guides/better-y-y1.html"
+  ],
+  "How to install Inniclassic on your Innioasis Y1": [
+   "guides/inniclassic-y1.html"
+  ],
+  "How to install Inniclassic on your Innioasis Y2": [
+   "guides/inniclassic-y2.html"
+  ],
+  "How to install JJ Launcher on your Innioasis Y1": [
+   "guides/jj-launcher-y1.html"
+  ],
+  "How to install JJ Launcher on your Innioasis Y1 or Y2": [
+   "guides/jj-launcher.html"
+  ],
+  "How to install JJ Launcher on your Innioasis Y2": [
+   "guides/jj-launcher-y2.html"
+  ],
+  "How to install Koensayr on your Innioasis Y1": [
+   "guides/koensayr-y1.html"
+  ],
+  "How to install Linux on your Innioasis Y1": [
+   "guides/linux-y1.html"
+  ],
+  "How to install Rockbox on your Innioasis Y1": [
+   "guides/rockbox-y1.html"
+  ],
+  "How to install Rockbox on your Innioasis Y1 or Y2": [
+   "rockbox.html"
+  ],
+  "How to install Rockbox on your Innioasis Y2": [
+   "guides/rockbox-y2.html"
+  ],
+  "How to install Rockbox-Y1 on an Innioasis Y1 with Innioasis Updater CE: select Y1, choose Rockbox, pick a release from the community developer, and connect your powered-off player when prompted.": [
+   "rockbox-y1/install.html"
+  ],
+  "How to install Rockbox-Y1 on your Innioasis Y1 from a downloaded ROM ZIP package using Innioasis Updater CE.": [
+   "rockbox-y1/portable-zip.html"
+  ],
+  "How to install Rockbox-Y2 on an Innioasis Y2 with Innioasis Updater CE: select Y2, choose Rockbox, pick a release from the community developer, and connect your powered-off player when prompted.": [
+   "rockbox-y2/install.html"
+  ],
+  "How to install Rockbox-Y2 on your Innioasis Y2 from a downloaded ROM ZIP package using Innioasis Updater CE.": [
+   "rockbox-y2/portable-zip.html"
+  ],
+  "How to install Solar on your Innioasis Y1": [
+   "guides/solar-y1.html"
+  ],
+  "How to install Solar on your Innioasis Y2": [
+   "guides/solar-y2.html"
+  ],
+  "How to install Y2Player on your Innioasis Y2": [
+   "guides/y2player-y2.html"
+  ],
+  "How to install, manage, and reset Rockbox-Y2 themes on the Innioasis Y2.": [
+   "rockbox-y2-themes.html"
+  ],
+  "How to remove Rockbox-Y1 by restoring Original Software on your Innioasis Y1, or reset Rockbox-Y1 settings by clearing the .rockbox folder.": [
+   "rockbox-y1/uninstall.html"
+  ],
+  "How to remove Rockbox-Y2 by restoring Original Software on your Innioasis Y2, or reset Rockbox-Y2 settings by clearing the .rockbox folder.": [
+   "rockbox-y2/uninstall.html"
+  ],
+  "How to restore factory firmware on an Innioasis A5 or Timmkoo A5 player using Innioasis Updater CE.": [
+   "guides/restore-original-a5.html"
+  ],
+  "How to restore factory firmware on an Innioasis G5 player using Innioasis Updater CE.": [
+   "guides/restore-original-g5.html"
+  ],
+  "How to return an Innioasis Y1 to its factory Original Software after installing Rockbox-Y1 using Innioasis Updater CE.": [
+   "rockbox-y1/restore-stock.html"
+  ],
+  "How to return an Innioasis Y2 to its factory Original Software after installing Rockbox-Y2 using Innioasis Updater CE.": [
+   "rockbox-y2/restore-stock.html"
+  ],
+  "How to update Rockbox-Y1 on your Innioasis Y1 to a newer stable or nightly release in Updater CE while keeping your music, themes, and settings.": [
+   "rockbox-y1/update.html"
+  ],
+  "How to update Rockbox-Y2 on your Innioasis Y2 to a newer stable or nightly release in Updater CE while keeping your music, themes, and settings.": [
+   "rockbox-y2/update.html"
+  ],
+  "INNIOASIS UPDATER CE · CREDITS": [
+   "credits.html",
+   "support_devs.html"
   ],
   "If 1 in 50 visitors bought a coffee, we'd cover a test player": [
    "support_toolbar.html"
   ],
   "If 1 in 50 visitors bought us a coffee, we'd cover most of a test player this month.": [
    "support_toolbar.html"
+  ],
+  "If the wheel stopped after an update, it is usually a firmware mismatch. Reinstall the model-matched Original Software and test again. If the wheel is dead in every firmware, treat it as a hardware fault.": [
+   "guides/recovery.html"
   ],
   "If you installed a firmware update 2.0.0 or newer on your Y1 device and the scroll wheel stopped working, please install this version on your device instead.": [
    "firmware-catalog.js"
@@ -193,83 +802,94 @@
   "In Software, select Original Software.": [
    "lumen-site.js"
   ],
-  "InniClassic 1.1.2": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 1.2.0": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 1.3.0": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 1.3.1": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 1.3.2": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 1.4.1": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 1.4.2": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 1.4.3": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 1.4.4": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 1.4.5": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 20260927": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 20260928": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 20260929": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 20261001": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 20261006": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 20261007": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 20261008": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 20261011": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 20261012": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 20261013": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 20261017": [
-   "firmware-catalog.js"
-  ],
-  "InniClassic 20261104": [
-   "firmware-catalog.js"
+  "In Updater CE, select the model printed on your player, then select the software or stock restore package for that model.": [
+   "firmware-guide.html"
   ],
   "Inniclassic build for the Innioasis Y2.": [
    "firmware-catalog.js"
   ],
+  "Inniclassic firmware for Innioasis Y1": [
+   "inniclassic-y1-software.html"
+  ],
+  "Inniclassic firmware for Innioasis Y2": [
+   "inniclassic-y2-software.html"
+  ],
+  "Inniclassic for Innioasis Y1": [
+   "firmware-list.html",
+   "firmware.html"
+  ],
+  "Inniclassic for Innioasis Y2": [
+   "firmware-list.html",
+   "firmware.html"
+  ],
+  "Inniclassic on Innioasis Y1": [
+   "firmware-list.html"
+  ],
+  "Inniclassic on Innioasis Y2": [
+   "firmware-list.html"
+  ],
   "Innioasis & Timmkoo Firmware Downloads": [
    "lumen-site.js"
   ],
+  "Innioasis Community": [
+   "developers.html",
+   "firmware-list.html",
+   "firmware.html",
+   "rockbox-for-y1.html",
+   "rockbox-for-y2.html",
+   "rockbox-rom-download.html",
+   "rockbox-y1-themes.html",
+   "rockbox-y1-vs-y2.html",
+   "rockbox-y1/download.html",
+   "rockbox-y1/dual-boot.html",
+   "rockbox-y1/faq.html",
+   "rockbox-y1/first-start.html",
+   "rockbox-y1/index.html",
+   "rockbox-y1/install.html",
+   "rockbox-y1/offline.html",
+   "rockbox-y1/portable-zip.html",
+   "rockbox-y1/requirements.html",
+   "rockbox-y1/resolution.html",
+   "rockbox-y1/restore-stock.html",
+   "rockbox-y1/sd-card.html",
+   "rockbox-y1/troubleshooting.html",
+   "rockbox-y1/uninstall.html",
+   "rockbox-y1/update.html",
+   "rockbox-y1/vs-stock.html",
+   "rockbox-y2-themes.html",
+   "rockbox-y2/download.html",
+   "rockbox-y2/dual-boot.html",
+   "rockbox-y2/faq.html",
+   "rockbox-y2/first-start.html",
+   "rockbox-y2/index.html",
+   "rockbox-y2/install.html",
+   "rockbox-y2/offline.html",
+   "rockbox-y2/portable-zip.html",
+   "rockbox-y2/requirements.html",
+   "rockbox-y2/resolution.html",
+   "rockbox-y2/restore-stock.html",
+   "rockbox-y2/sd-card.html",
+   "rockbox-y2/troubleshooting.html",
+   "rockbox-y2/uninstall.html",
+   "rockbox-y2/update.html",
+   "rockbox-y2/vs-stock.html",
+   "rockbox.html"
+  ],
   "Innioasis Firmware Archive": [
-   "nav.js"
+   "credits.html",
+   "firmware-y1.html",
+   "firmware-y2.html",
+   "index.html",
+   "nav.js",
+   "support_devs.html",
+   "universal-flash-tool.html"
   ],
   "Innioasis Firmware Downloads": [
+   "index.html",
    "nav.js"
+  ],
+  "Innioasis Software Updates": [
+   "index.html"
   ],
   "Innioasis Software Updates & Downloads": [
    "lumen-site.js"
@@ -278,10 +898,219 @@
    "nav.js"
   ],
   "Innioasis Updater": [
-   "nav.js"
+   "firmware-list.html",
+   "index.html",
+   "nav.js",
+   "rockbox-rom-download.html",
+   "rockbox-y1/download.html",
+   "rockbox-y1/dual-boot.html",
+   "rockbox-y1/faq.html",
+   "rockbox-y1/first-start.html",
+   "rockbox-y1/index.html",
+   "rockbox-y1/install.html",
+   "rockbox-y1/offline.html",
+   "rockbox-y1/portable-zip.html",
+   "rockbox-y1/requirements.html",
+   "rockbox-y1/resolution.html",
+   "rockbox-y1/restore-stock.html",
+   "rockbox-y1/sd-card.html",
+   "rockbox-y1/troubleshooting.html",
+   "rockbox-y1/uninstall.html",
+   "rockbox-y1/update.html",
+   "rockbox-y1/vs-stock.html",
+   "rockbox-y2/download.html",
+   "rockbox-y2/dual-boot.html",
+   "rockbox-y2/faq.html",
+   "rockbox-y2/first-start.html",
+   "rockbox-y2/index.html",
+   "rockbox-y2/install.html",
+   "rockbox-y2/offline.html",
+   "rockbox-y2/portable-zip.html",
+   "rockbox-y2/requirements.html",
+   "rockbox-y2/resolution.html",
+   "rockbox-y2/restore-stock.html",
+   "rockbox-y2/sd-card.html",
+   "rockbox-y2/troubleshooting.html",
+   "rockbox-y2/uninstall.html",
+   "rockbox-y2/update.html",
+   "rockbox-y2/vs-stock.html"
   ],
-  "JJ Launcher": [
-   "firmware-catalog.js"
+  "Innioasis Updater CE": [
+   "credits.html",
+   "developers.html",
+   "index.html",
+   "rockbox-y1/install.html",
+   "rockbox-y1/portable-zip.html",
+   "rockbox-y2/install.html",
+   "rockbox-y2/portable-zip.html",
+   "support_devs.html"
+  ],
+  "Innioasis Y1 Firmware Downloads and Custom ROMs": [
+   "firmware-y1.html"
+  ],
+  "Innioasis Y1 Scroll Wheel Not Working After Update | Innioasis Firmware Archive": [
+   "guides/y1-scroll-wheel-not-working.html"
+  ],
+  "Innioasis Y1 Won't Turn On | Innioasis Firmware Archive": [
+   "guides/y1-wont-turn-on.html"
+  ],
+  "Innioasis Y1 and Y2 Recovery Guide | Innioasis Firmware Archive": [
+   "guides/recovery.html"
+  ],
+  "Innioasis Y2 Firmware Downloads and Custom ROMs": [
+   "firmware-y2.html"
+  ],
+  "Innioasis Y2 Scroll Wheel Not Working After Update | Innioasis Firmware Archive": [
+   "guides/y2-scroll-wheel-not-working.html"
+  ],
+  "Innioasis Y2 Won't Turn On | Innioasis Firmware Archive": [
+   "guides/y2-wont-turn-on.html"
+  ],
+  "Innioasis and Timmkoo Firmware Archive": [
+   "firmware.html"
+  ],
+  "Innioasis and Timmkoo firmware by software and model": [
+   "firmware-list.html"
+  ],
+  "Innioasis and Timmkoo software by model": [
+   "firmware.html"
+  ],
+  "Innioasis firmware releases": [
+   "firmware.html"
+  ],
+  "Innioasis player": [
+   "rockbox-rom-download.html",
+   "rockbox-y1/download.html",
+   "rockbox-y1/dual-boot.html",
+   "rockbox-y1/faq.html",
+   "rockbox-y1/first-start.html",
+   "rockbox-y1/index.html",
+   "rockbox-y1/install.html",
+   "rockbox-y1/offline.html",
+   "rockbox-y1/portable-zip.html",
+   "rockbox-y1/requirements.html",
+   "rockbox-y1/resolution.html",
+   "rockbox-y1/restore-stock.html",
+   "rockbox-y1/sd-card.html",
+   "rockbox-y1/troubleshooting.html",
+   "rockbox-y1/uninstall.html",
+   "rockbox-y1/update.html",
+   "rockbox-y1/vs-stock.html",
+   "rockbox-y2/download.html",
+   "rockbox-y2/dual-boot.html",
+   "rockbox-y2/faq.html",
+   "rockbox-y2/first-start.html",
+   "rockbox-y2/index.html",
+   "rockbox-y2/install.html",
+   "rockbox-y2/offline.html",
+   "rockbox-y2/portable-zip.html",
+   "rockbox-y2/requirements.html",
+   "rockbox-y2/resolution.html",
+   "rockbox-y2/restore-stock.html",
+   "rockbox-y2/sd-card.html",
+   "rockbox-y2/troubleshooting.html",
+   "rockbox-y2/uninstall.html",
+   "rockbox-y2/update.html",
+   "rockbox-y2/vs-stock.html"
+  ],
+  "Inside the .rockbox folder on the MicroSD card, in its themes folder. Copy the theme's folder there, then pick it in the player's theme settings.": [
+   "rockbox-y1-themes.html"
+  ],
+  "Install Better-Y on Innioasis Y1": [
+   "better-y-y1-software.html"
+  ],
+  "Install Inniclassic on Innioasis Y1": [
+   "inniclassic-y1-software.html"
+  ],
+  "Install Inniclassic on Innioasis Y2": [
+   "inniclassic-y2-software.html"
+  ],
+  "Install JJ Launcher on Innioasis Y1": [
+   "jj-launcher-y1-software.html"
+  ],
+  "Install JJ Launcher on a Y1 with Innioasis Updater.": [
+   "guides/jj-launcher-y1.html"
+  ],
+  "Install JJ Launcher on a Y2 with Innioasis Updater.": [
+   "guides/jj-launcher-y2.html"
+  ],
+  "Install JJ Launcher on your Innioasis Y1": [
+   "guides/jj-launcher-y1.html"
+  ],
+  "Install JJ Launcher on your Innioasis Y2": [
+   "guides/jj-launcher-y2.html"
+  ],
+  "Install Koensayr on Innioasis Y1": [
+   "koensayr-y1-software.html"
+  ],
+  "Install Linux on Innioasis Y1": [
+   "linux-y1-software.html"
+  ],
+  "Install Rockbox firmware on Innioasis Y1": [
+   "rockbox-y1-software.html"
+  ],
+  "Install Rockbox firmware on Innioasis Y2": [
+   "rockbox-y2-software.html"
+  ],
+  "Install Rockbox on a Y1 with Innioasis Updater.": [
+   "guides/rockbox-y1.html"
+  ],
+  "Install Rockbox on your Innioasis Y1": [
+   "guides/rockbox-y1.html"
+  ],
+  "Install Rockbox on your Innioasis Y2": [
+   "guides/rockbox-y2.html"
+  ],
+  "Install Solar firmware on Innioasis Y1": [
+   "solar-y1-software.html"
+  ],
+  "Install Solar on a Y2 with Innioasis Updater.": [
+   "guides/solar-y2.html"
+  ],
+  "Install Solar on your Innioasis Y2": [
+   "guides/solar-y2.html"
+  ],
+  "Install Y2Player on Innioasis Y2": [
+   "y2player-y2-software.html"
+  ],
+  "Install or restore": [
+   "firmware-guide.html",
+   "guide.html"
+  ],
+  "Install or restore firmware on your player": [
+   "firmware-guide.html"
+  ],
+  "Install or restore the Y1 stock firmware with Innioasis Updater.": [
+   "original-software-y1.html"
+  ],
+  "Install or restore the Y2 stock firmware with Innioasis Updater.": [
+   "original-software-y2.html"
+  ],
+  "Install the Y2 Rockbox build with Innioasis Updater.": [
+   "guides/rockbox-y2.html"
+  ],
+  "Instructions published by the project, shown here word for word.": [
+   "post_install.html"
+  ],
+  "Is Rockbox for Y1 the same as Rockbox-Y1?": [
+   "rockbox-for-y1.html"
+  ],
+  "Is Rockbox for Y2 the same as Rockbox-Y2?": [
+   "rockbox-for-y2.html"
+  ],
+  "Is Rockbox-Y1 safe to install?": [
+   "rockbox-y1/index.html"
+  ],
+  "Is Rockbox-Y2 safe to install?": [
+   "rockbox-y2/index.html"
+  ],
+  "Is switching between dual-boot systems safe?": [
+   "rockbox-y1/dual-boot.html",
+   "rockbox-y2/dual-boot.html"
+  ],
+  "It fixes failures caused by an update or a mismatched package, and it is the first thing to try. It will not repair a physically damaged wheel, a loose ribbon, or liquid damage.": [
+   "guides/y1-scroll-wheel-not-working.html",
+   "guides/y2-scroll-wheel-not-working.html"
   ],
   "JJ Launcher Classic Version 1.0.0": [
    "firmware-catalog.js"
@@ -328,17 +1157,40 @@
   "JJ Launcher ROM v0.9": [
    "firmware-catalog.js"
   ],
-  "JJ Launcher v0.11. 5": [
-   "firmware-catalog.js"
+  "JJ Launcher for Innioasis Y1": [
+   "firmware-list.html",
+   "firmware.html",
+   "jj-launcher-y1-software.html"
   ],
-  "JJ Launcher v0.11. 6": [
-   "firmware-catalog.js"
+  "JJ Launcher for Innioasis Y2": [
+   "firmware-list.html",
+   "firmware.html",
+   "jj-launcher-y2-software.html"
+  ],
+  "JJ Launcher on Innioasis Y1": [
+   "firmware-list.html"
+  ],
+  "JJ Launcher on Innioasis Y2": [
+   "firmware-list.html"
   ],
   "JJ Launcher v0.11. 6 hotfix4": [
    "firmware-catalog.js"
   ],
   "Join our Discord": [
    "nav.js"
+  ],
+  "Keaira’s Digital Archive · Rockbox": [
+   "index.html"
+  ],
+  "Koensayr firmware for Innioasis Y1": [
+   "koensayr-y1-software.html"
+  ],
+  "Koensayr for Innioasis Y1": [
+   "firmware-list.html",
+   "firmware.html"
+  ],
+  "Koensayr on Innioasis Y1": [
+   "firmware-list.html"
   ],
   "Larger text": [
    "support_toolbar.html"
@@ -349,14 +1201,51 @@
   "Less than the price of a single coffee keeps our download servers online this month.": [
    "support_toolbar.html"
   ],
+  "Linux Mode Setup": [
+   "slidia.html"
+  ],
   "Linux development build for Innioasis Y1.": [
    "firmware-catalog.js"
   ],
   "Listed for Y2 in the current Updater CE catalogue. Check release notes before installing.": [
    "firmware-catalog.js"
   ],
+  "Load the downloaded package or choose Rockbox from the Software list.": [
+   "rockbox-y1/portable-zip.html",
+   "rockbox-y2/portable-zip.html"
+  ],
+  "Load the matching scatter file": [
+   "sp-flash-tool.html"
+  ],
+  "Loading the latest manifest…": [
+   "developers.html"
+  ],
+  "Loading themes...": [
+   "theme_downloader.html"
+  ],
+  "Machine-readable release data for every catalogue repository, used by Updater CE when GitHub is unreachable.": [
+   "firmware.html"
+  ],
+  "Madmotchi · Original Software installation": [
+   "index.html"
+  ],
+  "Make sure the player is powered completely off before connecting the USB cable, try a different USB data cable, and check your USB drivers.": [
+   "rockbox-y1/troubleshooting.html",
+   "rockbox-y2/troubleshooting.html"
+  ],
+  "Make sure your music is on the MicroSD card, then open Database in the menu and initialize or update it.": [
+   "rockbox-y1/first-start.html",
+   "rockbox-y2/first-start.html"
+  ],
+  "Names cycle automatically": [
+   "credits.html",
+   "support_devs.html"
+  ],
   "No one has donated today, will you be the first?": [
    "support_toolbar.html"
+  ],
+  "No post-install document is linked for this software.": [
+   "post_install.html"
   ],
   "No public releases": [
    "lumen-site.js"
@@ -364,17 +1253,108 @@
   "No release with": [
    "lumen-site.js"
   ],
+  "No software is listed for the": [
+   "lumen-site.js"
+  ],
+  "No software project is currently listed for this model and filter. Try another project or check the project release pages.": [
+   "lumen-site.js"
+  ],
   "No stable release yet": [
    "lumen-site.js"
+  ],
+  "No, as long as your music folders are stored outside the .rockbox folder on the card.": [
+   "rockbox-y1/sd-card.html",
+   "rockbox-y2/sd-card.html"
+  ],
+  "No. Everything runs locally from the files on your MicroSD card.": [
+   "rockbox-y1/offline.html",
+   "rockbox-y2/offline.html"
+  ],
+  "No. Firmware ROM packages are flashed from a computer over USB using Updater CE. See installing from a downloaded ZIP.": [
+   "rockbox-y1/download.html",
+   "rockbox-y2/download.html"
+  ],
+  "No. Flashing Original Software updates the internal firmware and leaves your MicroSD card files intact.": [
+   "rockbox-y1/restore-stock.html",
+   "rockbox-y2/restore-stock.html"
+  ],
+  "No. Flashing is always performed from a computer over USB while the player is powered off.": [
+   "rockbox-y1/portable-zip.html",
+   "rockbox-y2/portable-zip.html"
+  ],
+  "No. Flashing the new release overwrites the previous firmware while leaving your MicroSD card untouched.": [
+   "rockbox-y1/update.html",
+   "rockbox-y2/update.html"
+  ],
+  "No. The Y1 and Y2 use different hardware and separate firmware builds. Select Y1 in Updater CE and use the Rockbox-Y1 guide instead.": [
+   "rockbox-y2/index.html"
+  ],
+  "No. The Y1 and Y2 use different hardware and separate firmware builds. Select Y2 in Updater CE and use the Rockbox-Y2 guide instead.": [
+   "rockbox-y1/index.html"
+  ],
+  "No. Updater CE always downloads firmware packages directly from the community firmware developers themselves, who are solely responsible for listing their releases in Updater CE.": [
+   "rockbox-y1/portable-zip.html",
+   "rockbox-y2/portable-zip.html"
+  ],
+  "No. Updater CE flashes the player directly while it is powered off.": [
+   "rockbox-y1/install.html",
+   "rockbox-y2/install.html"
+  ],
+  "No. Updater CE includes everything needed to flash the ROM.": [
+   "rockbox-y1/portable-zip.html",
+   "rockbox-y2/portable-zip.html"
+  ],
+  "No. Use Rockbox-Y1 for the Y1.": [
+   "rockbox-y2/faq.html"
+  ],
+  "No. Use Rockbox-Y2 for the Y2.": [
+   "rockbox-y1/faq.html"
+  ],
+  "No. Y1 and Y2 packages are separate. Select the correct model and never substitute a package from the other model.": [
+   "firmware-faq.html"
+  ],
+  "No. Your computer downloads the firmware and flashes the player over USB.": [
+   "rockbox-y1/requirements.html",
+   "rockbox-y2/requirements.html"
+  ],
+  "No. Your music lives on the MicroSD card and is not touched by flashing the firmware.": [
+   "rockbox-y1/faq.html",
+   "rockbox-y2/faq.html"
   ],
   "Not available right now": [
    "lumen-site.js"
   ],
-  "OMR ﷼ JOD د.ا HKD HK$ SGD S$ TWD NT$ KRW ₩ THB ฿ MYR RM IDR Rp PHP ₱ VND ₫": [
-   "support_toolbar.html"
+  "Notices about": [
+   "notices.html"
+  ],
+  "Official factory restore firmware and software updates for the Innioasis G5 digital audio player.": [
+   "innioasis-g5-firmware.html"
+  ],
+  "Once the download finishes, flashing takes only a couple of minutes. Keep the USB cable connected until Updater CE shows the success message.": [
+   "rockbox-y1/install.html",
+   "rockbox-y2/install.html"
   ],
   "One-click installer for Windows, macOS & Linux": [
    "nav.js"
+  ],
+  "Open Innioasis Updater CE and select Y1.": [
+   "rockbox-y1/portable-zip.html"
+  ],
+  "Open Innioasis Updater CE and select Y2.": [
+   "rockbox-y2/portable-zip.html"
+  ],
+  "Open Innioasis Updater CE and set Device Model to Y1.": [
+   "rockbox-y1/install.html"
+  ],
+  "Open Innioasis Updater CE and set Device Model to Y2.": [
+   "rockbox-y2/install.html"
+  ],
+  "Open Innioasis Updater CE on your computer.": [
+   "guides/restore-original-a5.html",
+   "guides/restore-original-g5.html"
+  ],
+  "Open SP Flash Tool from the Updater install": [
+   "sp-flash-tool.html"
   ],
   "Open Updater on your computer, or install it first with the button below.": [
    "lumen-site.js"
@@ -388,8 +1368,27 @@
   "Open the site toolbar": [
    "support_toolbar.html"
   ],
+  "Open-source cross-platform updater, brick recovery tool, and driver installer for Innioasis Y1 & Y2 hardware. Maintained by Ryan Specter.": [
+   "credits.html",
+   "support_devs.html"
+  ],
   "Original Software": [
-   "firmware-catalog.js"
+   "firmware-catalog.js",
+   "firmware-list.html"
+  ],
+  "Original Software for Innioasis Y1": [
+   "firmware-list.html",
+   "firmware.html"
+  ],
+  "Original Software for Innioasis Y2": [
+   "firmware-list.html",
+   "firmware.html"
+  ],
+  "Original Software on Innioasis Y1": [
+   "firmware-list.html"
+  ],
+  "Original Software on Innioasis Y2": [
+   "firmware-list.html"
   ],
   "Original Software, custom ROMs & guides": [
    "nav.js"
@@ -400,11 +1399,60 @@
   "Original System Software 3.1.7 for Innioasis Y2": [
    "firmware-catalog.js"
   ],
-  "PKR Rs BDT ৳ LKR Rs NPR Rs UAH ₴ RUB ₽ KZT ₸ UZS soʻm GEL ₾ AMD ֏ AZN ₼ MAD DH": [
-   "support_toolbar.html"
+  "Original stock firmware for Innioasis Y1": [
+   "original-software-y1.html"
   ],
-  "PLN zł CZK Kč HUF Ft RON lei BGN лв TRY ₺ BRL R$ MXN MX$ ARS AR$ CLP CL$ COP COL$": [
-   "support_toolbar.html"
+  "Original stock firmware for Innioasis Y2": [
+   "original-software-y2.html"
+  ],
+  "Paid to Sipped when they sent in a pull request with a full redesign of the Firmware Archive and Updater site.": [
+   "credits.html",
+   "support_devs.html"
+  ],
+  "Pick a project to read the notes for its released builds.": [
+   "release_notes.html"
+  ],
+  "Please select at least one theme to download.": [
+   "theme_downloader.html"
+  ],
+  "Portable package for Linux": [
+   "firmware-list.html"
+  ],
+  "Portable package for Windows": [
+   "firmware-list.html"
+  ],
+  "Portable package for macOS": [
+   "firmware-list.html"
+  ],
+  "Post-install setup": [
+   "post_install.html"
+  ],
+  "Post-install setup for": [
+   "post_install.html"
+  ],
+  "Post-install setup ·": [
+   "post_install.html"
+  ],
+  "Power off and connect the Y1 when Updater asks.": [
+   "guides/jj-launcher-y1.html",
+   "guides/rockbox-y1.html"
+  ],
+  "Power off and connect the Y2 when Updater asks.": [
+   "guides/jj-launcher-y2.html",
+   "guides/solar-y2.html"
+  ],
+  "Power the Y1 completely off, then connect it with a USB data cable when Updater CE prompts you.": [
+   "rockbox-y1/install.html"
+  ],
+  "Power the Y2 completely off, then connect it with a USB data cable when Updater CE prompts you.": [
+   "rockbox-y2/install.html"
+  ],
+  "Power the player off, connect USB when the tool is ready, and wait for the green check.": [
+   "sp-flash-tool.html"
+  ],
+  "Preserving and archiving all stock, legacy, and custom ROM firmware packages on high-bandwidth edge mirrors. Maintained by Ryan Specter.": [
+   "credits.html",
+   "support_devs.html"
   ],
   "Public release": [
    "lumen-site.js"
@@ -412,23 +1460,64 @@
   "Read the": [
    "lumen-site.js"
   ],
+  "Read the current Solar release note for Y2.": [
+   "solar-y2-software.html"
+  ],
+  "Read the current release entry for Y2.": [
+   "jj-launcher-y2-software.html"
+  ],
   "Read the release notes for": [
    "lumen-site.js"
-  ],
-  "Release V1.1": [
-   "firmware-catalog.js"
   ],
   "Release information is not available right now. The project links remain available.": [
    "lumen-site.js"
   ],
+  "Remove Rockbox-Y1 or reset it to defaults": [
+   "rockbox-y1/uninstall.html"
+  ],
+  "Remove Rockbox-Y2 or reset it to defaults": [
+   "rockbox-y2/uninstall.html"
+  ],
+  "Repository button clicked": [
+   "slidia.html"
+  ],
   "Reset text size": [
    "support_toolbar.html"
+  ],
+  "Restore Original Software on Innioasis A5": [
+   "guides/restore-original-a5.html"
+  ],
+  "Restore Original Software on Innioasis G5": [
+   "guides/restore-original-g5.html"
+  ],
+  "Restore Original Software on Innioasis Y1": [
+   "original-software-y1.html"
+  ],
+  "Restore Original Software on Innioasis Y2": [
+   "original-software-y2.html"
   ],
   "Restore Original Software on your": [
    "lumen-site.js"
   ],
-  "Restore ·": [
-   "lumen-site.js"
+  "Restore Original Software on your Innioasis Y1": [
+   "guides/restore-original-y1.html"
+  ],
+  "Restore Original Software on your Innioasis Y2": [
+   "guides/restore-original-y2.html"
+  ],
+  "Restore with Original Software for Y1 if needed.": [
+   "guides/jj-launcher-y1.html",
+   "guides/rockbox-y1.html"
+  ],
+  "Restore with Original Software for Y2 if needed.": [
+   "guides/jj-launcher-y2.html",
+   "guides/solar-y2.html"
+  ],
+  "Restore with Y2 Original Software if needed.": [
+   "guides/rockbox-y2.html"
+  ],
+  "Rockbox ROM download for Innioasis Y1 and Y2": [
+   "rockbox-rom-download.html"
   ],
   "Rockbox Y1 builds older than 0.5 and nightly builds are hidden by default. Tick to include them.": [
    "lumen-site.js"
@@ -436,8 +1525,32 @@
   "Rockbox Y2 Beta V2": [
    "firmware-catalog.js"
   ],
-  "Rockbox Y2 Beta v0.2.0": [
-   "lumen-site.js"
+  "Rockbox firmware for Innioasis Y1": [
+   "rockbox-y1-software.html"
+  ],
+  "Rockbox firmware for Innioasis Y2": [
+   "rockbox-y2-software.html"
+  ],
+  "Rockbox for Y1": [
+   "rockbox-for-y1.html"
+  ],
+  "Rockbox for Y1, Rockbox-Y1 and rockbox-y1 all refer to the community Rockbox firmware for the Innioasis Y1.": [
+   "rockbox-for-y1.html"
+  ],
+  "Rockbox for Y2": [
+   "rockbox-for-y2.html"
+  ],
+  "Rockbox for Y2, Rockbox-Y2 and rockbox-y2 refer to the community Rockbox firmware port for the Innioasis Y2.": [
+   "rockbox-for-y2.html"
+  ],
+  "Rockbox on Innioasis Y1": [
+   "firmware-list.html"
+  ],
+  "Rockbox on Innioasis Y2": [
+   "firmware-list.html"
+  ],
+  "Rockbox-Y1 240p and 360p builds: choosing a theme resolution": [
+   "rockbox-y1/resolution.html"
   ],
   "Rockbox-Y1 Base ROM - Type A": [
    "firmware-catalog.js"
@@ -445,77 +1558,107 @@
   "Rockbox-Y1 Base ROM - Type B": [
    "firmware-catalog.js"
   ],
-  "Rockbox-Y1 Nightly-01-07-2026": [
-   "firmware-catalog.js"
+  "Rockbox-Y1 FAQ: common questions answered": [
+   "rockbox-y1/faq.html"
   ],
-  "Rockbox-Y1 Nightly-05-03-2026": [
-   "firmware-catalog.js"
+  "Rockbox-Y1 ROM download: developer firmware packages": [
+   "rockbox-y1/download.html"
   ],
-  "Rockbox-Y1 Nightly-05-10-2026": [
-   "firmware-catalog.js"
+  "Rockbox-Y1 ROM package": [
+   "rockbox-y1/download.html"
   ],
-  "Rockbox-Y1 Nightly-06-03-2026": [
-   "firmware-catalog.js"
+  "Rockbox-Y1 and the MicroSD card: .rockbox explained": [
+   "rockbox-y1/sd-card.html"
   ],
-  "Rockbox-Y1 Nightly-06-07-2026": [
-   "firmware-catalog.js"
+  "Rockbox-Y1 dual boot: switching back to original software": [
+   "rockbox-y1/dual-boot.html"
   ],
-  "Rockbox-Y1 Nightly-08-05-2026": [
-   "firmware-catalog.js"
+  "Rockbox-Y1 first start: music, themes and settings": [
+   "rockbox-y1/first-start.html"
   ],
-  "Rockbox-Y1 Nightly-08-07-2026": [
-   "firmware-catalog.js"
+  "Rockbox-Y1 for Innioasis Y1": [
+   "firmware-list.html",
+   "firmware.html"
   ],
-  "Rockbox-Y1 Nightly-09-09-2026": [
-   "firmware-catalog.js"
+  "Rockbox-Y1 install problems and how to fix them": [
+   "rockbox-y1/troubleshooting.html"
   ],
-  "Rockbox-Y1 Nightly-18-10-2026": [
-   "firmware-catalog.js"
+  "Rockbox-Y1 local ZIP: install from a downloaded ROM package": [
+   "rockbox-y1/portable-zip.html"
   ],
-  "Rockbox-Y1 Nightly-23-10-2026": [
-   "firmware-catalog.js"
+  "Rockbox-Y1 themes": [
+   "rockbox-y1-themes.html"
   ],
-  "Rockbox-Y1 Nightly-24-08-2026": [
-   "firmware-catalog.js"
+  "Rockbox-Y1 themes: transferring themes with Updater CE, 240p vs 360p & applying a theme": [
+   "rockbox-y1-themes.html"
   ],
-  "Rockbox-Y1 Nightly-24-09-2026": [
-   "firmware-catalog.js"
+  "Rockbox-Y1 vs Original Software: what changes": [
+   "rockbox-y1/vs-stock.html"
   ],
-  "Rockbox-Y1 Nightly-25-10-2026": [
-   "firmware-catalog.js"
+  "Rockbox-Y1 vs Rockbox-Y2": [
+   "rockbox-y1-vs-y2.html"
   ],
-  "Rockbox-Y1 Nightly-28-02-2026": [
-   "firmware-catalog.js"
+  "Rockbox-Y1 vs Rockbox-Y2: which build belongs on your player": [
+   "rockbox-y1-vs-y2.html"
   ],
-  "Rockbox-Y1 Nightly-29-07-2026": [
-   "firmware-catalog.js"
+  "Rockbox-Y1: an offline music player with no account": [
+   "rockbox-y1/offline.html"
   ],
-  "Rockbox-Y1 Nightly-29-10-2026": [
-   "firmware-catalog.js"
+  "Rockbox-Y1: install, ROM download and tutorial hub": [
+   "rockbox-y1/index.html"
   ],
-  "Rockbox-Y1 Nightly-30-03-2026": [
-   "firmware-catalog.js"
+  "Rockbox-Y2 240p and 360p builds: choosing a theme resolution": [
+   "rockbox-y2/resolution.html"
   ],
-  "Rockbox-Y1 v0.2": [
-   "firmware-catalog.js"
+  "Rockbox-Y2 FAQ: common questions answered": [
+   "rockbox-y2/faq.html"
   ],
-  "Rockbox-Y1 v0.3": [
-   "firmware-catalog.js"
+  "Rockbox-Y2 ROM download: developer firmware packages": [
+   "rockbox-y2/download.html"
   ],
-  "Rockbox-Y1 v0.4": [
-   "firmware-catalog.js"
+  "Rockbox-Y2 ROM package": [
+   "rockbox-y2/download.html"
   ],
-  "Rockbox-Y1 v0.5": [
-   "firmware-catalog.js"
+  "Rockbox-Y2 and the MicroSD card: .rockbox explained": [
+   "rockbox-y2/sd-card.html"
   ],
-  "Rondo 1.0.0": [
-   "firmware-catalog.js"
+  "Rockbox-Y2 dual boot: switching back to original software": [
+   "rockbox-y2/dual-boot.html"
   ],
-  "Rondo 1.0.1": [
-   "firmware-catalog.js"
+  "Rockbox-Y2 first start: music, themes and settings": [
+   "rockbox-y2/first-start.html"
   ],
-  "Rondo 1.0.2": [
-   "firmware-catalog.js"
+  "Rockbox-Y2 for Innioasis Y2": [
+   "firmware-list.html",
+   "firmware.html"
+  ],
+  "Rockbox-Y2 install problems and how to fix them": [
+   "rockbox-y2/troubleshooting.html"
+  ],
+  "Rockbox-Y2 local ZIP: install from a downloaded ROM package": [
+   "rockbox-y2/portable-zip.html"
+  ],
+  "Rockbox-Y2 themes": [
+   "rockbox-y2-themes.html"
+  ],
+  "Rockbox-Y2 themes: installing and resetting themes on the Y2": [
+   "rockbox-y2-themes.html"
+  ],
+  "Rockbox-Y2 vs Original Software: what changes": [
+   "rockbox-y2/vs-stock.html"
+  ],
+  "Rockbox-Y2: an offline music player with no account": [
+   "rockbox-y2/offline.html"
+  ],
+  "Rockbox-Y2: install, ROM download and tutorial hub": [
+   "rockbox-y2/index.html"
+  ],
+  "Rondo for Innioasis Y1": [
+   "firmware-list.html",
+   "firmware.html"
+  ],
+  "Rondo on Innioasis Y1": [
+   "firmware-list.html"
   ],
   "Running Costs": [
    "support_toolbar.html"
@@ -523,11 +1666,14 @@
   "Running costs and community contributions - click to support": [
    "support_toolbar.html"
   ],
-  "SSP £ XCD EC$ AWG ƒ ANG ƒ KYD CI$ FKP £ GIP £": [
-   "support_toolbar.html"
+  "Sample 360p theme": [
+   "theme_downloader.html"
   ],
-  "SZL E MWK MK MGA Ar SCR ₨ CVE Esc BTN Nu. MMK K KHR ៛ LAK ₭ MNT ₮ MOP MOP$": [
-   "support_toolbar.html"
+  "Sample Rockbox Theme": [
+   "theme_downloader.html"
+  ],
+  "Sample Y1 Theme": [
+   "theme_downloader.html"
   ],
   "Saved to downloads": [
    "lumen-site.js"
@@ -544,8 +1690,85 @@
   "Saving to Downloads": [
    "lumen-site.js"
   ],
+  "Search languages": [
+   "site-locale.js"
+  ],
+  "Select Original Software and a Y2 release.": [
+   "guides/restore-original-y2.html"
+  ],
+  "Select Original Software and a stable release.": [
+   "guides/restore-original-y1.html"
+  ],
+  "Select Rockbox and a Y2 release.": [
+   "guides/rockbox-y2.html"
+  ],
+  "Select Rockbox in the Software dropdown.": [
+   "rockbox-y1/install.html",
+   "rockbox-y2/install.html"
+  ],
+  "Select Y1 in Device Model and JJ Launcher in Software.": [
+   "guides/jj-launcher-y1.html"
+  ],
+  "Select Y1 in Device Model and Rockbox in Software.": [
+   "guides/rockbox-y1.html"
+  ],
+  "Select Y1 in Device Model.": [
+   "guides/restore-original-y1.html"
+  ],
+  "Select Y2 in Device Model and JJ Launcher in Software.": [
+   "guides/jj-launcher-y2.html"
+  ],
+  "Select Y2 in Device Model and Solar in Software.": [
+   "guides/solar-y2.html"
+  ],
+  "Select Y2 in Device Model.": [
+   "guides/restore-original-y2.html",
+   "guides/rockbox-y2.html"
+  ],
+  "Select a different theme from the player's theme settings. If the interface is unusable, rename or delete the .rockbox folder on the card and the build recreates it with defaults on the next boot.": [
+   "rockbox-y1-themes.html"
+  ],
+  "Select a stable release shown for that model and software.": [
+   "firmware-guide.html"
+  ],
   "Select a stable release shown for the": [
    "lumen-site.js"
+  ],
+  "Set Device Model to A5.": [
+   "guides/restore-original-a5.html"
+  ],
+  "Set Device Model to G5.": [
+   "guides/restore-original-g5.html"
+  ],
+  "Set Device Model to Y1.": [
+   "android-4-2-y1-software.html",
+   "better-y-y1-software.html",
+   "inniclassic-y1-software.html",
+   "jj-launcher-y1-software.html",
+   "koensayr-y1-software.html",
+   "linux-y1-software.html",
+   "original-software-y1.html",
+   "rockbox-y1-software.html",
+   "solar-y1-software.html"
+  ],
+  "Set Device Model to Y2 and confirm JJ Launcher is listed.": [
+   "jj-launcher-y2-software.html"
+  ],
+  "Set Device Model to Y2 and confirm Solar is listed.": [
+   "solar-y2-software.html"
+  ],
+  "Set Device Model to Y2.": [
+   "android-4-4-y2-software.html",
+   "inniclassic-y2-software.html",
+   "original-software-y2.html",
+   "rockbox-y2-software.html",
+   "y2player-y2-software.html"
+  ],
+  "Set up the SP Flash Tool bundled with Innioasis Updater, extract the firmware ZIP, load the scatter file, and flash a Y1 or Y2.": [
+   "sp-flash-tool.html"
+  ],
+  "Setup on Mac": [
+   "slidia.html"
   ],
   "Show crypto options · BTC, ETH, SHIB": [
    "support_toolbar.html"
@@ -568,11 +1791,25 @@
   "Software guides by model": [
    "lumen-site.js"
   ],
-  "Solar - Alpha Build 20260716-0131": [
-   "firmware-catalog.js"
+  "Solar firmware for Innioasis Y1": [
+   "solar-y1-software.html"
   ],
-  "Solar Y2 ROM v20261023-0720": [
-   "firmware-catalog.js"
+  "Solar firmware for Innioasis Y2": [
+   "solar-y2-software.html"
+  ],
+  "Solar for Innioasis Y1": [
+   "firmware-list.html",
+   "firmware.html"
+  ],
+  "Solar for Innioasis Y2": [
+   "firmware-list.html",
+   "firmware.html"
+  ],
+  "Solar on Innioasis Y1": [
+   "firmware-list.html"
+  ],
+  "Solar on Innioasis Y2": [
+   "firmware-list.html"
   ],
   "Some features on your player require post-install setup. Follow along with our post-install guide to finish setting up your player.": [
    "lumen-site.js"
@@ -611,16 +1848,25 @@
    "firmware-catalog.js"
   ],
   "TMT m KGS сом TJS SM ZWL Z$ ERN Nfk DJF Fdj BIF FBu KMF CF MRU UM STN Db": [
+   "credits.html",
+   "support_devs.html",
    "support_toolbar.html"
   ],
-  "TND DT DZD DA GHS ₵ TZS TSh UGX USh RWF FRw ETB Br MZN MT ZMW ZK BWP P MUR Rs": [
-   "support_toolbar.html"
+  "TUXX Reviews · player use and Rockbox": [
+   "index.html"
   ],
   "Text size": [
    "support_toolbar.html"
   ],
+  "Thank you.": [
+   "credits.html",
+   "support_devs.html"
+  ],
   "That is the whole": [
    "lumen-site.js"
+  ],
+  "That notice is no longer published. Here is everything that is current.": [
+   "notices.html"
   ],
   "That puts the": [
    "lumen-site.js"
@@ -628,41 +1874,100 @@
   "The Y2 Rockbox build. Select Y2 before choosing this Software.": [
    "firmware-catalog.js"
   ],
+  "The document viewer could not start.": [
+   "post_install.html"
+  ],
+  "The edition changes what this site offers, not just the language.": [
+   "site-locale.js"
+  ],
+  "The notes could not be fetched just now. Try again in a moment, or open the firmware list.": [
+   "release_notes.html"
+  ],
+  "The release notes for this version could not be loaded.": [
+   "release_notes.html"
+  ],
+  "The release notes viewer could not start.": [
+   "release_notes.html"
+  ],
+  "The steps the project asks you to finish after the firmware is installed.": [
+   "post_install.html"
+  ],
   "The stock Software path for restoring an Innioasis Y1.": [
    "firmware-catalog.js"
   ],
   "The stock Software path for restoring an Innioasis Y2.": [
    "firmware-catalog.js"
   ],
+  "Theme and build must share a resolution path. A theme written for 240p builds will not render correctly on a 360p build, and the reverse is also true. Match the theme label to the build label.": [
+   "rockbox-y1-themes.html"
+  ],
   "Themes Gallery": [
-   "nav.js"
+   "credits.html",
+   "nav.js",
+   "support_devs.html"
   ],
   "Themes for Innioasis Y1 & Y2 players": [
    "nav.js"
   ],
+  "Themes loaded successfully!": [
+   "theme_downloader.html"
+  ],
   "There are some final setup steps needed to get Wi-Fi, FM radio, and Bluetooth working on your Y2 using system.img. Follow along with our post-install guide to finish setting up your player.": [
    "lumen-site.js"
+  ],
+  "These are": [
+   "post_install.html"
   ],
   "This is a new test version that adds full support for firmware 3.1.2 and introduces the new Video Player feature!": [
    "firmware-catalog.js"
   ],
   "This month's": [
+   "credits.html",
+   "support_devs.html",
    "support_toolbar.html"
   ],
   "This patch fixes the error that could occur during the update process. Please update to this version to ensure a smooth installation.": [
    "firmware-catalog.js"
   ],
+  "This project has no public releases yet.": [
+   "release_notes.html"
+  ],
+  "This project is here because people chose to help. Thank you for keeping the archive, the tools, and the community moving.": [
+   "credits.html",
+   "support_devs.html"
+  ],
+  "This release has no published notes yet.": [
+   "release_notes.html"
+  ],
   "This week's": [
+   "credits.html",
+   "support_devs.html",
    "support_toolbar.html"
   ],
   "Tick the nightly-builds option to see previews": [
    "lumen-site.js"
   ],
   "Top Supporter": [
+   "credits.html",
+   "support_devs.html",
    "support_toolbar.html"
   ],
-  "USD $ EUR € GBP £ JPY ¥ CNY ¥ INR ₹ AUD A$ CAD CA$ CHF CHF SEK kr NOK kr DKK kr": [
-   "support_toolbar.html"
+  "USB data cable": [
+   "firmware-guide.html",
+   "guide.html",
+   "sp-flash-tool.html"
+  ],
+  "Understanding 240p and 360p Rockbox-Y1 builds on the Innioasis Y1 and how to choose the right build for your themes.": [
+   "rockbox-y1/resolution.html"
+  ],
+  "Understanding 240p and 360p Rockbox-Y2 builds on the Innioasis Y2 and how to choose the right build for your themes.": [
+   "rockbox-y2/resolution.html"
+  ],
+  "Undo Rockbox-Y1: restore the original Y1 software": [
+   "rockbox-y1/restore-stock.html"
+  ],
+  "Undo Rockbox-Y2: restore the original Y2 software": [
+   "rockbox-y2/restore-stock.html"
   ],
   "Unusable FX payload": [
    "support_toolbar.html"
@@ -670,8 +1975,31 @@
   "Unusable donors.csv": [
    "support_toolbar.html"
   ],
-  "Updater CE": [
-   "nav.js"
+  "Update Rockbox-Y1: moving to a newer stable or nightly build": [
+   "rockbox-y1/update.html"
+  ],
+  "Update Rockbox-Y2: moving to a newer stable or nightly build": [
+   "rockbox-y2/update.html"
+  ],
+  "Updater CE does not detect my player when I plug it in.": [
+   "rockbox-y1/troubleshooting.html",
+   "rockbox-y2/troubleshooting.html"
+  ],
+  "Updater CE includes SP Flash Tool on Windows and Linux, and the MTKClient route including macOS, for manual recovery when the normal install can't finish.": [
+   "guides/recovery.html"
+  ],
+  "Updater CE transfers Rockbox themes for you when it can, and walks you through copying them when manual transfer is needed. See the theme guide.": [
+   "rockbox-y1/first-start.html",
+   "rockbox-y2/first-start.html"
+  ],
+  "Use Innioasis Updater CE to install custom firmware or restore official stock firmware on Innioasis and Timmkoo players.": [
+   "firmware-guide.html"
+  ],
+  "Use Innioasis Updater to restore Y2 stock firmware.": [
+   "guides/restore-original-y2.html"
+  ],
+  "Use Innioasis Updater to restore the Y1 stock firmware.": [
+   "guides/restore-original-y1.html"
   ],
   "Used for building ROM releases": [
    "firmware-catalog.js"
@@ -679,14 +2007,26 @@
   "Version 1.0.0 - Initial release": [
    "firmware-catalog.js"
   ],
-  "Version 1.1.0": [
-   "firmware-catalog.js"
+  "View Firmware Archive →": [
+   "credits.html",
+   "support_devs.html"
   ],
   "View Guide": [
    "lumen-site.js"
   ],
+  "View on GitHub": [
+   "release_notes.html"
+  ],
+  "Visit Updater Website →": [
+   "credits.html",
+   "support_devs.html"
+  ],
   "Voice Files v0.2": [
    "firmware-catalog.js"
+  ],
+  "Wait for the completion message before unplugging and turning on your player.": [
+   "rockbox-y1/install.html",
+   "rockbox-y2/install.html"
   ],
   "Wait for the success message, then disconnect and start the player.": [
    "lumen-site.js"
@@ -694,14 +2034,136 @@
   "Watch the video": [
    "docs-viewer.js"
   ],
-  "We donated": [
+  "We rely on your donations to keep running. Donate now": [
+   "credits.html",
+   "support_devs.html",
    "support_toolbar.html"
   ],
-  "We rely on your donations to keep running. Donate now": [
-   "support_toolbar.html"
+  "What changed in this release, and how to install it.": [
+   "release_notes.html"
+  ],
+  "What recovery tools are included with Updater CE?": [
+   "guides/recovery.html"
   ],
   "What the site may remember": [
    "support_toolbar.html"
+  ],
+  "What you need before installing Rockbox-Y1": [
+   "rockbox-y1/requirements.html"
+  ],
+  "What you need before installing Rockbox-Y1 on an Innioasis Y1: a USB data cable, charged battery, computer setup, and model check.": [
+   "rockbox-y1/requirements.html"
+  ],
+  "What you need before installing Rockbox-Y2": [
+   "rockbox-y2/requirements.html"
+  ],
+  "What you need before installing Rockbox-Y2 on an Innioasis Y2: a USB data cable, charged battery, computer setup, and model check.": [
+   "rockbox-y2/requirements.html"
+  ],
+  "Where can I check if my version supports dual boot?": [
+   "rockbox-y1/dual-boot.html",
+   "rockbox-y2/dual-boot.html"
+  ],
+  "Where can I find stock firmware or original restore packages to unbrick my player?": [
+   "firmware-faq.html"
+  ],
+  "Where do I download firmware for recovery?": [
+   "guides/recovery.html"
+  ],
+  "Where do Rockbox-Y1 downloads come from?": [
+   "rockbox-y1/download.html"
+  ],
+  "Where do Rockbox-Y1 themes go on the card?": [
+   "rockbox-y1-themes.html"
+  ],
+  "Where do Rockbox-Y2 downloads come from?": [
+   "rockbox-y2/download.html"
+  ],
+  "Where does Updater CE download Rockbox-Y1 from?": [
+   "rockbox-for-y1.html",
+   "rockbox-y1/faq.html",
+   "rockbox-y1/index.html"
+  ],
+  "Where does Updater CE download Rockbox-Y2 from?": [
+   "rockbox-for-y2.html",
+   "rockbox-y2/faq.html",
+   "rockbox-y2/index.html"
+  ],
+  "Which audio formats are supported?": [
+   "rockbox-y1/offline.html",
+   "rockbox-y2/offline.html"
+  ],
+  "Which devices does the Innioasis Firmware Archive host firmwares for?": [
+   "firmware-faq.html"
+  ],
+  "Which release should I choose?": [
+   "rockbox-y1/install.html",
+   "rockbox-y2/install.html"
+  ],
+  "Why Better-Y for your Innioasis Y1": [
+   "better-y-benefits.html"
+  ],
+  "Why Inniclassic for your Innioasis Y1 and Y2": [
+   "inniclassic-benefits.html"
+  ],
+  "Why JJ Launcher for your Innioasis Y1 or Y2": [
+   "jj-launcher-benefits.html"
+  ],
+  "Why Koensayr for your Innioasis Y1": [
+   "koensayr-benefits.html"
+  ],
+  "Why Rockbox for your Innioasis Y1 or Y2": [
+   "rockbox-benefits.html"
+  ],
+  "Why Rockbox-Y1 on the Innioasis Y1 is ideal for offline listening: local audio files, no accounts, no subscriptions, and tag-based library browsing.": [
+   "rockbox-y1/offline.html"
+  ],
+  "Why Rockbox-Y2 on the Innioasis Y2 is ideal for offline listening: local audio files, no accounts, no subscriptions, and tag-based library browsing.": [
+   "rockbox-y2/offline.html"
+  ],
+  "Why Solar for your Innioasis Y1 or Y2": [
+   "solar-benefits.html"
+  ],
+  "Why Y2Player for your Innioasis Y2": [
+   "y2player-benefits.html"
+  ],
+  "Why can't I see the .rockbox folder on my computer?": [
+   "rockbox-y1/sd-card.html",
+   "rockbox-y2/sd-card.html"
+  ],
+  "Why did my Innioasis Y1 scroll wheel stop working after an update?": [
+   "guides/y1-scroll-wheel-not-working.html"
+  ],
+  "Why did my Innioasis Y2 scroll wheel stop working after an update?": [
+   "guides/y2-scroll-wheel-not-working.html"
+  ],
+  "Why does a Rockbox-Y1 theme look wrong after installing?": [
+   "rockbox-y1-themes.html"
+  ],
+  "Why is my Y1 or Y2 scroll wheel not working?": [
+   "guides/recovery.html"
+  ],
+  "Why won't my Innioasis Y1 turn on?": [
+   "guides/y1-wont-turn-on.html"
+  ],
+  "Why won't my Innioasis Y2 turn on?": [
+   "guides/y2-wont-turn-on.html"
+  ],
+  "Will deleting .rockbox erase my music?": [
+   "rockbox-y1/sd-card.html",
+   "rockbox-y2/sd-card.html"
+  ],
+  "Will installing Rockbox-Y1 erase my music?": [
+   "rockbox-y1/faq.html"
+  ],
+  "Will installing Rockbox-Y2 erase my music?": [
+   "rockbox-y2/faq.html"
+  ],
+  "Will restoring Original Software fix the Y1 scroll wheel?": [
+   "guides/y1-scroll-wheel-not-working.html"
+  ],
+  "Will restoring Original Software fix the Y2 scroll wheel?": [
+   "guides/y2-scroll-wheel-not-working.html"
   ],
   "Y1 ATA ROM for Type A and Type B": [
    "firmware-catalog.js"
@@ -709,280 +2171,7 @@
   "Y1 stock firmware older than 3.0.7 and nightly builds are hidden by default. Tick to include them.": [
    "lumen-site.js"
   ],
-  "Y1 · Type A": [
-   "lumen-site.js"
-  ],
-  "Y1 · Type A · 240p": [
-   "lumen-site.js"
-  ],
-  "Y1 · Type A · 360p": [
-   "lumen-site.js"
-  ],
-  "Y1 · Type B": [
-   "lumen-site.js"
-  ],
-  "Y1 · Type B · 240p": [
-   "lumen-site.js"
-  ],
-  "Y1 · Type B · 360p": [
-   "lumen-site.js"
-  ],
   "Y2 Base ROM for Solar Builds": [
-   "firmware-catalog.js"
-  ],
-  "Y2 Rockbox Beta v0.1.0": [
-   "firmware-catalog.js"
-  ],
-  "Y2 ready": [
-   "lumen-site.js"
-  ],
-  "Y2Linux 1.0 Beta 1": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 2": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 3": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 4": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 4.1": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 5": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 5.1": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 6": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 6.1": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 6.2": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 6.3": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 7": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 7.1": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 7.10": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 7.11": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 7.2": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 7.3": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 7.4": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 7.5": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 7.6": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 7.7": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 7.8": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 7.9": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.0": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.1": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.10": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.11": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.12": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.13": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.14": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.15": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.16": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.17": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.19": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.2": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.20": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.21": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.22": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.23": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.24": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.25": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.26": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.27": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.28": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.29": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.3": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.30": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.31": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.33": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.34": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.35": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.36": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.37": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.38": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.39": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.4": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.40": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.41": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.42": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.43": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.5": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.6": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.7": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 8.8": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.0": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.1": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.2": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.2.10": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.2.11": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.2.12": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.2.13": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.2.14": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.2.15": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.2.16": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.2.2": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.2.3": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.2.4": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.2.5": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.2.6": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.2.7": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.2.8": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.3.12": [
-   "firmware-catalog.js"
-  ],
-  "Y2Linux 1.0 Beta 9.3.7": [
    "firmware-catalog.js"
   ],
   "Y2Linux Baseline 46": [
@@ -1000,32 +2189,80 @@
   "Y2Player 2.0 Complete Media Engine Rewrite": [
    "firmware-catalog.js"
   ],
-  "Y2Player V1.0": [
-   "firmware-catalog.js"
+  "Y2Player firmware for Innioasis Y2": [
+   "y2player-y2-software.html"
   ],
-  "Y2Player V1.2": [
-   "firmware-catalog.js"
+  "Y2Player for Innioasis Y2": [
+   "firmware-list.html",
+   "firmware.html"
   ],
-  "Y2Player V2.1": [
-   "firmware-catalog.js"
+  "Y2Player on Innioasis Y2": [
+   "firmware-list.html"
   ],
-  "Y2Player V2.2": [
-   "firmware-catalog.js"
+  "Yes, at any time through Innioasis Updater CE.": [
+   "rockbox-y1/uninstall.html",
+   "rockbox-y2/uninstall.html"
   ],
-  "Y2Player V2.2.1": [
-   "firmware-catalog.js"
+  "Yes. A flash that loses power can leave the player unusable. Charge it first and connect it directly to the computer rather than through a hub.": [
+   "guides/y1-wont-turn-on.html",
+   "guides/y2-wont-turn-on.html"
   ],
-  "Y2Player V2.2.2": [
-   "firmware-catalog.js"
+  "Yes. Charging your player first prevents it from losing power during the flash.": [
+   "rockbox-y1/requirements.html",
+   "rockbox-y2/requirements.html"
   ],
-  "Y2Player V2.3": [
-   "firmware-catalog.js"
+  "Yes. It uses the same MediaTek flashing process as the factory firmware, and you can restore Original Software at any time. Always use a reliable USB data cable and keep the player charged.": [
+   "rockbox-y1/index.html",
+   "rockbox-y2/index.html"
   ],
-  "Y2Player V2.5": [
-   "firmware-catalog.js"
+  "Yes. Just select the other build in Updater CE and install it.": [
+   "rockbox-y1/resolution.html",
+   "rockbox-y2/resolution.html"
+  ],
+  "Yes. Once the tag database is built, scrolling and searching large MicroSD cards is very fast.": [
+   "rockbox-y1/vs-stock.html",
+   "rockbox-y2/vs-stock.html"
+  ],
+  "Yes. Rockbox, Rockbox-Y1, Rockbox for Y1 and rockbox-y1 all refer to the community Rockbox firmware for the Innioasis Y1.": [
+   "rockbox-for-y1.html"
+  ],
+  "Yes. Rockbox, Rockbox-Y2, Rockbox for Y2 and rockbox-y2 all refer to the community Rockbox port for the Innioasis Y2.": [
+   "rockbox-for-y2.html"
+  ],
+  "Yes. Select Y1 and Original Software in Updater CE to restore factory firmware.": [
+   "rockbox-y1/vs-stock.html"
+  ],
+  "Yes. Select Y2 and Original Software in Updater CE to restore factory firmware.": [
+   "rockbox-y2/vs-stock.html"
+  ],
+  "Yes. Select any earlier release listed for your model in Updater CE and install it the same way.": [
+   "rockbox-y1/update.html",
+   "rockbox-y2/update.html"
+  ],
+  "Yes. Updater CE lists it as Rockbox when Y1 is selected, while guides and release notes call it Rockbox-Y1 so it is clear which player model it is for.": [
+   "rockbox-y1/faq.html"
+  ],
+  "Yes. Updater CE lists it as Rockbox when Y2 is selected, while guides and release notes call it Rockbox-Y2 so it is clear which player model it is for.": [
+   "rockbox-y2/faq.html"
+  ],
+  "Yes. Use the same model-matched Updater CE flow and choose Original Software instead of the community project.": [
+   "firmware-faq.html"
+  ],
+  "Yes. You can reboot into the original software on builds that support dual boot, or restore Original Software in Updater CE.": [
+   "rockbox-y1/first-start.html",
+   "rockbox-y2/first-start.html"
+  ],
+  "Yes. You can switch between Original Software and Rockbox whenever you like.": [
+   "rockbox-y1/restore-stock.html",
+   "rockbox-y2/restore-stock.html"
   ],
   "You've helped us raise": [
+   "credits.html",
+   "support_devs.html",
    "support_toolbar.html"
+  ],
+  "Your Firmware": [
+   "developers.html"
   ],
   "Zero ads or paywalls  -  chip in $3 to support us": [
    "support_toolbar.html"

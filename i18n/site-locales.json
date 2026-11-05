@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-05T04:03:21+00:00",
+ "generated": "2026-11-05T04:28:56+00:00",
  "locales": [
   {
    "code": "de",
@@ -20,6 +20,115 @@
    "dir": "ltr",
    "name": "German (Switzerland)",
    "native": "Deutsch (Schweiz)"
+  },
+  {
+   "code": "es",
+   "dir": "ltr",
+   "name": "Spanish",
+   "native": "Español"
+  },
+  {
+   "base": "es",
+   "code": "es-419",
+   "dir": "ltr",
+   "name": "Spanish (Latin America)",
+   "native": "Español (Latinoamérica)"
+  },
+  {
+   "base": "es",
+   "code": "es-AR",
+   "dir": "ltr",
+   "name": "Spanish (Argentina)",
+   "native": "Español (Argentina)"
+  },
+  {
+   "base": "es",
+   "code": "es-ES",
+   "dir": "ltr",
+   "name": "Spanish (Spain)",
+   "native": "Español (España)"
+  },
+  {
+   "base": "es",
+   "code": "es-MX",
+   "dir": "ltr",
+   "name": "Spanish (Mexico)",
+   "native": "Español (México)"
+  },
+  {
+   "code": "fa",
+   "dir": "rtl",
+   "name": "Persian",
+   "native": "فارسی"
+  },
+  {
+   "code": "fr",
+   "dir": "ltr",
+   "name": "French",
+   "native": "Français"
+  },
+  {
+   "base": "fr",
+   "code": "fr-BE",
+   "dir": "ltr",
+   "name": "French (Belgium)",
+   "native": "Français (Belgique)"
+  },
+  {
+   "base": "fr",
+   "code": "fr-CA",
+   "dir": "ltr",
+   "name": "French (Canada)",
+   "native": "Français (Canada)"
+  },
+  {
+   "base": "fr",
+   "code": "fr-CH",
+   "dir": "ltr",
+   "name": "French (Switzerland)",
+   "native": "Français (Suisse)"
+  },
+  {
+   "code": "he",
+   "dir": "rtl",
+   "name": "Hebrew",
+   "native": "עברית"
+  },
+  {
+   "code": "hi",
+   "dir": "ltr",
+   "name": "Hindi",
+   "native": "हिन्दी"
+  },
+  {
+   "code": "ja",
+   "dir": "ltr",
+   "name": "Japanese",
+   "native": "日本語"
+  },
+  {
+   "code": "ru",
+   "dir": "ltr",
+   "name": "Russian",
+   "native": "Русский"
+  },
+  {
+   "code": "tr",
+   "dir": "ltr",
+   "name": "Turkish",
+   "native": "Türkçe"
+  },
+  {
+   "code": "uk",
+   "dir": "ltr",
+   "name": "Ukrainian",
+   "native": "Українська"
+  },
+  {
+   "code": "zh-CN",
+   "dir": "ltr",
+   "name": "Chinese (Simplified)",
+   "native": "简体中文"
   }
  ]
 }
