@@ -292,7 +292,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_y2.zip",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/rom_y2.zip",
           "size": 355560849,
-          "download_count": 1681,
+          "download_count": 1683,
           "content_type": "application/zip"
         },
         {
@@ -300,7 +300,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/updater.jpg",
           "size": 30612,
-          "download_count": 728,
+          "download_count": 733,
           "content_type": "image/jpeg"
         }
       ]
@@ -321,7 +321,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_y2.zip",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/rom_y2.zip",
           "size": 355558382,
-          "download_count": 505,
+          "download_count": 508,
           "content_type": "application/zip"
         },
         {
@@ -337,7 +337,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.0-fm/updater.jpg",
           "size": 30612,
-          "download_count": 476,
+          "download_count": 478,
           "content_type": "image/jpeg"
         }
       ]
@@ -366,7 +366,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.1.7/updater.jpg",
           "size": 30612,
-          "download_count": 353,
+          "download_count": 356,
           "content_type": "image/jpeg"
         }
       ]
@@ -387,7 +387,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom.zip",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/rom.zip",
           "size": 250125316,
-          "download_count": 7519,
+          "download_count": 7522,
           "content_type": "application/zip"
         },
         {
@@ -395,7 +395,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg",
           "size": 30612,
-          "download_count": 1911,
+          "download_count": 1928,
           "content_type": "image/jpeg"
         }
       ]
@@ -424,7 +424,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg",
           "size": 30612,
-          "download_count": 1741,
+          "download_count": 1754,
           "content_type": "image/jpeg"
         }
       ]
@@ -453,7 +453,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.0.2/updater.jpg",
           "size": 30612,
-          "download_count": 308,
+          "download_count": 309,
           "content_type": "image/jpeg"
         }
       ]
@@ -482,7 +482,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/2.8.2/updater.jpg",
           "size": 30612,
-          "download_count": 301,
+          "download_count": 302,
           "content_type": "image/jpeg"
         }
       ]
@@ -503,7 +503,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_type_b.zip",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/type-b-1.7.6/rom_type_b.zip",
           "size": 176318503,
-          "download_count": 1034,
+          "download_count": 1035,
           "content_type": "application/zip"
         },
         {
@@ -511,7 +511,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/type-b-1.7.6/updater.jpg",
           "size": 30612,
-          "download_count": 102,
+          "download_count": 104,
           "content_type": "image/jpeg"
         }
       ]
@@ -548,7 +548,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/ADB-2.1.9/updater.jpg",
           "size": 30612,
-          "download_count": 288,
+          "download_count": 289,
           "content_type": "image/jpeg"
         }
       ]
@@ -1160,7 +1160,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_q5.zip",
           "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2D_Q5D-WV3.28-20250619/rom_q5.zip",
           "size": 337730694,
-          "download_count": 2,
+          "download_count": 3,
           "content_type": "application/octet-stream"
         },
         {
@@ -1249,7 +1249,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "bootimg.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/bootimg.img.gz",
           "size": 7539259,
-          "download_count": 36,
+          "download_count": 38,
           "content_type": "application/gzip"
         },
         {
@@ -1257,7 +1257,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/manifest.json",
           "size": 4239,
-          "download_count": 105,
+          "download_count": 112,
           "content_type": "application/json"
         },
         {
@@ -1265,7 +1265,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/manifest.sig",
           "size": 64,
-          "download_count": 106,
+          "download_count": 113,
           "content_type": "application/pgp-signature"
         },
         {
@@ -1273,7 +1273,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "recovery.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/recovery.img.gz",
           "size": 7539285,
-          "download_count": 37,
+          "download_count": 39,
           "content_type": "application/gzip"
         },
         {
@@ -1281,7 +1281,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rootfs.ext4.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/rootfs.ext4.gz",
           "size": 51334920,
-          "download_count": 34,
+          "download_count": 36,
           "content_type": "application/gzip"
         },
         {
@@ -1297,7 +1297,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "Y2Linux-1.0.0-beta.9.3.12-first-install.zip",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/Y2Linux-1.0.0-beta.9.3.12-first-install.zip",
           "size": 67418534,
-          "download_count": 7,
+          "download_count": 9,
           "content_type": "application/zip"
         },
         {
@@ -7966,7 +7966,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom.zip",
           "browser_download_url": "https://github.com/jarvissax/rondo/releases/download/v1.0.2/rom.zip",
           "size": 528028371,
-          "download_count": 16,
+          "download_count": 17,
           "content_type": "application/zip"
         },
         {
@@ -7982,7 +7982,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.png",
           "browser_download_url": "https://github.com/jarvissax/rondo/releases/download/v1.0.2/updater.png",
           "size": 12952,
-          "download_count": 60,
+          "download_count": 61,
           "content_type": "image/png"
         }
       ]
@@ -8019,7 +8019,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.png",
           "browser_download_url": "https://github.com/jarvissax/rondo/releases/download/v1.0.1/updater.png",
           "size": 12952,
-          "download_count": 30,
+          "download_count": 31,
           "content_type": "image/png"
         }
       ]
@@ -8056,7 +8056,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.png",
           "browser_download_url": "https://github.com/jarvissax/rondo/releases/download/v1.0.0/updater.png",
           "size": 12952,
-          "download_count": 58,
+          "download_count": 59,
           "content_type": "image/png"
         }
       ]
@@ -8656,7 +8656,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom.zip",
           "browser_download_url": "https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.5/rom.zip",
           "size": 534484127,
-          "download_count": 12568,
+          "download_count": 12569,
           "content_type": "application/zip"
         },
         {
@@ -11468,7 +11468,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_y2.zip",
           "browser_download_url": "https://github.com/ismileblue/y1_launcher/releases/download/launcher-v0.11.6/rom_y2.zip",
           "size": 443395091,
-          "download_count": 408,
+          "download_count": 409,
           "content_type": "application/zip"
         }
       ]
@@ -12196,7 +12196,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_y1_type_a.zip",
           "browser_download_url": "https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/rom_y1_type_a.zip",
           "size": 455462943,
-          "download_count": 3,
+          "download_count": 5,
           "content_type": "application/zip"
         },
         {
@@ -12220,7 +12220,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS.txt",
           "browser_download_url": "https://github.com/JonaszPotoniec/inniclassic-y2/releases/download/20261104/SHA256SUMS.txt",
           "size": 491,
-          "download_count": 2,
+          "download_count": 3,
           "content_type": "text/plain"
         },
         {
@@ -13487,7 +13487,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom.zip",
           "browser_download_url": "https://github.com/Leska1337/better-Y/releases/download/v1.1.0/rom.zip",
           "size": 181243963,
-          "download_count": 342,
+          "download_count": 343,
           "content_type": "application/x-zip-compressed"
         }
       ]
@@ -13590,6 +13590,369 @@ window.INNIOASIS_HARDCODED_RELEASES = {
         }
       ]
     }
+  ],
+  "FabianZettl/inniclassic": [
+    {
+      "id": 399111592,
+      "tag_name": "v1.4.5",
+      "name": "InniClassic 1.4.5",
+      "published_at": "2026-09-29T12:12:13Z",
+      "prerelease": false,
+      "html_url": "https://github.com/FabianZettl/inniclassic/releases/tag/v1.4.5",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "### Fixed\n- **Theme could silently revert to the default after connecting the device as USB Mass Storage** \u2014 the selected theme was persisted only as a numeric index into the SD card's theme folder listing, and that listing's order isn't guaranteed stable across a mount/unmount cycle (common FAT32 behavior). The saved index could end up pointing at a completely different theme once the card was reconnected. The theme's name is now saved alongside the index and resolved by name on startup \u2014 independent of scan order \u2014 with the old index kept only as a fallback for upgrades.\n- **`.scrobbler.log` declared its timestamps as `#TZ/UNKNOWN`** even though they're genuinely UTC (`System.currentTimeMillis()` is always UTC epoch time, regardless of the device's local timezone setting). Now correctly declared as `#TZ/UTC`, so any tool that imports the log trusts the timestamps instead of asking or guessing. Only affects newly created log files \u2014 an existing `.scrobbler.log`'s header isn't rewritten.\n- **On-screen keyboard was missing common punctuation**, making some Wi-Fi passwords (and anything else typed through it \u2014 podcast search, Last.fm login, etc.) impossible to enter. Added `; : , / \\ ( ) [ ] { } < > ' ~` `` ` `` and `|`.\n\n### Install\n- **`rom.zip`** \u2014 flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.\n- **`InniClassic-1.4.5.apk`** \u2014 install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.4.5.apk`.\n\nFull changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md\n",
+      "assets": [
+        {
+          "id": 598138137,
+          "name": "InniClassic-1.4.5.apk",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.4.5/InniClassic-1.4.5.apk",
+          "size": 30017796,
+          "download_count": 59,
+          "content_type": "application/vnd.android.package-archive"
+        },
+        {
+          "id": 598138138,
+          "name": "rom.zip",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.4.5/rom.zip",
+          "size": 463531481,
+          "download_count": 487,
+          "content_type": "application/zip"
+        }
+      ]
+    },
+    {
+      "id": 399100768,
+      "tag_name": "v1.4.4",
+      "name": "InniClassic 1.4.4",
+      "published_at": "2026-09-29T11:57:38Z",
+      "prerelease": false,
+      "html_url": "https://github.com/FabianZettl/inniclassic/releases/tag/v1.4.4",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "A hardware-input overhaul: a real Hold/lock switch, a proper video/music handoff, and a round of Now Playing and Videos polish.\n\n### Added\n- **Hold (key lock)** \u2014 hold Center for 0.8s to lock the wheel/buttons (and physically turn the display off); hold Center again to unlock. This is the real fix for \"screen wakes up randomly in my pocket\": instead of guessing which button presses are accidental, you can now lock input entirely, matching the real iPod Classic's Hold switch.\n- **Toggle Favorite is back in the Now Playing hold-menu** (long-press Play/Pause) \u2014 caught and fixed before release: the redesigned Center gesture handling below removed the old \"double-click Center\" favorite shortcut without anywhere else to reach it.\n\n### Fixed\n- **Video Play/Pause was starting music instead of pausing the video.** Two compounding bugs: the hardware media-button receiver didn't know about video and would call the music player regardless of what was on screen (with \"Screen Off Control\" enabled), and opening a video didn't stop any music that was already playing. Both fixed.\n- **Videos list ignored the wheel/Center** in some cases \u2014 the screen was unconditionally swallowing every key before the shared list-navigation code could see it.\n- **Now Playing wheel seeking** is now a real preview-then-confirm: turning the wheel in Seek mode moves a pending position in 5-second steps without touching actual playback, applied only once you press Center again. The preview no longer gets silently overwritten by the background progress update.\n- Center-button handling is now centralized in one place \u2014 fixes a hold sometimes also registering as a select, and holding Center no longer opens the song menu or toggles video seek mode (that's long Play/Pause and short Center respectively now).\n- Pausing on the Classic theme no longer dims the album artwork or leaves a leftover audio-format overlay on screen; the selected Now Playing bottom-bar mode survives a pause/resume.\n- Removed a duplicate progress-callback registration.\n\n### Changed\n- More compact Now Playing progress/volume bars, fixed-width time labels, and evenly spaced rating marks.\n- Video now seeks via Previous/Next (\u00b110s); the wheel is volume-only during video playback.\n- Classic Videos list shares the same background/row styling as every other list.\n\nFull engineering write-up: [`docs/release-review-1.4.4.md`](https://github.com/FabianZettl/inniclassic/blob/master/docs/release-review-1.4.4.md).\n\n### Install\n- **`rom.zip`** \u2014 flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.\n- **`InniClassic-1.4.4.apk`** \u2014 install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.4.4.apk`.\n\nFull changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md\n",
+      "assets": [
+        {
+          "id": 598101369,
+          "name": "InniClassic-1.4.4.apk",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.4.4/InniClassic-1.4.4.apk",
+          "size": 30000629,
+          "download_count": 6,
+          "content_type": "application/vnd.android.package-archive"
+        },
+        {
+          "id": 598101368,
+          "name": "rom.zip",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.4.4/rom.zip",
+          "size": 463523953,
+          "download_count": 19,
+          "content_type": "application/zip"
+        }
+      ]
+    },
+    {
+      "id": 394052904,
+      "tag_name": "v1.4.3",
+      "name": "InniClassic 1.4.3",
+      "published_at": "2026-09-22T19:31:04Z",
+      "prerelease": false,
+      "html_url": "https://github.com/FabianZettl/inniclassic/releases/tag/v1.4.3",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "A theme-consistency pass plus a round of real correctness/security fixes underneath, including a Last.fm crash and a Wireless PC Upload path-traversal issue.\n\n### Changed\n- **Classic themes tightened up**: edge-to-edge, tighter main-menu rows; consistent 21dp bold list type; saturated blue selection gradient shared by both the dynamic menus and library lists; silver status-bar gradient, darker secondary text, and more compact chevrons.\n- Battery silhouette is more rectangular, and battery percentage is now clamped to 0\u2013100.\n- Main Menu, Cover Flow, Wi-Fi and equalizer views now use generated Android view IDs with a stable logical-key mapping instead of ad hoc constants.\n\n### Fixed\n- **Last.fm scrobbling could crash its background worker outright** \u2014 the pending-scrobble queue called `JSONArray.remove(int)`, which doesn't exist on the Y1's Android API 17 (added in API 19). Also, Last.fm can return HTTP 200 with an API-level error payload, which was previously treated as a successful scrobble and silently dropped instead of retried.\n- **Wireless PC Upload (the web server) had a path-traversal weakness** \u2014 file operations now canonicalize and confine paths to the shared root, reject cross-origin writes, and render filenames as plain text. Interrupted uploads now write to a temp file and atomically replace the target only once complete, so a dropped connection can no longer corrupt an existing file. Server connections now have timeouts and a bounded worker pool; shutdown properly closes active sockets.\n- Recycled album rows in the library list could show a stale cover thumbnail if an in-flight request finished after the row was recycled for a different album.\n- Removed a duplicate broadcast-receiver registration and duplicate manifest permission entries; added the newer Android receiver-flags overload with an API 17 fallback and additional Bluetooth/location permission checks.\n- Sound Check no longer calls an API-19-only method unguarded on this API-17 device.\n- Launcher icons switched from WebP to PNG for reliable API 17 rendering; fixed a malformed vector icon path.\n- Audiobook bookmark saving now checks the playlist index is still valid before writing.\n\nFull engineering write-up: [`docs/release-review-1.4.3.md`](https://github.com/FabianZettl/inniclassic/blob/master/docs/release-review-1.4.3.md).\n\n### Install\n- **`rom.zip`** \u2014 flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.\n- **`InniClassic-1.4.3.apk`** \u2014 install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.4.3.apk`.\n\nFull changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md\n",
+      "assets": [
+        {
+          "id": 582091804,
+          "name": "InniClassic-1.4.3.apk",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.4.3/InniClassic-1.4.3.apk",
+          "size": 29869268,
+          "download_count": 28,
+          "content_type": "application/vnd.android.package-archive"
+        },
+        {
+          "id": 582091803,
+          "name": "rom.zip",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.4.3/rom.zip",
+          "size": 463538077,
+          "download_count": 140,
+          "content_type": "application/zip"
+        }
+      ]
+    },
+    {
+      "id": 381130813,
+      "tag_name": "v1.4.2",
+      "name": "InniClassic 1.4.2",
+      "published_at": "2026-09-02T09:40:27Z",
+      "prerelease": false,
+      "html_url": "https://github.com/FabianZettl/inniclassic/releases/tag/v1.4.2",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Theme-consistency and Podcasts fixes from user feedback.\n\n### Fixed\n- **Status bar headphone/Bluetooth icons were hardcoded white**, making them nearly invisible on the light iPod Classic theme's light gray status bar. Now use the theme's own text color like the rest of the status bar.\n- **On-screen keyboard's selected character was unreadable on the light theme** \u2014 pure white text on a barely-tinted overlay meant it could blend into a light background almost completely. The keyboard panel's backdrop is now solidly dark so the white text always has real contrast, regardless of theme.\n- **Podcast episode loading always said \"No internet connection\"** even when the real problem was something else entirely (a bad feed URL, a server error, an expired certificate, malformed XML, etc.) \u2014 the actual error was being silently discarded. The toast now shows the real failure reason so it's actually possible to diagnose.\n\n### Added\n- **[`tools/airpods_fix/`](https://github.com/FabianZettl/inniclassic/tree/master/tools/airpods_fix)** \u2014 an experimental, opt-in fix for AirPods Pro 2 connecting over Bluetooth but staying silent, ported from [Semy0nBu/y1-airpods-rtpfix](https://github.com/Semy0nBu/y1-airpods-rtpfix) (all credit for the original fix goes there). Not bundled into the ROM or APK \u2014 it replaces a system-level Bluetooth driver, which is riskier and affects all Bluetooth devices, not just AirPods, so it ships as a separate, clearly-documented install/uninstall script pair instead of being forced on everyone. Read its README for the exact risk tradeoffs before using it.\n\n### Install\n- **`rom.zip`** \u2014 flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.\n- **`InniClassic-1.4.2.apk`** \u2014 install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.4.2.apk`.\n\nFull changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md\n",
+      "assets": [
+        {
+          "id": 540948765,
+          "name": "InniClassic-1.4.2.apk",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.4.2/InniClassic-1.4.2.apk",
+          "size": 27225340,
+          "download_count": 33,
+          "content_type": "application/vnd.android.package-archive"
+        },
+        {
+          "id": 540948764,
+          "name": "rom.zip",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.4.2/rom.zip",
+          "size": 463673525,
+          "download_count": 265,
+          "content_type": "application/zip"
+        }
+      ]
+    },
+    {
+      "id": 378604464,
+      "tag_name": "v1.4.1",
+      "name": "InniClassic 1.4.1",
+      "published_at": "2026-08-28T16:06:23Z",
+      "prerelease": false,
+      "html_url": "https://github.com/FabianZettl/inniclassic/releases/tag/v1.4.1",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Video feature catch-up, a new boot logo, and another round of Reddit-reported fixes.\n\n### Added\n- **Video thumbnails** \u2014 the Videos list shows a real frame from each file instead of a generic icon, loaded in the background.\n- **Video resume-position** \u2014 playback remembers where you left off and jumps back there next time you open that file.\n- **Fill Video Screen** setting \u2014 Settings \u2192 Fill Video Screen lets you choose between the original aspect ratio (letterboxed) or filling the whole screen. Direct response to a GitHub issue request.\n- **New boot logo** \u2014 replaces the Rockbox-branded splash the ROM's `LOGO` partition had carried over since this project's very first release with a plain black screen showing \"InniClassic\".\n\n### Changed\n- **Larger list/settings text** \u2014 Songs/Albums/Artists/Genres/Composers rows, folder browsing, and every Settings row are a bit bigger.\n- **Cover Flow now groups by artist** \u2014 previously sorted purely alphabetically by album title; now sorted by artist first, album second, matching the real iPod Classic.\n\n### Fixed\n- **Folders with many files lagged noticeably when opened** \u2014 rows now build in chunks instead of all at once, so the screen stays responsive.\n- **Screen could randomly wake up in a pocket while listening to music** \u2014 only the Center button now wakes the real display back up (was any key before, which pocket pressure on the wheel could trigger).\n\n### Install\n- **`rom.zip`** \u2014 flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.\n- **`InniClassic-1.4.1.apk`** \u2014 install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.4.1.apk`.\n\nFull changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md\n",
+      "assets": [
+        {
+          "id": 534032002,
+          "name": "InniClassic-1.4.1.apk",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.4.1/InniClassic-1.4.1.apk",
+          "size": 27225053,
+          "download_count": 19,
+          "content_type": "application/vnd.android.package-archive"
+        },
+        {
+          "id": 534032001,
+          "name": "rom.zip",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.4.1/rom.zip",
+          "size": 463673952,
+          "download_count": 140,
+          "content_type": "application/zip"
+        }
+      ]
+    },
+    {
+      "id": 372998177,
+      "tag_name": "v1.3.2",
+      "name": "InniClassic 1.3.2",
+      "published_at": "2026-08-19T11:33:34Z",
+      "prerelease": false,
+      "html_url": "https://github.com/FabianZettl/inniclassic/releases/tag/v1.3.2",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Small follow-up polish release.\n\n### Fixed\n- **Videos screen looked out of place** compared to every other menu (Settings, Bluetooth, Wi-Fi) \u2014 it was missing the uppercase title header those screens have. Added, matching the existing look exactly.\n\n### Install\n- **`rom.zip`** \u2014 flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.\n- **`InniClassic-1.3.2.apk`** \u2014 install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.3.2.apk`.\n\nFull changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md\n",
+      "assets": [
+        {
+          "id": 520762401,
+          "name": "InniClassic-1.3.2.apk",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.3.2/InniClassic-1.3.2.apk",
+          "size": 27222719,
+          "download_count": 20,
+          "content_type": "application/vnd.android.package-archive"
+        },
+        {
+          "id": 520762400,
+          "name": "rom.zip",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.3.2/rom.zip",
+          "size": 463770674,
+          "download_count": 165,
+          "content_type": "application/zip"
+        }
+      ]
+    },
+    {
+      "id": 364388580,
+      "tag_name": "v1.3.1",
+      "name": "InniClassic 1.3.1",
+      "published_at": "2026-08-03T17:38:17Z",
+      "prerelease": false,
+      "html_url": "https://github.com/FabianZettl/inniclassic/releases/tag/v1.3.1",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Another round of Reddit-reported bugs, mostly around the Music library screens.\n\n### Fixed\n- **\"Albums\" was completely broken** \u2014 tapping into it either showed a black screen, froze, or silently bounced back to the Music menu. The row renderer was doing a full library scan plus a synchronous `MediaMetadataRetriever` lookup on the UI thread for every row, every time it scrolled into view \u2014 fine for a handful of albums, but an ANR/freeze risk for a real-sized library. Cover art lookup now runs on a background thread (placeholder shown immediately, real art swapped in once ready), and the per-album file lookup is precomputed once instead of rescanning the whole library per row.\n- **Videos screen: nothing could be selected or played** \u2014 rows were added to the list but never given initial focus, so spinning the wheel had no \"current\" row to move from (you'd hear the click sound but nothing would highlight or respond). Now the first row gets focus like every other list in the app.\n- **Some FLAC albums showed no cover art in \"Albums\"** (but did show it correctly on Now Playing/Cover Flow) \u2014 the Albums screen's cover lookup skipped embedded art entirely for FLAC files with no fallback, so only albums with a folder `cover.jpg`/`folder.jpg` showed anything. It now uses the same dedicated FLAC metadata parser Now Playing already relies on.\n- **Confusion around Last.fm scrobbling / \"where's my .scrobbler.log?\"** \u2014 the local scrobble log was silently gated behind the \"Scrobble to Last.fm\" toggle (off by default) even though it's just a private text file that needs no account. It's now written automatically for every played track, no setup required; the Settings toggle (renamed **Sync Scrobbles to Last.fm**) now only controls whether scrobbles are *also* sent to a real Last.fm account. Also documented in the README that `.scrobbler.log` is a dotfile and hidden by default in most file managers.\n- **Cover art looking noticeably blurry/soft while panning** on the Main Menu and Music menu \u2014 cover art was always decoded at half resolution regardless of its actual size, which compounded badly for anyone using smaller (e.g. 300\u00d7300) cover images against a pan panel rendered near full screen height. Downsampling now only kicks in for genuinely large source images; small covers are decoded at full resolution. README now recommends 600\u00d7600 minimum, 1000\u00d71000+ ideally.\n\n### Install\n- **`rom.zip`** \u2014 flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.\n- **`InniClassic-1.3.1.apk`** \u2014 install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.3.1.apk`.\n\nFull changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md\n",
+      "assets": [
+        {
+          "id": 500343480,
+          "name": "InniClassic-1.3.1.apk",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.3.1/InniClassic-1.3.1.apk",
+          "size": 27222661,
+          "download_count": 12,
+          "content_type": "application/vnd.android.package-archive"
+        },
+        {
+          "id": 500343475,
+          "name": "rom.zip",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.3.1/rom.zip",
+          "size": 463770936,
+          "download_count": 249,
+          "content_type": "application/zip"
+        }
+      ]
+    },
+    {
+      "id": 361554822,
+      "tag_name": "v1.3.0",
+      "name": "InniClassic 1.3.0",
+      "published_at": "2026-07-29T06:55:01Z",
+      "prerelease": false,
+      "html_url": "https://github.com/FabianZettl/inniclassic/releases/tag/v1.3.0",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "A Music Quiz overhaul, a Now Playing polish pass, and another batch of Reddit-reported bugs \u2014 mostly sleep/wake and audio.\n\n### Added\n- **Music Quiz: five new question types** \u2014 alongside \"What song is playing?\", it can now ask which artist released a track, which album it's from, what year it came out, and what genre it is (each only offered when your library actually has enough distinct values to make a fair question). Also new: a visual question type showing 3 album covers side by side to pick from instead of text answers.\n- **Music Quiz: all 4 answers now fit on screen at once**, no more scrolling to see the other options.\n\n### Changed\n- **Now Playing**: the album cover sits slightly lower, spacing between Title/Artist/Album is now perfectly consistent, the star rating moved between Album and the track counter, and the \"X of Y\" track counter is bold at the same size as the rest of the info block.\n- Documented the existing (but easy-to-miss) **synced lyrics** support: drop a `.lrc` file next to a song (same filename) or embed lyrics in ID3/FLAC/ALAC tags, then long-press Center on Now Playing \u2192 Toggle Visualizer to see them scroll in sync with playback.\n\n### Fixed\n- **Screen never came back on after the backlight timer put it to sleep** \u2014 two separate bugs:\n  - The \"virtual\" sleep used while FM Radio or the web server is running (so the CPU stays alive) never had any code path that turned it back off. Once triggered, the screen stayed black forever (vibration/click feedback still worked) until a full reboot.\n  - The \"real\" sleep used during ordinary music playback simulates a power-button press to turn the display off, but nothing ever simulated a second press to turn it back on.\n- **Full device lockup (required a paperclip reset) playing FM Radio through wired headphones for a few minutes** \u2014 the backlight timer's \"virtual sleep\" path was also toggling Wi-Fi off while the FM tuner was active. On this chipset, FM/Wi-Fi/Bluetooth share the same combo radio hardware; killing Wi-Fi mid-session could wedge it badly enough to need a hard reset. Wi-Fi is now left alone whenever the radio is on.\n- **Screen dimming during active use** \u2014 the default Backlight Timer was 10 seconds. Now 1 minute (still adjustable down to 10s in Settings).\n- **Bluetooth headphones (reported with AirPods) noticeably quiet** \u2014 a known AVRCP \"absolute volume\" quirk. Absolute volume is now disabled on connect, so headphones use their own physical volume control.\n- **Some FLAC files failed with \"Legacy Player Error: 262\"** \u2014 failing files now automatically retry once through ExoPlayer's FLAC extension instead of giving up outright.\n\n### Install\n- **`rom.zip`** \u2014 flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.\n- **`InniClassic-1.3.0.apk`** \u2014 install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.3.0.apk`.\n\nFull changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md\n",
+      "assets": [
+        {
+          "id": 493714047,
+          "name": "InniClassic-1.3.0.apk",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.3.0/InniClassic-1.3.0.apk",
+          "size": 27221900,
+          "download_count": 16,
+          "content_type": "application/vnd.android.package-archive"
+        },
+        {
+          "id": 493714045,
+          "name": "rom.zip",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.3.0/rom.zip",
+          "size": 463775055,
+          "download_count": 180,
+          "content_type": "application/zip"
+        }
+      ]
+    },
+    {
+      "id": 360635995,
+      "tag_name": "v1.2.0",
+      "name": "InniClassic 1.2.0",
+      "published_at": "2026-07-27T18:44:11Z",
+      "prerelease": false,
+      "html_url": "https://github.com/FabianZettl/inniclassic/releases/tag/v1.2.0",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Video playback, gapless playback, and a full visual consistency pass across every screen.\n\n### Added\n- **Video playback** - new \"Videos\" entry in the Main Menu, its own folder on the SD card (`/storage/sdcard0/Videos`), full-screen player with wheel-driven volume/seek. **Now powered by libVLC instead of ExoPlayer** - ExoPlayer's precise frame-timing API only exists from Android API 21 onward, and its fallback for older devices turned out to be broken on the Y1's API 17 (audio and the position clock stayed correct, but picture played back several times faster than real time). libVLC brings its own native AV-sync engine independent of that Android API, giving stable, correctly-synced playback. Audio-only playback is untouched and still runs on ExoPlayer. Thumbnails in the video list and resume-position are still unaddressed for now - see `tools/handbrake_y1_preset.json` for a ready-to-import HandBrake preset tuned for smooth playback on the Y1's chip.\n- **Gapless playback** - automatically kicks in for albums/playlists of 15 tracks or fewer, with shuffle off and no FLAC in the queue. Track transitions inside a gapless queue no longer stop and reload.\n- **Favorites are always visible now** on Now Playing - hollow heart normally, filled red heart when favorited, instead of nothing at all unless already a favorite.\n\n### Changed\n- Unified font sizes, left alignment, and row spacing across every menu (Main Menu, Music menu, Artists, Albums, Songs, Settings/Bluetooth/Wi-Fi).\n- Right-arrow indicator now only shows on the focused row, everywhere.\n- Thinner status bar matching real iPod proportions; narrows to the left column on both Main Menu and Music menu so the album cover bleeds behind it.\n- Main Menu and Music menu covers now share the exact same slow \"Ken Burns\" panning animation.\n- Bigger Now Playing album cover, bolder track counter, marquee-scrolling long titles, glass-look progress bar.\n- Larger album cover thumbnails in the Albums list.\n\n### Fixed\n- Focus arrow color was theme-dependent instead of fixed white.\n- A recycled list row's blue focused background could get incorrectly reset regardless of actual focus state.\n- Now Playing's progress ticker and the clock/widget refresh loop kept doing full work every 0.5-1s even when not visible (or during virtual screen-off) - both now sit idle unless actually needed. Should help battery life.\n\n### Install\n- **`rom.zip`** - flash via the [Innioasis Updater](https://www.innioasis.com/pages/download), no ADB required. Must keep the filename exactly `rom.zip`.\n- **`InniClassic-1.2.0.apk`** - install over an existing JJ Launcher / InniClassic install via `adb install InniClassic-1.2.0.apk`.\n\nFull changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md\n",
+      "assets": [
+        {
+          "id": 491900121,
+          "name": "InniClassic-1.2.0.apk",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.2.0/InniClassic-1.2.0.apk",
+          "size": 31349729,
+          "download_count": 14,
+          "content_type": "application/vnd.android.package-archive"
+        },
+        {
+          "id": 491900122,
+          "name": "rom.zip",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.2.0/rom.zip",
+          "size": 463513542,
+          "download_count": 103,
+          "content_type": "application/zip"
+        }
+      ]
+    },
+    {
+      "id": 360134623,
+      "tag_name": "v1.1.2",
+      "name": "InniClassic 1.1.2",
+      "published_at": "2026-07-26T22:45:12Z",
+      "prerelease": false,
+      "html_url": "https://github.com/FabianZettl/inniclassic/releases/tag/v1.1.2",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Bug-fix release based on more Reddit feedback from multiple users.\n\n### Fixed\n- **Crash browsing Artists, Album Artists, Albums, Songs, or Genres** - songs with a missing artist/album tag could carry a `null` value that crashed the launcher wherever it was later compared. Every song now always gets a safe \"Unknown Artist\"/\"Unknown Album\" fallback.\n- **FLAC files stuck at 0:00** - the fallback engine that FLAC was supposed to use was never actually being switched on.\n- **Screen turning off during active use** - spinning the wheel now correctly resets the auto-lock timer.\n- **Charging indicator** - the battery icon now actually draws a lightning bolt while charging (the code for it existed but was never enabled).\n- Long album/track names no longer overlap the battery/Bluetooth icons in the status bar.\n\n### Added\n- **Shuffle** row at the top of All Songs, matching the stock Y1 firmware.\n- **FM Radio** is back in the Main Menu (it had quietly disappeared from the theme config).\n\n### Install\n- **rom.zip** - flash via the Innioasis Updater, no ADB required. Must keep the filename exactly rom.zip. Ships the latest Y1 Firmware 3.1.2 with InniClassic pre-installed.\n- **InniClassic-1.1.2.apk** - install over an existing JJ Launcher / InniClassic install via adb install InniClassic-1.1.2.apk.\n\nFull changelog: https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md\n",
+      "assets": [
+        {
+          "id": 490752766,
+          "name": "InniClassic-1.1.2.apk",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.1.2/InniClassic-1.1.2.apk",
+          "size": 7020639,
+          "download_count": 7,
+          "content_type": "application/vnd.android.package-archive"
+        },
+        {
+          "id": 490752767,
+          "name": "rom.zip",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.1.2/rom.zip",
+          "size": 457809513,
+          "download_count": 33,
+          "content_type": "application/zip"
+        }
+      ]
+    },
+    {
+      "id": 358990913,
+      "tag_name": "v1.1.1",
+      "name": "v1.1.1 - InniClassic: now flashable via Innioasis Updater",
+      "published_at": "2026-07-23T22:38:48Z",
+      "prerelease": false,
+      "html_url": "https://github.com/FabianZettl/inniclassic/releases/tag/v1.1.1",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "The project is now named **InniClassic** (still based on and credited to [JJ Launcher](https://github.com/ismileblue/y1_launcher) \u2014 see README). Same 1.1.1 build as before, no functional version bump for the rename itself.\n\n### \ud83c\udd95 Now installable as a full ROM\n`rom.zip` flashes directly via the [Innioasis Updater](https://www.innioasis.com/pages/download) \u2014 no ADB, no manual uninstall step. It ships the latest **Y1 Firmware 3.1.2** with InniClassic pre-installed as the system launcher. Just select the zip in the Updater and follow the prompts (the Updater expects this exact filename, so don't rename it after downloading).\n\nThe APK (`InniClassic-1.1.1.apk`) is still available too, for updating an existing JJ Launcher-based install via ADB \u2014 see the README's Method 2.\n\n### Also in this build\n- New **iPod Classic (Dark)** theme\n- iPod Classic is now the true first-launch default theme\n- Fixed Bluetooth A2DP `connect()` failing on some speakers (missing `BLUETOOTH_PRIVILEGED`/`WRITE_SECURE_SETTINGS`, now self-granted at startup)\n- New **Album Cover Tilt** setting to turn off the Now Playing 3D tilt\n- Fixed track titles sometimes showing their file extension (`.ogg`, `.wav`, etc.)\n- Music menu: split \"Artists\" into **Artists** (track artist) and **Album Artists** (album artist), matching real iPod Classic\n- Music Quiz restructured into 5 rounds of 8 questions, with round-complete and victory screens\n- A PC-side script ([`tools/build_library_cache.py`](https://github.com/FabianZettl/inniclassic/blob/master/tools/build_library_cache.py)) to pre-build the library scan cache for large libraries, so the device doesn't have to re-tag everything on next boot\n- Plus the two Reddit-reported fixes from the original 1.1.1 (invisible web server text, wheel active while locked) \u2014 see below\n\n### Fixed (original 1.1.1 fixes)\n- Wireless PC Upload (web server) status text was hardcoded white, invisible against the iPod Classic theme's white background. Same issue fixed on the Bluetooth/Wi-Fi/Brightness/Storage/Settings screen titles.\n- The wheel stayed active while the device was locked (screen off) and could still change the volume \u2014 the guard for this existed but lived in a method that never actually ran on this device; moved to where it's effective.\n\nFull changelog: [CHANGELOG.md](https://github.com/FabianZettl/inniclassic/blob/master/CHANGELOG.md)\n\n> [!WARNING]\n> Updating from an older APK install? Uninstall it first (`adb uninstall com.themoon.y1` or `adb shell pm uninstall --user 0 com.themoon.y1`) \u2014 see the README's Installation section. The ROM method doesn't need this.",
+      "assets": [
+        {
+          "id": 489365718,
+          "name": "InniClassic-1.1.1.apk",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.1.1/InniClassic-1.1.1.apk",
+          "size": 8795490,
+          "download_count": 14,
+          "content_type": "application/vnd.android.package-archive"
+        },
+        {
+          "id": 489512937,
+          "name": "rom.zip",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.1.1/rom.zip",
+          "size": 457676727,
+          "download_count": 41,
+          "content_type": "application/zip"
+        }
+      ]
+    },
+    {
+      "id": 358514731,
+      "tag_name": "v1.1.0",
+      "name": "v1.1.0 - Now Playing sub-menus, star ratings, On-The-Go, Main Menu cleanup",
+      "published_at": "2026-07-23T07:20:00Z",
+      "prerelease": false,
+      "html_url": "https://github.com/FabianZettl/inniclassic/releases/tag/v1.1.0",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "Focused on getting closer to the real iPod Classic experience \u2014 especially a proper depth to the Now Playing screen, plus a cleanup pass on the Main Menu and some visual consistency fixes.\n\n### Added\n- **Now Playing sub-menus**: a center-click on the Now Playing screen now cycles through four states, exactly like a real iPod Classic \u2014 Progress bar \u2192 Seek (scrub bar with a diamond thumb, wheel jumps the track \u00b15s) \u2192 Shuffle & Repeat (quick toggle, wheel cycles each) \u2192 Rating (wheel sets 1-5 stars) \u2192 back to Progress. The wheel reverts to volume control outside of these states, same as on a real device.\n- **Star ratings**: rate any track 1-5 stars from the Now Playing Rating state above; shown as \u2605\u2605\u2605\u2606\u2606 under the track counter.\n- **On-The-Go playlist**: the classic always-available instant playlist. Reachable as a one-tap \"Add to On-The-Go\" action from the Now Playing hold-menu, or as a pinned entry in the full Add to Playlist dialog.\n- **Now Playing hold-menu**: long-press Center on Now Playing for Add to On-The-Go, Browse Album, Browse Artist, and Cancel \u2014 matching the real iPod's menu, plus a Toggle Visualizer entry for this fork's bonus spectrum/lyrics view.\n- **Composers** grouping in the Music menu, alongside the existing Artists/Albums/Genres/Years grouping.\n- **Fast-scroll letter jump**: spin the wheel quickly through an alphabetized list (Artists/Albums/Songs/Genres/Composers/Search) to jump straight to the next first-letter group, with an on-screen letter overlay while jumping \u2014 tuned so it triggers reliably without being overly twitchy on a quick spin.\n- Status bar now shows the current screen's name (Music/Now Playing/Settings/etc.) instead of a clock, matching the real iPod's title bar.\n\n### Changed\n- **Main Menu cleanup**: Cover Flow, Audiobooks, Folders, Years, Recently Added, and My Favorites have moved out of the Main Menu and into the Music menu where they belong on a real iPod. Main Menu is back down to Now Playing, Music, Music Quiz, Podcasts, Bluetooth, Wi-Fi, Settings, and Web Server.\n- The Main Menu's split-view album cover now genuinely fills the entire remaining screen edge-to-edge (computed from the real screen size) instead of a fixed-size box, so it bleeds above the status bar the same way the Music menu's cover panel already did.\n\n### Fixed\n- Menu text size was inconsistent between screens: Music-menu-style rows (Artists/Albums/Composers/Songs/Settings) were sized in `sp` while the Main Menu's buttons were sized in raw pixels \u2014 same nominal number, different unit, so they never quite matched. Everything now renders at the exact same size.\n\nFull changelog: [CHANGELOG.md](https://github.com/FabianZettl/jj-launcher-classic/blob/master/CHANGELOG.md)\n\n> [!WARNING]\n> If you have an older version installed, uninstall it first (`adb uninstall com.themoon.y1` or `adb shell pm uninstall --user 0 com.themoon.y1`) before installing this APK \u2014 see the README's Installation section for the full mandatory step-by-step (including replacing the stock JJ Launcher).",
+      "assets": [
+        {
+          "id": 486895523,
+          "name": "JJLauncherClassic-1.1.0.apk",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.1.0/JJLauncherClassic-1.1.0.apk",
+          "size": 6891463,
+          "download_count": 22,
+          "content_type": "application/vnd.android.package-archive"
+        }
+      ]
+    },
+    {
+      "id": 357260931,
+      "tag_name": "v1.0.0",
+      "name": "JJ Launcher Classic Version 1.0.0",
+      "published_at": "2026-07-21T10:23:15Z",
+      "prerelease": false,
+      "html_url": "https://github.com/FabianZettl/inniclassic/releases/tag/v1.0.0",
+      "icon_url": "",
+      "icon_dark_url": "",
+      "body": "First public release. Based on JJ Launcher 0.11.\n\n## Added\n- Bundled \"iPod Classic\" theme: two-pane Main Menu and Music menu with a full-bleed panning album cover, angled Now Playing cover with reflection, redesigned Artist/Album lists (icon-free, large covers, \"All Songs\" per artist), a text search screen, and system-wide bold Nimbus Sans typography\n- Last.fm scrobbling: local Rockbox-style `.scrobbler.log` + live API scrobbling with browser-based login\n- Music Quiz: first version of the classic iPod Music Quiz mini-game, styled after the original's \"Fruitiger Aero\" look\n- OGG Vorbis playback and library support (including auto-detection of Opus-encoded files mislabeled as `.ogg`)\n- Main Menu shortcuts for Music Quiz, Podcasts, Audiobooks, Folders, Years, Recently Added, My Favorites\n\n## Fixed\n- Duplicate songs in album track lists after interrupted scans\n- Missing album art in Artist -> Albums lists (folder cover.jpg/folder.jpg fallback)\n- OGG files not appearing in the library\n- OOM crash loop scanning large libraries\n- Album art forced to true 1:1 crop\n\n## Notes\n- Currently only tested/available for the **Innioasis Y1**, on System Software 2.1.9\n- **Prerequisite:** device must already be running JJ Launcher (installed via the [Innioasis Updater](https://www.innioasis.com/pages/download)) - this release replaces the launcher app itself, not the device firmware\n- Install with `adb install -r JJLauncherClassic-1.0.0.apk`\n- This APK is debug-signed (no production keystore has been set up yet for this fork)\n\nSee [CHANGELOG.md](https://github.com/FabianZettl/jj-launcher-classic/blob/master/CHANGELOG.md) for the full list.",
+      "assets": [
+        {
+          "id": 484543796,
+          "name": "JJLauncherClassic-1.0.0.apk",
+          "browser_download_url": "https://github.com/FabianZettl/inniclassic/releases/download/v1.0.0/JJLauncherClassic-1.0.0.apk",
+          "size": 6872425,
+          "download_count": 30,
+          "content_type": "application/vnd.android.package-archive"
+        }
+      ]
+    }
   ]
 };
 
@@ -13606,36 +13969,43 @@ window.INNIOASIS_RELEASE_ICONS = {
 };
 
 window.INNIOASIS_REPO_STATS = {
+  "fabianzettl/inniclassic": {
+    "downloads": 2102,
+    "forks": 8,
+    "release_count": 13,
+    "stars": 18,
+    "updated_at": "2026-11-01T09:49:06Z"
+  },
   "ismileblue/y1_launcher": {
-    "downloads": 24304,
+    "downloads": 24305,
     "forks": 5,
     "release_count": 30,
     "stars": 23,
     "updated_at": "2026-11-02T14:49:32Z"
   },
   "jarvissax/rondo": {
-    "downloads": 202,
+    "downloads": 206,
     "forks": 1,
     "release_count": 3,
     "stars": 0,
     "updated_at": "2026-11-03T08:50:53Z"
   },
   "jonaszpotoniec/inniclassic-y2": {
-    "downloads": 1122,
+    "downloads": 1125,
     "forks": 1,
     "release_count": 13,
     "stars": 8,
     "updated_at": "2026-11-04T13:49:56Z"
   },
   "leska1337/better-y": {
-    "downloads": 540,
+    "downloads": 541,
     "forks": 1,
     "release_count": 2,
     "stars": 8,
     "updated_at": "2026-10-05T06:12:33Z"
   },
   "rockbox-y1/rockbox": {
-    "downloads": 49887,
+    "downloads": 49888,
     "forks": 20,
     "release_count": 29,
     "stars": 85,
@@ -13649,7 +14019,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-10-15T03:03:06Z"
   },
   "schulzcode/y2linux": {
-    "downloads": 14301,
+    "downloads": 14323,
     "forks": 5,
     "release_count": 87,
     "stars": 20,
@@ -13704,19 +14074,12 @@ window.INNIOASIS_REPO_STATS = {
     "stars": 0,
     "updated_at": "2026-11-05T04:15:40Z"
   },
-  "y1-community/inniclassic-y2-mirror": {
-    "downloads": 227,
-    "forks": 0,
-    "release_count": 13,
-    "stars": 0,
-    "updated_at": "2026-11-04T22:40:25Z"
-  },
   "y1-community/innioasis-updater": {
-    "downloads": 68161,
+    "downloads": 68167,
     "forks": 14,
     "release_count": 72,
     "stars": 55,
-    "updated_at": "2026-11-05T07:15:47Z"
+    "updated_at": "2026-11-05T08:43:46Z"
   },
   "y1-community/koensayr-auto-mirror": {
     "downloads": 4,
@@ -13740,7 +14103,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-05T06:43:53Z"
   },
   "y1-community/q5-stock-rom": {
-    "downloads": 7,
+    "downloads": 8,
     "forks": 0,
     "release_count": 3,
     "stars": 0,
@@ -13782,11 +14145,11 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-05T04:11:50Z"
   },
   "y1-community/updater-ce-neo": {
-    "downloads": 576,
+    "downloads": 592,
     "forks": 0,
-    "release_count": 3,
+    "release_count": 4,
     "stars": 0,
-    "updated_at": "2026-11-05T06:44:07Z"
+    "updated_at": "2026-11-05T07:54:45Z"
   },
   "y1-community/y1-ata-rom": {
     "downloads": 639,
@@ -13817,7 +14180,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-04T21:29:30Z"
   },
   "y1-community/y1-stock-rom": {
-    "downloads": 43719,
+    "downloads": 43773,
     "forks": 0,
     "release_count": 9,
     "stars": 6,
