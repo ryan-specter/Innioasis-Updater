@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-11-05T08:43:47Z",
+  "generated_at": "2026-11-05T09:17:51Z",
   "manifest_url": "https://innioasis.app/slidia_manifest.xml",
   "firmware_list_url": "https://innioasis.app/firmware-list.html",
   "feeds": {
@@ -294,7 +294,7 @@
     },
     "y1-community/y2player-mirror": {
       "source_repo": "schulzcode/y2player",
-      "updated_at": "2026-11-05T08:43:47Z"
+      "updated_at": "2026-11-05T09:17:51Z"
     }
   }
 }
