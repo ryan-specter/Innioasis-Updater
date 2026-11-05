@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-11-05T06:45:52Z",
+  "generated_at": "2026-11-05T07:03:24Z",
   "manifest_url": "https://innioasis.app/slidia_manifest.xml",
   "firmware_list_url": "https://innioasis.app/firmware-list.html",
   "feeds": {
@@ -152,12 +152,6 @@
       "releases_atom": "https://innioasis.app/feeds/y1-community/y1-stock-rom-mirror/releases.atom",
       "repo_json": "https://innioasis.app/feeds/y1-community/y1-stock-rom-mirror/repo.json"
     },
-    "NoahDomingues/Lithium": {
-      "repo": "NoahDomingues/Lithium",
-      "releases_json": "https://innioasis.app/feeds/noahdomingues/lithium/releases.json",
-      "releases_atom": "https://innioasis.app/feeds/noahdomingues/lithium/releases.atom",
-      "repo_json": "https://innioasis.app/feeds/noahdomingues/lithium/repo.json"
-    },
     "y1-community/y2linux-mirror": {
       "repo": "y1-community/y2linux-mirror",
       "releases_json": "https://innioasis.app/feeds/y1-community/y2linux-mirror/releases.json",
@@ -304,7 +298,7 @@
     },
     "y1-community/y2player-mirror": {
       "source_repo": "schulzcode/y2player",
-      "updated_at": "2026-11-05T06:45:52Z"
+      "updated_at": "2026-11-05T07:03:24Z"
     }
   }
 }

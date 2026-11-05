@@ -32,14 +32,6 @@ window.INNIOASIS_README_PAGES = {
       "better-y-y1"
     ]
   },
-  "noahdomingues/lithium": {
-    "name": "Lithium",
-    "page": "firmware-info/noahdomingues-lithium.html",
-    "slugs": [
-      "lithium-q3e",
-      "lithium-q5"
-    ]
-  },
   "rockbox-y1/rockbox": {
     "name": "Rockbox",
     "page": "firmware-info/rockbox-y1-rockbox.html",

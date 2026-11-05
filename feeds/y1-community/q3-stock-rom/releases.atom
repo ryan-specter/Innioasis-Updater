@@ -13,8 +13,8 @@
     <link rel="alternate" type="text/html" href="https://github.com/y1-community/q3-stock-rom/releases/tag/MX2E-WVGA_TM-WV3.23-20250528"/>
     <innioasis:tag_name>MX2E-WVGA_TM-WV3.23-20250528</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2E-WVGA_TM-WV3.23-20250528/rom_q3.zip" title="rom_q3.zip" length="286142520" type="application/octet-stream" innioasis:download_count="0" innioasis:asset_id="712345016"/>
-    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2E-WVGA_TM-WV3.23-20250528/SHA256SUMS.MX2E-WVGA_TM-WV3.23-20250528" title="SHA256SUMS.MX2E-WVGA_TM-WV3.23-20250528" length="78" type="application/octet-stream" innioasis:download_count="0" innioasis:asset_id="712346082"/>
+    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2E-WVGA_TM-WV3.23-20250528/rom_q3.zip" title="rom_q3.zip" length="286142520" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712345016"/>
+    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2E-WVGA_TM-WV3.23-20250528/SHA256SUMS.MX2E-WVGA_TM-WV3.23-20250528" title="SHA256SUMS.MX2E-WVGA_TM-WV3.23-20250528" length="78" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712346082"/>
     <content type="text">Original Timmkoo Q3 software **MX2E-WVGA_TM-WV3.23-20250528**.
 
 - Model: **Q3** (Timmkoo)
@@ -48,8 +48,8 @@ Full archive: &lt;https://innioasis.app/firmware.html?model=Q3&gt;</content>
     <link rel="alternate" type="text/html" href="https://github.com/y1-community/q3-stock-rom/releases/tag/MX2D-WVGA_TM-WV3.20-20250618"/>
     <innioasis:tag_name>MX2D-WVGA_TM-WV3.20-20250618</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2D-WVGA_TM-WV3.20-20250618/rom_q3.zip" title="rom_q3.zip" length="280175608" type="application/octet-stream" innioasis:download_count="0" innioasis:asset_id="712344131"/>
-    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2D-WVGA_TM-WV3.20-20250618/SHA256SUMS.MX2D-WVGA_TM-WV3.20-20250618" title="SHA256SUMS.MX2D-WVGA_TM-WV3.20-20250618" length="78" type="application/octet-stream" innioasis:download_count="0" innioasis:asset_id="712344894"/>
+    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2D-WVGA_TM-WV3.20-20250618/rom_q3.zip" title="rom_q3.zip" length="280175608" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712344131"/>
+    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2D-WVGA_TM-WV3.20-20250618/SHA256SUMS.MX2D-WVGA_TM-WV3.20-20250618" title="SHA256SUMS.MX2D-WVGA_TM-WV3.20-20250618" length="78" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712344894"/>
     <content type="text">Original Timmkoo Q3 software **MX2D-WVGA_TM-WV3.20-20250618**.
 
 - Model: **Q3** (Timmkoo)
@@ -83,8 +83,8 @@ Full archive: &lt;https://innioasis.app/firmware.html?model=Q3&gt;</content>
     <link rel="alternate" type="text/html" href="https://github.com/y1-community/q3-stock-rom/releases/tag/MX2-ES-WV4.01-20250619"/>
     <innioasis:tag_name>MX2-ES-WV4.01-20250619</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2-ES-WV4.01-20250619/rom_q3.zip" title="rom_q3.zip" length="282112139" type="application/octet-stream" innioasis:download_count="0" innioasis:asset_id="712342980"/>
-    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2-ES-WV4.01-20250619/SHA256SUMS.MX2-ES-WV4.01-20250619" title="SHA256SUMS.MX2-ES-WV4.01-20250619" length="78" type="application/octet-stream" innioasis:download_count="0" innioasis:asset_id="712344035"/>
+    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2-ES-WV4.01-20250619/rom_q3.zip" title="rom_q3.zip" length="282112139" type="application/octet-stream" innioasis:download_count="2" innioasis:asset_id="712342980"/>
+    <link rel="enclosure" href="https://github.com/y1-community/q3-stock-rom/releases/download/MX2-ES-WV4.01-20250619/SHA256SUMS.MX2-ES-WV4.01-20250619" title="SHA256SUMS.MX2-ES-WV4.01-20250619" length="78" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712344035"/>
     <content type="text">Original Timmkoo Q3 software **MX2-ES-WV4.01-20250619**.
 
 - Model: **Q3** (Timmkoo)

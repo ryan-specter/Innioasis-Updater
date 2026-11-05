@@ -292,7 +292,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_y2.zip",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.2.1/rom_y2.zip",
           "size": 355560849,
-          "download_count": 1680,
+          "download_count": 1681,
           "content_type": "application/zip"
         },
         {
@@ -395,7 +395,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.1.2/updater.jpg",
           "size": 30612,
-          "download_count": 1908,
+          "download_count": 1911,
           "content_type": "image/jpeg"
         }
       ]
@@ -424,7 +424,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "updater.jpg",
           "browser_download_url": "https://github.com/y1-community/y1-stock-rom/releases/download/3.0.7/updater.jpg",
           "size": 30612,
-          "download_count": 1739,
+          "download_count": 1741,
           "content_type": "image/jpeg"
         }
       ]
@@ -571,7 +571,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_g1.zip",
           "browser_download_url": "https://github.com/y1-community/g1-stock-rom/releases/download/MX3-G1-EN-WM-V5.01-20260805/rom_g1.zip",
           "size": 1645800503,
-          "download_count": 2,
+          "download_count": 3,
           "content_type": "application/octet-stream"
         },
         {
@@ -1071,7 +1071,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_q3.zip",
           "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2E-WVGA_TM-WV3.23-20250528/rom_q3.zip",
           "size": 286142520,
-          "download_count": 0,
+          "download_count": 1,
           "content_type": "application/octet-stream"
         },
         {
@@ -1079,7 +1079,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS.MX2E-WVGA_TM-WV3.23-20250528",
           "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2E-WVGA_TM-WV3.23-20250528/SHA256SUMS.MX2E-WVGA_TM-WV3.23-20250528",
           "size": 78,
-          "download_count": 0,
+          "download_count": 1,
           "content_type": "application/octet-stream"
         }
       ]
@@ -1100,7 +1100,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_q3.zip",
           "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2D-WVGA_TM-WV3.20-20250618/rom_q3.zip",
           "size": 280175608,
-          "download_count": 0,
+          "download_count": 1,
           "content_type": "application/octet-stream"
         },
         {
@@ -1108,7 +1108,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS.MX2D-WVGA_TM-WV3.20-20250618",
           "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2D-WVGA_TM-WV3.20-20250618/SHA256SUMS.MX2D-WVGA_TM-WV3.20-20250618",
           "size": 78,
-          "download_count": 0,
+          "download_count": 1,
           "content_type": "application/octet-stream"
         }
       ]
@@ -1129,7 +1129,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_q3.zip",
           "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2-ES-WV4.01-20250619/rom_q3.zip",
           "size": 282112139,
-          "download_count": 0,
+          "download_count": 2,
           "content_type": "application/octet-stream"
         },
         {
@@ -1137,7 +1137,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS.MX2-ES-WV4.01-20250619",
           "browser_download_url": "https://github.com/y1-community/q3-stock-rom/releases/download/MX2-ES-WV4.01-20250619/SHA256SUMS.MX2-ES-WV4.01-20250619",
           "size": 78,
-          "download_count": 0,
+          "download_count": 1,
           "content_type": "application/octet-stream"
         }
       ]
@@ -1160,7 +1160,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_q5.zip",
           "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2D_Q5D-WV3.28-20250619/rom_q5.zip",
           "size": 337730694,
-          "download_count": 0,
+          "download_count": 1,
           "content_type": "application/octet-stream"
         },
         {
@@ -1168,7 +1168,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS.MX2D_Q5D-WV3.28-20250619",
           "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2D_Q5D-WV3.28-20250619/SHA256SUMS.MX2D_Q5D-WV3.28-20250619",
           "size": 78,
-          "download_count": 0,
+          "download_count": 1,
           "content_type": "application/octet-stream"
         }
       ]
@@ -1189,7 +1189,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_q5.zip",
           "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2-WVGA_TM-WV3.27-20250528/rom_q5.zip",
           "size": 344107791,
-          "download_count": 0,
+          "download_count": 1,
           "content_type": "application/octet-stream"
         },
         {
@@ -1197,7 +1197,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS.MX2-WVGA_TM-WV3.27-20250528",
           "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2-WVGA_TM-WV3.27-20250528/SHA256SUMS.MX2-WVGA_TM-WV3.27-20250528",
           "size": 78,
-          "download_count": 0,
+          "download_count": 1,
           "content_type": "application/octet-stream"
         }
       ]
@@ -1218,7 +1218,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rom_q5.zip",
           "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2-ES_Q5-WV5.02-20250619/rom_q5.zip",
           "size": 344010052,
-          "download_count": 0,
+          "download_count": 1,
           "content_type": "application/octet-stream"
         },
         {
@@ -1226,7 +1226,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "SHA256SUMS.MX2-ES_Q5-WV5.02-20250619",
           "browser_download_url": "https://github.com/y1-community/q5-stock-rom/releases/download/MX2-ES_Q5-WV5.02-20250619/SHA256SUMS.MX2-ES_Q5-WV5.02-20250619",
           "size": 78,
-          "download_count": 0,
+          "download_count": 1,
           "content_type": "application/octet-stream"
         }
       ]
@@ -1249,7 +1249,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "bootimg.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/bootimg.img.gz",
           "size": 7539259,
-          "download_count": 35,
+          "download_count": 36,
           "content_type": "application/gzip"
         },
         {
@@ -1257,7 +1257,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.json",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/manifest.json",
           "size": 4239,
-          "download_count": 103,
+          "download_count": 104,
           "content_type": "application/json"
         },
         {
@@ -1265,7 +1265,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "manifest.sig",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/manifest.sig",
           "size": 64,
-          "download_count": 104,
+          "download_count": 105,
           "content_type": "application/pgp-signature"
         },
         {
@@ -1273,7 +1273,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "recovery.img.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/recovery.img.gz",
           "size": 7539285,
-          "download_count": 36,
+          "download_count": 37,
           "content_type": "application/gzip"
         },
         {
@@ -1281,7 +1281,7 @@ window.INNIOASIS_HARDCODED_RELEASES = {
           "name": "rootfs.ext4.gz",
           "browser_download_url": "https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/rootfs.ext4.gz",
           "size": 51334920,
-          "download_count": 33,
+          "download_count": 34,
           "content_type": "application/gzip"
         },
         {
@@ -13590,113 +13590,6 @@ window.INNIOASIS_HARDCODED_RELEASES = {
         }
       ]
     }
-  ],
-  "NoahDomingues/Lithium": [
-    {
-      "id": 225161267,
-      "tag_name": "v7.1.06.13.25",
-      "name": "Lithium 7 Beta",
-      "published_at": "2025-06-13T12:57:19Z",
-      "prerelease": false,
-      "html_url": "https://github.com/NoahDomingues/Lithium/releases/tag/v7.1.06.13.25",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "## Lithium 7 Beta (pre-release) v7.1.06.13.25\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/9167a80e-4368-42c6-885d-6e374467f574\">](https://discord.gg/3zbfaTNN7V)\r\n\r\nThis is a very early beta release of Lithium 7, complete with kernel & ramdisk, with built-in Xposed support. It has achieved a record-setting boot time of just _40 seconds_, as opposed to the 1:04 boot time of Lithium 5.\r\n\r\nIf you have any issues, feel free to join the **[discussion](https://github.com/NoahDomingues/Lithium/discussions)**, or join the **[Discord server](https://discord.gg/3zbfaTNN7V)**. We recommend joining for updates, and even to just to hang out with the community - we even have our own Minecraft server!\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/f61046f5-1dc5-4b0c-87f8-4a94d6cbac96\">](https://discord.gg/3zbfaTNN7V)\r\n\r\n**Full Changelog**: https://github.com/NoahDomingues/Lithium/commits/Lithium-7\r\n\r\n## What's Changed\r\n* Updated initial boot logo\r\n* Added scatter file within flashing package\r\n* Attempted speaker audio fix, but speaker still does not work\r\n\r\n#### A massive thank you to **Meowing Kibble** for the new initial boot logo, and for other contributions (and for working on the speaker issue)!",
-      "assets": [
-        {
-          "id": 263633229,
-          "name": "Lithium.Beta.v7.1.06.13.25.zip",
-          "browser_download_url": "https://github.com/NoahDomingues/Lithium/releases/download/v7.1.06.13.25/Lithium.Beta.v7.1.06.13.25.zip",
-          "size": 307094451,
-          "download_count": 1078,
-          "content_type": "application/x-zip-compressed"
-        }
-      ]
-    },
-    {
-      "id": 224055014,
-      "tag_name": "v7.1.06.09.25",
-      "name": "Lithium 7 Beta",
-      "published_at": "2025-06-09T14:45:37Z",
-      "prerelease": true,
-      "html_url": "https://github.com/NoahDomingues/Lithium/releases/tag/v7.1.06.09.25",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "## Lithium 7 Beta (pre-release) v7.1.06.09.25\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/9167a80e-4368-42c6-885d-6e374467f574\">](https://discord.gg/3zbfaTNN7V)\r\n\r\nThis is a very early beta release of Lithium 7, complete with kernel & ramdisk, with built-in Xposed support. It has achieved a record-setting boot time of just _40 seconds_, as opposed to the 1:04 boot time of Lithium 5.\r\n\r\nIf you have any issues, feel free to join the **[discussion](https://github.com/NoahDomingues/Lithium/discussions)**, or join the **[Discord server](https://discord.gg/3zbfaTNN7V)**.\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/f61046f5-1dc5-4b0c-87f8-4a94d6cbac96\">](https://discord.gg/3zbfaTNN7V)\r\n\r\n**Full Changelog**: https://github.com/NoahDomingues/Lithium/commits/Lithium-7\r\n\r\n## What's Changed\r\n* Upgraded to Lithium 7 from Lithium 5 by @NoahDomingues in https://github.com/NoahDomingues/Lithium/pull/4\r\n* Update SECURITY.MD and other policies by @ItsNoahDomingues in https://github.com/NoahDomingues/Lithium/pull/5\r\n\r\n## New Contributors\r\n* @NoahDomingues made their first contribution in https://github.com/NoahDomingues/Lithium/pull/4\r\n* @ItsNoahDomingues made their first contribution in https://github.com/NoahDomingues/Lithium/pull/5\r\n\r\n**Full Changelog (since last release)**: https://github.com/NoahDomingues/Lithium/compare/Kernel...v0.1.06.09.25",
-      "assets": [
-        {
-          "id": 262341064,
-          "name": "Lithium.7.v7.1.06.09.25.zip",
-          "browser_download_url": "https://github.com/NoahDomingues/Lithium/releases/download/v7.1.06.09.25/Lithium.7.v7.1.06.09.25.zip",
-          "size": 328910851,
-          "download_count": 95,
-          "content_type": "application/x-zip-compressed"
-        }
-      ]
-    },
-    {
-      "id": 224527513,
-      "tag_name": "Scatter-v7.1.06.11.25",
-      "name": "Lithium 7 Scatter v7.1.06.11.25",
-      "published_at": "2025-06-11T08:19:26Z",
-      "prerelease": false,
-      "html_url": "https://github.com/NoahDomingues/Lithium/releases/tag/Scatter-v7.1.06.11.25",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "## Lithium 7 Scatter File v7.1.06.11.25\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/9167a80e-4368-42c6-885d-6e374467f574\">](https://discord.gg/3zbfaTNN7V)\r\n\r\nThis is the scatter file for **Lithium 7** and **Lithium 7 Beta**, which allows you to flash the OS using MediaTek SP Flash Tool.\r\n\r\nIf you have any issues, feel free to join the **[discussion](https://github.com/NoahDomingues/Lithium/discussions)**, or join the **[Discord server](https://discord.gg/3zbfaTNN7V)**.\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/f61046f5-1dc5-4b0c-87f8-4a94d6cbac96\">](https://discord.gg/3zbfaTNN7V)\r\n\r\n**Full Changelog**: https://github.com/NoahDomingues/Lithium/commits/Lithium-7\r\n\r\n## New Contributors\r\n* @NoahDomingues made their first contribution in https://github.com/NoahDomingues/Lithium/pull/4\r\n* @ItsNoahDomingues made their first contribution in https://github.com/NoahDomingues/Lithium/pull/5\r\n\r\n**Full Changelog**: https://github.com/NoahDomingues/Lithium/compare/Kernel-v7.1.06.09.25...Scatter-v7.1.06.11.25",
-      "assets": [
-        {
-          "id": 262868441,
-          "name": "MT6582_Android_scatter.txt",
-          "browser_download_url": "https://github.com/NoahDomingues/Lithium/releases/download/Scatter-v7.1.06.11.25/MT6582_Android_scatter.txt",
-          "size": 6876,
-          "download_count": 120,
-          "content_type": "text/plain"
-        }
-      ]
-    },
-    {
-      "id": 224062420,
-      "tag_name": "Kernel-v7.1.06.09.25",
-      "name": "Lithium 7 Kernel v7.1.06.09.25",
-      "published_at": "2025-06-09T14:55:05Z",
-      "prerelease": false,
-      "html_url": "https://github.com/NoahDomingues/Lithium/releases/tag/Kernel-v7.1.06.09.25",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "## Lithium 7 Kernel v7.1.06.09.25\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/9167a80e-4368-42c6-885d-6e374467f574\">](https://discord.gg/3zbfaTNN7V)\r\n\r\nThis is a first official release of the Lithium 7 Android kernel & ramdisk, with built-in Xposed support.\r\n\r\nYou can use this kernel with _some_ other Android 7 ROMs for Timmkoo devices, and you are welcome to modify the kernel and contribute with any changes.\r\n\r\nIf you have any issues, feel free to join the **[discussion](https://github.com/NoahDomingues/Lithium/discussions)**, or join the **[Discord server](https://discord.gg/3zbfaTNN7V)**.\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/f61046f5-1dc5-4b0c-87f8-4a94d6cbac96\">](https://discord.gg/3zbfaTNN7V)\r\n\r\n**Full Changelog**: https://github.com/NoahDomingues/Lithium/commits/Kernel\r\n\r\n## What's Changed\r\n* Added Discord badge to ReadMe. by @NoahDomingues in https://github.com/NoahDomingues/Lithium/pull/4\r\n* Update SECURITY.MD by @ItsNoahDomingues in https://github.com/NoahDomingues/Lithium/pull/5\r\n\r\n## New Contributors\r\n* @NoahDomingues made their first contribution in https://github.com/NoahDomingues/Lithium/pull/4\r\n* @ItsNoahDomingues made their first contribution in https://github.com/NoahDomingues/Lithium/pull/5\r\n\r\n**Full Changelog**: https://github.com/NoahDomingues/Lithium/compare/Kernel...Kernel-v7.1.06.09.25\r\n\r\nThis project, and this particular ROM, was made possible entirely with the efforts of **[Palutenfan123](https://github.com/timmkoo)**. It was his discovery and his work that brought this into existence; therefore, he deserves full credit for it. Also thanks to him for providing the hosting services for our [website](https://lithium.timmkoo.de). He maintains his own custom ROM, called T-ROM, available [here](https://timmkoo.de).",
-      "assets": [
-        {
-          "id": 262344908,
-          "name": "boot.img",
-          "browser_download_url": "https://github.com/NoahDomingues/Lithium/releases/download/Kernel-v7.1.06.09.25/boot.img",
-          "size": 5208064,
-          "download_count": 41,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    },
-    {
-      "id": 223022623,
-      "tag_name": "Kernel",
-      "name": "Lithium 5 Kernel Beta v0.06.04.25",
-      "published_at": "2025-06-04T10:21:13Z",
-      "prerelease": true,
-      "html_url": "https://github.com/NoahDomingues/Lithium/releases/tag/Kernel",
-      "icon_url": "",
-      "icon_dark_url": "",
-      "body": "## Lithium 5 Kernel Beta v0.06.04.25\r\n\r\nThis is a beta release of the Lithium 5 Android kernel & ramdisk, with built-in Magisk support.\r\n\r\nYou can use this kernel with any other Android 5 ROM for Timmkoo devices, and you are welcome to modify the kernel and contribute with any changes.\r\n\r\nIf you have any issues, feel free to join the **[discussion](https://github.com/NoahDomingues/Lithium/discussions)**, or join the **[Discord server](https://discord.gg/3zbfaTNN7V)**.\r\n\r\n[<img src=\"https://github.com/user-attachments/assets/f61046f5-1dc5-4b0c-87f8-4a94d6cbac96\">](https://discord.gg/3zbfaTNN7V)\r\n\r\n**Full Changelog**: https://github.com/NoahDomingues/Lithium/commits/Kernel",
-      "assets": [
-        {
-          "id": 260861043,
-          "name": "boot.img",
-          "browser_download_url": "https://github.com/NoahDomingues/Lithium/releases/download/Kernel/boot.img",
-          "size": 4681728,
-          "download_count": 16,
-          "content_type": "application/octet-stream"
-        }
-      ]
-    }
   ]
 };
 
@@ -13741,13 +13634,6 @@ window.INNIOASIS_REPO_STATS = {
     "stars": 8,
     "updated_at": "2026-10-05T06:12:33Z"
   },
-  "noahdomingues/lithium": {
-    "downloads": 1350,
-    "forks": 6,
-    "release_count": 5,
-    "stars": 9,
-    "updated_at": "2026-10-29T20:56:54Z"
-  },
   "rockbox-y1/rockbox": {
     "downloads": 49887,
     "forks": 20,
@@ -13763,7 +13649,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-10-15T03:03:06Z"
   },
   "schulzcode/y2linux": {
-    "downloads": 14294,
+    "downloads": 14299,
     "forks": 5,
     "release_count": 87,
     "stars": 20,
@@ -13798,7 +13684,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-05T01:45:55Z"
   },
   "y1-community/g1-stock-rom": {
-    "downloads": 14,
+    "downloads": 15,
     "forks": 0,
     "release_count": 6,
     "stars": 0,
@@ -13826,11 +13712,11 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-04T22:40:25Z"
   },
   "y1-community/innioasis-updater": {
-    "downloads": 68160,
+    "downloads": 68161,
     "forks": 14,
     "release_count": 72,
     "stars": 55,
-    "updated_at": "2026-11-05T06:45:45Z"
+    "updated_at": "2026-11-05T07:03:20Z"
   },
   "y1-community/koensayr-auto-mirror": {
     "downloads": 4,
@@ -13847,14 +13733,14 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-05T06:28:10Z"
   },
   "y1-community/q3-stock-rom": {
-    "downloads": 0,
+    "downloads": 7,
     "forks": 0,
     "release_count": 3,
     "stars": 0,
     "updated_at": "2026-11-05T06:43:53Z"
   },
   "y1-community/q5-stock-rom": {
-    "downloads": 0,
+    "downloads": 6,
     "forks": 0,
     "release_count": 3,
     "stars": 0,
@@ -13896,7 +13782,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-05T04:11:50Z"
   },
   "y1-community/updater-ce-neo": {
-    "downloads": 574,
+    "downloads": 575,
     "forks": 0,
     "release_count": 3,
     "stars": 0,
@@ -13931,7 +13817,7 @@ window.INNIOASIS_REPO_STATS = {
     "updated_at": "2026-11-04T21:29:30Z"
   },
   "y1-community/y1-stock-rom": {
-    "downloads": 43707,
+    "downloads": 43713,
     "forks": 0,
     "release_count": 9,
     "stars": 6,
