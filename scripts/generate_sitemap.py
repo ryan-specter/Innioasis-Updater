@@ -40,6 +40,7 @@ SKIP_DIRS = {
     "scripts",
     "feeds",
     "assets",
+    "dist",
 }
 # 404 is not a page to index, support_toolbar.html is an HTML fragment that is
 # injected into other pages, firmware_info.html is noindex and innioasis-embed.html
@@ -69,6 +70,8 @@ def page_files() -> list[pathlib.Path]:
 def url_for(rel: str) -> str:
     if rel == "index.html":
         return SITE + "/"
+    if rel == "install/index.html":
+        return SITE + "/install/"
     return SITE + "/" + rel
 
 
@@ -91,6 +94,10 @@ def changefreq_for(rel: str) -> str:
 def priority_for(rel: str) -> str:
     if rel == "index.html":
         return "1.0"
+    if rel == "install/index.html":
+        return "0.9"
+    if rel.startswith("install/"):
+        return "0.8"
     if rel in ("firmware.html", "firmware-list.html"):
         return "0.9"
     if rel.startswith(("release-notes/", "post-install/", "firmware-info/", "rockbox-y1/", "rockbox-y2/")):

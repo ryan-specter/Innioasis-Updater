@@ -15,6 +15,16 @@
 - [Developer guide](https://innioasis.app/developers.html): How to develop a custom firmware from a base ROM and publish it to the Updater manifest.
 - [Support](https://innioasis.app/support_devs.html): How to contribute, report issues, and support the projects.
 
+## Install guides by computer
+
+- [All install guides](https://innioasis.app/install/): every software and model combination on Windows, macOS and Linux, with platform setup, Updater CE steps and the stock restore path.
+- [Windows install guides](https://innioasis.app/install/windows.html): MediaTek driver, SmartScreen and Updater CE setup for Windows.
+- [macOS install guides](https://innioasis.app/install/mac.html): Gatekeeper approval, direct USB and Updater CE setup for Intel and Apple Silicon Macs.
+- [Linux install guides](https://innioasis.app/install/linux.html): AppImage, libfuse2 and the MediaTek udev rule.
+- [Rockbox on Y2 with a Mac](https://innioasis.app/install/rockbox-y2-mac.html): the macOS Rockbox-Y2 route.
+- [Reborn (Y2Linux) on Y2 with Linux](https://innioasis.app/install/reborn-y2linux-y2-linux.html): installing y2reborn on a Linux computer.
+- [JJ Launcher on Y1 with a Windows PC](https://innioasis.app/install/jj-launcher-y1-windows.html): the Windows JJ Launcher route.
+
 ## Install guides by software
 
 - [Rockbox on Y1](https://innioasis.app/rockbox-y1-software.html): Model-first Rockbox install tutorial for the Y1.

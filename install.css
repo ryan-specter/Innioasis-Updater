@@ -1,0 +1,303 @@
+/* OS-specific install guides (/install/). Built on the shared lumen pages. */
+
+.install-page .lumen-guide {
+  width: min(1120px, calc(100% - 2rem));
+}
+
+.install-crumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .35rem;
+  margin: 0 0 1.4rem;
+  color: var(--lumen-muted, #a9a294);
+  font-size: .82rem;
+  line-height: 1.5;
+}
+
+.install-crumb a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.install-crumb a:hover,
+.install-crumb a:focus-visible {
+  color: var(--lumen-fg, #f2ecdd);
+  border-bottom-color: currentColor;
+}
+
+.install-crumb-sep {
+  opacity: .45;
+}
+
+.install-crumb [aria-current="page"] {
+  color: var(--lumen-fg, #f2ecdd);
+}
+
+.install-os-picker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem;
+  margin: 1.25rem 0 0;
+  padding: .7rem .8rem;
+  border: 1px solid var(--lumen-line, rgba(255, 255, 255, .14));
+  border-radius: var(--lumen-radius-md, 12px);
+  background: var(--lumen-panel, rgba(255, 255, 255, .035));
+}
+
+.install-os-picker-label {
+  margin-right: .2rem;
+  color: var(--lumen-muted, #a9a294);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.install-os-choice {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: .3rem .7rem;
+  border: 1px solid var(--lumen-line, rgba(255, 255, 255, .14));
+  border-radius: 999px;
+  color: var(--lumen-fg, #f2ecdd);
+  font-size: .84rem;
+  font-weight: 650;
+  text-decoration: none;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.install-os-choice:hover,
+.install-os-choice:focus-visible {
+  border-color: var(--lumen-accent, #e5b567);
+  background: var(--lumen-panel-strong, rgba(255, 255, 255, .06));
+}
+
+.install-os-choice--current {
+  border-color: var(--lumen-accent, #e5b567);
+}
+
+.install-os-choice[data-detected="true"] {
+  background: var(--lumen-accent, #e5b567);
+  border-color: var(--lumen-accent, #e5b567);
+  color: var(--lumen-accent-ink, #17140f);
+}
+
+.install-os-detected {
+  color: var(--lumen-muted, #a9a294);
+  font-size: .78rem;
+}
+
+.install-os-detected:not([hidden]) {
+  display: inline-flex;
+}
+
+.install-section {
+  margin-top: 2.2rem;
+}
+
+.install-os-strip {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--lumen-line, rgba(255, 255, 255, .14));
+  border-radius: var(--lumen-radius-md, 12px);
+  background: var(--lumen-panel, rgba(255, 255, 255, .035));
+}
+
+.install-os-strip h2 {
+  margin-top: .1rem;
+}
+
+.install-os-actions {
+  margin-top: .8rem;
+}
+
+.lumen-button[data-detected="true"] {
+  outline: 2px solid var(--lumen-accent, #e5b567);
+  outline-offset: 2px;
+}
+
+.install-section h2 {
+  margin-bottom: .65rem;
+}
+
+.install-checklist {
+  display: grid;
+  gap: .55rem;
+  margin: .8rem 0 0;
+  padding-left: 1.15rem;
+}
+
+.install-checklist li {
+  line-height: 1.6;
+}
+
+.lumen-warning {
+  display: grid;
+  gap: .25rem;
+  margin-top: 1rem;
+  padding: .85rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--lumen-accent, #e5b567) 55%, transparent);
+  border-radius: var(--lumen-radius-md, 12px);
+  background: color-mix(in srgb, var(--lumen-accent, #e5b567) 10%, transparent);
+  font-size: .9rem;
+  line-height: 1.55;
+}
+
+.lumen-warning strong {
+  color: var(--lumen-accent, #e5b567);
+}
+
+.install-related {
+  margin-top: .9rem;
+}
+
+.install-card {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+
+.install-card h3 {
+  margin: 0;
+}
+
+.install-card p {
+  margin: 0;
+}
+
+.install-card .lumen-actions {
+  margin-top: auto;
+  padding-top: .55rem;
+}
+
+.install-card .lumen-button {
+  min-height: 2rem;
+  padding: .35rem .7rem;
+  font-size: .8rem;
+}
+
+.lumen-table-wrap {
+  width: 100%;
+  margin-top: .85rem;
+  overflow-x: auto;
+  border: 1px solid var(--lumen-line, rgba(255, 255, 255, .14));
+  border-radius: var(--lumen-radius-md, 12px);
+  -webkit-overflow-scrolling: touch;
+}
+
+.install-matrix {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  font-size: .88rem;
+  line-height: 1.45;
+}
+
+.install-matrix th,
+.install-matrix td {
+  padding: .65rem .8rem;
+  border-bottom: 1px solid var(--lumen-line, rgba(255, 255, 255, .1));
+  text-align: left;
+  vertical-align: top;
+}
+
+.install-matrix th {
+  background: var(--lumen-panel-strong, rgba(255, 255, 255, .06));
+  color: var(--lumen-muted, #a9a294);
+  font-size: .72rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.install-matrix tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.install-matrix tbody tr:hover {
+  background: var(--lumen-panel, rgba(255, 255, 255, .03));
+}
+
+.install-matrix td a {
+  color: var(--lumen-accent, #e5b567);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.install-matrix td a:hover,
+.install-matrix td a:focus-visible {
+  text-decoration: underline;
+}
+
+.install-matrix .lumen-meta {
+  display: inline-block;
+  margin-top: .15rem;
+  font-size: .78rem;
+  opacity: .85;
+}
+
+.install-page details {
+  margin-top: .55rem;
+  border: 1px solid var(--lumen-line, rgba(255, 255, 255, .14));
+  border-radius: var(--lumen-radius-md, 12px);
+  background: var(--lumen-panel, rgba(255, 255, 255, .035));
+}
+
+.install-page details[open] {
+  background: var(--lumen-panel-strong, rgba(255, 255, 255, .06));
+}
+
+.install-page summary {
+  padding: .8rem 1rem;
+  cursor: pointer;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.install-page details p {
+  margin: 0;
+  padding: 0 1rem .9rem;
+  color: var(--lumen-muted, #c9c2b2);
+  line-height: 1.6;
+}
+
+.install-page .lumen-steps code,
+.install-page .install-checklist code,
+.install-page .lumen-meta code {
+  overflow-wrap: anywhere;
+}
+
+.install-page .lumen-feedback {
+  margin-top: .8rem;
+}
+
+@media (max-width: 720px) {
+  .install-page .lumen-guide {
+    width: min(100% - 1.1rem, 1120px);
+  }
+
+  .install-os-picker {
+    align-items: flex-start;
+  }
+
+  .install-os-picker-label {
+    width: 100%;
+  }
+
+  .install-os-choice {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  .install-matrix {
+    min-width: 560px;
+  }
+
+  .install-matrix th,
+  .install-matrix td {
+    padding: .55rem .6rem;
+  }
+}

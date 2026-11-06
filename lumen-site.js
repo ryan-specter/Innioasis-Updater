@@ -157,12 +157,16 @@
     }
 
     /* The filter copy and version floor for one project, or null when the
-       project only has nightlies to hide. */
+       project only has nightlies to hide. Type B is the recovery branch for
+       early Y1 units: its stock branch ends at 1.7.6 and its Rockbox builds
+       start before 0.5, so neither legacy floor applies to it. */
     function legacyFilterFor(item) {
         if (!item) return null;
         var y1 = String(item.model || "").toUpperCase() === "Y1";
-        if (y1 && isRockboxY1Item(item)) return LEGACY_FILTERS.rockboxY1;
-        if (y1 && isOriginalItem(item)) return LEGACY_FILTERS.stockY1;
+        if (!y1) return null;
+        if (typeForItem(item) === "B") return null;
+        if (isRockboxY1Item(item)) return LEGACY_FILTERS.rockboxY1;
+        if (isOriginalItem(item)) return LEGACY_FILTERS.stockY1;
         return null;
     }
 
@@ -1594,6 +1598,42 @@
             if (!item || String(item.model || "").toUpperCase() !== "Y1") return "";
             return typeSelect && typeSelect.value ? typeSelect.value.toUpperCase() : "A";
         }
+
+        function isBetterYItem(item) {
+            return !!item && String(item.slug || "") === "better-y-y1";
+        }
+
+        function betterYTypeBContext(item) {
+            return isBetterYItem(item) && typeForItem(item) === "B";
+        }
+
+        function softwareOptionName(item) {
+            if (betterYTypeBContext(item)) return item.name + " (Type B via Rockbox-Y1)";
+            return item.name;
+        }
+
+        /* Better-Y has no public Type B ZIP. Keep the option visible under
+           Type B only to explain the safe route, rather than offering a
+           Type A package that cannot boot an early Y1. */
+        function betterYTypeBExplainerRow() {
+            var rockboxHref = "firmware.html?model=Y1&type=B&software=rockbox-y1";
+            return '<tr class="lumen-typeb-explainer"><td colspan="3">' +
+                '<div class="lumen-callout" style="margin:0;">' +
+                '<h3 style="margin-top:0;">Better-Y has no Type B release - use Rockbox-Y1</h3>' +
+                '<p>The current public <strong>Better-Y</strong> releases contain <code>rom.zip</code>, a <strong>Type A</strong> package. Do not flash it on a Type B Y1. <strong>Rockbox-Y1</strong> publishes <code>rom_type_b.zip</code> for early Y1 units, and this site lists it under the Y1 Type B filter.</p>' +
+                '<div class="lumen-actions">' +
+                '<a class="lumen-button lumen-button--primary" href="' + rockboxHref + '">Open Rockbox-Y1 for Type B</a>' +
+                '<a class="lumen-button" href="y1-type-b/type-b-better-y.html">Why Better-Y is Type A only</a>' +
+                '<a class="lumen-button" href="y1-type-b/type-b-rockbox-y1.html">Type B Rockbox guide</a>' +
+                '</div>' +
+                '<p class="lumen-meta">This Better-Y option stays visible under Type B only to explain the safe route. It leaves the Type B picker when a Better-Y Type B ZIP is published, and that release will then appear in this table automatically.</p>' +
+                '</div></td></tr>';
+        }
+
+        function betterYTypeBSubheadRow() {
+            return '<tr class="lumen-typeb-subhead"><td colspan="3"><strong>Better-Y Type B packages also fit this player</strong>' +
+                '<br><span class="lumen-meta">These rows appear under Original Software for Type B because the package targets the same early Y1 hardware.</span></td></tr>';
+        }
         function syncTypeField() {
             if (!typeField) return;
             typeField.hidden = !(model && model.value === "Y1");
@@ -1671,13 +1711,14 @@
            public releases at all; "nozip" is releases without a package ZIP;
            "unknown" means the lookup has not answered yet, so the project
            stays on offer rather than vanishing while GitHub is asked. */
-        function itemAvailability(item) {
+        function itemAvailability(item, type) {
             if (!item || !item.repo) return "unknown";
             var key = repoKey(item.repo);
             var list = releases[key];
             var state = releaseState[key];
+            var wantedType = type === undefined ? typeForItem(item) : String(type || "").toUpperCase();
             if (Array.isArray(list) && list.length) {
-                return matchingReleases(list, item, "").length ? "available" : "nozip";
+                return matchingReleases(list, item, wantedType).length ? "available" : "nozip";
             }
             if (state === "empty") return "empty";
             return "unknown";
@@ -1982,7 +2023,13 @@
                 rows.push(html);
                 if (key) openKeys[key] = openKeys[key] || false;
             }
+            var selectedItem = items[0] || null;
+            var betterYExplain = selectedItem && betterYTypeBContext(selectedItem) &&
+                !releasesForItem(selectedItem) &&
+                releaseState[repoKey(selectedItem.repo)] !== "loading";
+            if (betterYExplain) pushRow(betterYTypeBExplainerRow(), "");
             items.forEach(function (item) {
+                if (betterYExplain && isBetterYItem(item)) return;
                 var itemReleases = visibleReleases(item);
                 var modelReleases = releasesForItem(item);
                 if (itemReleases) {
@@ -2001,6 +2048,20 @@
                     pushRow(releaseRows(null, item, state), "");
                 }
             });
+            /* A future Better-Y Type B asset belongs with Original Software
+               for the same early hardware. If the project publishes one, show
+               its matching releases here without asking the reader to know
+               that Better-Y is a separate project. */
+            if (selectedItem && isOriginalItem(selectedItem) && typeForItem(selectedItem) === "B") {
+                var betterItem = catalog.find(function (item) { return isBetterYItem(item); });
+                var betterVisible = betterItem ? visibleReleases(betterItem) : null;
+                if (betterVisible && betterVisible.length) {
+                    pushRow(betterYTypeBSubheadRow(), "");
+                    betterVisible.forEach(function (release) {
+                        pushRow(releaseRows(release, betterItem, "loaded"), rowKeyFor(betterItem, release));
+                    });
+                }
+            }
             table.innerHTML = rows.join("");
             Array.prototype.forEach.call(table.querySelectorAll("tr[data-release-key]"), function (row) {
                 var key = row.getAttribute("data-release-key");
@@ -2013,6 +2074,9 @@
                 shownRowKeys[key] = true;
             });
             rowsPainted = true;
+            if (betterYExplain && status) {
+                status.textContent = "Better-Y has no Type B package. Use Rockbox-Y1 for Type B - choose Rockbox in Software.";
+            }
             /* The checkbox label follows the project that is on screen. */
             syncNightlyCopy();
             /* Model, type, software and release are all known here: hand them
@@ -2037,6 +2101,10 @@
                 table.parentNode.parentNode.insertBefore(unavailableSlot, table.parentNode.nextSibling);
             }
             var missing = catalogItemsForModel().filter(function (item) {
+                /* Better-Y is the deliberate exception: it stays in the
+                   Type B picker to explain the Rockbox-Y1 route, but it is
+                   not a missing download. */
+                if (betterYTypeBContext(item)) return false;
                 var availability = itemAvailability(item);
                 return availability === "empty" || availability === "nozip";
             });
@@ -2046,8 +2114,10 @@
                 return;
             }
             var rows = missing.map(function (item) {
+                var type = typeForItem(item);
+                var typeLabel = type ? "Type " + type + " " : "";
                 var reason = itemAvailability(item) === "nozip"
-                    ? "no ROM ZIP for the " + item.model + " in its releases"
+                    ? "no " + typeLabel + "ROM ZIP for the " + item.model + " in its releases"
                     : "no public releases yet";
                 var repoLink = item.repo
                     ? '<a href="https://github.com/' + escapeHtml(item.repo) + '/releases" target="_blank" rel="noopener noreferrer">' + escapeHtml(item.repo) + '</a>'
@@ -2056,7 +2126,7 @@
             }).join("");
             unavailableSlot.innerHTML =
                 '<h3>Listed firmware with no installable release</h3>' +
-                '<p class="lumen-meta">These projects are listed in <code>slidia_manifest.xml</code> but are not in the Software dropdown until a release carries a ZIP package for the selected model.</p>' +
+                '<p class="lumen-meta">These projects are listed in <code>slidia_manifest.xml</code> but are not in the Software dropdown until a release carries a ZIP package for the selected model and device type.</p>' +
                 '<ul>' + rows + '</ul>';
             unavailableSlot.hidden = false;
         }
@@ -2156,9 +2226,11 @@
             var previous = software.value;
             var items = catalogItemsForModel().filter(function (item) {
                 var availability = itemAvailability(item);
-                return availability !== "empty" && availability !== "nozip";
+                if (availability === "empty") return false;
+                if (availability === "nozip") return betterYTypeBContext(item);
+                return true;
             });
-            var options = Array.from(new Map(items.map(function (item) { return [item.slug, item.name]; })).entries()).sort(function (a, b) { return a[1].localeCompare(b[1]); });
+            var options = Array.from(new Map(items.map(function (item) { return [item.slug, softwareOptionName(item)]; })).entries()).sort(function (a, b) { return a[1].localeCompare(b[1]); });
             software.innerHTML = options.map(function (entry) { return '<option value="' + escapeHtml(entry[0]) + '">' + escapeHtml(entry[1]) + '</option>'; }).join("");
             var requested = softwareParam && options.some(function (entry) { return entry[0] === softwareParam; }) ? softwareParam : previous;
             var fallback = originalSlug();
@@ -2285,7 +2357,15 @@ syncTypeField(); fillSoftwareFilter(); render(); refreshLive(); refreshAvailabil
         if (brandSelect) brandSelect.addEventListener("change", function () {
             fillModelFilter(); syncTypeField(); fillSoftwareFilter(); render(); refreshLive(); refreshAvailability(); syncUrl();
         });
-        if (typeSelect) typeSelect.addEventListener("change", function () { render(); refreshLive(); syncUrl(); });
+        if (typeSelect) typeSelect.addEventListener("change", function () {
+            /* Changing Type A/B changes which projects have an installable
+               ZIP, so rebuild the picker before rendering the table. */
+            fillSoftwareFilter();
+            render();
+            refreshLive();
+            refreshAvailability();
+            syncUrl();
+        });
         /* A new Software choice has its own repos to fetch (shared model repos
            are no longer pre-loaded), so the live feed refreshes here too. */
         if (software) software.addEventListener("change", function () { render(); refreshLive(); syncUrl(); });
@@ -2448,22 +2528,33 @@ syncTypeField(); fillSoftwareFilter(); render(); refreshLive(); refreshAvailabil
         if (!item) return;
         var restoring = /original/.test(item.slug);
         var name = item.name;
+        var platformKey = detectPlatform();
+        var platformLabel = platformKey === "macos" ? "macOS" : (platformKey === "windows" ? "Windows" : (platformKey === "linux" ? "Linux" : ""));
+        var platformSlug = platformKey === "macos" ? "mac" : platformKey;
+        var platformPhrase = platformKey === "macos" ? "with a Mac" : (platformKey === "windows" ? "with a Windows PC" : "on Linux");
         var heading = restoring ? "Restore Original Software on your " + model : "Install " + name + " on your " + model;
+        if (platformLabel) heading += " " + platformPhrase;
         var kicker = section.querySelector("[data-personalised-kicker]");
-        if (kicker) kicker.textContent = restoring ? "Restore · " + model : name + " · " + model;
+        if (kicker) kicker.textContent = (restoring ? "Restore · " + model : name + " · " + model) + (platformLabel ? " · " + platformLabel : "");
         var headingEl = section.querySelector("[data-personalised-heading]");
         if (headingEl) headingEl.textContent = heading;
         var lead = section.querySelector("[data-personalised-lead]");
-        if (lead) lead.textContent = restoring
+        var leadText = restoring
             ? "Follow these steps in Updater. The player you want to restore is the " + model + "."
             : "Follow these steps in Updater. You have the " + model + " and want " + name + " on it.";
+        if (platformLabel) leadText += " This is the " + platformLabel + " route.";
+        if (lead) lead.textContent = leadText;
         var steps = [
+            platformKey === "windows" ? "Open Updater from the Start menu. If it is not installed, use the download button below, then restart the PC after installing the MediaTek driver." :
+            platformKey === "macos" ? "Open Updater from Applications. If macOS blocks the first launch, approve it in System Settings → Privacy & Security, then reopen it." :
+            platformKey === "linux" ? "Run the UpdaterCE AppImage you made executable. Do not run it as root; if it cannot open the player, apply the udev rule first." :
             "Open Updater on your computer, or install it first with the button below.",
             "In Device Model, select " + model + ".",
             restoring ? "In Software, select Original Software." : "In Software, select " + name + ".",
             "Select a stable release shown for the " + model + ".",
             "Click Install / Restore, then power off the player.",
-            "Connect the player only when Updater says it is ready.",
+            "Connect the player only when Updater says it is ready." +
+                (platformKey === "macos" ? " Use a direct USB port, not a hub." : (platformKey === "linux" ? " Check lsusb for the MediaTek ID 0e8d if it does not appear." : (platformKey === "windows" ? " If Device Manager does not show the MediaTek port, reinstall the driver." : ""))),
             "Wait for the success message, then disconnect and start the player."
         ];
         var list = section.querySelector("[data-personalised-steps]");
@@ -2520,8 +2611,17 @@ syncTypeField(); fillSoftwareFilter(); render(); refreshLive(); refreshAvailabil
         document.querySelectorAll("[data-personalised-reveal]").forEach(function (el) { el.hidden = false; });
         var guideLink = section.querySelector("[data-personalised-guide]");
         var dedicatedGuide = item.guide || item.seoPage || "";
+        var installBase = "install/";
+        var ownScript = document.querySelector('script[src*="lumen-site.js"]');
+        if (ownScript && ownScript.src) {
+            try { installBase = new URL(".", ownScript.src).href + "install/"; } catch (error) { installBase = "install/"; }
+        }
         if (guideLink) {
-            if (dedicatedGuide) {
+            if (platformKey) {
+                guideLink.href = installBase + item.slug + "-" + platformSlug + ".html";
+                guideLink.textContent = "Open the " + platformLabel + " install guide";
+                guideLink.hidden = false;
+            } else if (dedicatedGuide) {
                 guideLink.href = dedicatedGuide;
                 guideLink.textContent = restoring ? "Open the full " + model + " restore tutorial" : "Open the full " + name + " " + model + " tutorial";
             } else {
@@ -2530,7 +2630,7 @@ syncTypeField(); fillSoftwareFilter(); render(); refreshLive(); refreshAvailabil
             }
         }
         var headerKicker = document.querySelector("#main > header .lumen-kicker");
-        if (headerKicker) headerKicker.textContent = (restoring ? "Restore " : "Install ") + name + " on " + model + " · beginner route";
+        if (headerKicker) headerKicker.textContent = (restoring ? "Restore " : "Install ") + name + " on " + model + " · beginner route" + (platformLabel ? " · " + platformLabel : "");
         var h1 = document.querySelector("#main > header h1");
         if (h1) h1.textContent = heading + ".";
         document.title = heading + " | Innioasis Updater";
@@ -2559,7 +2659,7 @@ syncTypeField(); fillSoftwareFilter(); render(); refreshLive(); refreshAvailabil
             slot.innerHTML = items.map(function (item) {
                 var dedicated = item.guide || item.seoPage || "";
                 var href = dedicated || ("firmware-guide.html?model=" + encodeURIComponent(item.model) + "&software=" + encodeURIComponent(item.slug));
-                return '<a class="lumen-button" href="' + escapeHtml(href) + '">' + escapeHtml(item.name) + '</a>';
+                return '<a class="lumen-button" href="' + escapeHtml(href) + '" data-install-guide="' + escapeHtml(item.slug) + '">' + escapeHtml(item.name) + '</a>';
             }).join("");
         });
     }
