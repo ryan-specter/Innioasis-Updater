@@ -68,15 +68,15 @@
         "url": "https://api.github.com/repos/y1-community/rondo-mirror/releases/assets/706101039"
       },
       {
-        "id": 714894683,
+        "id": 715522242,
         "name": "stats.txt",
         "browser_download_url": "https://github.com/y1-community/rondo-mirror/releases/download/v1.0.2/stats.txt",
-        "size": 2271,
+        "size": 2272,
         "download_count": 0,
         "content_type": "text/plain; charset=utf-8",
-        "created_at": "2026-11-05T21:33:49Z",
-        "updated_at": "2026-11-05T21:33:49Z",
-        "url": "https://api.github.com/repos/y1-community/rondo-mirror/releases/assets/714894683"
+        "created_at": "2026-11-06T01:46:26Z",
+        "updated_at": "2026-11-06T01:46:26Z",
+        "url": "https://api.github.com/repos/y1-community/rondo-mirror/releases/assets/715522242"
       },
       {
         "id": 706101141,
@@ -160,15 +160,15 @@
         "url": "https://api.github.com/repos/y1-community/rondo-mirror/releases/assets/706172992"
       },
       {
-        "id": 714894552,
+        "id": 715522189,
         "name": "stats.txt",
         "browser_download_url": "https://github.com/y1-community/rondo-mirror/releases/download/v1.0.1/stats.txt",
         "size": 2268,
         "download_count": 0,
         "content_type": "text/plain; charset=utf-8",
-        "created_at": "2026-11-05T21:33:46Z",
-        "updated_at": "2026-11-05T21:33:47Z",
-        "url": "https://api.github.com/repos/y1-community/rondo-mirror/releases/assets/714894552"
+        "created_at": "2026-11-06T01:46:25Z",
+        "updated_at": "2026-11-06T01:46:25Z",
+        "url": "https://api.github.com/repos/y1-community/rondo-mirror/releases/assets/715522189"
       },
       {
         "id": 706173138,
@@ -252,15 +252,15 @@
         "url": "https://api.github.com/repos/y1-community/rondo-mirror/releases/assets/706152267"
       },
       {
-        "id": 714894468,
+        "id": 715522135,
         "name": "stats.txt",
         "browser_download_url": "https://github.com/y1-community/rondo-mirror/releases/download/v1.0.0/stats.txt",
         "size": 2269,
         "download_count": 0,
         "content_type": "text/plain; charset=utf-8",
-        "created_at": "2026-11-05T21:33:44Z",
-        "updated_at": "2026-11-05T21:33:44Z",
-        "url": "https://api.github.com/repos/y1-community/rondo-mirror/releases/assets/714894468"
+        "created_at": "2026-11-06T01:46:23Z",
+        "updated_at": "2026-11-06T01:46:23Z",
+        "url": "https://api.github.com/repos/y1-community/rondo-mirror/releases/assets/715522135"
       },
       {
         "id": 706152472,
