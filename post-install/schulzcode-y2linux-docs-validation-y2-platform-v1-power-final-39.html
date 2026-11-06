@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-39 — display mutex reset for the software restart; smoother update screen - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-39 — display mutex reset for the software restart; smoother update screen Status: SEALED, awaiting the owner 2026-10-15. Package out/y2linux-platform-v1-power">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-39.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-39 — display mutex reset for the software restart; smoother update screen - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-39 — display mutex reset for the software restart; smoother update screen Status: SEALED, awaiting the owner 2026-10-15. Package out/y2linux-platform-v1-power">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-39.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-39 — display mutex reset for the software restart; smoother update screen - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-39 — display mutex reset for the software restart; smoother update screen Status: SEALED, awaiting the owner 2026-10-15. Package out/y2linux-platform-v1-power">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-39 — display mutex reset for the software restart; smoother update screen</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-39--display-mutex-reset-for-the-software-restart-smoother-update-screen">POWER-FINAL-39 — display mutex reset for the software restart; smoother update screen</h1>
+<p>Status: <strong>SEALED, awaiting the owner</strong> (2026-10-15). Package <code>out/y2linux-platform-v1-power-final-candidate-39/</code> (fallback = 38), receipts <code>out/deep-sleep-final/build39-receipts/</code>. BOOTIMG <code>e3ba4a51f4b0009db518739348fd97b6b061307647a4f4b1e0e46e0f53ead3ee</code>, Y2ROOT <code>304057726d8e0fd02a73feaf4f173b33a53c33f5a0e495ecc8e736d5f1e55803</code>, RECOVERY <code>dca8076362830f8c4683e5276f8128d57c3bb04c080c58bb752103ac8d31ac65</code>. Kernel <code>6.18.56-y2linux-platform-v1-power-final-39</code>, release <code>1.0.0-platform-v1-power-final-candidate.39</code>, update sequence 3900. Container suite <strong>718 OK</strong>, all seal checks PASS. Signed OTA (release key): <code>…-39-ota-release/</code>.</p>
+<h2 id="why">Why</h2>
+<p>38&#x27;s stock restart sequence (external reset) did <strong>not</strong> fix the dark panel after <code>y2-platform shutdown reboot</code> (archive <code>20261015/135</code>, boot_reason 4, vblank stuck at 1). Snapshot diff against the cold start just before (archive 134): DSI and MIPI TX equal; the overlay FIFO full (<code>OVL_RDMA0_CTRL</code> <code>0x03ff0001</code> vs <code>0x00080001</code>), OVL flow/RDMA debug stuck, the mutex block with a timeout flag (<code>INTSTA</code> <code>0x10000101</code> vs <code>0x10000001</code>) and a pending commit (<code>REG_COMMIT</code> 8 vs 0), and Linux logging <code>could not acquire mutex 0</code> 33 s after boot: its first frame is never committed. On a cold start the same full FIFO clears with Linux&#x27;s first frame (0.6 s).</p>
+<table><thead><tr><th>Change</th><th>Detail</th></tr></thead><tbody><tr><td>Mutex handover</td><td>First mutex prepare per boot pulses <code>MUTEX_RST</code> for all six mutexes and clears <code>INTSTA</code> (vendor register map), logging <code>Y2SCAN mutex reset: intsta … commit …</code>.</td></tr><tr><td>Recovery screen</td><td>Double-buffered with page flips at vblank (owner: flicker); activity as dots after the step name instead of a moving mark in the bar (owner: looked like a second bar).</td></tr></tbody></table>
+<h2 id="device-results">Device results</h2>
+<ul><li><strong>Flashed 2026-10-15</strong> (archive <code>20261015/136</code>): cold start healthy; the handover reset logged<p><code>intsta 10000001-&gt;10000000 commit 00000000-&gt;00000000</code>.</p></li><li><strong>Software restart, screen on: still dark</strong> (archive 137). The mutex was clean at handover, so the stale mutex<p>seen on 38 is a consequence. New decisive difference: **SMI larb0 status (<code>0x14010000</code>) 1 = busy after the restart, 0 after a cold start**; overlay FIFO full, RDMA not done, DSI idle follow from it.</p></li><li><strong>Software restart with the screen off (CRTC disabled, nothing fetching): still dark, larb0 busy again</strong><p>(archive 138). So it is not a reset during a memory fetch. The display power domain was not powered down at screen-off (<code>dis_offs=0</code>), so &quot;domain off before restart&quot; is untested.</p></li><li>Restart boots reach the display handover about 0.4 s later than cold boots, and DVFS admits 1.3 GHz at once<p>(<code>result=0</code>, cold: deferred). Not yet linked to larb0.</p></li><li>Next diagnostic: snapshot at the moment of handover (before Linux parks LK&#x27;s pipeline) on a cold and a restart<p>boot, to see whether larb0 is already busy when Linux takes over.</p></li></ul>
+<h2 id="owner-steps">Owner steps</h2>
+<ol><li>Flash 39 (BOOTIMG + ANDROID; the kernel changed). The agent checks the <code>mutex reset</code> line on the cold boot.</li><li>With the owner&#x27;s OK: one software restart. Panel lit → <code>restart.json</code> on and an install without Power presses<p>(39&#x27;s OTA package or a reinstall). Panel dark → hold Power; diff the snapshots again.</p></li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

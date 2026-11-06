@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reborn FFmpeg 9.0.2 production build - Innioasis Updater</title>
+  <meta name="description" content="Reborn FFmpeg 9.0.2 production build <!-- knowledge-base-scope: source-contract -- Source-contract scope. This page describes software ownership and interface behavior. S">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-architecture-reborn-ffmpeg9-build.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Reborn FFmpeg 9.0.2 production build - Innioasis Updater">
+  <meta property="og:description" content="Reborn FFmpeg 9.0.2 production build <!-- knowledge-base-scope: source-contract -- Source-contract scope. This page describes software ownership and interface behavior. S">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-architecture-reborn-ffmpeg9-build.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Reborn FFmpeg 9.0.2 production build - Innioasis Updater">
+  <meta name="twitter:description" content="Reborn FFmpeg 9.0.2 production build <!-- knowledge-base-scope: source-contract -- Source-contract scope. This page describes software ownership and interface behavior. S">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Reborn FFmpeg 9.0.2 production build</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="reborn-ffmpeg-902-production-build">Reborn FFmpeg 9.0.2 production build</h1>
+<!-- knowledge-base-scope: source-contract -->
+> **Source-contract scope.** This page describes software ownership and
+> interface behavior. See [current state](../CURRENT_PLATFORM_STATE.md) for the exact latest image
+> and physical limits; implemented or enabled does not mean qualified.
+<p>Y2Linux pins the Reborn media build to FFmpeg <strong>9.0.2</strong>. Buildroot supplies <code>libavformat</code>, <code>libavcodec</code>, <code>libavutil</code>, <code>libavfilter</code>, <code>libswresample</code> and <code>libswscale</code>; the FFmpeg command line tools, <code>libavdevice</code>, network protocols, capture devices, hardware autodetection, post-processing and unrelated video families are disabled. Encoders and muxers are empty because Reborn only reads and processes local media. <code>libswscale</code> remains for JPEG, PNG and WebP artwork conversion.</p>
+<p>The component lists live in <a href="https://github.com/schulzcode/y2linux/blob/HEAD/buildroot/configs/y2_production_defconfig" target="_blank" rel="noopener noreferrer"><code>y2_production_defconfig</code></a>. <code>tools/production/verify-ffmpeg.py</code> checks the generated FFmpeg <code>config_components.h</code>, generated <code>config.h</code>, target library SONAMEs, and CLI and <code>libavdevice</code> absence after Buildroot finishes. The ARM runtime manifest is checked by <code>Y2Reborn/tools/build/qemu-check.py</code>; it records the actual FFmpeg and library versions rather than trusting the Buildroot defconfig.</p>
+<p>FFmpeg&#x27;s WebP decoder requires its VP8 decoder, so <code>vp8</code> is the sole intentional video-codec dependency. VP9 and other video codecs remain disabled.</p>
+<p>The ALSA qualification profile intentionally prefers <code>S32_LE</code> but currently allows only the owner-confirmed <code>S16_LE</code>, stereo, 44.1 kHz wired combination. The MT6582 driver and CS43131 path have not been physically qualified for S32_LE or higher rates in the retained evidence. Reborn therefore logs and performs an explicit fallback to the qualified combination instead of advertising an untested format.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

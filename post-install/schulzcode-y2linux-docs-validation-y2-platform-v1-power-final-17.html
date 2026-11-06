@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-17 — modem request gate and screen-first wake - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-17 — modem request gate and screen-first wake Status: INSTALLED, FIRST BOOT AND FIRST SLEEP CLEAN; tagged baseline-17 2026-10-13. Package out/y2linux-platform">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-17.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-17 — modem request gate and screen-first wake - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-17 — modem request gate and screen-first wake Status: INSTALLED, FIRST BOOT AND FIRST SLEEP CLEAN; tagged baseline-17 2026-10-13. Package out/y2linux-platform">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-17.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-17 — modem request gate and screen-first wake - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-17 — modem request gate and screen-first wake Status: INSTALLED, FIRST BOOT AND FIRST SLEEP CLEAN; tagged baseline-17 2026-10-13. Package out/y2linux-platform">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-17 — modem request gate and screen-first wake</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-17--modem-request-gate-and-screen-first-wake">POWER-FINAL-17 — modem request gate and screen-first wake</h1>
+<p>Status: <strong>INSTALLED, FIRST BOOT AND FIRST SLEEP CLEAN; tagged <code>baseline-17</code></strong> (2026-10-13). Package <code>out/y2linux-platform-v1-power-final-candidate-17/</code> (fallback = 16), receipts <code>out/deep-sleep-final/build17-receipts/</code>. BOOTIMG <code>2ddd8d384cf6d9336d1a3505944f6a787764e982f7327400b5e886a41ea52d9a</code>, Y2ROOT <code>dc1f057a6c1d5768cbe3822893b5f71d3c3615bfbb3848e78491d9f0882a3e76</code>. Flash BOOTIMG + ANDROID only with <code>MT6582_preserve_data_scatter.txt</code>, Download Only. Identity: build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-17</code>, kernel <code>6.18.56-y2linux-platform-v1-power-final-17</code>, root <code>2026.08-platform-v1.47</code>, release <code>1.0.0-platform-v1-power-final-candidate.17</code>; Linux <code>0459116</code> on <code>main</code> (later: a test-only commit), Reborn unchanged (<code>217e28d</code>). Base: Baseline 16 (<a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-PLATFORM-V1-POWER-FINAL-16.md">16 report</a>). Scope audit: &quot;POWER-FINAL-17 sleep-floor and wake-latency scope audit&quot; in the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap gap audit</a>.</p>
+<p>Goal set by the owner: stock sleep parity, ≈0.1 points/h (≈1.3 mA), with deep suspend and resume working every time, and a faster wake (screen first, radios afterwards). 16&#x27;s first night drew ≈8.6 mA.</p>
+<h2 id="what-17-changes">What 17 changes</h2>
+<table><thead><tr><th>Area</th><th>Change</th><th>Switch</th></tr></thead><tbody><tr><td>Modem (MD1) clock requests</td><td>The never-used modem&#x27;s 26 peripheral clock requests are gated (PERICFG MD1_SET 0x20, readback MD1_STA 0x30) once the UI is up, and re-checked at every sleep entry. Stock golden has them all gated; 16 read 0 at all 33 sleep entries. Proven AP-writable and harmless by the live test on 16 (<a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fstock-suspend-re-ledger.md">ledger</a> F11). Main suspect for INFRA never powering down.</td><td><code>md1_gate</code></td></tr><tr><td>Wake order</td><td>After a wake by the owner, the sleep helper asks Reborn to light the screen first and restores Wi-Fi and Bluetooth afterwards. On 16 the screen waited ≈1.9 s for the radios&#x27; firmware and calibration (archive 110: SPM return 217.92 s, screen ≈220.45 s). Expected: screen ≈1 s after Power.</td><td>— (a failed early restore is retried at completion, as before)</td></tr><tr><td>From 16&#x27;s follow-ups (<code>d1953fa</code>)</td><td>The MMSYS part of the stock DCM now reaches the image; the USB DMA-unmask readback uses bits 15..8 (no more false <code>dma_unmask_lost</code>).</td><td>—</td></tr></tbody></table>
+<p><code>md1_gate</code> lives in <code>/data/system/platform/power-features.json</code> with the 16 switches, e.g. <code>{&quot;md1_gate&quot;: false}</code>; the SPM <code>state</code> shows <code>md1_gate=1 md1_result=0 md1_sta=0x3ffffff md1_regates=N</code>.</p>
+<h2 id="tests">Tests</h2>
+<p>Locked-container production suite: 682 cases, exit 0 (16: 676; new: MD1 gate policy/wiring/switch, wake order, early restore reuse). The overlay-hash test added after 16 failed on its first container run because the container&#x27;s <code>/src</code> already carries the overlays (the kernel was fine: it contains the 0011 MMSYS DCM hook); the test now reverses each patch first (<code>ebdfcf8</code>). Package validation, ELF closure (354 files), installed ARM (40 modules), privacy and inventory PASS.</p>
+<h2 id="hardware-results">Hardware results</h2>
+<p><strong>First boot (2026-10-13, boot <code>de37f6bc</code>, archive <code>out/deep-sleep-final/evidence/20261013/111-power17-first-check/</code>):</strong> kernel <code>-power-final-17</code>, build <code>0459116</code>, taint 0. First frame at 24 s, <code>application_ready</code> at 44.7 s (16: 40.9 s). <code>md1_gate=1 md1_result=0 md1_sta=0x3ffffff</code> (dmesg <code>Y2SPM: MD1 requests gated result=0</code>), <code>dcm_result=0</code>, <code>golden_apply=0xf</code>, <code>dis_pdn=1</code>. Wi-Fi (<code>wlan0</code>) and Bluetooth (<code>hci0</code>) up, USB gadget configured (stage 6) and SSH working, charging from a PC port. Known and unchanged from 16: reborn-splash <code>/dev/kmsg</code> EINVAL at 25 s, <code>mmc_erase</code> group start error, <code>thermal_zone1</code> -61. Not yet seen: a sleep, the wake time, audio.</p>
+<p><strong>First sleep (2026-10-13, archive <code>out/deep-sleep-final/evidence/20261013/112-power17-short-sleep/</code>):</strong> owner reports audio works and the wake feels faster. Unplugged sleep 11:08:39 → Power 11:26:32 (18 min), 1 entry / 1 resume / 0 aborts, wake <code>0x20</code>; USB worked after the replug.</p>
+<ul><li><strong>Wake: screen ≈0.5 s after the SPM return</strong> (SPM 373.19 s → DSI modeset 373.70–373.72 s; radios after it, WMT<p>374.06–375.40 s, <code>wlan0</code> 376.41 s). 16: ≈2.5 s (archive 110).</p></li><li><strong>MD1 gated at entry:</strong> golden <code>PERI_PDN0_MD1_STA e=3ffffff 1</code>, <code>md1_regates=0</code>; SoC golden differences 11 → 10,<p>PMIC 15/44 unchanged.</p></li><li><strong>INFRA still never powers down:</strong> <code>last_lost=0x0</code>, <code>pdn0 0x2fcffff</code> unchanged. The modem requests were not the (only)<p>blocker; next: SRCLKENA, PCM R13 <code>0xe8060000</code> bits, MD_MASK 0x38 = 3.</p></li><li><strong>USB unmask really lost once:</strong> with the readback fixed, <code>dma_unmask_rearms</code> 1 → 4 and <code>dma_unmask_lost</code> 0 → 1<p>across the unplug/sleep/restore (journal 11:03 vs 11:26). The re-arm restored it and USB worked: first direct support for the Defect B theory (which of the three re-arms found it lost is not recorded).</p></li><li>Two automatic sleep requests right after the unplug (11:08:12, 11:08:20) were refused after the radio quiesce<p>(<code>complete_result_2</code>); the third (11:08:36) entered. The refusal reason is not persisted (journal rows have no reason field and <code>suspend-last.json</code> is overwritten): diagnostics gap for 18.</p></li><li>18 min is too short for a drain figure.</li></ul>
+<h2 id="what-to-check-after-the-flash">What to check after the flash</h2>
+<ol><li><code>cat /sys/devices/platform/10006000.power-controller/state</code>: <code>md1_gate=1 md1_result=0 md1_sta=0x3ffffff</code>; USB,<p>Wi-Fi, Bluetooth, charger and audio as on 16.</p></li><li>Wake: press Power after a sleep and judge the time to the screen; read <code>restoring_radios</code> vs the DSI modeset in<p><code>dmesg</code> (screen now before the radios).</p></li><li>After one sleep: <code>golden</code> row <code>PERI_PDN0_MD1_STA</code> now matches (<code>e=3ffffff 1</code>), and <code>y2_infra/state</code> <code>last_lost</code><p>(non-zero = INFRA finally powers down).</p></li><li>Overnight drain against 16&#x27;s ≈8.6 mA.</li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

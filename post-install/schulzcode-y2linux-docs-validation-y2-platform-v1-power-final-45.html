@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-45 — over-the-air test package for 44's recovery screen - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-45 — over-the-air test package for 44's recovery screen Status: INSTALLED over the air, PASSED 2026-10-16, archive 20261016/149 . Identity-only candidate on t">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-45.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-45 — over-the-air test package for 44's recovery screen - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-45 — over-the-air test package for 44's recovery screen Status: INSTALLED over the air, PASSED 2026-10-16, archive 20261016/149 . Identity-only candidate on t">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-45.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-45 — over-the-air test package for 44's recovery screen - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-45 — over-the-air test package for 44's recovery screen Status: INSTALLED over the air, PASSED 2026-10-16, archive 20261016/149 . Identity-only candidate on t">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-45 — over-the-air test package for 44&#x27;s recovery screen</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-45--over-the-air-test-package-for-44s-recovery-screen">POWER-FINAL-45 — over-the-air test package for 44&#x27;s recovery screen</h1>
+<p>Status: <strong>INSTALLED over the air, PASSED</strong> (2026-10-16, archive <code>20261016/149</code>). Identity-only candidate on top of 44 (commit <code>977e14f</code>), delivered over the air to test 44&#x27;s DSI read-back in the restart-entered recovery. Package <code>out/y2linux-platform-v1-power-final-candidate-45/</code> (fallback = 44), receipts <code>out/deep-sleep-final/build45-receipts/</code>. BOOTIMG <code>be4b5b1d7f178187c093595b10e3bf02ae067a2d2a91d0cb456353a11f97e9ab</code>, Y2ROOT <code>2f87e4b5fb259732c3384d5ed47202653a597d4333d0c33246c1989d586b1574</code>, RECOVERY <code>c5dbde18cae7b54d0bd5e651741717ddacf9b9dd99d144a6f2dc56e6e7dbc546</code>. Kernel <code>6.18.56-y2linux-platform-v1-power-final-45</code>, update sequence 4500. Container suite <strong>718 OK</strong>, all seal checks PASS. Signed with the release key: <code>…-45-ota-release/</code>.</p>
+<h2 id="44-results">44 results</h2>
+<ul><li><strong>Flashed by the owner (2026-10-16);</strong> cold start lit (archive <code>20261016/148</code>, boot <code>348bdf1e</code>): hand-over read-back<p><code>ps=000305a0 vact=00000168</code> (no lag), no power-cycle retry, vblank 16 → 217, taint 0.</p></li><li>The 44 package staged earlier was still queued; cancelled (already installed), then 45 staged with the restart<p>switch on: <code>Queued …candidate.45 4500</code>.</p></li><li>Staging from a copy on Y2DATA failed with <code>update_data_space_reserve</code>: staging needs the package plus a quarter of<p>the root image plus the 96 MiB reserve free (≈281 MiB), and the cancelled package (57 MiB) stays in <code>pending</code> until a new one replaces it. Staged from RAM instead. Follow-up: cancel should delete the pending package.</p></li></ul>
+<h2 id="owner-steps">Owner steps</h2>
+<ol><li><strong>Turn Off and Install</strong> in Reborn (the switch makes it restart). Watch the progress screen.</li><li>The agent checks the recovery log (<code>DSI read-back</code>/<code>power-cycling</code> lines, <code>recovery-display.txt</code>), <code>Acknowledged</code><p>and the new boot&#x27;s display.</p></li></ol>
+<h2 id="device-results--passed">Device results — PASSED</h2>
+<ul><li><strong>Over-the-air install 44 → 45 without a Power press</strong> (release key, restart switch on): recovery screen <strong>lit</strong><p>(hand-over read-back <code>vact=00000168</code>, vblank 17 → 219), install 54 s (verify 1.8 → backup 3.6 → system 34.9 → check 48.1 → boot 52.9 → installed 53.7), restart into 45 lit (boot <code>a40337a9</code>, reason 4, vblank 220), taint 0, health <code>Acknowledged</code>, package removed. Owner: &quot;everything is working very nicely&quot;, fast, restarts perfect.</p></li><li>44&#x27;s retry did not run: the register lag did not occur on this boot, so the retry is still untested on a real lag.</li><li>Y2DATA cleanup (owner-approved, after archives 148/149): old test logs and qualification directories removed;<p>the fresh 44 backups (<code>previous*.gz</code>) kept for rollback. 366 → 79 MiB used, 635 MiB free.</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

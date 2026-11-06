@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CONNECTIVITY-08 — targeted RF calibration protocol correction - Innioasis Updater</title>
+  <meta name="description" content="CONNECTIVITY-08 — targeted RF calibration protocol correction <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate id">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m5-connectivity-08-deployment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="CONNECTIVITY-08 — targeted RF calibration protocol correction - Innioasis Updater">
+  <meta property="og:description" content="CONNECTIVITY-08 — targeted RF calibration protocol correction <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate id">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m5-connectivity-08-deployment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CONNECTIVITY-08 — targeted RF calibration protocol correction - Innioasis Updater">
+  <meta name="twitter:description" content="CONNECTIVITY-08 — targeted RF calibration protocol correction <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate id">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>CONNECTIVITY-08 — targeted RF calibration protocol correction</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="connectivity-08--targeted-rf-calibration-protocol-correction">CONNECTIVITY-08 — targeted RF calibration protocol correction</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>The candidate fixes the verified host rejection of this MT6582 E2 controller&#x27;s 630-byte RF calibration event. Full STP negotiation, both patch downloads and both resets already succeed. The new kernel preserves strict length, CRC, status and operation checks and scopes the extended reply to HVR <code>8a01</code> / FVR <code>8a00</code>. M4, firmware sequence, factory handling, DMA and memory layout are unchanged. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fhardware-evidence%2F2026-09-17-m5-protocol%2FREADME.md">Physical diagnosis</a>.</p>
+<h2 id="ready-artifacts">Ready artifacts</h2>
+<p>Package: <code>/home/luca/Dokumente/Code/Y2Linux/out/y2linux-m5-connectivity-08/</code>. Source: <code>8b18ca35956bf3287b7d8a15fdb8d4dcddda3d49</code>. Kernel: <code>6.18.0-y2linux-m5-connectivity-08</code>. Retain installed CONNECTIVITY-07 Y2ROOT and all existing Y2DATA.</p>
+<table><thead><tr><th>File</th><th style="text-align:right">Bytes</th><th>SHA256</th></tr></thead><tbody><tr><td><code>BOOTIMG.img</code></td><td style="text-align:right">6150144</td><td><code>5b8e333cdb9fff7bf314abf905ad11a7f26d23e8dab4fd4a4cf78a0bd58b0d78</code></td></tr><tr><td><code>fallback/BOOTIMG-previous.img</code></td><td style="text-align:right">6150144</td><td><code>eaf2360d3e29b77d860689c4f9b97f6729143e0cebcd8bef4e001b72cee39ea0</code></td></tr></tbody></table>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fevidence%2Fy2linux-m5-connectivity-08%2FREADME.md">Targeted validation receipts</a> record the clean build, 14 passing connectivity tests, emitted artifact checks, original-failure regression and BOOTIMG-only package validation. The emitted-DT test runs against the completed candidate; unchanged source/ROM provenance is not repeated.</p>
+<h2 id="owner-installation">Owner installation</h2>
+<p>The standing deployment contract remains manual owner installation. Verify <code>sha256sum -c SHA256SUMS</code> from the package directory. In the established SP Flash Tool setup, load <code>MT6582_BOOTIMG_only_scatter.txt</code>, use <strong>Download Only</strong>, and select <strong>BOOTIMG → BOOTIMG.img only</strong>. Preserve ANDROID/Y2ROOT, USRDATA/Y2DATA, loaders, tables and protected partitions; do not use Format/Firmware Upgrade. Start normal Linux deliberately using the accepted M4 power procedure and reconnect USB SSH. This session has performed no assistant flash.</p>
+<p>For the responsive -07 Linux fallback, select the same single BOOTIMG row but use <code>fallback/BOOTIMG-previous.img</code>. Its radio startup still fails at the RF result. It is compatible with the retained -07 root. Accepted M4 fallback artifacts remain documented in the original M5 deployment handoff.</p>
+<h2 id="continue-the-live-session">Continue the live session</h2>
+<p>After <code>uname -r</code> confirms -08, inspect only the new startup stages and interfaces:</p>
+<pre><code class="language-sh">cat /sys/devices/platform/18070000.connectivity/status
+dmesg | grep -E &#x27;WMT|STP|connectivity|Bluetooth|wlan&#x27;
+bluetoothctl list
+iw dev</code></pre>
+<p>Expected progression is full STP verified, patch 1/reset, patch 2/reset, <code>WMT RF calibration succeeded: event=630 bytes</code>, then coex/co-clock and function startup. If necessary, use the existing runtime-only radio controls and standard BlueZ/cfg80211 tools, preserving saved radio preferences. A sysfs hci0 object alone is insufficient: require a BlueZ adapter or an <code>iw dev</code> wlan0 interface. Capture any subsequent opcode/stage failure before changing another component.</p>
+<p>Do not redo factory acquisition, DMA/IRQ or controller identification research. A normal boot necessarily executes its existing initialization, but this is not a new diagnostic workstream. M5 remains open; pairing/audio/network/coexistence qualification and any future milestone audit are separate later gates. GPU/Reborn remain out of scope.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

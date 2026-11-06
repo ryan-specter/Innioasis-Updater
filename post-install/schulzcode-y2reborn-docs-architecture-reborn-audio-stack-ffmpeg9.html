@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reborn FFmpeg 9 audio stack - Innioasis Updater</title>
+  <meta name="description" content="Reborn FFmpeg 9 audio stack Current source/physical scope, 2026-09-28: FFmpeg 9.0.2 remains the sole decode/filter/resample path. The later live-volume contract live-volu">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-architecture-reborn-audio-stack-ffmpeg9.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Reborn FFmpeg 9 audio stack - Innioasis Updater">
+  <meta property="og:description" content="Reborn FFmpeg 9 audio stack Current source/physical scope, 2026-09-28: FFmpeg 9.0.2 remains the sole decode/filter/resample path. The later live-volume contract live-volu">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-architecture-reborn-audio-stack-ffmpeg9.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Reborn FFmpeg 9 audio stack - Innioasis Updater">
+  <meta name="twitter:description" content="Reborn FFmpeg 9 audio stack Current source/physical scope, 2026-09-28: FFmpeg 9.0.2 remains the sole decode/filter/resample path. The later live-volume contract live-volu">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>Reborn FFmpeg 9 audio stack</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="reborn-ffmpeg-9-audio-stack">Reborn FFmpeg 9 audio stack</h1>
+<p><strong>Current source/physical scope, 2026-09-28:</strong> FFmpeg 9.0.2 remains the sole decode/filter/resample path. The later <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Farchitecture%2Flive-volume.md">live-volume contract</a> adds a bounded integer sink-stage gain after that path; the older statement below that Rust has no integer volume stage is superseded. The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-CPU-FINAL-FIX01-PHYSICAL-QUALIFICATION.md">Fix01 physical run</a> passed bounded S16 44.1 and 24/96 -&gt; 48 silent fixtures with zero XRUN/decode/ filter errors. Analog quality, native S24/S32 and end-of-track crossfade remain unqualified by that run. The graph below describes FFmpeg processing before the current sink-stage user-volume ramp.</p>
+<p>Reborn has one media path. <code>reborn-media</code> opens the local file with FFmpeg 9.0.2 <code>libavformat</code> and <code>libavcodec</code>, converts decoder output once to stereo <code>AV_SAMPLE_FMT_FLTP</code>, runs an optional <code>libavfilter</code> graph, and uses <code>libswresample</code> for the final sink rate and sample format. Rust owns only the opaque context, cancellation, bounded scheduling and diagnostics. The only additional integer PCM operation is the final bounded live user-volume ramp; Rust has no competing decoder, resampler or DSP graph.</p>
+<p><strong>Metadata/ingest source contract, 2026-10-04:</strong> <code>MediaFile</code> owns a separate demux-only context for library ingestion and embedded collection covers. Complete single-audio-stream headers supply tags/properties without PCM decoding or DSP setup; MP3/raw AAC and incomplete headers retain normal FFmpeg stream analysis. Detection budgets remain unchanged. Source precision/encoding, decoder format, FLTP and sink format are separate properties; lossy source precision is unknown. Incremental scans use bounded file stamps and an extractor revision, and do not reopen unchanged files. Header reads and artwork allocations/dimensions are bounded. See the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FREBORN-PLATFORM-V1-FFMPEG-METADATA.md">media pass receipt</a> for measurements and physical qualification limits. The app and native membrane must be rebuilt and packaged together after this private ABI extension.</p>
+<p>The cold startup path does not link the FFmpeg membrane into the <code>reborn</code> executable. Buildroot installs the one shared membrane at <code>/usr/lib/reborn/libreborn_media.so</code>; <code>reborn-media</code> resolves its <code>rb_*</code> API on the first media operation and keeps that handle resident for the process lifetime. This preserves one FFmpeg implementation while keeping the six large FFmpeg libraries out of the dynamic loader&#x27;s pre-<code>main</code> work. The startup log records the pinned version immediately and obtains the actual component manifest when the membrane is opened.</p>
+<p>The normal graph is:</p>
+<pre><code class="language-text">demux -&gt; decode -&gt; stereo FLTP -&gt; aformat -&gt; ReplayGain/user volume
+      -&gt; optional equalizer -&gt; alimiter -&gt; final libswresample -&gt; ALSA</code></pre>
+<p>ReplayGain reads track and album gain/peak tags from container/stream metadata, with FFmpeg coded ReplayGain side data as a fallback when tags are absent. <code>Off</code>, <code>Track</code> and <code>Album</code> are distinct settings. Peak-aware headroom is applied before the FFmpeg volume filter and the limiter protects the integer sink. The source file is never changed. EQ bands are passed into <code>equalizer</code> and a graph is rebuilt when the playback settings change.</p>
+<p>Gapless playback is the default queue behavior. The next decoder is opened before the current decoder reaches EOF, and the bounded PCM channel carries a boundary marker between the last valid sample of one track and the first valid sample of the next. Codec skip-sample side data is honored when FFmpeg exposes it; there is no fixed silence trim. Crossfade is independent. When enabled, the worker retains only the configured transition window, feeds both windows through FFmpeg <code>acrossfade</code> in canonical FLTP, then sends the single overlap window and continues with the unconsumed head of the next track.</p>
+<p>Reborn can negotiate S32_LE when the sink permits it, but the **shipped Y2 enablement selects S16_LE** at 44.1/48-kHz output. Fix01 physically exercised bounded S16 44.1 playback and a 24/96 source converted to 48-kHz output; this does not qualify native wide/high-rate output or every 48-kHz transition. The separate audio-qualification configuration still names earlier narrow 44.1-kHz evidence; its static flag does not automatically update after a run. Reborn logs requested rate, selected ALSA format and each fallback reason. Bluetooth receives the processed PCM and differs at the BlueALSA sink boundary.</p>
+<p>The production source matrix covers FLAC, MP3, AAC/ADTS, AAC/M4A, ALAC, Ogg Vorbis, Opus, WAV, AIFF, APE and WavPack, including PCM 16/24/32-bit integer and 32-bit float inputs. JPEG, PNG and WebP attached artwork remains in the same media membrane; <code>libswscale</code> is used only for image conversion.</p>
+<p><code>rebornctl audio --json</code> exposes the active source metadata, decoder and internal format, filter description, ReplayGain values, resampling decision, final format conversion, ALSA parameters, transition timing and fixed-cardinality audio metrics. A rate or channel change is reported as resampling; the intentional FLTP-to-packed-sink conversion is reported separately. Embedded and bounded local sidecar cover images use the same FFmpeg image decoders and libswscale path. <code>status --json</code> and <code>audio --json</code> report the runtime component manifest once the membrane has been loaded; they do not trigger a cold FFmpeg load on the UI thread. The decoder diagnostic loads it on its worker when an early manifest is required. Build verification rejects missing required components, any encoder or muxer, network protocols, the FFmpeg command-line tools, <code>libavdevice</code>, and unrelated codec families.</p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

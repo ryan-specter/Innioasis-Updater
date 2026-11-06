@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reborn Product UI v3 - Innioasis Updater</title>
+  <meta name="description" content="Reborn Product UI v3 Reborn 0.3.0, 2026-10-10 candidate 11 adds the screens listed under System . A visual and navigation redesign of Product UI v2 for the 480×360 panel.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-ui-reborn-product-ui-v3.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Reborn Product UI v3 - Innioasis Updater">
+  <meta property="og:description" content="Reborn Product UI v3 Reborn 0.3.0, 2026-10-10 candidate 11 adds the screens listed under System . A visual and navigation redesign of Product UI v2 for the 480×360 panel.">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-ui-reborn-product-ui-v3.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Reborn Product UI v3 - Innioasis Updater">
+  <meta name="twitter:description" content="Reborn Product UI v3 Reborn 0.3.0, 2026-10-10 candidate 11 adds the screens listed under System . A visual and navigation redesign of Product UI v2 for the 480×360 panel.">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>Reborn Product UI v3</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="reborn-product-ui-v3">Reborn Product UI v3</h1>
+<p>Reborn 0.3.0, 2026-10-10 (candidate 11 adds the screens listed under <em>System</em>). A visual and navigation redesign of Product UI v2 for the 480×360 panel. Source-complete, unit-tested and previewed on the host; <strong>not yet observed on hardware</strong> (see <em>Not verified</em>). The state machine, the library, audio, platform and boot-handoff code are unchanged except where this document says otherwise.</p>
+<h2 id="why">Why</h2>
+<p>The owner found v2 &quot;not intuitive&quot; and full of options that are not for listeners (a Power menu, Quick Settings, Queue/options screens, codec and update internals). v3 keeps the player simple: Home → library → Now Playing, one calm Settings tree and nothing technical in the way.</p>
+<h2 id="design-language">Design language</h2>
+<p>Near-black canvas; white type in three tiers (all small text ≥ 4.5:1); one accent colour taken from the cover that is playing (a calm cool white when the cover is dull); translucent &quot;glass&quot; for raised areas; selection is never colour only (a pill, ring or weight change as well). Type is Open Sans (SIL OFL 1.1), rendered once per size, so every glyph is drawn 1:1 on the pixel grid. No runtime font loader. Details: <code>assets/fonts/README.md</code>.</p>
+<h2 id="screens">Screens</h2>
+<ul><li><strong>Home</strong> — Now Playing, Artists, Albums, Songs, Folders, Settings with<p>counts; the playing cover with progress, or <em>Recently added</em> when idle.</p></li><li><strong>Library</strong> — artist list with round avatars, artist page (albums), 4×2 album<p>grid with a lifted, ringed selection, album page (Play / Shuffle, tracks), songs with covers, folders (Internal Storage / SD Card, then contents), Up next. Fast wheel rotation in long lists shows a large current letter.</p></li><li><strong>Now Playing</strong> — cover, title, artist, a quality tag, **icons for the options<p>that are on** (shuffle, repeat all/one, gapless, equalizer, normalise), the progress bar, transport and the output device. There is no volume text anywhere: the volume line is a bare 4 px line at the right edge for about a second. Select opens a short sheet (Up next, Shuffle, Repeat, Go to album/artist).</p></li><li><strong>Settings</strong> — Bluetooth, Wi-Fi, Sound (equalizer presets, normalise volume,<p>gapless, crossfade, output), Display (brightness, screen-off delay), Storage, About &amp; Updates (update status, version, reset).</p></li><li><strong>System</strong> — the player raises these itself: <strong>Connected to a computer</strong><p>(Internal Storage and SD cards with free space, then a sweeping ring and &quot;Don&#x27;t unplug until it finishes&quot; while copying; Back dismisses it, it returns on a new connection), a <strong>Battery low</strong> dialog (once per level), the <strong>Bluetooth pairing</strong> card (&quot;Pairing with … Keep the headphones close.&quot;) and a <strong>Couldn&#x27;t connect</strong> dialog with <em>Try again</em>, the <strong>update download</strong> (since Baseline 48: step, percentage, gliding bar, MB, speed and time left from the platform&#x27;s live progress; <em>Connecting…</em> with a sweeping segment before the first report), a scanning ring, and <em>SD card removed</em> / <em>N new songs added</em> toasts. Rings sweep where no progress figure exists; no percentage is ever invented. Crossfade has its own option icon on Now Playing. The Power button: a short press turns the screen off or on; a <strong>hold</strong> fills a ring (&quot;Hold to turn off&quot;), release cancels. There is no menu. (Since Beta 9.3.15 the hold opens the Quick Menu first, see <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Fui%2FREBORN-SETTINGS-MAP.md%23the-quick-menu-hold-power&amp;anchor=the-quick-menu-hold-power">the settings map</a>.)</p></li></ul>
+<p>Removed from the normal UI: Diagnostics, maintenance/rebuild, codec and LDAC tuning, update internals, Quick Settings, the Power menu, song info and jump to letter. The <strong>service menu</strong> (all of those, plus battery, sleep and restart) opens after seven taps on <em>Version</em> in About &amp; Updates.</p>
+<h2 id="startup-and-shutdown">Startup and shutdown</h2>
+<p>Startup keeps the v2 structure — wordmark, one thin bar, one status line — in a new style: lowercase &quot;reborn&quot; (Light 44 px, tracked) over a faint glow, a 124 px hairline bar with a leading dot, tracked-caps status text. The early splash (Y2Linux <code>tools/graphics/reborn-splash.c</code>) draws the same pixels from <code>previews/v3/boot-layout.json</code>; the hand-off frame is pixel-identical (tested). The failure screen reads *Couldn&#x27;t start — Hold Power for 10 seconds, then turn it on again.*</p>
+<p>Shutdown (<code>boot::shutdown_plan</code>): the UI recedes into the wordmark with <em>Saving your place</em>, the save runs, the bar drains through <em>Closing</em> and <em>Shutting down</em> (or <em>Restarting</em>), bar and label vanish, the wordmark dims to a single point of light, black. With a nearly empty battery a shorter farewell shows a red battery and *Battery empty. Your place is saved. Charge to continue.* Timings are in frames at the UI&#x27;s 34 ms cadence and are estimates until observed on hardware.</p>
+<h2 id="renderer-and-memory">Renderer and memory</h2>
+<p>The renderer&#x27;s fragment program is unchanged (texture × tint). New textures: three 1024-wide glyph pages and one 512-wide shape/icon page, stored as one byte per texel and sampled as luminance-alpha, and a 1024×512 RGBA thumbnail atlas (50 cells of 96×96 with a replicated gutter). Quads now carry a texture and a source rectangle; rounded shapes are built from non-overlapping pieces so translucent colours blend once. A frame is a few hundred quads in about 40 batches. Video memory for UI textures grows from about 4.4 MB to about 9 MB; the audit in the Y2Linux roadmap records the scope.</p>
+<h2 id="covers">Covers</h2>
+<p>Thumbnails are produced by a background worker (never on the UI thread), from the same pinned, freshness-checked cover loader as before, and cached in <code>/data/reborn/cache</code> as <code>thumb-&lt;id&gt;-&lt;mtime&gt;-&lt;size&gt;.t96</code> (96×96 RGBA, at most 1500 files, emptied by <em>Clear cache</em>). Until a cover is ready the row shows a calm placeholder. The accent is computed from the 160×160 now-playing cover.</p>
+<p><strong>Since Beta 8.18 (sharper covers).</strong> Covers are cropped to their centre (never stretched) and scaled with Lanczos (bicubic when a small picture has to grow) with full-resolution chroma. The now-playing and Cover Flow artwork is 180×180, the largest size drawn (Home&#x27;s card); thumbnails are 128×128, decoded straight from the picture. Every picture goes to the GPU with box-filtered half and quarter copies (<code>reborn_graphics::level_block</code>), and each quad samples the smallest copy at least as large as it is drawn (<code>level_source</code>), so GL&#x27;s bilinear filter never shrinks a cover by more than half: no grainy list covers without mipmaps. The thumbnail atlas is 2048×1024 (70 cells of 196×130, about 8 MB). The disk cache is <code>thumb3-&lt;id&gt;-&lt;mtime&gt;-&lt;size&gt;.t128</code>: 4:2:0 YCbCr, 24 KB per album, at most 3000 files (about 72 MB); when full, the 300 least recently shown are removed (a shown file&#x27;s time is refreshed at most once a day). Older <code>thumb-</code>/<code>thumb2-</code> files are removed once. Recommended covers for users: square, at least 180×180 (300–600 px JPEG is plenty).</p>
+<h2 id="host-verification-of-the-gl-path">Host verification of the GL path</h2>
+<p><code>tools/preview/gles_compare.py</code> renders every preview quad list through the production GL code (<code>graphics.c</code>, via <code>gl_setup</code>) on a host GLES2 context (Mesa, EGL surfaceless) and compares each frame with the Python rasteriser: all 62 frames match (mean difference &lt; 1.5/255). It validates the luminance-alpha textures, tinting, UV mapping, thumbnails and artwork; it cannot show behaviour on the Mali-400.</p>
+<h2 id="not-verified">Not verified</h2>
+<p>On-device rendering (GLES2 luminance-alpha textures on the Mali-400), frame times, thumbnail load times and cache behaviour on a real library, the Power hold feel, and the shutdown timing. The previews are rendered by <code>tools/preview/render_previews.py</code>, which mirrors the renderer; they are not screenshots of the device.</p>
+<h2 id="charging-screen">Charging screen</h2>
+<p>While the player is off and charging, Y2Linux&#x27;s rescue charger (<code>offline-charge.c</code>) shows a ring with a bolt, <em>Charging</em> / <em>Charged</em> / <em>Charging paused</em> and <em>Hold Power to turn on</em>. Its static images are rendered here (<code>charge.rs</code>, exported as <code>previews/v3/charge-layout.json</code>); only the sweeping segment is drawn by the charger. It shows no percentage and no time to full: the battery estimate is provisional and time-to-full is not computed.</p>
+<h2 id="open-product-questions">Open product questions</h2>
+<p>Where the output device belongs (bottom-left today), a search screen, playlists (Reborn has none) and the wording of <em>Saving your place</em>.</p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -45,6 +45,25 @@ esc = gdp.esc
 README_PATHS = ("README.md", "readme.md", "Readme.md", "README.markdown", "README.MD", "docs/README.md")
 MENTION = re.compile(r"updater\s+ce\b|updater\s+community\s+edition", re.I)
 
+_MANIFEST_REPOS: set[str] | None = None
+
+
+def manifest_repos() -> set[str]:
+    """Repositories an active ``<package>`` in slidia_manifest.xml lists.
+
+    A project that only exists in the feeds still gets a README page, but the
+    page must not offer an Updater CE route: the app has no package entry to
+    install it from.
+    """
+    global _MANIFEST_REPOS
+    if _MANIFEST_REPOS is None:
+        _MANIFEST_REPOS = {
+            str(pkg.get("repo") or "").strip().lower()
+            for pkg in gdp.load_manifest()
+            if str(pkg.get("repo") or "").strip()
+        }
+    return _MANIFEST_REPOS
+
 
 # ---------------------------------------------------------------- github data
 
@@ -265,9 +284,10 @@ def readme_page(entry: dict, markdown_html: str, snapshot: dict, readme_name: st
         meta_bits.append(esc(" · ".join(models)))
 
     actions = ['<a class="lumen-button lumen-button--primary" href="../%s">Open the %s guide</a>'
-               % (esc(guide.lstrip("./")), esc(name)),
-               '<a class="lumen-button" href="../%s">Install with Updater CE</a>'
-               % esc(directory.lstrip("./"))]
+               % (esc(guide.lstrip("./")), esc(name))]
+    if str(repo or "").strip().lower() in manifest_repos():
+        actions.append('<a class="lumen-button" href="../%s">Install with Updater CE</a>'
+                       % esc(directory.lstrip("./")))
     if primary.get("benefits"):
         actions.append('<a class="lumen-button" href="../%s">Why %s?</a>'
                        % (esc(str(primary["benefits"]).lstrip("./")), esc(name)))

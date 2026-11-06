@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Concrete technical debt and architectural drift - Innioasis Updater</title>
+  <meta name="description" content="Concrete technical debt and architectural drift <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims,">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-audit-current-system-11_technical_debt.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Concrete technical debt and architectural drift - Innioasis Updater">
+  <meta property="og:description" content="Concrete technical debt and architectural drift <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims,">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-audit-current-system-11_technical_debt.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Concrete technical debt and architectural drift - Innioasis Updater">
+  <meta name="twitter:description" content="Concrete technical debt and architectural drift <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims,">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>Concrete technical debt and architectural drift</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="concrete-technical-debt-and-architectural-drift">Concrete technical debt and architectural drift</h1>
+<!-- knowledge-base-scope: historical-audit/review -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_REBORN_STATE.md) for the latest physically observed result.
+<h2 id="drift-that-materially-affects-behavior">Drift that materially affects behavior</h2>
+<table><thead><tr><th>Area</th><th>Drift</th><th>Consequence</th><th>Appropriate correction scope</th></tr></thead><tbody><tr><td>Queue</td><td>AppModel queue plus copied worker schedule without revision protocol</td><td>Display/edits/repeat diverge from actual playback</td><td>Entry identity + ownership/update contract; F03</td></tr><tr><td>Audio lifecycle</td><td>UI/runtime probes real ALSA while audio worker owns it</td><td>EBUSY and restart-style controls</td><td>One serialized sink owner; F02</td></tr><tr><td>Precision</td><td>Canonical FLTP description hides limiter DBL negotiation and transition S32 round trips</td><td>Misleading precision/cost claims</td><td>Trace/explicit format policy, retain FFmpeg authority; F10/F12</td></tr><tr><td>Artwork</td><td>Next-decoder preparation publishes current-generation art</td><td>UI changes before audible track boundary</td><td>Track/entry identity on artwork events; F24</td></tr><tr><td>Collection identity</td><td>UI filter reduced to global index; album identity reduced to label</td><td>Play Album enqueues library; same-title albums merge</td><td>Carry stable collection/queue intent; F08/F21</td></tr><tr><td>Persistence</td><td>Whole model snapshot becomes a 15-second heartbeat</td><td>Idle flash writes and oversized restore failures</td><td>Dirty durable state with coherent bounds; F06</td></tr><tr><td>Scanner</td><td>Enqueue/order barrier treated as successful commit</td><td>False completion/pruning after failed writes</td><td>Acknowledged scan transaction outcome; F05</td></tr><tr><td>Release metadata</td><td>Old Y2PlayerNative “unimplemented” contract survives Reborn integration</td><td>Validator blesses obsolete facts</td><td>Current paired payload contract; F14</td></tr><tr><td>Evidence</td><td>Historical baseline FFmpeg6/QEMU/font metadata presented beside FFmpeg9/current UI</td><td>Readers overestimate current qualification</td><td>Version-bound receipts and one current index; F27</td></tr></tbody></table>
+<p>Evidence/symbols for every row are in the corresponding detailed report and <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Faudit%2Fcurrent-system%2F13_MASTER_FINDINGS.md">master table</a>. None requires splitting the repositories into unrelated products.</p>
+<h2 id="overengineering--opportunities-to-simplify">Overengineering / opportunities to simplify</h2>
+<ul><li>Do not build a second DSP engine. There is currently one FFmpeg authority; the improvement is fewer transition conversions and explicit negotiation, not a new Rust equalizer/resampler.</li><li>Full Track records are copied through views, queues and worker jobs. Use identity where it reduces measured cost and duplicated authority; do not add an ORM/cache hierarchy first.</li><li>Recomputing row collections/counts and serializing snapshots at fixed intervals does work without a state change. Remove needless repeated work before adding background threads to hide it.</li><li>Health/metrics/event-ring infrastructure is justified, but diagnostics should describe actual state rather than multiplying near-duplicate JSON projections. Correct cumulative packet accounting and failed-scan semantics before adding counters.</li><li>A general async runtime, event-sourced store, plugin layer or multi-process service bus has no demonstrated benefit for the current player. The bounded worker design is understandable and should remain.</li><li>The current font/icon bitmap approach is efficient for a fixed embedded UI. Improve character coverage/asset provenance without automatically introducing a full desktop text/UI stack.</li></ul>
+<h2 id="underengineering">Underengineering</h2>
+<ul><li>Native frame-shell ownership, long-overlap chunking and seek-to-sample behavior lack the tests their risk deserves.</li><li>A robust scan state machine was added for radios, but equivalent connect/IP/peer-audio and commit-success state is incomplete.</li><li>User-visible toggles/actions can exceed implementation: EQ without configurable bands; queue edits without worker updates; Rebuild Library without corrupt-DB recovery.</li><li>Storage/full-filesystem/power-cut failure handling is less complete than normal-path metadata extraction.</li><li>The build records many hashes yet lacks an independently demonstrated clean paired-source/cache recipe and current public compliance closure.</li><li>Host input tests omit kernel event backlog/SYN_DROPPED and service error paths; the real UI can block long enough for those to matter.</li></ul>
+<h2 id="modules-worth-attention-not-automatic-splitting">Modules worth attention, not automatic splitting</h2>
+<p><code>main.rs</code> and <code>playback.rs</code> are the primary integration-risk modules. Extract a responsibility only when it makes a queue/lifecycle/state contract testable. Native media C needs a lifetime/error audit, not wholesale language replacement. The densely formatted database dispatch deserves local readability work when changing acknowledgements. UI screen layout length alone is not a refactoring priority. The imported Wi-Fi core deserves continued narrow integration testing and maintained provenance; rewriting it is a large separate hardware project.</p>
+<h2 id="legacydead-candidates-f30">Legacy/dead candidates: F30</h2>
+<ul><li><code>assets/fonts/reborn-font.rgba</code> has no current source/preview reference; current code uses <code>reborn-ui.rgba</code> and <code>reborn-display.rgba</code>. Candidate <strong>DEPRECATED / DEAD</strong>, not deleted here.</li><li><code>font8x8</code> in <code>docs/architecture/dependencies.json</code>/baseline documentation is stale relative to Cargo/current atlas use; it is not proof of an active second font engine.</li><li>Y2PlayerNative manifest fields/paths are obsolete placeholders, but removing them requires coordinated validator/consumer changes.</li><li>Old baseline/dev configs and reports are historical evidence, not necessarily dead implementation. Label and index them, do not erase recovery provenance.</li><li>Source UI packs/reference tokens may be useful design inputs; their presence does not mean every duplicate token file controls the production theme. Document the authoritative runtime theme and keep rights information.</li></ul>
+<p>TODO count is not a useful debt score here. Several serious incomplete behaviors have no TODO marker. Conversely, explicit reserved/unsupported branches in hardware policy are safer than silently claiming support.</p>
+<h2 id="debt-that-should-not-be-paid-now">Debt that should not be “paid” now</h2>
+<p>Do not reclaim reserved memory, widen charging current/voltage envelopes, rewrite bootloader/storage translation, replace Linux subsystems, replace SQLite/FFmpeg, rename the entire workspace, chase zero unsafe code across FFI, or redesign the UI during stabilization. These changes would add new qualification scope without fixing the identified player contracts. Preserve author/committer identity and source/license provenance.</p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

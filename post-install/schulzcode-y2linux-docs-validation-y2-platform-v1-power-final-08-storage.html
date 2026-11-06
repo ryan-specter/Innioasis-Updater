@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-08 — internal storage, SD handling, cumulative with 06 and 07 - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-08 — internal storage, SD handling, cumulative with 06 and 07 Status: implementation complete and offline-qualified; physical NOT RUN. The agent has not flash">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-08-storage.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-08 — internal storage, SD handling, cumulative with 06 and 07 - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-08 — internal storage, SD handling, cumulative with 06 and 07 Status: implementation complete and offline-qualified; physical NOT RUN. The agent has not flash">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-08-storage.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-08 — internal storage, SD handling, cumulative with 06 and 07 - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-08 — internal storage, SD handling, cumulative with 06 and 07 Status: implementation complete and offline-qualified; physical NOT RUN. The agent has not flash">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-08 — internal storage, SD handling, cumulative with 06 and 07</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-08--internal-storage-sd-handling-cumulative-with-06-and-07">POWER-FINAL-08 — internal storage, SD handling, cumulative with 06 and 07</h1>
+<p>Status: <strong>implementation complete and offline-qualified; physical NOT_RUN.</strong> The agent has not flashed or provisioned. Readiness: MORE_WORK_REQUIRED.</p>
+<p>Identity: Linux <code>d9fd5a7b57927fc22b4d62d9ee49a8e03c3cb170</code> (branch <code>codex/platform-v1-power-final-08</code>), Reborn <code>ac5502ea96f4d85a9cdbb32f210d46e658430abd</code>, kernel <code>6.18.0-y2linux-platform-v1-power-final-08</code>, root <code>2025.02.18-platform-v1.38</code>, release <code>1.0.0-platform-v1-power-final-candidate.8</code>. BOOTIMG <code>ad39788aa61303633d875ee4ff30068faa87ef5778496f31ec768144b449efb1</code>, Y2ROOT <code>e79bac968b559e19332a54dafa00566a552e028c0ea86999b46f2e8424eec71a</code>. Fallback pair = sealed 07.</p>
+<h2 id="findings-that-motivated-it-live-06-image-2026-10-10">Findings that motivated it (live, 06 image, 2026-10-10)</h2>
+<ul><li>MTP reported 808 MB / 511 MB: Internal Storage was a folder on the 800 MiB Y2DATA; the SD filesystem was a 512 MiB root-image copy on a 121 GiB partition (also carrying the root&#x27;s <code>Y2ROOT</code> label and a UUID in the root&#x27;s family).</li><li>eMMC is 7423 MiB; p8 (5596 MiB, stock FAT, serial 3F93-07E6, 541 files/31 MB, stale dirty bit) was unused and write-blocked by the guard. File-level backup retained.</li><li>MTP throughput (libusb direct, 06): upload 8.4-11 MB/s, download about 37.7 MB/s on both volumes, hashes verified.</li></ul>
+<h2 id="changes">Changes</h2>
+<ol><li><strong>eMMC write guard</strong>: one added span (3742720 to the exposed disk end). Tests pin ANDROID, USRDATA, p8 and every native sector reachable by a write; straddling spans, CACHE, boot/protected areas, the disk-end sector and the hidden tail stay refused. Owner-approved in chat 2026-10-10; audit entry in <code>docs/planning/roadmap-gap-audit.md</code>.</li><li><strong>Y2Media</strong> (<code>tools/platform/y2_platform/internal_media.py</code>): exact-geometry/label/UUID mount after <code>e2fsck -p</code>, ready record, <code>/media/internal</code>, never boot-critical (<code>S02y2-media</code>). Explicit <code>provision</code> names the stock serial, refuses mounted/other filesystems, migrates <code>/data/music</code> with SHA-256 and removes originals only after full verification (symlinks/special files/oversize/target-differs abort with originals intact).</li><li><strong>Exports</strong>: MTP Internal Storage = <code>/media/internal/music</code> (same fixed slot); SFTP root and the verified-upload tool follow it (cross-filesystem publish by verified copy + non-replacing link); storage status has a fourth volume; health, capabilities, bench and the USB qualification harness know it; factory reset leaves Y2Media music.</li><li><strong>SD</strong>: <code>media format</code>/<code>grow</code> (CID-confirmed, only the card controller), undersized report, recycled-mount-id marker fix, <code>resize2fs</code>.</li><li><strong>Reborn</strong>: internal music directory chosen from the platform&#x27;s Ready record (this boot, this mount) with legacy fallback; internal volume/diagnostics follow it.</li></ol>
+<h2 id="tests">Tests</h2>
+<ul><li>Locked-container production suite (<code>tools/production/tests.sh</code>): <strong>PASS, 629 cases</strong> (07: 598). The first run stopped at one stale fixture (<code>mmc-transport-main.c</code> still listed p8&#x27;s first sector as protected); fixed in commit <code>c65080d</code> and the suite re-run complete (first-run log kept as <code>production-tests-first-run-fail.log</code>).</li><li>29 packaging-host and 27 native splash cases PASS; package, ELF closure (385 files / 1416 edges), installed-ARM, release inventory and privacy (tree and root image) PASS.</li><li>Host broad run: 691 tests (07: 660), the same 48 environment errors (missing pyelftools) as 07, none new.</li><li>New: <code>tests/test_internal_media.py</code> (15), <code>tests/test_media_change.py</code> (13); extended transfer (3), eMMC guard, USB views and harness tests. Reborn: <code>cargo fmt</code>, strict Clippy, full workspace tests PASS (including 2 new storage tests and 1 client test).</li><li>Physical: <strong>NOT_RUN.</strong> Not tested: provisioning on the device, MTP to Y2Media, Reborn library rescan after the root change, power loss on Y2Media, 06 power-down.</li></ul>
+<h2 id="verdict">Verdict</h2>
+<p><strong>IMPLEMENTATION_READY_PROVISIONING_PENDING</strong></p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

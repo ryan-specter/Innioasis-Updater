@@ -1,0 +1,72 @@
+[
+  {
+    "id": 434833381,
+    "tag_name": "R2-V1.34-20260208",
+    "name": "R2-V1.34-20260208",
+    "body": "Original Innioasis PR1 software **R2-V1.34-20260208**.\n\n- Model: **PR1** (Innioasis)\n- Package: `rom_pr1.zip`\n- Build tag: `R2-V1.34-20260208`\n- Build date: 2026-02-08\n\n## Install\n\n1. Download `rom_pr1.zip` (every numbered volume if the release has more than one, then `cat rom_pr1.zip.* > rom_pr1.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_pr1.zip.001` | 1900.0 MB |\n| `rom_pr1.zip.002` | 1900.0 MB |\n| `rom_pr1.zip.003` | 629.2 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=PR1>",
+    "draft": false,
+    "prerelease": false,
+    "created_at": "2026-11-05T05:48:39Z",
+    "published_at": "2026-11-05T05:58:34Z",
+    "html_url": "https://github.com/y1-community/pr1-stock-rom/releases/tag/R2-V1.34-20260208",
+    "icon_url": "",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 712334003,
+        "name": "rom_pr1.zip",
+        "browser_download_url": "https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/rom_pr1.zip",
+        "size": 754108851,
+        "download_count": 2,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T06:28:09Z",
+        "updated_at": "2026-11-05T06:29:19Z",
+        "url": "https://api.github.com/repos/y1-community/pr1-stock-rom/releases/assets/712334003"
+      },
+      {
+        "id": 712353469,
+        "name": "rom_pr1.zip.001",
+        "browser_download_url": "https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/rom_pr1.zip.001",
+        "size": 1992294400,
+        "download_count": 1,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T06:36:35Z",
+        "updated_at": "2026-11-05T06:39:42Z",
+        "url": "https://api.github.com/repos/y1-community/pr1-stock-rom/releases/assets/712353469"
+      },
+      {
+        "id": 712361350,
+        "name": "rom_pr1.zip.002",
+        "browser_download_url": "https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/rom_pr1.zip.002",
+        "size": 1992294400,
+        "download_count": 0,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T06:39:47Z",
+        "updated_at": "2026-11-05T06:42:44Z",
+        "url": "https://api.github.com/repos/y1-community/pr1-stock-rom/releases/assets/712361350"
+      },
+      {
+        "id": 712368918,
+        "name": "rom_pr1.zip.003",
+        "browser_download_url": "https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/rom_pr1.zip.003",
+        "size": 659716186,
+        "download_count": 1,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T06:42:46Z",
+        "updated_at": "2026-11-05T06:43:47Z",
+        "url": "https://api.github.com/repos/y1-community/pr1-stock-rom/releases/assets/712368918"
+      },
+      {
+        "id": 712336817,
+        "name": "SHA256SUMS.R2-V1.34-20260208",
+        "browser_download_url": "https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/SHA256SUMS.R2-V1.34-20260208",
+        "size": 79,
+        "download_count": 1,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T06:29:20Z",
+        "updated_at": "2026-11-05T06:29:20Z",
+        "url": "https://api.github.com/repos/y1-community/pr1-stock-rom/releases/assets/712336817"
+      }
+    ]
+  }
+]

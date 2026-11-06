@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Locked offline build environment - Innioasis Updater</title>
+  <meta name="description" content="Locked offline build environment <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, nex">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-environment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Locked offline build environment - Innioasis Updater">
+  <meta property="og:description" content="Locked offline build environment <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, nex">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-environment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Locked offline build environment - Innioasis Updater">
+  <meta name="twitter:description" content="Locked offline build environment <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, nex">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Locked offline build environment</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="locked-offline-build-environment">Locked offline build environment</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Y2B-201 pins upstream Linux v6.18 (<code>7d0a66e4bb9081d75c82ec4957c50034cb0ea449</code>) and the official kernel.org release archive in <code>tools/build/inputs.lock.json</code>. Archive SHA-256 is <code>9106a4605da9e31ff17659d958782b815f9591ab308d03b0ee21aad6c7dced4b</code>; the 31 previously audited source files are checked independently. Checksums were obtained through official HTTPS endpoints; no independent OpenPGP verification is claimed.</p>
+<p>The isolated x86_64 userspace is Alpine 3.22.1 plus 64 individually hashed official APK archives (79 installed packages including the base). Its ARM compiler/linker are Clang/LLD 20.1.8; host tools include GCC 14.2.0, GNU Make 4.4.1, Python 3.12.14 and pyelftools 0.32. All package revisions and URLs are in the lock. Host requirements: Linux, Python 3.12 or newer, bubblewrap and enabled unprivileged user namespaces. Neither a Docker daemon nor host package installation is needed.</p>
+<p>From the repository root:</p>
+<pre><code class="language-sh">python3 tools/build/prepare.py            # Fetch exact locked inputs, verify, reconstruct
+python3 tools/build/prepare.py --offline  # Same checks; missing cached inputs fail
+python3 tools/build/run.py --output out/smoke -- sh /project/tools/build/smoke.sh</code></pre>
+<p>Preparation extracts the checked archive, installs APKs with signature checking and network disabled, and checks the exact package inventory. Absolute rootfs symlinks are converted to equivalent relative links before safe extraction. An incomplete environment or changed lock fails closed; reconstruct in a fresh checkout/cache instead of silently updating packages. The build wrapper checks the lock marker. It mounts sources, project and userspace read-only, exposes only its chosen <code>out/</code> directory for persistent writes, uses a private minimal <code>/dev</code>, and unshares network and other namespaces. It never exposes the Y2 or host block devices. A surrounding application sandbox may require permission to create these namespaces.</p>
+<p>Every invocation sees fixed <code>/src</code>, <code>/project</code> and <code>/build</code> paths, an empty inherited environment, UTC/C locale, source-tag epoch, <code>KBUILD_BUILD_VERSION=1</code>, and fixed build metadata recorded in the lock. These build strings do not change Git identity. Source and tool archives, caches and products are ignored by Git. Retain the cache for offline reconstruction; upstream mirrors are not guaranteed to retain packages forever. SHA-256 locks detect substitution, not compromise of the initially trusted publisher.</p>
+<p>Validation on 2026-09-08: reconstruction completed using cached archives with networking disabled; all audited kernel sources matched. The smoke object is ELF32 little-endian ARM EABI5, ARMv7/Cortex-A7 in ARM instruction mode. No kernel was built for this checkpoint. Later checkpoints must prove clean-build byte reproducibility and validate the actual ELF/artifact layout against D08.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

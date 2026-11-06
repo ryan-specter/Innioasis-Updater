@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>D14 — Self-observable initramfs diagnostics - Innioasis Updater</title>
+  <meta name="description" content="D14 — Self-observable initramfs diagnostics <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current"">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-on-screen-diagnostics.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="D14 — Self-observable initramfs diagnostics - Innioasis Updater">
+  <meta property="og:description" content="D14 — Self-observable initramfs diagnostics <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current"">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-on-screen-diagnostics.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="D14 — Self-observable initramfs diagnostics - Innioasis Updater">
+  <meta name="twitter:description" content="D14 — Self-observable initramfs diagnostics <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current"">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>D14 — Self-observable initramfs diagnostics</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="d14--self-observable-initramfs-diagnostics">D14 — Self-observable initramfs diagnostics</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<blockquote><p>Current hardware result: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm1-runtime-hardware-result.md">owner-observed M1 runtime success</a> confirms Linux 6.18, native PID1, increasing BEAT/uptime, working sleep, proc/sysfs mounts, CPU0, D08 RAM visibility, framebuffer diagnostics and stopped-watchdog status. <strong>M1 core achieved.</strong> Exact flashed hash and unreported diagnostic fields remain unverified. Earlier dated statements below are historical.</p></blockquote>
+<p>Y2B-245 <a href="https://github.com/SchulzCode/Y2Linux/issues/20" target="_blank" rel="noopener noreferrer">#20</a>, offline successor to the owner-observed solid-green PID1 stage of Y2B-240. Green is evidence of Linux 6.18 executing initramfs <code>/init</code> as PID1 and reaching the framebuffer stage. No white-half heartbeat or checkerboard result was reported. The M1 Linux-plus-PID1 boot objective is achieved; timing/stability remain unverified.</p>
+<h2 id="narrow-text-interface">Narrow text interface</h2>
+<p>Keep the exact D13 read-only watchdog/OVL/DSI snapshot and guard predicate. Only the already-proven visible RGB565 aperture <code>[0xbfb00000,0xbfb54600)</code> is written, with the same 16-bit writes, WC mapping and final write barrier. Neither DT hardware/memory nor entry watchdog instructions change.</p>
+<p>The kernel exposes one character device, major 120 minor 0, named y2diag. Major 120 is in upstream v6.18 <code>Documentation/admin-guide/devices.txt</code>&#x27;s 120–127 local/experimental character range. Registration fails on collision; it does not take over an existing device. The immutable initramfs contains root-owned <code>/dev/y2diag</code>, mode 0600. There is no mmap/read/ioctl or raw-address operation. Writes additionally require task PID1, exact 804-byte packet length, magic <code>0x59325431</code> and 800 printable ASCII bytes. A mutex protects staging. The packet has no framebuffer address, dimensions or hardware settings.</p>
+<p>Using a character endpoint instead of procfs for text permits PID1 to display proc/sysfs mount failures. Failure to register/open this endpoint necessarily leaves the last kernel/loader screen; it cannot display its own missing-output error. Likewise guard refusal leaves the previous frame unchanged. A counter that stops changing is evidence to record, never proof the last status remains current. No unsafe alternate mapping/display initialization is attempted.</p>
+<h2 id="screen-and-progress">Screen and progress</h2>
+<p>Original 5x7 glyphs doubled in both axes occupy 12x16 cells: 40 columns, 22 rows. The remaining bottom eight scanlines are black. Kernel-only rows show the diagnostic title and watchdog-stopped/framebuffer-guard status, refreshed only after a successful live guard check. PID1 supplies the remaining 20 rows. Lowercase is rendered as uppercase. White text on black plus green status avoids dependence on distinguishing RGB versus BGR for colored text.</p>
+<p>PID1 presents its first frame before mounting proc/sysfs, records both mount return codes, and starts the visible loop before optional data collection. After each successful one-second sleep, its beat count and marker change. Screen updates precede each bounded read, so an unexpected stall has a visible last operation. Release comes from <code>uname</code>, independent of proc/sysfs mounts and the deliberately disabled PROC_SYSCTL configuration. Runtime fields include release, CPU part, CPUs online, MemTotal, uptime/idle and CPU0 <code>mtk-clkevt</code> IRQ count. SoC compatibility and D08 RAM are read from live DT properties and explicitly labelled DT-described; they are not newly detected physical silicon/RAM capacity. Described memory is 24 MiB plus 512 KiB, not a claim of all 1 GiB being usable.</p>
+<p>Each file has at most eight read attempts and a 4096-byte cap; descriptors are nonblocking and always closed after successful open. Missing fields, oversize data, open/read/close errors and exhausted interrupted-read retries are explicit negative errno values. <code>~</code> marks a truncated display row. Last error is sticky; successful later operations do not erase it. Previous frame write result is labelled previous because the current result is known only after that frame is submitted. Successful packet writes return 804.</p>
+<p>The MTK GPT clockevent name comes from audited v6.18 <code>drivers/clocksource/timer-mediatek.c</code> and the timer-of IRQ registration path; missing or changed proc interrupt formatting yields an explicit error. Uptime, IRQ count and a checked sleep counter are separate displayed values; their changing values must be observed before claiming timing works.</p>
+<p>After 50 successful one-second sleeps, display STOP / RESTORE ANDROID and pause indefinitely. A sleep error displays STOP / SLEEP ERROR then pauses. There is no retry/reboot/poweroff, new persistent write or automatic next test. Rendering, reads and startup add overhead: this is not an exact 50-second wall-clock duration. The 60-second external limit from power-on still governs any later authorized experiment and may precede the final screen.</p>
+<h2 id="uart-independence-and-first-trial-interpretation">UART independence and first-trial interpretation</h2>
+<p>Y2B-240 wrote proc/sysfs dumps to <code>/dev/console</code> after green and before entering its heartbeat loop. Its blocking write loop and the active UART console could delay or stall progress in that interval. The green-only owner report cannot distinguish this from missed transitions, sleep/timer trouble or a later hang. This is a possible explanation, not a diagnosed UART fault.</p>
+<p>Y2B-245 neither opens the console nor writes to it during normal PID1 execution; the screen-write handler performs no printk. The QEMU ARM syscall fixture traps any normal PID1 console write and tests successful and failing collection loops. UART support and existing early console configuration remain unchanged for optional early kernel output; generic kernel logging is not redirected into a new display console. Hardware behavior of the new text candidate is untested.</p>
+<p>Host preview and syscall fixtures are synthetic, never device screenshots or evidence of Linux hardware success. D08, emitted watchdog code, image wrappers, partition bounds and full clean-build reproducibility remain mandatory.</p>
+<h2 id="proposed-first-m2-subsystem-after-a-successful-diagnostic-trial">Proposed first M2 subsystem, after a successful diagnostic trial</h2>
+<p>Research USB device-mode diagnostics for a host serial link (CDC ACM) as the next platform boundary: it could export full logs without physical UART pads. Upstream <a href="https://docs.kernel.org/usb/gadget_serial.html" target="_blank" rel="noopener noreferrer">gadget serial documentation</a> describes the host serial function, not MT6582 platform readiness. This first requires MT6582 controller/PHY, clocks, interrupts and DMA ownership to be researched and specified. Android ADB working does not prove upstream Linux USB support or authorize reusing inherited USB state. No USB code, networking, mass storage, Debian or M2 hardware experiment is part of Y2B-245.</p>
+<p>Build runner: verified cache overlays are reused without rewriting their inode. New overlays are patched in private temporary files and atomically published only after hash verification. This removes the shared-overlay rewrite race caught by the config validator during an unpublished development build.</p>
+<h2 id="real-hardware-follow-up">Real hardware follow-up</h2>
+<p>Y2B-245 reached the real text renderer and PID1 with both mounts successful, then stopped at sleep -38 with BEAT 0. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fy2b245-hardware-result.md">Exact report and time32 ABI diagnosis</a>. Y2B-250 changes only kernel time32 syscall availability; the D14 renderer and PID1 state machine remain unchanged. Continued heartbeat execution still needs testing.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

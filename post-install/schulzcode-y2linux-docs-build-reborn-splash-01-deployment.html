@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>REBORN-SPLASH-01 startup update - Innioasis Updater</title>
+  <meta name="description" content="REBORN-SPLASH-01 startup update <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, next">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-reborn-splash-01-deployment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="REBORN-SPLASH-01 startup update - Innioasis Updater">
+  <meta property="og:description" content="REBORN-SPLASH-01 startup update <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, next">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-reborn-splash-01-deployment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="REBORN-SPLASH-01 startup update - Innioasis Updater">
+  <meta name="twitter:description" content="REBORN-SPLASH-01 startup update <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, next">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>REBORN-SPLASH-01 startup update</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="reborn-splash-01-startup-update">REBORN-SPLASH-01 startup update</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p><strong>Owner installed and reports working, 2026-09-18.</strong> Subsequent SSH inspection confirms the expected build and splash-to-Reborn handoff. The owner installed before the written handoff was finished; this document retains the exact package and recovery instructions. No assistant flashing or reboot was performed.</p>
+<p>Built Reborn source <code>6209f48402a00a077759df042916f0ae2c89783a</code>, integration <code>1e0888795008cc57de92c47a3a241e45cb91e420</code>, retained GPU-02 kernel source <code>7e318afbffe640c6bf9da458f61ac2108f7d5bde</code>. Rust 1.90.0, ARMv7 hard-float glibc, the existing Buildroot GCC 13.3.0 toolchain and vendored offline Cargo sources. Later documentation/test/packaging commits do not change these build identities.</p>
+<h2 id="implementation-and-console-policy">Implementation and console policy</h2>
+<p>The original firmware logo is untouched. Early normal boot puts tty0 into <code>KD_GRAPHICS</code> before the display module can attach the framebuffer console. Normal root service output goes to <code>/dev/kmsg</code>. Kernel command line and log level are unchanged; dmesg and SSH retain diagnostics. BusyBox syslog/klogd retain a bounded <code>/data/logs/system.log</code> plus one rotated file, 256 KiB each. Existing Reborn structured logging, metrics, health and control remain intact.</p>
+<p><code>/sbin/reborn-splash</code> in initramfs starts after the unchanged offline-charger gate permits normal boot. It is the same 17,724-byte native binary installed as <code>/usr/libexec/reborn-splash</code> in Y2ROOT. It discovers the Mediatek KMS connector and preferred mode, uses a CPU-mapped DRM dumb buffer and the Reborn dark/mint palette and 8×8 text style. The small loading bar updates at 20 FPS through a timed poll; there is no busy loop, GPU context, X11, desktop framework or fbdev drawing path. Only the small indicator is redrawn during animation. A singleton lock makes the root service&#x27;s start attempt idempotent. The early process keeps directory FDs so its state/log/socket survive moving <code>/run</code> and switching root.</p>
+<p>The console guard bypasses offline charging and the existing low-voltage gate. The charging program, kernel, display module, firmware, storage layout and Y2DATA contents are not changed. Offline-charging runtime regression remains unverified for this candidate; byte preservation and gate ordering are checked.</p>
+<h2 id="explicit-handoff-and-failure-behavior">Explicit handoff and failure behavior</h2>
+<p>Reborn allocates graphics resources and prepares its first actual UI framebuffer before it requests ownership. A root-only Unix socket at <code>/run/reborn-splash/control.sock</code> (directory 0700/socket 0600, peer UID checked) exchanges <code>READY 1</code>, <code>RELEASED 1</code>, then <code>PRESENTED 1</code>.</p>
+<p>The splash drops DRM master but keeps its displayed framebuffer alive. Reborn already has an open DRM FD, acquires master, presents the first real frame, then acknowledges. Only then does the splash retire its buffer and exit. Neither path restores a text console or the retired splash CRTC. This avoids a last-close console restoration between processes. Reborn without a splash service still supports the previous startup path.</p>
+<p>After 60 seconds without readiness, the splash becomes a static **Startup needs attention / Diagnostics available over USB** screen. A later ready Reborn can still take over. Malformed/oversized requests do not release the display; request assembly and handoff have a three-second deadline. A disconnected/timed-out handoff attempts to reclaim master and show failure without blindly killing Reborn. The existing bounded Reborn supervisor and SSH services remain active.</p>
+<p>Splash events go to kmsg and a bounded 8 KiB JSONL file in <code>/run/reborn-splash</code>; Reborn copies startup evidence to <code>/data/reborn/logs/splash-boot.jsonl</code> best-effort. State is available at <code>/run/reborn-splash/state.json</code>. A normal handoff ends with <code>state=presented</code> and centralized <code>startup.ready</code> from Reborn.</p>
+<h2 id="why-bootimg-changed">Why BOOTIMG changed</h2>
+<p>Read-only inspection of the preceding installed system showed fbcon appearing at 0.745889 seconds and switch_root at 9.213802 seconds. Y2ROOT cannot suppress that earlier console interval. Therefore <strong>BOOTIMG changed</strong>, limited to early initramfs policy/helper/libdrm and the DT initrd-end address for the new archive. The kernel, display module and offline-charging executable are byte-identical; 57 original initramfs entries are unchanged. All other DT fields and reservations match. No kernel rebuild, boot-argument change or partition modification.</p>
+<h2 id="package-and-exact-hashes">Package and exact hashes</h2>
+<p>Directory: <code>/home/luca/Dokumente/Code/Y2Linux/out/REBORN-SPLASH-01</code>.</p>
+<table><thead><tr><th>Payload</th><th>SHA256</th></tr></thead><tbody><tr><td><code>Y2ROOT.img</code></td><td><code>d40e9337e3a1149d12fdd240a59918b0d2c48e4e6a9974ab5b470685250d900c</code></td></tr><tr><td><code>BOOTIMG.img</code></td><td><code>8671de2900fd05cc80a9eb7a3541d5bbdab7e5dd96c18f73f44ca1b13beb19a5</code></td></tr><tr><td><code>fallback/Y2ROOT.img</code> — deployed Reborn Baseline 01</td><td><code>c353152dea44a554486e024a4d8a8105fbbdfd1310db5749b28d7e5b8e5c8012</code></td></tr><tr><td><code>fallback/BOOTIMG.img</code> — GPU-02</td><td><code>2e5f7e785e80dfc646e57d0ccfadff683d54a2c5303671c819ea4e42863089a9</code></td></tr></tbody></table>
+<p>Y2ROOT remains a 512 MiB image, with used ext4 space increasing by <strong>28,672 bytes</strong> to 89,882,624 bytes. BOOTIMG is 6,244,352 bytes, an increase of <strong>40,960 bytes</strong>. The <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/evidence/reborn-splash-01/package-manifest.json" target="_blank" rel="noopener noreferrer">manifest</a> records the ten changed root paths. Unrelated libraries and service files match Baseline 01.</p>
+<h2 id="manual-installation-and-rollback-reference">Manual installation and rollback reference</h2>
+<p>Already performed by the owner; no further installation is needed for inspection.</p>
+<ol><li>On the host, run:</li></ol>
+<pre><code class="language-sh">   cd /home/luca/Dokumente/Code/Y2Linux/out/REBORN-SPLASH-01
+   sha256sum -c SHA256SUMS</code></pre>
+<ol><li>Open the established SP Flash Tool v5.2032 workflow. Load this directory&#x27;s<p><code>MT6582_preserve_data_scatter.txt</code> and choose <strong>Download Only</strong>.</p></li><li>Verify <strong>BOOTIMG and ANDROID only</strong> are checked and point to this directory&#x27;s<p><code>BOOTIMG.img</code> and <code>Y2ROOT.img</code>. **USRDATA and every other row must be unchecked with no payload.** Do not use Format or Firmware Upgrade.</p></li><li>Use the existing owner shutdown/USB entry procedure, select Download, connect<p>the powered-off Y2 and wait for successful completion before disconnecting. Boot normally. Keep Y2DATA; there is no data image or formatting step.</p></li><li>For rollback, load <code>fallback/MT6582_preserve_data_scatter.txt</code>, again Download<p>Only with <strong>both BOOTIMG and ANDROID</strong>, using both fallback images. Do not mix new early splash with old Reborn: the old app cannot acknowledge its handoff.</p></li></ol>
+<h2 id="validation-and-actual-device-evidence">Validation and actual device evidence</h2>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fevidence%2Freborn-splash-01%2FREADME.md">Receipts</a>: 50 Rust tests, Clippy with warnings denied, 20 host daemon checks, nine native protocol/drawing tests, five BOOTIMG unit checks, eight ARM application/runtime checks, five ARM early-helper/shell checks, offline cross/rootfs build, raw ext4 consistency and image-preservation checks passed. Native drawing previews were inspected on the host; they are not physical panel photographs.</p>
+<p>After the owner installed, boot ID <code>e650130d-34f0-46e8-a9eb-b39a9ca467da</code> recorded: console hidden 698 ms, splash visible 828 ms, released 49,448 ms, Reborn presented 49,456 ms. Owner reports the visible startup works. SSH confirms Mali400 EGL/GLES, same-session stability and all ten safe Reborn baseline checks pass.</p>
+<p>The owner then reported radio unavailability. Targeted SSH tests found Wi-Fi scanning succeeds with 28 networks; Bluetooth adapter/BlueALSA and a ten-second discovery succeed with no discoverable peer. Both radios were initially off and were restored off. A misleading Wi-Fi off/unavailable state and a global stale UI notice are recorded in <code>/home/luca/Dokumente/Code/Y2Reborn/docs/validation/2026-09-18-radio-inspection.md</code>. No radio code or preferences were changed during inspection.</p>
+<p>Actual Wi-Fi association/DHCP, pairing/A2DP, offline charging, SD hotplug and suspend/resume remain outside this successful startup/scan observation. This is not full Reborn Baseline 01 acceptance or authorization for Reborn 02.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

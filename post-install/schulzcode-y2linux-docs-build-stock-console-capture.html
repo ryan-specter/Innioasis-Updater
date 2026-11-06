@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stock console capture runbook - Innioasis Updater</title>
+  <meta name="description" content="Stock console capture runbook <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, next s">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-stock-console-capture.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Stock console capture runbook - Innioasis Updater">
+  <meta property="og:description" content="Stock console capture runbook <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, next s">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-stock-console-capture.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Stock console capture runbook - Innioasis Updater">
+  <meta name="twitter:description" content="Stock console capture runbook <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, next s">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Stock console capture runbook</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="stock-console-capture-runbook">Stock console capture runbook</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fobservation-path.md">Y2E-140 research and unresolved physical gate</a> is authoritative. <strong>This procedure is prepared, not performed on Y2 serial hardware.</strong> Current installed software selects UART0; 921600 8N1 is the firmware-supported starting setting, and native SoC logic is expected to be 1.8 V. Exposed board pads, pad voltage, adapter and actual stock serial baud are not yet verified.</p>
+<h2 id="before-any-connection">Before any connection</h2>
+<ol><li>Establish the exact board revision and a credible UART0 TX/GND net mapping. Record evidence references, orientation and pad identifiers. Package BGA coordinates and LK GPIO numbers are not exposed-pad labels. No blind pin probing or guessed USB accessory cable.</li><li>Establish the identified TX net&#x27;s logic level without driving it, using a suitable high-impedance instrument and known ground. Confirm receiver absolute maximum ratings and guaranteed RX high/low thresholds for that measured level at 921600 baud. A VCC selection label alone is insufficient. Record adapter make/model/revision, driver, stable USB identity, datasheet, wiring and measurement evidence.</li><li>With a reviewed power/ground procedure, connect <strong>Y2 TX → adapter RX</strong> and <strong>verified Y2 GND → adapter GND</strong> only. Leave adapter <strong>TX, VCC, DTR and RTS disconnected</strong>, and do not power Y2 from the adapter. Do not use RS-232 voltage levels. Opening/configuring even a read-only tty may assert modem-control lines; the physical two-wire setup prevents these lines from reaching Y2.</li><li>Close other serial clients. Ensure the exact adapter is not being claimed by a modem manager or another process. Use existing host permissions and a stable <code>/dev/serial/by-id/...</code> path; this tool makes no permission/group/service changes. It never scans or opens other ports.</li></ol>
+<p>Write a plain-text setup record containing the points above, current Android build/boot context, capture operator/date and intended stock power-on action. The tool retains a copy and hash; it does not certify those statements. Keep device identifiers and raw logs in <code>evidence-private/</code>, not public Git.</p>
+<h2 id="bounded-capture">Bounded capture</h2>
+<p>Once the prerequisites are actually satisfied, substitute the <strong>verified</strong> device path and setup file:</p>
+<pre><code class="language-sh">python3 tools/observation/capture.py \
+  --device /dev/serial/by-id/VERIFIED_ADAPTER \
+  --setup evidence-private/stock-uart-setup.txt \
+  --output evidence-private/stock-uart-start-01 \
+  --baud 921600 --seconds 60</code></pre>
+<p>The output directory must not already exist. Wait for <code>capture.json</code> to say <code>capturing</code>, then perform the separately reviewed owner-operated ordinary stock start. This program does not reboot, change boot mode, connect ADB, power the device, send serial bytes, send BREAK or alter board registers. It sets host raw 8N1, disables echo and software/hardware flow control, requests exclusive access, preserves queued bytes rather than flushing, and restores host tty attributes on exit. Duration is bounded to 600 seconds, storage to 64 MiB; defaults are 60 seconds/16 MiB. Ctrl-C retains an interrupted record. USB disconnect, empty capture or hitting the byte bound returns failure. Device/driver inability to retain requested settings also fails.</p>
+<p>Outputs:</p>
+<ul><li><code>raw.bin</code>: exact received bytes, never interpreted as terminal escape sequences by the tool.</li><li><code>chunks.jsonl</code>: offsets, lengths and monotonic <strong>host receipt</strong> times; these are not on-wire per-byte timestamps.</li><li><code>capture.json</code>: UTC capture boundaries, platform/Python, selected and resolved tty, baud/settings, byte count, SHA-256, completion/error, tool/setup hashes. <code>hardware_proof</code> remains false; receiving any bytes cannot certify a Y2 boot.</li><li><code>setup.txt</code>: retained operator setup/connection evidence.</li></ul>
+<p>Review logs as escaped text or hex before displaying them in a terminal. Preserve raw bytes first. Hashes establish retention integrity, not a noise-free wire or source authenticity. There is no auto-baud sweep: only after safely identified wiring and evidence of a different rate should another <em>explicit</em> receive setting be selected. 115200 is supported for the known stock-driver fallback, not automatically tried and not accepted as the installed rate without decoding proof.</p>
+<h2 id="stock-acceptance">Stock acceptance</h2>
+<p>A completed host capture is only the first check. Record identifiable, ordered <strong>LK initialization/BOOTIMG handoff and stock Linux 3.4.67 startup</strong>, with sensible text/timestamps and the expected stock boot identity. Record any stage-specific baud change; a capture of only late kernel output does not demonstrate the pre-kernel path. Keep host start preceding device power-on and document gaps, disconnections or undecodable intervals. Seek a second consistent ordinary stock capture using the same setup. Do not change BOOTIMG to test the observation channel.</p>
+<p>This session recovered <code>/proc/last_kmsg</code> through ADB, but only a previous stock shutdown tail. That does not satisfy the serial/LK acceptance above. Until a real capture passes, Y2E-140 remains open. If pads are inaccessible, the next bounded alternative investigation is the existing bootloader UART-over-USB accessory path, with no guessed cable or live mux change.</p>
+<p>Before any Linux launch, compare the proven controller, inherited routing and stage baud against the current UART0/IRQ51 artifact. Its earlycon preserves inherited baud and its normal console requests 921600n8. Any mismatch requires another reviewed correction and full offline validation; DEBUG_LL/decompressor output is not enabled. An early hang can still be silent.</p>
+<h2 id="host-only-verification">Host-only verification</h2>
+<pre><code class="language-sh">python3 -m unittest discover -s tests/observation -v</code></pre>
+<p>The PTY suite checks exact binary/control-byte capture without echo, no-data failure, truncation bounds, and disconnect preservation. These tests ran on host Python 3.14.7; Linux serial hardware and electrical behavior were not tested. The same four tests also pass on Python 3.12.14 in the locked, isolated build environment. Kernel artifact tests remain the complete separate <code>tools/build/build.sh</code> pipeline.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

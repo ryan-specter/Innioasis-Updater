@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2E-140 — Establish a reliable first-boot observation path - Innioasis Updater</title>
+  <meta name="description" content="Y2E-140 — Establish a reliable first-boot observation path <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity,">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-140.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2E-140 — Establish a reliable first-boot observation path - Innioasis Updater">
+  <meta property="og:description" content="Y2E-140 — Establish a reliable first-boot observation path <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity,">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-140.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2E-140 — Establish a reliable first-boot observation path - Innioasis Updater">
+  <meta name="twitter:description" content="Y2E-140 — Establish a reliable first-boot observation path <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity,">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2E-140 — Establish a reliable first-boot observation path</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2e-140--establish-a-reliable-first-boot-observation-path">Y2E-140 — Establish a reliable first-boot observation path</h1>
+<!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Depends on Y2E-125/130 and the completed M1 offline artifact. Research directly; supporting host tooling only. No candidate flash, pin probing, voltage injection, boot-mode change or feature expansion.</p>
+<p>Acceptance:</p>
+<ul><li><input type="checkbox" disabled> Reconcile package preloader/LK/kernel UART selection with safe installed-stock console evidence; record exact normal/conditional selection and baud/format.</li><li><input type="checkbox" disabled checked> Establish a board-specific physical TX/GND connection and logic voltage from credible evidence, or explicitly retain this blocker and evaluate the smallest alternative.</li><li><input type="checkbox" disabled checked> Define reproducible receive-only host capture with retained raw bytes, timing, adapter/settings and integrity metadata.</li><li><input type="checkbox" disabled> Capture identifiable stock LK/kernel output before changing BOOTIMG; distinguish a host tooling test from device proof.</li><li><input type="checkbox" disabled checked> Decide whether the existing artifact needs revision; any justified change must rerun all offline validation.</li><li><input type="checkbox" disabled checked> Update authoritative knowledge and identify the next bounded launch proof. Keep this issue open if physical/capture acceptance remains unsatisfied.</li></ul>
+<p>2026-09-08 result: <strong>OPEN, physical evidence required.</strong> Installed ttyMT0/sysfs/iomem plus remapped FM driver prove the normal installed-kernel controller is UART0 (0x11002000), superseding UART3. Package LK&#x27;s conditional UART0 branch is consistent with this result, but installed handoff identity/routing and actual baud are not fully proved. The manufacturer native pin-domain table supports expected 1.8 V; no board-specific TX/GND pad or pad measurement is confirmed. No adapter was present.</p>
+<p>D10 corrects only DT UART0/IRQ51 and strict validation. Two fresh full offline builds match across 11 outputs; all nine artifact tests pass (22 real-artifact and 25 package mutation/extent cases), source verification covers 91,166 files/links. All D08 addresses/sizes, kernel/config/initramfs bytes stay unchanged. Current BOOTIMG SHA-256: <code>574061649e10266927267b68afbc95da7fe0761dc9823e88767741bac9363fd9</code>.</p>
+<p>Receive-only host tool/runbook implemented; four PTY tests pass on Python 3.14.7 and locked 3.12.14. These are not hardware proof. Actual ADB <code>/proc/last_kmsg</code> yields only a prior late kernel/shutdown log, not LK/serial capture. Next missing evidence is verified UART0 TX/GND/level plus actual stock LK/kernel capture. If native TX is inaccessible, investigate exact preloader UART-over-USB accessory detection/electrical/routing persistence; do not guess cables or switch PHY live. U07b is the next launch gate after observation passes; U07c and backup/recovery/power remain required.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fobservation-path.md">Authoritative evidence</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fstock-console-capture.md">capture runbook</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Ffirst-boot-result.md">revised artifact</a>. No candidate boot/flash or additional Linux feature occurred.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

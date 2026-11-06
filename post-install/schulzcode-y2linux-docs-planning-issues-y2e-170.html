@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2E-170 — Specify a safe display handoff and backlight ownership boundary - Innioasis Updater</title>
+  <meta name="description" content="<!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current" claims, next steps and permissions below belong t">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-170.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2E-170 — Specify a safe display handoff and backlight ownership boundary - Innioasis Updater">
+  <meta property="og:description" content="<!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current" claims, next steps and permissions below belong t">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-170.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2E-170 — Specify a safe display handoff and backlight ownership boundary - Innioasis Updater">
+  <meta name="twitter:description" content="<!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current" claims, next steps and permissions below belong t">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2E-170 — Specify a safe display handoff and backlight ownership boundary</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<h2 id="dev-02-live-hardware-checkpoint--2026-09-10">DEV-02 live hardware checkpoint — 2026-09-10</h2>
+<p>SATISFIED narrow research/bring-up scope on physical DEV-02; remaining production/full-platform concerns belong to #29–32.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fy2linux-dev02-live-qualification.md">DEV-02 live qualification</a> retains baseline, completed 256 MiB test, input/display/SD and USB failure evidence. No reboot, kernel build or BOOTIMG was prepared. This checkpoint supersedes stale untested/blocked statements below within its measured scope.</p>
+<h1 id="y2e-170--specify-a-safe-display-handoff-and-backlight-ownership-boundary">Y2E-170 — Specify a safe display handoff and backlight ownership boundary</h1>
+<h2 id="offline-integration-checkpoint--2026-09-10">Offline integration checkpoint — 2026-09-10</h2>
+<p>MT6582 DRM variants, 480x360 panel, corrected PHY rate/cold sequencing, reset and monotonic inherited-current backlight are integrated. Existing 6.18 pitch fix is retained; raw framebuffer writes are removed. Display failures must be classified with the live USB log.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fm2-baseline-01-result.md">M2-BASELINE-01: exact implementation, RAM decision, checks and owner test</a>. The historical scope/sequence below is superseded where it conflicts with the owner’s combined integration instruction. All remaining acceptance criteria stay open.</p>
+<h2 id="additional-evidence--2026-09-10">Additional evidence — 2026-09-10</h2>
+<p>The later September 9 recovery journal retracts 368 lines and reports camera-verified 480×360, matching our working geometry. Cold DSI register access required PHY power; rate-after-prepare failed with EBUSY; GPIO112 mode1 routes MMSYS panel reset. These explain patches 0033–0037 but their module parameters/userspace devmem are not a complete driver. Linux 6.18 already restricts PITCH_MSB writes to AFBC-capable OVL variants. Adapt remaining formats/PHY/quiesce/panel/backlight dependencies into current drivers, preserving USB and distinguishing live-LK from cold startup.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Freverse-engineering-audit.md">Research matrix and source limits</a>. M1 complete; M2 active/exit incomplete. External results do not promote our hardware status. Existing acceptance criteria and historical checkpoints follow.</p>
+<blockquote><p>Donor update 2026-09-09: Use donor OVL/RDMA/COLOR/DSI/mutex, GC9503V table and ganged backlight as implementation starting points after supply/clock/DMA prerequisites. Forward-port variants into v6.18; remove raw framebuffer/debug writes, reconcile 360/368-line and buffer-address contradictions, repair backlight error handling/current ceiling/nonmonotonic mapping and supply/reset/backlight relationships. Preserve canonical USB while taking over display. No donor modeset is considered tested on our Y2. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fdonor-audit.md">audit</a>.</p></blockquote>
+<p>Canonical issue <a href="https://github.com/SchulzCode/Y2Linux/issues/25" target="_blank" rel="noopener noreferrer">#25</a>; <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2FM1-first-boot.md%23historical-foundation-research-queue&amp;anchor=historical-foundation-research-queue">historical execution order</a>.</p>
+<h2 id="type-and-goal">Type and goal</h2>
+<p><strong>Research.</strong> Decide the smallest safe transition from the temporary D13/D14 framebuffer diagnostic to a standard Linux display interface, with explicit backlight and inherited-scanout ownership.</p>
+<h2 id="why-it-comes-next">Why it comes next</h2>
+<p>The actual 480x360 RGB565 path is now observed working. That is a useful display baseline but not a native panel/DRM/backlight driver. Power evidence and the input contract enable a coherent local interface without replacing the player yet.</p>
+<h2 id="dependencies">Dependencies</h2>
+<p>Execution follows Y2E-165; actual input implementation is not a hard dependency. Use Y2E-160 supply ownership, D13/D14, the FM-remapped panel/LK evidence and latest hardware result. Requires no RAM expansion; high framebuffer remains excluded.</p>
+<h2 id="exact-scope">Exact scope</h2>
+<ul><li>Trace only final normal LK scanout/backlight state into Linux, matching the<p>FM panel candidate and existing OVL/DSI guard evidence to board confidence.</p></li><li>Assess whether a simple-framebuffer/simpledrm handoff is defensible in pinned<p>v6.18 with this inherited pipeline and excluded aperture. Treat that as an interim interface only, not proof of panel initialization or full DRM support.</p></li><li>Identify the exact clock/supply/backlight owners that a future driver could<p>inadvertently gate, plus the diagnostic writer exclusivity requirement.</p></li><li>Choose one smallest handoff step, or document the specific controller support<p>prerequisite if takeover cannot preserve the observable recovery screen. Backlight control remains unchanged until its path and safe limits are known.</p></li></ul>
+<h2 id="explicit-out-of-scope">Explicit out-of-scope</h2>
+<p>DRM/panel/DSI driver implementation, complete display-stack reverse engineering, panel reset/init writes, brightness experiments, suspend, rotation, acceleration, framebuffer reallocation and replacement of high-RAM exclusions.</p>
+<h2 id="expected-filescomponents">Expected files/components</h2>
+<p><code>docs/knowledge/display-input.md</code>, <code>on-screen-diagnostics.md</code>, <code>power.md</code>, <code>open-unknowns.md</code>; prospective bindings/components in simple-framebuffer, simpledrm, MediaTek DRM, panel and backlight areas named only where evidenced. No DTS/config/diagnostic writer changes in this research issue.</p>
+<h2 id="acceptance-criteria">Acceptance criteria</h2>
+<p>Record exact aperture, dimensions, format, stride, scratch exclusions, ownership and candidate panel confidence. State GO/NO-GO for one standard-interface handoff, required clock/power support and how to avoid two active framebuffer writers. Specify a later visible pass/fail test with the old candidate retained. Do not equate ST7701-family naming with a verified board panel init sequence.</p>
+<h2 id="validation">Validation</h2>
+<p>Cross-check LK/FM evidence with v6.18 format/binding and driver ownership behavior; review mapping/cache policy, scanout DMA range and unused-clock/supply handling. A future new display subsystem gets its appropriate broader validation review; no build, panel command or boot occurs here.</p>
+<h2 id="stop-conditions">Stop conditions</h2>
+<p>Unknown panel reset sequence, unsafe gating, scanout ownership conflict, required RAM reclamation or loss of the only observation path stops takeover design. Keep D13/D14 intact and identify the smallest missing prerequisite.</p>
+<h2 id="unlocks-next">Unlocks next</h2>
+<p>One standard display-interface implementation, followed later by proper panel/ backlight work once specified; an explicit display-DMA exclusion for SD planning.</p>
+<h2 id="session-and-execution-boundary">Session and execution boundary</h2>
+<p>Planning only today. Executing this research issue later does not authorize a Linux build, DTS/driver change, flash, new boot, bus scan, raw MMIO access, security change or partition write. Use retained evidence and pinned v6.18 source first; allow only explicitly safe, bounded stock observations when available. Keep private device data in ignored evidence storage and cite source/hash/offset locators in knowledge documents. Preserve uncertainty; do not invent a compatible, register value or board wire. Do not create follow-on issues automatically.</p>
+<p>Future localized implementation uses one clean build, affected tests and the D08/layout/BOOTIMG validator plus final size/hash. Material memory/architecture/ packaging changes or a new hardware subsystem require the broader relevant verification boundary, not a habitual full provenance/recovery re-audit. Stock preloader/LK, partition layout and calibration remain protected.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

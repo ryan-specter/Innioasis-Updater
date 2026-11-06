@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M3-AUDIO-02 — corrected PCM notification candidate - Innioasis Updater</title>
+  <meta name="description" content="M3-AUDIO-02 — corrected PCM notification candidate <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "cu">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m3-audio-02-deployment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M3-AUDIO-02 — corrected PCM notification candidate - Innioasis Updater">
+  <meta property="og:description" content="M3-AUDIO-02 — corrected PCM notification candidate <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "cu">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m3-audio-02-deployment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M3-AUDIO-02 — corrected PCM notification candidate - Innioasis Updater">
+  <meta name="twitter:description" content="M3-AUDIO-02 — corrected PCM notification candidate <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "cu">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M3-AUDIO-02 — corrected PCM notification candidate</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m3-audio-02--corrected-pcm-notification-candidate">M3-AUDIO-02 — corrected PCM notification candidate</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Post-deployment update: AUDIO-02 is owner-flashed and now has <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm3-audio-01-live-result.md">clean 44.1 kHz physical playback</a>, including the period-notification correction. The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Faudio-tools-sd.md">ALSA tools are now installed persistently on SD</a>. Use standard <code>aplay</code>/<code>amixer</code> paths; the temporary-tool instructions below record the original artifact handoff and are superseded for this device.</p>
+<p>Owner manual deployment only. Built on 2026-09-10 from the startup fix in <code>137b3f2</code>, with release <code>6.18.0-y2linux-m3audio02</code>. M3-AUDIO-01 produced audible headphone sound with clicking; clean playback is not yet qualified. This fixes positive ALSA constraint success skipping substream attachment and therefore period notifications. No route, clock, voltage, gain, memory or DT source change.</p>
+<h2 id="flash-this-image">Flash this image</h2>
+<p><code>/home/luca/Dokumente/Code/Y2Linux/out/y2linux-m3-audio-02/BOOTIMG.img</code></p>
+<p>Size: <strong>4816896 bytes</strong>. SHA256:</p>
+<pre><code class="language-text">b9dbf6b528e4afbee2a5ffb2fc65df7f6a076564e92960332e24cee3809b5842</code></pre>
+<ol><li>In the established SP Flash Tool scatter/download-agent setup choose<p><strong>Download Only</strong>. Deselect everything, then select <strong>BOOTIMG only</strong>.</p></li><li>Select the exact file above. PRELOADER, LK and every other partition remain<p>unchecked; never choose Format All or Firmware Upgrade.</p></li><li>Owner powers off the Y2, clicks Download and uses the established connection<p>sequence. Wait for success, disconnect USB, boot with the existing SD, then attach USB once after startup. The assistant does not flash or reboot.</p></li></ol>
+<p><strong>No SD update is required for this kernel correction.</strong> The matching DRM module is embedded in the rescue initramfs and loaded before SD handoff. Existing SD content and SSH keys remain usable. SD is still DEV-01 without permanent ALSA utilities: after boot we restage the reproducible temporary ALSA bundle via SSH. The previously built M3-AUDIO-01 rootfs remains the optional persistent utility update; no rootfs rebuild/image is produced for AUDIO-02. USB reconnect #27 stays deferred. Do not reuse AUDIO-01 BOOTIMG for this correction.</p>
+<h2 id="first-inspection-and-controlled-playback">First inspection and controlled playback</h2>
+<pre><code class="language-sh">ssh -i /home/luca/.ssh/y2linux_ed25519 root@10.42.0.1
+uname -r
+cat /proc/asound/cards
+cat /proc/asound/pcm
+cat /sys/bus/platform/devices/11220000.audio-controller/state
+dmesg</code></pre>
+<p>Expected release: <code>6.18.0-y2linux-m3audio02</code>; card <code>Y2Audio</code>, PCM0 <code>Y2 Headphone Playback</code>, <code>hw:CARD=Y2Audio,DEV=0</code>. Initial format/rates remain stereo S16_LE at 44100/48000 Hz. Once tools are restaged at <code>/tmp/y2-m3-audio-aa3c949</code> and the owner confirms headphone readiness:</p>
+<pre><code class="language-sh">cd /tmp/y2-m3-audio-aa3c949
+./amixer -c Y2Audio cset name=&#x27;PCM Ch Select&#x27; 0
+./amixer -c Y2Audio sset Master 207,207
+./amixer -c Y2Audio sget Master
+./amixer -c Y2Audio sset Headphone on
+./aplay -D hw:CARD=Y2Audio,DEV=0 --period-size=1024 --buffer-size=8192 audio/headphone-44100.wav
+./amixer -c Y2Audio sset Headphone off</code></pre>
+<p>Master 207 is -24 dB; the three-second fixture peaks at -30 dBFS with fades. During the supervised test use the retained shell watchdog/cleanup pattern: old SD has no <code>timeout</code> utility. Correlate playback elapsed time, PCM hw_ptr, AFE IRQ/period count and DMA CUR, CON3/CONN0, XRUNs, regulator/ASoC state and dmesg; confirm VGP2 1.8 V and no DAC reset. Require clean owner listening feedback, then short stop/restart/repeated runs and 48 kHz before accepting wired audio. A watchdog-triggered exit0 is not a completed WAV. Speaker/jack/high-resolution paths remain separately unqualified.</p>
+<h2 id="reproduction-and-validation">Reproduction and validation</h2>
+<p>Reuse AUDIO-01&#x27;s isolated kernel output via an independent reflink/copy into a fresh AUDIO-02 directory, and copy its Buildroot target and three rescue helpers. Run the canonical <code>configure.sh</code> (only LOCALVERSION differs), then one incremental <code>make -C /src O=/build/kernel -j12 Image zImage modules</code> through `tools/build/run.py --output out/y2linux-m3-audio-02`. Reuse pinned userspace; do not rebuild Buildroot. Then in that isolated environment, from <code>/project</code>:</p>
+<pre><code class="language-sh">python3 -m tools.build.dev_initramfs
+sh tools/build/dtb.sh
+python3 -m tools.validation.dev_artifacts /build --package
+Y2_ARTIFACT_TEST_ROOT=/build python3 -m unittest discover -s tests -p &#x27;test_audio*.py&#x27; -v</code></pre>
+<p>PASS: four targeted production-code/DT tests; exact ELF/Image/zImage, rescue module ABI, RAM/decompressor/reservation layout, eMMC-disabled DT and BOOTIMG validation. Resolved config equals AUDIO-01 except LOCALVERSION; rescue helper hashes are unchanged. Full build/validation logs retained as compressed evidence. This is offline validation, not physical acceptance of the correction.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

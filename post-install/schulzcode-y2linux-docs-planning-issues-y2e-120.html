@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2E-120 — Assess recovery capability and propose the next safe acquisition boundary - Innioasis Updater</title>
+  <meta name="description" content="Y2E-120 — Assess recovery capability and propose the next safe acquisition boundary <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The da">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-120.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2E-120 — Assess recovery capability and propose the next safe acquisition boundary - Innioasis Updater">
+  <meta property="og:description" content="Y2E-120 — Assess recovery capability and propose the next safe acquisition boundary <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The da">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-120.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2E-120 — Assess recovery capability and propose the next safe acquisition boundary - Innioasis Updater">
+  <meta name="twitter:description" content="Y2E-120 — Assess recovery capability and propose the next safe acquisition boundary <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The da">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2E-120 — Assess recovery capability and propose the next safe acquisition boundary</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2e-120--assess-recovery-capability-and-propose-the-next-safe-acquisition-boundary">Y2E-120 — Assess recovery capability and propose the next safe acquisition boundary</h1>
+<!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<blockquote><p>Canonical platform research task. Transferred from SchulzCode/Y2PlayerNative#5; the original URL redirects here and preserves history. This task belongs to the research/architecture workstream, not an implementation handoff. The research owner performs and reviews the evidence, then advances only satisfied prerequisites. No <code>state:luna-ready</code> label applies.</p></blockquote>
+<h2 id="goal">Goal</h2>
+<p>Produce a reviewable recovery capability/gap packet that determines the next small evidence wave.</p>
+<h2 id="why">Why</h2>
+<p>A stock firmware package and a successful firmware build do not prove the unit can recover from a failed kernel experiment.</p>
+<h2 id="dependencies">Dependencies</h2>
+<ul><li>Y2E-101: <a href="https://github.com/SchulzCode/Y2Linux/issues/1" target="_blank" rel="noopener noreferrer">https://github.com/SchulzCode/Y2Linux/issues/1</a> (evidence review required)</li><li>Y2E-105: <a href="https://github.com/SchulzCode/Y2Linux/issues/2" target="_blank" rel="noopener noreferrer">https://github.com/SchulzCode/Y2Linux/issues/2</a> (evidence review required)</li><li>Y2E-110: <a href="https://github.com/SchulzCode/Y2Linux/issues/3" target="_blank" rel="noopener noreferrer">https://github.com/SchulzCode/Y2Linux/issues/3</a> (evidence review required)</li><li>Y2E-115: <a href="https://github.com/SchulzCode/Y2Linux/issues/4" target="_blank" rel="noopener noreferrer">https://github.com/SchulzCode/Y2Linux/issues/4</a> (evidence review required)</li></ul>
+<p>Y2E-101, Y2E-105, Y2E-110 and Y2E-115 reviewed. Unresolved findings carry forward as explicit blockers, never implicit permission.</p>
+<h2 id="evidence--assumptions">Evidence / Assumptions</h2>
+<p>Historical starting point: the package has boot/recovery/system/LK/preloader/scatter files, but NVRAM and several protect/config entries have no supplied image. At Y2E-120 intake, same-device restoration and tool compatibility were unknown. <strong>Superseded by <a href="https://github.com/SchulzCode/Y2Linux/issues/6" target="_blank" rel="noopener noreferrer">Y2E-125</a>:</strong> the owner confirms successful SPFT flashing of this Y2 with the FM ROM; local v5.2032.00 and scatter history corroborate it. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Frecovery.md">current recovery knowledge</a>. The original task specification below is retained as history, not a requirement to re-prove recovery from scratch.</p>
+<h2 id="scope">Scope</h2>
+<p>Host-only recovery capability audit and a proposed acquisition sequence, with explicit preconditions for future operator work.</p>
+<h2 id="out-of-scope">Out of Scope</h2>
+<p>No new issues beyond this packet, tool installation, tool-device connection, preloader/BROM transitions, download-agent upload, rooting/exploits, flashing, raw reads, recovery rehearsal, partition formatting or M1 planning.</p>
+<h2 id="expected-files--components">Expected Files / Components</h2>
+<p><code>docs/recovery/capability-and-gaps.md</code>, <code>docs/recovery/m0-gate-checklist.md</code>.</p>
+<h2 id="instructions">Instructions</h2>
+<ol><li>Build a matrix for vendor package, current-device boot/recovery, calibration/NVRAM/protect data, independent backup copy, compatible scatter/DA/tool/host, USB normal/recovery/preloader/BROM reachability, restore runbook and actual restore proof. Give each proven/unproven/blocked state an artifact locator.</li><li>Inspect existing local flashing tool metadata/version files, manifests and historical restore records only. Missing tooling or records are UNKNOWN. Do not run a flasher or introduce a guessed SP Flash Tool/mtkclient version, DA or command. Vendor-package availability does not prove board compatibility.</li><li>Identify which exact per-device objects need backup and whether current non-root access can acquire them. Use the reviewed map; do not print executable raw read commands until all ranges/regions are verified. Distinguish partition image bytes from full partition contents and stable boot data from mutable calibration data.</li><li>Specify backup verification requirements: source device/region/offset/length, exact command/tool and status, host bytes/hash, repeat-read or independent verification where appropriate, a second independently retained copy, and treatment of mutable data consistency. Factory defaults do not replace personalized NVRAM.</li><li>Draft preconditions for a later bounded operator recovery procedure: healthy device/power/cable, exact restore inputs and expected hashes, correct host/tool/DA, explicit allowed targets, expected enumeration/timeouts, abort conditions, readback and normal boot/peripheral/calibration checks. Unknown fields remain visibly UNRESOLVED. Protect preloader/LK/partition tables/calibration from ordinary writes; never select format or whole-device download.</li><li>Explain how recovery independent of working Android must eventually be demonstrated without deliberately corrupting the unit. A stock restore rehearsal needs backups and separate explicit authorization before execution; it does not require M0 to have already passed.</li><li>Return at most three prioritized next proofs and a passive-subsystem coverage gap table for audio/FM, panel/input, power, Wi-Fi/Bluetooth/firmware and storage/USB. Each next proof states what evidence would make it ready. Do not create those issues or solve those subsystems.</li><li>Set the gate to NOT PASSED unless actual same-device proof satisfies every M0 criterion; this first batch has no restore authorization and is expected to leave the gate closed.</li></ol>
+<h2 id="acceptance-criteria">Acceptance Criteria</h2>
+<ul><li><input type="checkbox" disabled> Package availability, per-device backups and demonstrated restoration are separate states.</li><li><input type="checkbox" disabled> Exact blockers for safe readback and later restoration are visible, including tool/DA/region and device revision uncertainty.</li><li><input type="checkbox" disabled> Verification includes backup completeness/consistency, independent retention and restore readback, not hashes alone.</li><li><input type="checkbox" disabled> A bounded future procedure is concrete where evidenced and explicitly incomplete where unknown; no invented commands fill gaps.</li><li><input type="checkbox" disabled> At most three next proofs and a subsystem evidence-gap table are returned for architectural review.</li><li><input type="checkbox" disabled> Experimental kernel work remains blocked; no claim of M0 PASS from documentation alone.</li></ul>
+<h2 id="validation">Validation</h2>
+<p>Trace every asserted capability to a source from the four predecessor reports; check that each required recovery object has a state and each proposed operation has prerequisites/stop conditions. Recheck cited local hashes with <code>sha256sum &lt;file&gt;</code> where needed, then <code>git diff --check</code> and inspect staged text. No device validation is part of this task.</p>
+<h2 id="expected-artifact">Expected Artifact</h2>
+<p>A recovery decision packet and explicitly unresolved M0 gate checklist ready for review.</p>
+<h2 id="execution-contract">Execution contract</h2>
+<p>Y2Linux is the canonical home for all platform research, evidence, recovery and Linux bring-up. Y2PlayerNative is reserved for the later Rust/C application. Preserve stable Y2E IDs. Do one task only; no application/kernel implementation, DTS changes, builds, flashing, reboot, boot-mode transitions, installs, adb root/su, remount, property/settings writes, radio toggles, log clearing, register access, guessed ioctls, bus probes, raw partition reads or writes. Read-only shell inspection is allowed only where explicitly listed.</p>
+<p>Use the existing Git author/committer configuration and authenticated GitHub user. Verify with <code>git var GIT_AUTHOR_IDENT</code> and <code>git var GIT_COMMITTER_IDENT</code> before committing; stop if identity is missing or wrong. Never change identity or add model attribution.</p>
+<p>Store raw files under ignored <code>evidence-private/&lt;capture-id&gt;/</code>; commit only reviewed/redacted reports and manifests. Use host UTC time; record device clock separately if available. For every observation record exact command/tool version, capture ID, source/build lineage, local exit status, remote exit status where obtainable, stdout/stderr, size, SHA-256, and outcome COLLECTED/EMPTY/DENIED/UNAVAILABLE/FAILED. Facts use CONFIRMED/INFERRED/UNKNOWN/DISPROVEN with evidence locator, date and task ID. Inspect error text: archived ADB commands returned host exit 0 with remote denial. Do not publish firmware, calibration, serial/MAC identifiers, credentials, pairing data or personal media.</p>
+<h2 id="stop-conditions">Stop Conditions</h2>
+<p>Stop the affected activity and report if identity is missing/wrong, inputs fail integrity checks, device identity differs unexpectedly, the target is ambiguous/offline/unauthorized, a command would mutate device state, or scope requires new tooling/privileges/architectural decisions. Record a bounded denial/missing resource and continue only other explicitly independent observations; never bypass it.</p>
+<h2 id="risk">Risk</h2>
+<p>Low: host documentation/offline analysis and explicitly bounded non-root observations only.</p>
+<h2 id="recovery">Recovery</h2>
+<p>No device mutation is allowed. Missing access is evidence; it does not authorize a privilege or boot change.</p>
+<h2 id="completion-report">Completion Report</h2>
+<p>Report files changed, exact commands and tool versions, validation results, artifact manifest/hashes, provenance/limitations, unexpected findings, unresolved blockers and one suggested next step. Do not implement the suggestion. The research owner must review the evidence before advancing a dependent research task; closing this issue does not pass M0.</p>
+<h2 id="unlocks">Unlocks</h2>
+<p>Architectural review of the first evidence boundary only. No automatic M1 or flash authorization.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

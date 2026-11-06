@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Current non-root system baseline - Innioasis Updater</title>
+  <meta name="description" content="Current non-root system baseline <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, nex">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-stock-system-baseline.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Current non-root system baseline - Innioasis Updater">
+  <meta property="og:description" content="Current non-root system baseline <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, nex">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-stock-system-baseline.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Current non-root system baseline - Innioasis Updater">
+  <meta name="twitter:description" content="Current non-root system baseline <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claims, nex">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Current non-root system baseline</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="current-non-root-system-baseline">Current non-root system baseline</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Date: 2026-09-08. Task: <a href="https://github.com/SchulzCode/Y2Linux/issues/2" target="_blank" rel="noopener noreferrer">Y2E-105</a>. Capture: <code>20260908-stock</code>. One authorized USB target was selected explicitly for all remote commands; its serial and full properties remain private. No device state was intentionally changed.</p>
+<h2 id="method-and-status">Method and status</h2>
+<p>Host ADB: 1.0.41, platform-tools <code>37.0.1-15733141</code>, <code>/opt/android-sdk/platform-tools/adb</code>. Initial sandbox USB/ADB access was denied; the host-side permission retry succeeded. This is distinct from device-side access denial. Commands were captured separately with a 15-second host timeout. The first status-marker attempt failed because the device lacks <code>printf</code>; its diagnostic output was retained. The compatible form was <code>&lt;read command&gt;; y2_rc=$?; echo __Y2_REMOTE_EXIT__=$y2_rc</code>. Both host status and remote marker are retained. Device clock is recorded separately; host UTC anchors the session.</p>
+<table><thead><tr><th>Evidence</th><th>Result</th><th>Scope</th></tr></thead><tbody><tr><td><code>id</code></td><td>CONFIRMED uid 2000 shell, SELinux context <code>u:r:init_shell:s0</code></td><td>Non-root only; no privilege changes attempted.</td></tr><tr><td><code>/proc/version</code></td><td>CONFIRMED Linux 3.4.67, GCC 4.7, SMP PREEMPT, build timestamp June 1 2026</td><td>Version string alone does not exclude a patched kernel.</td></tr><tr><td><code>/proc/cpuinfo</code></td><td>CONFIRMED MT6582, Cortex-A7 part 0xc07, ARMv7, NEON/VFPv4</td><td>Revision string 0000 is not a physical PCB-revision identification.</td></tr><tr><td>Selected properties</td><td>Android 4.4.2/API 19, model/board/device Y2, <code>ro.hardware=mt6582</code></td><td>Current runtime evidence supersedes assumptions about hardware property resolution.</td></tr><tr><td>Build identity</td><td><code>Y2/Y2/Y2:4.4.2/KOT49H/1786599642:user/test-keys</code>, display <code>Y2-v1.0.0</code></td><td>Device is not certified stock. Exact installed boot/system image hashes and installation lineage remain UNKNOWN.</td></tr><tr><td>Security/USB properties</td><td>secure=1, debuggable=0, adb.secure=1; <code>mass_storage,adb</code></td><td>Consistent with secure non-root ADB; does not uniquely identify an image.</td></tr><tr><td><code>/proc/meminfo</code>, interrupts, iomem, CPU topology</td><td>COLLECTED</td><td>Evidence available for later memory/IRQ analysis; do not treat an incomplete reservation map as boot-ready.</td></tr><tr><td><code>/proc/modules</code></td><td>EMPTY successful observation</td><td>No loadable modules listed at capture; built-ins remain possible.</td></tr><tr><td><code>/proc/cmdline</code>, <code>dmesg</code></td><td>DENIED, remote 1 while ADB host 0</td><td>No root/su workaround.</td></tr><tr><td><code>uname -a</code></td><td>UNAVAILABLE, remote 127 while ADB host 0</td><td>Use the separately captured proc version.</td></tr><tr><td>config.gz and exported DT paths</td><td>UNAVAILABLE, remote 1</td><td>No exported tree/config; embedded config/DT remains an offline question.</td></tr><tr><td>Module/firmware directory metadata</td><td>PARTIAL; aggregate remote 1</td><td><code>/system</code> paths list entries while <code>/vendor/lib/modules</code> and <code>/vendor/firmware</code> are absent. Do not discard the successful portion.</td></tr><tr><td><code>dumpsys battery</code></td><td>COLLECTED but internally conflicting</td><td>Repeated status/present/level fields disagree (100/50 and true/false). Do not infer battery health or adequate recovery power from this service alone.</td></tr></tbody></table>
+<p>Firmware names include <code>WIFI_RAM_CODE_MT6582</code>, other Wi-Fi variants, <code>WMT_SOC.cfg</code>, MT6572/82 patch blobs and an <code>mt6627</code> directory. <code>/system/lib/modules/wlan.ko</code> points to <code>wlan_consys_mt6582.ko</code>; the listing alone does not establish that the target exists or is loaded. No firmware was executed and no radio state was toggled.</p>
+<p>Mount evidence shows read-only <code>/system</code>, writable <code>/data</code>, <code>/cache</code>, <code>/protect_f</code> and <code>/protect_s</code>, plus mounted internal and removable-card media. USB composition does not prove storage is safely quiesced for a raw snapshot. Protect/calibration candidates are mutable mounted filesystems at this point.</p>
+<h2 id="review-decision">Review decision</h2>
+<p>The access baseline is complete, including denials and missing exports. The target is a non-root stock-family Android system; exact installed provenance remains unknown. This is sufficient for Y2E-110 to read partition <strong>metadata only</strong>. It is insufficient for raw partition acquisition, any recovery write or Linux boot. Battery service inconsistency is recorded as a separate observation for later passive power investigation.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

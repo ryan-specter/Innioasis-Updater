@@ -13,7 +13,7 @@
     <link rel="alternate" type="text/html" href="https://github.com/y1-community/y1-linux-rom/releases/tag/0.0.1"/>
     <innioasis:tag_name>0.0.1</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-linux-rom/releases/download/0.0.1/rom.zip" title="rom.zip" length="270175226" type="application/zip" innioasis:download_count="34" innioasis:asset_id="608039598"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-linux-rom/releases/download/0.0.1/rom.zip" title="rom.zip" length="270175226" type="application/zip" innioasis:download_count="38" innioasis:asset_id="608039598"/>
     <content type="text">This is a release of Linux for the Innioasis Y1 intended for developers to create novel experiences on the Innioasis Y1 audio player.
 
 Credit to @palutenfan123 for building this.</content>

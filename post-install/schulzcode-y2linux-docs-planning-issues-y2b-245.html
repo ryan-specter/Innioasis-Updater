@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2B-245 — Useful on-screen Linux diagnostic environment - Innioasis Updater</title>
+  <meta name="description" content="Y2B-245 — Useful on-screen Linux diagnostic environment <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "cu">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2b-245.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2B-245 — Useful on-screen Linux diagnostic environment - Innioasis Updater">
+  <meta property="og:description" content="Y2B-245 — Useful on-screen Linux diagnostic environment <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "cu">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2b-245.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2B-245 — Useful on-screen Linux diagnostic environment - Innioasis Updater">
+  <meta name="twitter:description" content="Y2B-245 — Useful on-screen Linux diagnostic environment <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "cu">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2B-245 — Useful on-screen Linux diagnostic environment</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2b-245--useful-on-screen-linux-diagnostic-environment">Y2B-245 — Useful on-screen Linux diagnostic environment</h1>
+<!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Depends on Y2B-240 #19: the owner observed solid green, proving the implemented PID1 diagnostic stage. No heartbeat/checkerboard result is claimed. M1&#x27;s Linux plus initramfs PID1 boot objective is achieved; continued execution and richer diagnostic output remain to be demonstrated.</p>
+<p>Implement offline only. Keep D08 RAM, CPU0, DT hardware, loader packaging, watchdog entry and D13 hardware guard unchanged. No deployment in this issue.</p>
+<h2 id="intended-change-d14">Intended change (D14)</h2>
+<ul><li>Tiny 5x7 bitmap font doubled to 10x14 pixels in 12x16 cells: 40 columns,<p>22 rows, inside the proven 480x360 RGB565 aperture. Kernel owns two status rows; PID1 supplies 20 bounded text rows. No display-controller writes.</p></li><li>A root/PID1-only character endpoint <code>/dev/y2diag</code> at local experimental<p>char major 120, minor 0 accepts only a fixed, versioned text-frame packet. No mmap, raw address, arbitrary pixel or register access. It permits reporting failed proc/sysfs mounts without depending on those mounts to paint.</p></li><li>Fresh framebuffer/watchdog guards before every frame; kernel status reports<p>only successful guard observations. Invalid guard state stops pixel writes.</p></li><li>PID1 first presents status, then gathers bounded read-only runtime values<p>with visible progress markers. Show version, PID1, CPU/board identity with DT-described versus runtime values distinguished, CPUs online, MemTotal and D08-described RAM, uptime, timer IRQ count, heartbeat and mount/error status.</p></li><li>No PID1 console dumps or hot-path printk. UART hardware/console support stays<p>compiled for optional early output. Screen refresh must not await UART drain.</p></li><li>One-second checked sleeps, changing counter/indicator; bounded 50-iteration<p>diagnostic run followed by a clear STOP/RESTORE screen. Host 60-second limit still governs any later authorized experiment. No automatic reset or flash.</p></li></ul>
+<h2 id="acceptance">Acceptance</h2>
+<ul><li><input type="checkbox" disabled checked> Font, frame validation and pixel bounds tested against malformed frames.</li><li><input type="checkbox" disabled checked> Runtime formatting/parsing and failure paths tested; no silent truncation<p>or timer/read success inferred from an unchecked return code.</p></li><li><input type="checkbox" disabled checked> Actual ARM PID1 screen loop exercised with a host syscall fixture, including<p>failed mounts/read/sleep and a console-write trap; distinguish from hardware.</p></li><li><input type="checkbox" disabled checked> All existing D08/artifact/packaging/watchdog tests pass without weakened limits.</li><li><input type="checkbox" disabled checked> Two fresh locked builds match; reviewed source/artifact hashes retained.</li><li><input type="checkbox" disabled checked> BOOTIMG retained separately from Y2B-240; exact hash and expected screen<p>sequence documented. No flash performed; no automatic M2 work.</p></li></ul>
+<p>Completed offline: source <code>d83fccfcc03f86f2085ed1279aa3dce352fcf8fe</code>; two clean builds match and all 14 tests pass. Candidate: <code>out/m1-y2b245-diagnostics/BOOTIMG.img</code>, 1,091,584 bytes, SHA-256 <code>f2c048405c7aafc5c368d51b85a9eeb9d9f42ee3b1a6abe308701e5b551c52a0</code>. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fbuild%2Fy2b245-result.md">Result</a>. No flash performed; this issue does not authorize a new hardware trial.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

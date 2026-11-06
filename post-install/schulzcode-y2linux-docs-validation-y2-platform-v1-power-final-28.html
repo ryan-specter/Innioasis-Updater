@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-28 — stock battery percentage and top-off - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-28 — stock battery percentage and top-off Status: SEALED, AWAITING THE OWNER FLASH 2026-10-14. Package out/y2linux-platform-v1-power-final-candidate-28/ fallb">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-28.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-28 — stock battery percentage and top-off - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-28 — stock battery percentage and top-off Status: SEALED, AWAITING THE OWNER FLASH 2026-10-14. Package out/y2linux-platform-v1-power-final-candidate-28/ fallb">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-28.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-28 — stock battery percentage and top-off - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-28 — stock battery percentage and top-off Status: SEALED, AWAITING THE OWNER FLASH 2026-10-14. Package out/y2linux-platform-v1-power-final-candidate-28/ fallb">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-28 — stock battery percentage and top-off</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-28--stock-battery-percentage-and-top-off">POWER-FINAL-28 — stock battery percentage and top-off</h1>
+<p>Status: <strong>SEALED, AWAITING THE OWNER FLASH</strong> (2026-10-14). Package <code>out/y2linux-platform-v1-power-final-candidate-28/</code> (fallback = 27), receipts <code>out/deep-sleep-final/build28-receipts/</code>. BOOTIMG <code>eb413fdc22ac656ed85067efd62d86da01e1c24057b9c8cdede53ffd0b779c94</code>, Y2ROOT <code>7537ba4311b347355e5a6df1edfca2a793eb02fef1f4f7bf671ccefa0a01afdf</code>. Identity: build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-28</code>, kernel <code>6.18.56-y2linux-platform-v1-power-final-28</code>, root <code>2026.08-platform-v1.58</code>, release <code>1.0.0-platform-v1-power-final-candidate.28</code>; Linux <code>36b8500</code> (changes <code>257fe3b</code>), Reborn <code>1c9edd4</code> (unchanged). Contains 27 (stock panel power-down, idle VGP2, VSYS sleep state).</p>
+<h2 id="why">Why</h2>
+<p>Owner: on the charger 100 %, after a restart about 80 %; wanted 100 % when really full, then 99, 98, 97 … Stock analysis with REA: ledger F28–F33 (<code>docs/knowledge/stock-suspend-re-ledger.md</code>). Measured on 27 (boot <code>5919b4fe</code>): the first sample after boot read 4.002 V under load (87 %) while the PMIC&#x27;s power-on OCV was 4.062 V; the charger stopped at the first 4.175 V sample, so the pack rested ≈4.09 V (95 % on the stock curve), and on the charger it ran from the battery down to 4.00 V (87 %) while the display said 100; nothing survived a restart.</p>
+<h2 id="what-28-changes">What 28 changes</h2>
+<table><thead><tr><th>Area</th><th>Stock (REA)</th><th>28</th></tr></thead><tbody><tr><td>Top-off</td><td>Hardware CV until <code>(ISENSE − BATSNS + offset) × 1000 / 68 ≤ 150 mA</code> for 6 × 10 s, or 3 h (<code>BAT_TopOffModeAction</code>, <code>battery_meter_get_charging_current</code>).</td><td>First 4.175 V sample at the normal current → 70 mA finish stage; Full at 4.175 V again or when the net sense drop ≤ 10.2 mV for 6 samples ≥10 s apart. 4.175 V target, hardware CV selector 30, 4.2 V guard and all timers/protections unchanged. <code>charging_state</code> shows <code>finish</code>, <code>taper_samples</code>, <code>full_rest_uv</code>, <code>recharge_uv</code>.</td></tr><tr><td>Recharge</td><td>Below 4.110 V.</td><td>Below min(4.110 V, last Full rest − 30 mV), floor 4.00 V.</td></tr><tr><td>Boot voltage</td><td><code>get_hw_ocv</code>: PMIC 0x724 latched at power-on.</td><td>BAT0 <code>voltage_ocv</code>, read once at probe; used for the first estimate unless a charger moved it by 31+ points.</td></tr><tr><td>Display</td><td>UI SOC separate from SOC; 99 cap while charging; +1 per 10 s to 100 at Full and gauge reset; 100 through recharges; down-only on battery; saved in an RTC spare register, reused within 40 points.</td><td>Same rules in <code>battery.py</code>; 100 = the curve value at the Full rest voltage (<code>anchor_percent</code>); saved in <code>/data/system/platform/battery-ui.json</code>. <code>power.json</code> battery adds <code>estimate_percent</code>, <code>anchor_percent</code>, <code>full_latched</code>.</td></tr></tbody></table>
+<h2 id="tests">Tests</h2>
+<p>New/updated: <code>test_charger</code> (finish stage, stock taper rule and its 10-s spacing, recharge level and its loop guard, unknown current = 26 behaviour, boot OCV conversion of the live 0xc813 → 4062 mV), <code>test_battery_soc</code> (99 cap, Full count-up, 100 held on the charger, 100 → 99 → 98 → 97 single steps after unplug, restart restores 100 instead of the 87 % boot sag, 40-point and charger-moved-OCV refusals, persistence wiring). Kernel warnings unchanged (47, vendor Wi-Fi). Platform: <code>validate.py</code> PASS, ELF closure 354 PASS, installed ARM PASS, privacy clean, inventory 108 packages, container suite <strong>707 OK</strong>.</p>
+<h2 id="owner-checks-after-the-flash">Owner checks after the flash</h2>
+<ol><li>First boot: <code>cat /sys/class/power_supply/BAT0/voltage_ocv</code> (power-on OCV) and the shown percentage.</li><li>One full charge on the PC with SSH (archive before/after): <code>charging_state</code> must go <code>finish=1</code> at 4.175 V with<p><code>charge_limit_ua=70000</code>, then Full; note <code>full_rest_uv</code> (expected clearly above 26&#x27;s 4.09 V) and <code>recharge_uv</code>. No fault (<code>fault=0x0</code>), especially not 0x8.</p></li><li>On the charger after Full: display 100; then unplug and watch 100 → 99 → 98.</li><li>Restart (hold Power): the percentage stays where it was (not ≈80 %).</li><li>Still open from 27: one short sleep to read the VSYS/pmic_sleep counters.</li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

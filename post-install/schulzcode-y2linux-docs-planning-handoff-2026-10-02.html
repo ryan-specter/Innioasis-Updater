@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Handoff for 2026-10-02 — documentation and repository catch-up - Innioasis Updater</title>
+  <meta name="description" content="Handoff for 2026-10-02 — documentation and repository catch-up <!-- knowledge-base-scope: scoped-validation-record -- Working note, written 2026-10-01 evening. Tomorrow's">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-handoff-2026-10-02.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Handoff for 2026-10-02 — documentation and repository catch-up - Innioasis Updater">
+  <meta property="og:description" content="Handoff for 2026-10-02 — documentation and repository catch-up <!-- knowledge-base-scope: scoped-validation-record -- Working note, written 2026-10-01 evening. Tomorrow's">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-handoff-2026-10-02.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Handoff for 2026-10-02 — documentation and repository catch-up - Innioasis Updater">
+  <meta name="twitter:description" content="Handoff for 2026-10-02 — documentation and repository catch-up <!-- knowledge-base-scope: scoped-validation-record -- Working note, written 2026-10-01 evening. Tomorrow's">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Handoff for 2026-10-02 — documentation and repository catch-up</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="handoff-for-2026-10-02--documentation-and-repository-catch-up">Handoff for 2026-10-02 — documentation and repository catch-up</h1>
+<!-- knowledge-base-scope: scoped-validation-record -->
+> **Working note, written 2026-10-01 evening.** Tomorrow's job: bring the
+> documentation up to what is on the device, then bring the remote repositories
+> up to the local work. No code changes are pending; both working trees are
+> clean.
+<h2 id="where-things-stand">Where things stand</h2>
+<p>The device runs <strong>storage ceiling candidate 2</strong>:</p>
+<ul><li>Kernel <code>6.18.0-y2linux-storage-ceiling-02</code>, root <code>2025.02.18-platform-v1.12</code>.</li><li>Linux <code>4db6d6de</code>, Reborn <code>b92d312c</code>.</li><li>Package <code>out/y2linux-storage-ceiling-02-candidate/</code>: BOOTIMG <code>5c17f744…</code>, Y2ROOT <code>dc611011…</code>.</li></ul>
+<p>Quick device check on candidate 2, 2026-10-01, read-only 128 MiB direct reads:</p>
+<table><thead><tr><th>Host</th><th>Result</th></tr></thead><tbody><tr><td>eMMC</td><td><strong>HS200</strong>, 8-bit, 200 MHz, 1.8 V, tuning and readback pass. ~140 MB/s read. 0 CRC/timeout events, 0 fallbacks</td></tr><tr><td>SD (SD128 119 GiB UHS-I SDXC)</td><td>Boots at <strong>SDR104</strong>, 200 MHz, 1.8 V; tuning and readback pass, mounted. Under the first sustained read: 2 CRC errors, then automatic fallback <strong>SDR104 → DDR50</strong> with card re-init and readback pass. ~40 MB/s at DDR50. No I/O errors reached the filesystem</td></tr></tbody></table>
+<p>Candidate 1 booted earlier the same day. eMMC was fine, but SD never initialised: the PWRAP gate refused the VMC/VMCH writes. Commit <code>61a353b</code> fixed it.</p>
+<h2 id="1-documentation-to-update">1. Documentation to update</h2>
+<p>The candidate 2 section of <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-STORAGE-CEILING.md">Y2-STORAGE-CEILING.md</a> still says SD at the ceiling is &quot;not yet observed&quot;. Update:</p>
+<ul><li><input type="checkbox" disabled> <strong><code>docs/validation/Y2-STORAGE-CEILING.md</code></strong>: add the candidate 2 device<p>result above. SDR104 negotiates but is <strong>not stable</strong> on this card/board under load. The fallback ladder worked as designed. Restate the per-host answers: - eMMC HS200: observed working. - SD 1.8 V UHS: observed working. - SD SDR104: negotiates, but CRC errors under load. - DDR50: observed stable in a short read.</p></li><li><input type="checkbox" disabled> <strong><code>docs/CURRENT_PLATFORM_STATE.md</code></strong>:<ul><li>Candidate 2 is now the installed pair, not just &quot;the candidate to flash&quot;.</li><li>Add the storage observations.</li><li>Decide whether this update also refreshes the &quot;Latest physically observed<p>identity&quot; table, which still shows Fix02. A full physical qualification was not run, so record this as a quick storage check only.</p></li></ul></li><li><input type="checkbox" disabled> <strong><code>docs/knowledge/candidate-index.md</code></strong>: mark candidate 2 as<p>owner-flashed and booted, with the storage quick-check result.</p></li><li><input type="checkbox" disabled> <strong><code>docs/validation/Y2-HARDWARE-FINAL-CAPABILITIES.md</code></strong> (capability<p>ledger): eMMC/SD rows still describe 50 MHz. Add the new ceilings and the observed state.</p></li><li><input type="checkbox" disabled> <strong><code>tools/platform/capabilities.json</code></strong>: decide whether SD <code>ceiling</code> text<p>should say SDR104 is unstable on the tested card. Qualification flags stay <code>false</code>.</p></li><li><input type="checkbox" disabled> <strong><code>docs/architecture/platform-storage-v1.md</code></strong>: mention the<p><code>y2_storage</code> status record, the <code>y2.emmc_mode</code>/<code>y2.sd_mode</code> boot controls and the fallback ladder.</p></li><li><input type="checkbox" disabled> <strong>Reborn docs</strong>:<ul><li>Diagnostics → Storage now shows mode, card, tuning and fault lines (Reborn<p><code>b92d312</code>).</p></li><li>Check <code>../Y2Reborn/docs/CURRENT_REBORN_STATE.md</code> and the platform boundary<p>doc for the new <code>storage.controllers[].mode</code> field.</p></li></ul></li><li><input type="checkbox" disabled> Run <code>python3 tools/development/check-docs.py</code> (both repos) and update<p>catalog counts for any new page.</p></li></ul>
+<h2 id="2-repository-catch-up">2. Repository catch-up</h2>
+<p>Nothing has been pushed. Both <code>main</code> branches are ahead of <code>origin/main</code>:</p>
+<table><thead><tr><th>Repo</th><th>Ahead</th><th>Includes</th></tr></thead><tbody><tr><td>Y2Linux</td><td>42 commits</td><td>CPU Final Fix03, Product UI v2 platform changes, storage ceiling <code>fe8d10a</code>…<code>5401943</code>, this handoff</td></tr><tr><td>Y2Reborn</td><td>7 commits</td><td>Product UI v2 (<code>94e79d8</code>…<code>bd8436d</code>), Diagnostics storage mode <code>b92d312</code></td></tr></tbody></table>
+<ul><li><input type="checkbox" disabled> Review <code>git log origin/main..main</code> in both repos, then push once the<p>docs above are committed. Pushing is the owner&#x27;s decision; nothing was pushed automatically.</p></li><li><input type="checkbox" disabled> Optional cleanup: many build worktrees under <code>out/*-worktrees/</code> and<p>prunable ones under <code>/tmp/y2linux-*</code> (<code>git worktree prune</code> removes the prunable ones). Keep <code>out/storage-ceiling-worktrees/</code> until candidate 2 is accepted.</p></li></ul>
+<h2 id="3-open-technical-decision-not-documentation">3. Open technical decision (not documentation)</h2>
+<p>SDR104 hits CRC errors under sustained reads. Every boot starts at SDR104 and falls back on the first load. Options:</p>
+<ul><li>Try the stock 1.8 V pad drive. LK leaves the SD pads at 1/1/1; the<p>driver&#x27;s 1.8 V table is 4/4/4. Check whether the drive write took effect, or test stronger values.</p></li><li>Extend tuning (data-path delay), then re-test.</li><li>Or set the SD ceiling to DDR50/SDR50 (<code>y2.sd_mode=</code> or the default ladder)<p>so it never starts with errors. Throughput is about the same, ~40–50 MB/s.</p></li></ul>
+<h2 id="known-unrelated-notes">Known unrelated notes</h2>
+<ul><li><code>tests/test_baseline.py</code> fails locally on a clean tree too. It predates the<p>connectivity PMIC fields and is not in the production suite.</p></li><li><code>test_hardware_final_contract</code>, <code>test_dev_*</code>, <code>test_bootimg</code> need<p><code>pyelftools</code> and only run in the build container (<code>tools/production/tests.sh</code>).</p></li><li>The Y2Linux repo forbids model attribution in commits. Reborn has no local<p>git identity configured; commit with <code>git -c user.name=Luca -c user.email=116190857+SchulzCode@users.noreply.github.com</code>.</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

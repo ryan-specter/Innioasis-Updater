@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-18 — stock PMIC suspend fields - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-18 — stock PMIC suspend fields Status: INSTALLED, FIRST BOOT HEALTHY; tagged baseline-18 2026-10-13. Package out/y2linux-platform-v1-power-final-candidate-18/">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-18.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-18 — stock PMIC suspend fields - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-18 — stock PMIC suspend fields Status: INSTALLED, FIRST BOOT HEALTHY; tagged baseline-18 2026-10-13. Package out/y2linux-platform-v1-power-final-candidate-18/">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-18.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-18 — stock PMIC suspend fields - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-18 — stock PMIC suspend fields Status: INSTALLED, FIRST BOOT HEALTHY; tagged baseline-18 2026-10-13. Package out/y2linux-platform-v1-power-final-candidate-18/">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-18 — stock PMIC suspend fields</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-18--stock-pmic-suspend-fields">POWER-FINAL-18 — stock PMIC suspend fields</h1>
+<p>Status: <strong>INSTALLED, FIRST BOOT HEALTHY; tagged <code>baseline-18</code></strong> (2026-10-13). Package <code>out/y2linux-platform-v1-power-final-candidate-18/</code> (fallback = 17 = <code>baseline-17</code>), receipts <code>out/deep-sleep-final/build18-receipts/</code>. BOOTIMG <code>5d4052282f37f224c4328ffdd1a2e167c0213596f2ba90c147a9574219042ace</code>, Y2ROOT <code>718528695cdd681fe093fc895c1c4c0285ab0c5c4a616246d1548ea36b32c612</code>. Identity: build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-18</code>, kernel <code>6.18.56-y2linux-platform-v1-power-final-18</code>, root <code>2026.08-platform-v1.48</code>, release <code>1.0.0-platform-v1-power-final-candidate.18</code>; Linux <code>d2fff53</code> on <code>main</code> (later: test-only commits), Reborn unchanged (<code>217e28d</code>). Flash BOOTIMG + ANDROID only with <code>MT6582_preserve_data_scatter.txt</code>, Download Only. Scope audit: &quot;POWER-FINAL-18 PMIC suspend-field scope audit&quot; in the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap gap audit</a>.</p>
+<h2 id="why">Why</h2>
+<p>17 showed that the SoC side of sleep is now stock-identical (REA on the stock kernel, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fstock-suspend-re-ledger.md">ledger</a> F14) while INFRA still never powers down and the night drain was ≈8.6 mA on 16. All 15 PMIC rows that still differed from the stock suspend golden were mapped to stock field names (F15). The prime suspect is the PMIC&#x27;s audio 26 MHz clock-square request, <code>rg_clksq_en_aud</code>: stock clears it when no analog audio is in use and in its audio suspend hook; Linux never wrote it, so the bootloader&#x27;s 1 stayed set all the time (F16).</p>
+<h2 id="what-18-changes">What 18 changes</h2>
+<table><thead><tr><th>Group (<code>pmic_sleep</code> bit)</th><th>Stock suspend value applied inside the SPM enter callback, exact restore before any device resumes</th></tr></thead><tbody><tr><td>1 audio clocks</td><td>0x102[0] <code>rg_clksq_en_aud</code> 1 → 0; 0x70c[4] <code>rg_adacck_en</code> 1 → 0</td></tr><tr><td>2 unused PMIC clocks</td><td>0x108[6] <code>rg_drv_2m_ck_pdn</code>, 0x108[10] <code>rg_rtc_mclk_pdn</code>, 0x108[12] <code>rg_efuse_ck_pdn</code>, 0x10e[5] <code>rg_auxadc_ctl_ck_pdn</code> 0 → 1</td></tr><tr><td>4 VREF18</td><td>0x776[15] <code>rg_vref18_enb</code>, 0x778[15] <code>rg_vref18_enb_md</code> 0 → 1</td></tr></tbody></table>
+<p>The PMIC write policy admits exactly these bits. A field already at stock is not written; a failed write undoes everything already written and sleep continues unchanged. The PMIC golden capture now runs after the VPROC and PMIC steps, so <code>pmic_golden</code> shows what really enters sleep (the four VPROC rows no longer appear as differences). State: <code>/sys/module/pwrap/parameters/pmic_sleep_state</code> (`groups entries restores failures last_error last_changed pending<code>), also in every sleep-diagnostics row. Owner switch:</code>{&quot;pmic_sleep&quot;: 0}` (or 1/2/4 subsets) in <code>/data/system/platform/power-features.json</code>.</p>
+<p>Also: power-journal rows keep <code>suspend.reason</code> and <code>suspend.error</code> (17 lost why two requests were refused).</p>
+<p><strong>Not in 18:</strong></p>
+<ul><li><strong>VEMC3V3 (eMMC supply) off.</strong> Overlay 0029 keeps the root eMMC powered and in transfer state across suspend<p>without re-initialisation, because the storage firewall blocks the commands a re-init needs. Removing its supply would break the next root access. It needs a different eMMC suspend model first (CMD5 sleep and re-init through the firewall), which is separate storage work with data risk.</p></li><li>0x108[9] headset-detect clock: Linux already gates it; stock keeps it running.</li><li>AUXADC hardware-mode/reset bits, VSYS/VPA sleep, depop VCM.</li></ul>
+<h2 id="tests">Tests</h2>
+<p>Unit: <code>test_pmic_sleep</code> (apply reaches stock on 17&#x27;s real entry values, bit-exact restore, per group, no write when already stock, failed write and failed readback undone, every write passes the production PMIC policy, VEMC enable closed), wiring order and switch, journal reason.</p>
+<p>Locked-container production suite: 685 cases, exit 0 (17: 682). Two existing harnesses that compile the real <code>y2_spm_enter()</code> needed stubs for the new step (they now also check it is balanced on every abort and runs inside the VPROC window). Package validation, ELF closure, installed ARM, privacy and inventory PASS.</p>
+<h2 id="hardware-results">Hardware results</h2>
+<p>**First boot (2026-10-13, boot <code>69ef8c26</code>, archive <code>out/deep-sleep-final/evidence/20261013/113-power18-first-check/</code>, captured at 27 s uptime; state re-read at 55 s):** kernel <code>-power-final-18</code>, taint 0, <code>application_ready</code> 44.3 s; <code>pmic_sleep=7</code>, <code>pmic_sleep_state groups=0x7 entries=0 failures=0</code>; <code>md1_gate=1 md1_sta=0x3ffffff</code>, <code>dcm_result=0</code>, <code>golden_apply=0xf</code>, <code>dis_pdn=1</code>; Wi-Fi (<code>wlan0</code>), Bluetooth (<code>hci0</code>), USB/SSH up, charging. Known lines only (eMMC erase, splash <code>Errno 22</code>). The first SSH attempt timed out during boot. Sleep test (1 h) next.</p>
+<p><strong>1-hour sleep (2026-10-13, archive <code>out/deep-sleep-final/evidence/20261013/114-power18-hour-sleep/</code>):</strong> unplugged sleep 12:20:56 → Power 13:23:47 (63 min), 3 entries / 3 resumes / 0 aborts, two 1800-s maintenance wakes, wake <code>0x20</code>; USB worked after the replug.</p>
+<ul><li><strong>PMIC step:</strong> <code>pmic_sleep_state entries=3 restores=3 failures=0 last_changed=0x3f pending=0x0</code> — all six fields<p>applied and restored on every cycle. PMIC golden differences <strong>15 → 7</strong> (left: 0x04e/0x120 AUXADC modes, 0x108[9] accdet (Linux gates more than stock), 0x256 VSYS sleep, 0x310 VPA, 0x508 VEMC3V3, 0x70c[9] depop VCM). SoC golden 10/34.</p></li><li><strong>INFRA still retained:</strong> <code>last_lost=0x0</code>, <code>pdn0 0x2fcffff</code> on all 3 restores. The PMIC audio clock request was not<p>the (only) INFRA blocker.</p></li><li>Wake: SPM return 95.13 s → DSI modeset 95.66 s (≈0.5 s, as 17).</li><li>USB: <code>dma_unmask_rearms=8</code>, <code>dma_unmask_lost=3</code> (real losses, re-armed, USB fine).</li><li>Audio after the wake: no playback logged before the capture (owner check pending). The Bluetooth<p><code>SelectCodec ... no_eligible_codec</code> warning after reconnect also appears on 16/17 (SBC-only gate), not new.</p></li><li>No drain figure: the sleep started 18 s after unplugging from the charger (4.06 V charging → 4.02 V), relaxation<p>dominates an hour.</p></li></ul>
+<h2 id="what-to-check-after-the-flash">What to check after the flash</h2>
+<ol><li>Display, audio (headphones and Bluetooth), Wi-Fi, USB, charging as on 17.</li><li><code>cat /sys/module/pwrap/parameters/pmic_sleep</code> = 7.</li><li>After a sleep: <code>pmic_sleep_state</code> <code>entries</code> = sleeps, <code>restores</code> = entries, <code>failures=0</code>, <code>last_changed=0x3f</code><p>(six fields); <strong>audio still plays after the wake</strong>; <code>pmic_golden</code> differences down (VEMC row and the unadopted rows remain); <code>y2_infra/state last_lost</code> (non-zero = INFRA finally powers down).</p></li><li>Overnight drain against 16&#x27;s ≈8.6 mA (and 17&#x27;s night if measured).</li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

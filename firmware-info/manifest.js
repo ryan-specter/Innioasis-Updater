@@ -81,6 +81,62 @@ window.INNIOASIS_README_PAGES = {
       "solar-y2"
     ]
   },
+  "y1-community/g1-stock-rom": {
+    "name": "Original Software",
+    "page": "firmware-info/y1-community-g1-stock-rom.html",
+    "slugs": [
+      "original-g1"
+    ]
+  },
+  "y1-community/g3-stock-rom": {
+    "name": "Original Software",
+    "page": "firmware-info/y1-community-g3-stock-rom.html",
+    "slugs": [
+      "original-g3"
+    ]
+  },
+  "y1-community/g5-stock-rom": {
+    "name": "Original Software",
+    "page": "firmware-info/y1-community-g5-stock-rom.html",
+    "slugs": [
+      "original-g5"
+    ]
+  },
+  "y1-community/pr1-stock-rom": {
+    "name": "Original Software",
+    "page": "firmware-info/y1-community-pr1-stock-rom.html",
+    "slugs": [
+      "original-pr1"
+    ]
+  },
+  "y1-community/q3-stock-rom": {
+    "name": "Original Software",
+    "page": "firmware-info/y1-community-q3-stock-rom.html",
+    "slugs": [
+      "original-q3"
+    ]
+  },
+  "y1-community/q5-stock-rom": {
+    "name": "Original Software",
+    "page": "firmware-info/y1-community-q5-stock-rom.html",
+    "slugs": [
+      "original-q5"
+    ]
+  },
+  "y1-community/r1-stock-rom": {
+    "name": "Original Software",
+    "page": "firmware-info/y1-community-r1-stock-rom.html",
+    "slugs": [
+      "original-r1"
+    ]
+  },
+  "y1-community/sr1-stock-rom": {
+    "name": "Original Software",
+    "page": "firmware-info/y1-community-sr1-stock-rom.html",
+    "slugs": [
+      "original-sr1"
+    ]
+  },
   "y1-community/y1-ata-rom": {
     "name": "Android 4.2 (Dev)",
     "page": "firmware-info/y1-community-y1-ata-rom.html",

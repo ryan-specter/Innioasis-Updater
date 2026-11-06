@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Power evidence and reporting discrepancy - Innioasis Updater</title>
+  <meta name="description" content="Power evidence and reporting discrepancy <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" cla">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-power.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Power evidence and reporting discrepancy - Innioasis Updater">
+  <meta property="og:description" content="Power evidence and reporting discrepancy <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" cla">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-power.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Power evidence and reporting discrepancy - Innioasis Updater">
+  <meta name="twitter:description" content="Power evidence and reporting discrepancy <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" cla">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Power evidence and reporting discrepancy</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-evidence-and-reporting-discrepancy">Power evidence and reporting discrepancy</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<blockquote><p>2026-09-10: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Freverse-engineering-audit.md">additional evidence</a> explains the donor wrapper-IRQ omission as an unresolved storm workaround, separate from PMIC EINT25. Final donor DT includes an MFD despite older minimal-PMIC prose. VGP2 brownout is a useful M3 supply lead; charging settings and inherited rail enables do not resolve our telemetry/calibration gaps. One USB/regmap owner first.</p></blockquote>
+<p>Date: 2026-09-08. Related tasks: Y2E-101/105. Status: power baseline incomplete.</p>
+<p>CONFIRMED historical observation: <code>pmic_mt6323</code>, battery and battery-meter platform nodes in the verified 2026-07-29 snapshot. Current CPU topology and <code>/proc/meminfo</code> were captured, but governor/idle/power behavior was not measured.</p>
+<p>CONFIRMED current observation: <code>dumpsys battery</code> in <code>20260908-stock/battery.stdout</code> returns conflicting repeated fields: status 5 and 4, present true and false, level 100 and 50. It also reports USB powered, voltage 4237 and temperature 250. Do not select one duplicate or promote these service values into validated physical battery voltage/temperature/charge state. The cause could be service modification or reporting logic; it has not been established.</p>
+<p>UNKNOWN: trusted power_supply values/units, gauge/charger identity and calibration, battery health, safe charging limits, thermal sensor mapping, cpufreq/cpuidle, runtime PM, suspend/resume and wake sources. The service anomaly blocks a trustworthy recovery-power precondition, not all passive research.</p>
+<p>Next proof: inspect the source of duplicated framework output and narrowly selected standard power_supply metadata without changing charge, suspend, governor or display state. Do not read arbitrary vendor debug/register files merely because they are exposed under sysfs.</p>
+<h2 id="m2-usb-supply-prerequisite--2026-09-09">M2 USB supply prerequisite — 2026-09-09</h2>
+<p>Source/binary CONFIRMED: FM uses AP PWRAP WACS2 at physical <code>0x1000d000</code> to read MT6323 CID (<code>0x0100</code>) and VUSB (<code>0x0502</code>); the latter&#x27;s software enable is bit 14 and reported enable bit 15. The USB init requests fixed 3.3 V VUSB. This is an internal USB supply and does not establish host VBUS sourcing. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-pwrap-probe.md">Exact locators, guards and candidate contract</a>.</p>
+<p>Hardware status remains UNKNOWN after normal Linux handoff. One bounded identity/status candidate is specified to use only inherited initialization and PMIC read commands, never rail/charger writes. It must refuse a missing/busy transport and mismatched chip identity. Full PWRAP provider initialization, shared input/display/SD rail ownership and battery/charger telemetry remain open under #23; the conflicting Android battery fields above remain unresolved. There is no evidence that a VUSB enable report measures actual supply voltage or satisfies the basic battery/charger reporting required for M2 exit.</p>
+<h2 id="returned-m2-pwrap-01-hardware-evidence">Returned M2-PWRAP-01 hardware evidence</h2>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-pwrap-hardware-result.md">Owner photographs</a> confirm RC=0/VALID=3, CID=0x2023, VUSB=0xc000 and continued execution through BEAT 50. This resolves the narrow inherited AP read-transport/VUSB-enable observation for this boot. It is one cached snapshot, not repeated sampling, voltage measurement or battery telemetry. Earlier pending/unknown statements describe the original handoff. Next: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usb-clock-probe.md">read-only USB clock handoff snapshot</a>, with the source-identified timer IRQ-name parser correction. USB ownership remains blocked.</p>
+<h2 id="clock-hardware-result-and-next-usb-prerequisite--2026-09-09">Clock hardware result and next USB prerequisite — 2026-09-09</h2>
+<p>The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usb-clock-hardware-result.md">clock trial</a> confirms another successful PWRAP CID/VUSB snapshot and enabled inherited USB clocks, with no reported errors through BEAT 50. Supply voltage, consumer regulator control and battery/charger telemetry remain unqualified. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usb-state-probe.md">Next read-only USB state probe</a> preserves the inherited rail/PLL state; it makes no PMIC/clock/calibration write.</p>
+<h2 id="usb-state-result--bounded-phy-wake--2026-09-09">USB state result / bounded PHY wake — 2026-09-09</h2>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usb-state-hardware-result.md">Returned USB-state photos</a> confirm all 21 MAC/digital-PHY/DMA reads, disconnected B-device state, eight zero DMA controls, PHY force_suspendm=1/value=0 and BEAT 50 without errors. This is one cached snapshot, not DMA ownership or a USB enumeration result. The next <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-phy-wake-probe.md">guarded PHY wake</a> checks remaining mode controls and conditionally clears only the suspend-force bit. Calibration/analog controls, clocks, VBUS forcing, controller connection and DMA remain unchanged. The candidate must stop for owner testing; full USB/clock-provider/PHY/VBUS/FIFO/IRQ/ DMA contract, host logging and M2 exit remain unqualified.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stock CPU DVFS evidence and current admission - Innioasis Updater</title>
+  <meta name="description" content="Stock CPU DVFS evidence and current admission <!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -- Current Baseline02 / UART01 scope UART01 before">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-hardware-final-dvfs.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Stock CPU DVFS evidence and current admission - Innioasis Updater">
+  <meta property="og:description" content="Stock CPU DVFS evidence and current admission <!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -- Current Baseline02 / UART01 scope UART01 before">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-hardware-final-dvfs.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Stock CPU DVFS evidence and current admission - Innioasis Updater">
+  <meta name="twitter:description" content="Stock CPU DVFS evidence and current admission <!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -- Current Baseline02 / UART01 scope UART01 before">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Stock CPU DVFS evidence and current admission</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="stock-cpu-dvfs-evidence-and-current-admission">Stock CPU DVFS evidence and current admission</h1>
+<!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -->
+<h2 id="current-baseline02--uart01-scope">Current Baseline02 / UART01 scope</h2>
+<p>UART01 before/after C3 readback passes all five guarded OPPs: 598/747.5/1040 MHz at 1.15 V, 1196 at 1.20 V and 1300 at 1.25 V. The earlier PWRAP admission failure is resolved. Current source retains the source-backed software VOSEL bank 0x21e, ordering, silicon/PWRAP checks and thermal authority; the older 0x220 stock analysis below is historical. Worst-case endurance/charging comfort and natural thermal-trip qualification remain open.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-BASELINE-02.md">Baseline02 seal</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-CPU-C3-UART-PHYSICAL.md">UART01 hardware</a> and <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2FCURRENT_PLATFORM_STATE.md">current state</a> carry exact identities, counters and limits.</p>
+<h2 id="historical-source-research-and-physical-checkpoints">Historical source research and physical checkpoints</h2>
+<p>The following text retains earlier dated decisions and results. Its “current”, “next” and candidate labels belong to those sessions; the Baseline02 summary above takes precedence. Historical failures and seal-time NOT_RUN receipts remain evidence for their exact images.</p>
+<hr>
+<h1 id="hardware-final-stock-cpu-dvfs-admission-and-qualification">Hardware Final: stock CPU DVFS admission and qualification</h1>
+<p><strong>Latest physical correction boundary, 2026-09-27:</strong> Fix01 recognizes the actual software VOSEL bank <code>0x21e</code>, selector/NI feedback <code>0x48</code> at 1.15 V. 1196/1300 MHz still fail admission at <code>pwrap_readiness</code> (-95); the three raw predicate operands were not available. No voltage-changing transition was physically exercised. The old <code>0x220</code> bank and admission design below document the stock-kernel path, not the current loader&#x27;s selected software bank. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-CPU-FINAL-FIX01-PHYSICAL-QUALIFICATION.md%23opps-dvfs-and-thermal-authority&amp;anchor=opps-dvfs-and-thermal-authority">Current source/physical comparison</a>.</p>
+<p>2026-09-27. This is the pre-implementation scope audit for the owner&#x27;s combined Hardware Final campaign. The campaign authorizes source-backed stock DVFS; neither the earlier planning epic nor this audit qualifies a new operating point. Default maximum remains 1040 MHz. No intermediate image is planned.</p>
+<p>The retained physical Hardware 02 predecessor census identifies this unit&#x27;s <code>devinfo[3] &amp; 3 = 2</code>, <code>devinfo[15] &gt;&gt; 28 &amp; 7 = 0</code> (Hardware Ceiling receipts 32–34). Exact stock <code>PTP_get_ptp_level</code> at <code>0xc0045e90</code> maps those fields to table 0. Runtime admission must independently parse the bounded, reserved LK ATAG area and require those same fields; no private fuse array is exported. The known baseline is 598/747.5/1040 MHz at 1.15 V. Physical timer, hotplug and suspend results remain separate gates.</p>
+<p>The retained stock kernel&#x27;s <code>mt_cpufreq_pdrv_probe</code> at <code>0xc0036378</code> and <code>mt_cpufreq_volt_set</code> at <code>0xc00361f8</code> establish the table-0 levels:</p>
+<table><thead><tr><th>Frequency</th><th>VPROC target</th><th>MT6323 selector</th><th>PWRAP slot</th></tr></thead><tbody><tr><td>598 / 747.5 / 1040 MHz</td><td>1.15 V</td><td>72</td><td>2</td></tr><tr><td>1196 MHz</td><td>1.20 V</td><td>80</td><td>1</td></tr><tr><td>1300 MHz</td><td>1.25 V</td><td>88</td><td>0</td></tr></tbody></table>
+<p>The sole PWRAP owner programs slots at <code>0xe4 + 8 * slot</code> with PMIC address <code>0x220</code>; each data value is <code>700 mV + selector * 6.25 mV</code>. This is not an unrestricted regmap VPROC write permission. The sole SPM owner requests the slot through <code>SPM_AP_DVFS_CON_SET</code> (<code>0x604</code>, bits 2:0), waits 5 microseconds and polls bit 31 with the stock bounded 100-by-5-microsecond acknowledgement budget. The exact stock <code>spm_dvfs_ctrl_volt</code> at <code>0xc0032cb4</code> matches that sequence. The pinned BSP&#x27;s <code>mt_cpufreq_set</code> requires a further 40-microsecond voltage settle before raising frequency, and 30 microseconds after PLL programming. Higher rates use the existing MAINPLL/2 transition, with PCWs <code>0x800b8000</code> and <code>0x800c8000</code>. No FHCTL takeover, calibration or overclock is admitted.</p>
+<p>Implementation admission requires a root-only runtime qualification control, an initial cpufreq QoS ceiling of 1040 MHz, exact own-bin validation, inherited SPM/PWRAP ownership checks, selected VPROC bank validation, slot/readback checks and a latched fault on uncertain transitions. Raise voltage before frequency; lower only after the lower frequency is verified. On an ambiguous PLL rollback, retain the higher voltage and refuse high OPPs. Preserve the existing sleep slots at 1.15 V and suspend operating point at 598 MHz. Generic WACS VPROC writes, 1.05-V operating OPPs and unmeasured undervolting remain prohibited.</p>
+<p>The CPU nodes retain their shared OPP table but no longer attach cpufreq-dt to the generic MT6323 regulator. That regulator cannot independently request voltage through WACS: it remains always-on with the stock 1.15–1.25-V envelope. The CPU clock operation owns voltage sequencing through the existing wrapper and SPM owners. This also prevents two competing transition sequences. The Y2-only cpufreq-dt probe guard preserves the PMIC-readiness dependency before initial governor startup. A missing PWRAP owner defers the probe; it does not leave a prematurely started policy without voltage access.</p>
+<p>Runtime controls are root-only under <code>/sys/module/cpu_dvfs/parameters/</code>: <code>qualification_max_khz</code> accepts 1040000, 1196000 or 1300000; <code>bin_supported</code> and <code>voltage_fault</code> report admission and the latched failure. Return to the 1040-MHz ceiling and verify a baseline running frequency before admitting a new maximum; qualification requires the active selector to be 72. Every high admission verifies slots and exercises a baseline 1.15-V SPM request first. The command requests a ceiling, not a current frequency. Use cpufreq&#x27;s normal governor/userspace controls for bounded workloads, then read the actual rate. A latched transition fault refuses all high requests until a clean reboot.</p>
+<p>Source and host fault tests cannot establish actual rail voltage, stable CPU operation, thermal margin or power benefit. The final candidate must first qualify 1196 MHz, then 1300 MHz, with the owner&#x27;s existing 60°C test stop bound, readback/error checks and CPU/FFmpeg/SQLite/scan/radio/USB/GPU mixed workloads. Restore the 1040-MHz qualification ceiling after each bounded test. Final promotion depends on real measurements; these OPPs are physical-pending.</p>
+<p>Targeted validation uses the production C functions in host fault fixtures: all 25 OPP transitions, raising/lowering failures, failed PLL rollback, invalid and truncated bin data, wrapper slot corruption, PMIC read failures, wrong bank/arbitration, SPM ownership, missing ACK and its exact timeout bound. The shared PLL test covers the five source frequencies and retained fallback. All four ARM objects compile in the locked production environment. The current production DT validates with a retained baseline initrd-size input; that is a DT-only check, not certification of a new image or stale final binary.</p>
+<p>Private source extracts remain in <code>out/hardware-final-power-source/</code> and the retained <code>out/platform-v1-hardware-ceiling/stock-reference/</code>; the original kernel provenance is unchanged. The standing campaign roadmap audit is owned by the coordinating agent; this document records the precise voltage scope admission before implementation, without closing a milestone.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

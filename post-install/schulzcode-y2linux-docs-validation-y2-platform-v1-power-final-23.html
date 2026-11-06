@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-23 — Reborn Cover Flow and Genres - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-23 — Reborn Cover Flow and Genres Status: INSTALLED; Cover Flow looks right but ran at ≈10 fps → 24 2026-10-13. Package out/y2linux-platform-v1-power-final-ca">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-23.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-23 — Reborn Cover Flow and Genres - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-23 — Reborn Cover Flow and Genres Status: INSTALLED; Cover Flow looks right but ran at ≈10 fps → 24 2026-10-13. Package out/y2linux-platform-v1-power-final-ca">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-23.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-23 — Reborn Cover Flow and Genres - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-23 — Reborn Cover Flow and Genres Status: INSTALLED; Cover Flow looks right but ran at ≈10 fps → 24 2026-10-13. Package out/y2linux-platform-v1-power-final-ca">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-23 — Reborn Cover Flow and Genres</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-23--reborn-cover-flow-and-genres">POWER-FINAL-23 — Reborn Cover Flow and Genres</h1>
+<p>Status: <strong>INSTALLED; Cover Flow looks right but ran at ≈10 fps → 24</strong> (2026-10-13). Package <code>out/y2linux-platform-v1-power-final-candidate-23/</code> (fallback = 22), receipts <code>out/deep-sleep-final/build23-receipts/</code>. BOOTIMG <code>9ea7a94377b0f63977a8732569c357a837112b69f321f8f501424b2a72a475cb</code>, Y2ROOT <code>8fff0f839836ca5583ac9bdd76eb71d82840a45a0df347ecf6e75468fae0d297</code>. Identity: build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-23</code>, kernel <code>6.18.56-y2linux-platform-v1-power-final-23</code>, root <code>2026.08-platform-v1.53</code>, release <code>1.0.0-platform-v1-power-final-candidate.23</code>; Linux <code>7f5445d</code>, <strong>Reborn <code>83c9127</code></strong> (new). The platform is 22 unchanged. Flash BOOTIMG + ANDROID only with <code>MT6582_preserve_data_scatter.txt</code>, Download Only. Scope audit: &quot;POWER-FINAL-23 Reborn Cover Flow and Genres scope audit&quot; in the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">roadmap gap audit</a>.</p>
+<h2 id="owner-request-and-decisions">Owner request and decisions</h2>
+<p>Cover Flow for albums, highly optimised (smooth scrolling, an animation opening the album), and Genre in the main list. Decisions: Albums opens Cover Flow, Settings → Display → Album view switches back to the Grid; Genre → Albums (headed by All Songs) → Songs.</p>
+<h2 id="what-changes-reborn-58670c8-116f673-83c9127">What changes (Reborn <code>58670c8</code>, <code>116f673</code>, <code>83c9127</code>)</h2>
+<ul><li><strong>Genres:</strong> the library stores the genre tag (additive column; <code>METADATA_REVISION</code> 3, so an existing library<p>re-reads every song&#x27;s tags once during the next scan, no rebuild). Home and Music get <strong>Genres</strong> (the home menu now has seven rows; spacing follows the count). A genre opens its albums in the chosen album view, headed by **All Songs<strong>; untagged songs are listed as </strong>No Genre**.</p></li><li><strong>Cover Flow:</strong> each cover is a square turned about its vertical axis and pushed back, projected (focal length<p>300 px) into a perspective-correct quadrilateral, with a mirrored reflection fading into the background; title, artist, length and &quot;n of N&quot; below. The row glides to the focus with time-based easing (≈0.4 s to rest, smooth at any frame rate and under fast wheel spins). Select flies the centre cover into the album page while its list rises in (300 ms); Back flies it home. Once the row rests, the centre cover is decoded at 160 px by the artwork worker (the side covers use the 96-px thumbnails).</p></li><li><strong>Renderer:</strong> <code>Quad.warp</code> (four corners, per-corner tints), sampled with <code>texture2DProj</code> so the projective divide<p>happens in the texture unit at full precision. A first version divided in the fragment shader; on the host it shifted glyph sampling (Mali-400 fragment shaders are fp16), caught by the GLES comparison and fixed.</p></li><li><strong>Setting:</strong> Settings → Display → Album view (Cover Flow / Grid).</li></ul>
+<h2 id="tests">Tests</h2>
+<p>Reborn: rustfmt, clippy <code>-D warnings</code>, 370 workspace tests (new: genre storage and pre-genre migration, Genres navigation, seven-row home fit, Cover Flow geometry and easing, view switch, flight and full-resolution cover request). Host GLES: ordinary screens render bit-identically to 22&#x27;s renderer; all 77 preview screens match the reference rasteriser. Y2Linux: container suite 693, exit 0; package validation, ELF, installed ARM, privacy, inventory PASS.</p>
+<h2 id="what-to-check-on-the-device">What to check on the device</h2>
+<ol><li>After the first boot the library re-reads tags once (a scan); then Home shows Genres with a count.</li><li>Albums: Cover Flow; spin the wheel slowly and fast — the glide should stay smooth; the centre cover sharpens a<p>moment after stopping. Select → the cover flies into the album page; Back → it flies home.</p></li><li>Genres → a genre → All Songs and its albums; No Genre lists untagged songs.</li><li>Settings → Display → Album view → Grid restores the old grid.</li><li>Frame times: <code>graphics_frame_time_ms</code> in Reborn&#x27;s metrics while scrolling (target ≤ 16.7 ms).</li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

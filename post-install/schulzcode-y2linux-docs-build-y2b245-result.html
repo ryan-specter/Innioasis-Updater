@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2B-245 — Offline on-screen diagnostic candidate - Innioasis Updater</title>
+  <meta name="description" content="Y2B-245 — Offline on-screen diagnostic candidate <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "curr">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2b245-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2B-245 — Offline on-screen diagnostic candidate - Innioasis Updater">
+  <meta property="og:description" content="Y2B-245 — Offline on-screen diagnostic candidate <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "curr">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2b245-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2B-245 — Offline on-screen diagnostic candidate - Innioasis Updater">
+  <meta name="twitter:description" content="Y2B-245 — Offline on-screen diagnostic candidate <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "curr">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2B-245 — Offline on-screen diagnostic candidate</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2b-245--offline-on-screen-diagnostic-candidate">Y2B-245 — Offline on-screen diagnostic candidate</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<blockquote><p>Subsequent owner hardware report confirms working sleep and increasing BEAT/uptime. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm1-runtime-hardware-result.md">M1 core result and exact evidence limits</a>. The report does not independently pin the flashed candidate hash; offline artifact identities below remain unchanged.</p></blockquote>
+<p>2026-09-08. Original offline build record. <strong>Subsequent owner-reported hardware trial reached the text screen and stopped at sleep -38 / ENOSYS.</strong> See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fy2b245-hardware-result.md">actual hardware result and focused fix</a>. The historical offline checks below did not detect the missing kernel time32 syscall. Issue <a href="https://github.com/SchulzCode/Y2Linux/issues/20" target="_blank" rel="noopener noreferrer">#20</a>; <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fon-screen-diagnostics.md">D14 design</a>.</p>
+<h2 id="first-hardware-result-and-m1">First hardware result and M1</h2>
+<p>The owner explicitly reports <strong>solid green</strong> from Y2B-240. Under the implemented state machine this is evidence that Linux 6.18 executed initramfs <code>/init</code> as PID1 and reached its framebuffer stage. <strong>M1’s Linux-plus-PID1 boot objective is achieved.</strong> No heartbeat/checkerboard success, timer accuracy or full peripheral readiness is claimed. The actual successful Android restore used the owner-selected boot-adb image, not the originally planned FM fallback; <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Ffirst-experiment-result.md">result and hashes</a>.</p>
+<h2 id="versions-and-build-source">Versions and build source</h2>
+<p>Source commit <code>d83fccfcc03f86f2085ed1279aa3dce352fcf8fe</code>. Audited upstream <strong>Linux v6.18</strong>, <code>7d0a66e4bb9081d75c82ec4957c50034cb0ea449</code>; release <strong>6.18.0-y2-m1</strong>. Clang/LLD <strong>20.1.8</strong>, locked Alpine userspace, Python <strong>3.12.14</strong>, QEMU ARM <strong>10.0.0</strong>. Both builds use identical original D08 config, CPU0, appended DTB and disabled ATAG import. No Debian/storage/network/audio/new peripheral or full display driver.</p>
+<h2 id="exact-artifacts">Exact artifacts</h2>
+<table><thead><tr><th>Artifact</th><th style="text-align:right">Bytes</th><th>SHA-256</th></tr></thead><tbody><tr><td>Image</td><td style="text-align:right">2,543,296</td><td><code>3c34ff234c0253ebf34a236671bd953633410f0539e38a5baca6415188c45b49</code></td></tr><tr><td>zImage</td><td style="text-align:right">1,075,944</td><td><code>5c3e6fd59780071e2e28d807c54c91714e9e459f188d4b2f8bce99949ebdea3d</code></td></tr><tr><td>y2.dtb</td><td style="text-align:right">1,835</td><td><code>4c04d45f201e0f16a6e8139c907dadf4cd01a3ea43da78f797839dedb7f460a9</code></td></tr><tr><td>zImage-dtb</td><td style="text-align:right">1,077,784</td><td><code>5d30d2cc20859880cfff65e9884dc7c2148562e186c1d49a26b3eeeb29485030</code></td></tr><tr><td>init</td><td style="text-align:right">6,592</td><td><code>0131e69afd63d6d9ef94701df60d7699332df915b0d7397fe30e9642de1bfab9</code></td></tr><tr><td>initramfs.cpio</td><td style="text-align:right">7,680</td><td><code>2350d3d037cdf228d4bccea257a3e5eeed079b9949bf60e9008de70568f4f188</code></td></tr><tr><td>initramfs.cpio.gz</td><td style="text-align:right">3,968</td><td><code>f55a9a1388baa411ce597f408c4e609728ce087e90d632f820edb05b1ad3c88e</code></td></tr><tr><td>BOOTIMG.img</td><td style="text-align:right">1,091,584</td><td><code>f2c048405c7aafc5c368d51b85a9eeb9d9f42ee3b1a6abe308701e5b551c52a0</code></td></tr><tr><td>kernel.config</td><td style="text-align:right">35,355</td><td><code>bb3f61066c098bb3f0a601ea3cbc9f1b06e6a8ae43972dc9c2790ee882e2b43c</code></td></tr></tbody></table>
+<p>Canonical retained bundle: <code>/home/luca/Dokumente/Code/Y2Linux/out/m1-y2b245-diagnostics/</code>. SHA256SUMS covers every retained member, including ELFs, source archive, logs, input lock, layout/reproducibility reports and a clearly labelled synthetic preview.</p>
+<h2 id="screen-and-expected-sequence">Screen and expected sequence</h2>
+<p>40 columns × 22 rows, with doubled 5×7 glyphs. Kernel rows report live watchdog-stop/framebuffer-guard success; PID1 rows show version, CPU part, DT-described SoC/RAM, CPUs online, MemTotal, uptime, timer IRQ count, mount returns, last error, previous frame result and changing beat/frame counters. Negative errno and truncation markers are explicit.</p>
+<p>Expected sequence: LK logo → KERNEL READY / WAITING FOR PID1 → PID1 and mount status → changing one-second beat marker/counter with runtime values → STOP / RESTORE ANDROID after 50 successful sleeps. A sleep error gets its own STOP screen. Startup/read/render overhead adds time: the external 60-second limit from power-on takes precedence. No automatic reset or recovery exists. Guard refusal leaves the previous frame; a frozen counter does not prove the old guard status is still current. Initial missing output may be silent.</p>
+<p><img src="https://raw.githubusercontent.com/schulzcode/y2linux/HEAD/docs/build/results/y2b245-preview-SYNTHETIC.png" alt="Synthetic preview, not a Y2 capture" loading="lazy" decoding="async"></p>
+<h2 id="d08-and-offline-validation">D08 and offline validation</h2>
+<p>DT RAM remains <code>[0x80000000,0x81800000)</code> and <code>[0x84000000,0x84080000)</code>; reserve <code>[0x80000000,0x80004000)</code>. No automatic expansion or ATAG import. Framebuffer pixels stay <code>[0xbfb00000,0xbfb54600)</code> outside allocator RAM.</p>
+<table><thead><tr><th>Actual object</th><th>Half-open physical interval</th></tr></thead><tbody><tr><td>zimage</td><td><code>[0x80008000,0x8010eae8)</code></td></tr><tr><td>appended_dtb</td><td><code>[0x8010eae8,0x8010f218)</code></td></tr><tr><td>image</td><td><code>[0x80008000,0x80274ec0)</code></td></tr><tr><td>resident_kernel</td><td><code>[0x80008000,0x8029d4b0)</code></td></tr><tr><td>relocated_copy</td><td><code>[0x80275700,0x8037c820)</code></td></tr><tr><td>relocated_dtb</td><td><code>[0x8037c0e8,0x8037c818)</code></td></tr><tr><td>compressed_bss</td><td><code>[0x8037c818,0x8037c838)</code></td></tr><tr><td>malloc</td><td><code>[0x8037d830,0x8038d830)</code></td></tr><tr><td>initramfs</td><td><code>[0x84000000,0x84000f80)</code></td></tr><tr><td>lk_staging</td><td><code>[0x80007e00,0x80111e00)</code></td></tr></tbody></table>
+<p>BOOTIMG is 1,091,584 bytes in its 16 MiB partition <code>EMMC_USER [0x01d80000,0x02d80000)</code>. MTK KERNEL/ROOTFS wrappers, Android header/page layout, ID, padding and complete LK read tail pass validation.</p>
+<ul><li>Two fresh release builds match byte-for-byte across 12 outputs.</li><li>All <strong>14 tests</strong> pass in each release build; no skips or compiler warnings/errors.</li><li>Nine ARM syscall-fixture scenarios exercise production PID1 control flow,<p>including failed proc/sysfs mounts, read errors/truncation/interruption bounds, sleep failure, missing endpoint and uname failure. Console writes trap.</p></li><li>Real pixel/packet/parser tests include sentinels, malformed characters,<p>compiler bounds/undefined-behavior traps, field errors and overflow markers.</p></li><li>All existing D08/arithmetic, real ELF/DT/gzip mutation, packaging and emitted<p>ARM watchdog tests pass. Actual watchdog bytes and guard policy match Y2B-240.</p></li><li>All 91,166 upstream files/links match the audited tarball. FM ROM, SPFT and DA<p>rehash successfully. The previous candidate bundle also remains byte-identical.</p></li><li>A shared overlay rewrite race was caught by config validation during development.<p>The failed path never packaged an image. Cache entries are now verified, reused without rewriting bound inodes, and atomically published; concurrency is tested.</p></li></ul>
+<h2 id="uart-interpretation-and-next-boundary">UART interpretation and next boundary</h2>
+<p>The old candidate turned green before large blocking console dumps and before its heartbeat loop. That path could delay/stall later visual changes. No actual UART fault or absent heartbeat is proven by a green-only report. New normal PID1 does not open/write the console; successful text writes do not printk. Existing early kernel UART support remains optional secondary output.</p>
+<p>After a successful diagnostic trial, the recommended first M2 research boundary is USB device-mode serial diagnostics (CDC ACM), for full host log access without UART pads. Controller/PHY, clocks, IRQ and DMA safety need platform research first. The <a href="https://docs.kernel.org/usb/gadget_serial.html" target="_blank" rel="noopener noreferrer">upstream serial gadget</a> provides the function, not proof of MT6582 controller readiness. No M2 code was started.</p>
+<h2 id="reproduce">Reproduce</h2>
+<pre><code class="language-sh">python3 tools/build/prepare.py --offline
+python3 tools/build/run.py --output out/repro-245-a -- sh /project/tools/build/build.sh
+python3 tools/build/run.py --output out/repro-245-b -- sh /project/tools/build/build.sh</code></pre>
+<p>Use unused output directories and the checksum-locked cache. No device is exposed to the build environment. Only this retained release bundle is proposed for review; all development text-review/text-final outputs are unapproved intermediates. Stop here for separate owner authorization of any BOOTIMG-only hardware test.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

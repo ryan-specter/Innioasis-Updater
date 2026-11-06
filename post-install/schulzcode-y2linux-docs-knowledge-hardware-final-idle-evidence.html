@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Idle source evidence and current hardware result - Innioasis Updater</title>
+  <meta name="description" content="Idle source evidence and current hardware result <!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -- Current Baseline02 / UART01 scope UART01 pro">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-hardware-final-idle-evidence.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Idle source evidence and current hardware result - Innioasis Updater">
+  <meta property="og:description" content="Idle source evidence and current hardware result <!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -- Current Baseline02 / UART01 scope UART01 pro">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-hardware-final-idle-evidence.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Idle source evidence and current hardware result - Innioasis Updater">
+  <meta name="twitter:description" content="Idle source evidence and current hardware result <!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -- Current Baseline02 / UART01 scope UART01 pro">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Idle source evidence and current hardware result</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="idle-source-evidence-and-current-hardware-result">Idle source evidence and current hardware result</h1>
+<!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -->
+<h2 id="current-baseline02--uart01-scope">Current Baseline02 / UART01 scope</h2>
+<p>UART01 proves C1, C2 and C3 working. C2: 6,971 entries / 84.3473% residency, clock restore failures 0. C3: 21 guarded actual reset-and-return trials, then 3,624 normal-policy entries / 65.2450% residency; final 3,647 checked returns, same boot and zero restore faults. The current driver is mt6582-idle, with exact MT6582 UART ownership/global ACK, CIRQ, GPT4 and Linux context machinery. Baseline02 adds automatic guarded CPU0 C3 startup; new-image cold boot remains NOT_RUN.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-BASELINE-02.md">Baseline02 seal</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-CPU-C3-UART-PHYSICAL.md">UART01 hardware</a> and <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2FCURRENT_PLATFORM_STATE.md">current state</a> carry exact identities, counters and limits.</p>
+<h2 id="historical-source-research-and-physical-checkpoints">Historical source research and physical checkpoints</h2>
+<p>The following text retains earlier dated decisions and results. Its “current”, “next” and candidate labels belong to those sessions; the Baseline02 summary above takes precedence. Historical failures and seal-time NOT_RUN receipts remain evidence for their exact images.</p>
+<hr>
+<h1 id="hardware-final-idle-source-boundary">Hardware Final idle source boundary</h1>
+<p><strong>Latest physical correction boundary, 2026-09-27:</strong> Fix01 admits local timers and actually enables highres/NO_HZ, yet SLIDLE records zero entries. CPU0-only, 598-MHz, radios-off testing leaves <code>0x3000</code> = MSDC0/eMMC and MSDC1/SD. Both hosts report runtime-suspended with their source/gate clocks enabled; the Y2 early return in <code>0009-y2-msdc-readonly.patch</code> bypasses ordinary runtime clock gating. The coordinator did not park any core during 120/160-second screen-off windows; its eligibility was not sustained. DORMANT and CIRQ/GPT4 handoff remain NOT_TESTED. The source research below describes the earlier pre-implementation boundary. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-CPU-FINAL-FIX01-PHYSICAL-QUALIFICATION.md%23idle-blocker-ownership-and-coordinator&amp;anchor=idle-blocker-ownership-and-coordinator">Actual result and limits</a>.</p>
+<p>The current <code>mt6582-wfi</code> driver registers one architectural WFI state. Local PPI29 timers and high-resolution/tickless operation do not themselves authorize bus clock changes, dormant CPU context loss or SPM runtime idle.</p>
+<p>The pinned MediaTek source at commit <code>d53dd75c3ff77cac3f5be58fddfe660e94f94d64</code> was reviewed alongside the retained exact Y2 FM kernel. New source receipts and bounded function extracts are under private <code>out/hardware-final/source-idle/</code>; the established stock kernel identity is in <code>evidence/m4-power-source.json</code>.</p>
+<table><thead><tr><th>State</th><th>Exact source/board evidence</th><th>Current missing requirements</th></tr></thead><tbody><tr><td>WFI</td><td>Existing architectural entry retains CPU context and platform ownership</td><td>Physical residency, timer continuity, latency and power measurements</td></tr><tr><td>Slow idle (<code>slidle</code>)</td><td>Exact <code>slidle_handler</code> at <code>0xc003d0e8</code> calls bus DCM before DSB/WFI and reverses it afterwards. <code>bus_dcm_enable</code> at <code>0xc003ce44</code> writes TOPCKGEN offset4 to <code>0x8f</code>; disable at <code>0xc003ce64</code> clears bit7. Stock condition table at <code>0xc09b1588</code> is PERI mask <code>0x00f00800</code>, other nine groups 0</td><td>Current CCF owner has no serialized DCM transaction or idle eligibility API. Establish inherited register state, source-backed non-sleeping MSDC/clock checks and hotplug exclusion before a new state can safely enter. Stock requires one online CPU and no active PTP work. Current four-core operation is ineligible. Measure entry/residency, wake latency, timer continuity, peripheral integrity and power benefit before enabling by default</td></tr><tr><td>Deep idle (<code>dpidle</code>)</td><td>Exact stock 480-word PCM matches the non-MT6333 BSP branch byte for byte (hash below). Runtime entry retains infrastructure/DDRPHY but changes system-clock/DRAM behavior and may enter CPU dormant mode</td><td>Requires one CPU, early-suspend voltage eligibility, all stock clock blockers, CIRQ pending-interrupt preservation, GPT4 deadline handoff, audio-bus clock ownership, bus DCM and dormant context integration. None is supplied merely by the existing system-suspend driver</td></tr><tr><td>SODI/multi-core idle</td><td>BSP includes separate display/video-mode and hotplug guards and per-CPU GPT handoff</td><td>Exact Y2 state/PCM reconciliation and display contract are incomplete. The vendor GPT assignment includes GPT1, already owned by Linux&#x27;s timer driver; direct import would conflict</td></tr></tbody></table>
+<p>Slow idle is the shallower candidate: unlike dpidle it needs no PCM, CIRQ, CPU context loss or GPT deadline handoff. This distinction avoids overstating its blockers. Its current blocker is integration and physical acceptance of shared bus control, not proof that the silicon lacks the state. Neither state is marked unsupported solely because this implementation is absent.</p>
+<p>The exact stock deep-idle PCM is 1920 bytes with SHA-256 <code>b0f8d879456e72ae62daf09ba8359761aee12c3bcc687f47f870af402fce8f49</code>. It matches the 480-word branch of <code>mt_spm_sleep.c</code>, with event-vector offsets 0/9/28/68 and session 2; the other branch has 484 words and does not match. The implemented suspend PCM has 597 words and different event vectors. It must not be reused as a runtime idle program.</p>
+<p>Vendor <code>dpidle_can_enter</code> requires a local deadline of at least 26000 ticks (2 ms at 13 MHz), one online CPU and the early-suspend voltage condition. <code>clkmgr_idle_can_enter</code> first rejects active MSDC clocks, then tests all clock groups against the state&#x27;s masks. Before WFI, the runtime path enables bus DCM, moves the audio internal bus to its 26 MHz source and arms GPT4 with the remaining local-timer deadline. After wake it restores that deadline and bus sources. The stock <code>spm_go_to_dpidle</code> masks/clones GIC state into CIRQ, enables CIRQ, then flushes/disables it and restores masks on every exit. Current DTS has no CIRQ node; a compiled generic irq-mtk-cirq object is not active registration or a runtime-idle hook. Missing these steps can lose a timer deadline or IRQ.</p>
+<p>GPT6 is explicitly 64-bit in the retained <code>mt_gpt.c</code> (<code>GPT_FEAT_64_BIT</code>, high counter at offset 0x18). The ARM timer&#x27;s 56-bit clocksource mask is therefore not by itself a 32-bit-counter bug. The disabled vendor <code>CONFIG_SYSCNT_ASSIST</code> diagnostic checks high-word synchronization after low-word wrap. A physical continuity run must cross the approximately 330.38-second low-word rollover. Current DT has <code>arm,no-tick-in-suspend</code>, so Linux does not mark this clocksource suspend-nonstop; absence of <code>always-on</code> separately marks local clockevents C3STOP. Runtime idle must preserve the free-running system counter or provide an evidenced clocksource alternative. These properties do not prove wake.</p>
+<p>No new idle state, DCM write or PCM was enabled by this source audit.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

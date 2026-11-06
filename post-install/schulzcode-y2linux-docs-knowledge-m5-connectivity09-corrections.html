@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CONNECTIVITY-09: MT6582 E2 local extended feature page limit - Innioasis Updater</title>
+  <meta name="description" content="CONNECTIVITY-09: MT6582 E2 local extended feature page limit <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate ide">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m5-connectivity09-corrections.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="CONNECTIVITY-09: MT6582 E2 local extended feature page limit - Innioasis Updater">
+  <meta property="og:description" content="CONNECTIVITY-09: MT6582 E2 local extended feature page limit <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate ide">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m5-connectivity09-corrections.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CONNECTIVITY-09: MT6582 E2 local extended feature page limit - Innioasis Updater">
+  <meta name="twitter:description" content="CONNECTIVITY-09: MT6582 E2 local extended feature page limit <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate ide">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>CONNECTIVITY-09: MT6582 E2 local extended feature page limit</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="connectivity-09-mt6582-e2-local-extended-feature-page-limit">CONNECTIVITY-09: MT6582 E2 local extended feature page limit</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>CONNECTIVITY-08 physically clears the RF-result EPROTO. The next exact failure is HCI Read Local Extended Features (<code>0x1004</code>) page 2: this controller&#x27;s page-1 reply advertises maximum 2, but page 2 returns status <code>0x30</code>. Linux maps that status to <code>-38</code> and aborts initialization before BlueZ exposes the adapter. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fhardware-evidence%2F2026-09-17-m5-connectivity08%2FREADME.md">Own hardware trace and successful runtime test</a>.</p>
+<p>After successful vendor setup/reset, apply Linux&#x27;s existing <code>HCI_QUIRK_BROKEN_LOCAL_EXT_FEATURES_PAGE_2</code> only to chip <code>6582</code>, HVR <code>8a01</code>, FVR <code>8a00</code>, and cap <code>max_page</code> at the verified page 1. Setting the quirk alone does not lower a false value cached by an earlier failed initialization. The normal nonpersistent setup callback repeats the correction after function power loss. No HCI feature or supported-command bitmap is edited. EDR, LE, status checking, WMT framing/patch/calibration, factory, DMA and M4 stay intact.</p>
+<p>The targeted regression combines the actual native quirk helper with the pinned Linux extended-feature reply handler and page iterator. It reproduces unfixed page-2 <code>-ENOSYS</code>, verifies fresh and previously failed HCI state, retains all feature/command bytes and unrelated quirks, preserves negative status, and leaves other controller triples untouched.</p>
+<p>The live -08 diagnostic first reached standard hci0/BlueZ and accepted runtime power-on. The owner-installed -09 production BOOTIMG now verifies the same result on normal boot, without any diagnostic module or runtime correction. Standard BlueZ power-on/off succeeds with zero core errors/recoveries and kernel taint 0. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fhardware-evidence%2F2026-09-17-m5-connectivity09%2FREADME.md">Physical -09 result</a>. CONNECTIVITY-07 Y2ROOT/Y2DATA and the -08 BOOTIMG fallback are retained. No Wi-Fi fix or full pairing/audio/coexistence qualification is implied; M5 remains open. Do not repeat settled identification/factory/DMA work.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

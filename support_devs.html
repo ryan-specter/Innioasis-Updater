@@ -242,6 +242,9 @@
       letter-spacing: -0.02em;
     }
     .donation-method-intro p { margin: 0; color: var(--lumen-muted, #9aa3b5); }
+    .donation-method-ru-note { display: none; }
+    html.y1-region-ru .donation-method-copy { display: none !important; }
+    html.y1-region-ru .donation-method-ru-note { display: block; }
     .donation-method-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
@@ -396,12 +399,13 @@
         </div>
       </div>
 
-      <p id="unified-dev-intro"><strong>Hi, I'm Ryan.</strong> Together with Innioasis, I look after Innioasis Updater CE, this firmware archive, and the Themes Gallery. I pay for them myself so they stay free for everyone. Servers, storage and domains cost about <strong>$200</strong> a month, and the players I buy to test each release cost more again, so any support helps.</p>
+      <p id="unified-dev-intro"><strong>Hi, I'm Ryan.</strong> Together with Innioasis, I look after Innioasis Updater CE, this firmware archive, and the Themes Gallery. I pay for them myself so they stay free for everyone. Running the three of them costs about <strong>$200</strong> a month, and the players I buy to test each release come on top of that, so any support helps.</p>
 
       <div class="donation-method-intro">
         <p class="lumen-kicker">Choose your way to help</p>
         <h3>Whatever works for you.</h3>
-        <p>A coffee, a one-off gift, or simply sharing 100MB on Honeygain — it all adds up. Pick your favourite and you’ll be taken straight there.</p>
+        <p class="donation-method-copy">A coffee, a one-off gift, or simply sharing 100MB on Honeygain — it all adds up. Pick your favourite and you’ll be taken straight there.</p>
+        <p class="donation-method-ru-note">In Russia, Boosty is the way to support the project.</p>
       </div>
       <div class="donation-method-grid" aria-label="Ways to make a contribution">
         <a class="donation-method-card donation-method-card--primary" href="https://ko-fi.com/teamslide" target="_blank" rel="noopener noreferrer"><img src="./assets/icon_kofi.png" data-method-icon="icon_kofi.png" alt=""><span><strong>Donate on Ko-fi</strong><small>Support on Ko-fi</small></span></a>
@@ -497,16 +501,16 @@
     <!-- Section 4: Financial accounting, kept at the bottom so the people and projects stay front and centre. -->
     <section class="lumen-guide-section" id="financial-accounting">
       <h2>Where the money goes</h2>
-      <p>Hosting is the smaller half of it. Servers, storage and domains come to about $200 a month since July 2025, plus the Apple Developer fee each year and a one-off Mac mini for testing. The larger part is hardware: a player for every model and release worth testing, and some of those players do not survive the work. Community contributions currently cover roughly <strong>15%</strong> of the real total; the rest comes out of my own pocket.</p>
+      <p>Running Updater CE, the Themes Gallery and the firmware archive costs about $200 a month. On top of that comes the Apple Developer fee each year, a one-off Mac mini for testing, and the hardware: a player for every model and release worth testing, and some of those players do not survive the work. Community contributions currently cover roughly <strong>15%</strong> of the real total; the rest comes out of my own pocket.</p>
       <div class="financial-accounting-grid" aria-label="Project financial summary">
-        <article class="financial-accounting-card financial-accounting-card--total"><span class="financial-accounting-label">Total accounted cost</span><strong id="financial-total-cost">$0</strong><small id="financial-total-cost-detail">Calculating the ledger...</small></article>
+        <article class="financial-accounting-card financial-accounting-card--total"><span class="financial-accounting-label">Total cost so far</span><strong id="financial-total-cost">$0</strong><small id="financial-total-cost-detail">Adding it up...</small></article>
         <article class="financial-accounting-card"><span class="financial-accounting-label">Community contributions</span><strong id="financial-community-raised">$0</strong><small>Received from community supporters. Commercial sponsorship is kept separate.</small></article>
         <article class="financial-accounting-card"><span class="financial-accounting-label">Innioasis sponsorship</span><strong id="financial-corporate-raised">$0</strong><small>Commercial sponsorship received from Innioasis, listed separately below the community ledger.</small></article>
         <article class="financial-accounting-card"><span class="financial-accounting-label">Community projects supported</span><strong id="financial-outgoing-cost">$0</strong><small>Money sent to other creators and projects, shown separately from community contributions.</small></article>
-        <article class="financial-accounting-card"><span class="financial-accounting-label">Apple Developer certification</span><strong id="financial-apple-cost">$0</strong><small>$99 per annual certification period.</small></article>
+        <article class="financial-accounting-card"><span class="financial-accounting-label">Apple Developer certification</span><strong id="financial-apple-cost">$0</strong><small>$99 each year.</small></article>
         <article class="financial-accounting-card"><span class="financial-accounting-label">Mac mini testing hardware</span><strong id="financial-hardware-cost">$599</strong><small>One-off platform testing hardware for macOS.</small></article>
       </div>
-      <p>The ledger above counts the recurring bills. It does not count the test players: those are bought per release, and some are lost to failed flashes while a build is being checked. Counting them, community support is about 15% of what the project actually costs.</p>
+      <p>The figures above count the regular bills. They do not count the test players: those are bought per release, and some are lost to failed flashes while a build is being checked. Counting them, community support is about 15% of what the project actually costs.</p>
     </section>
   </main>
 
@@ -545,7 +549,21 @@
       "asia/yakutsk": true,
       "asia/vladivostok": true,
       "asia/magadan": true,
-      "asia/kamchatka": true
+      "asia/kamchatka": true,
+      "europe/volgograd": true,
+      "europe/kirov": true,
+      "europe/saratov": true,
+      "europe/astrakhan": true,
+      "europe/ulyanovsk": true,
+      "europe/simferopol": true,
+      "asia/tomsk": true,
+      "asia/barnaul": true,
+      "asia/novokuznetsk": true,
+      "asia/chita": true,
+      "asia/sakhalin": true,
+      "asia/srednekolymsk": true,
+      "asia/ust-nera": true,
+      "asia/khandyga": true
     };
 
     function detectTerritory() {
@@ -633,15 +651,15 @@
       var r = Math.random();
       if (r < 0.40) {
         var familyChoices = [
-          "<strong>Hey! I'm Ryan, the developer behind Innioasis Updater CE, the Innioasis Firmware Archive for every Innioasis and Timmkoo player, and the Themes Gallery.</strong> I cover the servers, firmware storage, domain renewals and the players I buy to test each release out of my own pocket, so everything stays free and open for the community.<br><br>Community donations cover roughly 15% of what all of that actually costs; the rest is hosting and hardware I pay for myself. Any support you give not only keeps these resources alive for the next owner, but also directly helps my partner and me raise our family together. Thank you so much!",
-          "<strong>Hey there, I'm Ryan.</strong> I build and maintain Innioasis Updater CE, the Themes Gallery, and our firmware archives as hobby projects. I cover hosting, storage, domains and the test players - the hardware costs more than the servers do - with my own money so everyone has free access.<br><br>Donations cover about 15% of the real cost, and they directly support my partner and me as we raise our young family. Every contribution makes a real difference to us."
+          "<strong>Hey! I'm Ryan.</strong> I look after Innioasis Updater CE, the Innioasis Firmware Archive and the Themes Gallery, supporting every Innioasis and Timmkoo player, new and old alike. I pay for the servers, the file storage, the web addresses and the players I test each release on, so everything stays free and open for the community.<br><br>Donations cover roughly 15% of what all of that really costs; the rest comes out of my own pocket. Whatever you give funds our device preservation and software archiving efforts, and it directly helps my partner and me raise our family. Thank you so much!",
+          "<strong>Hey there, I'm Ryan.</strong> I build and maintain Innioasis Updater CE, the Themes Gallery and the firmware archive as hobby projects, supporting every Innioasis and Timmkoo player, new and old alike. I pay for the servers, the file storage, the web addresses and the test players out of my own pocket - the players cost more than the servers do - so everyone gets in for free.<br><br>Donations cover about 15% of the real cost, and they directly support my partner and me as we raise our young family. Every contribution makes a real difference to us."
         ];
         devIntro.innerHTML = familyChoices[Math.floor(Math.random() * familyChoices.length)];
       } else {
         var standardChoices = [
-          "<strong>Hey! I'm Ryan, the developer behind Innioasis Updater CE, the Innioasis Firmware Archive for every Innioasis and Timmkoo player, and the Themes Gallery.</strong> I cover the servers, firmware storage, domain renewals and the players each release is tested on out of my own pocket to keep them free and accessible for everyone.<br><br>Between hosting and hardware, donations cover roughly 15% of what the project costs each month, so any support you can share helps take the weight off and keeps the project thriving for the community.",
-          "<strong>Hey, I'm Ryan.</strong> I created Innioasis Updater CE and the Firmware Archive to ensure our devices always have access to working software, custom ROMs, and themes without paywalls or ads. I pay for the servers and domains myself each month, and for the players each release is tested on - some of which do not survive the testing.<br><br>If you've found the software useful, chipping in covers part of those costs (about 15% of the total today) and keeps these archives preserved for everyone.",
-          "<strong>Hey! I'm Ryan, and I maintain Innioasis Updater CE, the Innioasis Firmware Archive, and the Themes Gallery for the community.</strong> I fund the server infrastructure, the maintenance and the test hardware out of my own pocket because I love this community and want to keep all tools accessible to everyone.<br><br>Community contributions come to about 15% of the project's real costs. Any contribution you make goes toward keeping these services online, tested and maintained."
+          "<strong>Hey! I'm Ryan.</strong> I look after Innioasis Updater CE, the Innioasis Firmware Archive and the Themes Gallery, supporting every Innioasis and Timmkoo player, new and old alike. I pay for the servers, the file storage, the web addresses and the players each release is tested on, so everything stays free for everyone.<br><br>Donations cover roughly 15% of what the project costs each month, so any support you can share takes the weight off and keeps the project going for the community.",
+          "<strong>Hey, I'm Ryan.</strong> I built Innioasis Updater CE and the firmware archive so every player always has working software, custom builds and themes, without paywalls or ads. I pay for the servers and web addresses myself each month, and for the players each release is tested on - some of which do not survive the testing.<br><br>If you've found it useful, chipping in covers part of those costs (about 15% of the total today) and keeps the archive online for everyone.",
+          "<strong>Hey! I'm Ryan, and I look after Innioasis Updater CE, the Innioasis Firmware Archive and the Themes Gallery.</strong> I pay for the servers, the upkeep and the test players myself because I love this community and want to keep every tool open to everyone.<br><br>Community contributions come to about 15% of the project's real costs. Any contribution you make goes toward keeping everything online, tested and up to date."
         ];
         devIntro.innerHTML = standardChoices[Math.floor(Math.random() * standardChoices.length)];
       }
@@ -1255,7 +1273,7 @@
     function fxUnit(code) {
       code = String(code || "USD").toUpperCase();
       var r = fxRate(code);
-      if (FX_ZERO[code] || r >= 0.5) return 1.0;
+      if (FX_ZERO[code] || r >= 10) return 1.0;
       return 0.01;
     }
 
@@ -1266,9 +1284,9 @@
 
     function fxGoal(usd, code) {
       var r = fxRate(code);
-      var value = Number(usd || 0) * (r > 1.0 ? r : 1.0);
-      var q = value >= 20000 ? 1000.0 : (value >= 2000 ? 100.0 : (value >= 200 ? 10.0 : 1.0));
-      return Math.ceil(value / q - 1e-9) * q;
+      var value = Number(usd || 0) * r;
+      if (r >= 10) return Math.round(value);
+      return Math.round(value * 100) / 100;
     }
 
     function fxShare(raised, target) {
@@ -1279,25 +1297,38 @@
     var MONTHLY_TARGET = 200.0;
     var WEEKLY_TARGET = MONTHLY_TARGET / 4;
     var DAILY_TARGET = MONTHLY_TARGET / 20;
-    var DAILY_WEEKDAYS = [1, 2, 3, 6];
-    var WIDE_MAX_PERCENT = 25.0;
+    /* The ladder is written in the currency the reader sees: a £50 weekly goal
+       is reached at £50, however many dollars that is today. Currencies whose
+       unit sits close to the dollar (euro, pound, franc, Canadian and
+       Australian dollars, the dollar pegs) use those same round rungs. An
+       inflated, non-decimal or far-pegged currency keeps the dollar ladder
+       converted at the live rate, because "10 of them" would be a few pence. */
+    var LADDER_COMPACT_MIN_RATE = 0.5;
+    var LADDER_COMPACT_MAX_RATE = 1.6;
+
+    function fundingTargets(code) {
+      code = String(code || "USD").toUpperCase();
+      var rate = fxRate(code);
+      if (!FX_ZERO[code] && rate >= LADDER_COMPACT_MIN_RATE && rate <= LADDER_COMPACT_MAX_RATE) {
+        return { daily: DAILY_TARGET, weekly: WEEKLY_TARGET, monthly: MONTHLY_TARGET, compact: true };
+      }
+      return {
+        daily: fxGoal(DAILY_TARGET, code),
+        weekly: fxGoal(WEEKLY_TARGET, code),
+        monthly: fxGoal(MONTHLY_TARGET, code),
+        compact: false
+      };
+    }
 
     function fundingGoalView(donations, monthTotal, now) {
       now = now || new Date();
       var daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-      var base = "weekly";
-      if (now.getDate() <= 5 || now.getDate() > daysInMonth - 7) {
-        base = "monthly";
-      } else if (DAILY_WEEKDAYS.indexOf(now.getDay()) !== -1) {
-        base = "daily";
-      }
-      var ladder = base === "daily" ? ["daily"]
-        : base === "weekly" ? ["weekly", "daily"] : ["monthly", "weekly", "daily"];
-      var targets = { monthly: MONTHLY_TARGET, weekly: WEEKLY_TARGET, daily: DAILY_TARGET };
+      var dayOfMonth = now.getDate();
       var starts = {
         monthly: new Date(now.getFullYear(), now.getMonth(), 1),
-        weekly: new Date(now.getFullYear(), now.getMonth(), Math.max(1, 6 + Math.floor((now.getDate() - 6) / 7) * 7)),
-        daily: new Date(now.getFullYear(), now.getMonth(), now.getDate())
+        weekly: new Date(now.getFullYear(), now.getMonth(), now.getDate() - ((now.getDay() + 6) % 7)),
+        daily: new Date(now.getFullYear(), now.getMonth(), now.getDate()),
+        rolling: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6)
       };
       function raisedSince(start) {
         var total = 0;
@@ -1309,34 +1340,61 @@
       }
       var monthRaised = Math.max(monthTotal || 0, raisedSince(starts.monthly));
       var raisedBy = { monthly: monthRaised, weekly: raisedSince(starts.weekly), daily: raisedSince(starts.daily) };
-      var scope = null;
-      if (monthRaised < MONTHLY_TARGET) {
-        for (var i = 0; i < ladder.length; i++) {
-          var rung = ladder[i];
-          if (targets[rung] - raisedBy[rung] < 1) continue;
-          if (rung !== "daily" && (raisedBy[rung] / targets[rung]) * 100 > WIDE_MAX_PERCENT) continue;
-          scope = rung;
-          break;
-        }
-      }
       var code = detectCurrencyCode();
+      var targets = fundingTargets(code);
+      /* Compare the figures the reader can see. Converting the rungs to
+         dollars instead let a £37.27 week count as "target met" while the
+         page promised a £50 one, so UK and euro readers lost it early. */
+      var shownBy = {
+        monthly: fxLocal(raisedBy.monthly, code),
+        weekly: fxLocal(raisedBy.weekly, code),
+        daily: fxLocal(raisedBy.daily, code)
+      };
+      var scope = null;
+      var metScope = null;
+      var dailyMet = shownBy.daily >= targets.daily;
+      var weeklyMet = shownBy.weekly >= targets.weekly;
+      /* The month's own figure is forced on the first day, when the month has
+         just started, and on the last three days when something came in today.
+         A closing day with no donations falls back to the daily rung, which is
+         measured against today alone. Every other day starts at the daily rung,
+         however much the month has already raised. */
+      var monthSummary = dayOfMonth === 1 ||
+        (dayOfMonth > daysInMonth - 3 && raisedBy.daily > 0);
+      /* A quiet day leads with the daily rung even when the month is already
+         covered, because it is measured against today's donations alone. The
+         month summary only wins on the first day and on closing days that
+         brought something in today. */
+      if (monthSummary) {
+        if (shownBy.monthly >= targets.monthly) metScope = "monthly";
+        else scope = "monthly";
+      } else if (!dailyMet) {
+        scope = "daily";
+      } else if (shownBy.monthly >= targets.monthly) {
+        metScope = "monthly";
+      } else if (!weeklyMet) {
+        scope = "weekly";
+      } else {
+        scope = "monthly";
+      }
       var symbol = fxSymbol(code);
       if (!scope) {
         return {
-          scope: null, covered: true, met: true, periodWord: "", periodSuffix: "", periodAdjective: "",
+          scope: null, covered: true, met: true, metScope: metScope, periodWord: "", periodPhrase: "", periodSuffix: "", periodAdjective: "",
           raised: 0, target: 0, pct: 0, remaining: 0, symbol: symbol, code: code
         };
       }
       var usdRaised = raisedBy[scope];
-      var usdTarget = targets[scope];
-      var shownRaised = fxLocal(usdRaised, code);
-      var shownTarget = fxGoal(usdTarget, code);
+      var shownRaised = shownBy[scope];
+      var shownTarget = targets[scope];
+      var usdTarget = fxRate(code) > 0 ? shownTarget / fxRate(code) : 0;
       var words = { monthly: "month", weekly: "week", daily: "day" };
       var adjectives = { monthly: "monthly", weekly: "weekly", daily: "daily" };
-      var suffixes = { monthly: "this month", weekly: "this week", daily: "today" };
+      var phrases = { monthly: "this month", weekly: "this week", daily: "today" };
+      var suffixes = { monthly: "for this month", weekly: "for this week", daily: "for today" };
       return {
         scope: scope, covered: false,
-        periodWord: words[scope], periodSuffix: suffixes[scope], periodAdjective: adjectives[scope],
+        periodWord: words[scope], periodPhrase: phrases[scope], periodSuffix: suffixes[scope], periodAdjective: adjectives[scope],
         raised: shownRaised, target: shownTarget,
         pct: fxShare(shownRaised, shownTarget),
         remaining: Math.max(0, shownTarget - shownRaised),
@@ -1346,13 +1404,22 @@
       };
     }
 
+    function moneyLabel(value) {
+      var n = Number(value || 0);
+      return (n % 1 === 0) ? n.toFixed(0) : n.toFixed(2);
+    }
+
     function fundingGoalText(goal, withEncouragement) {
-      if (!goal || goal.covered || !goal.scope) {
+      if (goal && goal.covered) {
+        var metWords = { monthly: "This month's", weekly: "This week's", daily: "Today's" };
+        var metLabel = metWords[goal.metScope];
+        if (metLabel) return metLabel + " costs are covered - thank you!";
+      }
+      if (!goal || !goal.scope) {
         return "We rely on your donations to keep running. Donate now";
       }
-      var raisedLabel = (goal.raised % 1 === 0) ? goal.raised.toFixed(0) : goal.raised.toFixed(2);
-      var text = "You've helped us cover " + goal.symbol + raisedLabel +
-        " of our " + goal.symbol + goal.target.toFixed(0) + " costs " + (goal.periodSuffix || ("this " + goal.periodWord)) + ".";
+      var text = "You've helped us raise " + goal.symbol + moneyLabel(goal.raised) +
+        " of our " + goal.symbol + moneyLabel(goal.target) + " costs " + (goal.periodSuffix || ("for this " + goal.periodWord)) + ".";
       return withEncouragement ? text + " All donations are appreciated." : text;
     }
 
@@ -1399,10 +1466,7 @@
       if (streamBox && streamLine) {
         var goal = fundingGoalView(donations, curMonthRaised, now);
         var pct = goal.pct;
-        var isGoalMet = goal.met;
-        var goalBarText = isGoalMet
-          ? "We rely on your donations to keep running. Donate now"
-          : fundingGoalText(goal, true);
+        var goalBarText = fundingGoalText(goal, true);
 
         var goalBarHTML = goal.covered ? "" :
           '<div style="width: 100%; display: flex; flex-direction: column; gap: 4px; align-items: center;">' +
@@ -1453,7 +1517,7 @@
             donorItems.push(sH + ' contributed ' + aH + ' for free by sharing 100MB on <a href="' + METHOD_URLS["honeygain"] + '" target="_blank" rel="noopener noreferrer">Honeygain</a>' + tP);
           } else if (cKind) {
             var coffees = Math.max(1, Math.round(absVal));
-            var cWord = (coffees === 1 ? "a coffee" : coffees + " coffees");
+            var cWord = (coffees === 1 ? "a coffee" : coffees + " coffees") + (cKind === "kofi" ? " on Ko-Fi" : "");
             var cHTML = '<a href="' + tUrl + '" target="_blank" rel="noopener noreferrer"><strong>' + cWord + '</strong></a>';
             donorItems.push(sH + " bought us " + cHTML + tP);
           } else {
@@ -1583,7 +1647,9 @@
             name: proj.name,
             url: proj.url,
             amountFormatted: amtStr,
-            desc: "Funded" + mText + " to support independent firmware research and open software development.",
+            desc: (proj.url && proj.url.indexOf("github.com/sippedaway") !== -1)
+              ? "Paid to Sipped when they sent in a pull request with a full redesign of the Firmware Archive and Updater site."
+              : ("Funded" + mText + " to support independent firmware research and open software development."),
             btnText: "View Project / Receipt →"
           });
         });
@@ -1863,20 +1929,31 @@
       setMoney("financial-outgoing-cost", totalOutgoingSpent);
       setMoney("financial-apple-cost", appleDeveloperCosts);
       var totalDetail = document.getElementById("financial-total-cost-detail");
-      if (totalDetail) totalDetail.textContent = "$200 × " + elapsedMonths + " calendar months + $" + appleDeveloperCosts.toFixed(0) + " Apple certification + $" + macMiniTestingHardware.toFixed(0) + " Mac mini + $" + totalOutgoingSpent.toFixed(2) + " project support.";
+      if (totalDetail) totalDetail.textContent = "$200 monthly running costs × " + elapsedMonths + " calendar months + $" + appleDeveloperCosts.toFixed(0) + " Apple certification + $" + macMiniTestingHardware.toFixed(0) + " Mac mini + $" + totalOutgoingSpent.toFixed(2) + " project support.";
 
     }
 
+    /* The root path is tried first (a relative "donors.csv" from a nested
+       page asks for the wrong file first), the path that worked is remembered
+       for next time, and the file is left cacheable instead of being busted
+       on every load. */
+    var DONORS_URL_KEY = "innioasis-donors-url";
+    var rememberedUrl = null;
+    try { rememberedUrl = localStorage.getItem(DONORS_URL_KEY); } catch (_) {}
     var candidates = [
-      "donors.csv",
+      "https://raw.githubusercontent.com/y1-community/Innioasis-Updater/main/donors.csv",
       "/donors.csv",
+      "donors.csv",
       "https://innioasis.app/donors.csv"
     ];
+    if (rememberedUrl) {
+      candidates = [rememberedUrl].concat(candidates.filter(function (item) { return item !== rememberedUrl; }));
+    }
     var cIdx = 0;
     function tryFetch() {
       if (cIdx >= candidates.length) return;
-      var u = candidates[cIdx++] + "?_t=" + Date.now();
-      fetch(u, { cache: "no-cache" })
+      var u = candidates[cIdx++];
+      fetch(u, { cache: "default" })
         .then(function (res) {
           if (!res.ok) throw new Error(res.status);
           return res.text();
@@ -1885,6 +1962,7 @@
           var data = parseCSV(txt);
           if (data && data.length > 0) {
             renderCreditsPage(data);
+            try { localStorage.setItem(DONORS_URL_KEY, new URL(u, window.location.href).href); } catch (_) {}
           }
         })
         .catch(function (err) {

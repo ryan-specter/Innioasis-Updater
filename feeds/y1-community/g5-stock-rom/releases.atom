@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:innioasis="https://innioasis.app/ns/feeds/1.0">
+  <id>https://innioasis.app/feeds/y1-community/g5-stock-rom/releases.atom</id>
+  <title>Release notes from y1-community/g5-stock-rom</title>
+  <link rel="alternate" type="text/html" href="https://innioasis.app/firmware.html"/>
+  <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/y1-community/g5-stock-rom/releases.atom"/>
+  <updated>2026-11-05T04:21:06Z</updated>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/g5-stock-rom/MX4_EN-V1.11-20260727</id>
+    <updated>2026-11-05T04:21:06Z</updated>
+    <published>2026-11-05T04:21:06Z</published>
+    <title>MX4_EN-V1.11-20260727</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/g5-stock-rom/releases/tag/MX4_EN-V1.11-20260727"/>
+    <innioasis:tag_name>MX4_EN-V1.11-20260727</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/g5-stock-rom/releases/download/MX4_EN-V1.11-20260727/rom_g5.zip" title="rom_g5.zip" length="2048654340" type="application/octet-stream" innioasis:download_count="2" innioasis:asset_id="712038771"/>
+    <link rel="enclosure" href="https://github.com/y1-community/g5-stock-rom/releases/download/MX4_EN-V1.11-20260727/SHA256SUMS.MX4_EN-V1.11-20260727" title="SHA256SUMS.MX4_EN-V1.11-20260727" length="78" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712047709"/>
+    <content type="text">Original Innioasis G5 software **MX4_EN-V1.11-20260727**.
+
+- Model: **G5** (Innioasis)
+- Package: `rom_g5.zip`
+- Build tag: `MX4_EN-V1.11-20260727`
+- Build date: 2026-07-27
+
+## Install
+
+1. Download `rom_g5.zip` (every numbered volume if the release has more than one, then `cat rom_g5.zip.* &gt; rom_g5.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_g5.zip` | 1953.7 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=G5&gt;</content>
+  </entry>
+</feed>

@@ -747,3 +747,10 @@ img.lumen-shot { display: block; width: auto; max-width: min(100%, 640px); heigh
 /* A README link beside the firmware icon, in plain glyph form. */
 .lumen-readme-info{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;flex:0 0 auto;border-radius:50%;border:1px solid var(--lumen-line,rgba(255,255,255,.18));color:var(--lumen-muted,#9aa3b5);font-size:.72rem;line-height:1;text-decoration:none!important}
 .lumen-readme-info:hover{border-color:var(--lumen-accent,#6366f1);color:var(--lumen-text,#e5e7eb)}
+
+/* A release that arrives from GitHub after the cached list is already on
+   screen eases in, so a reader watching the page sees the addition instead
+   of the table jumping. */
+.lumen-release-table tbody tr.lumen-row-new{animation:lumen-release-row-in .45s ease-out both}
+@keyframes lumen-release-row-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){.lumen-release-table tbody tr.lumen-row-new{animation:none}}

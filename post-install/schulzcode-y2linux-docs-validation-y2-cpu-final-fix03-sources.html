@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CPU Final Fix03 source and evidence ledger - Innioasis Updater</title>
+  <meta name="description" content="CPU Final Fix03 source and evidence ledger <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claims, next">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-cpu-final-fix03-sources.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="CPU Final Fix03 source and evidence ledger - Innioasis Updater">
+  <meta property="og:description" content="CPU Final Fix03 source and evidence ledger <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claims, next">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-cpu-final-fix03-sources.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CPU Final Fix03 source and evidence ledger - Innioasis Updater">
+  <meta name="twitter:description" content="CPU Final Fix03 source and evidence ledger <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claims, next">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>CPU Final Fix03 source and evidence ledger</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="cpu-final-fix03-source-and-evidence-ledger">CPU Final Fix03 source and evidence ledger</h1>
+<!-- knowledge-base-scope: scoped-validation-record -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Fix03 uses no new ROM, recovery or calibration input. The BSP files fetched for this batch are kept private in <code>out/cpu-final-fix03/source/</code>, with a SHA256 <code>manifest.json</code>, and go into the candidate&#x27;s source collection. The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-CPU-FINAL-FIX02-SOURCES.md">Fix02 ledger</a> still covers MSDC, PWRAP, MUSB DMA and the RAM-console map.</p>
+<table><thead><tr><th>Reference</th><th>Narrow use</th></tr></thead><tbody><tr><td><a href="https://github.com/ubports/kernel_krillin/tree/874057f3c28735d606385361fb9a4cd4545ceba6/mediatek" target="_blank" rel="noopener noreferrer">BQ/Ubuntu krillin 874057f3</a> <code>platform/mt6582/kernel/core/mt_dcm.c</code> and <code>include/mach/mt_dcm.h</code></td><td><code>DCM_CFG</code> is <code>INFRA_BASE + 0x0004</code> (TOPCKGEN+4, &quot;AXI bus dcm&quot;). <code>DCM_ENABLE_DCM_CFG</code> is undefined, so DCM init never writes it (&quot;default value are all 0, use default value&quot;). <code>bus_dcm_enable</code> writes <code>1 &lt;&lt; 7 | 0xF</code> (0x8f) and <code>bus_dcm_disable</code> clears only bit 7, so the stock steady state is 0x00, then 0x0f after the first idle</td></tr><tr><td>same, <code>core/mt_idle.c</code></td><td><code>slidle_before_wfi</code>/<code>after_wfi</code> and <code>spm_dpidle_before_wfi</code>/<code>after_wfi</code> call <code>bus_dcm_enable</code>/<code>disable</code> without checking the inherited value; the stock slidle PERI mask is <code>0x00f00800</code></td></tr><tr><td>same, <code>core/include/mach/mt_wdt.h</code>, <code>drivers/wdt/mtk_wdt.c</code></td><td><code>MTK_WDT_STATUS</code> is <code>+0x0c</code>, with bits HWWDT <code>0x80000000</code>, SWWDT <code>0x40000000</code>, IRQWDT <code>0x20000000</code>, DEBUGWDT <code>0x00080000</code>, SPMWDT <code>0x0001</code>. The stock driver only reads it (<code>wdt_dump_reg</code>, FIQ copy into <code>NONRST_REG</code>)</td></tr><tr><td>same, <code>core/mt_spm_sleep.c</code></td><td>Reference for the SPM sleep/resume sequence around UART and wake. Fix03 changes nothing there</td></tr><tr><td><code>.../usb20/musb_gadget.c</code> and <code>musbhsdma.c</code> (Fix02 ledger)</td><td>Stock RX keeps a packet pending without a request (<code>rx_pending</code>). The DMA IRQ handler is the same W1C/spurious-recovery path as upstream. A mode-0 RX packet costs one endpoint and one DMA interrupt</td></tr><tr><td><a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/?h=v6.18" target="_blank" rel="noopener noreferrer">Linux 6.18</a> locked local source</td><td><code>suspend_devices_and_enter</code>, <code>suspend_finish</code> (thaw, <code>filesystems_thaw</code>, <code>PM_POST_SUSPEND</code>, <code>pm_restore_console</code>), <code>console_resume_all</code> (<code>pr_flush(1000, true)</code>), upstream <code>musb_g_rx</code>/<code>rxstate</code>/<code>dma_controller_irq</code>, <code>mtk_wdt_probe</code> order, <code>CONFIG_HZ_100</code></td></tr><tr><td>Fix02 physical evidence <code>out/cpu-final-fix02-physical-qualification/20260929T152328Z/</code></td><td><code>x-rtc-retained.json</code>: stage <code>DEVICES_RESUMING</code>, ring of balanced phase-8 pairs through <code>faux</code>, reset stamp <code>0x59325253</code>. <code>harness/</code> and <code>usb-retest/usb-loaded-stress.json</code>: ISR, DMA-interrupt and DMA-programming deltas. <code>x-slidle-radios-off/result.json</code>: <code>slow_reject_bus</code> and the clock mask. <code>harness/slidle-coordinator.json</code>: <code>busy_percent=100</code>, <code>burst_ms=780</code> before the wake</td></tr></tbody></table>
+<h2 id="usb-arithmetic-fix02-receipts">USB arithmetic (Fix02 receipts)</h2>
+<table><thead><tr><th>Run</th><th>ISR Δ</th><th>DMA-IRQ Δ</th><th>RX + TX DMA programs Δ</th><th>Upper bound if every packet costs two interrupts</th></tr></thead><tbody><tr><td>Boot 1 (harness)</td><td>1155</td><td>597</td><td>512 + 99 = 611</td><td>1222</td></tr><tr><td>Boot 3 (retest)</td><td>916</td><td>473</td><td>407 + 81 = 488</td><td>976</td></tr></tbody></table>
+<p>The observed interrupt totals stay below the per-packet bound. A stuck source would have added at least 513 interrupts on top of it. The 513 counted in one 10-ms jiffy were therefore legitimate per-packet work, about 12 MB/s.</p>
+<p>Only behavior corroborated by the MT6582 BSP and the physical Y2 receipts was used. No adjacent-SoC constant was imported. Whether the loader preserves <code>WDT_STATUS</code> until the kernel reads it, and which resume call stalls, are physical questions for the next owner run. Synthetic tests establish only the software contract.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

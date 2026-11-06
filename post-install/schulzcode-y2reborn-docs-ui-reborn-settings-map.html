@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reborn settings map - Innioasis Updater</title>
+  <meta name="description" content="Reborn settings map <!-- knowledge-base-scope: source-contract -- Source-contract scope. Where every setting lives since 1.0 Beta 9.2.10 and the rules for adding one. Cod">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-ui-reborn-settings-map.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Reborn settings map - Innioasis Updater">
+  <meta property="og:description" content="Reborn settings map <!-- knowledge-base-scope: source-contract -- Source-contract scope. Where every setting lives since 1.0 Beta 9.2.10 and the rules for adding one. Cod">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-ui-reborn-settings-map.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Reborn settings map - Innioasis Updater">
+  <meta name="twitter:description" content="Reborn settings map <!-- knowledge-base-scope: source-contract -- Source-contract scope. Where every setting lives since 1.0 Beta 9.2.10 and the rules for adding one. Cod">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>Reborn settings map</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="reborn-settings-map">Reborn settings map</h1>
+<!-- knowledge-base-scope: source-contract -->
+> **Source-contract scope.** Where every setting lives (since 1.0 Beta 9.2.10) and the rules for adding
+> one. Code: `crates/reborn-ui/src/pages.rs` (`settings`, `system_menu`, `library`, Sound, Display),
+> `crates/reborn-ui/src/customize.rs` (Customize's pages, pickers and hints).
+<h2 id="before-you-add-a-setting">Before you add a setting</h2>
+<p><strong>First find the right place, then add the setting.</strong> A new setting never goes &quot;somewhere for now&quot;. Ask:</p>
+<ol><li><strong>Is it needed at all?</strong> Prefer a good default to a setting (the project keeps Reborn free of feature<p>creep; requests that only some people want belong to plugins later).</p></li><li><strong>Which question does it answer?</strong> Pick the place below whose question it answers. If two seem to fit,<p>take the one a listener would open first when looking for it.</p></li><li><strong>Does the page still fit one screen?</strong> At most six rows on a page (the root holds eight). If a page<p>would get a seventh, group related rows into a sub-page of their own with a name that says what is inside, rather than letting the page scroll.</p></li><li><strong>Name it by what it does, show its value.</strong> The row&#x27;s label says what changes (&quot;Buttons While Screen<p>Off&quot;, not &quot;When Screen Off&quot;); its value on the right says what it is now (&quot;Play Buttons&quot;, not &quot;On&quot;).</p></li><li><strong>Use the matching control.</strong> On/off: a switch. Two named choices: Select steps them, the value shows<p>which. Three or more: a picker page with a check mark on the current choice. A level or a time: a picker or a card with a slider.</p></li><li><strong>Give it a hint.</strong> Customize&#x27;s settings carry one line at the bottom saying what the setting in focus<p>does (<code>customize::hint</code>); pickers say what each choice means.</p></li><li><strong>Update this map</strong> and the previews (<code>app/reborn/src/bin/reborn-preview.rs</code>) in the same change.</li></ol>
+<p>A session is saved with its screen: a new page is a sub-page (an existing screen plus a navigation filter, as <code>Screen::Customize</code> with &quot;browsing&quot;) unless older versions can read a new <code>Screen</code> value, so that Restore Previous System does not throw the session away.</p>
+<h2 id="the-places">The places</h2>
+<table><thead><tr><th>Place</th><th>The question it answers</th></tr></thead><tbody><tr><td>Bluetooth</td><td>Which headphones or speakers play?</td></tr><tr><td>Wi-Fi</td><td>Which network is the player on?</td></tr><tr><td>Sound</td><td>How does the music sound, and where does it go?</td></tr><tr><td>Display</td><td>How bright is the screen, and when does it turn off?</td></tr><tr><td>Skin</td><td>How does Reborn look?</td></tr><tr><td>Customize</td><td>How does Reborn behave: Home, the lists, the wheel and the buttons?</td></tr><tr><td>Library</td><td>Where is my music, and where does my listening go?</td></tr><tr><td>System</td><td>The player itself: updates, the clock, reports, resets, about.</td></tr></tbody></table>
+<h2 id="the-tree">The tree</h2>
+<pre><code>Settings
+├ Bluetooth                  devices, Search for Devices
+├ Wi-Fi                      networks, Other Network…
+├ Sound                      Equalizer › · Normalize Volume · Balance › · Playback › · Output card ›
+│  ├ Playback                Gapless Playback · Crossfade ›
+│  └ Output                  Headphone Jack / Bluetooth devices · Speaker · Headphone Level › · DAC Filter ›
+├ Display                    Brightness card · Screen Off After ›
+├ Skin                       the skins
+├ Customize                  Home Menu › · Browsing › · Wheel &amp; Buttons ›
+│  ├ Home Menu               the places on Home and their order
+│  ├ Browsing                Cover Flow · Sort Albums · Artists List · Lists Wrap Around ›
+│  └ Wheel &amp; Buttons         Wheel on Now Playing · Wheel Click · Haptics › · Buttons While Screen Off ›
+├ Library                    Scan for Music · Storage › · Last.fm ›
+└ System                     Software Update › · Time Zone › · Date &amp; Time › · Error Reports ›
+                             · Reset &amp; Maintenance › · About ›
+   (About › Version, tapped seven times: the service menu — codecs, Battery, Sleep, Diagnostics)</code></pre>
+<p>Shuffle and Repeat are on Now Playing&#x27;s menu, the sleep timer on Now Playing too: things you change while listening stay where you listen.</p>
+<h2 id="the-quick-menu-hold-power">The Quick Menu (hold Power)</h2>
+<p>Since 1.0 Beta 9.3.15 (Y2Linux #85), holding Power on any screen opens the Quick Menu; releasing keeps it open, Back or a short press of Power closes it. It holds what people change on the go, without walking into Settings, and nothing else:</p>
+<pre><code>┌ Quick Menu ─────────────────────────── Battery 72 % ┐   a centred panel; it grows in over the
+│ [ Wi-Fi        network ] [ Bluetooth     device ] │   dimmed screen, the tiles one after another
+│ [ ☀ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━○──────  60 % ] │
+│ [ ☾ Sleep Timer ]  [ ↻ Restart ]  [ ⏻ Power Off ] │
+└────────────────────────────────────────────────────┘</code></pre>
+<p>The wheel goes Wi-Fi → Bluetooth → Brightness → Sleep Timer → Restart → Power Off; the menu opens on Brightness. Wi-Fi and Bluetooth: Select switches them, the tile fills with the accent while on. Brightness: Select, turn the wheel, Select (the Display card&#x27;s adjustment). Sleep Timer opens the timer&#x27;s picker. Restart and Power Off act at once and wait while the platform works (an update). Keep holding Power with the menu open: after 3 s a ring fills around the Power Off tile (&quot;Hold to Turn Off&quot;) and turns the player off 1.2 s later, as a hold always did; the hardware resets the player after 10 s. Over the keyboard, a pairing question or a message the full-screen ring starts at once. Skins get the same panel in their palette. Each control is also where it always was in Settings; anything added here must be a quick control that already has its place in the tree (six tiles fill the panel). Code: <code>crates/reborn-ui/src/quick_menu.rs</code> (rows, actions), <code>views_quick.rs</code> (the panel).</p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

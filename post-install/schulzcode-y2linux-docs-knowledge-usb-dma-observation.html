@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>USB DMA observations and current scope - Innioasis Updater</title>
+  <meta name="description" content="USB DMA observations and current scope <!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -- Current Baseline02 / UART01 scope UART01 bounded USB c">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-usb-dma-observation.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="USB DMA observations and current scope - Innioasis Updater">
+  <meta property="og:description" content="USB DMA observations and current scope <!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -- Current Baseline02 / UART01 scope UART01 bounded USB c">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-usb-dma-observation.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="USB DMA observations and current scope - Innioasis Updater">
+  <meta name="twitter:description" content="USB DMA observations and current scope <!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -- Current Baseline02 / UART01 scope UART01 bounded USB c">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>USB DMA observations and current scope</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="usb-dma-observations-and-current-scope">USB DMA observations and current scope</h1>
+<!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -->
+<h2 id="current-baseline02--uart01-scope">Current Baseline02 / UART01 scope</h2>
+<p>UART01 bounded USB checksum regression passes three 1 MiB bidirectional rounds with an independent Wi-Fi observer. Baseline02 retains that repaired source. Lifetime allocation/program counters still do not prove payload completion or wire throughput. The earlier source/guard descriptions and failure notes below belong to their exact snapshots; use current kernel source and the UART01 receipt for current behavior. Endurance, host-sleep/reconnect and full-suspend restoration remain separate.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-BASELINE-02.md">Baseline02 seal</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-CPU-C3-UART-PHYSICAL.md">UART01 hardware</a> and <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2FCURRENT_PLATFORM_STATE.md">current state</a> carry exact identities, counters and limits.</p>
+<h2 id="historical-source-research-and-physical-checkpoints">Historical source research and physical checkpoints</h2>
+<p>The following text retains earlier dated decisions and results. Its “current”, “next” and candidate labels belong to those sessions; the Baseline02 summary above takes precedence. Historical failures and seal-time NOT_RUN receipts remain evidence for their exact images.</p>
+<hr>
+<h1 id="hardware-final-usb-dma-observations">Hardware Final USB DMA observations</h1>
+<p><strong>Latest physical boundary, 2026-09-27:</strong> Fix01&#x27;s first small SHA-checked USB transfer passes, but the next transfer loses connectivity while UI remains usable. These lifetime counters do not reveal the failed interval after the owner&#x27;s restart. Loaded transfer recovery and full suspend restoration remain unqualified. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-CPU-FINAL-FIX01-PHYSICAL-QUALIFICATION.md%23playback-connectivity-and-recovery&amp;anchor=playback-connectivity-and-recovery">Actual result</a>.</p>
+<p>The sole active peripheral adapter is <code>kernel/platform/usb.c</code>. Hardware 02&#x27;s physical census on 2026-09-27 reports Inventra DMA active, advancing DMA IRQs and zero DMA errors. This establishes activity, not the throughput ceiling, channel utilization, or suspend qualification.</p>
+<p>Hardware Final adds read-only fields to the existing <code>/sys/devices/platform/11200000.usb/status</code> interface:</p>
+<table><thead><tr><th>Fields</th><th>Meaning</th></tr></thead><tbody><tr><td><code>transfer</code>, <code>dma_irqs</code>, <code>dma_errors</code></td><td>Existing controller mode, aggregate DMA IRQs and detected bus faults</td></tr><tr><td><code>dma_allocations</code>, <code>dma_alloc_failures</code>, <code>dma_releases</code></td><td>Successful upstream channel allocations, allocation refusals and normal release calls</td></tr><tr><td><code>dma_allocated</code></td><td>Currently allocated channels; allocation does not imply an in-flight transfer</td></tr><tr><td><code>dma_rx_programs</code>, <code>dma_tx_programs</code></td><td>Accepted upstream channel-program calls, from the device&#x27;s perspective</td></tr><tr><td><code>dma_rx_programmed_bytes</code>, <code>dma_tx_programmed_bytes</code></td><td>Bytes in those accepted programming requests; <strong>not completed bytes, wire traffic or TCP goodput</strong></td></tr><tr><td><code>dma_program_failures</code></td><td>Upstream programming refusals; normal PIO fallback may follow</td></tr><tr><td><code>dma_aborts</code>, <code>dma_abort_failures</code></td><td>Abort calls and their nonzero returns; an idle-channel abort is still a call</td></tr></tbody></table>
+<p>Totals span the driver&#x27;s lifetime. Teardown resets the current allocation gauge; upstream emergency controller stop may release remaining channels directly, so allocation minus normal releases is not a substitute for the gauge. RX/TX classification follows allocation direction, independently of DMA mode 0/1. Atomic 64-bit totals avoid torn reads and short byte-counter wrap on ARM32. Each field is individually coherent; the whole multiline report is not an atomic snapshot of ongoing traffic. Use bounded before/after deltas.</p>
+<p>The wrappers delegate allocation, programming, abort and release unchanged. Allocation/program failure remains the upstream result. Existing <code>y2.usb_dma=off</code>, allocation fallback, 32-bit DMA addressing, peripheral-only role and terminal bus-fault teardown remain in force. Throughput and CPU cost must be remeasured on the final candidate, including instrumentation cost.</p>
+<p>The existing IRQ-overflow snapshot retains sampled L1/core/endpoint status and masks before teardown. The Physical 01 suspend failure alone does not prove a particular stuck endpoint, bad restore ordering, or a DMA defect (that image used PIO). Hardware 02 introduced the snapshot; a repeat failure&#x27;s retained snapshot is required before attributing its root cause. The current 512-IRQs per-jiffy guard remains unchanged. High IRQ rate is not independently proof of an electrical fault; retain throughput, elapsed time and status when it fires.</p>
+<p>Targeted host validation extracts and executes the actual wrappers, covering successful delegation, allocation exhaustion/reuse, rejected programming, RX/TX direction independent of mode, byte totals crossing 4 GiB, and abort failure propagation. The existing USB lifecycle/recovery tests and DMA bus-error teardown test also pass. These checks do not certify physical throughput, reconnect, suspend or fault recovery.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

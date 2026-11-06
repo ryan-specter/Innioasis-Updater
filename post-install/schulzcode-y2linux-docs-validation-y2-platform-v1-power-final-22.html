@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-22 — dark DSI hand-over (no colour flash between logo and splash) - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-22 — dark DSI hand-over no colour flash between logo and splash Status: SEALED, AWAITING THE OWNER FLASH 2026-10-13. Package out/y2linux-platform-v1-power-fin">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-22.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-22 — dark DSI hand-over (no colour flash between logo and splash) - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-22 — dark DSI hand-over no colour flash between logo and splash Status: SEALED, AWAITING THE OWNER FLASH 2026-10-13. Package out/y2linux-platform-v1-power-fin">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-22.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-22 — dark DSI hand-over (no colour flash between logo and splash) - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-22 — dark DSI hand-over no colour flash between logo and splash Status: SEALED, AWAITING THE OWNER FLASH 2026-10-13. Package out/y2linux-platform-v1-power-fin">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-22 — dark DSI hand-over (no colour flash between logo and splash)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-22--dark-dsi-hand-over-no-colour-flash-between-logo-and-splash">POWER-FINAL-22 — dark DSI hand-over (no colour flash between logo and splash)</h1>
+<p>Status: <strong>SEALED, AWAITING THE OWNER FLASH</strong> (2026-10-13). Package <code>out/y2linux-platform-v1-power-final-candidate-22/</code> (fallback = 21), receipts <code>out/deep-sleep-final/build22-receipts/</code>. BOOTIMG <code>f73ba54c706d1d15612d8bfea7d1273b93a45293190da5a476f9f76fa8fb402b</code>, Y2ROOT <code>d7d21d71a397acb7d7e95d0f240c798e35da6d7068030844dc867854542e6a0d</code>. Identity: build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-22</code>, kernel <code>6.18.56-y2linux-platform-v1-power-final-22</code>, root <code>2026.08-platform-v1.52</code>, release <code>1.0.0-platform-v1-power-final-candidate.22</code>; Linux <code>430ff11</code> on <code>main</code>, Reborn unchanged (<code>217e28d</code>). Flash BOOTIMG + ANDROID only with <code>MT6582_preserve_data_scatter.txt</code>, Download Only. Sleep code identical to 20/21.</p>
+<h2 id="21-result-owner-2026-10-13">21 result (owner, 2026-10-13)</h2>
+<p>The white/colour screen after the shutdown animation is gone. The colour flash between the bootloader logo and the splash remained.</p>
+<h2 id="cause-21-boot-a0c4d60e-archive-118">Cause (21 boot <code>a0c4d60e</code>, archive 118)</h2>
+<p><code>mtk-dsi: handoff: clocks on; park video</code> at 0.489 s stops LK&#x27;s video stream; Linux&#x27;s first DSI modeset (from the fbdev client) streams at 0.532 s; the splash&#x27;s first frame appears at 0.642 s. The lit panel had no stream for ≈40 ms. 21&#x27;s splash-side darkening ran after the modeset and could not cover it.</p>
+<h2 id="what-22-changes">What 22 changes</h2>
+<p>Overlay <code>0017-mt6582-dsi.patch</code> (<code>mtk_dsi.c</code>, in <code>display.ko</code> loaded from the initramfs at ≈0.47 s): before &quot;park video&quot; the hand-over switches the panel&#x27;s backlight (the DT <code>backlight</code> phandle of the panel node) off, only if it was lit; 50 ms after the first Linux <code>atomic_enable</code> it relights; a 3-s fallback relights if no enable comes, and a devm release relights on unbind or probe failure. Expected: logo → short dark → black → splash. 21&#x27;s changes stay.</p>
+<h2 id="tests">Tests</h2>
+<p><code>test_display_quiet_power</code> (+ the hand-over order), <code>test_overlay_hashes</code>; locked-container production suite 693 cases, exit 0; package validation, ELF, installed ARM, privacy, inventory PASS.</p>
+<h2 id="what-to-check-after-the-flash">What to check after the flash</h2>
+<p>Power on several times: no colour flash between logo and splash; <code>dmesg | grep handoff</code> shows <code>backlight off until the first Linux frame</code> then <code>backlight restored</code>. Shutdown stays dark. Then the sleep tests.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

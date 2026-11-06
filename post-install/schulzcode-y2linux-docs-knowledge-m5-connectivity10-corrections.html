@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CONNECTIVITY-10: complete Wi-Fi regulatory TX power requests - Innioasis Updater</title>
+  <meta name="description" content="CONNECTIVITY-10: complete Wi-Fi regulatory TX power requests <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate ide">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m5-connectivity10-corrections.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="CONNECTIVITY-10: complete Wi-Fi regulatory TX power requests - Innioasis Updater">
+  <meta property="og:description" content="CONNECTIVITY-10: complete Wi-Fi regulatory TX power requests <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate ide">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m5-connectivity10-corrections.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CONNECTIVITY-10: complete Wi-Fi regulatory TX power requests - Innioasis Updater">
+  <meta name="twitter:description" content="CONNECTIVITY-10: complete Wi-Fi regulatory TX power requests <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate ide">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>CONNECTIVITY-10: complete Wi-Fi regulatory TX power requests</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="connectivity-10-complete-wi-fi-regulatory-tx-power-requests">CONNECTIVITY-10: complete Wi-Fi regulatory TX power requests</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>The own Y2 trace places the remaining -09 Wi-Fi failure after firmware ready, successful RF/baseband capability queries and the interface registration path. The regulatory notifier sends domain <code>0x13</code> and TX power <code>0x38</code> commands; TX credits return, but the power-setting OID times out and triggers recovery. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fhardware-evidence%2F2026-09-17-m5-wifi%2FREADME.md">Physical evidence</a>.</p>
+<p><code>wlanoidSetTxPower</code> marks <code>0x38</code> as an OID set without a firmware response and provides no done callback. <code>wlanProcessCommandQueue</code> completes successful no-response commands through that callback, then frees them. Consequently the waiting <code>kalIoctl</code> never receives success, although transmission succeeded.</p>
+<p>Attach existing <code>nicCmdEventSetCommon</code> and <code>nicOidCmdTimeoutCommon</code> callbacks only to this producer. This repairs the driver completion contract; it adds no silicon workaround and requests no unsupported firmware acknowledgement. The payload, cfg80211 channel/power policy, command queue, transport and error checks stay unchanged. Two small lifecycle logs expose interface registration and regulatory failure without enabling the verbose legacy debug masks.</p>
+<p>The new regression executes the actual producer, queue consumer, queue macros and callbacks, reproduces the missing completion, and checks successful TX, TX error, credit starvation/retry, timeout and non-OID behavior. Replaying the unmodified -09 producer fails its successful-completion assertion. All 16 targeted Wi-Fi/connectivity checks pass against the final emitted -10 artifacts.</p>
+<p>The owner-installed CONNECTIVITY-10 BOOTIMG now verifies stable wlan0/cfg80211, successful scans, runtime restart and BlueZ power-on while Wi-Fi is active. Core errors/recoveries remain 0 and kernel taint is 0; no runtime correction or diagnostic module is needed. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fhardware-evidence%2F2026-09-17-m5-connectivity10%2FREADME.md">Physical -10 result</a>. CONNECTIVITY-07 root/data and the verified -09 BOOTIMG fallback are retained. No network is configured, so association/DHCP/data traffic remain untested. M5 qualification remains open; both saved radio preferences stay off.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

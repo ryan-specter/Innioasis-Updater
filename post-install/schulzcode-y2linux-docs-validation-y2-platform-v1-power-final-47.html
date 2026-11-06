@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-47 — DSI register read lag: keep DCM off for DSI/DPI - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-47 — DSI register read lag: keep DCM off for DSI/DPI Status: PUBLISHED as GitHub release baseline-47 ; its fix confirmed on 48 archive 20261016/151 . Package">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-47.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-47 — DSI register read lag: keep DCM off for DSI/DPI - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-47 — DSI register read lag: keep DCM off for DSI/DPI Status: PUBLISHED as GitHub release baseline-47 ; its fix confirmed on 48 archive 20261016/151 . Package">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-47.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-47 — DSI register read lag: keep DCM off for DSI/DPI - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-47 — DSI register read lag: keep DCM off for DSI/DPI Status: PUBLISHED as GitHub release baseline-47 ; its fix confirmed on 48 archive 20261016/151 . Package">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-47 — DSI register read lag: keep DCM off for DSI/DPI</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-47--dsi-register-read-lag-keep-dcm-off-for-dsidpi">POWER-FINAL-47 — DSI register read lag: keep DCM off for DSI/DPI</h1>
+<p>Status: <strong>PUBLISHED</strong> as GitHub release <code>baseline-47</code>; its fix confirmed on 48 (archive <code>20261016/151</code>). Package <code>out/y2linux-platform-v1-power-final-candidate-47/</code> (fallback = 46, which the player runs), receipts <code>out/deep-sleep-final/build47-receipts/</code>. BOOTIMG <code>97f2ef876bc78b140933204f504142830786f6ec9b4f65a2b5b08b632cf9e280</code>, Y2ROOT <code>efb3f4e66f85ed8f200f4b292d1e1a2894bf462e04641748e27aff5a1df40bce</code>, RECOVERY <code>4293cfcafa4d041bdfb89c6af5c9e3dbc57d24949a4b2ee9d3f25ac9deb2ce35</code>. Kernel <code>6.18.56-y2linux-platform-v1-power-final-47</code>, update sequence 4700, Linux <code>ba7a003</code>, Reborn <code>850687d</code>. Container suite <strong>718 OK</strong>, all seal checks PASS. Signed with the release key: <code>…-47-ota-release/</code>.</p>
+<h2 id="why">Why</h2>
+<p>46&#x27;s recovery log (archive <code>20261016/150</code>) narrows the lag to a 42 ms window: LK&#x27;s DSI registers read correctly at the hand-over (<code>ps=000305a0 vact=00000168</code>), every read lags at Linux&#x27;s first modeset, and power-cycling DSI clocks and PHY three times does not clear it. In that window the display mutex&#x27;s first prepare applies MMSYS DCM, group 1 (DSI engine/digital, DPI) included. Stock (<code>out/rea/fm-kernel.elf</code>) calls <code>dcm_enable</code> only from <code>mt_dcm_init</code> and the sysfs store — once at boot, with its display streaming — and toggles only bus DCM around idle. All three lagged boots (143, 43&#x27;s recovery, 150) are after POWER-FINAL-16 introduced the DCM; the older dark restarts read correctly.</p>
+<table><thead><tr><th>Change</th><th>Detail</th></tr></thead><tbody><tr><td><code>dcm-policy.h</code></td><td>DIS DCM group 1 stays off (<code>0x1400012c</code>/<code>0x14000130</code> = 0xf; the clear register is not written). Group 0 and SMI DCM unchanged. No power cost: the DSI streams whenever the screen is on; DIS is powered down when it is off.</td></tr><tr><td>DSI evidence (patch 0017)</td><td>Hand-over and read-back lines print <code>dcm1=</code> (0xf expected from 47 on).</td></tr><tr><td><code>update probe-recovery</code></td><td>Follows the restart setting: restart into the recovery screen and back, nothing installed.</td></tr></tbody></table>
+<h2 id="owner-steps">Owner steps</h2>
+<ol><li>Install 47 over Wi-Fi from the release (Settings → About &amp; Updates).</li><li>With the owner&#x27;s OK: several <code>y2-platform update probe-recovery</code> runs (each restarts into the recovery screen<p>and back); the agent archives each recovery log. Pass: every recovery screen lit, no <code>read-back</code> line.</p></li></ol>
+<h2 id="device-results-on-48-archive-20261016151">Device results (on 48, archive <code>20261016/151</code>)</h2>
+<ul><li><strong>48&#x27;s own install (over Wi-Fi from the release): recovery screen lit</strong> (vblank 16 → 219, no read lag, 53 s),<p><code>Acknowledged</code>. DCM group 1 reads <code>0x1400012c = 0000000f</code> in the recovery and the running system.</p></li><li><strong>Five restart-entered recovery probes (owner-approved): all five recovery screens produced frames</strong> (vblank 16–17<p>at 1.2 s, OVL irq <code>0x10</code>, RDMA irq <code>0x27</code>, no vblank/flip timeouts), all five returned on their own in 20–35 s, every return boot lit. Logs <code>probe1..5-recovery.log</code> and <code>probe1..5-return-dmesg.txt</code> in the archive.</p></li><li><strong>The read lag itself is not DCM:</strong> probes 4 and 5 still read the DSI one register late with <code>dcm1=0000000f</code><p>(44&#x27;s three power cycles again did not clear it). But unlike every lagged boot before (143, 150: OVL irq 0, RDMA <code>0x24</code>, vblank 1), the pipeline ran. So far the evidence says DSI DCM turned the lag into a dark screen; the lag&#x27;s own cause is unknown (2 of 5 restart entries). 44&#x27;s power-cycle retry is useless and costs ~75 ms when it fires.</p></li><li>Visual confirmation of each probe screen by the owner: pending.</li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

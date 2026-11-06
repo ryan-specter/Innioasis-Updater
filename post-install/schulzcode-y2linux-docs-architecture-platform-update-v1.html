@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Signed root-only update contract v1 - Innioasis Updater</title>
+  <meta name="description" content="Signed root-only update contract v1 Superseded by OTA-35 over-the-air updates platform-ota-v2.md 2026-10-15: full-system packages installed by the Y2 recovery image. Kept">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-architecture-platform-update-v1.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Signed root-only update contract v1 - Innioasis Updater">
+  <meta property="og:description" content="Signed root-only update contract v1 Superseded by OTA-35 over-the-air updates platform-ota-v2.md 2026-10-15: full-system packages installed by the Y2 recovery image. Kept">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-architecture-platform-update-v1.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Signed root-only update contract v1 - Innioasis Updater">
+  <meta name="twitter:description" content="Signed root-only update contract v1 Superseded by OTA-35 over-the-air updates platform-ota-v2.md 2026-10-15: full-system packages installed by the Y2 recovery image. Kept">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Signed root-only update contract v1</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="signed-root-only-update-contract-v1">Signed root-only update contract v1</h1>
+<blockquote><p><strong>Superseded by <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Farchitecture%2Fplatform-ota-v2.md">OTA-35 over-the-air updates</a></strong> (2026-10-15): full-system packages installed by the Y2 recovery image. Kept as the record of the root-only design.</p></blockquote>
+<!-- knowledge-base-scope: source-contract -->
+> **Source-contract scope.** This page describes software ownership and
+> interface behavior. See [current state](../CURRENT_PLATFORM_STATE.md) for the exact latest image
+> and physical limits; implemented or enabled does not mean qualified.
+<p>Software implementation; <strong>PHYSICAL_GATE</strong> for this integrated candidate. Do not use on Y2 until the owner installs the exact candidate and runs session G. The initial rescue BOOTIMG must be installed through the existing owner-controlled manual flow. Automatic BOOTIMG replacement is deliberately absent: this layout has one rescue-containing slot, so a torn write can remove recovery. No A/B, partition table, protected partition, NVRAM or calibration write is introduced.</p>
+<h2 id="authentication-and-policy">Authentication and policy</h2>
+<p><code>tools/update/package.py</code> creates an exact-byte UTF-8 JSON manifest and a 64-byte <code>manifest.sig</code>, the standard libsodium Ed25519 detached signature of <strong>all bytes</strong> of <code>manifest.json</code>. The package also contains <code>rootfs.ext4.gz</code>. The native <code>y2-update-core</code> is the single verification/policy authority in both Linux and rescue. It uses pinned Buildroot libsodium 1.0.22 (ISC), json-c 0.18 (MIT) and zlib. No Python is added to rescue. Existing 8 MiB regular/4 MiB compressed rescue budgets remain mandatory.</p>
+<p>The manifest binds product, board revision, release version/monotonic sequence, minimum compatible sequence, Linux/Reborn commits, kernel, rootfs version, root/data/rescue/library schemas, one allowed Y2ROOT payload, compressed/raw sizes and SHA256, key ID, signature format, and explicit rollback/downgrade flags. Current Reborn database schema is <strong>1</strong>, as its current source declares. Root-only OTA requires the exact running rescue kernel; new kernel/DT/modules require a separate owner-controlled paired/manual release. No active root write exists.</p>
+<p>The trusted registry supports up to 16 distinct active/revoked keys with IDs, public keys, development/release purpose, sequence bounds and downgrade policy. Release replay/downgrade is refused against the durable accepted high-water sequence. Development downgrade needs BOTH a development-key permission and a signed manifest permission. A separate current sequence tracks explicit restore; restoring a previous root never lowers the accepted high-water sequence. This is disk-backed policy, not a tamperproof hardware rollback counter or secure boot. An owner with root or a physical recovery tool remains trusted.</p>
+<p>The candidate embeds only public key <code>platform-v1-development-20260923</code>. Its private key is in the owner&#x27;s private host directory <code>~/.local/share/y2linux/signing/platform-v1-development.key</code>, mode 0600 inside 0700 directories, outside both repositories and all build artifacts. It is not read/copied into build inputs or Y2. A maintainer uses the offline keygen/package CLI; private-key output is never printed. Production release keys are a separate owner provisioning decision, not this development key renamed.</p>
+<p>Rotation/revocation is an immutable-rescue boundary: preprovision multiple public keys, then switch the signing key. Add/revoke keys in a reviewed BOOTIMG via the manual recovery flow before depending on that new trust state. Root-only updates cannot revoke a key that an old BOOTIMG still trusts. After compromise, stop the channel, preserve evidence, provision a new owner rescue/key registry, and then install a verified root. No unsafe one-key-forever assumption or unauthenticated network key refresh exists. Exact key registry/hash is part of candidate evidence.</p>
+<h2 id="check-stage-and-apply">Check, stage and apply</h2>
+<p>The owner may set <code>/data/updates/channel.json</code> to <code>{&quot;manifest_url&quot;:&quot;https://owner.example/release/manifest.json&quot;}</code>. No public channel is guessed or contacted automatically. Commands:</p>
+<pre><code>y2-platform update check --url https://owner.example/release/manifest.json
+y2-platform update stage --url https://owner.example/release/manifest.json
+# An owner-delivered directory is also supported, without a wall-clock dependency:
+y2-platform update stage --package /data/owner-signed-package
+y2-platform update status
+y2-platform update apply</code></pre>
+<p>Network requests use standard Python/OpenSSL HTTPS verification, established platform clock/CSPRNG readiness, no proxies, credentials-in-URL, query tricks or redirects, bounded manifest/signature/payload sizes, socket timeouts and total download deadlines. A manifest is authenticated before its payload is downloaded. A private fresh copy is fsynced, decompressed/hashed/identity-checked by the native core, published as pending, then durably queued. Incomplete/invalid input cannot queue. Staging cleanup only touches three known disposable filenames in bounded private update directories. It never deletes music/database/session data.</p>
+<p>Space admission preserves 96 MiB and 128 inodes. The live filesystem is mutable, so the exact previous image cannot be safely captured until rescue. Rescue compresses its <strong>actual ext4 extent</strong>, checks reserve on every output block, and verifies the complete backup by decompression/hash before any root write. If backup space is insufficient, update fails with the old root untouched. The worst-case backup is the old raw extent plus gzip overhead; owners should reserve that or accept safe admission failure. No optimistic backup-space promise is made.</p>
+<p><code>apply</code> uses the platform bounded application shutdown/reboot contract. <code>cancel</code> only cancels a queued, not-yet-installed update. Normal userspace has no block writer interface. A local stage request is explicit owner maintenance, not an untrusted app&#x27;s download authority.</p>
+<h2 id="rescue-and-rollback">Rescue and rollback</h2>
+<p>Boot validates internal Y2DATA controller/geometry/UUID/label/schema, performs bounded-policy e2fsck, and consults the durable update journal before demanding an intact root superblock. Only the native offline writer may resolve a torn root by exact internal MMC controller, nonremovable type, capacity, partition start/size, unmounted major/minor and exclusive block open. Device-node capacity is independently checked. There is no caller-supplied target device.</p>
+<p>External source presence and kernel CSPRNG readiness are required. Source presence is not proof of safe charging or energy reserve; those remain physical gates. Normal boot without a pending update does not depend on update crypto entropy. The standard persistent per-device seedrng may run in rescue; no weak fallback.</p>
+<p>States: <code>Idle → Queued → BackingUp → Installing → PendingHealth → Acknowledged</code>. All durable transitions use fsync + rename + directory fsync. Backup SHA256 and extent are in the journal, and the queued exact manifest hash is rebound in rescue. The installer validates a single gzip member, raw/compressed lengths and hashes and Y2ROOT ext4 UUID/label/extent. It writes only that root partition, fsyncs, reads back and hashes the actual bytes, then permits ordinary root preflight/fsck/handover. Raw writes are not claimed atomic.</p>
+<p>An interrupted <code>Installing</code>, failed readback, or next boot without health ack restores the verified previous image and verifies readback. A failed/corrupt backup enters <code>RescueRequired</code>; there is no automatic retry/reboot loop. RAM rescue remains present. An owner in rescue can explicitly retry a repaired verified backup using <code>/sbin/y2-update-core rescue-restore</code> with validated data mounted at <code>/newdata</code>; the same geometry, external-power and hash checks apply. Never replace the journal/hash to force an unverified image through this path.</p>
+<p>The normal platform health worker has 180 seconds from its first observation of <code>PendingHealth</code>. It requires the current Reborn boot/PID/start-time generation, an actually presented first KMS frame, a responsive application after ten seconds, and healthy root/data/filesystem/display/render/audio/input checks. It then calls the native exact-source/boot acknowledgement. Timeout queues rollback for the <strong>next owner reboot</strong>; it does not start a reboot loop. A kernel/app hang is not automatically recovered by an unqualified AP watchdog. An earlier owner reboot also rolls back an unacknowledged image. Optional radios need not be enabled.</p>
+<p>A signed <code>rollback_allowed</code> policy permits <code>y2-platform update rollback</code> after acknowledgement. Only the most recent complete previous-root backup is retained; starting another update replaces it after safely capturing the current root. Persistent user/database data is preserved, so incompatible destructive schema migrations are refused rather than promised reversible by root restoration.</p>
+<h2 id="evidence-and-limitations">Evidence and limitations</h2>
+<p>Host fault tests execute the real C verifier/gzip/writer and actual Ed25519 with temporary regular-file root images: invalid signature/device/schema/kernel, truncated/corrupt payload, wrong key/revocation, low backup space, interrupted root write, failed readback, absent/stale health, corrupted backup, bad journal, symlinks and replay. Staging tests exercise the real authentication core before accepting payloads. They are process/file failure evidence, not electrical power-loss durability. The production build must reject fixture/fault strings in its rescue executable. ARM/QEMU and exact image results are recorded separately in the completion ledger; physical root write/restore remains owner-controlled.</p>
+<p>Reconstruction: keygen takes an external mode-0700 directory; package takes <code>--image</code>, <code>--versions</code>, <code>--output</code>, <code>--private</code>, <code>--key-id</code>, <code>--sequence</code>, optional minimum sequence/development downgrade/rollback flags. Root images and manifest fields must come from a validated current-source release. The release builder never needs the private key. The maintained manual <code>system_update.py</code> remains the owner preserving BOOTIMG+root packaging tool, distinct from this signed OTA unit.</p>
+<p>Crypto reference: <a href="https://doc.libsodium.org/public-key_cryptography/public-key_signatures" target="_blank" rel="noopener noreferrer">libsodium detached signatures</a>.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

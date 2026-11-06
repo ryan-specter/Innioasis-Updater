@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Current source and hardware boundaries - Innioasis Updater</title>
+  <meta name="description" content="Current source and hardware boundaries <!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -- Current Baseline02 / UART01 scope UART01 closes bounde">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-platform-v1-hardware-gates.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Current source and hardware boundaries - Innioasis Updater">
+  <meta property="og:description" content="Current source and hardware boundaries <!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -- Current Baseline02 / UART01 scope UART01 closes bounde">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-platform-v1-hardware-gates.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Current source and hardware boundaries - Innioasis Updater">
+  <meta name="twitter:description" content="Current source and hardware boundaries <!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -- Current Baseline02 / UART01 scope UART01 closes bounde">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Current source and hardware boundaries</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="current-source-and-hardware-boundaries">Current source and hardware boundaries</h1>
+<!-- knowledge-base-scope: maintained-summary; baseline02-sync 2026-10-03 -->
+<h2 id="current-baseline02--uart01-scope">Current Baseline02 / UART01 scope</h2>
+<p>UART01 closes bounded C1/C2/C3 architecture: timer/context/CIRQ/clock restore, natural parking, hotplug, five guarded OPPs and affected storage/playback/USB regressions pass. Baseline02 is sealed with automatic qualified CPU0 C3 policy; new-image cold boot is PHYSICAL_NOT_RUN. Retain all entry and fault guards. Full system suspend, native high-resolution audio, wider radio/USB/storage/endurance, electrical battery calibration and public distribution retain independent gates. Historical fixed-voltage/WFI-only recommendations below do not describe the current runtime architecture.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-BASELINE-02.md">Baseline02 seal</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-CPU-C3-UART-PHYSICAL.md">UART01 hardware</a> and <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2FCURRENT_PLATFORM_STATE.md">current state</a> carry exact identities, counters and limits.</p>
+<h2 id="historical-source-research-and-physical-checkpoints">Historical source research and physical checkpoints</h2>
+<p>The following text retains earlier dated decisions and results. Its “current”, “next” and candidate labels belong to those sessions; the Baseline02 summary above takes precedence. Historical failures and seal-time NOT_RUN receipts remain evidence for their exact images.</p>
+<hr>
+<h1 id="platform-v1-source-and-hardware-boundaries">Platform v1 source and hardware boundaries</h1>
+<p><strong>Latest physical boundary:</strong> <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-CPU-FINAL-FIX01-PHYSICAL-QUALIFICATION.md">CPU Final Fix01</a> on 2026-09-27 physically verifies GPT6/GPT4/PPI29, highres/NO_HZ, real Reborn QoS, lower OPPs, hotplug and WFI. SLIDLE is blocked by MSDC0/1 runtime clocks, 1196/1300 fail PWRAP readiness, first devices-stage suspend loses recovery, and loaded USB loses the connection. The 2026-09-23 review below records the older Platform v1 source gate; its WFI-only/100-Hz and disabled-threshold wording does <strong>not</strong> describe this latest Fix01 image. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2FCURRENT_PLATFORM_STATE.md">current state</a> for enabled provisional low-voltage policy and precise remaining gates.</p>
+<p>2026-09-23 software review; no physical access. Exact primary-source URLs and hashes are in <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/knowledge/platform-v1-feasibility-sources.json" target="_blank" rel="noopener noreferrer">the research inventory</a>. The retained <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fhardware-evidence%2F2026-09-18-gpu01%2FREADME.md">GPU-01 receipt</a> contains narrow S16/44.1 playback and an adverse same-boot suspend result. Later source repairs do not supersede that physical failure without a new test.</p>
+<h2 id="cpu-idle-memory-and-suspend">CPU, idle, memory and suspend</h2>
+<p>Keep 598/747.5/1040 MHz OPPs, the existing fixed voltage, WFI-only cpuidle, NO_HZ_IDLE/HZ=100, reserved regions and current thermal trip points. Collect frequency/idle residency, per-core load, interrupts/context switches, RSS/PSS, LOWMEM/HIGHMEM, page cache/slab, die temperatures and XRUNs for idle UI, screen off, FLAC16/44, 24/96 downsampling, EQ/crossfade, scan/artwork, Wi-Fi and SBC. No available measurement answers whether 598 MHz or fewer cores meet deadlines. The owner may compare supported governor/frequency policies after a baseline; do not infer a voltage change or copy one from a donor.</p>
+<p>The pinned MediaTek <a href="https://android.googlesource.com/kernel/mediatek/+/d53dd75c3ff77cac3f5be58fddfe660e94f94d64/arch/arm/mach-mt6582/mt_idle.c" target="_blank" rel="noopener noreferrer">idle policy</a> requires a single online CPU, clock exclusions, timer budget and early-suspend conditions. Its <a href="https://android.googlesource.com/kernel/mediatek/+/d53dd75c3ff77cac3f5be58fddfe660e94f94d64/arch/arm/mach-mt6582/mt_spm_sleep.c" target="_blank" rel="noopener noreferrer">SPM implementation</a> has a distinct deep-idle PCM program, PMIC variants, UART handoff, interrupt/CIRQ handling and CPU context/timer restoration. Those are not established for the Y2 board by the existing full-suspend program. Deeper cpuidle is BLOCKED_BY_EVIDENCE / PHYSICAL_GATE; no speculative SPM code is added.</p>
+<p><code>y2-suspend</code> now refuses by default. The explicit <code>--owner-qualify</code> escape is only for the separately controlled resume experiment, never automatic UI idle. It retains the existing exclusive activity lock, radio-off checks and restoration. Reborn ALSA handles already hold a shared <code>/run/y2/activity.lock</code> for their whole lifetime; <code>y2-radio-hold COMMAND...</code> provides the same scoped lease for transfer work. Applications may use a shared nonblocking flock directly, close on exit, and treat an unavailable/exclusive lock as refusal. A lease is not proof of safe suspend; ordinary Platform v1 suspend stays disabled. Do not run the experiment with unsaved work, active update/maintenance or an unproven wake/recovery path.</p>
+<h2 id="internal-audio-and-cs43131">Internal audio and CS43131</h2>
+<p>Current AFE DMA consumes interleaved stereo S16, with direct hardware rates 44.1/48 kHz; the product allowlist remains S16/44.1. The I2S serializer uses 32-bit slots, which proves neither wider DMA fetch nor preserved source bits. The reviewed pinned vendor <a href="https://android.googlesource.com/kernel/mediatek/+/d53dd75c3ff77cac3f5be58fddfe660e94f94d64/drivers/misc/mediatek/sound/mt6582/AudDrv_Afe.h" target="_blank" rel="noopener noreferrer">AFE header</a> and associated source expose rate/channel/buffer configuration and independent I2S word length. They do not establish a Y2 DL1 high-definition fetch/alignment and interconnect path. Absence here is not proof the silicon cannot support it. Registers from newer MT8167/MT8173 hardware are not interchangeable evidence.</p>
+<p>The pinned Linux 6.18 <code>sound/soc/codecs/cs43130.c</code> supports CS43131 clock families and wider formats, but that alone cannot qualify MT6582 fetch/clocking or board analog topology. Existing hardware volume/filter controls remain available. Load-measurement DT properties are absent and automatic impedance/gain policy remains disabled. S24/S32, preserved 24-bit and 88.2/96 kHz are unavailable, BLOCKED_BY_EVIDENCE / PHYSICAL_GATE, until the complete path is established.</p>
+<p><code>y2-audio-contract</code> queries combinations without committing hw_params or writing PCM. An occupied direct PCM may return Unavailable. Its <code>--device null</code> option is host/QEMU validation only. <code>tools/host/audio_precision.py OUTPUT</code> creates 24-bit WAV plus exact S24-in-32/S32 references and independent channel patterns; nonzero low bits reveal S16 truncation. It never plays them. After a future source-backed driver change, owner acceptance must compare DMA/sample words and logic captures, MCLK/BCLK/LRCLK at each supported rate, both channels, switching, XRUNs and analog pop/click behavior. Do not activate unsupported masks or rates to try these fixtures. Packed 24-bit file decoding already works; that is a different capability from high-resolution internal output.</p>
+<h2 id="reset-evidence-and-watchdog">Reset evidence and watchdog</h2>
+<p>Previous boot ID/stage/orderly preparation and private bounded syslog tails are captured before this boot starts logging, once per boot. The status API exposes only metadata/hashes; <code>y2-platform boot-evidence</code> retrieves the private record. There is no claim that a panic reached persistent storage. Syslog rotation is bounded; no extra polling logger or reserved RAM was added. An unclean previous boot remains an observation, not a diagnosed watchdog/panic or electrical reset.</p>
+<p>The existing Linux 6.18 MediaTek AP watchdog driver supports normal watchdog operations but does not populate a proven MT6582 reset-cause register. Its bootstatus zero is not an affirmative reset diagnosis. AP watchdog arming stays disabled; the charger watchdog is unrelated. Ramoops/pstore needs proven retained RAM placement across stock loaders; no reserved region is reclaimed or guessed.</p>
+<p>Before an AP watchdog policy can ship, owner qualification must establish timeout clock, disable/magic-close behavior, actual reset and storage/loader recovery, then a durable bounded boot-attempt budget and rescue escalation. First test normal keepalive/disarm on a recoverable qualification image; only a separately approved session may stop keepalives. Do not make an untested watchdog the production recovery path or repeatedly reset after an unknown boot failure.</p>
+<p>USB host/OTG remains unavailable until connector ID/role wiring, VBUS switch, source current and PHY behavior are established. No VBUS path is enabled.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

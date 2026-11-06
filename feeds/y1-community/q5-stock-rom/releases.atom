@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:innioasis="https://innioasis.app/ns/feeds/1.0">
+  <id>https://innioasis.app/feeds/y1-community/q5-stock-rom/releases.atom</id>
+  <title>Release notes from y1-community/q5-stock-rom</title>
+  <link rel="alternate" type="text/html" href="https://innioasis.app/firmware.html"/>
+  <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/y1-community/q5-stock-rom/releases.atom"/>
+  <updated>2026-11-05T06:34:49Z</updated>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/q5-stock-rom/MX2D_Q5D-WV3.28-20250619</id>
+    <updated>2026-11-05T06:34:49Z</updated>
+    <published>2026-11-05T06:34:49Z</published>
+    <title>MX2D_Q5D-WV3.28-20250619</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/q5-stock-rom/releases/tag/MX2D_Q5D-WV3.28-20250619"/>
+    <innioasis:tag_name>MX2D_Q5D-WV3.28-20250619</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/q5-stock-rom/releases/download/MX2D_Q5D-WV3.28-20250619/rom_q5.zip" title="rom_q5.zip" length="337730694" type="application/octet-stream" innioasis:download_count="3" innioasis:asset_id="712349504"/>
+    <link rel="enclosure" href="https://github.com/y1-community/q5-stock-rom/releases/download/MX2D_Q5D-WV3.28-20250619/SHA256SUMS.MX2D_Q5D-WV3.28-20250619" title="SHA256SUMS.MX2D_Q5D-WV3.28-20250619" length="78" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712350809"/>
+    <content type="text">Original Timmkoo Q5 software **MX2D_Q5D-WV3.28-20250619**.
+
+- Model: **Q5** (Timmkoo)
+- Package: `rom_q5.zip`
+- Build tag: `MX2D_Q5D-WV3.28-20250619`
+- Build date: 2025-06-19
+
+## Install
+
+1. Download `rom_q5.zip` (every numbered volume if the release has more than one, then `cat rom_q5.zip.* &gt; rom_q5.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_q5.zip` | 322.1 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=Q5&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/q5-stock-rom/MX2-WVGA_TM-WV3.27-20250528</id>
+    <updated>2026-11-05T06:34:10Z</updated>
+    <published>2026-11-05T06:34:10Z</published>
+    <title>MX2-WVGA_TM-WV3.27-20250528</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/q5-stock-rom/releases/tag/MX2-WVGA_TM-WV3.27-20250528"/>
+    <innioasis:tag_name>MX2-WVGA_TM-WV3.27-20250528</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/q5-stock-rom/releases/download/MX2-WVGA_TM-WV3.27-20250528/rom_q5.zip" title="rom_q5.zip" length="344107791" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712348029"/>
+    <link rel="enclosure" href="https://github.com/y1-community/q5-stock-rom/releases/download/MX2-WVGA_TM-WV3.27-20250528/SHA256SUMS.MX2-WVGA_TM-WV3.27-20250528" title="SHA256SUMS.MX2-WVGA_TM-WV3.27-20250528" length="78" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712349373"/>
+    <content type="text">Original Timmkoo Q5 software **MX2-WVGA_TM-WV3.27-20250528**.
+
+- Model: **Q5** (Timmkoo)
+- Package: `rom_q5.zip`
+- Build tag: `MX2-WVGA_TM-WV3.27-20250528`
+- Build date: 2025-05-28
+
+## Install
+
+1. Download `rom_q5.zip` (every numbered volume if the release has more than one, then `cat rom_q5.zip.* &gt; rom_q5.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_q5.zip` | 328.2 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=Q5&gt;</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/q5-stock-rom/MX2-ES_Q5-WV5.02-20250619</id>
+    <updated>2026-11-05T06:33:32Z</updated>
+    <published>2026-11-05T06:33:32Z</published>
+    <title>MX2-ES_Q5-WV5.02-20250619</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/q5-stock-rom/releases/tag/MX2-ES_Q5-WV5.02-20250619"/>
+    <innioasis:tag_name>MX2-ES_Q5-WV5.02-20250619</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/q5-stock-rom/releases/download/MX2-ES_Q5-WV5.02-20250619/rom_q5.zip" title="rom_q5.zip" length="344010052" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712346435"/>
+    <link rel="enclosure" href="https://github.com/y1-community/q5-stock-rom/releases/download/MX2-ES_Q5-WV5.02-20250619/SHA256SUMS.MX2-ES_Q5-WV5.02-20250619" title="SHA256SUMS.MX2-ES_Q5-WV5.02-20250619" length="78" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712347915"/>
+    <content type="text">Original Timmkoo Q5 software **MX2-ES_Q5-WV5.02-20250619**.
+
+- Model: **Q5** (Timmkoo)
+- Package: `rom_q5.zip`
+- Build tag: `MX2-ES_Q5-WV5.02-20250619`
+- Build date: 2025-06-19
+
+## Install
+
+1. Download `rom_q5.zip` (every numbered volume if the release has more than one, then `cat rom_q5.zip.* &gt; rom_q5.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_q5.zip` | 328.1 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=Q5&gt;</content>
+  </entry>
+</feed>

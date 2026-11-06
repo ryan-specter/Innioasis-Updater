@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Production stock eMMC address compatibility - Innioasis Updater</title>
+  <meta name="description" content="Production stock eMMC address compatibility <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current"">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-storage06-addressing-correction.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Production stock eMMC address compatibility - Innioasis Updater">
+  <meta property="og:description" content="Production stock eMMC address compatibility <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current"">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-storage06-addressing-correction.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Production stock eMMC address compatibility - Innioasis Updater">
+  <meta name="twitter:description" content="Production stock eMMC address compatibility <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current"">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Production stock eMMC address compatibility</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="production-stock-emmc-address-compatibility">Production stock eMMC address compatibility</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>2026-09-13, entry <code>d7ee4f2</code>; physical Storage05 BOOTIMG <code>2af64e0fe0831a038ea681e82b93209bb21360995772a54699b7f0ef6be22efa</code>. The candidate built from bea30cd and the owner flashed it. [ACM confirms internal boot](../hardware-evidence/2026-09-13-storage06-owner/README.md). The remaining owner-key mismatch was corrected through Y2DATA initialization, with no new kernel. <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/hardware-evidence/2026-09-13-storage06-owner/ssh-result.json" target="_blank" rel="noopener noreferrer">Authenticated SSH acceptance</a> now confirms the complete BOOTIMG hash and all three stock table hashes through normal Linux block reads. The integrated correction is deployed.</p>
+<h2 id="evidence-and-root-cause">Evidence and root cause</h2>
+<p>The owner&#x27;s corrected SPFT readback at21:10:43 CEST matches all six expected samples: Storage05 BOOTIMG prefix, complete stock MBR/EBR1/EBR2, and the flashed Y2ROOT/Y2DATA 4-KiB prefixes. All tables have55aa and unchanged geometry. The filesystem samples contain the expected ext4 magic, labels and UUIDs. This proves location/header identity, not whole on-device filesystem integrity. <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/hardware-evidence/2026-09-13-storage05-owner/readback-corrected-analysis.json" target="_blank" rel="noopener noreferrer">Machine-readable analysis</a> and <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/hardware-evidence/2026-09-13-storage05-owner/readback-corrected-log-excerpt.txt" target="_blank" rel="noopener noreferrer">DA command/capacity excerpt</a>. The earlier21:00 batch used the wrong DA coordinates and is retained separately.</p>
+<p>The actual stock FM kernel contains a nonzero <code>msdc_get_offset</code>, unlike the public donor source reviewed for Storage05. Its own decompressed binary SHA256 is <code>7287acf1b397d243c927dde5c6ef9d5d871c9c158207cdd98e0e820923f4c197</code>. Recovered symbols identify <code>msdc_get_offset</code> at0xc04e66ec, <code>msdc_get_other_capacity</code> at0xc04e6668, <code>msdc_get_reserve</code> at0xc04eac1c and <code>msdc_command_start.isra.8</code> at0xc04efd6c. Disassembly shows:</p>
+<ul><li>Offset = <code>(20 MiB - other hardware region bytes) &gt;&gt; 9</code>.</li><li>Other regions = both boot partitions, RPMB and four GP partitions from EXT_CSD.</li><li>CMD17/18/24/25 user-area arguments receive this offset before SDC_ARG.<p>Non-user access bypasses it. The zero-LBA path calculates the cached offset.</p></li><li><code>mmc_blk_probe</code> at0xc034a0fc calls <code>msdc_get_info</code> for the reserve,<p>then subtracts it at0xc034a108 before allocating the disk. The reserve includes this offset plus <code>(BMTPOOL sentinel &amp; 0xffff) &lt;&lt; 8</code>:0xa800 sectors.</p></li></ul>
+<p><a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/hardware-evidence/2026-09-13-storage05-owner/stock-fm-addressing-excerpt.txt" target="_blank" rel="noopener noreferrer">Selected own-binary instructions</a>. Full disassembly, acquired samples and SPFT logs stay in private evidence. This supersedes Storage05&#x27;s assertion that stock only reduces the tail and that Linux should use raw SEC_COUNT coordinates. No physical corruption is indicated.</p>
+<h2 id="three-coordinate-spaces">Three coordinate spaces</h2>
+<table><thead><tr><th>Quantity</th><th>Value</th></tr></thead><tbody><tr><td>Native EMMC_USER SEC_COUNT</td><td>15269888 sectors /0x1d2000000 bytes</td></tr><tr><td>DA concatenated non-user areas</td><td>boot1 0x400000 + boot2 0x400000 + RPMB 0x80000; GP1–4 zero</td></tr><tr><td>Global legacy DA MBR address</td><td>0x1400000 bytes</td></tr><tr><td>Native user MBR address</td><td>0x1400000 −0x880000 =0xb80000 bytes /23552 sectors</td></tr><tr><td>Stock logical disk sector0</td><td>MBR; logical sector +23552 = native wire argument</td></tr><tr><td>Exposed stock disk size</td><td>15203328 sectors /0x1cff80000 bytes</td></tr><tr><td>Excluded native tail</td><td>43008 sectors /21 MiB</td></tr></tbody></table>
+<p>Scatter <code>physical_start_addr</code> is the old stock <strong>logical disk coordinate</strong> for these partitions; it is not a direct native EMMC_USER command address. Scatter <code>linear_start_addr</code> is the legacy global DA coordinate used by the retained SPFT session. The difference0x1400000 between those scatter fields must not itself be added to Linux wire addresses. Existing scatter entries remain unchanged.</p>
+<table><thead><tr><th>Partition</th><th style="text-align:right">Logical start</th><th style="text-align:right">Length sectors</th><th style="text-align:right">Native user start</th><th>Legacy DA start bytes</th></tr></thead><tbody><tr><td>ANDROID /Y2ROOT</td><td style="text-align:right">166912</td><td style="text-align:right">1679360</td><td style="text-align:right">190464</td><td>0x06580000</td></tr><tr><td>USRDATA /Y2DATA</td><td style="text-align:right">2104320</td><td style="text-align:right">1638400</td><td style="text-align:right">2127872</td><td>0x41780000</td></tr></tbody></table>
+<h2 id="permanent-production-correction">Permanent production correction</h2>
+<p>One canonical Y2 eMMC host translates CMD17/18/24/25 once at register emission, after validating the original logical request. It leaves <code>cmd-&gt;arg</code> untouched for retries, and CMD6/CMD8/CMD13/CMD23/CMD12 retain their standard arguments. The real EXT_CSD remains unmodified; raw capacity and boot/RPMB/GP geometry must match the observed layout before user data I/O is admitted. The Y2 main block disk alone exposes the stock15203328 sectors. Removable SD and other MMC hosts retain upstream addressing and capacity.</p>
+<p>Reads cover the stock logical disk. Writes remain bounded to the exact original ANDROID/USRDATA spans before translation. The hidden native prefix/tail, tables, BOOTIMG/LK, NVRAM, PRO_INFO, PROTECT_F/S, SEC_RO, SECCFG, BMTPOOL and every other non-allowlisted span remain unavailable to ordinary writes. Boot/GP/RPMB region selection, erase, sanitize, write-protect and vendor commands remain refused. Standard bounded block writes, software CMD23, flush and status work normally.</p>
+<p>Linux6.18&#x27;s existing MSDOS parser accepts the actual stock tables. No parser, table, filesystem, DT, memory or clock change is needed. Rescue resolves exact logical geometry plus ext4 label/UUID and switches to existing internal Buildroot; SD remains optional user media. This addresses the internal-only regression: the working external SD never needed the stock eMMC address translation.</p>
+<h2 id="validation-boundary">Validation boundary</h2>
+<p>Tests must exercise the actual host request/command functions with the MBR at native sector23552, the scoped block capacity quirk, unmodified EXT_CSD and unshifted companion commands, retries, bounds and protected regions. Existing stock parser, resolver, no-SD handover, ext4 identity/integrity and BOOTIMG bounds/manifest checks apply. No physical acceptance is inferred from these. Entry validation passes25 targeted host tests: actual request/MMIO functions, strict EXT_CSD geometry, actual main-disk allocation, every native sector against the write allowlist, stock parser, resolver, companions/retries/faults, readback mode metadata and rejected contract changes. Full ARM/package checks follow the single build.</p>
+<p>The storage deliverable was one BOOTIMG-only update using unchanged root/data images; the owner&#x27;s flash and internal boot succeeded. The separately authorized SSH correction then changed only the initial Y2DATA public key. Both steps use the same production platform and are now physically observed; see the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fy2linux-production-v1-r6-deployment.md">completed deployment</a>.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

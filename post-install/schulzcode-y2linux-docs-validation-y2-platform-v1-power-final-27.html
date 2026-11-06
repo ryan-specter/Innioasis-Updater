@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-27 — stock sleep-parity gaps C, A, B - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-27 — stock sleep-parity gaps C, A, B Status: SEALED, AWAITING THE OWNER FLASH 2026-10-14. Package out/y2linux-platform-v1-power-final-candidate-27/ fallback =">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-27.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-27 — stock sleep-parity gaps C, A, B - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-27 — stock sleep-parity gaps C, A, B Status: SEALED, AWAITING THE OWNER FLASH 2026-10-14. Package out/y2linux-platform-v1-power-final-candidate-27/ fallback =">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-27.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-27 — stock sleep-parity gaps C, A, B - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-27 — stock sleep-parity gaps C, A, B Status: SEALED, AWAITING THE OWNER FLASH 2026-10-14. Package out/y2linux-platform-v1-power-final-candidate-27/ fallback =">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-27 — stock sleep-parity gaps C, A, B</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-27--stock-sleep-parity-gaps-c-a-b">POWER-FINAL-27 — stock sleep-parity gaps C, A, B</h1>
+<p>Status: <strong>SEALED, AWAITING THE OWNER FLASH</strong> (2026-10-14). Package <code>out/y2linux-platform-v1-power-final-candidate-27/</code> (fallback = 26), receipts <code>out/deep-sleep-final/build27-receipts/</code>. BOOTIMG <code>c9017de1d19924c404f0776b9bacd0e09df9bca1c82802fc7f260e058c57902c</code>, Y2ROOT <code>c70dc92bb86a883ef83a0af22bbda52f6cd19577710f15a8532d576fa73f737a</code>. Identity: build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-27</code>, kernel <code>6.18.56-y2linux-platform-v1-power-final-27</code>, root <code>2026.08-platform-v1.57</code>, release <code>1.0.0-platform-v1-power-final-candidate.27</code>; Linux <code>2c3e2bd</code> (changes <code>f1d77a0</code>, identity/audit <code>df15aab</code>, include fix <code>2c3e2bd</code>), Reborn <code>1c9edd4</code> (unchanged).</p>
+<h2 id="why">Why</h2>
+<p>26&#x27;s night (archive <code>20261014/124</code>): 10.3 h, 21/21 clean sleeps, whole-night ≈8.3 mA, but the voltage slope fell from −10.6 to −1.2 mV/h through the night (post-charge relaxation), so the late-night drain is only bounded to ≈2–8 mA. The read-only stock comparison (ledger F18–F27, <code>docs/knowledge/stock-suspend-re-ledger.md</code>) found four real differences; 27 implements the three without storage risk.</p>
+<h2 id="what-27-changes">What 27 changes</h2>
+<table><thead><tr><th>Gap</th><th>Change</th><th>Switch (<code>/data/system/platform/power-features.json</code>)</th><th>Kernel default</th></tr></thead><tbody><tr><td>C panel</td><td>Screen-off sends the stock GC9503V <code>lcm_suspend</code> table (vendor pre-sequence, display off, sleep-in, 25 analog writes) and leaves reset <strong>high</strong> 50 ms (<code>panel.c</code>). Any DCS failure falls back to 26&#x27;s display-off, sleep-in, reset-low. Screen-on unchanged: reset pulse + full init.</td><td><code>panel_stock_suspend</code> (<code>/sys/module/panel/parameters/stock_suspend</code>)</td><td>N (26)</td></tr><tr><td>A VGP2</td><td>DTS <code>regulator-always-on</code> removed from VGP2 (CS43131 VA/VP/VCP, its only user in stock). The audio card holds one reference unless the switch is set; then the codec&#x27;s runtime PM turns VGP2 off with VD/VL while idle (GPIOs first, VGP2 last, as stock <code>cs43131_power_down_hw</code>). DTB validator requires the new contract.</td><td><code>vgp2_idle_off</code> (<code>/sys/module/y2_cs43131/parameters/vgp2_idle_off</code>)</td><td>N (hold, 26)</td></tr><tr><td>B VSYS</td><td><code>pmic_sleep</code> group 8: stock PMIC_INIT VSYS fields (slew rates, <code>TRANSTD</code> 3, <code>VOSEL_TRANS_EN</code>, <code>VSLEEP_EN</code>, <code>QI_VSYS_VSLEEP</code> 2, <code>VOSEL_CTRL</code> 1 last) inside the SPM enter, restored exactly (mode bit first) before any resume. Only while VSYS is in software mode with VOSEL = VOSEL_ON = VOSEL_SLEEP = readback (live 0x40, 2.2 V), else refused and counted (<code>vsys_refusals</code>). VSYS selectors stay unwritable: the voltage never changes.</td><td><code>pmic_sleep</code> (15 = with VSYS, 7 = 26)</td><td>0</td></tr></tbody></table>
+<p><code>power_features</code> arms all three at <code>application_ready</code>; the sleep diagnostics rows record <code>panel_stock_suspend</code>, <code>vgp2_idle_off</code> and <code>pmic_sleep_state</code> (now with <code>vsys_refusals</code>).</p>
+<p>Not changed: gap D (VEMC3V3, eMMC power-off needs a new storage suspend model).</p>
+<h2 id="tests">Tests</h2>
+<p>Host: <code>test_power_final_27</code> (stock panel table byte-exact against the decoded image, reset-high/fallback order, VGP2 hold balance, DTS/validator contract, switches), <code>test_pmic_sleep</code> (VSYS group reaches stock, mode bit last/first, refuses any selector mismatch, selectors unwritable), <code>test_vproc_sleep</code>/<code>test_pmic_lowpower</code> updated for the admitted VSYS mode bits. Build: kernel warnings unchanged (47, all in the vendor Wi-Fi driver). Platform: <code>validate.py</code> PASS, ELF closure 354 PASS, installed ARM PASS (40 modules), privacy clean, inventory 108 packages, container suite <strong>701 OK</strong> (693 + 8).</p>
+<h2 id="owner-checks-after-the-flash">Owner checks after the flash</h2>
+<ol><li>Boot, screen on/off several times (panel wakes every time; <code>dmesg | grep -i &quot;panel\|gc9503&quot;</code> has no<p><code>stock power-down cmd … failed</code>), and a screen-off longer than a minute.</p></li><li>Play music after the DAC has been idle (first play after a pause; listen for pops), with and without headphones in.</li><li><code>cat /run/y2/power-features.json</code>: <code>panel_stock_suspend</code>, <code>vgp2_idle_off</code> = Y, <code>pmic_sleep</code> = 15;<p><code>cat /sys/kernel/debug/regulator/regulator_summary</code>: <code>vgp2-audio</code> use 0 while idle.</p></li><li>One short sleep, then <code>pmic_sleep_state</code> (<code>entries</code> up, <code>vsys_refusals=0</code>, <code>last_changed</code> includes the VSYS bits<p>0x3c0) and the PMIC capture (0x256 row now matches).</p></li><li>Overnight: start ≥4 h after charging, ≥12 h; compare the late-night voltage slope with 26&#x27;s (archive 124).</li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

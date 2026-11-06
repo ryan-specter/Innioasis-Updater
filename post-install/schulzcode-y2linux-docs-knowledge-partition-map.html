@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Partition map and acquisition boundary - Innioasis Updater</title>
+  <meta name="description" content="Partition map and acquisition boundary <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claim">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-partition-map.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Partition map and acquisition boundary - Innioasis Updater">
+  <meta property="og:description" content="Partition map and acquisition boundary <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claim">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-partition-map.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Partition map and acquisition boundary - Innioasis Updater">
+  <meta name="twitter:description" content="Partition map and acquisition boundary <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current" claim">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Partition map and acquisition boundary</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="partition-map-and-acquisition-boundary">Partition map and acquisition boundary</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p><strong>2026-09-13 clarification:</strong> the actual FM kernel implements a23552-sector translation from this stock logical disk to native EMMC_USER. Corrected owner readback confirms all tables and flashed ext4 identity prefixes. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fstorage06-addressing-correction.md">Evidence and three address spaces</a>. The original metadata and historical acquisition boundary below remain history.</p>
+<p>Date: 2026-09-08. Task: <a href="https://github.com/SchulzCode/Y2Linux/issues/3" target="_blank" rel="noopener noreferrer">Y2E-110</a>. Capture: <code>20260908-partitions</code>. Status: metadata reconciliation complete, raw acquisition NOT AUTHORIZED.</p>
+<p>The <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/knowledge/partition-map.tsv" target="_blank" rel="noopener noreferrer">full 21-entry table</a> retains scatter linear and physical byte addresses, runtime vendor values, Linux node mapping, 512-byte sector counts and unresolved cases. Source scatter SHA-256: <code>e5fe03e9f3219cc9b5ead27892f2ddb722acc16adce3306d27feb87893cd977e</code>. <code>/proc/dumchar_info</code>, <code>/proc/emmc</code>, <code>/proc/partitions</code>, mount records, aliases and explicit sysfs block metadata were read without opening any block device. Sixty bounded read-only commands captured 13 eMMC/SD nodes. Missing <code>start</code> files on whole disks/hardware boot regions are expected observations, not zero-valued partition offsets.</p>
+<h2 id="confirmed-metadata-relationships">Confirmed metadata relationships</h2>
+<p>Internal <code>mmcblk0</code> is 15,203,328 sectors = 7,784,103,936 bytes. Each eMMC boot hardware region reports 8,192 sectors = 4,194,304 bytes. The removable card is a separate <code>mmcblk1</code>; never infer its identity from an internal-storage partition number.</p>
+<p>All eight <code>/proc/emmc</code> partition starts/counts match the corresponding sysfs values. PROTECT_F, PROTECT_S, SEC_RO, ANDROID, CACHE, USRDATA and runtime FAT lengths also agree with dumchar. Example: PROTECT_F starts at <code>0x4800</code> sectors = 18,432 × 512 = 9,437,184 bytes = <code>0x900000</code>; its <code>0x5000</code> sectors = 10 MiB matches vendor metadata. Normal fixed EMMC_USER scatter ranges from MBR through USRDATA have no overlaps and are within reported user capacity.</p>
+<table><thead><tr><th>Object</th><th>Scatter linear bytes</th><th>Scatter physical / runtime dumchar bytes</th><th>Length</th><th>Runtime mapping</th></tr></thead><tbody><tr><td>BOOTIMG</td><td><code>0x3180000</code></td><td><code>0x1d80000</code> (30,932,992)</td><td><code>0x1000000</code> (16,777,216)</td><td>parent <code>/dev/block/mmcblk0</code>, no dedicated partition node identified</td></tr><tr><td>RECOVERY</td><td><code>0x4180000</code></td><td><code>0x2d80000</code> (47,710,208)</td><td><code>0x1000000</code> (16,777,216)</td><td>parent <code>/dev/block/mmcblk0</code>, no dedicated partition node identified</td></tr></tbody></table>
+<p>Scatter and runtime dumchar independently agree on these two ranges. They are metadata findings, not an executable readback contract: parent-device permissions and exact acquisition semantics still require resolution. File sizes of the packaged boot/recovery images are much smaller than their partition spans; packaged images do not cover all partition bytes.</p>
+<p>The normal scatter linear address adds <code>0x1400000</code> to the stock logical disk address (named <code>physical_start_addr</code> in the scatter). A native EMMC_USER command adds <code>0xb80000</code> to that logical address; the retained legacy global DA uses the linear address. Hardware boot regions remain separate. Never interchange these coordinates without identifying the tool&#x27;s actual mode.</p>
+<h2 id="special-cases-that-prevent-a-generic-recipe">Special cases that prevent a generic recipe</h2>
+<ul><li>PRELOADER: scatter/dumchar report <code>0x1400000</code> (20 MiB), whereas each eMMC boot region reports 4 MiB; dumchar maps it through <code>/dev/misc-sd</code>. The vendor span is not proven to be an actual region length. Do not transfer it into readback/flash coordinates.</li><li>EBR1: vendor allocation is 512 KiB, while exposed <code>mmcblk0p1</code> contains two sectors (1 KiB). Start agrees. Lengths describe different scopes.</li><li>FAT: scatter length is zero; dumchar/sysfs resolve it to <code>0x15dc00000</code>. This is dynamic allocation, not an empty partition.</li><li>BMTPOOL: scatter physical <code>0xffff00a8</code> differs from runtime <code>0xfebf00a8</code>, and the value is not sector aligned. Semantics remain UNKNOWN; no range is approved.</li><li>The packaged MBR/EBRs all have <code>55aa</code> signatures, but include <code>0xffffffff</code> length sentinels and vendor-specific extended layout. These are not generic partition-table repair inputs. Offline slot decoding is preserved in the private analysis record.</li></ul>
+<h2 id="access-mutable-data-and-recovery">Access, mutable data and recovery</h2>
+<p><code>mmcblk0</code> and boot0 are root:system 0660, boot1 and partition nodes are root:root 0600. The current shell is uid 2000 and is not in the system group. Permission metadata does not demonstrate readable backup access; no open/read was attempted. <code>/emmc@...</code> aliases map the ordinary filesystems but do not provide a discovered boot/recovery shortcut.</p>
+<p>NVRAM, PRO_INFO, PROTECT_F, PROTECT_S, SECCFG and MISC have no supplied package images. Their exact personalized contents and restore requirements remain UNKNOWN. Protect filesystems are currently writable/mounted, so a later backup also needs a consistency strategy. Do not replace personalized data with factory defaults. Sparse system/userdata package file length is not expanded filesystem size or a whole-partition backup length.</p>
+<h2 id="review-decision">Review decision</h2>
+<p>The map is adequate to identify the exact local stock boot input and constrain offline Y2E-115 analysis. It is not adequate to authorize a generic whole-device acquisition tool or any write. Special-region interpretation, access method, personalized data consistency and independent backup storage remain recovery blockers.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

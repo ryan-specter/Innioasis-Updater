@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-07 — charging performance (vendor charging policy on the 06 base) - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-07 — charging performance vendor charging policy on the 06 base Status: implementation complete and offline-qualified; physical NOT RUN. The agent has not fla">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-07-charging.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-07 — charging performance (vendor charging policy on the 06 base) - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-07 — charging performance vendor charging policy on the 06 base Status: implementation complete and offline-qualified; physical NOT RUN. The agent has not fla">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-07-charging.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-07 — charging performance (vendor charging policy on the 06 base) - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-07 — charging performance vendor charging policy on the 06 base Status: implementation complete and offline-qualified; physical NOT RUN. The agent has not fla">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-07 — charging performance (vendor charging policy on the 06 base)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-07--charging-performance-vendor-charging-policy-on-the-06-base">POWER-FINAL-07 — charging performance (vendor charging policy on the 06 base)</h1>
+<p>Status: <strong>implementation complete and offline-qualified; physical NOT_RUN.</strong> The agent has not flashed. Readiness: MORE_WORK_REQUIRED. High-current operation is <strong>implemented but not enabled and not qualified</strong>.</p>
+<p>Identity: Linux <code>551baad703b31c4fadfd0db96478481c0f5067bc</code> (branch <code>codex/platform-v1-power-final-07</code>, from <code>codex/platform-v1-power-final-06</code> tip <code>bd7e54d</code>), Reborn <code>97ff8c357bab12319087740d7c97b5051e6588f5</code> (unchanged), kernel <code>6.18.0-y2linux-platform-v1-power-final-07</code>, root <code>2025.02.18-platform-v1.37</code>, release <code>1.0.0-platform-v1-power-final-candidate.7</code>, build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-07</code>. BOOTIMG <code>65a1daf484bb54cde14f6dd4906bd9b6b72872213a9409b2ea1fdc3fd38a3001</code>, Y2ROOT <code>83a61c1e73c5fa34acc7d6e9af707ac0fd54d20e1226da2ae278846ff6d19e66</code>. Fallback pair in <code>fallback/</code> is the sealed 06 (currently installed).</p>
+<h2 id="source-analysis">SOURCE ANALYSIS</h2>
+<p>Vendor selector table (stock <code>CS_VTH</code>, <code>0xc07572f8</code>, 16 words, units of 0.01 mA, index = <code>CHR_CON4</code> field; identical order to BSP <code>CS_VTH_PMIC[]</code>): selector 0..15 = 1600, 1500, 1400, 1300, 1200, 1100, 1000, 900, 800, 700, 650, 550, 450, 300, 200, 70 mA. The owner-supplied mapping matched entry for entry. Programming: <code>charging_set_current</code> (<code>0xc04cb934</code>) floors the request with <code>bmt_find_closest_level</code> and writes the index; Linux uses the same floor rule.</p>
+<p>Stock source policy (<code>select_charging_curret</code>, <code>0xc03a1d88</code>; detection <code>charging_get_charger_type</code>, <code>0xc04cb2a8</code> stores only types 1, 3, 2, 5, 4): SDP 500 (PMIC 450), CDP 650, DCP 1100, nonstandard 1100, Apple 2.1 A 800, Apple 1.0 A 650 and 0.5 A 500 (consumed but never produced on this unit), unknown 70 mA. These differ from the reference <code>cust_charging.h</code> (AC 650, nonstandard 500), so they are product-specific.</p>
+<p>Also verified from the stock/BSP code: BC1.1 flow (DCD, A1, A2, B2), pre-charge/CC at 3400 mV, CC/top-off at 4050 mV, recharge below 4110 mV, top-off timeout 10800 s, total 86400 s, charger watchdog service, <code>charger_hv_detect</code> thread, PMIC thermal trip ladder 50..120 C with 150 C critical, and <code>battery_meter_get_charging_current</code> (ISENSE-BATSNS over a sense-resistor constant). Differences kept on purpose: 4.175 V target with first-sample voltage termination instead of 4.2 V plus the 150 mA taper rule (POWER-02 overshot while waiting; no validated absolute current exists to run a taper rule).</p>
+<h2 id="current-limits">CURRENT LIMITS</h2>
+<ul><li>SDP: stock 500 -&gt; selector 12 (450 mA) once configured; 70 mA while unconfigured or before a data controller exists; 0 in reset/suspend; closest table step below any odd allowance. Never above 450 mA regardless of the owner ceiling.</li><li>CDP: 650 mA (stock).</li><li>DCP: stock 1100 mA, class ceiling 1100 mA, <strong>default result 650 mA</strong> (owner ceiling).</li><li>Apple (2.1 A signature): stock 800 mA, <strong>default result 650 mA</strong>.</li><li>Nonstandard: stock 1100 mA, <strong>class ceiling 70 mA</strong> (no defined capability, no validated VBUS-collapse check).</li><li>Unknown: 70 mA. Deep discharge (at or below 3.4 V): at most 450 mA.</li></ul>
+<h2 id="highest-justified-current">HIGHEST JUSTIFIED CURRENT</h2>
+<ul><li>Requested (stock, DCP/nonstandard): 1100 mA.</li><li>Permitted by this build by default: 650 mA (hardware-exercised before). The owner ceiling can be raised, root-only, volatile, logged, to exactly 700/800/900/1000/1100 mA for qualification; 1200..1600 mA cannot be programmed.</li><li>Hardware-qualified: 70, 450 and 650 mA selectors (earlier images). Nothing above 650 mA has run.</li><li>Not yet qualified: 700..1100 mA, thermal derating on hardware, nonstandard-class charging, the charger-path current estimate.</li><li>Limiting evidence: <strong>no cell charge rating</strong> (no label, datasheet or manufacturer value; stock model 1300 mAh and the reference header&#x27;s 1728 mAh are compiled constants; web sources only show other Innioasis models at 1250-1500 mAh),<p><strong>no pack temperature sensor</strong> (stock reads a literal 25 C), <strong>no independent current measurement</strong>, and the PMIC die already reaches 43-47 C at 450 mA.</p></li></ul>
+<h2 id="pmic--battery">PMIC / BATTERY</h2>
+<p>One table (<code>kernel/platform/charge-table.h</code>); the write boundary (<code>policy.h</code>), the sequencer (<code>charger-policy.h</code>) and the reporting helper (<code>power-math.h</code>) all use it. The CHR_CON4 write mask stays <code>0xf</code>; values 0..4 are refused by <code>y2_pmic_value_allowed</code>. Cell capacity and C-rate: not established; nothing in this build claims either.</p>
+<h2 id="cccv-behaviour">CC/CV BEHAVIOUR</h2>
+<p>Unchanged: hardware CV at selector 30 (4.175 V), independent 4.2 V sample guard, first-sample termination, recharge at 4.11 V after six 10 s confirmations. The <code>0x8</code> fault is the 4.2 V sample guard (POWER-02 waited above the target; fixed earlier). The single <code>0x80</code> fault was <code>y2_charge_protections()</code> finding <code>CHR_CON0</code> bit 0 (VCDT_HV_EN) clear (<code>0x62</code>) after about 38 min at 70 mA; the fail-closed inhibit worked, and <strong>what cleared the bit is not established</strong>. A current change always stops both engines, verifies, then re-programs and restarts through the hardware CSDAC ramp (no live current step). A high-current regression test covers CC -&gt; hold -&gt; full -&gt; recharge at 1100 mA.</p>
+<h2 id="thermal-protection">THERMAL PROTECTION</h2>
+<p>PMIC-die ladder at the stock trip points: 60 C 450 mA, 70 C 200 mA, 80 C 70 mA, 90 C pause (<code>THERMAL_HOLD</code>, health OVERHEAT, no fault), 5 C hysteresis; 150 C stays the latched fault. The die is not the cell: this is a protective heuristic, not a pack temperature. Live trend on the 06 image (USB SDP, 450 mA): die 36.9 C at boot to 46.9 C after 28 min, still rising. The charger is linear; sustained high-current wall charging is expected to engage the ladder.</p>
+<h2 id="usb-composite">USB COMPOSITE</h2>
+<p>Live read-only capture (<code>out/deep-sleep-final/evidence/20261010/91-power07-charging-readonly/</code>, 06 image): gadget <code>y2</code> bound to <code>musb-hdrc.4.auto</code>, functions <code>ecm.usb0</code> and <code>ffs.mtp</code>, UDC configured high-speed, MaxPower 500 mA / <code>bmAttributes 0x80</code>, <code>usb0</code> 10.42.0.1/24, MTP roots <code>/data/music</code> and <code>/media/sd</code>, <code>/media/sd</code> and <code>/data</code> mounted ext4. <strong>No USB gadget, MTP or storage code was changed in 07.</strong></p>
+<ul><li>MTP, USB Ethernet, SSH, internal eMMC, microSD, simultaneous data + charging after the 07 flash: <strong>NOT_RUN</strong> (procedure: <code>tools/usb/qualify.py</code> while charging on a PC port, then a wall-charger session without reboot).</li></ul>
+<h2 id="production-cleanup">PRODUCTION CLEANUP</h2>
+<p>Removed: three duplicate selector tables, the 70/450/650 allow-lists, <code>y2_source_charge_ua</code>/<code>y2_charge_selector</code>, and the mislabelled <code>selected_charge_ceiling_ua</code> observation key (now <code>programmed_charge_ua</code> and <code>owner_charge_ceiling_ua</code>). No debug sysfs, no polling added, no raw current interface; <code>charging_state</code> gained read-only fields. The owner ramp tool is a development helper and is not installed into the image. The broader production cleanup of the deep-sleep experiments remains scheduled after 06 qualification.</p>
+<h2 id="tests">TESTS</h2>
+<ul><li>Locked-container production suite (<code>tools/production/tests.sh</code>): PASS, 598 cases (06: 581; +17 new), exit 0; 29 packaging-host and 27 native splash cases PASS.</li><li>New: <code>tests/test_charge_limits.py</code> (11 C and source-scan cases: table equals the stock array, write boundary, exhaustive decision invariants over source x allowance x voltage x thermal level x ceiling, thermal ladder hysteresis, source switching PC -&gt; wall -&gt; PC -&gt; CDP -&gt; Apple -&gt; nonstandard without reboot, thermal pause/resume, 1100 mA CC/CV, ISENSE offset hygiene) and <code>tests/test_charge_qualify.py</code> (6, the ramp tool always restores 650 mA).<p>Mutation checks confirmed they fail when the nonstandard ceiling or the permitted-selector bound is broken.</p></li><li>Three old assertions encoded the three-selector policy (<code>test_power</code>, <code>test_power_policy</code>, <code>test_charger</code>&#x27;s 499.999 mA case) and were updated with comments; no failure was hidden.</li><li>Host broad run: same 48 environmental errors as the 06 baseline, none new (660 vs 643 tests).</li><li>Package validation, ELF closure (384 files / 1411 edges, no RPATHs), installed-ARM, release inventory, privacy (tree and root image): PASS. Kernel build: no warnings from the charger or policy objects; new strings present in the Image.</li><li>Reborn unchanged; see <code>validation/reborn-NOT-RERUN.md</code>.</li><li>Physical: <strong>NOT_RUN.</strong></li></ul>
+<h2 id="commits">COMMITS</h2>
+<p><code>510b4e0</code> / <code>fd43f14</code> audit, <code>0b76407</code> charger policy and tests, <code>d254aab</code> tools/docs, <code>b47273b</code> release identity, <code>551baad</code> ISENSE offset hygiene (build commit), <code>b78e037</code> docs (after the build).</p>
+<h2 id="owner-action">OWNER ACTION</h2>
+<p>See <code>OWNER-HANDOFF.md</code>. Flash BOOTIMG + ANDROID only, tell me, I check identity and charger state read-only first.</p>
+<h2 id="final-verdict">FINAL VERDICT</h2>
+<p><strong>IMPLEMENTATION_READY_HIGH_CURRENT_QUALIFICATION_PENDING</strong></p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

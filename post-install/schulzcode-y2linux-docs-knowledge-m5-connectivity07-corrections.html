@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CONNECTIVITY-07: identify factory storage through mounted root/data - Innioasis Updater</title>
+  <meta name="description" content="CONNECTIVITY-07: identify factory storage through mounted root/data <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candid">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m5-connectivity07-corrections.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="CONNECTIVITY-07: identify factory storage through mounted root/data - Innioasis Updater">
+  <meta property="og:description" content="CONNECTIVITY-07: identify factory storage through mounted root/data <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candid">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m5-connectivity07-corrections.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CONNECTIVITY-07: identify factory storage through mounted root/data - Innioasis Updater">
+  <meta name="twitter:description" content="CONNECTIVITY-07: identify factory storage through mounted root/data <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candid">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>CONNECTIVITY-07: identify factory storage through mounted root/data</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="connectivity-07-identify-factory-storage-through-mounted-rootdata">CONNECTIVITY-07: identify factory storage through mounted root/data</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>CONNECTIVITY-06 is running, but this boot assigns internal eMMC <code>mmcblk1</code>. Mounted Y2ROOT/Y2DATA and logical capacity are correct; the factory provider assumes <code>mmcblk0</code> and exits before radio activation. This is a device-enumeration bug, not missing calibration or a reason to rewrite factory partitions.</p>
+<p>The provider now resolves the block parents of the mounted <code>/</code> and <code>/data</code> through <code>/sys/dev/block/&lt;major&gt;:&lt;minor&gt;</code>. It requires partitions 5 and 7 on the same <code>mmcblkN</code> parent, type <code>MMC</code>, an actual matching block-node device number, and the unchanged 7784103936-byte logical geometry. It opens that parent with O_RDONLY/O_NOFOLLOW and only then performs the existing bounded protected reads. Wrong partition, another card, SD, absent node, regular file, mismatched device number or geometry fails closed. No <code>/dev/mmcblk0</code> alias or guessed fallback exists.</p>
+<p>The regression exercises the production resolver for mmcblk0 through mmcblk7 and twelve failure conditions. Factory decoding, private outputs, identities, firmware and calibration contents are unchanged. The CONNECTIVITY-06 TX fix and all M4 hardware ownership are retained; its physical transport result is pending.</p>
+<p>Rebuild the existing production Y2ROOT helper and package BOOTIMG + Y2ROOT with the preserving scatter. Keep Y2DATA and protected partitions untouched. Verify the new helper actually resides in the ext4 payload. After manual installation, inspect provider/MD/BTIF/WMT startup over SSH, then proceed with the original M5 qualification as interfaces become usable. M5 remains open; no new audit/inventory.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

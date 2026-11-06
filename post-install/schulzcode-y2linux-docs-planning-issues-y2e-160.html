@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2E-160 — Establish the MT6323 power and supply prerequisite map - Innioasis Updater</title>
+  <meta name="description" content="<!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current" claims, next steps and permissions below belong t">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-160.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2E-160 — Establish the MT6323 power and supply prerequisite map - Innioasis Updater">
+  <meta property="og:description" content="<!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current" claims, next steps and permissions below belong t">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-160.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2E-160 — Establish the MT6323 power and supply prerequisite map - Innioasis Updater">
+  <meta name="twitter:description" content="<!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current" claims, next steps and permissions below belong t">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2E-160 — Establish the MT6323 power and supply prerequisite map</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<h2 id="dev-02-live-hardware-checkpoint--2026-09-10">DEV-02 live hardware checkpoint — 2026-09-10</h2>
+<p>SATISFIED narrow research/bring-up scope on physical DEV-02; remaining production/full-platform concerns belong to #29–32.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fy2linux-dev02-live-qualification.md">DEV-02 live qualification</a> retains baseline, completed 256 MiB test, input/display/SD and USB failure evidence. No reboot, kernel build or BOOTIMG was prepared. This checkpoint supersedes stale untested/blocked statements below within its measured scope.</p>
+<h1 id="y2e-160--establish-the-mt6323-power-and-supply-prerequisite-map">Y2E-160 — Establish the MT6323 power and supply prerequisite map</h1>
+<h2 id="offline-integration-checkpoint--2026-09-10">Offline integration checkpoint — 2026-09-10</h2>
+<p>One shared serialized PWRAP regmap now connects USB, upstream MT6323 MFD/regulators/power key and bounded backlight. CCF/pinctrl/EINT and I2C0/empty I2C1 are integrated. PMIC writes are filtered; battery ADC/charging policy remain disabled.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fm2-baseline-01-result.md">M2-BASELINE-01: exact implementation, RAM decision, checks and owner test</a>. The historical scope/sequence below is superseded where it conflicts with the owner’s combined integration instruction. All remaining acceptance criteria stay open.</p>
+<h2 id="additional-evidence--2026-09-10">Additional evidence — 2026-09-10</h2>
+<p>The wrapper IRQ omission is a documented storm workaround, separate from PMIC EINT25. Final donor DT includes an MFD despite older minimal-PMIC prose. Next implement one serialized WACS2/regmap owner shared with USB, preserving sync-idle waits and refusal rules; derive real CCF/pin/rail contracts rather than trusting missing PLL probes or approximate rates. VGP2 brownout is a concrete shared audio-supply lead. Charging limits/telemetry still require our own validation.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Freverse-engineering-audit.md">Research matrix and source limits</a>. M1 complete; M2 active/exit incomplete. External results do not promote our hardware status. Existing acceptance criteria and historical checkpoints follow.</p>
+<blockquote><p>Donor update 2026-09-09: Donor PWRAP/MT6323, regulator and charger code materially accelerates provider design. Correct the variant and optional-IRQ/error handling, and use one serialized PWRAP/regmap owner shared with existing USB before enabling MFD/consumers. Do not replace the proven sync-idle wait or create competing wrapper claims. Separate calibrated ADC/status telemetry from the donor charger re-enable/current policy and unchecked writes. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fdonor-audit.md">audit</a>.</p></blockquote>
+<p>Canonical issue <a href="https://github.com/SchulzCode/Y2Linux/issues/23" target="_blank" rel="noopener noreferrer">#23</a>; <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2FM1-first-boot.md%23historical-foundation-research-queue&amp;anchor=historical-foundation-research-queue">historical execution order</a>.</p>
+<h2 id="current-execution-checkpoint--2026-09-09">Current execution checkpoint — 2026-09-09</h2>
+<p>The owner explicitly requested one combined enumeration/logging candidate to reduce physical iteration. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2Froadmap-gap-audit.md%23combined-usb-ownership-scope-review--baseline-d9c2c98&amp;anchor=combined-usb-ownership-scope-review--baseline-d9c2c98">Scope audit</a> keeps M1 complete, M2 active/exit blocked and later phases deferred. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-chrdet-hardware-result.md">CHRDET evidence</a> establishes charger presence under the reported cable conditions; connected-start6a=BE still refuses wake. No new hardware result has been inferred.</p>
+<p><strong>Immediate next test: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fm2-usbacm-01-result.md">M2-USBACM-01</a></strong>, 1,159,168 bytes, SHA-256 <code>d2d1f8cbbaa23ffcbdeddb317db7a8e62bc21deca9ebebc564c9b55a5590aedd</code>. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usb-enumeration.md">Reviewed combined contract</a>: boot unplugged, perform the proven guarded wake, attach at the screen prompt, check fresh supply/clock/PHY/DMA state, apply the FM/LK digital device-session sequence, then attempt upstream MUSB peripheral PIO, one standard g_serial ACM and bounded retained/live kernel + PID1 logging. No host VBUS supply, analog calibration, PMIC writes, active-DMA recovery, RAM expansion or other partition writes.</p>
+<p>One clean build passes 23 full-suite methods, one additional linked-syscall mutation method and 8 observation methods, including 30 QEMU ARM PID1 scenarios and host/ARM relay faults. Exact DT/config, linked accesses, D08 and BOOTIMG pass. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fusb-log-capture.md">Host capture tool</a> is ready. No device operation was performed. Stop for the owner&#x27;s BOOTIMG-only physical test within 60s. USBGUARD-01 remains an optional untested fallback, not a prerequisite test.</p>
+<p>This advances offline implementation only. Physical enumeration, real log continuity, late-open/non-reading behavior and controller reconnect qualification remain outstanding. The first trial stops on first detach/error or 50s active window; reconnect and connected-start recovery are not implemented. #23/#27/#28 stay open, and every original hardware acceptance criterion remains intact. Original drafting-only restrictions below are superseded only for this specifically authorized/audited experiment, not a general production port.</p>
+<h2 id="type-and-goal">Type and goal</h2>
+<p><strong>Research.</strong> Establish the minimum PMIC access and supply-ownership contract needed to research input, display/backlight and removable SD safely.</p>
+<h2 id="why-it-comes-next">Why it comes next</h2>
+<p>The stock inventory names <code>pmic_mt6323</code>, but battery service readings conflict. Rails and their control path are shared prerequisites; guessing them in each peripheral driver would multiply risk. Audio will later reuse this evidence.</p>
+<h2 id="dependencies">Dependencies</h2>
+<p>Execution follows Y2E-155&#x27;s decision; expanded RAM is not a technical requirement. Use <code>power.md</code>, <code>y2-hardware.md</code>, retained platform metadata and the stock/FM kernel. Depend on the known M1 diagnostic baseline, not a new hardware test.</p>
+<h2 id="exact-scope">Exact scope</h2>
+<ul><li>Identify the bound PMIC/access transport and stock registration path, then<p>compare that specific path with pinned upstream v6.18 bindings/drivers.</p></li><li>Trace only named supply consumers for wheel/buttons, panel/backlight and SD;<p>record confirmed rails/enable owners versus unknown board routes. Locate potential GPIO/pinctrl/clock prerequisites without implementing controllers.</p></li><li>Explain duplicate battery fields from retained service evidence/code where<p>available; assess only standard, side-effect-reviewed power_supply metadata for units/source validity. Do not label voltage/state trustworthy by name alone.</p></li><li>Produce one dependency table and select the smallest future read-only identity<p>or telemetry implementation, or name the specific missing transport/rail proof.</p></li></ul>
+<h2 id="explicit-out-of-scope">Explicit out-of-scope</h2>
+<p>Charging limits or regulator writes, complete regulator/charger/gauge port, calibration, battery cycling, suspend/cpufreq/cpuidle, shutdown/reboot changes, audio playback and Linux hardware operations.</p>
+<h2 id="expected-filescomponents">Expected files/components</h2>
+<p><code>docs/knowledge/power.md</code>, relevant cross-references in <code>audio-path.md</code> and <code>open-unknowns.md</code>; evidence locators for vendor PMIC/PWRAP and matching upstream MFD, regmap, regulator and power_supply components. Do not assert sibling-SoC compatibility without register/transport evidence; no code edits.</p>
+<h2 id="acceptance-criteria">Acceptance criteria</h2>
+<p>Transport/driver identity and each scoped rail have CONFIRMED/INFERRED/UNKNOWN status with locators. Battery duplicate fields are explained or explicitly unresolved; no fabricated physical measurement. One future read-only probe has specified expected result, register/metadata safety and required prerequisites, or the document identifies a bounded blocker. Shared supply ownership is clear enough that later research will not propose disabling another consumer&#x27;s rail.</p>
+<h2 id="validation">Validation</h2>
+<p>Reconcile stock bindings with FM call sites and exact upstream v6.18 support; verify units and distinguish framework output from hardware telemetry. Document all denials. Documentation/evidence consistency checks only in this issue.</p>
+<h2 id="stop-conditions">Stop conditions</h2>
+<p>Stop at any need for live PMIC/debug register reads of unknown side effects, rail/charge writes, uncertain units or ambiguous shared ownership. Preserve inherited power state and record the missing fact.</p>
+<h2 id="unlocks-next">Unlocks next</h2>
+<p>Safe input/display/SD research and a small later PMIC telemetry implementation; reusable supply prerequisites for audio without starting audio bring-up.</p>
+<h2 id="session-and-execution-boundary">Session and execution boundary</h2>
+<p>Planning only today. Executing this research issue later does not authorize a Linux build, DTS/driver change, flash, new boot, bus scan, raw MMIO access, security change or partition write. Use retained evidence and pinned v6.18 source first; allow only explicitly safe, bounded stock observations when available. Keep private device data in ignored evidence storage and cite source/hash/offset locators in knowledge documents. Preserve uncertainty; do not invent a compatible, register value or board wire. Do not create follow-on issues automatically.</p>
+<p>Future localized implementation uses one clean build, affected tests and the D08/layout/BOOTIMG validator plus final size/hash. Material memory/architecture/ packaging changes or a new hardware subsystem require the broader relevant verification boundary, not a habitual full provenance/recovery re-audit. Stock preloader/LK, partition layout and calibration remain protected.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

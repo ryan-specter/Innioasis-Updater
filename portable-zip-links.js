@@ -20,6 +20,10 @@
  * progress and then written to Downloads under the release's name. Otherwise
  * the browser downloads the portable file directly; no page ever assembles a
  * ZIP itself.
+ *
+ * The custom progress path is deliberately limited to firmware-list.html;
+ * firmware.html has its own equivalent in lumen-site.js. Release notes and
+ * every other content page keep their direct release links untouched.
  */
 (function () {
     "use strict";
@@ -72,6 +76,14 @@
         return /\.zip$/i.test(value) && !/sources?|legal-info/i.test(value);
     }
 
+    /* Only the two installer pages use the in-page progress UI. Every
+       generated release-notes, guide and content page follows its anchor's
+       direct GitHub URL instead. */
+    function isFirmwareDownloadPage() {
+        var path = String(window.location.pathname || "").replace(/\/+$/, "");
+        return /\/firmware\.html$/i.test(path) || /\/firmware-list\.html$/i.test(path);
+    }
+
     /* The mirror publishes x86-64 and arm64 builds plus one universal macOS
        package. Anything 32-bit, PowerPC or unrecognised keeps the original
        download rather than being handed a build it cannot run. Android is
@@ -112,10 +124,19 @@
     /* repo -> mirror repositories, straight from the manifest the app reads. */
     function mirrorMap() {
         if (!manifestCache) {
-            manifestCache = fetch(SITE_ROOT + "slidia_manifest.xml", { cache: "no-cache" })
+            /* The repository copy is read first and SITE_ROOT is the fallback,
+               so opening a page does not count against this domain. */
+            manifestCache = fetch("https://raw.githubusercontent.com/y1-community/Innioasis-Updater/main/slidia_manifest.xml", { cache: "no-cache" })
                 .then(function (res) {
                     if (!res.ok) throw new Error("HTTP " + res.status);
                     return res.text();
+                })
+                .catch(function () {
+                    return fetch(SITE_ROOT + "slidia_manifest.xml", { cache: "no-cache" })
+                        .then(function (res) {
+                            if (!res.ok) throw new Error("HTTP " + res.status);
+                            return res.text();
+                        });
                 })
                 .then(function (text) {
                     var doc = new DOMParser().parseFromString(text, "application/xml");
@@ -437,6 +458,7 @@
 
     document.addEventListener("click", function (event) {
         if (event.defaultPrevented || event.button !== 0) return;
+        if (!isFirmwareDownloadPage()) return;
         if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         var link = event.target && event.target.closest ? event.target.closest("a[href]") : null;
         if (!link || link.hasAttribute("data-save-as") || link.target) return;
@@ -460,6 +482,7 @@
     window.InnioasisPortableZip = {
         resolve: resolve,
         platform: platformKey,
-        download: downloadLink
+        download: downloadLink,
+        isEnabled: isFirmwareDownloadPage
     };
 })();

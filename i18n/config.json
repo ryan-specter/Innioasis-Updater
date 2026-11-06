@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "sourceLocale": "en",
+  "catalogDir": "i18n/catalogs",
+  "cacheDir": "i18n/cache",
+  "stringsFile": "i18n/strings/en.json",
+
+  "skipTags": ["script", "style", "pre", "code", "kbd", "samp", "textarea"],
+  "skipAttributes": ["data-i18n-skip", "translate=\"no\""],
+
+  "attributeNames": ["title", "alt", "placeholder", "aria-label", "aria-description"],
+  "metaAttributeNames": ["content"],
+
+  "protectedTerms": [
+    "Innioasis",
+    "Timmkoo",
+    "Innioasis Updater",
+    "Updater CE",
+    "Rockbox",
+    "Y2Linux",
+    "Y2Player",
+    "Better-Y",
+    "Koensayr",
+    "Inniclassic",
+    "JJ Launcher",
+    "Rondo",
+    "Solar",
+    "SP Flash Tool",
+    "MTKClient",
+    "MediaTek",
+    "MicroSD",
+    "GitHub",
+    "Discord",
+    "Ko-fi",
+    "PayPal",
+    "Patreon",
+    "Revolut",
+    "Boosty",
+    "Bitcoin"
+  ],
+
+  "tiers": {
+    "core": {
+      "description": "The shared shell and every hand-written page: navigation, footer, home, firmware directory, guides, notices, support.",
+      "include": [
+        "*.html",
+        "guides/**/*.html",
+        "notices/**/*.html",
+        "Troubleshooting/**/*.html",
+        "404.html"
+      ],
+      "exclude": ["i18n/**", "dist/**", "assets/**"]
+    },
+    "full": {
+      "description": "Everything, including generated firmware-info, post-install and release-note pages.",
+      "include": ["**/*.html"],
+      "exclude": ["i18n/**", "dist/**", "assets/**", "node_modules/**", ".git/**", ".cache/**"]
+    }
+  },
+
+  "providers": {
+    "google-web": {
+      "description": "Google Translate's public web endpoint. No key, rate limited, fine for the public site copy.",
+      "endpoint": "https://translate.googleapis.com/translate_a/single",
+      "maxCharsPerRequest": 4200,
+      "sleepSeconds": 0.12
+    },
+    "google-cloud": {
+      "description": "Official Cloud Translation API. Needs GOOGLE_TRANSLATE_API_KEY.",
+      "endpoint": "https://translation.googleapis.com/language/translate/v2",
+      "envKey": "GOOGLE_TRANSLATE_API_KEY",
+      "maxCharsPerRequest": 8000
+    },
+    "deepl": {
+      "description": "DeepL API. Needs DEEPL_API_KEY. Covers a subset of the Google languages.",
+      "endpoint": "https://api-free.deepl.com/v2/translate",
+      "envKey": "DEEPL_API_KEY",
+      "maxCharsPerRequest": 4000
+    },
+    "libre": {
+      "description": "Self-hosted LibreTranslate. Needs LIBRETRANSLATE_URL and optionally LIBRETRANSLATE_API_KEY.",
+      "envUrl": "LIBRETRANSLATE_URL",
+      "envKey": "LIBRETRANSLATE_API_KEY",
+      "maxCharsPerRequest": 3000
+    }
+  },
+
+  "prerender": {
+    "outputDir": "dist",
+    "siteOrigin": "https://innioasis.app",
+    "sitemap": "sitemap-i18n.xml"
+  }
+}

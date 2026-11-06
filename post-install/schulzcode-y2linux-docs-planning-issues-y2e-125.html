@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2E-125 — Stock loader handoff and Linux 6.18 strategy - Innioasis Updater</title>
+  <meta name="description" content="Y2E-125 — Stock loader handoff and Linux 6.18 strategy <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "cur">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-125.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2E-125 — Stock loader handoff and Linux 6.18 strategy - Innioasis Updater">
+  <meta property="og:description" content="Y2E-125 — Stock loader handoff and Linux 6.18 strategy <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "cur">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-125.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2E-125 — Stock loader handoff and Linux 6.18 strategy - Innioasis Updater">
+  <meta name="twitter:description" content="Y2E-125 — Stock loader handoff and Linux 6.18 strategy <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "cur">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2E-125 — Stock loader handoff and Linux 6.18 strategy</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2e-125--stock-loader-handoff-and-linux-618-strategy">Y2E-125 — Stock loader handoff and Linux 6.18 strategy</h1>
+<!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Canonical issue: <a href="https://github.com/SchulzCode/Y2Linux/issues/6" target="_blank" rel="noopener noreferrer">https://github.com/SchulzCode/Y2Linux/issues/6</a></p>
+<p>The owner has successfully flashed this Y2 using SP Flash Tool and <code>y2_v3.2.0_FM-20260813</code>. Incorporate that recovery evidence, then establish the stock loader contract needed to design an upstream Linux 6.18 boot strategy.</p>
+<p>Depends on completed Y2E-101 (#1), Y2E-105 (#2), Y2E-110 (#3), Y2E-115 (#4), and Y2E-120 (#5). This extends their findings; it does not duplicate or reopen their bounded inventories.</p>
+<p>Ownership: research and architecture. This is not an implementation handoff.</p>
+<p>Scope: offline inspection of the exact local preloader/LK/BOOTIMG and existing safe stock captures; source audit at upstream v6.18. Preserve provenance and distinguish owner observations, binary-derived facts, inferences and unknowns.</p>
+<p>Acceptance criteria:</p>
+<ul><li><input type="checkbox" disabled checked> Record owner-observed successful recovery, exact local ROM/scatter hashes, and the best supported previous SP Flash Tool version without claiming unknown DA/settings.</li><li><input type="checkbox" disabled checked> Trace normal BOOTIMG load/launch addresses, machine identifier, boot-data format, ramdisk relocation and command-line source with binary offsets.</li><li><input type="checkbox" disabled checked> Explain the header/runtime address discrepancy and identify DRAM/reservation limitations.</li><li><input type="checkbox" disabled checked> Compare the contract with exact Linux v6.18 ARM/MT6582 source; specify a candidate packaging/DT/initramfs approach and its limits.</li><li><input type="checkbox" disabled checked> Assess later eMMC rootfs options without treating all space after BOOTIMG as disposable.</li><li><input type="checkbox" disabled checked> Update boot-chain, recovery, open-unknowns and linux-6.18-support; state the smallest remaining artifact blocker and a bounded next research proof.</li></ul>
+<p>No flashing, formatting, partition changes, boot-image edits/builds, kernel/DTS implementation or experimental boots. No implementation-ready issue until remaining architecture choices are resolved. M0 stays open while its separate backup/recovery prerequisites remain incomplete.</p>
+<p>Result: bounded investigation complete. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fboot-chain.md">boot-chain</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Frecovery.md">recovery</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Flinux-6.18-support.md">upstream audit</a> and <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fopen-unknowns.md">remaining unknowns</a>. Candidate strategy established; safe memory envelope and ATAG policy remain the next research proof. No implementation handoff.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

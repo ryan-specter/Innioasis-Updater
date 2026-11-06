@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Storage06 internal boot and owner SSH — accepted on hardware - Innioasis Updater</title>
+  <meta name="description" content="Storage06 internal boot and owner SSH — accepted on hardware <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate ide">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-production-v1-r6-deployment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Storage06 internal boot and owner SSH — accepted on hardware - Innioasis Updater">
+  <meta property="og:description" content="Storage06 internal boot and owner SSH — accepted on hardware <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate ide">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-production-v1-r6-deployment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Storage06 internal boot and owner SSH — accepted on hardware - Innioasis Updater">
+  <meta name="twitter:description" content="Storage06 internal boot and owner SSH — accepted on hardware <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate ide">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Storage06 internal boot and owner SSH — accepted on hardware</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="storage06-internal-boot-and-owner-ssh--accepted-on-hardware">Storage06 internal boot and owner SSH — accepted on hardware</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>The owner flashed the single corrected Storage06 BOOTIMG, then the corrected initial Y2DATA image. SSH now authenticates with the existing <code>~/.ssh/y2linux_ed25519</code> identity. Internal Y2ROOT and Y2DATA mount read-write without an SD block device. No further flash is needed for this fix. <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/hardware-evidence/2026-09-13-storage06-owner/ssh-result.json" target="_blank" rel="noopener noreferrer">Authenticated physical evidence</a> and <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fevidence%2Fy2linux-production-v1-r6-owner-key%2FREADME.md">retained data-package checks</a>.</p>
+<h2 id="root-cause-and-production-correction">Root cause and production correction</h2>
+<p>The production eMMC port omitted the stock logical disk translation. Linux sector 0 was reading the reserved native prefix instead of the intact MBR. The actual stock driver adds 23552 sectors and exposes a 15203328-sector disk. Storage06 restores that mapping once for CMD17/18/24/25, leaves EXT_CSD and companion command arguments intact, and keeps writes limited to the original ANDROID/USRDATA spans. Upstream Linux parses the existing MTK tables; no table, DT, hardware clock or memory change was needed. See the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fstorage06-addressing-correction.md">source and stock-binary proof</a>.</p>
+<p>The original data template separately authorized a public key whose private counterpart was missing. The corrected seed uses the owner&#x27;s existing <code>.pub</code> file exactly. No client identity was generated, inspected or copied. Normal production packaging now defaults to that existing public file and validates the authorization inside the completed Y2DATA filesystem before publication. <code>/root/.ssh</code> resolves into persistent Y2DATA; BOOTIMG/Y2ROOT updates preserve it.</p>
+<h2 id="exact-artifacts">Exact artifacts</h2>
+<p>All paths below are relative to the repository root.</p>
+<table><thead><tr><th>Artifact</th><th>Path</th><th style="text-align:right">Bytes</th><th>SHA256</th></tr></thead><tbody><tr><td>Working BOOTIMG</td><td><code>out/y2linux-production-v1-r6/BOOTIMG.img</code></td><td style="text-align:right">5193728</td><td><code>3ba809e44bd9c945c994209d1d93f41fe0da9259a303487dd6ecf49724bf49a8</code></td></tr><tr><td>Unchanged Y2ROOT</td><td><code>out/y2linux-production-v1-r4/Y2ROOT.img</code></td><td style="text-align:right">536870912</td><td><code>814a5b2543931e01cee2eb6f641c3b6e02317bd6308d2d663aea78f618bd554f</code></td></tr><tr><td>Corrected owner-key Y2DATA seed</td><td><code>out/y2linux-production-v1-r6-owner-key/Y2DATA.img</code></td><td style="text-align:right">838860800</td><td><code>9e0f6b063b2ccfe7bb97bd229f0140cd47aebd917ed636b36e7fa6740ab22fe1</code></td></tr><tr><td>Historical Storage04 rescue fallback</td><td><code>out/y2linux-production-v1-r6/fallback/BOOTIMG-storage04.img</code></td><td style="text-align:right">5193728</td><td><code>2f9d27a9d306ef5d49a1378f5063a7178edc18dec777340bf78330a23ac3a4f6</code></td></tr><tr><td>Original data seed, wrong owner key</td><td><code>out/y2linux-production-v1-r4/Y2DATA.img</code></td><td style="text-align:right">838860800</td><td><code>01bcf65da1716081707202af074969e21fc1196540cb1de6ca76ef9098d44079</code></td></tr></tbody></table>
+<p>Kernel source: <code>bea30cd5883f524a252d8b94d7e914d9d2f7cbdb</code>. Owner-key packaging source: <code>dcb7f45fd7fbe0adffc10195239f8df934491c8b</code>. The root filesystem retains its Storage04 build metadata; the running kernel and its BOOTIMG-owned modules are Storage06. The independent component contract permits this unchanged userspace reuse.</p>
+<p>The BOOTIMG digest above now matches a complete 5193728-byte read through the running Linux block device. The Y2DATA digest identifies the unused flash seed; mounted data subsequently changes as the system creates persistent host keys. The old rescue fallback restores the known rescue/ACM state, not working internal boot. The original data seed restores its old authorization failure.</p>
+<h2 id="manual-selections-used-for-this-correction">Manual selections used for this correction</h2>
+<p>Storage repair: SPFT <strong>Download Only</strong>, load <code>out/y2linux-production-v1-r6/MT6582_BOOTIMG_only_scatter.txt</code>, select BOOTIMG only.</p>
+<p>Owner-key initialization: SPFT <strong>Download Only</strong>, load <code>out/y2linux-production-v1-r6-owner-key/MT6582_Y2DATA_only_scatter.txt</code>, select USRDATA → <code>Y2DATA.img</code> only. BOOTIMG, ANDROID and every other row stay unchecked. Never select Format or Firmware Upgrade. This initialization replaces Y2DATA, including its initial state and generated server host keys; the owner confirmed there were no saved files or settings to retain. It is not a normal system update.</p>
+<p>Both manual flashes have now been reported complete. MBR/EBR1/EBR2 remain byte-identical to the stock fixtures through Linux reads. Y2ROOT is p5 at 166912 + 1679360 sectors; Y2DATA is p7 at 2104320 + 1638400 sectors.</p>
+<h2 id="physical-acceptance">Physical acceptance</h2>
+<p>The completed test is a boot with no SD block device followed by:</p>
+<pre><code class="language-sh">ssh -i ~/.ssh/y2linux_ed25519 root@10.42.0.1</code></pre>
+<p>Authenticated read-only commands confirm Linux 6.18.0-y2linux-storage06, both internal ext4 mounts, exact geometry/UUIDs, four CPUs, 954376 KiB RAM and USB ECM 10.42.0.1/24. The public file in live Y2DATA has SHA256 <code>bf9cc937fb5dcee8569514b674fb9b3d5ba25396162efac7e8854f88bfe98c25</code>, matching <code>~/.ssh/y2linux_ed25519.pub</code> and fingerprint <code>SHA256:IS9HhrmQKRtlEEbrcJjZa0XQHVwnRXRUzQQ61/7XAb8</code>. The host USB profile is 10.42.0.2/24 with no default route. The host&#x27;s obsolete 10.42.0.1 server-key entry was replaced with the public key verified after initialization; the normal SSH configuration now succeeds too.</p>
+<p>54 firmware regressions, ARM shell/ABI checks, BOOTIMG bounds and 13 package rejection cases passed before the kernel flash. The localized SSH change passed five focused source tests, ARM filesystem identification, ext4 integrity checks, exact public-key validation and 11 isolated data-package rejection cases.</p>
+<p>Two synthetic ext4 buddy-cache inode warnings remain recorded; filesystem checks complete cleanly and the system boots. No deliberate physical scratch write, protected-region write, stress or power-fail test was performed. Those wider qualification gates and #33 remain open; this pass activates no later subsystem.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

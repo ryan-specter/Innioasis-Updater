@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-32 — deep idle during screen-off playback - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-32 — deep idle during screen-off playback Status: SUPERSEDED, NEVER FLASHED ALONE; PLAYBACK TEST OWED 2026-10-14; contained in 33–34, installed as part of 33.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-32.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-32 — deep idle during screen-off playback - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-32 — deep idle during screen-off playback Status: SUPERSEDED, NEVER FLASHED ALONE; PLAYBACK TEST OWED 2026-10-14; contained in 33–34, installed as part of 33.">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-32.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-32 — deep idle during screen-off playback - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-32 — deep idle during screen-off playback Status: SUPERSEDED, NEVER FLASHED ALONE; PLAYBACK TEST OWED 2026-10-14; contained in 33–34, installed as part of 33.">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-32 — deep idle during screen-off playback</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-32--deep-idle-during-screen-off-playback">POWER-FINAL-32 — deep idle during screen-off playback</h1>
+<p>Status: <strong>SUPERSEDED, NEVER FLASHED ALONE; PLAYBACK TEST OWED</strong> (2026-10-14; contained in 33–34, installed as part of 33). Package <code>out/y2linux-platform-v1-power-final-candidate-32/</code> (fallback = 31), receipts <code>out/deep-sleep-final/build32-receipts/</code>. BOOTIMG <code>5f1766ca727ffee2824aab2f2bfee5f09d06bbe68dcc27146887338bc591a131</code>, Y2ROOT <code>f9ca5bbc5c7400e9d7d45708efcf70d8f58c9afe79ebfe4ded8724763d558938</code>. Identity: build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-32</code>, kernel <code>6.18.56-y2linux-platform-v1-power-final-32</code>, root <code>2026.08-platform-v1.62</code>, release <code>1.0.0-platform-v1-power-final-candidate.32</code>; Linux <code>4ded0fe</code>, Reborn <code>0892bf2</code>. Contains 27–31.</p>
+<h2 id="why">Why</h2>
+<p>Awake idle on 29 (ledger F34–F38): only WFI is ever used awake. Screen-off playback never deep-idled because Y2&#x27;s deep-idle clock rule also required the INFRA audio clock (bit 5) off; stock dpidle does not (INFRA mask <code>0xa080</code>, AUDIO group unchecked, AUDINTBUS moved to 26 MHz around the WFI, which Y2 already mirrors). Enabled-but-idle Bluetooth blocks every deep idle (BTIF/AP_DMA clocks, CONN domain); that is a separate, larger change (STP PSM).</p>
+<h2 id="what-32-changes">What 32 changes</h2>
+<p><code>clocks.c</code>: <code>deep_idle_audio</code> (kernel default N = 31) drops bit 5 from the INFRA deep-idle mask; <code>deep_audio_entries</code> counts deep-idle clock handovers made with the AFE clock on. <code>power_features</code> arms the switch; sleep rows record it.</p>
+<h2 id="tests">Tests</h2>
+<p><code>test_cpu_fix03</code> (audio clock blocks when off, admitted and counted when on, stock-mask INFRA clocks still block), <code>test_cpu_c3_uart</code>/<code>test_cpu_fix02</code> (shared mask helper), <code>test_power_final_27</code> (switch armed/overridable). Kernel warnings unchanged (47). validate PASS, ELF 354, installed ARM, privacy, inventory, container suite <strong>713 OK</strong>.</p>
+<h2 id="owner-test">Owner test</h2>
+<p>Wired headphones, Bluetooth off, screen off, ≈30 min playback. Before/after: SPM <code>dormant_entries</code> / <code>dormant_residency_us</code>, cpuidle SLIDLE/DORMANT usage/time, <code>deep_audio_entries</code>, Reborn <code>audio_xruns</code>, listening for clicks. Disable with <code>{&quot;deep_idle_audio&quot;: false}</code> in <code>/data/system/platform/power-features.json</code>.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

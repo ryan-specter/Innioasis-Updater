@@ -25,7 +25,7 @@
        remembered — it is the look they picked) plus, only when allowed,
        their answers to the "was this useful?" prompts and their
        nightly-builds preference. The consent record itself is kept so the
-       banner does not nag on every visit. */
+       privacy panel does not open on every visit. */
     var CONSENT_KEY = "innioasis-consent";
 
     function readConsent() {
@@ -60,6 +60,11 @@
         if (!next.nightly) {
             try { global.localStorage.removeItem("innioasis-show-nightly"); } catch (_) {}
         }
+        /* Let the page react immediately: the directory drops a remembered
+           nightly filter and the guide pages forget a displayed answer. */
+        try {
+            global.dispatchEvent(new CustomEvent("innioasis-privacy-change", { detail: next }));
+        } catch (_) {}
         return next;
     }
 

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2LINUX-M3-AUDIO-01 — owner deployment - Innioasis Updater</title>
+  <meta name="description" content="Y2LINUX-M3-AUDIO-01 — owner deployment <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claim">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m3-audio-01-deployment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2LINUX-M3-AUDIO-01 — owner deployment - Innioasis Updater">
+  <meta property="og:description" content="Y2LINUX-M3-AUDIO-01 — owner deployment <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claim">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m3-audio-01-deployment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2LINUX-M3-AUDIO-01 — owner deployment - Innioasis Updater">
+  <meta name="twitter:description" content="Y2LINUX-M3-AUDIO-01 — owner deployment <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claim">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2LINUX-M3-AUDIO-01 — owner deployment</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-m3-audio-01--owner-deployment">Y2LINUX-M3-AUDIO-01 — owner deployment</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>This is an <strong>unqualified audio candidate</strong>, not an M3 completion claim. The qualified DEV-02 core configuration and RAM reservations are retained. USB reconnect remains deferred as #27; do not cycle the development cable in this pass. No assistant flashing or live codec/PMIC register writes are authorized.</p>
+<p>Artifact directory: <code>/home/luca/Dokumente/Code/Y2Linux/out/y2linux-m3-audio-01/</code>. Exact sizes/hashes are in <code>SHA256SUMS</code> and <code>result.json</code>; verify before deployment:</p>
+<pre><code class="language-sh">cd /home/luca/Dokumente/Code/Y2Linux/out/y2linux-m3-audio-01
+sha256sum -c SHA256SUMS</code></pre>
+<h2 id="update-the-removable-sd-content">Update the removable SD content</h2>
+<p><strong>Yes, the SD rootfs needs updating</strong> for ALSA utilities, fixtures, runtime fixes and the matching DRM module. Keep the existing Y2ROOT partition/filesystem and its persistent SSH host keys. <code>rootfs.tar</code> is the update source; <code>rootfs.ext4</code> is an independently validated fresh filesystem image, not an internal eMMC image. Do not write a whole filesystem image onto the currently mounted/live root.</p>
+<p>Owner: shut down the Y2, remove its microSD and attach it to a Linux SD reader. Identify the actual removable card and its existing Y2ROOT partition with:</p>
+<pre><code class="language-sh">lsblk -o NAME,PATH,TRAN,RM,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINTS</code></pre>
+<p>Select only the physical SD reader/card whose ext4 partition has LABEL=Y2ROOT and UUID <code>79324c69-6e75-4801-8000-000000000001</code>. Do not guess a <code>/dev/sdX</code> target; do not use the PC system disk or any Y2 internal partition. Substitute that <strong>identified partition path</strong> below; these commands preserve files absent from the new tar, including old module trees and retained hardware logs:</p>
+<pre><code class="language-sh">Y2_SD_PARTITION=/dev/REPLACE_WITH_IDENTIFIED_SD_PARTITION
+sudo mkdir -p /mnt/y2root
+sudo mount &quot;$Y2_SD_PARTITION&quot; /mnt/y2root
+findmnt /mnt/y2root
+sudo tar -C /mnt/y2root --numeric-owner --overwrite \
+  --exclude=&#x27;./etc/dropbear&#x27; --exclude=&#x27;./etc/dropbear/*&#x27; \
+  --exclude=&#x27;./root/.ssh&#x27; --exclude=&#x27;./root/.ssh/*&#x27; \
+  -xpf /home/luca/Dokumente/Code/Y2Linux/out/y2linux-m3-audio-01/rootfs.tar
+sudo cat /mnt/y2root/etc/y2linux/build-id
+sudo test -s /mnt/y2root/root/.ssh/authorized_keys
+sudo test -x /mnt/y2root/usr/bin/aplay
+sync
+sudo umount /mnt/y2root</code></pre>
+<p>Expected build-id is <code>Y2LINUX-M3-AUDIO-01</code>. This updates files without formatting or repartitioning. Keep the SD installed for the next boot.</p>
+<h2 id="bootimg-only-sp-flash-tool-procedure">BOOTIMG-only SP Flash Tool procedure</h2>
+<ol><li>Use the existing known-working Y2 scatter/download-agent workflow. Select<p><strong>Download Only</strong>. Deselect every partition, then select <strong>BOOTIMG only</strong>.</p></li><li>Set BOOTIMG&#x27;s file to this candidate&#x27;s <code>BOOTIMG.img</code>. Inspect that PRELOADER,<p>LK, partition table, NVRAM/calibration and all other partitions are unchecked. Never select Format All or Firmware Upgrade.</p></li><li>With the Y2 powered off, click Download and perform the established connection<p>sequence. Wait for successful completion. The owner performs this operation.</p></li><li>Disconnect USB, boot with the updated SD, wait approximately ten seconds, then<p>attach USB once to the development PC. Expected kernel is <code>6.18.0-y2linux-m3audio01</code>. USB serial/observer tags retain DEV-01 compatibility.</p></li></ol>
+<h2 id="first-ssh-inspection--no-playback-yet">First SSH inspection — no playback yet</h2>
+<p>On the PC:</p>
+<pre><code class="language-sh">ssh -i /home/luca/.ssh/y2linux_ed25519 root@10.42.0.1</code></pre>
+<p>On the Y2:</p>
+<pre><code class="language-sh">uname -a
+cat /etc/y2linux/build-id
+cat /proc/asound/cards
+cat /proc/asound/pcm
+cat /proc/asound/devices
+aplay -l
+aplay -L
+amixer -c Y2Audio
+cat /sys/kernel/debug/regulator/regulator_summary
+cat /sys/kernel/debug/clk/clk_summary
+dmesg</code></pre>
+<p>Expected ALSA card ID/name: <strong>Y2Audio</strong>. PCM device 0 is <strong>Y2 Headphone Playback</strong>; use <code>hw:CARD=Y2Audio,DEV=0</code>. Initial CPU/PCM capabilities are **stereo S16_LE, 44100 and 48000 Hz**, not yet physically qualified. No capture or speaker PCM. AFE&#x27;s internal back end is <strong>Y2 Second I2S</strong>, CPU DAI <code>I2S</code>, upstream codec DAI <code>cs43130-asp-pcm</code>. VGP2 must report <strong>1800 mV</strong>, with the GPIO supply dependency chain present. The speaker GPIO8 hog must stay low.</p>
+<p>If the card is missing, a supply enable failed, or dmesg reports a DAC reset, clock-ready timeout or I2C errors, collect evidence and stop before playback. Do not use i2cset/devmem, whole regmap dumps, or a high-gain speaker test.</p>
+<h2 id="first-controlled-headphone-test">First controlled headphone test</h2>
+<p>Owner: insert headphones; keep them off your ears for the first short run. Headphone pin is disabled at card registration. Upstream PCM reset gain is -60 dB; no mixer state is automatically restored. Set a known conservative level, stereo routing, then enable the headphone endpoint:</p>
+<pre><code class="language-sh">amixer -c Y2Audio cset name=&#x27;PCM Ch Select&#x27; 0
+amixer -c Y2Audio sset Master 207,207
+amixer -c Y2Audio sget Master
+amixer -c Y2Audio sset Headphone on</code></pre>
+<p>Raw Master value <strong>207/255 = -24 dB</strong> (0.5 dB steps). Confirm both channels show -24 dB. The fixture adds <strong>-30 dBFS peak</strong>, lasts three seconds and has 50 ms fades; left is 440 Hz and right 660 Hz. No sustained or full-scale tone.</p>
+<p>In one SSH terminal, capture bounded live state during the test:</p>
+<pre><code class="language-sh">for n in 1 2 3 4 5; do
+  cat /proc/uptime
+  cat /sys/bus/platform/devices/11220000.audio-controller/state
+  cat /proc/asound/card0/pcm0p/sub0/status
+  sleep 1
+done</code></pre>
+<p>In the playback terminal, the exact first command is:</p>
+<pre><code class="language-sh">aplay -D hw:CARD=Y2Audio,DEV=0 --period-size=1024 --buffer-size=8192 /usr/share/y2linux/audio/headphone-44100.wav</code></pre>
+<p>After it finishes:</p>
+<pre><code class="language-sh">y2-audio-collect &gt; /tmp/m3-after-first.txt
+amixer -c Y2Audio sset Headphone off</code></pre>
+<p>Report whether physical headphone output is audible/clean and whether each side is correct. Do not raise gain automatically if silent. After a clean first run, repeat two short 44.1 kHz runs, interrupt one with Ctrl-C and restart, then test <code>headphone-48000.wav</code> with the same command and constraints. Disable Headphone between test groups. Stop on loud noise/pops, DAC reset, corruption or kernel errors. Speaker, EINT16 jack/ACCDET and high-resolution formats remain separate.</p>
+<h2 id="evidence-to-correlate">Evidence to correlate</h2>
+<p>Retain full <code>y2-audio-collect</code> output over SSH in repository hardware evidence before/during/after playback. Inspect ALSA hw_params/status and XRUNs, AFE IRQ counts in <code>/proc/interrupts</code>, cumulative period callbacks and current DMA pointer, CONN0, CON3, DMA bounds, codec probe/clock messages, regulator usage/1.8 V and CCF states. AFE <code>state</code> is a bounded read-only attribute that guards MMIO with runtime PM; do not dump its raw regmap when clock-gated. <code>/sys/kernel/debug/asoc/</code> exposes DAPM/card state. Do not equate DMA progress to external pad activity or audible output. Actual LRCK/BCLK accuracy may require physical clock measurement.</p>
+<p>Classify failures before changing a layer: A card probe; B PCM/DMA; C wrong I2S with advancing DMA; D codec brownout/reset; E analog route/mute; F userspace underruns; G rate/clock accuracy. No M3 closure until physical playback, safe stop/restart, repeated runs and supported-rate checks pass without kernel errors.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

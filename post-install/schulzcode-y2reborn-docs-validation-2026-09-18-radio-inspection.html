@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reborn radio inspection after owner splash installation - Innioasis Updater</title>
+  <meta name="description" content="Reborn radio inspection after owner splash installation <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current"">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-validation-2026-09-18-radio-inspection.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Reborn radio inspection after owner splash installation - Innioasis Updater">
+  <meta property="og:description" content="Reborn radio inspection after owner splash installation <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current"">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-validation-2026-09-18-radio-inspection.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Reborn radio inspection after owner splash installation - Innioasis Updater">
+  <meta name="twitter:description" content="Reborn radio inspection after owner splash installation <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current"">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>Reborn radio inspection after owner splash installation</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="reborn-radio-inspection-after-owner-splash-installation">Reborn radio inspection after owner splash installation</h1>
+<!-- knowledge-base-scope: scoped-validation-record -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_REBORN_STATE.md) for the latest physically observed result.
+<p>The owner reports that the flashed splash update works. Existing pinned owner SSH confirms <code>Y2LINUX-REBORN-SPLASH-01</code>, Reborn source <code>6209f48402a00a077759df042916f0ae2c89783a</code>, and the Mali400 hardware renderer. The inspection used Reborn&#x27;s existing JSON diagnostic commands. No application, firmware, boot image, credentials or persistent radio preference was changed.</p>
+<h2 id="findings">Findings</h2>
+<p>Both radios were off at entry: <code>/data/network/enabled=0</code>, Wi-Fi rfkill soft block set, and BlueZ <code>Powered=false</code>. The connectivity owner was activated/calibrated, with no transport errors or recoveries. Supplicant, BlueZ and BlueALSA were alive.</p>
+<p>Reborn&#x27;s event ring records Wi-Fi power requests on → off → on → off, followed by two scan errors while the interface was off. This proves the requested sequence, not whether repeated user presses or key repeat caused it. Bluetooth recorded five <code>org.bluez.Error.NotReady</code> responses while its adapter was off; the existing Bluetooth error records omit the method, so they cannot identify the exact failed UI operation on their own.</p>
+<p>There are two confirmed application status/presentation defects:</p>
+<ul><li><code>crates/reborn-platform/src/wifi.rs::status</code> treats the normal absence of a<p>per-interface supplicant socket when Wi-Fi is disabled as <code>unavailable</code> and sets an error. It does not distinguish Off, Starting and a missing service.</p></li><li><code>app/reborn/src/main.rs</code> copies every Wi-Fi status error into the global<p><code>Ui.notice</code>, regardless of the current screen. Successful updates do not clear that notice. A Wi-Fi error can therefore remain visible on Bluetooth and other screens. The Bluetooth event handler does not display its own <code>Status.error</code>.</p></li></ul>
+<p>The radio tests below succeed through the running Reborn process using the same rfkill/supplicant and BlueZ D-Bus helpers as the application. They do not prove network association, Bluetooth pairing or Bluetooth audio playback.</p>
+<table><thead><tr><th>SSH command</th><th>Physical result</th></tr></thead><tbody><tr><td><code>rebornctl test wifi-scan --json</code></td><td>Pass; 28 networks, interface available; 5.129 s including SSH</td></tr><tr><td><code>rebornctl test bluetooth --json</code></td><td>Pass; adapter and BlueALSA available, no connected peer</td></tr><tr><td><code>rebornctl test bluetooth-scan --seconds 10 --json</code></td><td>Pass; powered adapter and completed discovery, 0 discoverable peers; 11.261 s including SSH</td></tr><tr><td><code>rebornctl test baseline --json</code></td><td>Pass; 10 checks including hardware graphics readback, six decoder formats/artwork, DB, storage and service availability; SD absent warning</td></tr></tbody></table>
+<p>Final state matches entry: both radio preferences remain off, Wi-Fi soft block restored, BlueZ powered off, same Reborn session and boot ID. No increase in Wi-Fi/Bluetooth errors, audio XRUNs, playback errors or graphics context losses during these tests. Kernel connectivity status still reports <code>error=0</code>, <code>transport_errors=0</code>, <code>recoveries=0</code>.</p>
+<p>For this deployed build, select <strong>Turn Wi-Fi on</strong> or <strong>Turn Bluetooth on</strong> once, wait several seconds for activation, then select Scan. After activation the first row changes to <strong>Turn … off</strong>; selecting it again disables the radio. Bluetooth discovery additionally needs a nearby peer in pairing/discoverable mode. A stale Wi-Fi footer is not evidence that Bluetooth is unavailable.</p>
+<h2 id="evidence-and-limits">Evidence and limits</h2>
+<p><a href="https://github.com/SchulzCode/Y2Reborn/blob/main/docs/validation/evidence/radio-inspection-20260918.json" target="_blank" rel="noopener noreferrer">Machine-readable summary</a>. Full bounded local captures, including the before/after snapshots, subsystem logs and kernel radio excerpts, are retained under <code>out/radio-inspection-20260918T115744Z/</code>; they are not committed because future captures may contain local network or peer identifiers. No passwords, bond keys, SSH private keys or raw calibration records were read.</p>
+<p>The splash reports console hidden at boot 698 ms, visible at 828 ms, READY release at 49,448 ms and the first Reborn frame presented at 49,456 ms. This agrees with the owner&#x27;s successful visible boot report. It is not an offline-charging, suspend/resume or complete Reborn Baseline 01 acceptance result. This inspection does not install a UI status fix or leave the radios enabled.</p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

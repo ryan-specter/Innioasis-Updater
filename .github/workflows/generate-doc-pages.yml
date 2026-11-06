@@ -24,6 +24,9 @@ on:
       - scripts/generate_rockbox_pages.py
       - scripts/generate_firmware_info.py
       - scripts/generate_firmware_list.py
+      - scripts/generate_install_guides.py
+      - scripts/install_guides_data.py
+      - install.css
       - scripts/generate_sitemap.py
       - config.ini
       - .github/workflows/generate-doc-pages.yml
@@ -101,16 +104,38 @@ jobs:
         run: |
           python scripts/generate_firmware_list.py ${{ inputs.refresh && '--refresh' || '' }}
 
+      - name: Render the OS-specific install guides
+        run: |
+          python scripts/generate_install_guides.py
+
       - name: Audit sitemap.xml against the pages that exist
         run: |
           python scripts/generate_sitemap.py
           python scripts/generate_sitemap.py --check
 
+      # A package listed in slidia_manifest.xml with no feed on disk has no
+      # backup: a blocked GitHub API would leave it invisible. This warns
+      # rather than failing, because a repository can legitimately have no
+      # releases yet.
+      - name: Check every manifest repository has a backup feed
+        run: |
+          python - <<'PY'
+          import pathlib, xml.etree.ElementTree as ET
+          root = pathlib.Path(".")
+          repos = sorted({(pkg.get("repo") or "").strip().lower()
+                          for pkg in ET.parse(root / "slidia_manifest.xml").getroot().iter("package")
+                          if (pkg.get("repo") or "").strip()})
+          missing = [repo for repo in repos if not (root / "feeds" / repo / "releases.json").exists()]
+          for repo in missing:
+              print("::warning::No backup feed for %s" % repo)
+          print("%d of %d manifest repositories have a backup feed." % (len(repos) - len(missing), len(repos)))
+          PY
+
       - name: Commit regenerated pages
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add feeds firmware-catalog.js release-notes post-install firmware-info rockbox-y1 rockbox-y2 rockbox-rom-download.html rockbox-y1-themes.html firmware-list.html firmware.html sitemap.xml llms.txt
+          git add feeds firmware-catalog.js release-notes post-install firmware-info rockbox-y1 rockbox-y2 rockbox-rom-download.html rockbox-y1-themes.html firmware-list.html firmware.html install sitemap.xml llms.txt
           if git diff --cached --quiet; then
             echo "No release, post-install or README changes."
           else

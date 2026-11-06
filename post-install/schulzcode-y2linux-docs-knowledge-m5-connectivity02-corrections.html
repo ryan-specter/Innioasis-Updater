@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CONNECTIVITY-02: correction of the first startup failure - Innioasis Updater</title>
+  <meta name="description" content="CONNECTIVITY-02: correction of the first startup failure <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identit">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m5-connectivity02-corrections.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="CONNECTIVITY-02: correction of the first startup failure - Innioasis Updater">
+  <meta property="og:description" content="CONNECTIVITY-02: correction of the first startup failure <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identit">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m5-connectivity02-corrections.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CONNECTIVITY-02: correction of the first startup failure - Innioasis Updater">
+  <meta name="twitter:description" content="CONNECTIVITY-02: correction of the first startup failure <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identit">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>CONNECTIVITY-02: correction of the first startup failure</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="connectivity-02-correction-of-the-first-startup-failure">CONNECTIVITY-02: correction of the first startup failure</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>CONNECTIVITY-01 physically stopped with <code>stage=1 FS=0 result=-71</code>; MD shutdown succeeded. SSH inspection reconfirmed that state. The first candidate did not record the rejected message, so its exact rejection site remains unproven until the corrected image runs. No new factory-partition acquisition was needed.</p>
+<h2 id="targeted-corrections">Targeted corrections</h2>
+<ul><li>Normalize the MD filesystem request&#x27;s optional trailing transport word before<p>passing counted arguments to the existing private service. The previous kernel rejected any bytes after the last argument. Stock <code>ccci_fsd</code> GetPackInfo (<code>0xd414</code>–<code>0xd4ac</code>) follows the argument count and four-byte alignment without requiring the final argument to exhaust the shared stream. Retained successful CCIF request lengths include 32-byte disk-info and 20-byte close transactions, consistent with a trailing word. This is protocol evidence, not calibration replay. Accept only zero or four trailing bytes, retain all bounds and the service&#x27;s strict request/reply ABI, and never interpret the trailer as data.</p></li><li>Report failed message channel, size, slot, stage and completed transaction<p>count. A framing failure reports a recognized opcode and bounded argument count. Never print filenames, argument values, addresses belonging to devices, or calibration contents. Clear private buffers on failed calibration shutdown.</p></li><li>Include the signed regulatory database and its license in the production<p>initramfs. Built-in cfg80211 previously requested it before Y2ROOT mounted and got <code>ENOENT</code>. Use the exact hash-locked wireless-regdb 2026.05.30 archive already used by the installed Buildroot image; retain kernel signature enforcement.</p></li><li>Allow the existing BOOTIMG-only packager to use a data-preserving system-update<p>package as its verified base. Carry the existing Y2DATA identity by reference; never require or package a Y2DATA template for this update.</p></li></ul>
+<p>The FS framing correction is a bounded compatibility fix. The previous aggregate failure does <strong>not</strong> prove it was the only initialization problem. Physical calibration, controller identification, Wi-Fi and Bluetooth remain pending.</p>
+<h2 id="preserved-components">Preserved components</h2>
+<p>Y2ROOT remains CONNECTIVITY-01 (<code>2025.02.17-connectivity.1</code>), including the factory provider, calibration daemon, wpa_supplicant, BlueZ and BlueALSA. User credentials, bonds, radio preferences and generated identities remain in Y2DATA. M4 power, charging, RTC, audio, memory reservations, DT and protected-partition write policy are unchanged. The early regulatory files start no radio in offline charging.</p>
+<p>After the owner&#x27;s BOOTIMG-only installation, inspect the new boot log, calibration completion/poweroff, regulatory loading and normal radio interfaces through SSH. If initialization succeeds, continue the existing M5 qualification procedure. Otherwise use the precise failure context for the next targeted correction. M5 stays open.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

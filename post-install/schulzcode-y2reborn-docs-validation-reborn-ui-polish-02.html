@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>REBORN-UI-POLISH-02 — physical-device legibility validation - Innioasis Updater</title>
+  <meta name="description" content="REBORN-UI-POLISH-02 — physical-device legibility validation <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "curr">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-validation-reborn-ui-polish-02.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="REBORN-UI-POLISH-02 — physical-device legibility validation - Innioasis Updater">
+  <meta property="og:description" content="REBORN-UI-POLISH-02 — physical-device legibility validation <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "curr">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-validation-reborn-ui-polish-02.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="REBORN-UI-POLISH-02 — physical-device legibility validation - Innioasis Updater">
+  <meta name="twitter:description" content="REBORN-UI-POLISH-02 — physical-device legibility validation <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "curr">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>REBORN-UI-POLISH-02 — physical-device legibility validation</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="reborn-ui-polish-02--physical-device-legibility-validation">REBORN-UI-POLISH-02 — physical-device legibility validation</h1>
+<!-- knowledge-base-scope: scoped-validation-record -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_REBORN_STATE.md) for the latest physically observed result.
+<p>Status: host-validated candidate; manual Y2 installation and physical viewing remain intentionally pending.</p>
+<p>This is a presentation-layer polish pass on the reset UI. <code>AppModel</code>, typed <code>Action</code>/<code>Effect</code> flow, platform services, playback, storage, radios, power, and the native GLES renderer remain in place. Y2Linux source was not changed.</p>
+<h2 id="native-size-review">Native-size review</h2>
+<p>All previews are deterministic Quad renders at exactly <strong>480×360</strong>. They were reviewed at 1:1 pixel size after rasterization; the supplied reference PNGs were used as composition targets, never as shipped UI backgrounds.</p>
+<p>Preview directory:</p>
+<p><code>/home/luca/Dokumente/Code/Y2Reborn/out/reborn-ui-polish-02/previews/</code></p>
+<table><thead><tr><th>Screen</th><th>Preview</th></tr></thead><tbody><tr><td>Now Playing</td><td><code>now-playing.png</code></td></tr><tr><td>Library</td><td><code>library.png</code></td></tr><tr><td>Artist</td><td><code>artist.png</code></td></tr><tr><td>Queue</td><td><code>queue.png</code></td></tr><tr><td>Settings</td><td><code>settings.png</code></td></tr><tr><td>Quick Settings</td><td><code>quick-settings.png</code></td></tr><tr><td>Lock / minimal player</td><td><code>lock.png</code></td></tr><tr><td>Boot</td><td><code>boot.png</code></td></tr></tbody></table>
+<p>The preview generator is <code>app/reborn/src/bin/reborn-preview.rs</code>; the host rasterizer is <code>tools/preview/render_previews.py</code>.</p>
+<h2 id="physical-size-tokens">Physical-size tokens</h2>
+<p>The pack palette remains the source of truth. <code>TEXT_MUTED</code> is lifted from the pack&#x27;s <code>#747A83</code> to <code>#858B93</code> for functional readability at normal handheld distance; operational secondary information uses the unchanged brighter secondary tier. No screen contains required information below 12 px.</p>
+<table><thead><tr><th>Token</th><th style="text-align:right">Polish value</th></tr></thead><tbody><tr><td>Hero / track title</td><td style="text-align:right">26 px</td></tr><tr><td>Screen title</td><td style="text-align:right">22 px</td></tr><tr><td>Section title</td><td style="text-align:right">18 px</td></tr><tr><td>Primary row</td><td style="text-align:right">16 px</td></tr><tr><td>Body</td><td style="text-align:right">14 px</td></tr><tr><td>Secondary / compact functional</td><td style="text-align:right">12 px</td></tr><tr><td>Decorative label only</td><td style="text-align:right">10 px</td></tr><tr><td>Normal interactive row</td><td style="text-align:right">54 px</td></tr><tr><td>Status bar</td><td style="text-align:right">32 px</td></tr><tr><td>Mini-player strip</td><td style="text-align:right">y=306, 54 px</td></tr><tr><td>Now Playing artwork</td><td style="text-align:right">168×168 px</td></tr><tr><td>List artwork</td><td style="text-align:right">48×48 px</td></tr><tr><td>Album grid</td><td style="text-align:right">2×2 visible, 72 px artwork</td></tr><tr><td>Focus outline</td><td style="text-align:right">2 px warm gold</td></tr></tbody></table>
+<p>Functional text advance was tightened from the reset pass to reduce tracking on the physical panel. Integer coordinates are retained throughout the screen composition. DejaVu Sans and DejaVu Serif are the packaged, licensed atlas fonts (<code>assets/fonts/DejaVu*.LICENSE</code>) used by the existing native renderer.</p>
+<h2 id="state-and-focus-policy">State and focus policy</h2>
+<p><code>Canvas::active_panel</code> is used for current/selected state: a quiet surface, gold icon/text, and a small accent marker. <code>Canvas::focus_panel</code> is reserved for the one item that Select would activate. <code>Quad.focus_target</code> is validation metadata ignored by native rendering; UI tests count it to enforce the one-focus invariant.</p>
+<p>Playing/current state is separate from focus. Disabled items remain muted and are not focusable. Modal composition clears the underlying focus markers before emitting its single modal target.</p>
+<h2 id="screen-by-screen-report">Screen-by-screen report</h2>
+<h3 id="now-playing">Now Playing</h3>
+<ul><li>Primary: 168 px artwork, 26 px title, 18 px artist, visible progress and<p>12 px elapsed/remaining time.</p></li><li>Secondary: 14 px album and a single readable <code>codec · sample rate</code> line;<p>channel count was removed from the normal view.</p></li><li>Smallest functional font: 12 px.</li><li>One focused target: the volume panel, matching the screen&#x27;s wheel semantics.</li><li>No mini-player; the lower strip is volume, output, and gain status.</li><li>Runtime titles and metadata use ellipsis when necessary; no continuous<p>marquee is used.</p></li><li>Playback glyphs are state indicators, not touch buttons.</li></ul>
+<h3 id="library">Library</h3>
+<ul><li>The six-card grid was replaced with four cards in a 2×2 wheel window.</li><li>Album title is 14 px and artist is 12 px; the library rail is 14 px body<p>text with 22 px icons.</p></li><li>One focused album card; the active <code>Albums</code> category uses only the active<p>marker and does not look focused.</p></li><li>Four list rows are visible on non-album library pages.</li><li>Mini-player is reserved at the bottom and never overlaps content.</li><li>Runtime album/artist names may truncate; static category labels do not.</li></ul>
+<h3 id="artist">Artist</h3>
+<ul><li>Artist name is 26 px with real track/album counts; fabricated genre copy was<p>removed.</p></li><li>Two readable top tracks and two real album entries are shown; the wheel can<p>scroll the underlying collection instead of shrinking the content.</p></li><li>One focused action/track target; album artwork is informational on this view.</li><li>Mini-player is present with a fixed 54 px reservation.</li></ul>
+<h3 id="queue">Queue</h3>
+<ul><li>Current track is separated from <code>Up Next</code> with a gold current marker.</li><li>Four 48 px queue entries are shown with 16 px titles, 12 px artist/status<p>lines, 12 px durations, and 36 px artwork.</p></li><li>Exactly one upcoming row is focused; current/playing is not a focus outline.</li><li>Permanent right-side menu/drag handles were removed. Queue operations remain<p>available through the physical Menu/context action, including explicit Move Up/Move Down actions.</p></li><li>No mini-player is shown because Queue already owns the current-track area.</li></ul>
+<h3 id="settings">Settings</h3>
+<ul><li>The pack&#x27;s left-category/right-value composition is retained.</li><li>Categories use 14 px text; setting labels use 16 px; values use 12 px.</li><li>Three 54 px rows are visible at once; scrolling is intentional.</li><li>Exactly one right-pane row is focused. The selected left category is active<p>only, with a marker and gold icon.</p></li><li>Static names were shortened to <code>Equalizer</code> and <code>Audio Info</code>; no controlled<p>label is ellipsized.</p></li><li>Mini-player is present and occupies the explicit bottom strip.</li></ul>
+<h3 id="quick-settings">Quick Settings</h3>
+<ul><li>Two large focused connectivity cards remain the first page.</li><li>Real lower status panels are <code>Paired Devices</code>, <code>Saved Networks</code>, <code>Output</code>,<p>and <code>Screen Timeout</code>; the unsupported <code>Network &amp; Sync</code> placeholder was removed.</p></li><li>Card titles are 18 px and states are 12 px natural-language values such as<p><code>None</code>, <code>1 saved</code>, <code>Off</code>, or <code>Wired</code>.</p></li><li>One focused card; lower status panels are not presented as fake touch<p>controls. Mini-player is present.</p></li></ul>
+<h3 id="lock--minimal-player">Lock / minimal player</h3>
+<ul><li>Artwork is 128 px to make room for a readable sequence: 18 px title, 14 px<p>artist, 12 px album, progress, 12 px times, transport indicators, and output/volume status.</p></li><li>The view is a non-navigable minimal playback state, so it has no navigation<p>focus target; physical playback/volume controls remain global.</p></li><li>It has no mini-player and no permanent footer branding. Actual display sleep<p>still powers the panel off rather than continuously rendering this view.</p></li></ul>
+<h3 id="boot">Boot</h3>
+<ul><li>Reborn/Y2 identity and the pack&#x27;s artwork-led composition remain unchanged.</li><li>The progress bar is now explicitly indeterminate (<code>STARTING REBORN</code>) rather<p>than implying a fabricated percentage.</p></li><li>Branding remains here because it is a boot/loading context, not an<p>operational footer.</p></li></ul>
+<h2 id="truncation-and-animation">Truncation and animation</h2>
+<p>Static labels are authored to fit their controlled bounds. Runtime track, artist, album, Bluetooth, Wi-Fi, and SSID strings use a single ellipsis policy; there is no always-running marquee and no decorative animation loop. A future focused-item marquee, if needed on-device, must remain delayed and singular.</p>
+<h2 id="physical-input-contract-retained">Physical input contract retained</h2>
+<p>The existing input boundary remains:</p>
+<p><code>evdev device/keycode → InputManager → NormalizedInput → ActionRouter → Action → Ui/AppModel → Effect → service</code></p>
+<p>The audited physical mappings are:</p>
+<table><thead><tr><th>Physical control</th><th>Linux source</th><th>Normalized event</th><th>Semantic action</th></tr></thead><tbody><tr><td>Select</td><td><code>Y2 navigation buttons</code>, <code>EV_KEY 28</code></td><td>press/release; long at 650 ms</td><td>Select / ContextMenu</td></tr><tr><td>Back</td><td><code>Y2 navigation buttons</code>, <code>EV_KEY 158</code></td><td>press/release; long</td><td>Back / Home</td></tr><tr><td>Previous</td><td>navigation <code>105</code> or keypad <code>165</code></td><td>press/release/repeat; long</td><td>Previous / SeekBackward</td></tr><tr><td>Next</td><td>navigation <code>106</code> or keypad <code>163</code></td><td>press/release/repeat; long</td><td>Next / SeekForward</td></tr><tr><td>Play/Pause</td><td>navigation <code>164</code> or keypad <code>57</code></td><td>press/release; long</td><td>PlayPause / ShowNowPlaying</td></tr><tr><td>Power</td><td><code>mtk-pmic-keys</code>, <code>EV_KEY 116</code></td><td>press/release; long</td><td>ScreenSleep / ScreenWake / PowerMenu</td></tr><tr><td>Volume −</td><td>any supported device, <code>EV_KEY 114</code></td><td>press/repeat</td><td>VolumeDown</td></tr><tr><td>Volume +</td><td>any supported device, <code>EV_KEY 115</code></td><td>press/repeat</td><td>VolumeUp</td></tr><tr><td>Wheel clockwise</td><td>click wheel <code>EV_REL 8</code> or key <code>108/109</code></td><td>WheelClockwise</td><td>list down, or volume up in Now Playing</td></tr><tr><td>Wheel counter-clockwise</td><td>click wheel <code>EV_REL 8</code> or key <code>103/104</code></td><td>WheelCounterClockwise</td><td>list up, or volume down in Now Playing</td></tr></tbody></table>
+<p>Long-press threshold is 650 ms; repeat starts at 400 ms and repeats every 90 ms. Wheel acceleration is centralized and caps at six steps. Long press suppresses the matching short release. Only Power produces ScreenWake while the display is off; volume and selected playback controls continue without waking, while wheel/navigation/select/back are ignored.</p>
+<h2 id="validation-performed-for-this-pass">Validation performed for this pass</h2>
+<ul><li><code>cargo fmt --all -- --check</code></li><li><code>cargo test -p reborn-ui</code> — 10 passed, including one-focus, static-label,<p>wheel, context-menu, destructive-confirmation, and password-hiding tests.</p></li><li><code>cargo check --workspace</code></li><li>deterministic preview generation and native 480×360 rasterization</li><li>Y2Linux working tree remained unchanged; no platform patch was required</li></ul>
+<p>ARM release, offline Buildroot/rootfs packaging, hashes, and manual installation coordinates are recorded after the committed source is built.</p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-33 — Reborn skins (themes) - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-33 — Reborn skins themes Status: INSTALLED 2026-10-14; owner: themes work; superseded by 34. Package out/y2linux-platform-v1-power-final-candidate-33/ fallbac">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-33.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-33 — Reborn skins (themes) - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-33 — Reborn skins themes Status: INSTALLED 2026-10-14; owner: themes work; superseded by 34. Package out/y2linux-platform-v1-power-final-candidate-33/ fallbac">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-33.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-33 — Reborn skins (themes) - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-33 — Reborn skins themes Status: INSTALLED 2026-10-14; owner: themes work; superseded by 34. Package out/y2linux-platform-v1-power-final-candidate-33/ fallbac">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-33 — Reborn skins (themes)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-33--reborn-skins-themes">POWER-FINAL-33 — Reborn skins (themes)</h1>
+<p>Status: <strong>INSTALLED</strong> (2026-10-14; owner: themes work; superseded by 34). Package <code>out/y2linux-platform-v1-power-final-candidate-33/</code> (fallback = 32), receipts <code>out/deep-sleep-final/build33-receipts/</code>. BOOTIMG <code>1d19f28869cee65203c7e68bdae639e4bc3be523e0cbe77ba31cedd0a43d3eb2</code>, Y2ROOT <code>2d9b07a61c24b0f26f3d3a23be5d069efec7cb7a43c09f4ec9d132aeff1d7788</code>. Identity: build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-33</code>, kernel <code>6.18.56-y2linux-platform-v1-power-final-33</code>, root <code>2026.08-platform-v1.63</code>, release <code>1.0.0-platform-v1-power-final-candidate.33</code>; Linux <code>b42a391</code>, Reborn <code>76e681d</code> (skins <code>e4b175b</code>, vendor <code>cfd21df</code>, CLI fix <code>76e681d</code>). Contains 27–32; kernel and platform unchanged from 32 apart from the identity.</p>
+<h2 id="why">Why</h2>
+<p>Owner: keep Reborn&#x27;s own UI, but let people choose themes that give it a totally different look (e.g. a classic click-wheel player), switchable in Reborn and addable on the device. Scope audit: <code>docs/planning/roadmap-gap-audit.md</code> (POWER-FINAL-33). Steps 1 (engine, format, Classic) and 2 (every screen, TTF fonts, picker, install from storage); the web editor and polish are later steps.</p>
+<h2 id="what-33-changes">What 33 changes</h2>
+<table><thead><tr><th>Area</th><th>Change</th></tr></thead><tbody><tr><td>Skin format</td><td>Folder with <code>skin.json</code>, PNG/JPEG/WebP pictures (≤480×360), TTF/OTF fonts; strict validation, contrast check, limits. Author guide: Y2Reborn <code>docs/skins.md</code>.</td></tr><tr><td>Screens</td><td>Layouts per screen with category fallback (home, now_playing, list, page, sheet/dialog, toast, volume, one name per screen). Undescribed screens and built-in parts (Cover Flow, equalizer, text entry, USB, Power hold) are Reborn&#x27;s own drawing in the skin&#x27;s palette.</td></tr><tr><td>Picker</td><td>Settings → Display → Theme; list rescanned on open; live switch; refused skins keep the current look and say why; choice persisted (<code>Settings.theme</code>). `rebornctl theme [ID</td></tr><tr><td>Install</td><td>Shipped: <code>/usr/share/reborn/skins/classic</code> (Open Sans, OFL in legal-info). User: a skin folder in <code>Themes</code> on Internal Storage or the SD card (via MTP).</td></tr><tr><td>Default look</td><td>Unchanged: every host preview state byte-identical to Reborn <code>0892bf2</code> except Display (new Theme row).</td></tr></tbody></table>
+<h2 id="tests">Tests</h2>
+<p>Reborn: 397 tests (skin compiler/interpreter, folder containment, picture decode, picker), clippy <code>-D warnings</code>, the architecture guard (UI does no I/O). Host headless run: list, switch to a <code>Themes</code> skin, refuse a broken one with the reason, back to Reborn, restore after restart (load 95 ms debug build on the host). Platform: <code>validate.py</code> PASS, ELF closure 354 PASS, installed ARM PASS (40 modules), privacy clean, inventory 108 packages, container suite <strong>713 OK</strong> (<code>test_power_final_33</code> added to the suite after the build; passes on the host).</p>
+<h2 id="owner-checks-after-the-flash">Owner checks after the flash</h2>
+<ol><li>Settings → Display → Theme: Reborn and Classic listed; choose Classic, browse Home, Songs, Albums (Cover Flow),<p>Now Playing, Settings, a song&#x27;s options, volume; screen off/on and one sleep with Classic active.</p></li><li>Copy a skin folder (e.g. a copy of Classic renamed and with another <code>name</code>) into <code>Themes</code> on Internal Storage<p>over MTP; reopen the picker; it appears and applies. Same on the SD card.</p></li><li>Restart (hold Power): the chosen theme comes back. Choose Reborn: the original look returns.</li><li><code>rebornctl theme --json</code> over SSH shows <code>load_ms</code> in the log event <code>skin_loaded</code>.</li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

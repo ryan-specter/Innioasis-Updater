@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M2-PWRAP-01 — USB power prerequisite ready for device test - Innioasis Updater</title>
+  <meta name="description" content="M2-PWRAP-01 — USB power prerequisite ready for device test <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate ident">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-pwrap-01-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M2-PWRAP-01 — USB power prerequisite ready for device test - Innioasis Updater">
+  <meta property="og:description" content="M2-PWRAP-01 — USB power prerequisite ready for device test <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate ident">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-pwrap-01-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M2-PWRAP-01 — USB power prerequisite ready for device test - Innioasis Updater">
+  <meta name="twitter:description" content="M2-PWRAP-01 — USB power prerequisite ready for device test <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate ident">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M2-PWRAP-01 — USB power prerequisite ready for device test</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m2-pwrap-01--usb-power-prerequisite-ready-for-device-test">M2-PWRAP-01 — USB power prerequisite ready for device test</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<blockquote><p>Subsequent <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-pwrap-hardware-result.md">physical photographs</a> confirm PWRAP RC=0, CID=0x2023, VUSB=0xc000 and BEAT 50. Timer IRQ reporting returns -61; source-backed parser diagnosis is recorded. Exact flashed hash and restoration outcome remain unreported. Original handoff below is historical.</p></blockquote>
+<p>2026-09-09. #23 prerequisite for #27, under active M2 #28. <strong>Offline validated; not flashed or hardware validated.</strong> M1 remains complete. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-pwrap-probe.md">Contract and source evidence</a>.</p>
+<h2 id="candidate">Candidate</h2>
+<p><code>/home/luca/Dokumente/Code/Y2Linux/out/m2-pwrap-01/BOOTIMG.img</code></p>
+<p><strong>1,093,632 bytes</strong>; SHA-256: <code>c51102c861d65d39f5af2425ed73e9c1ba21d8adaae1b016f450a58630946ac0</code>.</p>
+<p>Kernel release <code>6.18.0-y2-m2-pwrap1</code>; title/build <code>M2-PWRAP-01</code>. The earlier fallback remains <code>out/m1-y2b250-time32/BOOTIMG.img</code>, SHA-256 <code>074c3e6946e6e8ac61bc1df0da4fa53807071dd50ae3db4def97563c9207afce</code>. The owner-proven stock/FM BOOTIMG restoration boundary is unchanged.</p>
+<h2 id="change-and-validation">Change and validation</h2>
+<p>One cached probe starts after the first successful heartbeat. It first checks inherited PWRAP state; if usable, it requests PMIC CID and then VUSB status. Only wrapper read-command and completed-response acknowledgement writes occur. No PMIC register, rail/charger, clock/PHY/calibration, loader or storage write is implemented. USB is still disabled; no ttyACM enumeration is expected yet.</p>
+<ul><li>One clean build, Clang/LLD 20.1.8 and pinned Linux v6.18. The absent extracted<p>build environment was reconstructed from the existing locked cache; no new dependency version or repeated full source/ROM/recovery audit was selected.</p></li><li>The actual production PWRAP state machine passes 20 host fault scenarios;<p>production PID1 passes 13 QEMU ARM scenarios, including failed/short/invalid probe reads and timeout status while continuing all 50 heartbeats. These prebuild results are retained as a summary, not represented as hardware logs.</p></li><li>16 build validation test methods pass, covering D08, package/formats, overlays,<p>renderer/guard, emitted watchdog instructions, actual artifact corruptions and linked time32 syscall behavior. Final artifact tests also pass after adding probe source/identity to the report. No compiler warning/error was emitted.</p></li><li>Linked ARM review confirms PID1-only 48-byte snapshots, caching before access,<p>exact resource span, CID read command <code>0x00800000</code>, guarded VUSB read command <code>0x02810000</code>, and completion acknowledgement <code>0xa4=1</code>. Fixed 1000-poll loops, no stale response clearing or reset/retry path. No new syscall is introduced.</p></li><li>Resolved configuration differs from the last time32 candidate only in<p><code>LOCALVERSION</code>. DT source is unchanged; generated initrd-end follows the new 4,663-byte gzip. CPU0, D08, excluded framebuffer and D12 instructions persist.</p></li><li><a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-pwrap-01-layout.json" target="_blank" rel="noopener noreferrer">Layout</a> and<p><a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-pwrap-01-iteration.json" target="_blank" rel="noopener noreferrer">iteration record</a> retain exact dimensions. Resident kernel is <code>[0x80008000,0x8029d4f0)</code>; initramfs ends <code>0x84001237</code>; decompressor workspace ends <code>0x8038e098</code>. BOOTIMG wrappers/read tail and the 16 MiB BOOTIMG partition limit pass. No RAM policy or DMA ownership changes.</p></li></ul>
+<p>The ignored output bundle retains the project source snapshot, lock, ELFs, resolved config, test/build logs, focused disassembly, layout and SHA256SUMS. No physical Y2 command, flash or restore was performed in this session.</p>
+<h2 id="requested-owner-test-and-exact-evidence">Requested owner test and exact evidence</h2>
+<p>Use the existing proven <strong>BOOTIMG-only</strong> test procedure when ready. This handoff is a stop for the owner&#x27;s physical test, not an automatic flash. Stock preloader, LK, partition tables and calibration remain protected. Observe for at most <strong>60 seconds from power-on</strong>, with the existing manual recovery boundary.</p>
+<p>Expected: logo, guarded diagnostic screen, first heartbeat, briefly <code>READ PWRAP / NO PMIC WRITES</code>, then continuing heartbeat/status. Normal terminal stage is <code>STOP: RESTORE ANDROID</code> after 50 successful sleeps. Probe denial/error must remain visible while heartbeat continues. An MMIO hang may leave the pre-probe stage frozen; do not retry a different address or image automatically.</p>
+<p>Return:</p>
+<ol><li>Confirm the selected candidate SHA-256 (and flashed/readback identity if the<p>proven procedure supplies it); a version string alone is not hash evidence.</p></li><li>A readable <strong>full-screen photo around BEAT 5–10</strong>, and another at BEAT 50/STOP<p>or the exact last visible stage on failure. Include PWRAP RC/VALID, MUX/WRAP/ WACS/INIT, ARB/PRE, CID/VUSB and POST, plus BEAT/FRAME, MemTotal, uptime, timer IRQ, sleep/mount status and LAST ERR. Exact transcription is sufficient if no photo is possible; do not infer fields that were not recorded.</p></li><li>Host elapsed time from power-on and between the observations; whether the<p>USB cable stayed attached, and any freeze, reset or display change.</p></li><li>The result of the usual authorized BOOTIMG-only return to the known-good<p>system, if performed. Do not broaden a failed restore to other partitions.</p></li></ol>
+<p>Interpretation: <code>RC:0 VALID:3</code> means both transactions completed and CID low byte matched <code>0x23</code>; the full CID/revision is recorded, not predetermined. VUSB bit 14 is software enable and bit 15 the reported enable status. A zero VUSB bit is useful evidence, not permission to turn it on. <code>VALID:1</code> means only CID is valid; <code>VALID:0</code> means neither value is confirmed. <code>-19</code> is an initialization/identity refusal, <code>-16</code> busy/stale/resource refusal, <code>-110</code> timeout and <code>-5</code> lost/invalid state. A syscall/protocol failure is shown separately as <code>PWRAP READ ERR</code>.</p>
+<p>This trial cannot close #23 or #27 by itself. Next, use the actual result to select the smallest transport/supply fix or continue the remaining USB clock/PHY/VBUS/FIFO/IRQ/DMA contract. M2 exit, media/input/standard display and basic battery/charger information remain unqualified. M3 stays deferred.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

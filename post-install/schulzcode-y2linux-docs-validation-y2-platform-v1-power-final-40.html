@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-40 — handover snapshot for the restart display defect - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-40 — handover snapshot for the restart display defect Status: SEALED, awaiting the owner flash 2026-10-15. Package out/y2linux-platform-v1-power-final-candida">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-40.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-40 — handover snapshot for the restart display defect - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-40 — handover snapshot for the restart display defect Status: SEALED, awaiting the owner flash 2026-10-15. Package out/y2linux-platform-v1-power-final-candida">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-40.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-40 — handover snapshot for the restart display defect - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-40 — handover snapshot for the restart display defect Status: SEALED, awaiting the owner flash 2026-10-15. Package out/y2linux-platform-v1-power-final-candida">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-40 — handover snapshot for the restart display defect</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-40--handover-snapshot-for-the-restart-display-defect">POWER-FINAL-40 — handover snapshot for the restart display defect</h1>
+<p>Status: <strong>SEALED, awaiting the owner flash</strong> (2026-10-15). Package <code>out/y2linux-platform-v1-power-final-candidate-40/</code> (fallback = 39), receipts <code>out/deep-sleep-final/build40-receipts/</code>. BOOTIMG <code>bc44a93d183ea980a4755eef95f0b935dbd491a86084eda1d87c93870d68d503</code>, Y2ROOT <code>37198d908a7e3fc99265e227f596993dfd2e2ed9b543cfd64e42d900cfd6392d</code>, RECOVERY <code>ad06315e34500c6a33d90f8d6e81867d5c03409a12cdec57c2d6fac8de16d1f6</code>. Kernel <code>6.18.56-y2linux-platform-v1-power-final-40</code>, release <code>…candidate.40</code>, update sequence 4000. Container suite <strong>718 OK</strong>, all seal checks PASS. Diagnostic only; contains 39.</p>
+<h2 id="why">Why</h2>
+<p>After a software restart SMI larb0 reads busy (39, archives 137/138), also when the display was stopped before the restart. Unknown: is larb0 already busy when Linux takes over LK&#x27;s pipeline, or does our handover wedge it?</p>
+<table><thead><tr><th>Change</th><th>Detail</th></tr></thead><tbody><tr><td>Handover snapshots</td><td><code>/sys/kernel/debug/y2_display_snapshot</code> slots 2 (<code>handover</code>, DSI probe before Linux touches LK&#x27;s live pipeline) and 3 (<code>parked</code>), first probe of the boot only; larb0 0x400–0x4fc added.</td></tr><tr><td>Log</td><td><code>handoff: snapshot …</code> and <code>handoff: parked …</code> with larb0 stat/greq, OVL status, OVL RDMA0, RDMA irq.</td></tr></tbody></table>
+<h2 id="device-results--root-cause-found">Device results — root cause found</h2>
+<p>Cold start (archive <code>20261016/139</code>) and one software restart (archive 140, panel dark). At **handover, before Linux touches anything** (slot 2), the restart differs from the cold start in exactly the way that explains the defect:</p>
+<table><thead><tr><th>Register</th><th>Cold</th><th>Restart</th></tr></thead><tbody><tr><td><code>MMSYS_CG_CON0</code> (0x14000100)</td><td>0</td><td><strong>1 — SMI common clock gated</strong></td></tr><tr><td>SMI common config (0x14011200/228/230/234/300/404)</td><td>configured</td><td>0 (gated block reads zero)</td></tr><tr><td>larb0 status / GREQ (0x14010000 / 0x450)</td><td>0 / 0</td><td><strong>1 / 1 — request pending</strong></td></tr><tr><td>OVL status</td><td>0x1e</td><td>0x1f (still running)</td></tr></tbody></table>
+<p>Linux gates SMI common when the display and GPU release it at shutdown; the watchdog restart keeps <code>MMSYS_CG_CON0</code>; LK assumes the cold default, shows its logo, and its first fetch through larb0 never completes. Every later symptom (full OVL FIFO, no RDMA frame, no vblank, mutex timeout) follows. 38&#x27;s external reset and 39&#x27;s mutex reset could not help. Fix: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-PLATFORM-V1-POWER-FINAL-41.md">POWER-FINAL-41</a>.</p>
+<h2 id="owner-steps">Owner steps</h2>
+<ol><li>Flash 40 (BOOTIMG + ANDROID). Cold start: the agent saves the snapshots.</li><li>With the owner&#x27;s OK: one software restart; the panel will likely stay dark. The agent saves the snapshots, then<p>the owner holds Power 10 s. Diff cold/warm at <code>handover</code> and <code>parked</code>.</p></li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

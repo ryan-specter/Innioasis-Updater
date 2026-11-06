@@ -33,39 +33,6 @@
     box-sizing: border-box !important;
     transition: bottom 0.25s ease, margin-bottom 0.25s ease !important;
   }
-  #support-toolbar-container .y1-consent-banner {
-    pointer-events: auto !important;
-    position: fixed !important;
-    left: 50% !important;
-    bottom: calc(52px + env(safe-area-inset-bottom, 0px)) !important;
-    transform: translateX(-50%) !important;
-    z-index: 10005 !important;
-    width: min(760px, calc(100vw - 20px)) !important;
-    box-sizing: border-box !important;
-  }
-  #support-toolbar-container .y1-consent-banner[hidden] {
-    display: none !important;
-  }
-  #support-toolbar-container .y1-consent-banner:not([hidden]) {
-    display: flex !important;
-  }
-  #support-toolbar-container .y1-consent-banner * {
-    pointer-events: auto !important;
-  }
-  body.y1-consent-banner-open #support-toolbar-container .y1-site-dock-wrap {
-    bottom: 0 !important;
-    margin-bottom: 0 !important;
-    z-index: 10001 !important;
-  }
-  @media (max-width: 768px) {
-    #support-toolbar-container .y1-consent-banner {
-      bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
-    }
-    body.y1-consent-banner-open #support-toolbar-container .y1-site-dock-wrap {
-      bottom: 0 !important;
-      margin-bottom: 0 !important;
-    }
-  }
   .y1-dock-backdrop {
     position: fixed !important;
     inset: 0 !important;
@@ -394,17 +361,6 @@
 </style>
 <div id="support-toolbar-container">
   <div class="y1-dock-backdrop" data-dock-backdrop hidden></div>
-  <div class="y1-consent-banner" id="y1-consent-banner" role="region" aria-live="polite" aria-label="Privacy choices" hidden>
-    <div class="y1-consent-banner-copy">
-      <p class="y1-consent-banner-title"><strong>No cookies. No fingerprinting.</strong></p>
-      <p class="y1-consent-banner-text">Innioasis.app  -  the site for Updater Community Edition  -  does not use cookies or browser fingerprinting. We remember your site theme and text size, and only the preferences you allow.</p>
-    </div>
-    <div class="y1-consent-banner-actions">
-      <button type="button" class="y1-consent-btn y1-consent-btn--accept" data-consent-accept>Accept all</button>
-      <button type="button" class="y1-consent-btn" data-consent-essential>Essential only</button>
-      <button type="button" class="y1-consent-btn y1-consent-btn--link" data-consent-manage>Manage</button>
-    </div>
-  </div>
   <div class="y1-site-dock-wrap">
     <div class="y1-donate-panel" id="y1-donate-panel" role="dialog" aria-modal="false" aria-labelledby="y1-donate-title" hidden>
 
@@ -486,26 +442,28 @@
       <div class="y1-donate-panel-header">
         <div>
           <p class="y1-donate-panel-title">Your privacy on Innioasis.app</p>
-          <h2 class="y1-donate-panel-hook" id="y1-privacy-title">No cookies. No fingerprinting.</h2>
+          <h2 class="y1-donate-panel-hook" id="y1-privacy-title">No cookies. No tracking.</h2>
         </div>
         <button class="y1-donate-close" type="button" data-privacy-close aria-label="Close privacy notice">×</button>
       </div>
       <div class="y1-privacy-body">
-        <p><strong data-i18n-skip>Innioasis.app  -  the site for Updater Community Edition  -  does not use cookies and does not do any browser fingerprinting.</strong> There are no trackers, no analytics beacons, and no third-party ads.</p>
+        <p><strong data-i18n-skip>Innioasis.app  -  the site for Updater Community Edition  -  does not track you, does not identify you, and does not use cookies or browser fingerprinting.</strong> There are no analytics beacons, no advertising and no third-party trackers.</p>
+        <p>You choose what this browser remembers. Nothing below is stored until you save, and anything you leave unticked stays off.</p>
         <div class="y1-privacy-options" aria-label="What the site may remember">
           <label class="y1-privacy-option">
-            <span class="y1-privacy-option-label"><strong>Remember my "was this useful?" answers</strong><small>Asked on the guide pages.</small></span>
+            <span class="y1-privacy-option-label"><strong>Remember my "was this useful?" answers</strong><small>Asked on the guide pages. Turning this off forgets your saved answers.</small></span>
             <input type="checkbox" class="y1-privacy-toggle" data-privacy-feedback>
           </label>
           <label class="y1-privacy-option">
-            <span class="y1-privacy-option-label"><strong>Remember my nightly-builds choice</strong><small>Used on the software directory.</small></span>
+            <span class="y1-privacy-option-label"><strong>Remember my nightly-builds choice</strong><small>Used on the software directory. Off shows stable releases only.</small></span>
             <input type="checkbox" class="y1-privacy-toggle" data-privacy-nightly>
           </label>
-          <label class="y1-privacy-option">
-            <span class="y1-privacy-option-label"><strong>Show donation appeals and running costs</strong><small>Turn this off to hide every request for support.</small></span>
+          <label class="y1-privacy-option" data-privacy-donations-row hidden>
+            <span class="y1-privacy-option-label"><strong>Show donation appeals and running costs</strong><small>Only shown because you turned donations off. Tick this and save to bring them back.</small></span>
             <input type="checkbox" class="y1-privacy-toggle" data-privacy-donations>
           </label>
         </div>
+        <p class="y1-privacy-status" data-privacy-status role="status" aria-live="polite"></p>
         <p class="y1-privacy-note">Your site theme and text size are always remembered  -  they are the look and readability you chose. Links to YouTube, Discord, Ko-fi, Buy Me a Coffee, PayPal, Revolut, Patreon, and Boosty open those sites' own pages, which have their own policies.</p>
       </div>
       <div class="y1-privacy-actions">
@@ -537,8 +495,8 @@
       <div class="y1-dock-secondary-line" id="y1-dock-secondary-line" aria-label="Running costs and community contributions - click to support" role="button" tabindex="0">
         <div class="y1-dock-secondary-goal-view" id="y1-dock-secondary-goal-view">
           <span class="y1-dock-secondary-text" id="y1-dock-secondary-text">
-            <span class="y1-dock-text-desktop">You've helped us cover $0 of our $200 hosting bill this month.</span>
-            <span class="y1-dock-text-mobile">$0 of $200 hosting costs covered this month</span>
+            <span class="y1-dock-text-desktop">You've helped us raise $0 of our $10 costs for today.</span>
+            <span class="y1-dock-text-mobile">You've helped us raise $0 of our $10 costs for today.</span>
           </span>
           <div class="y1-dock-secondary-bar-wrap" id="y1-dock-secondary-bar-wrap" aria-hidden="true"><div class="y1-dock-secondary-bar-fill" id="y1-dock-secondary-bar-fill"></div></div>
         </div>
@@ -548,11 +506,11 @@
       </div>
       <div class="y1-dock-goal-layer is-goal-view" id="y1-dock-goal-layer" aria-hidden="true" hidden tabindex="-1">
         <div class="y1-dock-idle-goal-view" id="y1-dock-idle-goal-view">
-          <span class="y1-dock-idle-heart" id="y1-dock-idle-goal-heading">Help us cover this month's hosting bill</span>
+          <span class="y1-dock-idle-heart" id="y1-dock-idle-goal-heading">Help us cover today's running costs</span>
           <div class="y1-dock-goal-bar-wrap" aria-hidden="true">
             <div class="y1-dock-goal-bar-fill" id="y1-dock-idle-bar-fill"></div>
           </div>
-          <span class="y1-dock-goal-text" id="y1-dock-idle-goal-text">You've helped us cover $0 of our $200 hosting bill this month.</span>
+          <span class="y1-dock-goal-text" id="y1-dock-idle-goal-text">You've helped us raise $0 of our $10 costs for today.</span>
         </div>
         <div class="y1-dock-idle-ticker-view" id="y1-dock-idle-ticker-view" aria-live="polite" hidden>
           <span class="y1-dock-idle-ticker" id="y1-dock-idle-ticker-text">Loading...</span>
@@ -596,7 +554,21 @@
     "asia/yakutsk": true,
     "asia/vladivostok": true,
     "asia/magadan": true,
-    "asia/kamchatka": true
+    "asia/kamchatka": true,
+    "europe/volgograd": true,
+    "europe/kirov": true,
+    "europe/saratov": true,
+    "europe/astrakhan": true,
+    "europe/ulyanovsk": true,
+    "europe/simferopol": true,
+    "asia/tomsk": true,
+    "asia/barnaul": true,
+    "asia/novokuznetsk": true,
+    "asia/chita": true,
+    "asia/sakhalin": true,
+    "asia/srednekolymsk": true,
+    "asia/ust-nera": true,
+    "asia/khandyga": true
   };
 
   function detectTerritory() {
@@ -840,7 +812,7 @@
   function fxUnit(code) {
     code = String(code || "USD").toUpperCase();
     var r = fxRate(code);
-    if (FX_ZERO[code] || r >= 0.5) return 1.0;
+    if (FX_ZERO[code] || r >= 10) return 1.0;
     return 0.01;
   }
 
@@ -851,9 +823,9 @@
 
   function fxGoal(usd, code) {
     var r = fxRate(code);
-    var value = Number(usd || 0) * (r > 1.0 ? r : 1.0);
-    var q = value >= 20000 ? 1000.0 : (value >= 2000 ? 100.0 : (value >= 200 ? 10.0 : 1.0));
-    return Math.ceil(value / q - 1e-9) * q;
+    var value = Number(usd || 0) * r;
+    if (r >= 10) return Math.round(value);
+    return Math.round(value * 100) / 100;
   }
 
   function fxShare(raised, target) {
@@ -868,12 +840,13 @@
   var privacyOpen = document.querySelector("[data-privacy-open]");
   var privacyClose = document.querySelector("[data-privacy-close]");
   var backdrop = document.querySelector("[data-dock-backdrop]");
-  var banner = document.getElementById("y1-consent-banner");
   var feedbackToggle = document.querySelector("[data-privacy-feedback]");
   var nightlyToggle = document.querySelector("[data-privacy-nightly]");
   var donationsToggle = document.querySelector("[data-privacy-donations]");
   var donationsOptOut = document.querySelector("[data-donations-optout]");
+  var donationsOptionRow = document.querySelector("[data-privacy-donations-row]");
   var privacySave = document.querySelector("[data-privacy-save]");
+  var privacyStatus = document.querySelector("[data-privacy-status]");
   var cryptoToggle = document.querySelector("[data-crypto-toggle]");
   var cryptoGrid = document.getElementById("y1-crypto-panel");
   var thankYouOpen = document.querySelector("[data-toolbar-thank-you-open]");
@@ -1052,22 +1025,22 @@
 
   var GENERAL_APPEAL_POOL = [
     "<b>Donations directly help me support my family and fund the test devices</b> that make this free service possible for everyone. If this tool saved you time or rescued your player today, please consider a small donation, it truly means the world to us.",
-    "<b>Servers, storage and domains are paid for out of pocket.</b> A coffee keeps the downloads online for the next owner.",
+    "<b>The servers behind the downloads are paid for out of pocket.</b> A coffee keeps them online for the next owner.",
     "<b>Every release here is built in evenings and weekends.</b> A small donation buys more of that time.",
     "<b>No ads, no tracking and no paid tier.</b> Mostly paid for out of pocket, with help from people this helped.",
-    "<b>Donations buy the test players and cables</b> used to check each release before anyone flashes it.",
-    "<b>The firmware archive moves terabytes every month.</b> Donations pay for the bandwidth that delivers it.",
-    "<b>Hosting comes to about $200 a month; the test players cost more again.</b> Whatever you can add closes the gap.",
-    "<b>A few dollars goes a long way here:</b> it covers the bandwidth for hundreds of installs.",
-    "<b>Bugs get fixed because someone stayed up with your model on the bench.</b> A donation keeps that going.",
+    "<b>Donations buy the test players and cables</b> used to check each release before anyone installs it.",
+    "<b>Thousands of downloads go out every month.</b> Donations pay for the servers that deliver them.",
+    "<b>Donations pay the running costs of Updater CE, the Themes Gallery and the community firmware archive.</b> Whatever you can add helps.",
+    "<b>A few dollars goes a long way here:</b> it covers hundreds of downloads.",
+    "<b>Bugs get fixed because someone stayed up testing your exact model.</b> A donation keeps that going.",
     "<b>No company behind this, just one developer, a workbench and a donation page.</b> Everything goes to running costs.",
     "<b>The tools, the guides and the archive are all free.</b> A tip funds the next feature.",
     "<b>If this worked for you, pass the kindness on.</b> It keeps the project free for whoever comes next.",
     "<b>Some of the players this supports were written off as broken.</b> A donation keeps the rescue service running.",
     "<b>No subscription, no deadline, just a page like this one.</b> Give only if it helped.",
-    "<b>One person answers the issues, writes the guides and pays the bills.</b> Donations make that sustainable.",
-    "<b>Firmware vanishes when hosts shut down.</b> Donations keep the copies that rescued your player online.",
-    "<b>One coffee roughly covers the bandwidth of a download.</b> It keeps the next fix within reach."
+    "<b>One person answers the questions, writes the guides and pays the bills.</b> Donations make that sustainable.",
+    "<b>Files vanish when a hosting company shuts down.</b> Donations keep the copies that rescued your player online.",
+    "<b>One coffee roughly covers the cost of a download.</b> It keeps the next fix within reach."
   ];
 
   var FAMILY_APPEAL_POOL = [
@@ -1156,24 +1129,52 @@
     syncBackdrop();
   }
 
-  function setBanner(value) {
-    if (!banner) return;
-    banner.hidden = !value;
-    banner.setAttribute("aria-hidden", value ? "false" : "true");
-    document.body.classList.toggle("y1-consent-banner-open", !!value);
-    syncBackdrop();
-  }
-
   function prefillToggles() {
     var prefs = (consent && consent.read) ? consent.read() : null;
+    if (privacyStatus) privacyStatus.textContent = "";
     if (feedbackToggle) feedbackToggle.checked = prefs ? prefs.feedback : false;
     if (nightlyToggle) nightlyToggle.checked = prefs ? prefs.nightly : false;
     if (donationsToggle) donationsToggle.checked = !donationsOff();
   }
 
+  function hasDonationsPreference() {
+    return typeof window.hasY1DonationsPreference === "function" && window.hasY1DonationsPreference();
+  }
+
+  /* The donation switch only belongs here once the visitor has already opted
+     out, because that is the only way back. On a first visit they have not
+     seen the project yet, so the option is not shown and nothing about
+     donations is written. */
+  function syncDonationsOption() {
+    if (donationsOptionRow) donationsOptionRow.hidden = !hasDonationsPreference();
+    if (donationsToggle) donationsToggle.checked = hasDonationsPreference() ? !donationsOff() : true;
+  }
+
+  function openPrivacyNotice() {
+    prefillToggles();
+    syncDonationsOption();
+    setPanel(privacyPanel, privacyOpen, true, privacyClose);
+  }
+
+  /* Re-enabling donations reloads the page with ?donations=true set alongside
+     whatever parameters are already there, so every part of the page comes
+     back with the appeals switched on. */
+  function reloadWithDonationsEnabled() {
+    try {
+      var url = new URL(window.location.href);
+      url.searchParams.set("donations", "true");
+      window.location.replace(url.toString());
+    } catch (_) {
+      window.location.reload();
+    }
+  }
+
   function saveFromPanel() {
-    if (donationsToggle && typeof window.setY1DonationsDisabled === "function") {
-      window.setY1DonationsDisabled(!donationsToggle.checked);
+    var reenabledDonations = false;
+    if (hasDonationsPreference() && donationsToggle && typeof window.setY1DonationsDisabled === "function") {
+      var disableDonations = !donationsToggle.checked;
+      reenabledDonations = donationsOff() && !disableDonations;
+      window.setY1DonationsDisabled(disableDonations);
     }
     if (consent && consent.save) {
       consent.save({
@@ -1181,9 +1182,19 @@
         nightly: nightlyToggle ? nightlyToggle.checked : true
       });
     }
-    setPanel(privacyPanel, privacyOpen, false, null);
-    if (banner && !banner.hidden) setBanner(false);
-    if (privacyOpen) privacyOpen.focus();
+    /* Say so, rather than silently closing and leaving the visitor to guess
+       whether anything happened. The panel closes a beat later so the
+       confirmation is readable and announced. */
+    if (privacyStatus) privacyStatus.textContent = "Saved. Your choices apply from now on.";
+    window.setTimeout(function () {
+      setPanel(privacyPanel, privacyOpen, false, null);
+      if (privacyStatus) privacyStatus.textContent = "";
+      if (reenabledDonations) {
+        reloadWithDonationsEnabled();
+        return;
+      }
+      if (privacyOpen) privacyOpen.focus();
+    }, 900);
   }
 
   var devAvatar = document.getElementById("y1-developer-avatar-img");
@@ -1260,7 +1271,7 @@
   privacyOpen.addEventListener("click", function () {
     var opening = privacyPanel.hidden;
     setPanel(donatePanel, donateOpen, false);
-    if (opening) prefillToggles();
+    if (opening) { prefillToggles(); syncDonationsOption(); }
     setPanel(privacyPanel, privacyOpen, opening, privacyClose);
   });
   if (donateClose) donateClose.addEventListener("click", function () { setPanel(donatePanel, donateOpen, false); });
@@ -1274,7 +1285,6 @@
   }
   if (privacyClose) privacyClose.addEventListener("click", function () {
     setPanel(privacyPanel, privacyOpen, false);
-    if (!hasDecided()) setBanner(true);
   });
   if (privacySave) privacySave.addEventListener("click", saveFromPanel);
 
@@ -1308,7 +1318,6 @@
       if (!donatePanel.hidden) setPanel(donatePanel, donateOpen, false);
       if (!privacyPanel.hidden) {
         setPanel(privacyPanel, privacyOpen, false);
-        if (!hasDecided()) setBanner(true);
       }
     }
   });
@@ -1318,49 +1327,22 @@
                  (privacyPanel && privacyPanel.contains(event.target)) ||
                  (donateOpen && donateOpen.contains(event.target)) ||
                  (privacyOpen && privacyOpen.contains(event.target)) ||
-                 (banner && banner.contains(event.target)) ||
                  (event.target.closest && (event.target.closest("#y1-dock-ticker-wrap") || event.target.closest("#y1-dock-goal-layer")));
     if (inside) return;
     if (backdrop && event.target === backdrop) {
       if (!donatePanel.hidden) setPanel(donatePanel, donateOpen, false);
       if (!privacyPanel.hidden) {
         setPanel(privacyPanel, privacyOpen, false);
-        if (!hasDecided()) setBanner(true);
       }
       return;
     }
     if (!donatePanel.hidden) setPanel(donatePanel, donateOpen, false);
     if (!privacyPanel.hidden) {
       setPanel(privacyPanel, privacyOpen, false);
-      if (!hasDecided()) setBanner(true);
     }
   });
 
-  var acceptAll = document.querySelector("[data-consent-accept]");
-  var essentialOnly = document.querySelector("[data-consent-essential]");
-  var manage = document.querySelector("[data-consent-manage]");
-  if (acceptAll) acceptAll.addEventListener("click", function (e) {
-    if (e) { e.preventDefault(); e.stopPropagation(); }
-    if (typeof closeToolbarThankYou === "function") closeToolbarThankYou();
-    if (consent && consent.save) consent.save({ feedback: true, nightly: true });
-    setBanner(false);
-  });
-  if (essentialOnly) essentialOnly.addEventListener("click", function (e) {
-    if (e) { e.preventDefault(); e.stopPropagation(); }
-    if (typeof closeToolbarThankYou === "function") closeToolbarThankYou();
-    if (consent && consent.save) consent.save({ feedback: false, nightly: false });
-    setBanner(false);
-  });
-  if (manage) manage.addEventListener("click", function (e) {
-    if (e) { e.preventDefault(); e.stopPropagation(); }
-    if (typeof closeToolbarThankYou === "function") closeToolbarThankYou();
-    setPanel(donatePanel, donateOpen, false);
-    prefillToggles();
-    setBanner(false);
-    setPanel(privacyPanel, privacyOpen, true, privacyClose);
-  });
-
-  if (!hasDecided()) setBanner(true);
+  if (!hasDecided()) openPrivacyNotice();
 
   var dockReopenBtn = document.querySelector("[data-dock-reopen]");
 
@@ -1442,7 +1424,6 @@
       }
       if (donationLineInterval) clearInterval(donationLineInterval);
       var donorLines = Array.isArray(tickerHtml) ? tickerHtml.filter(Boolean) : (tickerHtml ? [tickerHtml] : []);
-      var raisedLabel = (goal.raised % 1 === 0) ? goal.raised.toFixed(0) : goal.raised.toFixed(2);
       var remLabel = (goal.remaining % 1 === 0) ? goal.remaining.toFixed(0) : goal.remaining.toFixed(2);
       var secondaryBarWrap = document.getElementById("y1-dock-secondary-bar-wrap") || (secondaryBarFill ? secondaryBarFill.parentElement : null);
 
@@ -1455,13 +1436,38 @@
         };
       }
 
-      var periodSuffix = goal.periodSuffix || ("this " + goal.periodWord);
       var targetPhrase = goal.met
         ? null
         : {
-            desktop: "You've helped us cover " + goal.symbol + raisedLabel + " of our " + goal.symbol + goal.target.toFixed(0) + " costs " + periodSuffix,
-            mobile: goal.symbol + raisedLabel + " of " + goal.symbol + goal.target.toFixed(0) + " costs " + periodSuffix,
+            desktop: fundingGoalText(goal, false),
+            mobile: fundingGoalText(goal, false),
             isTarget: true
+          };
+
+      var now = new Date();
+      var weekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - ((now.getDay() + 6) % 7));
+      var todayNames = {};
+      var weekNames = {};
+      (lastDonations || []).forEach(function (d) {
+        if (!d || !d.dt || !(d.amount > 0)) return;
+        if (String(d.name || "").toLowerCase().indexOf("innioasis") === 0) return;
+        if (d.dt < weekStart || d.dt > now) return;
+        var key = String(d.name || "supporter").toLowerCase().trim();
+        weekNames[key] = true;
+        if (d.dt.getFullYear() === now.getFullYear() && d.dt.getMonth() === now.getMonth() && d.dt.getDate() === now.getDate()) todayNames[key] = true;
+      });
+      var todayCount = Object.keys(todayNames).length;
+      var weekCount = Object.keys(weekNames).length;
+      var supporterPhrase = todayCount === 0
+        ? {
+            desktop: "No one has donated today, will you be the first?",
+            mobile: "No one has donated today, will you be the first?",
+            isTarget: false
+          }
+        : {
+            desktop: weekCount + (weekCount === 1 ? " supporter has helped us this week" : " supporters have helped us this week") + "  -  join them to keep downloads free for everyone.",
+            mobile: weekCount + (weekCount === 1 ? " supporter helped us this week  -  join them" : " supporters helped us this week  -  join them"),
+            isTarget: false
           };
 
       var generalPhrases = goal.met
@@ -1480,8 +1486,8 @@
         : [
             targetPhrase,
             {
-              desktop: "Only " + goal.symbol + remLabel + " to go on " + (goal.scope === "daily" ? "today's costs" : (goal.periodSuffix || ("this " + goal.periodWord)) + "'s costs") + ".",
-              mobile: "Only " + goal.symbol + remLabel + " to go " + (goal.periodSuffix || ("this " + goal.periodWord)),
+              desktop: "Only " + goal.symbol + remLabel + " left to raise for " + (goal.periodPhrase || ("this " + goal.periodWord)) + "'s costs.",
+              mobile: "Only " + goal.symbol + remLabel + " left to raise for " + (goal.periodPhrase || ("this " + goal.periodWord)) + "'s costs.",
               isTarget: true
             },
             {
@@ -1495,8 +1501,8 @@
               isTarget: false
             },
             {
-              desktop: "Less than the price of a single coffee keeps our download servers online this month.",
-              mobile: "A single coffee keeps our servers online this month",
+              desktop: "The price of a coffee or two keeps our download servers online this month.",
+              mobile: "A coffee or two keeps our servers online this month",
               isTarget: false
             },
             {
@@ -1504,11 +1510,7 @@
               mobile: "Zero ads or paywalls  -  chip in $3 to support us",
               isTarget: false
             },
-            {
-              desktop: "7 supporters helped this week  -  join them to keep downloads free for everyone.",
-              mobile: "7 members supported us this week  -  join them",
-              isTarget: false
-            },
+            supporterPhrase,
             {
               desktop: "If 1 in 50 visitors bought us a coffee, we'd cover most of a test player this month.",
               mobile: "If 1 in 50 visitors bought a coffee, we'd cover a test player",
@@ -1791,7 +1793,7 @@
       }
       if (cKind) {
         var regCoffees = Math.max(1, Math.round(absAmt));
-        var regWord = (regCoffees === 1) ? "a coffee" : (regCoffees + " coffees");
+        var regWord = ((regCoffees === 1) ? "a coffee" : (regCoffees + " coffees")) + (cKind === "kofi" ? " on Ko-Fi" : "");
         var regCoffeesHTML = '<a href="' + targetUrl + '" target="_blank" rel="noopener noreferrer">' + regWord + '</a>';
         return supporterHTML + " bought us " + regCoffeesHTML + timePart;
       }
@@ -1803,7 +1805,7 @@
       return supporterHTML + ' contributed ' + amtHTML + ' for free by sharing 100MB on <a href="' + hgUrl + '" target="_blank" rel="noopener noreferrer">Honeygain</a>' + timePart;
     } else if (cKind) {
       var coffees = Math.max(1, Math.round(absAmt));
-      var cWord = (coffees === 1) ? "a coffee" : (coffees + " coffees");
+      var cWord = ((coffees === 1) ? "a coffee" : (coffees + " coffees")) + (cKind === "kofi" ? " on Ko-Fi" : "");
       var coffeesHTML = '<a href="' + targetUrl + '" target="_blank" rel="noopener noreferrer">' + cWord + '</a>';
       return supporterHTML + " bought us " + coffeesHTML + timePart;
     } else {
@@ -1814,25 +1816,38 @@
   var MONTHLY_TARGET = 200.0;
   var WEEKLY_TARGET = MONTHLY_TARGET / 4;
   var DAILY_TARGET = MONTHLY_TARGET / 20;
-  var DAILY_WEEKDAYS = [1, 2, 3, 6];
-  var WIDE_MAX_PERCENT = 25.0;
+  /* The ladder is written in the currency the reader sees: a £50 weekly goal is
+     reached at £50, however many dollars that is today. Currencies whose unit
+     sits close to the dollar (euro, pound, franc, Canadian and Australian
+     dollars, the dollar pegs) use those same round rungs. An inflated,
+     non-decimal or far-pegged currency keeps the dollar ladder converted at the
+     live rate, because "10 of them" would be a few pence there. */
+  var LADDER_COMPACT_MIN_RATE = 0.5;
+  var LADDER_COMPACT_MAX_RATE = 1.6;
+
+  function fundingTargets(code) {
+    code = String(code || "USD").toUpperCase();
+    var rate = fxRate(code);
+    if (!FX_ZERO[code] && rate >= LADDER_COMPACT_MIN_RATE && rate <= LADDER_COMPACT_MAX_RATE) {
+      return { daily: DAILY_TARGET, weekly: WEEKLY_TARGET, monthly: MONTHLY_TARGET, compact: true };
+    }
+    return {
+      daily: fxGoal(DAILY_TARGET, code),
+      weekly: fxGoal(WEEKLY_TARGET, code),
+      monthly: fxGoal(MONTHLY_TARGET, code),
+      compact: false
+    };
+  }
 
   function fundingGoalView(donations, monthTotal, now) {
     now = now || new Date();
     var daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-    var base = "weekly";
-    if (now.getDate() <= 5 || now.getDate() > daysInMonth - 7) {
-      base = "monthly";
-    } else if (DAILY_WEEKDAYS.indexOf(now.getDay()) !== -1) {
-      base = "daily";
-    }
-    var ladder = base === "daily" ? ["daily"]
-      : base === "weekly" ? ["weekly", "daily"] : ["monthly", "weekly", "daily"];
-    var targets = { monthly: MONTHLY_TARGET, weekly: WEEKLY_TARGET, daily: DAILY_TARGET };
+    var dayOfMonth = now.getDate();
     var starts = {
       monthly: new Date(now.getFullYear(), now.getMonth(), 1),
-      weekly: new Date(now.getFullYear(), now.getMonth(), Math.max(1, 6 + Math.floor((now.getDate() - 6) / 7) * 7)),
-      daily: new Date(now.getFullYear(), now.getMonth(), now.getDate())
+      weekly: new Date(now.getFullYear(), now.getMonth(), now.getDate() - ((now.getDay() + 6) % 7)),
+      daily: new Date(now.getFullYear(), now.getMonth(), now.getDate()),
+      rolling: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6)
     };
     function raisedSince(start) {
       var total = 0;
@@ -1844,34 +1859,61 @@
     }
     var monthRaised = Math.max(monthTotal || 0, raisedSince(starts.monthly));
     var raisedBy = { monthly: monthRaised, weekly: raisedSince(starts.weekly), daily: raisedSince(starts.daily) };
-    var scope = null;
-    if (monthRaised < MONTHLY_TARGET) {
-      for (var i = 0; i < ladder.length; i++) {
-        var rung = ladder[i];
-        if (targets[rung] - raisedBy[rung] < 1) continue;
-        if (rung !== "daily" && (raisedBy[rung] / targets[rung]) * 100 > WIDE_MAX_PERCENT) continue;
-        scope = rung;
-        break;
-      }
-    }
     var code = detectCurrencyCode();
+    var targets = fundingTargets(code);
+    /* Compare the figures the reader can see. Converting the rungs to dollars
+       instead let a £37.27 week count as "target met" while the page promised
+       a £50 one, so UK and euro readers lost the weekly line early. */
+    var shownBy = {
+      monthly: fxLocal(raisedBy.monthly, code),
+      weekly: fxLocal(raisedBy.weekly, code),
+      daily: fxLocal(raisedBy.daily, code)
+    };
+    var scope = null;
+    var metScope = null;
+    var dailyMet = shownBy.daily >= targets.daily;
+    var weeklyMet = shownBy.weekly >= targets.weekly;
+    /* The month's own figure is forced on the first day, when the month has
+       just started, and on the last three days when something came in today.
+       A closing day with no donations falls back to the daily rung, which is
+       measured against today alone. Every other day starts at the daily rung,
+       however much the month has already raised. */
+    var monthSummary = dayOfMonth === 1 ||
+      (dayOfMonth > daysInMonth - 3 && raisedBy.daily > 0);
+    /* A quiet day leads with the daily rung even when the month is already
+       covered, because it is measured against today's donations alone. The
+       month summary only wins on the first day and on closing days that
+       brought something in today. */
+    if (monthSummary) {
+      if (shownBy.monthly >= targets.monthly) metScope = "monthly";
+      else scope = "monthly";
+    } else if (!dailyMet) {
+      scope = "daily";
+    } else if (shownBy.monthly >= targets.monthly) {
+      metScope = "monthly";
+    } else if (!weeklyMet) {
+      scope = "weekly";
+    } else {
+      scope = "monthly";
+    }
     var symbol = fxSymbol(code);
     if (!scope) {
       return {
-        scope: null, covered: true, met: true, periodWord: "", periodSuffix: "", periodAdjective: "",
+        scope: null, covered: true, met: true, metScope: metScope, periodWord: "", periodPhrase: "", periodSuffix: "", periodAdjective: "",
         raised: 0, target: 0, pct: 0, remaining: 0, symbol: symbol, code: code
       };
     }
     var usdRaised = raisedBy[scope];
-    var usdTarget = targets[scope];
-    var shownRaised = fxLocal(usdRaised, code);
-    var shownTarget = fxGoal(usdTarget, code);
+    var shownRaised = shownBy[scope];
+    var shownTarget = targets[scope];
+    var usdTarget = fxRate(code) > 0 ? shownTarget / fxRate(code) : 0;
     var words = { monthly: "month", weekly: "week", daily: "day" };
     var adjectives = { monthly: "monthly", weekly: "weekly", daily: "daily" };
-    var suffixes = { monthly: "this month", weekly: "this week", daily: "today" };
+    var phrases = { monthly: "this month", weekly: "this week", daily: "today" };
+    var suffixes = { monthly: "for this month", weekly: "for this week", daily: "for today" };
     return {
       scope: scope, covered: false,
-      periodWord: words[scope], periodSuffix: suffixes[scope], periodAdjective: adjectives[scope],
+      periodWord: words[scope], periodPhrase: phrases[scope], periodSuffix: suffixes[scope], periodAdjective: adjectives[scope],
       raised: shownRaised, target: shownTarget,
       usdRaised: usdRaised, usdTarget: usdTarget,
       pct: fxShare(shownRaised, shownTarget),
@@ -1882,13 +1924,22 @@
     };
   }
 
+  function moneyLabel(value) {
+    var n = Number(value || 0);
+    return (n % 1 === 0) ? n.toFixed(0) : n.toFixed(2);
+  }
+
   function fundingGoalText(goal, withEncouragement) {
-    if (!goal || goal.covered || !goal.scope) {
+    if (goal && goal.covered) {
+      var metWords = { monthly: "This month's", weekly: "This week's", daily: "Today's" };
+      var metLabel = metWords[goal.metScope];
+      if (metLabel) return metLabel + " costs are covered - thank you!";
+    }
+    if (!goal || !goal.scope) {
       return "We rely on your donations to keep running. Donate now";
     }
-    var raisedLabel = (goal.raised % 1 === 0) ? goal.raised.toFixed(0) : goal.raised.toFixed(2);
-    var text = "You've helped us cover " + goal.symbol + raisedLabel +
-      " of our " + goal.symbol + goal.target.toFixed(0) + " costs " + (goal.periodSuffix || ("this " + goal.periodWord)) + ".";
+    var text = "You've helped us raise " + goal.symbol + moneyLabel(goal.raised) +
+      " of our " + goal.symbol + moneyLabel(goal.target) + " costs " + (goal.periodSuffix || ("for this " + goal.periodWord)) + ".";
     return withEncouragement ? text + " All donations are appreciated." : text;
   }
 
@@ -1927,10 +1978,7 @@
     var legRaised = document.getElementById("y1-goal-legend-raised");
     var legRem = document.getElementById("y1-goal-legend-remaining");
 
-    var isGoalMet = goal.met;
-    var goalMsg = isGoalMet
-      ? "We rely on your donations to keep running. Donate now"
-      : fundingGoalText(goal, true);
+    var goalMsg = fundingGoalText(goal, true);
     [titleEl, statsEl, legRaised, legRem,
      raisedBar && raisedBar.parentElement, remBar && remBar.parentElement].forEach(function (el) {
       if (el) el.style.display = goal.covered ? "none" : "";
@@ -1941,6 +1989,28 @@
     if (remBar) remBar.style.width = (100 - raisedPct) + "%";
     if (legRaised) legRaised.textContent = goalMsg;
     if (legRem) legRem.textContent = "";
+
+    /* The dock sentence is otherwise only rewritten by the rotating line's
+       timer, so a slow or repeated fetch could leave the pre-data "$0" on
+       screen after the real figure had arrived. Write it as soon as the goal
+       is known; the rotation then takes over. */
+    var dockDesktop = document.querySelector("#y1-dock-secondary-text .y1-dock-text-desktop");
+    var dockMobile = document.querySelector("#y1-dock-secondary-text .y1-dock-text-mobile");
+    if (dockDesktop) dockDesktop.textContent = fundingGoalText(goal, false);
+    if (dockMobile) dockMobile.textContent = fundingGoalText(goal, false);
+
+    /* The idle layer carries its own copy of the sentence. Keep it in step so
+       no stale "$0 for today" can outlive a ladder that has moved on. */
+    var idleText = document.getElementById("y1-dock-idle-goal-text");
+    if (idleText) idleText.textContent = goalMsg;
+    var idleBar = document.getElementById("y1-dock-idle-bar-fill");
+    if (idleBar) idleBar.style.width = raisedPct + "%";
+    var idleHeading = document.getElementById("y1-dock-idle-goal-heading");
+    if (idleHeading) {
+      idleHeading.textContent = goal.covered
+        ? "Thank you - this month's costs are covered"
+        : "Help us cover " + (goal.periodPhrase || "this month") + "'s running costs";
+    }
 
     var donorsCountEl = document.getElementById("y1-donors-count");
     if (donorsCountEl) {
@@ -2008,10 +2078,7 @@
     }
 
     var raisedPct = goal.pct;
-    var isTickerGoalMet = goal.met;
-    var tickerGoalMsg = isTickerGoalMet
-      ? "We rely on your donations to keep running. Donate now"
-      : fundingGoalText(goal, false);
+    var tickerGoalMsg = fundingGoalText(goal, false);
     var goalItem = {
       html: '<span class="y1-dock-ticker-badge y1-dock-ticker-badge--goal">Costs</span>' +
             '<div class="y1-dock-mini-bar" title="' + Math.round(raisedPct) + '% covered" style="display: inline-block; width: 50px; height: 6px; background: rgba(156,163,175,0.2); border: 1px solid rgba(156,163,175,0.35); border-radius: 4px; overflow: hidden; vertical-align: middle; margin-right: 6px;">' +
@@ -2111,32 +2178,102 @@
     }, 6500);
   }
 
-  function fetchDonors() {
-    var candidates = [
-      "donors.csv",
+  /* donors.csv is a small static file that changes a few times a day, so it
+     does not need downloading on every page view, let alone every minute.
+     Three things keep the request count down: the first path that works is
+     remembered (a sub-directory page used to probe guides/donors.csv and take
+     a 404 first), one download is reused for a few minutes across pages in the
+     same tab, and the refresh timer only fires while the page is visible. */
+  var DONORS_URL_KEY = "innioasis-donors-url";
+  var DONORS_CACHE_KEY = "innioasis-donors-cache";
+  var DONORS_TTL_MS = 5 * 60 * 1000;
+  var DONORS_POLL_MS = 10 * 60 * 1000;
+  var donorsText = "";
+  var donorsAt = 0;
+  var donorsBusy = false;
+
+  /* GitHub first, the site's own paths only as fallback: this file is read on
+     every page view, and serving it from the repository keeps those requests
+     off the domain's own traffic figures. */
+  var DONORS_GITHUB_URL = "https://raw.githubusercontent.com/y1-community/Innioasis-Updater/main/donors.csv";
+
+  function donorsSources() {
+    var remembered = null;
+    try { remembered = localStorage.getItem(DONORS_URL_KEY); } catch (_) {}
+    var bases = [
+      DONORS_GITHUB_URL,
       "/donors.csv",
+      "donors.csv",
       "../donors.csv",
       "../../donors.csv",
       "https://innioasis.app/donors.csv"
     ];
+    if (!remembered) return bases;
+    var others = bases.filter(function (base) { return base !== remembered; });
+    return [remembered].concat(others);
+  }
+
+  function applyDonorsText(text, at) {
+    if (!text) return false;
+    donorsAt = Number(at) || Date.now();
+    if (text === donorsText) return true;
+    var donations = parseCSV(text);
+    if (!donations || !donations.length) return false;
+    donorsText = text;
+    renderGoalAndDonors(donations);
+    return true;
+  }
+
+  function readDonorsCache() {
+    try {
+      var raw = sessionStorage.getItem(DONORS_CACHE_KEY);
+      if (!raw) return null;
+      var data = JSON.parse(raw);
+      var at = Number(data && data.at) || 0;
+      if (!data || typeof data.text !== "string") return null;
+      if (Date.now() - at > DONORS_TTL_MS) return null;
+      return { text: data.text, at: at };
+    } catch (_) {}
+    return null;
+  }
+
+  function writeDonorsCache(text, at) {
+    try { sessionStorage.setItem(DONORS_CACHE_KEY, JSON.stringify({ text: text, at: at })); } catch (_) {}
+  }
+
+  function fetchDonors(options) {
+    if (donorsBusy) return;
+    if (!(options && options.force)) {
+      var cached = readDonorsCache();
+      if (cached && applyDonorsText(cached.text, cached.at)) return;
+    }
+    var candidates = donorsSources();
     var candidateIndex = 0;
+    donorsBusy = true;
+
+    function finish() {
+      donorsBusy = false;
+    }
 
     function tryNext() {
       if (candidateIndex >= candidates.length) {
+        finish();
         return;
       }
       var baseUrl = candidates[candidateIndex++];
-      var url = baseUrl + (baseUrl.indexOf("?") === -1 ? "?_t=" : "&_t=") + Date.now();
-      fetch(url, { cache: "no-cache" })
+      /* No cache-busting query: this file is allowed to be cached by the
+         browser and the CDN, which is the difference between one request and
+         one request per navigation. */
+      fetch(baseUrl, { cache: "default" })
         .then(function (res) {
           if (!res.ok) throw new Error("HTTP " + res.status);
           return res.text();
         })
         .then(function (text) {
-          var donations = parseCSV(text);
-          if (donations && donations.length > 0) {
-            renderGoalAndDonors(donations);
-          }
+          if (!applyDonorsText(text, Date.now())) throw new Error("Unusable donors.csv");
+          try { localStorage.setItem(DONORS_URL_KEY, new URL(baseUrl, window.location.href).href); } catch (_) {}
+          writeDonorsCache(text, donorsAt);
+          finish();
         })
         .catch(function () {
           tryNext();
@@ -2146,15 +2283,26 @@
     tryNext();
   }
 
+  /* A one-minute tick only decides whether a download is due, so a tab left
+     open costs nothing; the file is re-read at most every ten minutes and
+     never while the tab is in the background. */
+  setInterval(function () {
+    if (document.hidden) return;
+    if (Date.now() - donorsAt < DONORS_POLL_MS) return;
+    fetchDonors({ force: true });
+  }, 60000);
+
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) return;
+    if (Date.now() - donorsAt >= DONORS_POLL_MS) fetchDonors({ force: true });
+  });
+
   (function paintInitialGoal() {
     var goal = fundingGoalView([], 0, new Date());
     var desktop = document.querySelector("#y1-dock-secondary-text .y1-dock-text-desktop");
     var mobile = document.querySelector("#y1-dock-secondary-text .y1-dock-text-mobile");
     if (desktop) desktop.textContent = fundingGoalText(goal, true);
-    if (mobile) {
-      mobile.textContent = goal.symbol + "0 of " + goal.symbol + goal.target.toFixed(0) +
-        " costs " + (goal.periodSuffix || ("this " + goal.periodWord));
-    }
+    if (mobile) mobile.textContent = fundingGoalText(goal, false);
   })();
 
   refreshFxRates(function () {
@@ -2163,6 +2311,5 @@
     }
   });
   fetchDonors();
-  setInterval(fetchDonors, 60000);
 })();
 </script>

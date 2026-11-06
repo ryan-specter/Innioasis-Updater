@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M2-BASELINE-03 — keep the log reader ahead of display probing - Innioasis Updater</title>
+  <meta name="description" content="M2-BASELINE-03 — keep the log reader ahead of display probing <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate id">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-baseline-03-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M2-BASELINE-03 — keep the log reader ahead of display probing - Innioasis Updater">
+  <meta property="og:description" content="M2-BASELINE-03 — keep the log reader ahead of display probing <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate id">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-baseline-03-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M2-BASELINE-03 — keep the log reader ahead of display probing - Innioasis Updater">
+  <meta name="twitter:description" content="M2-BASELINE-03 — keep the log reader ahead of display probing <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate id">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M2-BASELINE-03 — keep the log reader ahead of display probing</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m2-baseline-03--keep-the-log-reader-ahead-of-display-probing">M2-BASELINE-03 — keep the log reader ahead of display probing</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>**Owner-tested: logging responds through display initialization; screen remains black.** M1 COMPLETE, M2 ACTIVE. The 180-second capture-02 contains all kernel records0–605 and PID1 through heartbeat184. DRM/fb0/module initialization returns success; wheel I2C reads time out. See the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-baseline-hardware-result.md%23latest-baseline-03-logs-the-display-handoff-screen-remains-black&amp;anchor=latest-baseline-03-logs-the-display-handoff-screen-remains-black">physical result</a>. The artifact and original handoff procedure below are retained unchanged.</p>
+<p>BASELINE-02 enumerated over USB but its 180-second capture contained zero bytes. The owner saw black/grey after LK. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-baseline-hardware-result.md">Evidence</a> does not identify the failed instruction or establish PID1 responsiveness.</p>
+<p><strong>Image:</strong> <code>/home/luca/Dokumente/Code/Y2Linux/out/m2-baseline-03/BOOTIMG.img</code><br> <strong>Size:</strong> 2,129,920 bytes<br> <strong>SHA-256:</strong> <code>dae729341fd52d3abe16899ec332b2fdacd2a0fcbde15e796d496a0c443fa543</code><br> <strong>Identity:</strong> Linux <code>6.18.0-y2-m2-baseline3</code>; LOG1 <code>M2-BASELINE-03</code>.</p>
+<h2 id="what-changed-and-why">What changed and why</h2>
+<p>MediaTek DRM is the <strong>sole loadable module</strong>, packaged as <code>/display.ko</code> in the RAM-only initramfs. Its dependencies and all other baseline core drivers remain built in. PID1 starts first, completes its initial provider snapshots and accepts LOG1. After heartbeat12 and successful relay output, it starts one separate child through ordinary clone/finit_module calls. PID1 stays on CPU0; the child loads on previously observed CPU1. Parent checks child completion with wait4(WNOHANG), logs pending status every 15 seconds and never waits synchronously for module initialization. No retry, unload, shell or external module discovery. A session starting at heartbeat240 or later skips display loading to respect the test window.</p>
+<p>This isolates synchronous driver-probe waits from the existing logging process; it cannot guarantee survival of a global bus fault or shared-kernel lockup. The child log records module start/result, and DSI records PHY acquisition, parking, release, host registration and command-engine initialization. LOG1 and kernel/PID1 relay use the original single USB writer and transport. No new USB console or endpoint changes. Module loading starts automatically within this one baseline test; it does not require a separate controller/register flash.</p>
+<p>Also fixed a source-level safety gap: MT6582 panel transfers now return <code>-EHOSTDOWN</code> before touching DSI MMIO if pre-enable/power-on failed. The existing 6.18 host-before-panel bridge ordering is already correct and was not re-ported. Panel initialization values, live/cold PHY sequence and timing remain as in BASELINE-02; this candidate does <strong>not</strong> claim to have diagnosed/fixed the actual black-screen cause without a kernel log.</p>
+<p>The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2Froadmap-gap-audit.md%23baseline-03-observation-and-packaging-review--2026-09-10&amp;anchor=baseline-03-observation-and-packaging-review--2026-09-10">packaging/startup review</a> retains D08, SMP/GPT/watchdog policy, CCF/pinctrl/EINT/PWRAP/PMIC, input, MMC identity/read-only enforcement and USB reconnect/deadline. Disk writes/mounts, charger/rail/current policy, audio, radios/FM, GPU/apps and production PM remain excluded. No original loader, partition layout, calibration or donor source changed.</p>
+<h2 id="validation-and-retained-artifacts">Validation and retained artifacts</h2>
+<p>One clean kernel build tree; hidden DRM dependency selections and a diagnostic placement compiler error were corrected there. Final kernel/module have no compiler warnings/errors or unresolved modpost symbols. Exactly one modules.order entry; ARM32 relocatable ABI, build vermagic and empty external module dependencies checked. The exact module bytes must match the initramfs; foreign/extra module entries and changed payloads fail validation. All loader syscall table entries are real linked implementations, including clone, wait4, affinity and finit_module.</p>
+<p><strong>28 applicable test methods pass:</strong> shared provider/PHY guards, host and ARM input/relay/loader faults, USB lifecycle/capture, exact module archive/caps and mutated real artifacts. The final loader-order refinement prevents clock/regulator snapshots from racing a stuck display clock operation; only PID1/initramfs/DT and BOOTIMG were repackaged, with affected loader/artifact tests rerun. The kernel was not rebuilt for that refinement. ARM PID1 selftest passes. Intermediate package is retained under <code>out/m2-baseline-03/intermediate/</code>, not the flash candidate.</p>
+<p>D08 map unchanged. Kernel Image 5,017,024B; BSS310,856B; resident span5,327,880B. PID1 817,800B plus module154,460B = <strong>972,260B</strong> regular-file payload, within the existing 2MiB cap; compressed initramfs62,733B fits its 512KiB bank. Full emitted layout/relocation/package validation passes. Runtime module allocation/COW and working-set headroom still require observation; no arbitrary RAM expansion. <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-baseline-03-layout.json" target="_blank" rel="noopener noreferrer">Layout</a>, <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-baseline-03-iteration.json" target="_blank" rel="noopener noreferrer">test/package manifest</a>, ELFs/config/module/logs and source snapshots with SHA256SUMS are retained under <code>out/m2-baseline-03/</code>. No repeated ROM/source-tree/recovery audit or reproducibility build.</p>
+<h2 id="owner-flash-and-one-boot-test">Owner flash and one-boot test</h2>
+<ol><li>Existing SPFT <strong>v5.2032</strong>, original<p><code>/home/luca/Dokumente/Code/Y2Player/y2_v3.2.0_FM-20260813/MT6582_Android_scatter.txt</code>: <strong>Download Only</strong>, every row unchecked except <strong>BOOTIMG</strong>, image/hash above. Use the established owner flash/power sequence; no format, upgrade or other row.</p></li><li>Stop SPFT and unplug. Start capture below before normal power-on. Keep the<p>test microSD inserted. Start an independent <strong>300-second timer at power-on</strong>; boot unplugged and attach after <strong>10 seconds</strong>. LK logo initially remaining is now expected: display probing starts only after the log reader is active.</p></li><li>Capture for 180 seconds. Observe the screen transition after USB starts,<p>test navigation and volume, briefly press Power, and slide a finger around the capacitive wheel both directions. Record physical action order. A later black/grey screen is not display success; keep recording if logging is healthy. If no response arrives within 30 seconds after attachment, or logging stops unexpectedly, end via the known recovery route rather than waiting blindly.</p></li><li>Optional single reconnect only with at least 80 seconds left: unplug, start<p>the second command, reconnect after five unplugged seconds. The display module must not be loaded a second time. No timer restart or second detach experiment.</p></li><li>End on abnormal warmth/faults or <strong>by 300 seconds from power-on</strong>. USB cutoff<p>around295s does not power off the unit. Use established owner power/recovery steps and restore <strong>BOOTIMG only</strong> from <code>/home/luca/Dokumente/Code/Y2Player/out/boot-adb/boot.img</code>. Report restoration.</p></li></ol>
+<pre><code class="language-sh">cd /home/luca/Dokumente/Code/Y2Linux
+sudo python3 tools/observation/usb_log_capture.py --build M2-BASELINE-03 \
+  --seconds 180 --output out/m2-baseline-03/capture-01</code></pre>
+<p>Optional reconnect, command started while unplugged:</p>
+<pre><code class="language-sh">sudo python3 tools/observation/usb_log_capture.py --build M2-BASELINE-03 \
+  --wait-seconds 30 --seconds 60 --output out/m2-baseline-03/capture-02</code></pre>
+<p>No automatic hardware qualification from exit0; retain complete capture directories. A zero-byte/exit2 result is failed observation even when enumeration succeeds. <strong>Stop for the owner&#x27;s manual flash; no physical device was written by the agent.</strong></p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>First-boot kernel and console policy - Innioasis Updater</title>
+  <meta name="description" content="First-boot kernel and console policy <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims,">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-kernel-policy.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="First-boot kernel and console policy - Innioasis Updater">
+  <meta property="og:description" content="First-boot kernel and console policy <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims,">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-kernel-policy.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="First-boot kernel and console policy - Innioasis Updater">
+  <meta name="twitter:description" content="First-boot kernel and console policy <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims,">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>First-boot kernel and console policy</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="first-boot-kernel-and-console-policy">First-boot kernel and console policy</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Current diagnostic overlay: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Frisk-accepted-diagnostic.md">D11–D13</a> adds a board-specific early watchdog stop and guarded inherited-video writes. The general watchdog/display driver stacks remain disabled; D08 RAM and UART0 remain exact. Older no-display/no-watchdog artifact descriptions below refer to the prior candidate.</p>
+<p>D08 is unchanged. Configuration starts from allnoconfig and <code>kernel/config/first-boot.config</code>; resolved configuration is checked, never trusted merely because a fragment requested an option. The ARMv7 generic DT machine fallback handles <code>mediatek,mt6582</code>; no false MT6589 board compatible is added. ARCH_MEDIATEK supplies GIC, sysirq, common clocks and MTK GPT support. No arch timer/SMP/PSCI startup is selected.</p>
+<h2 id="d09--make-the-existing-d08-no-hypervisor-selection-enforceable">D09 — Make the existing D08 no-hypervisor selection enforceable</h2>
+<p>On 2026-09-08, configuration resolution stopped: v6.18 <code>arch/arm/mm/Kconfig:706</code> declares ARM_VIRT_EXT as a hidden bool with <code>default y if CPU_V7</code>. Kconfig ignores an explicit <code>n</code> for this hidden symbol. Accepting its resolved <code>y</code> would violate D08. <a href="https://github.com/torvalds/linux/blob/v6.18/arch/arm/mm/Kconfig" target="_blank" rel="noopener noreferrer">Upstream Kconfig</a> and the guarded entry paths in <code>arch/arm/boot/compressed/head.S</code>, its Makefile, <code>arch/arm/kernel/head.S</code>, kernel Makefile and <code>arch/arm/include/asm/virt.h</code> were reviewed.</p>
+<p>Decision: apply a <strong>one-line Kconfig prompt-visibility patch</strong>, under EXPERT, so the existing <code>n</code> code path can be selected. Preserve the upstream default. This adds no C/assembly/hardware behavior and changes neither memory limits nor the D08 entry contract. The audited release archive remains pristine. The build mounts exactly one generated Kconfig file over its original path; base/result hashes and an exact unified diff are checked against <code>kernel/patches/manifest.json</code>. Consequently the honest baseline description is <strong>v6.18 plus one Kconfig visibility patch</strong>, not unmodified v6.18. No hand-edit of generated <code>.config</code> or compiler macro override is used. Built ELFs must contain no hyp startup symbols.</p>
+<p>This deliberately requires the SVC entry contract traced from FM LK. It does not make entry from HYP safe or close installed-loader/secure-state gate U07c. If installed LK differs, return to research before launch. Other configuration corrections remove obsolete EMBEDDED and unnecessary TMPFS; initramfs uses built-in ramfs and requires no shmem.</p>
+<h2 id="candidate-diagnostic-serial-path-u10a-remains-open">Candidate diagnostic serial path (U10a remains open)</h2>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fobservation-path.md">D10 / Y2E-140</a> corrects the sole controller to <strong>UART0 at <code>0x11002000</code>, IRQ51, 26 MHz</strong>, exposed as Linux <code>ttyS0</code> through alias <code>serial0</code>. Fresh installed <code>/proc/consoles</code>, sysfs and <code>/proc/iomem</code>, plus remapped FM driver instructions, supersede the earlier package-default UART3 candidate. The normal console requests 921600 baud, eight data bits, no parity, one stop bit. This rate is supported by package LK but still requires actual stock wire capture; no physical pinout or live baud is claimed.</p>
+<p>The upstream MT6577-compatible 8250 driver supports this audited MT6582 block. Its OF earlycon sets 32-bit accesses with register shift 2. The generic earlycon parser can set device baud before that callback, so stdout-path is exactly <code>serial0</code> (no suffix), and current-speed is omitted. With baud zero, early_serial8250_setup only masks UART interrupts and preserves the inherited baud until the normal console configures it. The ordinary driver uses the unnamed fixed clock fallback from upstream mt6582.dtsi; no bus-clock register/pinctrl data is invented. Serial DMA is compiled out and no DMA properties are supplied. Full serial probe writes UART registers, so compilation is not evidence of physical console safety.</p>
+<p>Chosen bootargs: <code>rdinit=/init earlycon console=ttyS0,921600n8 loglevel=8 ignore_loglevel panic=0</code>. <code>earlycon</code> discovers <code>/chosen/stdout-path</code>; no <code>keep_bootcon</code> duplicate writer. Panic remains halted for observation. No console is promised before decompressor completion: DEBUG_LL is off because reliable physical routing/entry initialization is unproved. U10a must establish port selection, pinout/voltage, captured stock output and an observation path before this candidate can be launched. A different confirmed port requires a reviewed artifact revision.</p>
+<p>The final fragment fixes <code>PHYS_OFFSET=0x80000000</code>, <code>ARM_PATCH_PHYS_VIRT=n</code> and 3G/1G virtual split (<code>PAGE_OFFSET=0xc0000000</code>). An allnoconfig physical-base default of zero is not acceptable for this board; the actual artifact checkpoint added these explicit checks before accepting a payload. The kernel virtual entry is <code>0xc0008000</code>, while the physical entry is <code>0x80008000</code>. The validator reconstructs Image from ELF section <strong>load</strong> addresses, including high-VMA ARM vectors/stubs, and compares every byte. It also checks the compressed ELF layout table, LC1 stack pointer, gzip contents and embedded inflated-size/BSS words.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

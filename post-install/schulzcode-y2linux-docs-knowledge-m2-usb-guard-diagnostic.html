@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M2-USBGUARD-01 — expose the refused USB handoff - Innioasis Updater</title>
+  <meta name="description" content="M2-USBGUARD-01 — expose the refused USB handoff <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "curre">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m2-usb-guard-diagnostic.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M2-USBGUARD-01 — expose the refused USB handoff - Innioasis Updater">
+  <meta property="og:description" content="M2-USBGUARD-01 — expose the refused USB handoff <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "curre">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m2-usb-guard-diagnostic.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M2-USBGUARD-01 — expose the refused USB handoff - Innioasis Updater">
+  <meta name="twitter:description" content="M2-USBGUARD-01 — expose the refused USB handoff <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "curre">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M2-USBGUARD-01 — expose the refused USB handoff</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m2-usbguard-01--expose-the-refused-usb-handoff">M2-USBGUARD-01 — expose the refused USB handoff</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Current next test: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usb-enumeration.md">M2-USBACM-01</a>, a combined guarded enumeration/logging attempt requested by the owner. USBGUARD remains untested and retained as an optional fallback; no additional guard-only test is required.</p>
+<p>2026-09-09, localized #23/#27 prerequisite, baseline <code>de1a6d0</code>. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-chrdet-hardware-result.md">Returned CHRDET photos</a> establish detection but show a connected-start wake refusal with PHY6a=BE instead of the guarded 04. The old presentation hides the other original register values behind unread wake fields. Those missing values prevent an evidence-backed recovery decision.</p>
+<h2 id="exact-change">Exact change</h2>
+<p>Keep the existing cached kernel snapshot and every hardware access unchanged. When no extra wake read succeeded and no write occurred, preserve four original USB rows instead of replacing them with zero-filled wake fields:</p>
+<ul><li><code>PRE P:xx D:xx HW:xxxx W:&lt;result&gt;/&lt;written&gt;</code>: initial POWER/DEVCTL/HWVERS<p>plus wake result and whether the guarded write happened.</p></li><li><code>PHY68:xx xx xx xx xx xx xx</code>: initial PHY68,69,6a,6b,6c,6d,6e, in order.</li><li><code>DMA:</code> followed by eight four-digit controls, channels 1 through 8.</li><li><code>IRQE TX:xxxx RX:xxxx USB:xx</code>: original interrupt enables, not status reads.</li></ul>
+<p>Each original value uses the USB validity bit; missing fields render as dashes. When extra wake data exists, retain the established before/after layout, but render each control, trim, post-MAC and post-PHY field only when its individual validity bit is set. Preserve wake result, written flag and validity masks. This also handles partial read failures after a write without displaying a fabricated successful readback. The snapshot remains 260 bytes and once/boot.</p>
+<p>No new register, retry, refresh, MMIO write, relaxed guard, DMA ownership, IRQ handler, VBUS force, calibration or charger policy. The existing one-byte suspend release remains possible only in the already-reviewed passive state. Screen/build M2-USBGUARD-01; kernel LOCALVERSION changes for identification. No memory or packaging policy change and no major milestone boundary is crossed.</p>
+<h2 id="targeted-validation--owner-boundary">Targeted validation / owner boundary</h2>
+<p>Exercise actual ARM PID1 through the existing syscall fixture: preserve distinct raw sentinels on early refusal/first-read failure, show dashes on partial USB, pre-wake and post-write reads, retain errors and reach BEAT 50 without another snapshot read. Sentinel values are synthetic, not additional physical evidence. Add PHY6a=BE to the production guard fixture and assert no extra reads or write. Run affected PID1/text/wake tests plus normal artifact, BOOTIMG, D08, time32 and framebuffer/watchdog validation in one clean build. Compare resolved config, hardware-access sources and linked probe against the retained candidate. Do not repeat unchanged full-source, ROM, recovery or duplicate-build audits.</p>
+<p>Stop at the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fm2-usbguard-01-result.md">candidate</a> for a BOOTIMG-only owner test, USB data cable connected to the Linux PC <strong>before power-on</strong> and left connected. Capture two readable full-screen photos from that same boot, near BEAT 10 and near 50/STOP within the existing maximum 60 seconds from power-on. An unchanged -19/W0 is useful: the four raw rows identify the guard inputs. If wake instead succeeds, retain the success rows and report the exact cable timing; do not manufacture a failure. No enumeration/ttyACM is expected. No physical device action is performed by the agent.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

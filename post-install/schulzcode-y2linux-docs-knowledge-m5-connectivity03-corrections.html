@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CONNECTIVITY-03: factory-path normalization - Innioasis Updater</title>
+  <meta name="description" content="CONNECTIVITY-03: factory-path normalization <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current"">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m5-connectivity03-corrections.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="CONNECTIVITY-03: factory-path normalization - Innioasis Updater">
+  <meta property="og:description" content="CONNECTIVITY-03: factory-path normalization <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current"">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-m5-connectivity03-corrections.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CONNECTIVITY-03: factory-path normalization - Innioasis Updater">
+  <meta name="twitter:description" content="CONNECTIVITY-03: factory-path normalization <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "current"">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>CONNECTIVITY-03: factory-path normalization</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="connectivity-03-factory-path-normalization">CONNECTIVITY-03: factory-path normalization</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>The CONNECTIVITY-02 exception is now narrowed to a concrete service error using the installed strace and one bounded radio restart through the production core. The raw request/reply capture stays private under <code>evidence-private/20260916-m5-connectivity03/</code>; no new protected-partition copy, userspace MMIO or replacement service was deployed to the Y2.</p>
+<p>Request 53 is OPEN (<code>0x1001</code>, flags <code>0x01010400</code>) of the existing factory record <code>X:\\MP0D_000</code>. The firmware sends <strong>two separators after the drive</strong>. The native path parser rejected the empty component and returned <code>-2</code>; MD immediately signalled <code>MD_EX</code>. The provider had already supplied this four-byte record; the failure was path handling, not missing factory acquisition.</p>
+<p>Normalize repeated separators within the bounded virtual filesystem, selecting the same seeded record as the single-separator spelling. Unsupported drives, non-ASCII paths, traversal and embedded-NUL suffixes remain rejected. No modem path reaches the host filesystem. Existing immutable factory copies and RAM-only write shadows remain intact.</p>
+<p>Host replay of this unit&#x27;s 53 requests reproduced every observed result using the old source. Corrected source leaves results 1–52 unchanged and opens request 53 successfully. Synthetic seed bytes suffice for this prefix because no factory READ occurs before request 54. Neither captured requests nor private bytes are committed or installed as replay data. A regression test covers repeated root and nested separators, canonical identity, unchanged seed contents and invalid paths. This is a source-level reproduction, not a physical full-startup pass.</p>
+<p>The kernel also identifies MD_EX explicitly and reports the last completed FS opcode/status without logging arguments, names or record contents. It retains fail-closed shutdown; an exception never counts as firmware readiness. The radio settings helper now recognizes the kernel&#x27;s actual <code>functions=0x0</code> status when requesting recovery, in addition to decimal zero.</p>
+<p>This correction changes Y2ROOT (calibration service/settings helper) and BOOTIMG (exception context/version). Packages and firmware provenance remain those of CONNECTIVITY-01. M4, DT sources, memory reservations and protected-write policy are unchanged. Y2DATA is preserved. Buildroot&#x27;s existing offline build workspace may be resumed to avoid recompiling unchanged packages; finished prior release images remain untouched. The new component markers are CONNECTIVITY-03.</p>
+<p>After manual installation, first verify progress past exchange 53, full MD calibration/shutdown and radio initialization. Continue the existing M5 physical procedure if readiness succeeds; target any further failure from its evidence. M5 remains open until end-user radio qualification passes.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

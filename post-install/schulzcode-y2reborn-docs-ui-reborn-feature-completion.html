@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product v2 feature-completion controls - Innioasis Updater</title>
+  <meta name="description" content="Product v2 feature-completion controls <!-- knowledge-base-scope: source-contract -- This pass extends Product v2. It does not claim physical sleep, codec or audio qualif">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-ui-reborn-feature-completion.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Product v2 feature-completion controls - Innioasis Updater">
+  <meta property="og:description" content="Product v2 feature-completion controls <!-- knowledge-base-scope: source-contract -- This pass extends Product v2. It does not claim physical sleep, codec or audio qualif">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-ui-reborn-feature-completion.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Product v2 feature-completion controls - Innioasis Updater">
+  <meta name="twitter:description" content="Product v2 feature-completion controls <!-- knowledge-base-scope: source-contract -- This pass extends Product v2. It does not claim physical sleep, codec or audio qualif">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>Product v2 feature-completion controls</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="product-v2-feature-completion-controls">Product v2 feature-completion controls</h1>
+<!-- knowledge-base-scope: source-contract -->
+<p>This pass extends Product v2. It does not claim physical sleep, codec or audio qualification. Current output capabilities still come from the platform.</p>
+<ul><li><strong>Audio → Equalizer:</strong> enable the existing FFmpeg EQ/limiter, edit five broad<p>bands at 60/250/1000/4000/12000 Hz, or reset to flat. Each wheel detent changes the candidate gain by 1 dB, bounded to ±12 dB. Select applies; Back cancels. Values are persisted with the existing settings. Playback uses its existing transactional reconfiguration and rollback. Reset Settings now also removes an active EQ from the running pipeline.</p></li><li><strong>Audio → Output Details:</strong> source codec/bits/rate, decoder/DSP precision and<p>the accepted PCM format/rate live in Diagnostics. The accepted PCM container is not proof of the DAC&#x27;s meaningful payload bits.</p></li><li><strong>System → Sleep</strong> and <strong>Quick Settings → Sleep:</strong> deliberate sleep is<p>distinct from a short Power press, which blanks the display while retaining playback. Playing/buffering refuses sleep with a Pause action explanation. The platform owns admission; current software refuses ordinary deep sleep until same-boot physical qualification is complete. Requested, refused, sleeping, restoring, restored and restore-failed are typed product states. A restored claim additionally needs same_boot=true and kernel_completed=true.</p></li><li><strong>Bluetooth:</strong> codec preference and the observed device codec remain separate.<p>A paused player can now select a codec; there is no hidden requirement to use a command-line Stop action. Existing transport and PCM lease guards remain. Optional choices require the current enabled/mutual capability set, discovered read-only when the transport first appears. The saved preference is attempted once per observed connection after playback is paused/stopped; replacement PCM objects do not retrigger it. SBC-only peers still expose their quality setting. SBC quality and LDAC quality/Auto Rate controls use the platform&#x27;s supported settings. Saved changes say <strong>restart required</strong>; Diagnostics distinguishes saved values from the current daemon&#x27;s startup receipt. LDAC quality labels give both rate families: 303/330, 606/660, 909/990 kbps. ABR enabled is a control state, not evidence that adaptation has been observed.</p></li><li><strong>Diagnostics → Export Diagnostic Report:</strong> creates the platform&#x27;s redacted<p>shareable report, then opens Latest Result with its archive path and retrieval instruction. <strong>Export Player Data</strong> is explicitly a private backup.</p></li><li><strong>Battery:</strong> voltage-derived percentage is labelled <strong>Estimated Charge</strong>.<p>No current, coulomb or battery temperature measurements are invented.</p></li></ul>
+<p>The ready-frame boot handoff and black-frame/backlight-off shutdown sequence from the entry source remain in use. The wheel&#x27;s input duplicate suppression, acceleration and direction-reset logic is unchanged; the EQ picker uses the existing one-detent value policy. Long modal lists now compute visible rows from the actual description height so the focused row remains on screen.</p>
+<p>Validation: <code>cargo fmt --all -- --check</code>, strict workspace clippy and 238 workspace tests passed, including API-boundary, shutdown and input tests. <code>reborn-preview</code> emits 69 deterministic native-resolution cases; the new EQ, long EQ picker, sleep refusal and LDAC settings cases were rendered and viewed. These fixtures are presentation validation, not observations from a device.</p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

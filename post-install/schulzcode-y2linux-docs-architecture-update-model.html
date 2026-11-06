@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux update model — layout v1 - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux update model — layout v1 <!-- knowledge-base-scope: historical-design-/-runbook -- Historical record. The dates, candidate identity, "current" claims, next steps">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-architecture-update-model.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux update model — layout v1 - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux update model — layout v1 <!-- knowledge-base-scope: historical-design-/-runbook -- Historical record. The dates, candidate identity, "current" claims, next steps">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-architecture-update-model.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux update model — layout v1 - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux update model — layout v1 <!-- knowledge-base-scope: historical-design-/-runbook -- Historical record. The dates, candidate identity, "current" claims, next steps">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux update model — layout v1</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-update-model--layout-v1">Y2Linux update model — layout v1</h1>
+<!-- knowledge-base-scope: historical-design-/-runbook -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Historical layout rationale. The implemented Platform v1 software OTA contract is <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Farchitecture%2Fplatform-update-v1.md">signed rescue updates</a>, which supersedes this page&#x27;s older statements about missing downloads/signatures/automatic installation. Manual preserving BOOTIMG/root packages remain distinct. The new OTA path is root-only and requires exact kernel compatibility; a manual qualified kernel-only package may still use the broader ABI contract described below.</p>
+<p>Original architecture context: Buildroot 2025.02.18 remains the canonical userspace builder; Linux6.18, glibc, BusyBox, Dropbear, ALSA and current platform services work without Y2PlayerNative. No remote downloading, signing, server, checks, automatic install or app code is implemented here. The release package is an unsigned manual-test candidate.</p>
+<h2 id="stable-update-units">Stable update units</h2>
+<table><thead><tr><th>Unit</th><th>Location</th><th>Version / compatibility</th><th>Replacement boundary</th></tr></thead><tbody><tr><td>Kernel + DT + rescue + matching modules</td><td>Stock BOOTIMG</td><td>kernel_version, kernel_contract</td><td>Whole BOOTIMG image at partition-relative zero</td></tr><tr><td>Buildroot system</td><td>ANDROID, ext4 LABEL=Y2ROOT</td><td>rootfs_version, rootfs_contract, ARM hard-float/glibc ABI</td><td>Whole userspace image; modules supplied by BOOTIMG</td></tr><tr><td>Persistent state</td><td>USRDATA, ext4 LABEL=Y2DATA, mounted /data</td><td>data_schema_version</td><td>Never overwritten by normal OTA or preserving reinstall</td></tr><tr><td>Future Y2PlayerNative</td><td>Built-in /usr/bin, /usr/lib, /usr/share; optional future /data/apps/y2player/releases</td><td>Independent application version plus minimum runtime ABI</td><td>App bundle/file tree; no firmware partition</td></tr></tbody></table>
+<p><code>manifest.json</code> carries layout/release/component versions, build Git commit, board/capacity/scatter identity, physical and scatter-linear starts, partition bounds, actual sizes and SHA256 for each raw and SPFT representation. Storage02 uses raw ext4 directly because the selected legacy DA rejects sparse FILL chunks. The same hash describes transport bytes and physical image bytes; old failed RAW/FILL package metadata remains historical evidence. Image offset zero means offset zero <em>inside that partition</em>. The layout file and validators are the future shared installer/updater contract.</p>
+<p>From Storage04 onward BOOTIMG owns its matching loadable modules. Rescue stages them in /run/y2/modules and binds that RAM tree at /lib/modules before Buildroot starts. Y2ROOT contains no duplicate kernel module or exact-kernel module index. Kernel-only and rootfs-only replacements check the shared y2-platform-v1 contract and userspace ABI instead of requiring equal kernel release strings. The first transition from Storage03 requires both BOOTIMG and Y2ROOT; later compatible BOOTIMG-only replacements need no root rewrite. Full releases may replace both.</p>
+<p>Y2DATA holds settings, apps, y2player state, logs, cache, SSH public authorizations and generated host keys. State survives root/kernel/app replacement. Root is writable as requested; ad-hoc edits outside /data are <strong>not</strong> preserved by image replacement. Use /data/settings for persistent configuration. Schema migrations must be explicit, bounded, backed up and compatible with intended rollback.</p>
+<h2 id="future-application-only-update">Future application-only update</h2>
+<p>A future Buildroot <code>package/y2player-native/</code> may install the baseline player in /usr. An optional signed versioned payload under /data/apps/y2player/releases could take precedence via a future launcher after verifying runtime ABI and signature. Stage into a new directory, fsync files/directories, then atomically switch a same-filesystem activation symlink. Keep the prior version until a health check; never place state inside a replaceable release directory. /data/y2player/settings, database, cache and history persist independently. No launcher, app package, activation mechanism or updater is implemented now.</p>
+<h2 id="single-slot-rescue-direction-and-failure-semantics">Single-slot rescue direction and failure semantics</h2>
+<p>The stock map has one LK-selected BOOTIMG and a separate stock RECOVERY. Keep RECOVERY, PRELOADER, LK and tables. No cheap A/B boot selection is evidenced; no A/B partition is reserved and no new partition table is needed for the selected <strong>staged single-slot rescue</strong> model. The 820 MiB root slot and 800 MiB data slot are fixed. The current root filesystem is512MiB with ample package space; transport compression is small. Future updater must calculate staging space, keep persistent-data headroom and reject updates that do not fit. It may use a host or optional SD for staging/recovery, never require SD for normal boot. Do not promise that arbitrary future root versions and two raw backups fit in data.</p>
+<p>Future transaction concept: verify compatibility, exact board/table, allowlisted target, signature/hash/expanded size and staging capacity in the running system; write a durable intent record on /data; enter rescue explicitly; verify again; unmount root; write/flush/read back; retain an interrupted-state record until healthy boot is acknowledged. Rescue must never mount or overwrite a root being updated. Filesystem journal recovery alone is not image-update rollback.</p>
+<p>A torn Y2ROOT image leaves intact BOOTIMG rescue available. A later updater can resume a verified staged image or restore a retained compatible previous image. A torn BOOTIMG can prevent rescue itself starting: **v1 cannot provide automatic rollback for this case**. Owner-proven SPFT/stock loader recovery remains the external path. Kernel-only online self-overwrite is not a supported v1 operation. The current kernel guard permits writes only to ANDROID and USRDATA, and rejects BOOTIMG and switching into hardware boot/RPMB areas. Returning to EMMC_USER while preserving boot configuration is a normal permitted operation. A future rescue writer needs a separate reviewed, narrowly enabled BOOTIMG write policy; no repartition is needed.</p>
+<p>Release identity and component versions are independent of layout_version. Reject unknown layout, incompatible board/capacity/table, oversized or corrupted images, unsupported ABI/schema and a dependency mismatch before any write. Future signed metadata must cover these fields and anti-rollback policy. Null signature, signing_key_id, update_channel and rollback_index are extension points, not a claim of authenticity or verified boot. Unchanged LK does not verify this release.</p>
+<h2 id="installer-contract-and-protected-exclusions">Installer contract and protected exclusions</h2>
+<p>A future Y2Linux Installer and OTA updater should share this package parser, layout-version checks, partition allowlist, representation/expanded hash checks, compatibility rules and readback verification. Installer detection must verify the physical Y2 and its actual tables, not merely USB VID/PID or a filename. Only first installation may initialize Y2DATA under explicit data-loss choice. Preserving reinstalls select BOOTIMG and ANDROID, leaving USRDATA untouched.</p>
+<p>Normal update allowlist is BOOTIMG and ANDROID, plus a future validated app file namespace on Y2DATA. PRELOADER, UBOOT/LK, NVRAM, PRO_INFO, PROTECT_F/S, SECCFG, SEC_RO, MBR/EBRs, recovery/control resources and unknown vendor regions are excluded. These contain boot-chain expectations, recovery, calibration or unique identity that an ordinary system update cannot reconstruct safely. Leave unused Android CACHE/EXPDB/FAT alone; FAT may contain user media.</p>
+<p>The first-install data template is explicitly personalized using a fresh owner public key. Private client key stays outside the package; no Dropbear host key, NVRAM, MAC, serial, Wi-Fi/BT identity or calibration is copied from the device. Production USB uses gadget-generated local MACs rather than copied identities. Password and SSH forwarding are disabled. Keys are generated from kernel entropy on first connection and persist on /data; entropy initialization can delay SSH (the prior physical boot took about154s). Public distribution needs explicit per-owner provisioning; never distribute this owner&#x27;s personalized data template as a universal credential. Rescue ACM is diagnostic-only; no unauthenticated USB network shell is added. Broader debug access/security remains #32.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

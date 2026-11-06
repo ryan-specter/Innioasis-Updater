@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reborn UI reset architecture - Innioasis Updater</title>
+  <meta name="description" content="Reborn UI reset architecture <!-- knowledge-base-scope: historical-design-/-runbook -- Historical record. The dates, candidate identity, "current" claims, next steps and">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-architecture-reborn-premium-overhaul.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Reborn UI reset architecture - Innioasis Updater">
+  <meta property="og:description" content="Reborn UI reset architecture <!-- knowledge-base-scope: historical-design-/-runbook -- Historical record. The dates, candidate identity, "current" claims, next steps and">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-architecture-reborn-premium-overhaul.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Reborn UI reset architecture - Innioasis Updater">
+  <meta name="twitter:description" content="Reborn UI reset architecture <!-- knowledge-base-scope: historical-design-/-runbook -- Historical record. The dates, candidate identity, "current" claims, next steps and">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>Reborn UI reset architecture</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="reborn-ui-reset-architecture">Reborn UI reset architecture</h1>
+<!-- knowledge-base-scope: historical-design-/-runbook -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_REBORN_STATE.md) for the latest physically observed result.
+<p>This document records the product and architecture target for the Reborn overhaul. It is grounded in the current native Rust code, the captured Y2 input evidence, and the supplied Reborn UI Implementation Pack. It is not derived from any older player UI.</p>
+<h2 id="audit-result">Audit result</h2>
+<p>The visual references share a small, readable premium language:</p>
+<ul><li>near-black/navy background and slightly raised blue-black surfaces;</li><li>warm white primary text, cool grey secondary text, and restrained gold for<p>focus, progress, active state, and the primary action;</p></li><li>album art as the main visual anchor, with thin dividers and compact rounded<p>cards rather than dense diagnostic panels;</p></li><li>one unmistakable focus target, stable list scrolling, and minimal status<p>indicators;</p></li><li>a compact 480x360 layout with no touch affordances.</li></ul>
+<p>The superseded Reborn presentation layer had a flat text list, developer labels, a global notice string, and screen-local selection. This reset retires that presentation layer while keeping the working runtime, service, and audio systems underneath it.</p>
+<h2 id="hardware-input-contract">Hardware input contract</h2>
+<p>The current Y2Linux evidence identifies these devices by name. Event numbers are intentionally not part of the contract.</p>
+<table><thead><tr><th>Physical control</th><th>Linux source</th><th>Captured event</th><th>Reborn semantic action</th></tr></thead><tbody><tr><td>Center / Select</td><td><code>Y2 navigation buttons</code></td><td><code>EV_KEY 28</code> press/release</td><td>Select; hold = ContextMenu</td></tr><tr><td>Back</td><td><code>Y2 navigation buttons</code></td><td><code>EV_KEY 158</code> press/release</td><td>Back; hold = Home</td></tr><tr><td>Previous</td><td><code>Y2 navigation buttons</code></td><td><code>EV_KEY 105</code> press/release</td><td>PreviousTrack; hold = SeekBackward</td></tr><tr><td>Next</td><td><code>Y2 navigation buttons</code></td><td><code>EV_KEY 106</code> press/release</td><td>NextTrack; hold = SeekForward</td></tr><tr><td>Play/Pause</td><td><code>Y2 navigation buttons</code></td><td><code>EV_KEY 164</code> press/release</td><td>PlayPause; hold = ShowNowPlaying</td></tr><tr><td>Power</td><td><code>mtk-pmic-keys</code></td><td><code>EV_KEY 116</code> press/release</td><td>screen wake/sleep; hold = PowerMenu</td></tr><tr><td>Volume -</td><td>PMIC/keypad source</td><td><code>EV_KEY 114</code> press/release/repeat</td><td>VolumeDown</td></tr><tr><td>Volume +</td><td>PMIC/keypad source</td><td><code>EV_KEY 115</code> press/release/repeat</td><td>VolumeUp</td></tr><tr><td>Wheel clockwise</td><td><code>mt6582-keypad</code></td><td><code>EV_KEY 108</code> detent</td><td>WheelClockwise</td></tr><tr><td>Wheel counter-clockwise</td><td><code>mt6582-keypad</code></td><td><code>EV_KEY 103</code> detent</td><td>WheelCounterClockwise</td></tr><tr><td>Alternate wheel</td><td><code>APT32F click-wheel</code></td><td><code>EV_REL 8</code> if emitted</td><td>WheelClockwise/CounterClockwise</td></tr></tbody></table>
+<p>The 2026-09-18 capture contained no events from the APT32F node, while the keypad node emitted Up/Down detents. The implementation therefore supports the APT32F axis without depending on it and uses the proven keypad detent path. The direction names follow the captured keypad semantics (<code>Down</code> is the forward/clockwise direction); physical acceptance remains an owner test.</p>
+<p>The mapping is kept behind the platform input boundary and is validated by the input tests; screen code never sees Linux event codes or device names.</p>
+<h2 id="target-interaction-model">Target interaction model</h2>
+<p>Short and long-press decisions are centralized in <code>InputManager</code>:</p>
+<ul><li>long press threshold: 650 ms;</li><li>repeat begins at 400 ms;</li><li>repeat period: 90 ms for volume and navigation holds;</li><li>long press is emitted once and suppresses the matching short press;</li><li>wheel detents are independent from center/select and never activate focus.</li></ul>
+<p>When the screen is on, wheel rotation navigates lists except on Now Playing, where it adjusts volume. Volume keys always adjust volume. Previous/Next are global transport controls; in a list they do not become focus navigation.</p>
+<p>When the screen is off, only Power wakes it. Volume, Play/Pause, Previous, and Next may continue to operate without waking the display. Navigation, Select, Back, ContextMenu, and wheel input are ignored without changing focus or route.</p>
+<p>Power short toggles sleep/wake. Power long opens a confirmation-backed power menu while awake. Back short pops the explicit stack; Back long returns home; Back never stops playback. Destructive actions use a safe-default confirmation overlay.</p>
+<h2 id="product-information-architecture">Product information architecture</h2>
+<p>The root is deliberately consumer-facing:</p>
+<ol><li>Music — Artists, Albums, Tracks, Folders, Scan Library.</li><li>Now Playing.</li><li>Queue — current item, Up Next, remove/reorder/clear.</li><li>Connectivity — Bluetooth and Wi-Fi.</li><li>Settings — Audio, Playback, Library, Bluetooth, Wi-Fi, Display, Power,<p>System.</p></li></ol>
+<p>Diagnostics remains available under System and through <code>rebornctl</code>; raw BlueZ paths, ALSA controls, FFmpeg filters, SQL errors, and errno values are not product copy.</p>
+<h2 id="rust-ownership-model">Rust ownership model</h2>
+<p><code>AppModel</code> is the only owner of product state and is confined to the Reborn UI thread. Background workers own their platform/decoder handles and communicate with bounded channels. They never mutate AppModel or UI fields.</p>
+<p>The UI module performs navigation and returns typed <code>Effect</code> values. The main application loop interprets effects through service boundaries. Service results become typed core events and are applied before the next render.</p>
+<p>The chosen pattern is a small Elm-style update/effect loop, not a framework or a single giant reducer:</p>
+<pre><code class="language-text">normalized input / service event
+              -&gt; semantic Action/Event
+              -&gt; UI/application update
+              -&gt; AppModel + typed Effect
+              -&gt; service command
+              -&gt; typed result event
+              -&gt; AppModel
+              -&gt; render(state)</code></pre>
+<p>Navigation state is explicit and transient. Persisted state remains a narrow session/settings document: queue, current track, position, output, volume, ReplayGain/EQ/crossfade, timeout, and library source preferences. Renderer cache, focus animation, radio notices, and open dialogs are not serialized.</p>
+<h2 id="design-tokens-for-480x360">Design tokens for 480x360</h2>
+<p>The renderer uses central tokens rather than screen-local literals:</p>
+<pre><code class="language-text">background       #090B0D
+raised surface   #101317
+surface          #15191E
+surface hover    #1B2026
+surface border   #2A3037
+primary text     #F2F1ED
+secondary text   #AAAEB5
+muted text       #747A83
+accent gold      #E6B965
+bright gold      #FFD17B
+dim gold         #7D6337
+focus glow       #F5C973
+focus fill       #211B12
+success          #74B68B
+danger           #D46B65
+track            #444A51
+screen margin    16 px
+status bar       30 px
+row              44 px
+now-playing art  168 px
+list art         42 px
+focus border     2 px warm gold
+corner radii     6 / 10 / 14 px</code></pre>
+<p>Static screens render once after state change. Time/progress and temporary overlays are the only regular redraw sources; screen sleep stops normal render and animation work while playback continues.</p>
+<h2 id="validation-target">Validation target</h2>
+<p>Host tests cover input timing/mapping, screen-off gating, navigation invariants, queue/context-menu transitions, and serialization boundaries. Existing audio, library, radio, graphics, daemon, and ARM qualification paths remain in scope. The resulting root-only package is stopped for manual installation; no flash or protected partition write is performed by this work.</p>
+<h2 id="beforeafter-application-boundary">Before/after application boundary</h2>
+<p>Before, <code>app/reborn</code> received a raw <code>(device, Action)</code> tuple, treated the action as a screen callback, and toggled the display for every input while it was off. The UI also kept its own selection while the runtime kept a second track list.</p>
+<p>After, ownership is deliberately one-way:</p>
+<pre><code class="language-text">Linux evdev record
+  -&gt; InputManager (device identity, debounce, long press, repeat, acceleration)
+  -&gt; NormalizedInput
+  -&gt; ActionRouter (screen-off policy and long/short suppression)
+  -&gt; semantic Action
+  -&gt; Ui::action (navigation + typed Effect)
+  -&gt; Runtime::effect (service boundary)
+  -&gt; bounded worker/service channel
+  -&gt; typed Event / authoritative AppModel
+  -&gt; render(AppModel, view-only service snapshots)</code></pre>
+<p><code>AppModel</code> is owned by the UI/application thread. Playback, scanner, Wi-Fi, Bluetooth, and graphics workers own their handles and communicate through bounded channels. No worker writes <code>AppModel</code>; no view calls FFmpeg, ALSA, BlueZ, wpa_supplicant, or power APIs.</p>
+<p>The chosen pattern is intentionally a small Elm-style update/effect loop rather than a Redux dependency or a single giant reducer. The navigation module is the product update boundary, <code>AppModel::apply</code> handles asynchronous domain events, and <code>Runtime::effect</code> is the one service orchestration boundary. This keeps ownership obvious without creating a framework-sized abstraction.</p>
+<h2 id="physical-control-matrix">Physical-control matrix</h2>
+<table><thead><tr><th>Control</th><th>Short press/release</th><th>Long press</th><th>Repeat / screen off</th></tr></thead><tbody><tr><td>Power</td><td>sleep when on; wake when off</td><td>Power menu when on</td><td>no wake side effect from other keys</td></tr><tr><td>Select</td><td>open focused row</td><td>context menu</td><td>long suppresses short</td></tr><tr><td>Back</td><td>pop one parent route</td><td>Home</td><td>ignored while screen is off</td></tr><tr><td>Play/Pause</td><td>toggle playback</td><td>Now Playing</td><td>short works screen-off; no wake</td></tr><tr><td>Previous</td><td>previous track</td><td>seek backward</td><td>seek repeat after long; short works screen-off</td></tr><tr><td>Next</td><td>next track</td><td>seek forward</td><td>seek repeat after long; short works screen-off</td></tr><tr><td>Volume + / -</td><td>volume step</td><td>—</td><td>repeat; never navigation; never wakes</td></tr><tr><td>Wheel</td><td>focus one or accelerated list step</td><td>—</td><td>list focus, or volume on Now Playing; never Select</td></tr></tbody></table>
+<p>The <code>InputManager</code> timing constants are centralized: 650 ms long press, 400 ms repeat start, 90 ms repeat period, and a 180 ms sustained-wheel window with a six-step cap. The application tests assert that long press suppresses short press, wheel cannot become Select, and only Power wakes the screen.</p>
+<h2 id="screen-and-modal-model">Screen and modal model</h2>
+<p>The current screen is the single <code>AppModel::screen</code> value. The navigation stack stores parent routes only; it does not duplicate the current screen. Focus, scroll, active modal, modal focus, and context target are explicit in <code>NavigationState</code>. Modals are <code>ContextMenu</code>, <code>PowerMenu</code>, or a typed confirmation action. Confirmations default to Cancel for power, reboot, library rebuild, forget, and queue-clear operations.</p>
+<p>The product route graph is:</p>
+<pre><code class="language-text">Home
+├─ Music ─ Artists ─ Artist ─ tracks
+│        ├ Albums ─ Album ─ tracks
+│        ├ Tracks
+│        └ Folders ─ Tracks
+├─ Now Playing
+├─ Queue
+├─ Connectivity ─ Bluetooth / Wi-Fi
+└─ Settings
+   ├ Audio
+   ├ Playback
+   ├ Library
+   ├ Bluetooth
+   ├ Wi-Fi
+   ├ Display
+   ├ Power
+   └ System ─ Diagnostics</code></pre>
+<p>Now Playing is reachable from Home, the mini-player, and a long Play/Pause. The wheel is volume there; transport keys remain global. Queue clear removes upcoming items but never silently stops the current track.</p>
+<h2 id="implemented-consumer-settings">Implemented consumer settings</h2>
+<p>The UI exposes only behavior wired to the current Rust services:</p>
+<ul><li>Audio: Wired or a connected Bluetooth output, ReplayGain Off/Track/Album,<p>Equalizer on/off, and a secondary Audio Information view.</p></li><li>Playback: shuffle queue ordering, repeat Off/Track/All, actual gapless<p>enable/disable, and crossfade Off/5/10/15 seconds.</p></li><li>Library: internal/SD source status, scan, and confirmation-backed rebuild.</li><li>Bluetooth: power, scan, connect/disconnect, use for audio, negotiated codec<p>when BlueALSA reports it, and confirmation-backed forget.</p></li><li>Wi-Fi: power, scan, saved-network connect/forget, network connect, and a<p>physical-control character picker whose password is masked and never logged.</p></li><li>Display: 15 s/30 s/1 min/2 min/Never timeout.</li><li>System: About, diagnostics, reboot, and confirmation-backed power off.</li></ul>
+<p>Developer concepts remain in <code>rebornctl</code>, health, metrics, logs, and detailed diagnostics. They are not primary navigation or context-menu actions.</p>
+<h2 id="loading-empty-and-error-behavior">Loading, empty, and error behavior</h2>
+<p>Library, queue, radio, and audio-information views have explicit empty copy. Radio scan failures and service failures are translated to short recovery copy in the UI; raw errno, FFmpeg errors, SQL details, BlueZ paths, and Wi-Fi passwords stay in observability logs. Bluetooth loss pauses playback and returns the authoritative output to Wired, so the status bar cannot continue to present a disconnected Bluetooth route as active.</p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

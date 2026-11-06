@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Physical Y2 wired precision completion - Innioasis Updater</title>
+  <meta name="description" content="Physical Y2 wired precision completion Completion follows the newest integrated Baseline-final source, 2444e0f65811e688250a8cd069a57dd780b2d6d3 . The physical Baseline01">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-validation-reborn-y2-wired-precision-completion.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Physical Y2 wired precision completion - Innioasis Updater">
+  <meta property="og:description" content="Physical Y2 wired precision completion Completion follows the newest integrated Baseline-final source, 2444e0f65811e688250a8cd069a57dd780b2d6d3 . The physical Baseline01">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-validation-reborn-y2-wired-precision-completion.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Physical Y2 wired precision completion - Innioasis Updater">
+  <meta name="twitter:description" content="Physical Y2 wired precision completion Completion follows the newest integrated Baseline-final source, 2444e0f65811e688250a8cd069a57dd780b2d6d3 . The physical Baseline01">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>Physical Y2 wired precision completion</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="physical-y2-wired-precision-completion">Physical Y2 wired precision completion</h1>
+<p>Completion follows the newest integrated Baseline-final source, <code>2444e0f65811e688250a8cd069a57dd780b2d6d3</code>. The physical Baseline01 runs Reborn <code>9cd12baeeb70b204e08299bd4c91c8c35604c304</code> with FFmpeg 9.0.2. The media/audio/volume implementations used for these observations are shared with the selected source. No product DSP or radio implementation changed.</p>
+<p>**Correction: hardware24/32 feasibility is not established; impossibility is not proven.** The earlier HARDWARE_PROVEN_UNSUPPORTED verdict is withdrawn. The MT6582 specification documents two16-bit DL1 monitor fields and no wider fetch selector was found. A monitor&#x27;s width does not conclusively define all internal data-path modes. Installed playback is verified S16; I2S and the CS43131 accept wider words, but a complete wider source transport is unproven. The canonical evidence, register contract, live results, CPU measurements and hardware source identities are in the paired Y2Linux repository: <code>docs/validation/Y2-HIGHRES-AUDIO-COMPLETION.md</code>.</p>
+<p>The existing architecture decodes PCM24 into S32/Q31, converts to FLTP for DSP, then converts to the negotiated sink. Neutral S24_LE software output preserved every signed low-bit fixture value on the actual Cortex-A7. S32_LE output of that source preserved 24 bits left-aligned with eight zero padding bits. Binary32 DSP cannot preserve arbitrary signed PCM32 values at ordinary amplitudes; those software containers are not a true 32-bit precision claim.</p>
+<p>Six installed-Reborn playback cases (16/24/32 source at 44.1/48 kHz) selected S16_LE, stereo, period 512 and buffer 4096 frames. Each 256-byte kernel DMA snapshot matched the native final conversion probe byte-for-byte at settled unity live gain. Samples differing only below bit 16 collapsed. No xruns, recoveries, playback, decode or filter errors occurred in these bounded runs. There was no external I2S or analog measurement.</p>
+<h2 id="native-conversion-probe">Native conversion probe</h2>
+<p><code>tools/build/precision-probe.c</code> includes the actual native media implementation, as does the existing CPU benchmark. It dumps decode/float-DSP/final integer bytes without opening an audio sink. Its neutral graph retains the limiter. It does not include PlaybackWorker&#x27;s live VolumeRamp or kernel transport; those were checked separately by comparison with the observed DMA ring.</p>
+<p>Build with the production SDK and matching FFmpeg libraries:</p>
+<pre><code class="language-sh">task_sdk=&quot;$Y2_BUILDROOT_OUTPUT/host&quot;
+task_sysroot=$(&quot;$task_sdk/bin/arm-linux-gcc&quot; -print-sysroot)
+export PKG_CONFIG_SYSROOT_DIR=&quot;$task_sysroot&quot;
+export PKG_CONFIG_LIBDIR=&quot;$task_sysroot/usr/lib/pkgconfig:$task_sysroot/usr/share/pkgconfig&quot;
+&quot;$task_sdk/bin/arm-linux-gcc&quot; -O2 -Wall -Wextra -Werror \
+  -mtune=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard \
+  tools/build/precision-probe.c -o /tmp/y2-precision-probe \
+  $(&quot;$task_sdk/bin/pkg-config&quot; --cflags --libs libavformat libavcodec libavfilter libswresample libswscale libavutil) \
+  -lm -lpthread
+/tmp/y2-precision-probe source.wav 48000 3 /tmp/source-s24le.raw</code></pre>
+<p>Format IDs: 1 = S16_LE, 2 = S32_LE/Q31, 3 = ALSA S24_LE (24 valid bits in the low three bytes of a four-byte container, padding byte zero). Successful output explicitly reports <code>physical_output:false</code>. The ARM probe built with strict warnings, ran on the Y2, and its S24 result also matched under QEMU Cortex-A7. Workspace fmt, strict Clippy, 324 tests and the production ARM build passed.</p>
+<p>The ordinary stereo FLTP→S16 path on the installed FFmpeg uses <code>swri_oldapi_conv_fltp_to_s16_2ch_neon</code>: Q31 conversion followed by high-half packing, rather than nearest rounding at the S16 grid. This differs from the rounded packed-float converter and the explicit ties-even integer narrowing used by crossfade/S24 packing. No dither is selected. Settled unity VolumeRamp copies bytes; non-unity gain still performs a second integer quantization. These details are recorded rather than presented as a single idealized conversion. They do not explain away the independently documented DL1 ceiling.</p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

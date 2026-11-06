@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CPU Final Fix01 source and binary ledger - Innioasis Updater</title>
+  <meta name="description" content="CPU Final Fix01 source and binary ledger <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claims, next s">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-cpu-final-fix01-sources.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="CPU Final Fix01 source and binary ledger - Innioasis Updater">
+  <meta property="og:description" content="CPU Final Fix01 source and binary ledger <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claims, next s">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-cpu-final-fix01-sources.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CPU Final Fix01 source and binary ledger - Innioasis Updater">
+  <meta name="twitter:description" content="CPU Final Fix01 source and binary ledger <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claims, next s">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>CPU Final Fix01 source and binary ledger</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="cpu-final-fix01-source-and-binary-ledger">CPU Final Fix01 source and binary ledger</h1>
+<!-- knowledge-base-scope: scoped-validation-record -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Retained sources are read without reacquiring ROM/recovery/calibration. New bounded analysis receipts reside privately in <code>out/cpu-final-fix01/source/</code> and are included in the personal candidate&#x27;s source collection.</p>
+<table><thead><tr><th>Reference</th><th>Narrow use</th></tr></thead><tbody><tr><td><a href="https://android.googlesource.com/kernel/mediatek/+/d53dd75c3ff77cac3f5be58fddfe660e94f94d64/arch/arm/mach-mt6582/" target="_blank" rel="noopener noreferrer">Sprout d53dd75c</a></td><td>mt_gpt, generic timer, mt_idle single-CPU/clock eligibility, sleep/normal PCM, CIRQ and dormant ordering</td></tr><tr><td><a href="https://android.googlesource.com/kernel/mediatek/+/3be93a68c209393cfe24a842e2d5896a17ea37dc/arch/arm/mach-mt6582/" target="_blank" rel="noopener noreferrer">Additional MT6582 revision3be93a68</a></td><td>Cross-check GPT6 ownership, SLIDLE masks, suspend vs dormant topology and wake sequencing</td></tr><tr><td><a href="https://github.com/ferhung-mtk/android_kernel_huawei_h30t00/tree/3fec42ddadbefcf95c8fea4a10affb1c0abf5231/kernel-3.4/mediatek/platform/mt6582/kernel/core" target="_blank" rel="noopener noreferrer">Huawei3fec42dd</a></td><td>Independent clock group bit IDs, MT6323 VPROC_CON5/VOSEL/VOSEL_ON/NI feedback, stock OPP and SPM/PWRAP commands</td></tr><tr><td><a href="https://github.com/ubports/kernel_krillin/tree/874057f3c28735d606385361fb9a4cd4545ceba6/mediatek/platform/mt6582/kernel/core" target="_blank" rel="noopener noreferrer">BQ/Ubuntu krillin874057f3</a></td><td>Fourth independently retained board BSP: GPT6 system counter/13MHz GPT4 reference, stock single-CPU SLIDLE/peripheral bit map, VPROC/PWRAP and KP/EINT suspend wake sources; source SHA256 manifest included</td></tr><tr><td>Exact retained Y2 FM kernel SHA2567287acf1b397d243c927dde5c6ef9d5d871c9c158207cdd98e0e820923f4c197</td><td>mt_gpt_init, generic_timer_setup, CPU shutdown/dormant, sleep PCM, PMIC initialization and SRAM map. Existing bounded extracts plus new mt_map_io/ram_console/CPU/reset extracts; addresses below</td></tr><tr><td>Exact Y2 preloader and LK</td><td>Raw bounded extracts and SHA256s in source/stock/bootloader-extracts.json. GPT4 initialization at0020f8f8 and retained-console guard at0020b9ce; LK GPT4 count reads at81e08a1c</td></tr><tr><td><a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/?h=v6.18" target="_blank" rel="noopener noreferrer">Linux6.18</a></td><td>Locked local source: arm_arch_timer CPUHP/CPU PM, clockevents/tick highres/NO_HZ, ARM suspend.c/sleep.S/proc-v7.S, device PM GFP unwind, RTC/MFD/EINT, MMC/I²C runtime PM. Overlay base/result hashes remain exact</td></tr><tr><td><a href="https://documentation-service.arm.com/static/602cf701083323480d479d18" target="_blank" rel="noopener noreferrer">Cortex-A7 DDI0464F</a></td><td>Generic Timer/CP15 and physical timer PPI routing, reset/coherency constraints. No adjacent-SoC register constants imported</td></tr></tbody></table>
+<p>The preloader writes GPT4 control0/CLEAR2/clock0/control31 at original file 0xec0a..0xec18. Literals at0xec38/0xec3c are10008040/10008044; extraction verifies both and the31 write against raw bytes. LK reads10008048. This establishes the legitimate inherited GPT4 condition independently of a missing live register receipt. Linux must transfer this owner rather than require reset state.</p>
+<p>MT6323 VPROC_CON5 bit1 selects VOSEL_ON/220 or software VOSEL/21e. NI_VPROC_VOSEL is224. The exact stock PMIC_INIT_SETTING_V1 ARM call atc04b8538 writes216 field (mask1,shift1,value1), explaining the stock kernel&#x27;s later220 command slots. Y2Linux&#x27;s physical216=0 is the unchanged loader mode, not stock kernel init. No software-mode bank switch is guessed from an adjacent SoC.</p>
+<p>Exact mt_map_io(c095bf48) descriptor atc09875b8 maps f9000000 to physical 00100000 for64KiB. ram_console_early_init(c097287c) mapsf900dc00,size1c00. Retained preloader compares0010dc00 magic43474244 before its console-field writes; Fix01&#x27;s distinct5932504d magic preserves the new journal across that branch. No PMIC boot flag, RTC spare, loader or new DRAM allocation is used.</p>
+<p>PERI bits11/12/13/14/21/22/23 are APDMA/MSDC0/MSDC1/MSDC2/I2C0/I2C1/I2C2 in the independent MT6582 clock header. Stock SLIDLE mask00f00800 remains, with existing stricter MSDC7800 mask. GPIO/EINT, USB, UART and AFE masks are not substituted from MT6589/6592. Unused MSDC2 and I²C2 busy tests use their own exact MT6582 register windows and non-clearing status; active engines stay on.</p>
+<p>Source inspections establish register/software contracts. Fresh software builds and synthetic tests establish reproducibility and error handling. Only the next owner-controlled physical receipts can establish actual timer/idle/DVFS/wake behavior of this exact candidate.</p>
+<p>The BQ board independently retains PERI0 SLIDLE mask00f00800 and the same bit11/12/13/14/21/22/23 clock IDs. Its stock cpufreq selects board-specific voltage variants and sleep voltages; these do not override exact Y2 FM values. No BQ low-voltage or PCM payload is imported into Y2Linux. The two Google revisions, Huawei and BQ sources are all bundled with pinned identities/hashes.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

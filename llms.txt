@@ -1,6 +1,6 @@
 # Innioasis Updater
 
-> Innioasis Updater is the free, open-source tool for installing and restoring software on every Innioasis player (Y1, Y2, G1, G3, G5, Q8, R1, PR1, D1) and every Timmkoo player (A5, Q5, Q3), running on Windows, macOS, and Linux. The site also hosts the Themes Gallery and plain-English guides for custom software projects such as Rockbox, Solar, JJ Launcher, Inniclassic, Y2Player, and Koensayr. Install flows always ask the user to pick the model first and to connect the powered-off player only when Updater prompts.
+> Innioasis Updater is the free, open-source tool for installing and restoring software on every Innioasis player (Y1, Y2, G1, G3, G5, R1, PR1) and every Timmkoo player (A5, Q5, Q3), running on Windows, macOS, and Linux. The site also hosts the Themes Gallery and plain-English guides for custom software projects such as Rockbox, Solar, JJ Launcher, Inniclassic, Y2Player, and Koensayr. Install flows always ask the user to pick the model first and to connect the powered-off player only when Updater prompts.
 
 ## Key pages
 
@@ -15,6 +15,16 @@
 - [Developer guide](https://innioasis.app/developers.html): How to develop a custom firmware from a base ROM and publish it to the Updater manifest.
 - [Support](https://innioasis.app/support_devs.html): How to contribute, report issues, and support the projects.
 
+## Install guides by computer
+
+- [All install guides](https://innioasis.app/install/): every software and model combination on Windows, macOS and Linux, with platform setup, Updater CE steps and the stock restore path.
+- [Windows install guides](https://innioasis.app/install/windows.html): MediaTek driver, SmartScreen and Updater CE setup for Windows.
+- [macOS install guides](https://innioasis.app/install/mac.html): Gatekeeper approval, direct USB and Updater CE setup for Intel and Apple Silicon Macs.
+- [Linux install guides](https://innioasis.app/install/linux.html): AppImage, libfuse2 and the MediaTek udev rule.
+- [Rockbox on Y2 with a Mac](https://innioasis.app/install/rockbox-y2-mac.html): the macOS Rockbox-Y2 route.
+- [Reborn (Y2Linux) on Y2 with Linux](https://innioasis.app/install/reborn-y2linux-y2-linux.html): installing y2reborn on a Linux computer.
+- [JJ Launcher on Y1 with a Windows PC](https://innioasis.app/install/jj-launcher-y1-windows.html): the Windows JJ Launcher route.
+
 ## Install guides by software
 
 - [Rockbox on Y1](https://innioasis.app/rockbox-y1-software.html): Model-first Rockbox install tutorial for the Y1.
@@ -25,7 +35,7 @@
 - [Solar on Y2](https://innioasis.app/solar-y2-software.html): Solar Y2 entry with Wi-Fi, GPS, and FM.
 - [JJ Launcher on Y1](https://innioasis.app/jj-launcher-y1-software.html): Fast, wheel-friendly launcher for the Y1.
 - [JJ Launcher on Y2](https://innioasis.app/jj-launcher-y2-software.html): JJ Launcher for the Y2.
-- [Inniclassic on Y1](https://innioasis.app/inniclassic-y1-software.html): iPod Classic-style interface for the Y1.
+- [Inniclassic on Y1](https://innioasis.app/inniclassic-y1-software.html) and [Inniclassic on Y2](https://innioasis.app/inniclassic-y2-software.html): iPod Classic-style interface, available on both models from the same maintained project.
 - [Y2Player on Y2](https://innioasis.app/y2player-y2-software.html): Music-first home screen for the Y2.
 - [Koensayr on Y1](https://innioasis.app/koensayr-y1-software.html): Koensayr patch for the stock Y1 software.
 
@@ -34,7 +44,7 @@
 - [Why Rockbox](https://innioasis.app/rockbox-benefits.html): What Rockbox adds — tag database, gapless playback, EQ, and themes.
 - [Why Solar](https://innioasis.app/solar-benefits.html): Streaming, Wi-Fi, podcasts, and stem playback.
 - [Why JJ Launcher](https://innioasis.app/jj-launcher-benefits.html): Speed, hardware-key skipping, and wireless uploads.
-- [Why Inniclassic](https://innioasis.app/inniclassic-benefits.html): iPod Classic tribute on JJ Launcher.
+- [Why Inniclassic](https://innioasis.app/inniclassic-benefits.html): iPod Classic tribute on the Y1 and Y2.
 - [Why Y2Player](https://innioasis.app/y2player-benefits.html): Offline music-first interface for the Y2.
 - [Why Koensayr](https://innioasis.app/koensayr-benefits.html): Improves the stock Y1 software with Artist-to-Album navigation and root.
 
@@ -44,7 +54,7 @@
 - [Rockbox Y2 tutorial](https://innioasis.app/guides/rockbox-y2.html): The full Y2 install walkthrough.
 - [Restore Original Software Y1](https://innioasis.app/guides/restore-original-y1.html): Step-by-step Y1 stock restore.
 - [Restore Original Software Y2](https://innioasis.app/guides/restore-original-y2.html): Step-by-step Y2 stock restore.
-- [Solar Y1](https://innioasis.app/guides/solar-y1.html), [Solar Y2](https://innioasis.app/guides/solar-y2.html), [JJ Launcher Y1](https://innioasis.app/guides/jj-launcher-y1.html), [JJ Launcher Y2](https://innioasis.app/guides/jj-launcher-y2.html), [Inniclassic Y1](https://innioasis.app/guides/inniclassic-y1.html), [Y2Player Y2](https://innioasis.app/guides/y2player-y2.html), [Koensayr Y1](https://innioasis.app/guides/koensayr-y1.html).
+- [Solar Y1](https://innioasis.app/guides/solar-y1.html), [Solar Y2](https://innioasis.app/guides/solar-y2.html), [JJ Launcher Y1](https://innioasis.app/guides/jj-launcher-y1.html), [JJ Launcher Y2](https://innioasis.app/guides/jj-launcher-y2.html), [Inniclassic Y1](https://innioasis.app/guides/inniclassic-y1.html), [Inniclassic Y2](https://innioasis.app/guides/inniclassic-y2.html), [Y2Player Y2](https://innioasis.app/guides/y2player-y2.html), [Koensayr Y1](https://innioasis.app/guides/koensayr-y1.html).
 
 ## Optional
 

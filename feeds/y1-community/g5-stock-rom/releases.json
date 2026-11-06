@@ -1,0 +1,39 @@
+[
+  {
+    "id": 434778791,
+    "tag_name": "MX4_EN-V1.11-20260727",
+    "name": "MX4_EN-V1.11-20260727",
+    "body": "Original Innioasis G5 software **MX4_EN-V1.11-20260727**.\n\n- Model: **G5** (Innioasis)\n- Package: `rom_g5.zip`\n- Build tag: `MX4_EN-V1.11-20260727`\n- Build date: 2026-07-27\n\n## Install\n\n1. Download `rom_g5.zip` (every numbered volume if the release has more than one, then `cat rom_g5.zip.* > rom_g5.zip`).\n2. Unzip it. Keep the scatter file next to the images.\n3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.\n4. Or use Innioasis Updater CE: <https://innioasis.app/guide.html>\n\nThis wipes the player. Back up music and recordings first.\n\n## Files\n\n| File | Size |\n| --- | --- |\n| `rom_g5.zip` | 1953.7 MB |\n| `SHA256SUMS` | 0.0 MB |\n\nFull archive: <https://innioasis.app/firmware.html?model=G5>",
+    "draft": false,
+    "prerelease": false,
+    "created_at": "2026-11-05T04:15:36Z",
+    "published_at": "2026-11-05T04:21:06Z",
+    "html_url": "https://github.com/y1-community/g5-stock-rom/releases/tag/MX4_EN-V1.11-20260727",
+    "icon_url": "",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 712038771,
+        "name": "rom_g5.zip",
+        "browser_download_url": "https://github.com/y1-community/g5-stock-rom/releases/download/MX4_EN-V1.11-20260727/rom_g5.zip",
+        "size": 2048654340,
+        "download_count": 2,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T04:21:09Z",
+        "updated_at": "2026-11-05T04:24:41Z",
+        "url": "https://api.github.com/repos/y1-community/g5-stock-rom/releases/assets/712038771"
+      },
+      {
+        "id": 712047709,
+        "name": "SHA256SUMS.MX4_EN-V1.11-20260727",
+        "browser_download_url": "https://github.com/y1-community/g5-stock-rom/releases/download/MX4_EN-V1.11-20260727/SHA256SUMS.MX4_EN-V1.11-20260727",
+        "size": 78,
+        "download_count": 1,
+        "content_type": "application/octet-stream",
+        "created_at": "2026-11-05T04:24:42Z",
+        "updated_at": "2026-11-05T04:24:42Z",
+        "url": "https://api.github.com/repos/y1-community/g5-stock-rom/releases/assets/712047709"
+      }
+    ]
+  }
+]

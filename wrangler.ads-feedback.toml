@@ -1,0 +1,13 @@
+name = "innioasis-ad-feedback"
+main = "ads-feedback-worker.js"
+compatibility_date = "2026-11-03"
+
+routes = [
+  { pattern = "innioasis.app/ad-feedback*", zone_name = "innioasis.app" }
+]
+
+[vars]
+ALLOWED_ORIGINS = "https://innioasis.app,https://www.innioasis.app"
+
+# The webhook URL is a secret, not a var:
+#   wrangler secret put FEEDBACK_WEBHOOK_URL --config wrangler.ads-feedback.toml

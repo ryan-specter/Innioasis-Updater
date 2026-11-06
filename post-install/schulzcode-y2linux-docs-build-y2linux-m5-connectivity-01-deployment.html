@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M5-CONNECTIVITY-01 — manual deployment handoff - Innioasis Updater</title>
+  <meta name="description" content="M5-CONNECTIVITY-01 — manual deployment handoff <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "curren">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m5-connectivity-01-deployment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M5-CONNECTIVITY-01 — manual deployment handoff - Innioasis Updater">
+  <meta property="og:description" content="M5-CONNECTIVITY-01 — manual deployment handoff <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "curren">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m5-connectivity-01-deployment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M5-CONNECTIVITY-01 — manual deployment handoff - Innioasis Updater">
+  <meta name="twitter:description" content="M5-CONNECTIVITY-01 — manual deployment handoff <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "curren">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M5-CONNECTIVITY-01 — manual deployment handoff</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m5-connectivity-01--manual-deployment-handoff">M5-CONNECTIVITY-01 — manual deployment handoff</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>**The integrated candidate is built and host-validated. M5 remains OPEN pending owner installation and physical qualification.** POWER-03 is the owner-accepted M4 baseline. No fresh entry audit, private partition reacquisition, physical flash or protected-partition write was performed.</p>
+<h2 id="15-source-hardware-and-factory-identity">1–5. Source, hardware and factory identity</h2>
+<ol><li><strong>Source commit:</strong> <code>022c701010c467904ab6025cd98535d3b861c771</code>. Kernel <code>6.18.0-y2linux-m5-connectivity-01</code>;<p>rootfs <code>2025.02.17-connectivity.1</code>. The evidence commit is the commit containing this receipt; it does not change the built source identity.</p></li><li><strong>Controller:</strong> CONSYS_MT6582; Wi-Fi is MT6582 <strong>AHB fullmac</strong>. Bluetooth is<p><strong>BTIF + AP_DMA → STP/WMT → standard HCI</strong>. One shared antenna. The older board has no useful FM reception; FM is unsupported and excluded from M5.</p></li><li><strong>Silicon stepping:</strong> actual HVR/FVR remains a first-boot measurement.<p>The driver reads chip/HVR/FVR and accepts the inventoried E1/E2 HVR family <code>0x8a00</code>/<code>0x8a01</code>, with chip <code>0x6582</code>. No invented numeric PCB revision.</p></li><li><strong>Factory mapping:</strong> read-only logical NVRAM <code>0x400000</code>/5 MiB,<p>PROTECT_F <code>0x900000</code>/10 MiB, PROTECT_S <code>0x1300000</code>/10 MiB. The first 4 MiB AP backup is empty; the tail is history receipts. BT LID 1/001 is 64 bytes; Wi-Fi LID 30/000 is 512 bytes; special LID 36 is PRODUCT_INFO. This unit&#x27;s PROTECT_F provides ST33A004 (2060 bytes) and MP0D_000 (4); PROTECT_S provides ST33B004 (2060). They remain opaque MD factory records. Journal replay and generated calibration filesystem writes affect bounded RAM only. The native cold boot must satisfy the filesystem completion gate, shut MD1 down, and complete WMT calibration before radio use; physical success is still pending.</p></li><li><strong>Addresses:</strong> use a valid firmware/controller address when present; reject<p>zero/multicast and the known generic BT default. Otherwise independent random local unicast addresses persist privately in <code>/data/connectivity</code>. Board defaults have their generic address fields erased. No release-wide identity, copied external calibration, private raw dump or protected write is used.</p></li></ol>
+<h2 id="67-firmware-and-provisioning">6–7. Firmware and provisioning</h2>
+<ol><li><strong>Firmware list, exact SHA256 and first-start loading order:</strong></li></ol>
+<table><thead><tr><th style="text-align:right">Order</th><th>Filename</th><th style="text-align:right">Bytes</th><th>SHA256</th></tr></thead><tbody><tr><td style="text-align:right">1</td><td><code>modem_1_2g_n.img</code></td><td style="text-align:right">2424376</td><td><code>5059775975cbf6ab74c43978ca8f65d9a274b83585f456134e39b09f6dc7a4f1</code></td></tr><tr><td style="text-align:right">2</td><td><code>WMT_SOC.cfg</code></td><td style="text-align:right">80</td><td><code>cea0a94b8a88e9c24e6835446ebc3106d7b100c3709ea98e8bb7368689c8a2b5</code></td></tr><tr><td style="text-align:right">3</td><td><code>mt6572_82_patch_e1_1_hdr.bin</code></td><td style="text-align:right">17476</td><td><code>96eb25489305bd472805db1da33bcc0acd37b5bb21cceda98d7e88ba1179ca37</code></td></tr><tr><td style="text-align:right">4</td><td><code>mt6572_82_patch_e1_0_hdr.bin</code></td><td style="text-align:right">33120</td><td><code>fa3be4a92540296de512d64f56272746be10bdfa2db571c8ceada2d40cd616f0</code></td></tr><tr><td style="text-align:right">5</td><td><code>WIFI_RAM_CODE_MT6582</code></td><td style="text-align:right">160368</td><td><code>4def37522e2bfd2d4b78e01bf9f567a37e3f67ab3d7b6646ffb317f5b2b49b82</code></td></tr></tbody></table>
+<p>Install directory: <code>/lib/firmware/mediatek/mt6582/</code>. Patch <code>_1</code> precedes <code>_0</code> by header sequence. After successful cold calibration, MD1 stays off for the rest of this Linux boot; warm CONN restart reloads volatile patches and function firmware. Wi-Fi RAM code loads when Wi-Fi starts. The build also installs address-free <code>WIFI.defaults</code> (512 bytes) and <code>BT.defaults</code> (64), with exact hashes in the <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/evidence/y2linux-m5-connectivity-01/owner-firmware.json" target="_blank" rel="noopener noreferrer">owner input receipt</a>.</p>
+<ol><li><strong>Provenance/legal status:</strong> the five files are from the owner&#x27;s retained<p>Y2 v3.2.0_FM stock image and the two defaults from its hash-checked stock <code>libcustom_nvram.so</code>. Reuse the <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/knowledge/evidence/m5-firmware-inventory.json" target="_blank" rel="noopener noreferrer">completed inventory</a>. <strong>Vendor redistribution permission is not established.</strong> This is an explicit owner-local image. No blobs are committed/uploaded and no boot downloads occur.</p></li></ol>
+<h2 id="820-implemented-production-platform">8–20. Implemented production platform</h2>
+<table><thead><tr><th style="text-align:right">#</th><th>Area</th><th>Candidate behavior; physical acceptance pending</th></tr></thead><tbody><tr><td style="text-align:right">8</td><td>Shared core</td><td>One CONSYS power/reset/recovery owner using existing CCF, SPM, PWRAP/regmap, regulators and reset framework; existing reserved RAM only. Bounded native MD IPC/filesystem calibration.</td></tr><tr><td style="text-align:right">9</td><td>Wi-Fi</td><td>Linux 6.18 AHB fullmac port, cfg80211/nl80211 <code>wlan0</code>, rfkill, firmware/regulatory/power-save and shared recovery. No app-specific kernel API.</td></tr><tr><td style="text-align:right">10</td><td>Bluetooth</td><td>Coherent AP_DMA TX/RX FIFOs, BTIF IRQs, reliable STP/WMT and standard <code>hci0</code>. Dedicated DMA windows and balanced clocks preserve I2C/audio ownership.</td></tr><tr><td style="text-align:right">11</td><td>Buildroot</td><td>2025.02.17, iw 6.9, signed regulatory database, D-Bus, BlueZ, BlueALSA, ALSA plugins, udhcpc/iproute2, TLS curl/CA certificates and iperf3.</td></tr><tr><td style="text-align:right">12</td><td>Wi-Fi userspace</td><td>wpa_supplicant <strong>2.12</strong>, nl80211/control socket/D-Bus; DHCP lifecycle follows association. Saved networks use private Y2DATA configuration.</td></tr><tr><td style="text-align:right">13</td><td>BlueZ</td><td><strong>5.79</strong>, D-Bus <strong>1.14.10</strong>, normal management/client/monitor/audio interfaces, dual-mode discovery from actual controller capabilities; bonds/trust persist.</td></tr><tr><td style="text-align:right">14</td><td>Audio / AVRCP</td><td>BlueALSA <strong>4.3.1</strong>, libsbc <strong>2.0</strong>, A2DP Source and standard ALSA PCM/control. SBC is the selected codec. Bounded <code>y2-a2dp-check</code> exposes BlueZ/MPRIS controls and fixture metadata; no final player UI.</td></tr><tr><td style="text-align:right">15</td><td>Expected Wi-Fi</td><td>2.4 GHz b/g/n, single stream, HT20 station, open/WPA2-PSK. World regulatory default; persist the user&#x27;s lawful country. HT40/AP/P2P/WPA3 unqualified; no 5 GHz/ac/ax/MIMO claims.</td></tr><tr><td style="text-align:right">16</td><td>Expected Bluetooth</td><td>Classic discovery/pairing/bonds, A2DP Source/SBC, AVRCP controls/volume/metadata through BlueZ; automatic preferred trusted audio-device reconnect. Actual feature/version/profile interoperability requires physical tests.</td></tr><tr><td style="text-align:right">17</td><td>EDR</td><td>No global Basic Rate restriction or feature masking. Test controller features, packet modes and credit progress; apply a narrow workaround only for a demonstrated failure.</td></tr><tr><td style="text-align:right">18</td><td>BLE</td><td>BlueZ LE/GATT tools included; capability and scan/GATT qualification conditional on actual firmware reporting. No Bluetooth 5.x claim.</td></tr><tr><td style="text-align:right">19</td><td>Coexistence</td><td>Own shared-antenna WMT configuration and co-clock, one function owner. Sustained Wi-Fi + SBC audio is a hard physical gate, still pending.</td></tr><tr><td style="text-align:right">20</td><td>PM / recovery</td><td>Counted function references; both-off runtime power-down, bounded shared recovery, explicit radio-off full-suspend policy and preference restoration. Screen blanking leaves active audio/transfers alone; activity leases prevent deep suspend during work. Offline charging never activates radios. Active BT transport idle power still needs measurement.</td></tr></tbody></table>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm5-connectivity-implementation.md">Implementation details and source provenance</a>.</p>
+<h2 id="2123-candidate-images-and-y2data-preservation">21–23. Candidate images and Y2DATA preservation</h2>
+<ol><li><strong>BOOTIMG changed.</strong> Package directory:<p><code>/home/luca/Dokumente/Code/Y2Linux/out/y2linux-m5-connectivity-01/</code>.</p></li><li><strong>Y2ROOT changed.</strong> Use both new images together:</li></ol>
+<table><thead><tr><th>Artifact, relative to the package directory</th><th style="text-align:right">Bytes</th><th>SHA256</th></tr></thead><tbody><tr><td><code>BOOTIMG.img</code></td><td style="text-align:right">6144000</td><td><code>a24b257a795b8ffea198e57344f20a514f4fa5e7148572ac8331afed9e996a96</code></td></tr><tr><td><code>Y2ROOT.img</code></td><td style="text-align:right">536870912</td><td><code>add6b375d33dbfa3f36e505c9784c934c3b31e2073041f514dcd2db524408e67</code></td></tr><tr><td><code>fallback/BOOTIMG.img</code></td><td style="text-align:right">5408768</td><td><code>66b6ecd5ef54da6f3ea07be2c9deda284d0a7636e9c6da4c5d72d84eca5fc010</code></td></tr><tr><td><code>fallback/Y2ROOT.img</code></td><td style="text-align:right">536870912</td><td><code>814a5b2543931e01cee2eb6f641c3b6e02317bd6308d2d663aea78f618bd554f</code></td></tr></tbody></table>
+<ol><li><strong>Y2DATA is preserved in place.</strong> No data image, formatting or schema reset.<p>First normal boot creates private network/Bluetooth/identity directories and bind mounts standard BlueZ/BlueALSA state paths. Existing media, settings, SSH authorization and host keys remain. Credentials/bonds are absent from immutable release inputs. BOOTIMG/Y2ROOT updates keep the existing schema-1 platform contract; the OTA updater itself is not implemented.</p></li></ol>
+<p>Host validation: <strong>81 production/M4/connectivity tests</strong>, ARM executable/ plugin checks, emitted DT/config/BOOTIMG checks, clean ext4, verified firmware, and <strong>16 package rejection cases</strong>. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fevidence%2Fy2linux-m5-connectivity-01%2FREADME.md">Evidence</a>. These results do not prove calibration, radio operation, EDR, coexistence, reconnect, standby consumption or M4 resume behavior on this candidate.</p>
+<h2 id="2425-exact-owner-installation-and-fallback">24–25. Exact owner installation and fallback</h2>
+<ol><li><strong>Install manually:</strong></li></ol>
+<pre><code>1. On the host, verify the complete package:
+
+   ```sh
+   cd /home/luca/Dokumente/Code/Y2Linux/out/y2linux-m5-connectivity-01
+   sha256sum -c SHA256SUMS
+   ```
+
+2. Close other flash/serial tooling, shut down the Y2, and open the
+   established working SP Flash Tool/Download Agent setup.
+3. Load this directory&#x27;s `MT6582_preserve_data_scatter.txt` and choose
+   **Download Only**. Confirm exactly **BOOTIMG → BOOTIMG.img** and
+   **ANDROID → Y2ROOT.img** are selected from this directory. Every other
+   row, including USRDATA, PRELOADER/LK, partition tables and protected
+   calibration, remains unchecked and has no payload mapping. Do not use
+   Format or Firmware Upgrade.
+4. Perform the established manual USB connection/download procedure and
+   wait for success. Disconnect the flashing cable. Charger insertion
+   should retain M4 offline charging; hold and release Power intentionally
+   for normal boot. Connect the PC for existing `root@10.42.0.1` SSH access.
+5. Report the candidate running. The assistant then performs the SSH tests;
+   radio preferences initially default off and no AP password is packaged.</code></pre>
+<ol><li><strong>Fallback:</strong> use <code>fallback/MT6582_preserve_data_scatter.txt</code>, Download Only,<p>with its <strong>POWER-03 BOOTIMG</strong> and <strong>previous Y2ROOT</strong>, selecting the same two rows. Their exact sizes/hashes are in the table above and SHA256SUMS. This restores the owner-accepted platform while preserving current Y2DATA.</p></li></ol>
+<h2 id="26-one-coherent-physical-qualification-session">26. One coherent physical qualification session</h2>
+<ol><li>Follow the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm5-connectivity-implementation.md%23one-physical-qualification-session-after-owner-deployment&amp;anchor=one-physical-qualification-session-after-owner-deployment">nine-phase physical procedure</a>:</li></ol>
+<pre><code>1. Verify candidate identity, same internal storage/data, baseline M4 health
+   and private bounded logging; record actual silicon and calibration state.
+2. Wi-Fi scan, legal country, WPA2, DHCP renewal, gateway/DNS/LAN/HTTPS, wrong
+   password/forget/save, AP disappearance/return and saved reconnect.
+3. Pair/trust multiple available audio categories; prove SBC, AVRCP controls,
+   volume/metadata, peer off/on, local disconnect and screen-off playback.
+4. Read EDR/LE capabilities and credit behavior; test BLE scan/GATT if supported
+   with an available phone/accessory. Record unavailable categories honestly.
+5. Sustained useful Wi-Fi transfer plus SBC playback, recording throughput,
+   dropouts/retries/HCI errors/firmware resets and reconnect behavior.
+6. Five radio toggle/reconnect cycles and controlled all-off recovery; verify
+   shared power release and absence of unexpected reboot/controller wedge.
+7. Active-work suspend inhibition, Power and RTC deep wakes with same boot
+   ID and incrementing SPM counters, radio reconnect, display/input/wheel/
+   ALSA/eMMC/SD/USB/charging regression checks.
+8. Reboot reconnect and persisted identities/networks/bonds, plus offline
+   charging and intentional normal boot with radio absence in offline mode.</code></pre>
+<p>Owner actions are limited to manual installation, available AP/peer setup, charger/Power handling and listening/visible confirmation. Commands run over SSH. Only concrete physical failures justify targeted corrections.</p>
+<p><strong>STOP for owner manual installation. M5 is NOT CLOSED.</strong></p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

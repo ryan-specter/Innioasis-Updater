@@ -7,6 +7,33 @@
         });
     }
 
+    /* Project-owned data files are read from the repository first: the manifest
+       is the same file Updater CE reads, and serving it from GitHub keeps these
+       page views off the site's own domain. The site's copy is the fallback for
+       a blocked or unavailable GitHub, so a page still works without it. */
+    var MANIFEST_SOURCES = [
+        "https://raw.githubusercontent.com/y1-community/Innioasis-Updater/main/slidia_manifest.xml",
+        "slidia_manifest.xml",
+        "../slidia_manifest.xml",
+        "/slidia_manifest.xml",
+        "https://innioasis.app/slidia_manifest.xml"
+    ];
+
+    function fetchManifestText() {
+        var index = 0;
+        function attempt() {
+            if (index >= MANIFEST_SOURCES.length) return Promise.resolve("");
+            var url = MANIFEST_SOURCES[index++];
+            return fetch(url, { cache: "no-cache" })
+                .then(function (response) {
+                    if (!response.ok) throw new Error("HTTP " + response.status);
+                    return response.text();
+                })
+                .catch(function () { return attempt(); });
+        }
+        return attempt();
+    }
+
     function zipAssets(release) {
         if (!release || !Array.isArray(release.assets)) return [];
         return release.assets.filter(function (asset) {
@@ -130,12 +157,16 @@
     }
 
     /* The filter copy and version floor for one project, or null when the
-       project only has nightlies to hide. */
-    function legacyFilterFor(item) {
+       project only has nightlies to hide. Type B is the recovery branch for
+       early Y1 units: its stock branch ends at 1.7.6 and its Rockbox builds
+       start before 0.5, so neither legacy floor applies to it. */
+    function legacyFilterFor(item, type) {
         if (!item) return null;
         var y1 = String(item.model || "").toUpperCase() === "Y1";
-        if (y1 && isRockboxY1Item(item)) return LEGACY_FILTERS.rockboxY1;
-        if (y1 && isOriginalItem(item)) return LEGACY_FILTERS.stockY1;
+        if (!y1) return null;
+        if (String(type || "").toUpperCase() === "B") return null;
+        if (isRockboxY1Item(item)) return LEGACY_FILTERS.rockboxY1;
+        if (isOriginalItem(item)) return LEGACY_FILTERS.stockY1;
         return null;
     }
 
@@ -310,6 +341,28 @@
         return extracted || clean;
     }
 
+    /* Split a tag that carries both a version and a calendar date, such as
+       "v2.3.0-20261104" or "2026-11-04-v2.3.0". Returns null unless the tag
+       has a real date and a dotted version to show beside it. */
+    function tagVersionAndDate(tag) {
+        var text = String(tag == null ? "" : tag);
+        var date = text.match(/(^|[^0-9])((?:19|20)\d{2})([-_.]?)(0[1-9]|1[0-2])\3(0[1-9]|[12]\d|3[01])(?!\d)/);
+        if (!date) return null;
+        var year = Number(date[2]);
+        var month = Number(date[4]);
+        var day = Number(date[5]);
+        var stamp = new Date(Date.UTC(year, month - 1, day));
+        if (stamp.getUTCFullYear() !== year || stamp.getUTCMonth() !== month - 1 || stamp.getUTCDate() !== day) return null;
+        var dateEnd = date.index + date[0].length;
+        var rest = text.slice(0, date.index + date[1].length) + " " + text.slice(dateEnd);
+        var version = rest.match(/(?:^|[^0-9A-Za-z])v?(\d+(?:\.\d+)+)(?![0-9A-Za-z])/i);
+        if (!version) return null;
+        return {
+            version: version[1],
+            date: year + "-" + ("0" + month).slice(-2) + "-" + ("0" + day).slice(-2)
+        };
+    }
+
     /* Sortable key for a release so newer builds come first, mirroring the
        Updater app's _release_sort_key: a tag-embedded YYYYMMDD-HHMM
        timestamp sorts highest, then the semantic version tuple, then the
@@ -451,6 +504,71 @@
                 var local = hardcodedReleasesFor(repo);
                 return local ? { releases: local, complete: true, backup: true } : null;
             });
+    }
+
+    /* Repository names are lookup keys for the release map. GitHub and the
+       manifest do not agree on case, so every key passes through here. */
+    function repoKey(repo) {
+        return String(repo || "").trim().toLowerCase();
+    }
+
+    /* Repositories an active <package> in slidia_manifest.xml names. Null until
+       the manifest answers: a blocked or missing manifest then keeps today's
+       behaviour instead of stripping every Updater CE button from the page. */
+    var manifestListedRepos = null;
+
+    /* Updater CE only installs a project the manifest lists. A firmware that
+       lives in the feeds alone has releases worth reading, but no install route
+       and no portable package, so its rows download the project's own rom.zip. */
+    function manifestRepoListed(item) {
+        if (manifestListedRepos === null) return true;
+        var key = repoKey(item && item.repo);
+        return Boolean(key && manifestListedRepos[key]);
+    }
+
+    function manifestPortableZips(item) {
+        return manifestRepoListed(item) ? String((item && item.portable_zips) || "") : "";
+    }
+
+    /* One identity per release, so the cached catalogue, the per-repo feed
+       and the GitHub answer can be merged without showing the same build
+       twice. GitHub's tag is the identity; a release without one falls back
+       to its name and date. */
+    function releaseKey(release) {
+        if (!release) return "";
+        var tag = String(release.tag_name || "").trim().toLowerCase();
+        if (tag) return "tag:" + tag;
+        return "name:" + String(release.name || "").trim().toLowerCase() +
+            "@" + String(release.published_at || release.created_at || "");
+    }
+
+    /* The key a release row is identified by across re-renders. */
+    function rowKeyFor(item, release) {
+        if (!item || !release) return "";
+        return repoKey(item.repo || item.model) + "::" + releaseKey(release);
+    }
+
+    /* Two release lists become one. The base list is what is already on
+       screen (our own feed or the catalogue snapshot), incoming is the
+       GitHub answer: a tag both carry is refreshed from GitHub, a tag only
+       GitHub has is appended, and nothing appears twice. */
+    function mergeReleaseLists(base, incoming) {
+        var merged = [];
+        var seen = Object.create(null);
+        function add(release, replace) {
+            if (!release) return;
+            var key = releaseKey(release);
+            if (!key) return;
+            if (seen[key] !== undefined) {
+                if (replace) merged[seen[key]] = release;
+                return;
+            }
+            seen[key] = merged.length;
+            merged.push(release);
+        }
+        (base || []).forEach(function (release) { add(release, false); });
+        (incoming || []).forEach(function (release) { add(release, true); });
+        return merged;
     }
 
     /* One page of releases for a repo using token rotation and fallback. */
@@ -641,6 +759,19 @@
     function initFeedback(root) {
         var key = "innioasis-feedback-" + (root.getAttribute("data-feedback") || location.pathname);
         var support = root.querySelector("[data-feedback-support]");
+        /* Show the answer this browser already has, and drop it from view when
+           the visitor withdraws permission, so the prompt matches storage. */
+        function syncStoredAnswer() {
+            var allowed = !window.INNIOASIS_PRIVACY || window.INNIOASIS_PRIVACY.allows("feedback");
+            var stored = null;
+            if (allowed) { try { stored = localStorage.getItem(key); } catch (_) {} }
+            root.querySelectorAll("button[data-feedback-value]").forEach(function (button) {
+                button.setAttribute("aria-pressed", stored && button.getAttribute("data-feedback-value") === stored ? "true" : "false");
+            });
+            if (support) support.hidden = stored !== "no";
+        }
+        syncStoredAnswer();
+        window.addEventListener("innioasis-privacy-change", syncStoredAnswer);
         root.querySelectorAll("button[data-feedback-value]").forEach(function (button) {
             button.addEventListener("click", function () {
                 var value = button.getAttribute("data-feedback-value");
@@ -1256,13 +1387,42 @@
         var y2Switch = document.querySelector("[data-y2-switch]");
         var filterSection = document.getElementById("firmware-filters");
         var catalog = window.INNIOASIS_FIRMWARE_CATALOG;
+        /* Brand is the name on the player, and each brand lists only its own
+           models. Mirrors the brand attribute in slidia_manifest.xml. */
+        var brandSelect = document.getElementById("lumen-brand-filter");
+        var BRAND_MODELS = {
+            "Innioasis": ["Y1", "Y2", "G1", "G3", "G5", "R1", "PR1"],
+            "Timmkoo": ["A5", "Q5", "Q3", "Q3E", "Q8", "SR1"]
+        };
+        var DEFAULT_BRAND = "Innioasis";
+        function brandForModel(value) {
+            var name = String(value || "").toUpperCase();
+            var names = Object.keys(BRAND_MODELS);
+            for (var i = 0; i < names.length; i++) {
+                if (BRAND_MODELS[names[i]].indexOf(name) !== -1) return names[i];
+            }
+            return DEFAULT_BRAND;
+        }
+        function currentBrand() {
+            return brandSelect && brandSelect.value ? brandSelect.value : DEFAULT_BRAND;
+        }
+        function brandFromUrl() {
+            var raw = (new URLSearchParams(window.location.search).get("brand") || "").trim().toLowerCase();
+            var names = Object.keys(BRAND_MODELS);
+            for (var i = 0; i < names.length; i++) {
+                if (names[i].toLowerCase() === raw) return names[i];
+            }
+            return "";
+        }
         var releases = {};
         var releaseState = {};
         var fetchedRepos = {};
         if (window.INNIOASIS_HARDCODED_RELEASES) {
-            Object.keys(window.INNIOASIS_HARDCODED_RELEASES).forEach(function (repo) {
-                releases[repo] = window.INNIOASIS_HARDCODED_RELEASES[repo].slice();
-                releaseState[repo] = "cached";
+            Object.keys(window.INNIOASIS_HARDCODED_RELEASES).forEach(function (key) {
+                var list = window.INNIOASIS_HARDCODED_RELEASES[key];
+                if (!Array.isArray(list) || !list.length) return;
+                releases[repoKey(key)] = list.slice();
+                releaseState[repoKey(key)] = "cached";
             });
         }
         /* URL filters: ?model=Y1|Y2 and ?software=slug preselect the dropdowns,
@@ -1270,6 +1430,12 @@
            #y1 / #y2 hash anchors still work for older links. */
         var searchParams = new URLSearchParams(window.location.search);
         var modelParam = (searchParams.get("model") || "").toUpperCase();
+        /* A specific model is more precise than a brand, so a link that names
+           both lands on the model's own brand. */
+        var wantedBrand = brandFromUrl();
+        if (modelParam) wantedBrand = brandForModel(modelParam);
+        if (!wantedBrand) wantedBrand = DEFAULT_BRAND;
+        if (brandSelect) brandSelect.value = wantedBrand;
         var typeParam = (searchParams.get("type") || "").toUpperCase();
         var viewParam = (searchParams.get("view") || "software").toLowerCase();
         var heroKicker = document.querySelector("#main > header .lumen-kicker");
@@ -1278,11 +1444,11 @@
         if (viewParam === "firmware") {
             if (heroKicker) heroKicker.textContent = "Innioasis & Timmkoo Firmware Downloads";
             if (heroH1) heroH1.textContent = "Software Updates and Firmware";
-            if (heroLead) heroLead.textContent = "Browse verified Original Software and community custom firmwares for every Innioasis player (Y1, Y2, G1, G3, G5, Q8, R1, PR1, D1) and every Timmkoo player (A5, Q5, Q3). Download standalone packages or install directly with Updater CE; Timmkoo firmware installs from the ZIP and RAR packages Timmkoo supplies.";
+            if (heroLead) heroLead.textContent = "Browse verified Original Software and community custom firmwares for every Innioasis player (Y1, Y2, G1, G3, G5, R1, PR1) and every Timmkoo player (A5, Q5, Q3). Download standalone packages or install directly with Updater CE; Timmkoo firmware installs from the ZIP and RAR packages Timmkoo supplies.";
         } else {
             if (heroKicker) heroKicker.textContent = "Innioasis Software Updates & Downloads";
             if (heroH1) heroH1.textContent = "Software Updates and Firmware";
-            if (heroLead) heroLead.textContent = "Browse verified Original Software and community custom firmwares for every Innioasis player (Y1, Y2, G1, G3, G5, Q8, R1, PR1, D1) and every Timmkoo player (A5, Q5, Q3). Download standalone packages or install directly with Updater CE; Timmkoo firmware installs from the ZIP and RAR packages Timmkoo supplies.";
+            if (heroLead) heroLead.textContent = "Browse verified Original Software and community custom firmwares for every Innioasis player (Y1, Y2, G1, G3, G5, R1, PR1) and every Timmkoo player (A5, Q5, Q3). Download standalone packages or install directly with Updater CE; Timmkoo firmware installs from the ZIP and RAR packages Timmkoo supplies.";
         }
         /* Nightly / pre-release filter, mirroring the Updater app's
            "Show nightly builds" checkbox. Off by default: stable releases
@@ -1305,7 +1471,7 @@
             help: "Show preview and nightly builds alongside stable releases."
         };
         function syncNightlyCopy() {
-            var copy = legacyFilterFor(matchingItems()[0] || null) || GENERIC_FILTER_COPY;
+            var copy = (function (first) { return legacyFilterFor(first, typeForItem(first)); })(matchingItems()[0] || null) || GENERIC_FILTER_COPY;
             if (nightlyCopy && nightlyCopy.textContent !== copy.label) nightlyCopy.textContent = copy.label;
             if (nightlyHelp && nightlyHelp.textContent !== copy.help) nightlyHelp.textContent = copy.help;
         }
@@ -1316,6 +1482,20 @@
                 if (!window.INNIOASIS_PRIVACY || window.INNIOASIS_PRIVACY.allows("nightly")) {
                     try { localStorage.setItem("innioasis-show-nightly", showNightly ? "1" : "0"); } catch (_) {}
                 }
+                render();
+                syncUrl();
+            });
+            /* Saving the privacy panel must reach this page: once the visitor
+               withdraws the nightly preference the remembered filter is gone,
+               so fall back to the stable-only default here and now. An
+               explicit ?nightly=1 link is the visitor's current view, not a
+               stored choice, so it is left alone. */
+            window.addEventListener("innioasis-privacy-change", function (event) {
+                var detail = event && event.detail ? event.detail : null;
+                if (!detail || detail.nightly !== false) return;
+                if ((searchParams.get("nightly") || "") === "1") return;
+                showNightly = false;
+                nightly.checked = false;
                 render();
                 syncUrl();
             });
@@ -1340,28 +1520,58 @@
 
         function fillModelFilter() {
             if (!model) return;
-            var availableModels = [];
+            var brand = currentBrand();
+            var order = BRAND_MODELS[brand] || [];
+            var found = [];
             catalog.forEach(function (item) {
-                if (item.model && availableModels.indexOf(item.model) === -1) {
-                    availableModels.push(item.model);
+                if (item.model && brandForModel(item.model) === brand && found.indexOf(item.model) === -1) {
+                    found.push(item.model);
                 }
             });
-            if (availableModels.indexOf("Y1") === -1) availableModels.unshift("Y1");
-            if (availableModels.indexOf("Y2") === -1) {
-                var y1Idx = availableModels.indexOf("Y1");
-                availableModels.splice(y1Idx + 1, 0, "Y2");
-            }
-            var currentVal = model.value || "Y1";
+            /* A model with no catalogue entry has nothing to install, so it
+               would be a dead end in both pickers. Keep registry order, but
+               only for models that actually appear in the catalogue. */
+            var availableModels = order.filter(function (name) {
+                return found.indexOf(name) !== -1;
+            });
+            found.forEach(function (name) {
+                if (availableModels.indexOf(name) === -1) availableModels.push(name);
+            });
+            var currentVal = model.value;
             model.innerHTML = availableModels.map(function (m) {
                 return '<option value="' + escapeHtml(m) + '">' + escapeHtml(m) + '</option>';
             }).join("");
             if (availableModels.indexOf(currentVal) !== -1) {
                 model.value = currentVal;
             } else {
-                model.value = availableModels[0] || "Y1";
+                model.value = availableModels[0] || "";
             }
         }
         fillModelFilter();
+        /* A brand whose models all have nothing to install is not a useful
+           filter row either. Leave the static options alone until the cached
+           catalogue has loaded, so an offline first paint does not empty the
+           picker. */
+        (function fillBrandFilter() {
+            if (!brandSelect) return;
+            var present = {};
+            catalog.forEach(function (item) {
+                if (item.model) present[brandForModel(item.model)] = true;
+            });
+            if (!Object.keys(present).length) return;
+            Array.prototype.forEach.call(brandSelect.options, function (option) {
+                var keep = present[option.value] === true;
+                option.hidden = !keep;
+                option.disabled = !keep;
+            });
+            var selected = brandSelect.options[brandSelect.selectedIndex];
+            if (selected && selected.disabled) {
+                var first = Array.prototype.filter.call(brandSelect.options, function (o) {
+                    return !o.disabled;
+                })[0];
+                if (first) brandSelect.value = first.value;
+            }
+        })();
 
         /* Y1 shipped in two hardware revisions, and the ROMs are not
            interchangeable, so the app asks for the type alongside the model.
@@ -1373,13 +1583,49 @@
             if (!item || String(item.model || "").toUpperCase() !== "Y1") return "";
             return typeSelect && typeSelect.value ? typeSelect.value.toUpperCase() : "A";
         }
+
+        function isBetterYItem(item) {
+            return !!item && String(item.slug || "") === "better-y-y1";
+        }
+
+        function betterYTypeBContext(item) {
+            return isBetterYItem(item) && typeForItem(item) === "B";
+        }
+
+        function softwareOptionName(item) {
+            if (betterYTypeBContext(item)) return item.name + " (Type B via Rockbox-Y1)";
+            return item.name;
+        }
+
+        /* Better-Y has no public Type B ZIP. Keep the option visible under
+           Type B only to explain the safe route, rather than offering a
+           Type A package that cannot boot an early Y1. */
+        function betterYTypeBExplainerRow() {
+            var rockboxHref = "firmware.html?model=Y1&type=B&software=rockbox-y1";
+            return '<tr class="lumen-typeb-explainer"><td colspan="3">' +
+                '<div class="lumen-callout" style="margin:0;">' +
+                '<h3 style="margin-top:0;">Better-Y has no Type B release - use Rockbox-Y1</h3>' +
+                '<p>The current public <strong>Better-Y</strong> releases contain <code>rom.zip</code>, a <strong>Type A</strong> package. Do not flash it on a Type B Y1. <strong>Rockbox-Y1</strong> publishes <code>rom_type_b.zip</code> for early Y1 units, and this site lists it under the Y1 Type B filter.</p>' +
+                '<div class="lumen-actions">' +
+                '<a class="lumen-button lumen-button--primary" href="' + rockboxHref + '">Open Rockbox-Y1 for Type B</a>' +
+                '<a class="lumen-button" href="y1-type-b/type-b-better-y.html">Why Better-Y is Type A only</a>' +
+                '<a class="lumen-button" href="y1-type-b/type-b-rockbox-y1.html">Type B Rockbox guide</a>' +
+                '</div>' +
+                '<p class="lumen-meta">This Better-Y option stays visible under Type B only to explain the safe route. It leaves the Type B picker when a Better-Y Type B ZIP is published, and that release will then appear in this table automatically.</p>' +
+                '</div></td></tr>';
+        }
+
+        function betterYTypeBSubheadRow() {
+            return '<tr class="lumen-typeb-subhead"><td colspan="3"><strong>Better-Y Type B packages also fit this player</strong>' +
+                '<br><span class="lumen-meta">These rows appear under Original Software for Type B because the package targets the same early Y1 hardware.</span></td></tr>';
+        }
         function syncTypeField() {
             if (!typeField) return;
             typeField.hidden = !(model && model.value === "Y1");
         }
         syncTypeField();
 
-        var availableModels = Array.from(new Set(catalog.map(function (item) { return item.model; }).concat(["Y1", "Y2"])));
+        var availableModels = Array.prototype.map.call(model ? model.options : [], function (option) { return option.value; });
         var hashModel = (window.location.hash || "").slice(1).toUpperCase();
         var wantedModel = (availableModels.indexOf(modelParam) !== -1) ? modelParam : ((availableModels.indexOf(hashModel) !== -1) ? hashModel : "");
         if (model && wantedModel) {
@@ -1410,12 +1656,15 @@
         if (y2Switch) {
             y2Switch.addEventListener("click", function (event) {
                 event.preventDefault();
+                if (brandSelect) brandSelect.value = "Innioasis";
+                fillModelFilter();
                 if (model) {
                     model.value = "Y2";
                     syncTypeField();
                     fillSoftwareFilter();
                     render();
                     refreshLive();
+                    refreshAvailability();
                     if (filterSection) filterSection.scrollIntoView({ block: "start" });
                 }
             });
@@ -1431,11 +1680,41 @@
             });
         }
 
+        /* Every project the current model covers, whether or not it has a
+           release yet. The Software picker offers the installable subset; the
+           page names the rest so a manifest entry with nothing to download is
+           still visible instead of silently missing. */
+        function catalogItemsForModel() {
+            var selectedModel = model ? model.value : "Y1";
+            return catalog.filter(function (item) {
+                return item.model === selectedModel && brandForModel(item.model) === currentBrand();
+            });
+        }
+
+        /* What the release lookup says about one project. "available" needs a
+           release carrying a ZIP package; "empty" is a repository with no
+           public releases at all; "nozip" is releases without a package ZIP;
+           "unknown" means the lookup has not answered yet, so the project
+           stays on offer rather than vanishing while GitHub is asked. */
+        function itemAvailability(item, type) {
+            if (!item || !item.repo) return "unknown";
+            var key = repoKey(item.repo);
+            var list = releases[key];
+            var state = releaseState[key];
+            var wantedType = type === undefined ? typeForItem(item) : String(type || "").toUpperCase();
+            if (Array.isArray(list) && list.length) {
+                return matchingReleases(list, item, wantedType).length ? "available" : "nozip";
+            }
+            if (state === "empty") return "empty";
+            return "unknown";
+        }
+
+
         /* The Software filter always names one project, so only that project's
            repos are fetched. Shared repos (stock, Solar, JJ Launcher) hold
            releases for both models, so per-item matching still applies. */
         function activeRepos() {
-            return Array.from(new Set(matchingItems().map(function (item) { return item.repo; })));
+            return Array.from(new Set(matchingItems().map(function (item) { return repoKey(item.repo); })));
         }
 
         /* A release belongs to an item only when it actually carries that
@@ -1444,7 +1723,7 @@
            under the Y1 row or the other way round. Returns null when the
            repo has releases but none fit the selected model. */
         function releasesForItem(item) {
-            var repoReleases = releases[item.repo];
+            var repoReleases = releases[repoKey(item.repo)];
             if (!Array.isArray(repoReleases) || !repoReleases.length) return null;
             var matching = matchingReleases(repoReleases, item, typeForItem(item));
             return matching.length ? matching : null;
@@ -1453,7 +1732,7 @@
         /* How many model-matched releases the blocklist removed, so an empty
            list explains itself instead of claiming the project has none. */
         function blockedReleaseCount(item) {
-            var repoReleases = releases[item.repo];
+            var repoReleases = releases[repoKey(item.repo)];
             if (!Array.isArray(repoReleases) || !repoReleases.length) return 0;
             var type = typeForItem(item);
             return matchingReleases(repoReleases, item, type).filter(function (release) {
@@ -1472,7 +1751,7 @@
             var type = typeForItem(item);
             all = all.filter(function (release) { return !isBlockedRelease(blocklistRules, item, release, type); });
             if (!all.length) return null;
-            var floor = legacyFilterFor(item);
+            var floor = legacyFilterFor(item, type);
             if (!showNightly) {
                 all = all.filter(function (release) {
                     if (isNightly(release)) return false;
@@ -1586,32 +1865,34 @@
         }
 
         /* List a release by the semantic version its GitHub title carries at
-           the start or end, and parse the tag for a version only when the
-           title has none to show. */
-        function extractReleaseVersion(release, item) {
-            if (!release) return item ? item.name : "Public release";
+           the start or end, or by the version in its tag. A tag that also
+           carries a date shows it in brackets beside the version. */
+        function releaseVersionDetails(release, item) {
+            if (!release) return { version: item ? item.name : "Public release", date: "" };
             var name = (release.name || "").trim();
             var tag = (release.tag_name || "").trim();
-            if (name) {
-                var titleVersion = versionFromTitle(name);
-                if (titleVersion) return titleVersion;
-            }
-            return tag ? displayVersion(tag) : (name || "Public release");
+            var dated = tagVersionAndDate(tag);
+            var titleVersion = name ? versionFromTitle(name) : "";
+            var version = dated ? dated.version : (titleVersion || (tag ? displayVersion(tag) : (name || "Public release")));
+            return { version: version, date: dated ? dated.date : "" };
         }
 
         function releaseRows(release, item, state) {
             /* The Release column label with icon and semver detection. */
             var iconHtml = firmwareIconLink(resolveFirmwareIcon(release, item), item);
-            var versionLabel = release ? extractReleaseVersion(release, item)
+            var versionDetails = release ? releaseVersionDetails(release, item) : null;
+            var versionLabel = versionDetails ? versionDetails.version
                 : state === "failed" ? item.name
                 : state === "empty" ? "No public releases"
                 : state === "nomatch" ? "No release with " + item.packageName
                 : state === "filtered-stable" ? "No stable release yet"
                 : state === "blocked" ? "Not available right now"
                 : "Checking public releases";
+            var versionInnerHtml = escapeHtml(versionLabel) +
+                (versionDetails && versionDetails.date ? ' <em>(' + escapeHtml(versionDetails.date) + ')</em>' : "");
             var plainVersionHtml = (state === "failed" && !release)
-                ? "<strong>" + escapeHtml(versionLabel) + "</strong>"
-                : '<span class="lumen-version-pill" style="font-weight:700;font-size:0.95rem;">' + escapeHtml(versionLabel) + '</span>';
+                ? "<strong>" + versionInnerHtml + "</strong>"
+                : '<span class="lumen-version-pill" style="font-weight:700;font-size:0.95rem;">' + versionInnerHtml + '</span>';
             /* The version is the way into that release's parsed notes. The
                info glyph sits beside it so the behaviour is visible without
                guessing that the number is a link. */
@@ -1630,13 +1911,16 @@
             /* The empty state names the same option the filterbar does, and
                a blocklisted project says so instead of claiming there is no
                package. */
-            var filteredHint = (legacyFilterFor(item) || {}).hint || 'Tick the nightly-builds option to see previews';
+            var filteredHint = (legacyFilterFor(item, typeForItem(item)) || {}).hint || 'Tick the nightly-builds option to see previews';
             var hint = release ? ''
                 : state === "filtered-stable" ? '<span class="lumen-muted-inline">' + filteredHint + '</span>'
                 : state === "blocked" ? '<span class="lumen-muted-inline">Held back from this list.</span>'
                 : '';
             var guideUrl = 'guide.html?model=' + encodeURIComponent(item.model) + '&software=' + encodeURIComponent(item.slug);
-            var updater = '<a class="lumen-updater-button lumen-updater-button--table" href="' + guideUrl + '" aria-label="Get ' + escapeHtml(item.name) + ' for ' + escapeHtml(item.model) + ' on Innioasis Updater"><img src="assets/icon.ico" width="28" height="28" alt=""><span><strong>Get it on Updater</strong><small>with guided install</small></span></a>';
+            var listedInManifest = manifestRepoListed(item);
+            var updater = listedInManifest
+                ? '<a class="lumen-updater-button lumen-updater-button--table" href="' + guideUrl + '" aria-label="Get ' + escapeHtml(item.name) + ' for ' + escapeHtml(item.model) + ' on Innioasis Updater"><img src="assets/icon.ico" width="28" height="28" alt=""><span><strong>Get it on Updater</strong><small>with guided install</small></span></a>'
+                : '';
 
             var zipBtn = '';
             if (release) {
@@ -1661,58 +1945,175 @@
                     }) || (rowType ? null : assets[0]);
                 }
                 if (primaryAsset) {
-                    zipBtn = ' <button type="button" class="lumen-zip-download-button lumen-zip-download-button--table" data-zip-url="' + escapeHtml(primaryAsset.browser_download_url) + '" data-zip-name="' + escapeHtml(primaryAsset.name) + '" data-release-tag="' + escapeHtml(release.tag_name || release.name || "release") + '" data-item-name="' + escapeHtml(item.name) + '" data-item-model="' + escapeHtml(item.model) + '" data-portable-zips="' + escapeHtml(item.portable_zips || "") + '" aria-label="Download standalone ' + escapeHtml(primaryAsset.name) + ' ZIP package">' +
+                    zipBtn = ' <button type="button" class="lumen-zip-download-button lumen-zip-download-button--table" data-zip-url="' + escapeHtml(primaryAsset.browser_download_url) + '" data-zip-name="' + escapeHtml(primaryAsset.name) + '" data-release-tag="' + escapeHtml(release.tag_name || release.name || "release") + '" data-item-name="' + escapeHtml(item.name) + '" data-item-model="' + escapeHtml(item.model) + '" data-portable-zips="' + escapeHtml(manifestPortableZips(item)) + '" aria-label="Download standalone ' + escapeHtml(primaryAsset.name) + ' ZIP package">' +
                         '<svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16h12M10 3v9m0 0l-3.5-3.5M10 12l3.5-3.5"/></svg>' +
                         '<span><strong>Download ZIP</strong><small>standalone package</small></span>' +
                         '</button>';
                 }
             }
 
+            /* A project the manifest does not list ships as a standalone ZIP
+               only. Say what opens that ZIP, so a reader does not have to guess
+               whether the file is useful without Updater CE. */
+            var standaloneNote = listedInManifest ? ''
+                : '<span class="lumen-meta lumen-standalone-note" style="flex-basis:100%;display:block;">Works with Updater CE, Innioasis Universal Flash Tool, SP Flash Tool and MTKClient (Updater CE Recommended).</span>';
+
             /* The Software name is not shown here: the software filter above
                already sets the project, so every row belongs to it. */
             /* The reader goes to our own release-notes page. Never fall back
                to a source-host URL when a release tag is missing. */
-            return '<tr data-release-tag="' + escapeHtml(release && (release.tag_name || release.name) || "") + '">' +
+            return '<tr data-release-key="' + escapeHtml(rowKeyFor(item, release)) + '" data-release-tag="' + escapeHtml(release && (release.tag_name || release.name) || "") + '">' +
                 '<td><div style="display:flex;align-items:center;gap:10px;">' + iconHtml + '<div>' + versionHtml + (release && release.published_at ? '<br><span class="lumen-meta">' + escapeHtml(release.published_at.slice(0, 10)) + '</span>' : '') + '</div></div></td>' +
                 /* The package is not shown: the Release details expander lists
                    the rom zips this release is packaged in. */
-                '<td><div class="lumen-actions">' + updater + zipBtn + hint + '</div>' + releaseDetails(release, item, typeForItem(item)) + '</td>' +
+                '<td><div class="lumen-actions">' + updater + zipBtn + standaloneNote + hint + '</div>' + releaseDetails(release, item, typeForItem(item)) + '</td>' +
                 '<td><a class="lumen-release-notes-link" href="' + releaseNotesUrl + '" aria-label="Read the release notes for ' + escapeHtml(release && release.tag_name ? release.tag_name : item.name) + '">' +                '<svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h6l3 3v11H6z"/><path d="M12 3v3h3"/><path d="M8.5 10h5M8.5 13h5"/></svg></a></td>' +
                 '</tr>';
         }
 
+        /* Rows already painted this session. A key in here is never animated
+           again, so changing a filter does not replay the entrance. */
+        var shownRowKeys = Object.create(null);
+        var rowsPainted = false;
+
         function render() {
             var items = matchingItems();
             if (!items.length) {
-                table.innerHTML = '<tr><td colspan="3">No software project is currently listed for this model and filter. Try another project or check the project release pages.</td></tr>';
+                var brandNow = currentBrand();
+                var modelNow = model ? model.value : "";
+                var listed = catalogItemsForModel();
+                var brandHasSoftware = catalog.some(function (item) { return brandForModel(item.model) === brandNow; });
+                var emptyCopy;
+                if (listed.length) {
+                    emptyCopy = "None of the " + listed.length + " project" + (listed.length === 1 ? "" : "s") + " listed for the " + modelNow + " has an installable release yet. Each one is named below and joins the Software list as soon as it publishes a release with a ROM ZIP.";
+                } else if (!brandHasSoftware) {
+                    emptyCopy = "No " + brandNow + " software is listed in the archive yet. Switch the brand to Innioasis for every published release.";
+                } else {
+                    emptyCopy = "No software is listed for the " + brandNow + " " + modelNow + " yet. Choose another model, or check back soon.";
+                }
+                table.innerHTML = '<tr><td colspan="3">' + escapeHtml(emptyCopy) + '</td></tr>';
+                if (status) status.textContent = emptyCopy;
+                renderUnavailable();
+                rowsPainted = true;
                 return;
             }
+            /* A late GitHub answer re-renders the table; an expanded release
+               panel must survive that refresh. */
+            var openKeys = Object.create(null);
+            Array.prototype.forEach.call(table.querySelectorAll("tr[data-release-key]"), function (row) {
+                if (row.querySelector("details[open]")) openKeys[row.getAttribute("data-release-key")] = true;
+            });
             var rows = [];
+            function pushRow(html, key) {
+                rows.push(html);
+                if (key) openKeys[key] = openKeys[key] || false;
+            }
+            var selectedItem = items[0] || null;
+            var betterYExplain = selectedItem && betterYTypeBContext(selectedItem) &&
+                !releasesForItem(selectedItem) &&
+                releaseState[repoKey(selectedItem.repo)] !== "loading";
+            if (betterYExplain) pushRow(betterYTypeBExplainerRow(), "");
             items.forEach(function (item) {
+                if (betterYExplain && isBetterYItem(item)) return;
                 var itemReleases = visibleReleases(item);
                 var modelReleases = releasesForItem(item);
                 if (itemReleases) {
-                    itemReleases.forEach(function (release) { rows.push(releaseRows(release, item, "loaded")); });
+                    itemReleases.forEach(function (release) { pushRow(releaseRows(release, item, "loaded"), rowKeyFor(item, release)); });
                 } else if (modelReleases) {
                     /* The repo has model-matched releases, but the stable
                        filter hides them all: no stable build exists yet.
                        In nightly mode every release is shown, so this
                        state can only happen when the filter is off. */
-                    rows.push(releaseRows(null, item, "filtered-stable"));
+                    pushRow(releaseRows(null, item, "filtered-stable"), "");
                 } else {
-                    var repoReleases = releases[item.repo];
+                    var repoReleases = releases[repoKey(item.repo)];
                     var repoLoaded = Array.isArray(repoReleases) && repoReleases.length > 0;
-                    var state = !repoLoaded ? (releaseState[item.repo] || "loading")
+                    var state = !repoLoaded ? (releaseState[repoKey(item.repo)] || "loading")
                         : blockedReleaseCount(item) ? "blocked" : "nomatch";
-                    rows.push(releaseRows(null, item, state));
+                    pushRow(releaseRows(null, item, state), "");
                 }
             });
+            /* A future Better-Y Type B asset belongs with Original Software
+               for the same early hardware. If the project publishes one, show
+               its matching releases here without asking the reader to know
+               that Better-Y is a separate project. */
+            if (selectedItem && isOriginalItem(selectedItem) && typeForItem(selectedItem) === "B") {
+                var betterItem = catalog.find(function (item) { return isBetterYItem(item); });
+                var betterVisible = betterItem ? visibleReleases(betterItem) : null;
+                if (betterVisible && betterVisible.length) {
+                    pushRow(betterYTypeBSubheadRow(), "");
+                    betterVisible.forEach(function (release) {
+                        pushRow(releaseRows(release, betterItem, "loaded"), rowKeyFor(betterItem, release));
+                    });
+                }
+            }
             table.innerHTML = rows.join("");
+            Array.prototype.forEach.call(table.querySelectorAll("tr[data-release-key]"), function (row) {
+                var key = row.getAttribute("data-release-key");
+                if (!key) return;
+                if (openKeys[key]) {
+                    var details = row.querySelector("details.lumen-release-details");
+                    if (details) details.open = true;
+                }
+                if (rowsPainted && !shownRowKeys[key]) row.classList.add("lumen-row-new");
+                shownRowKeys[key] = true;
+            });
+            rowsPainted = true;
+            if (betterYExplain && status) {
+                status.textContent = "Better-Y has no Type B package. Use Rockbox-Y1 for Type B - choose Rockbox in Software.";
+            }
             /* The checkbox label follows the project that is on screen. */
             syncNightlyCopy();
             /* Model, type, software and release are all known here: hand them
                to the notice card so it can re-rank and surface what applies. */
             syncNoticeContext();
+            renderUnavailable();
+        }
+
+
+        /* A manifest entry can have nothing to install: the repository is new,
+           or its releases carry no ROM ZIP. The picker hides those projects,
+           so the page names them and the reason, rather than leaving a reader
+           to wonder where a listed project went. */
+        var unavailableSlot = null;
+        function renderUnavailable() {
+            if (!table || !table.parentNode || !table.parentNode.parentNode) return;
+            if (!unavailableSlot) {
+                unavailableSlot = document.createElement("div");
+                unavailableSlot.id = "lumen-unavailable-projects";
+                unavailableSlot.className = "lumen-callout lumen-unavailable-projects";
+                unavailableSlot.hidden = true;
+                table.parentNode.parentNode.insertBefore(unavailableSlot, table.parentNode.nextSibling);
+            }
+            var missing = catalogItemsForModel().filter(function (item) {
+                /* Better-Y is the deliberate exception: it stays in the
+                   Type B picker to explain the Rockbox-Y1 route, but it is
+                   not a missing download. */
+                if (betterYTypeBContext(item)) return false;
+                var availability = itemAvailability(item);
+                return availability === "empty" || availability === "nozip";
+            });
+            if (!missing.length) {
+                unavailableSlot.hidden = true;
+                unavailableSlot.innerHTML = "";
+                return;
+            }
+            var rows = missing.map(function (item) {
+                var type = typeForItem(item);
+                var typeLabel = type ? "Type " + type + " " : "";
+                var reason = itemAvailability(item) === "nozip"
+                    ? "no " + typeLabel + "ROM ZIP for the " + item.model + " in its releases"
+                    : "no public releases yet";
+                var repoLink = item.repo
+                    ? '<a href="https://github.com/' + escapeHtml(item.repo) + '/releases" target="_blank" rel="noopener noreferrer">' + escapeHtml(item.repo) + '</a>'
+                    : "";
+                return '<li><strong>' + escapeHtml(item.name) + '</strong> <span class="lumen-meta">' + repoLink + (repoLink ? " · " : "") + escapeHtml(reason) + '</span></li>';
+            }).join("");
+            unavailableSlot.innerHTML =
+                '<h3>Listed firmware with no installable release</h3>' +
+                '<p class="lumen-meta">These projects are listed in <code>slidia_manifest.xml</code> but are not in the Software dropdown until a release carries a ZIP package for the selected model and device type.</p>' +
+                '<ul>' + rows + '</ul>';
+            unavailableSlot.hidden = false;
         }
 
         /* ---- Contextual community notices ----
@@ -1746,24 +2147,98 @@
             }
         }
 
+        /* One lookup per repository, shared by the picker (which has to know
+           what exists before it offers anything) and the release table. This
+           site's feed paints rows first; GitHub is the source of truth and
+           replaces or extends them when it answers. */
+        var repoLoads = {};
+        function ensureRepo(repo) {
+            if (!repo) return Promise.resolve();
+            if (fetchedRepos[repo]) return Promise.resolve();
+            if (repoLoads[repo]) return repoLoads[repo];
+            releaseState[repo] = "loading";
+            var load = fetchBackupReleases(repo)
+                .then(function (backup) {
+                    if (!backup || !Array.isArray(backup.releases) || !backup.releases.length) return;
+                    releases[repo] = mergeReleaseLists(releases[repo], backup.releases);
+                    render();
+                })
+                .then(function () { return fetchAllReleases(repo, 1, []); })
+                .then(function (result) {
+                    if (result && Array.isArray(result.releases) && result.releases.length) {
+                        releases[repo] = mergeReleaseLists(releases[repo], result.releases);
+                        releaseState[repo] = result.complete ? "loaded" : "partial";
+                    } else if (!releases[repo] || !releases[repo].length) {
+                        /* GitHub answered, and the repository has no releases:
+                           that is a fact about the project, not a failure. */
+                        releaseState[repo] = "empty";
+                    }
+                })
+                .catch(function () {
+                    if (!releases[repo] || !releases[repo].length) releaseState[repo] = "failed";
+                })
+                .then(function () {
+                    fetchedRepos[repo] = true;
+                    delete repoLoads[repo];
+                });
+            repoLoads[repo] = load;
+            return load;
+        }
+
+        /* Check every project of the current model, so the picker never offers
+           one that would only open an empty release list. */
+        function refreshAvailability() {
+            fillSoftwareFilter();
+            renderUnavailable();
+            var pending = Array.from(new Set(catalogItemsForModel()
+                .filter(function (item) { return itemAvailability(item) === "unknown"; })
+                .map(function (item) { return repoKey(item.repo); })))
+                .filter(function (repo) { return !!repo && !fetchedRepos[repo]; });
+            if (!pending.length) return Promise.resolve();
+            return Promise.all(pending.map(ensureRepo)).then(function () {
+                fillSoftwareFilter();
+                render();
+                if (activeRepos().length) refreshLive();
+            });
+        }
+
+        /* The Software picker lists only projects that can actually be
+           installed: a repository with no releases, or with releases carrying
+           no ZIP for this model, is left out here and named under the table
+           instead (renderUnavailable), so every option leads to a download. */
         function fillSoftwareFilter() {
             if (!software) return;
             var previous = software.value;
-            var items = catalog.filter(function (item) { return !model || item.model === model.value; });
-            var options = Array.from(new Map(items.map(function (item) { return [item.slug, item.name]; })).entries()).sort(function (a, b) { return a[1].localeCompare(b[1]); });
+            var items = catalogItemsForModel().filter(function (item) {
+                var availability = itemAvailability(item);
+                if (availability === "empty") return false;
+                if (availability === "nozip") return betterYTypeBContext(item);
+                return true;
+            });
+            var options = Array.from(new Map(items.map(function (item) { return [item.slug, softwareOptionName(item)]; })).entries()).sort(function (a, b) { return a[1].localeCompare(b[1]); });
             software.innerHTML = options.map(function (entry) { return '<option value="' + escapeHtml(entry[0]) + '">' + escapeHtml(entry[1]) + '</option>'; }).join("");
             var requested = softwareParam && options.some(function (entry) { return entry[0] === softwareParam; }) ? softwareParam : previous;
-            software.value = options.some(function (entry) { return entry[0] === requested; }) ? requested : originalSlug();
+            var fallback = originalSlug();
+            if (options.some(function (entry) { return entry[0] === requested; })) {
+                software.value = requested;
+            } else if (options.some(function (entry) { return entry[0] === fallback; })) {
+                software.value = fallback;
+            } else {
+                /* Every project for this model is waiting on a release; the
+                   table explains that and the page names each one below. */
+                software.value = options.length ? options[0][0] : "";
+            }
             if (y2Switch) {
                 var selectedModel = model ? model.value : "Y1";
-                if (selectedModel === "Y2") {
-                    y2Switch.setAttribute("aria-hidden", "true");
-                    y2Switch.setAttribute("tabindex", "-1");
-                    y2Switch.textContent = "Y2";
-                } else {
+                var y2Offered = currentBrand() === "Innioasis" && selectedModel !== "Y2";
+                if (y2Offered) {
                     y2Switch.removeAttribute("aria-hidden");
                     y2Switch.removeAttribute("tabindex");
                     y2Switch.textContent = "Y2 ready";
+                } else {
+                    y2Switch.setAttribute("aria-hidden", "true");
+                    y2Switch.setAttribute("tabindex", "-1");
+                    y2Switch.textContent = "Y2";
                 }
             }
         }
@@ -1771,6 +2246,11 @@
 
         function refreshLive() {
             var repos = activeRepos();
+            if (!repos.length) {
+                render();
+                if (table) table.setAttribute("aria-busy", "false");
+                return;
+            }
             var selectedItem = matchingItems()[0] || null;
             var softwareName = selectedItem ? selectedItem.name : (software && software.options && software.options.length ? software.options[software.selectedIndex].textContent : "");
             var pending = repos.filter(function (repo) { return !fetchedRepos[repo]; });
@@ -1783,37 +2263,17 @@
                 }
             }
             if (table) table.setAttribute("aria-busy", "true");
-            pending.forEach(function (repo) {
-                if (!releases[repo] || !releases[repo].length) {
-                    releaseState[repo] = "loading";
-                }
-            });
-            Promise.all(pending.map(function (repo) {
-                return fetchAllReleases(repo, 1, [])
-                    .then(function (result) {
-                        fetchedRepos[repo] = true;
-                        if (result && Array.isArray(result.releases) && result.releases.length > 0) {
-                            releases[repo] = result.releases;
-                            releaseState[repo] = result.complete ? "loaded" : "partial";
-                            render();
-                        } else if (!releases[repo] || !releases[repo].length) {
-                            releaseState[repo] = "failed";
-                        }
-                    })
-                    .catch(function () {
-                        fetchedRepos[repo] = true;
-                        if (!releases[repo] || !releases[repo].length) {
-                            releaseState[repo] = "failed";
-                        }
-                    });
-            })).then(function () {
+            Promise.all(pending.map(ensureRepo)).then(function () {
                 render();
                 if (table) table.setAttribute("aria-busy", "false");
                 var liveLoaded = repos.filter(function (repo) { return releaseState[repo] === "loaded" || releaseState[repo] === "partial"; }).length;
+                var emptyRepos = repos.filter(function (repo) { return releaseState[repo] === "empty"; }).length;
                 var cachedActive = repos.filter(function (repo) { return releaseState[repo] === "cached"; }).length;
                 if (status) {
                     if (liveLoaded) {
                         status.textContent = "All public " + softwareName + " releases loaded.";
+                    } else if (emptyRepos) {
+                        status.textContent = "No public releases were found for " + softwareName + ".";
                     } else if (cachedActive) {
                         status.textContent = "Showing " + softwareName + " releases from the catalogue archive.";
                     } else {
@@ -1828,6 +2288,8 @@
         function syncUrl() {
             if (!model) return;
             var params = new URLSearchParams(window.location.search);
+            if (brandSelect && brandSelect.value) params.set("brand", brandSelect.value);
+            else params.delete("brand");
             if (model.value) params.set("model", model.value);
             else params.delete("model");
             if (software && software.value) params.set("software", software.value);
@@ -1873,14 +2335,29 @@
             if (tag) syncNoticeContext(tag);
         });
 
-        if (model) model.addEventListener("change", function () { syncTypeField(); fillSoftwareFilter(); render(); refreshLive(); syncUrl(); });
-        if (typeSelect) typeSelect.addEventListener("change", function () { render(); refreshLive(); syncUrl(); });
+        if (model) model.addEventListener("change", function () {
+            if (brandSelect) brandSelect.value = brandForModel(model.value);
+syncTypeField(); fillSoftwareFilter(); render(); refreshLive(); refreshAvailability(); syncUrl();
+        });
+        if (brandSelect) brandSelect.addEventListener("change", function () {
+            fillModelFilter(); syncTypeField(); fillSoftwareFilter(); render(); refreshLive(); refreshAvailability(); syncUrl();
+        });
+        if (typeSelect) typeSelect.addEventListener("change", function () {
+            /* Changing Type A/B changes which projects have an installable
+               ZIP, so rebuild the picker before rendering the table. */
+            fillSoftwareFilter();
+            render();
+            refreshLive();
+            refreshAvailability();
+            syncUrl();
+        });
         /* A new Software choice has its own repos to fetch (shared model repos
            are no longer pre-loaded), so the live feed refreshes here too. */
         if (software) software.addEventListener("change", function () { render(); refreshLive(); syncUrl(); });
         fillSoftwareFilter();
         render();
         refreshLive();
+        refreshAvailability();
         loadBlocklist();
     }
 
@@ -1989,8 +2466,7 @@
             });
         }
 
-        fetch("slidia_manifest.xml", { cache: "no-cache" })
-            .then(function (response) { return response.ok ? response.text() : null; })
+        fetchManifestText()
             .then(function (text) {
                 if (!text) return;
                 var doc = new DOMParser().parseFromString(text, "application/xml");
@@ -2037,22 +2513,33 @@
         if (!item) return;
         var restoring = /original/.test(item.slug);
         var name = item.name;
+        var platformKey = detectPlatform();
+        var platformLabel = platformKey === "macos" ? "macOS" : (platformKey === "windows" ? "Windows" : (platformKey === "linux" ? "Linux" : ""));
+        var platformSlug = platformKey === "macos" ? "mac" : platformKey;
+        var platformPhrase = platformKey === "macos" ? "with a Mac" : (platformKey === "windows" ? "with a Windows PC" : "on Linux");
         var heading = restoring ? "Restore Original Software on your " + model : "Install " + name + " on your " + model;
+        if (platformLabel) heading += " " + platformPhrase;
         var kicker = section.querySelector("[data-personalised-kicker]");
-        if (kicker) kicker.textContent = restoring ? "Restore · " + model : name + " · " + model;
+        if (kicker) kicker.textContent = (restoring ? "Restore · " + model : name + " · " + model) + (platformLabel ? " · " + platformLabel : "");
         var headingEl = section.querySelector("[data-personalised-heading]");
         if (headingEl) headingEl.textContent = heading;
         var lead = section.querySelector("[data-personalised-lead]");
-        if (lead) lead.textContent = restoring
+        var leadText = restoring
             ? "Follow these steps in Updater. The player you want to restore is the " + model + "."
             : "Follow these steps in Updater. You have the " + model + " and want " + name + " on it.";
+        if (platformLabel) leadText += " This is the " + platformLabel + " route.";
+        if (lead) lead.textContent = leadText;
         var steps = [
+            platformKey === "windows" ? "Open Updater from the Start menu. If it is not installed, use the download button below, then restart the PC after installing the MediaTek driver." :
+            platformKey === "macos" ? "Open Updater from Applications. If macOS blocks the first launch, approve it in System Settings → Privacy & Security, then reopen it." :
+            platformKey === "linux" ? "Run the UpdaterCE AppImage you made executable. Do not run it as root; if it cannot open the player, apply the udev rule first." :
             "Open Updater on your computer, or install it first with the button below.",
             "In Device Model, select " + model + ".",
             restoring ? "In Software, select Original Software." : "In Software, select " + name + ".",
             "Select a stable release shown for the " + model + ".",
             "Click Install / Restore, then power off the player.",
-            "Connect the player only when Updater says it is ready.",
+            "Connect the player only when Updater says it is ready." +
+                (platformKey === "macos" ? " Use a direct USB port, not a hub." : (platformKey === "linux" ? " Check lsusb for the MediaTek ID 0e8d if it does not appear." : (platformKey === "windows" ? " If Device Manager does not show the MediaTek port, reinstall the driver." : ""))),
             "Wait for the success message, then disconnect and start the player."
         ];
         var list = section.querySelector("[data-personalised-steps]");
@@ -2109,8 +2596,17 @@
         document.querySelectorAll("[data-personalised-reveal]").forEach(function (el) { el.hidden = false; });
         var guideLink = section.querySelector("[data-personalised-guide]");
         var dedicatedGuide = item.guide || item.seoPage || "";
+        var installBase = "install/";
+        var ownScript = document.querySelector('script[src*="lumen-site.js"]');
+        if (ownScript && ownScript.src) {
+            try { installBase = new URL(".", ownScript.src).href + "install/"; } catch (error) { installBase = "install/"; }
+        }
         if (guideLink) {
-            if (dedicatedGuide) {
+            if (platformKey) {
+                guideLink.href = installBase + item.slug + "-" + platformSlug + ".html";
+                guideLink.textContent = "Open the " + platformLabel + " install guide";
+                guideLink.hidden = false;
+            } else if (dedicatedGuide) {
                 guideLink.href = dedicatedGuide;
                 guideLink.textContent = restoring ? "Open the full " + model + " restore tutorial" : "Open the full " + name + " " + model + " tutorial";
             } else {
@@ -2119,7 +2615,7 @@
             }
         }
         var headerKicker = document.querySelector("#main > header .lumen-kicker");
-        if (headerKicker) headerKicker.textContent = (restoring ? "Restore " : "Install ") + name + " on " + model + " · beginner route";
+        if (headerKicker) headerKicker.textContent = (restoring ? "Restore " : "Install ") + name + " on " + model + " · beginner route" + (platformLabel ? " · " + platformLabel : "");
         var h1 = document.querySelector("#main > header h1");
         if (h1) h1.textContent = heading + ".";
         document.title = heading + " | Innioasis Updater";
@@ -2148,7 +2644,7 @@
             slot.innerHTML = items.map(function (item) {
                 var dedicated = item.guide || item.seoPage || "";
                 var href = dedicated || ("firmware-guide.html?model=" + encodeURIComponent(item.model) + "&software=" + encodeURIComponent(item.slug));
-                return '<a class="lumen-button" href="' + escapeHtml(href) + '">' + escapeHtml(item.name) + '</a>';
+                return '<a class="lumen-button" href="' + escapeHtml(href) + '" data-install-guide="' + escapeHtml(item.slug) + '">' + escapeHtml(item.name) + '</a>';
             }).join("");
         });
     }
@@ -2234,6 +2730,16 @@
         });
         return docsViewerPromise;
     }
+    /* post_install.html lives at the site root, but guides, notices and
+       troubleshooting pages are served from a subdirectory. The docs viewer
+       builds its hrefs relative to the root, so anchor them there before use:
+       otherwise /guides/rondo-y1.html links to /guides/post_install.html. */
+    function siteHref(href) {
+        var value = String(href || "");
+        if (!value || value.charAt(0) === "/" || value.charAt(0) === "#") return value;
+        if (/^[a-z][a-z0-9+.-]*:/i.test(value)) return value;
+        return "/" + value;
+    }
     function docsPostInstallHref(value, item) {
         var D = window.InnioasisDocs;
         if (!D || typeof D.postInstallHref !== "function") return value || "";
@@ -2241,11 +2747,11 @@
            appeals on; without it this is the ordinary post_install value. */
         var target = typeof D.postInstallTarget === "function" ? D.postInstallTarget(item, value) : (value || "");
         if (!target) return "";
-        return D.postInstallHref(target, {            software: item && item.slug ? item.slug : "",
+        return siteHref(D.postInstallHref(target, {            software: item && item.slug ? item.slug : "",
             model: item && item.model ? item.model : "",
             repo: item && item.repo ? item.repo : "",
             name: item && item.name ? item.name : ""
-        });
+        }));
     }
     function siteReleaseNotesHref(item, tag) {
         if (!item || !item.slug) return "release_notes.html";
@@ -2362,21 +2868,28 @@
     }
 
     function loadAndMergeManifest() {
-        var manifestPath = "slidia_manifest.xml";
-        if (window.location.pathname.indexOf("/guides/") !== -1 || window.location.pathname.indexOf("/guides") !== -1) {
-            manifestPath = "../slidia_manifest.xml";
-        }
-        return fetch(manifestPath, { cache: "no-cache" })
-            .then(function (res) {
-                if (!res.ok) throw new Error("HTTP " + res.status);
-                return res.text();
-            })
+        return fetchManifestText()
             .then(function (xmlText) {
+                if (!xmlText) return;
                 var parser = new DOMParser();
                 var doc = parser.parseFromString(xmlText, "application/xml");
                 if (doc.querySelector("parsererror")) return;
                 var packages = doc.querySelectorAll("package");
-                if (!packages.length || !Array.isArray(window.INNIOASIS_FIRMWARE_CATALOG)) return;
+                if (!packages.length) return;
+                /* Record what the manifest actually lists, before any merging:
+                   a commented-out or absent entry leaves the project in the
+                   feeds without an Updater CE route. */
+                var listed = {};
+                Array.prototype.forEach.call(packages, function (pkg) {
+                    var listedName = (pkg.getAttribute("name") || "").trim();
+                    var listedHandler = pkg.getAttribute("handler") || "";
+                    if (!listedName || /please update/i.test(listedName)) return;
+                    if (listedHandler && listedHandler !== "Custom Firmware") return;
+                    var listedRepo = repoKey(pkg.getAttribute("repo"));
+                    if (listedRepo) listed[listedRepo] = true;
+                });
+                manifestListedRepos = listed;
+                if (!Array.isArray(window.INNIOASIS_FIRMWARE_CATALOG)) return;
                 var catalog = window.INNIOASIS_FIRMWARE_CATALOG;
                 packages.forEach(function (pkg) {
                     var name = (pkg.getAttribute("name") || "").trim();
@@ -2413,6 +2926,7 @@
                             model: device,
                             slug: slug + "-" + device.toLowerCase(),
                             repo: repo,
+                            type: /^original/i.test(name) ? "original" : "custom",
                             icon: icon,
                             post_install: postInstall,
                             post_install2: postInstall2,
@@ -2445,14 +2959,24 @@
 
         loadAndMergeManifest().then(function () {
             initHomeFirmware();
-            initPersonalisedGuide();
-            initGuidePostInstall();
+            /* The docs viewer builds the post-install reader links, so wait for
+               it: otherwise a slow viewer load leaves the links pointing at
+               the raw GitHub page instead of the site's own reader. */
+            ensureDocsViewer().then(function () {
+                initPersonalisedGuide();
+                initGuidePostInstall();
+            });
             initSoftwareGuideLinks();
             return loadGithubTokens();
         }).catch(function () {
             initHomeFirmware();
-            initPersonalisedGuide();
-            initGuidePostInstall();
+            /* The docs viewer builds the post-install reader links, so wait for
+               it: otherwise a slow viewer load leaves the links pointing at
+               the raw GitHub page instead of the site's own reader. */
+            ensureDocsViewer().then(function () {
+                initPersonalisedGuide();
+                initGuidePostInstall();
+            });
             initSoftwareGuideLinks();
             return loadGithubTokens();
         }).then(function () {

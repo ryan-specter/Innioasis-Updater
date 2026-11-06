@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2P-400 — M4 end-user production power platform - Innioasis Updater</title>
+  <meta name="description" content="Y2P-400 — M4 end-user production power platform <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current" c">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2p-400.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2P-400 — M4 end-user production power platform - Innioasis Updater">
+  <meta property="og:description" content="Y2P-400 — M4 end-user production power platform <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current" c">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2p-400.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2P-400 — M4 end-user production power platform - Innioasis Updater">
+  <meta name="twitter:description" content="Y2P-400 — M4 end-user production power platform <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate identity, "current" c">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2P-400 — M4 end-user production power platform</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2p-400--m4-end-user-production-power-platform">Y2P-400 — M4 end-user production power platform</h1>
+<!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Historical September 15 issue snapshot. The subsequent POWER-03 owner acceptance and current physical limits are recorded in the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2FCURRENT_PLATFORM_STATE.md">current platform state</a>. The pending-deployment language below describes this original checkpoint.</p>
+<p><strong>OPEN / ACTIVE / PARTIAL. POWER-03 is built; awaiting owner manual BOOTIMG deployment and physical qualification. Do not start M5.</strong></p>
+<h2 id="corrected-production-candidate--2026-09-15">Corrected production candidate — 2026-09-15</h2>
+<p>Source <code>16875c4acc813b54c781167883227cf289f4dfcd</code>, Linux <code>6.18.0-y2linux-m4-power-03</code>. All <strong>74 production/M4 tests</strong>, ARM rescue ABI/shell checks, DT/config/memory/loader checks, package validation and <strong>12 package rejection cases</strong> pass. No physical deployment or POWER-03 hardware pass is claimed.</p>
+<ul><li>BOOTIMG: <strong>5408768 bytes</strong>, SHA256 <code>66b6ecd5ef54da6f3ea07be2c9deda284d0a7636e9c6da4c5d72d84eca5fc010</code>.</li><li>Fallback POWER-02: <strong>5378048 bytes</strong>, SHA256 <code>1852dfc995953f86ef5c47349515e8d6f06478daa6c1a89efe0f223501c226c9</code>. It retains the known charging failures.</li><li>Only BOOTIMG changes. Preserve installed Y2ROOT, Y2DATA/schema 1, owner SSH, stock loaders/tables and protected calibration. No root/data image is included.</li></ul>
+<p>Corrections: stop charging immediately at the 4.175-V target, confirm voltage-limited completion while inhibited, recharge after 60 seconds below 4.110 V. Preserve the 4.2-V fail-closed software guard; use the actual stock 4.3-V battery-OVP selector without disabling its detector. Retain first-fault registers and clear a real fault only after verified removal/engine stop and safe samples. Current source limits remain 450-mA configured SDP, at most 650-mA CDP/DCP/Apple, conservative 70-mA unknown; stock-evidenced low-voltage limits remain.</p>
+<p>Fix MT6323&#x27;s stock 1968 RTC epoch for time and alarm, preserve spare fields, enable RTC boot time and boot ID. Read the thermal efuse words with 32-bit accesses instead of the observed byte truncation; physical temperature accuracy remains to be verified. Give the MUSB session a kernel runtime-PM reference with release on detach/resume before reentry, replacing the POWER-02 userspace pin. Preserve the integrated SPM/offline architecture, s2idle fallback and 598/747.5/1040-MHz OPPs at the stock-proven 1.15 V. No guessed lower voltage or new power platform.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fbuild%2Fy2linux-m4-power-03-deployment.md">Manual BOOTIMG deployment and coherent qualification</a> · <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fbuild%2Fevidence%2Fy2linux-m4-power-03%2FREADME.md">Build receipt</a> · <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fknowledge%2Fm4-end-user-power.md">Implementation and exact policy</a> · <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fbuild%2Fy2linux-m5-connectivity-01-deployment.md">Subsequent owner-accepted M5 baseline</a>.</p>
+<h2 id="actual-installed-baseline">Actual installed baseline</h2>
+<p>POWER-02 remains installed until owner deployment. The completed entry audit verified its full image-length hash above and working p5/p7 root/data/SSH. It reached 4.200073 V then latched voltage fault 0x8 and stayed inhibited as voltage fell; the focused follow-up still found that latch around 3.74 V. The separate earlier OVP 0x10 lacks its original detector snapshot and is not yet explained physically. A 12.96-second DCP observation and two reconnects under the userspace runtime pin do not qualify sustained charging or final USB behavior.</p>
+<p>Earlier inspected SPM counters were entries=0/resumes=0, RTC reported 2082, and CPU thermal conversion was implausible. The source corrections above are not substitutes for physical acceptance. The owner explicitly directs focused M4 completion using the completed audit; no broad audit, M5, GPU or player work.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2F67cbe8f1df439a25eb542fc5c6f35fc57b758430%2Fdocs%2Fhardware-evidence%2F2026-09-15-m5-entry%2FREADME.md">Retained physical failure evidence</a> · <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">Roadmap</a>.</p>
+<p>After the owner reports POWER-03 running, perform one coherent session over SSH/standard interfaces, with owner cable/button/audible observations. Require actual SPM resumes/residency, unchanged boot/process/mount/data identity, separate Power and RTC wake, all resume regressions, sustained PC/wall/bank charging, real termination/recharge and low-battery recovery, offline lifecycle, reboot and actual hardware-off. Make targeted fixes for concrete failures. Close only when mandatory physical gates pass.</p>
+<p>Required physical acceptance:</p>
+<ul><li><input type="checkbox" disabled> Sustained positive charging gain and useful stock-evidenced current policy, never above the actual Y2 stock ceiling; retain 4.175 V unless a justified stock CV change is established.</li><li><input type="checkbox" disabled> PC SDP, detectable CDP, DCP wall charger, power bank and conservative unknown-source behavior; charger detection must work without gadget enumeration and USB descriptors must match bus-power behavior.</li><li><input type="checkbox" disabled> Safe low-battery/precharge and empty-battery recovery without Android; establish stock preloader/LK/Linux responsibilities and boot thresholds.</li><li><input type="checkbox" disabled> Charger insertion/removal/source changes, watchdog, safety faults, coherent state machine, termination and recharge with real hysteresis and bounded time.</li><li><input type="checkbox" disabled> Offline charging in production rescue/initramfs before switch_root: native charging UI, timed screen blank, brief status request, deliberate Power-on while still connected, and low-power watchdog servicing.</li><li><input type="checkbox" disabled> Off + wall/PC/power-bank insertion stays offline; completion stays offline; removal powers off; reinsertion returns offline; normal poweroff with charger connected returns offline instead of booting the normal OS.</li><li><input type="checkbox" disabled> Truthful battery/external-power telemetry and stock-equivalent protections; no fabricated pack temperature, measured current, SOC or Full state.</li><li><input type="checkbox" disabled> Calibrated CPU/PMIC die thermal readings, bounded load/cooling and repeated supported OPP transitions; voltage DVFS only with actual Y2 evidence.</li><li><input type="checkbox" disabled> WFI fallback, safe deeper idle where evidenced, real deep suspend with low standby consumption and SAME Linux session restored; s2idle fallback remains available.</li><li><input type="checkbox" disabled> Intended Power/RTC/source wake; wheel must not wake accidentally.</li><li><input type="checkbox" disabled> Display/backlight, buttons/volume/wheel, ALSA/CS43131 playback, internal root/data, optional SD and USB restore; coherent charging and filesystem integrity.</li><li><input type="checkbox" disabled> RTC read/set, reboot persistence, suspend alarm, deep wake and off persistence where supported; no unrelated RTC spare/boot writes.</li><li><input type="checkbox" disabled> Clean reboot, actual hardware poweroff, subsequent normal Power-button boot and powered-off charger behavior.</li></ul>
+<p>Battery percentage, calibrated battery current and pack Celsius may remain explicitly scoped follow-ups only under the owner&#x27;s stated conditions. These optional telemetry gaps do not waive charging, recovery, offline charging, deep suspend or any other hard power gate.</p>
+<p>M3 residual 48 kHz/channel/repeat tests and wider #33 storage tests stay separate. USB reconnect #27 stays separate unless directly required for this qualification. The latest owner request is focused M4 completion and explicitly stops M5. Do not start radios, GPU or Y2PlayerNative. Close #30 only after the actual physical matrix passes and a final boundary audit records source/evidence commits, exact candidate/fallback paths and hashes, qualified policies, results and remaining limitations.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Charging current policy (POWER-FINAL-07) - Innioasis Updater</title>
+  <meta name="description" content="Charging current policy POWER-FINAL-07 <!-- knowledge-base-scope: current-production-policy -- 2026-10-10. Source-complete and offline-tested; not physically qualified ab">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-charging-current-policy.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Charging current policy (POWER-FINAL-07) - Innioasis Updater">
+  <meta property="og:description" content="Charging current policy POWER-FINAL-07 <!-- knowledge-base-scope: current-production-policy -- 2026-10-10. Source-complete and offline-tested; not physically qualified ab">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-charging-current-policy.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Charging current policy (POWER-FINAL-07) - Innioasis Updater">
+  <meta name="twitter:description" content="Charging current policy POWER-FINAL-07 <!-- knowledge-base-scope: current-production-policy -- 2026-10-10. Source-complete and offline-tested; not physically qualified ab">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Charging current policy (POWER-FINAL-07)</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="charging-current-policy-power-final-07">Charging current policy (POWER-FINAL-07)</h1>
+<!-- knowledge-base-scope: current-production-policy -->
+2026-10-10. Source-complete and offline-tested; **not physically qualified above the 450/650 mA selectors**.
+Supersedes the 70/450/650 mA statements in [the M4 charging record](m4-charging.md), which stays as history.
+<h2 id="what-was-verified-from-the-vendor-code">What was verified from the vendor code</h2>
+<table><thead><tr><th>Item</th><th>Evidence</th></tr></thead><tbody><tr><td>Selector table</td><td>Stock <code>CS_VTH</code> at <code>0xc07572f8</code>: 16 words, units of 0.01 mA, index = <code>CHR_CON4</code> field. Read from <code>fm-decompressed.bin</code>: 1600, 1500, 1400, 1300, 1200, 1100, 1000, 900, 800, 700, 650, 550, 450, 300, 200, 70 mA. Identical order to BSP <code>CS_VTH_PMIC[]</code> (<code>charging_hw_pmic.c</code>). The owner-supplied mapping was checked entry by entry against this array and is identical.</td></tr><tr><td>Programming</td><td><code>charging_set_current</code> (<code>0xc04cb934</code>) applies <code>bmt_find_closest_level</code> (closest entry that does not exceed the request) and writes the index with <code>upmu_set_rg_cs_vth</code>. Linux uses the same floor rule.</td></tr><tr><td>Source types</td><td>Stock detection <code>charging_get_charger_type</code> (<code>0xc04cb2a8</code>) stores only 1 STANDARD_HOST, 3 NONSTANDARD, 2 CHARGING_HOST, 5 APPLE_2_1A, 4 STANDARD_CHARGER. The BSP flow is DCD, A1 (Apple vs nonstandard) or A2/B2 (SDP, CDP, DCP). Types 6 and 7 (Apple 1.0/0.5 A) are consumed by <code>select_charging_curret</code> but never produced on this unit.</td></tr><tr><td>Per-source request</td><td><code>select_charging_curret</code> (<code>0xc03a1d88</code>): type 1 = 500 mA (PMIC floors to 450), 2 and 6 = 650, 3 and 4 = <strong>1100</strong>, 5 = 800, 7 = 500, else 70 mA. These differ from the reference <code>cust_charging.h</code> (AC 650, nonstandard 500), so they are product-specific values.</td></tr><tr><td>Lifecycle</td><td>Pre-charge to CC at 3400 mV, CC to top-off at 4050 mV, recharge below 4110 mV, top-off timeout 10800 s, total 86400 s, software termination after six samples at or below 150 mA (<code>BAT_*Action</code>, <code>0xc03a205c..0xc03a2328</code>). Linux keeps these except termination and recharge: it stops on the first sample at 4.175 V (no validated absolute current for the stock taper rule; POWER-02 overshot while waiting). From POWER-FINAL-12 a hold that ends an active cycle is Full when it rests at or above 4.07 V for six spaced samples (the pack relaxes to about 4.09-4.10 V; with the stock 4.11 V rule it restarted every ~70 s and never reported Full); below 4.07 V charging resumes; after Full a maintenance cycle starts only below 4.00 V.</td></tr><tr><td>HV detect</td><td>Stock <code>charger_hv_detect_sw_thread_handler</code> sets the 7 V HV threshold, reads the HV status and services the watchdog every 2 s. Linux requires <code>CHR_CON0</code> bit 0 (VCDT_HV_EN) set, with the 7 V input OVP; the single historical <code>0x80</code> fault was this check failing (<code>CHR_CON0</code> read <code>0x62</code>). What cleared the bit is not established.</td></tr><tr><td>PMIC thermal</td><td>Stock <code>mtk_ts_pmic.c</code>: trip ladder 50..120 C, critical 150 C. No battery NTC is read (<code>force_get_tbat</code> returns 25 C).</td></tr></tbody></table>
+<h2 id="the-three-different-limits">The three different limits</h2>
+<table><thead><tr><th>Limit</th><th>Value</th><th>Source</th></tr></thead><tbody><tr><td>Hardware selector range</td><td>1600 mA</td><td><code>CS_VTH</code></td></tr><tr><td>Highest stock request</td><td>1100 mA (DCP, nonstandard)</td><td><code>select_charging_curret</code></td></tr><tr><td>Verified cell charge rating</td><td><strong>unknown</strong></td><td>no label, datasheet or manufacturer value in evidence</td></tr></tbody></table>
+<p>Selectors 0 to 4 (1200 to 1600 mA) are in the table but are rejected by the PMIC write boundary (<code>kernel/platform/policy.h</code>) and by the sequencer, because no stock source requests them.</p>
+<h2 id="policy">Policy</h2>
+<p>One table (<code>charge-table.h</code>), one decision function (<code>charge-limits.h: y2_charge_decide</code>), one programming path. The result is the minimum of:</p>
+<ol><li><strong>Stock request</strong> for the detected source (<code>source-policy.h</code>). SDP follows the USB allowance (500 mA configured,<p>100 mA unconfigured, 0 in reset/suspend, 70 mA before a data controller exists).</p></li><li><strong>Class ceiling</strong>: SDP 500, CDP 650, DCP 1100, Apple 800, nonstandard 70, unknown 70 mA. Nonstandard stays at the<p>previously validated 70 mA: BC1.2 defines no capability for it and there is no validated VBUS-collapse check.</p></li><li><strong>Deep discharge</strong>: 450 mA at or below 3.4 V.</li><li><strong>Thermal cap</strong> from the PMIC die (60 C: 450 mA, 70 C: 200 mA, 80 C: 70 mA, 90 C: pause; 5 C hysteresis; the 150 C<p>latched fault is unchanged). The die is not the cell and the linear charger dissipates <code>(Vchr - Vbat) * I</code>, so this is a protective heuristic, not a pack temperature.</p></li><li><strong>Owner ceiling</strong> (<code>BAT0/constant_charge_current_max</code>): default <strong>650 mA</strong>, accepts only exact permitted table<p>steps, root-only, volatile (reverts at boot), logged when raised above 650 mA. It is a ceiling; the policy still picks the selector. A PC port is capped at 450 mA whatever the ceiling.</p></li></ol>
+<p>The result is floored to a table step, so it can never exceed any input.</p>
+<h2 id="why-the-default-stays-at-650-ma">Why the default stays at 650 mA</h2>
+<p>The stock firmware requests 1100 mA on this exact product, which is real evidence about the original pack. It is not a cell rating: the stock sense-resistor constant (68 mohm) disagrees with the hardware, the stock model capacity (1300 mAh) is a compiled constant, and there is no pack temperature sensor. The PMIC die already reaches 43 to 46 C at 450 mA while the system runs. Until a cell charge rating, or independent source-side current and pack temperature measurements, exist, the 1100 mA path is implemented, tested and reachable only by an explicit owner ceiling.</p>
+<h2 id="thermal-reality-of-a-linear-charger">Thermal reality of a linear charger</h2>
+<p>The MT6323 charger is linear: the die dissipates <code>(Vbus - I * 0.2 ohm - Vbat) * I</code>. With an assumed 5.0 V source (VBUS is not measured; a real source sags with cable drop) and a 3.78 V cell this is about 0.51 W at 450 mA, 0.71 W at 650 mA, 0.85 W at 800 mA and 1.0 W at 1100 mA, and more on a lower cell voltage (about 1.4 W at 1100 mA and 3.5 V). Live evidence (<code>out/deep-sleep-final/evidence/20261010/91-power07-charging-readonly/</code>, 06 image, USB SDP, 450 mA selector, system running): the PMIC die rose from 36.9 C at boot to 46.9 C after 28 minutes of charging and was still rising. The 60 C step of the derating ladder is therefore expected to engage during sustained high-current wall charging, which makes the higher selectors thermally self-limiting by design. Whether the real limit is the die or the cell is not known without a pack sensor; that is why the ladder uses the stock PMIC trip points and why the ramp tool stops at 55 C.</p>
+<h2 id="measurement">Measurement</h2>
+<p><code>charging_state</code> reports three separate quantities: the stock request (<code>stock_request_ua</code>), the programmed selector (<code>charge_limit_ua</code>, <code>selector</code>) and <code>sense_current_est_ua</code>.</p>
+<p>The estimate is <code>(ISENSE - BATSNS - offset) / 200 mohm</code>. Evidence: 16 constant-current samples at the 450 mA selector average 98.3 mV across 3.70 to 4.17 V, 2 samples at 650 mA (DCP) average 139.6 mV, and the zero-current offset is about 2 mV, giving 0.21 ohm. The BSP header uses <code>CUST_R_SENSE 200</code> for the internal linear charger (68 only for an external FAN5405/BQ24158), which fits; the stock Y2 binary compiles 68, which does not. The estimate reads about 6 percent above the selector label. It is the charger path only: not USB input current, not net battery current (the system also draws from the battery), and unvalidated without an external meter. It is deliberately not exposed as <code>current_now</code>.</p>
+<h2 id="not-done">Not done</h2>
+<p>No VCDT (VBUS) ADC channel is read, so a collapsing source is not detected. No pack-temperature or current calibration exists. Termination is voltage-limited rather than the stock current-taper rule. No high-current mode was exercised on hardware.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

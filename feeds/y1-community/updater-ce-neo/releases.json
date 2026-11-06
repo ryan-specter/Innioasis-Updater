@@ -1,5 +1,31 @@
 [
   {
+    "id": 434899583,
+    "tag_name": "2.5.2",
+    "name": "Innioasis Updater 2.5.2 for Windows",
+    "body": "In this release changes include:\r\n\r\nKeep Settings and Media - Retains your player's settings and personal files/media where the firmware you're installing is compatible with your existing firmware*\r\n\r\nSupport for firmware installs with post-setup instructions - useful for\r\nOur newly added support for installing Y2Reborn and Rondo! (Mac and Linux users rejoice!)\r\nImproved guidance shown during firmware installs\r\nBetter error handling and troubleshooting guidance\r\ni18n fixes\r\nSupport for the full Innioasis and Timmkoo product line in Updater CE and Firmware Archive.\r\n\r\n*Where two firmwares are compatible with eachother, for example if coming from the original software to a newer version of the original software, or a mod of it like Better-Y or Koensayr",
+    "draft": false,
+    "prerelease": false,
+    "created_at": "2026-10-29T14:16:21Z",
+    "published_at": "2026-11-05T07:39:05Z",
+    "html_url": "https://github.com/ryan-specter/updater-ce-neo/releases/tag/2.5.2",
+    "icon_url": "",
+    "icon_dark_url": "",
+    "assets": [
+      {
+        "id": 712510139,
+        "name": "UpdaterCE-Windows-Portable.zip",
+        "browser_download_url": "https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.2/UpdaterCE-Windows-Portable.zip",
+        "size": 238499367,
+        "download_count": 180,
+        "content_type": "application/x-zip-compressed",
+        "created_at": "2026-11-05T07:36:58Z",
+        "updated_at": "2026-11-05T07:39:14Z",
+        "url": "https://api.github.com/repos/ryan-specter/updater-ce-neo/releases/assets/712510139"
+      }
+    ]
+  },
+  {
     "id": 427803579,
     "tag_name": "2.5.1",
     "name": "Innioasis Updater CE 2.5.1",
@@ -8,75 +34,75 @@
     "prerelease": false,
     "created_at": "2026-10-29T11:30:15Z",
     "published_at": "2026-10-29T11:55:09Z",
-    "html_url": "https://github.com/y1-community/updater-ce-neo/releases/tag/2.5.1",
+    "html_url": "https://github.com/ryan-specter/updater-ce-neo/releases/tag/2.5.1",
     "icon_url": "",
     "icon_dark_url": "",
     "assets": [
       {
         "id": 688890139,
         "name": "UpdaterCE.AppImage",
-        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/UpdaterCE.AppImage",
+        "browser_download_url": "https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.1/UpdaterCE.AppImage",
         "size": 300337656,
-        "download_count": 0,
+        "download_count": 4,
         "content_type": "application/octet-stream",
         "created_at": "2026-10-29T14:53:21Z",
         "updated_at": "2026-10-29T14:56:13Z",
-        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/688890139"
+        "url": "https://api.github.com/repos/ryan-specter/updater-ce-neo/releases/assets/688890139"
       },
       {
         "id": 688901923,
         "name": "Innioasis.Updater.for.Mac.zip",
-        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/Innioasis.Updater.for.Mac.zip",
+        "browser_download_url": "https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.1/Innioasis.Updater.for.Mac.zip",
         "size": 187914366,
-        "download_count": 80,
+        "download_count": 81,
         "content_type": "application/zip",
         "created_at": "2026-10-29T14:57:25Z",
         "updated_at": "2026-10-29T14:59:26Z",
-        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/688901923"
+        "url": "https://api.github.com/repos/ryan-specter/updater-ce-neo/releases/assets/688901923"
       },
       {
         "id": 688912014,
         "name": "UpdaterCE-Windows-Portable.zip",
-        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/UpdaterCE-Windows-Portable.zip",
+        "browser_download_url": "https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.1/UpdaterCE-Windows-Portable.zip",
         "size": 236551244,
-        "download_count": 72,
+        "download_count": 91,
         "content_type": "application/zip",
         "created_at": "2026-10-29T15:00:46Z",
         "updated_at": "2026-10-29T15:03:17Z",
-        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/688912014"
+        "url": "https://api.github.com/repos/ryan-specter/updater-ce-neo/releases/assets/688912014"
       },
       {
         "id": 688922148,
         "name": "UpdaterCE-Linux-Portable.zip",
-        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/UpdaterCE-Linux-Portable.zip",
+        "browser_download_url": "https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.1/UpdaterCE-Linux-Portable.zip",
         "size": 387920108,
-        "download_count": 71,
+        "download_count": 100,
         "content_type": "application/zip",
         "created_at": "2026-10-29T15:04:30Z",
         "updated_at": "2026-10-29T15:08:39Z",
-        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/688922148"
+        "url": "https://api.github.com/repos/ryan-specter/updater-ce-neo/releases/assets/688922148"
       },
       {
         "id": 688959440,
         "name": "installer.exe",
-        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/installer.exe",
+        "browser_download_url": "https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.1/installer.exe",
         "size": 173282764,
-        "download_count": 203,
+        "download_count": 225,
         "content_type": "application/x-msdownload",
         "created_at": "2026-10-29T15:16:38Z",
         "updated_at": "2026-10-29T15:17:12Z",
-        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/688959440"
+        "url": "https://api.github.com/repos/ryan-specter/updater-ce-neo/releases/assets/688959440"
       },
       {
         "id": 689641553,
         "name": "Innioasis.Updater.for.Mac.dmg",
-        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/2.5.1/Innioasis.Updater.for.Mac.dmg",
+        "browser_download_url": "https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.1/Innioasis.Updater.for.Mac.dmg",
         "size": 154209498,
-        "download_count": 7,
+        "download_count": 13,
         "content_type": "application/x-diskcopy",
         "created_at": "2026-10-29T19:21:24Z",
         "updated_at": "2026-10-29T19:22:01Z",
-        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/689641553"
+        "url": "https://api.github.com/repos/ryan-specter/updater-ce-neo/releases/assets/689641553"
       }
     ]
   },
@@ -89,20 +115,20 @@
     "prerelease": false,
     "created_at": "2026-10-21T09:50:07Z",
     "published_at": "2026-10-22T22:15:34Z",
-    "html_url": "https://github.com/y1-community/updater-ce-neo/releases/tag/2.5",
+    "html_url": "https://github.com/ryan-specter/updater-ce-neo/releases/tag/2.5",
     "icon_url": "",
     "icon_dark_url": "",
     "assets": [
       {
         "id": 681971513,
         "name": "installer.exe",
-        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/2.5/installer.exe",
+        "browser_download_url": "https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5/installer.exe",
         "size": 111057481,
-        "download_count": 64,
+        "download_count": 65,
         "content_type": "application/x-msdownload",
         "created_at": "2026-10-27T15:17:06Z",
         "updated_at": "2026-10-27T15:17:28Z",
-        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/681971513"
+        "url": "https://api.github.com/repos/ryan-specter/updater-ce-neo/releases/assets/681971513"
       }
     ]
   },
@@ -115,31 +141,31 @@
     "prerelease": false,
     "created_at": "2026-08-26T21:10:01Z",
     "published_at": "2026-09-07T13:13:19Z",
-    "html_url": "https://github.com/y1-community/updater-ce-neo/releases/tag/flash_tool",
+    "html_url": "https://github.com/ryan-specter/updater-ce-neo/releases/tag/flash_tool",
     "icon_url": "",
     "icon_dark_url": "",
     "assets": [
       {
         "id": 548814370,
         "name": "flash_tool_linux.zip",
-        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/flash_tool/flash_tool_linux.zip",
+        "browser_download_url": "https://github.com/ryan-specter/updater-ce-neo/releases/download/flash_tool/flash_tool_linux.zip",
         "size": 67786907,
-        "download_count": 25,
+        "download_count": 26,
         "content_type": "application/zip",
         "created_at": "2026-09-07T13:13:02Z",
         "updated_at": "2026-09-07T13:13:13Z",
-        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/548814370"
+        "url": "https://api.github.com/repos/ryan-specter/updater-ce-neo/releases/assets/548814370"
       },
       {
         "id": 655934273,
         "name": "UpdaterCE2.5Test.AppImage",
-        "browser_download_url": "https://github.com/y1-community/updater-ce-neo/releases/download/flash_tool/UpdaterCE2.5Test.AppImage",
+        "browser_download_url": "https://github.com/ryan-specter/updater-ce-neo/releases/download/flash_tool/UpdaterCE2.5Test.AppImage",
         "size": 220924408,
-        "download_count": 7,
+        "download_count": 8,
         "content_type": "application/octet-stream",
         "created_at": "2026-10-19T10:19:20Z",
         "updated_at": "2026-10-19T10:20:29Z",
-        "url": "https://api.github.com/repos/y1-community/updater-ce-neo/releases/assets/655934273"
+        "url": "https://api.github.com/repos/ryan-specter/updater-ce-neo/releases/assets/655934273"
       }
     ]
   }

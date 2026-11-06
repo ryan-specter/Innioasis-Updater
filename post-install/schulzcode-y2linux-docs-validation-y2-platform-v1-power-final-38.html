@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-38 — stock restart sequence, faster installs, clearer progress - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-38 — stock restart sequence, faster installs, clearer progress Status: SEALED, awaiting the owner 2026-10-15. Package out/y2linux-platform-v1-power-final-cand">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-38.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-38 — stock restart sequence, faster installs, clearer progress - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-38 — stock restart sequence, faster installs, clearer progress Status: SEALED, awaiting the owner 2026-10-15. Package out/y2linux-platform-v1-power-final-cand">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-38.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-38 — stock restart sequence, faster installs, clearer progress - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-38 — stock restart sequence, faster installs, clearer progress Status: SEALED, awaiting the owner 2026-10-15. Package out/y2linux-platform-v1-power-final-cand">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-38 — stock restart sequence, faster installs, clearer progress</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-38--stock-restart-sequence-faster-installs-clearer-progress">POWER-FINAL-38 — stock restart sequence, faster installs, clearer progress</h1>
+<p>Status: <strong>SEALED, awaiting the owner</strong> (2026-10-15). Package <code>out/y2linux-platform-v1-power-final-candidate-38/</code> (fallback = 37), receipts <code>out/deep-sleep-final/build38-receipts/</code>. BOOTIMG <code>d4e99ba51149e4effd37b34eff7fea0a90b645497b01ef47df1f25b473abcf9d</code>, Y2ROOT <code>5670c063fa84ff0eba939510996f7ca7b9b1692cbd7d504afd3dbf8198ff6709</code>, RECOVERY <code>953c3153fd5bcffcf823585fc9f5eed4fe52ba380c8615cf46cc25cee6283857</code>. Kernel <code>6.18.56-y2linux-platform-v1-power-final-38</code>, release <code>1.0.0-platform-v1-power-final-candidate.38</code>, update sequence 3800. Container suite <strong>718 OK</strong>, all seal checks PASS. Signed OTA (release key): <code>out/y2linux-platform-v1-power-final-candidate-38-ota-release/</code>.</p>
+<h2 id="why">Why</h2>
+<p>A software restart leaves the panel dark (since 11; archives 130/131 on 35). LK shows its logo and initialises the display without a boot-reason branch (REA, FM <code>lk.bin</code> <code>platform_init</code> 0x81e004b8). The stock kernel&#x27;s restart (REA, FM kernel <code>wdt_arch_reset</code> 0xc0541d10) writes <code>WDT_MODE = (mode &amp; 0xffffffa6) | 0x22000014</code> — external reset to the PMIC and auto-restart — waits 2.5 ms, then <code>WDT_SWRST = 0x1209</code>. Upstream <code>mtk_wdt_restart</code> (ours) only wrote <code>WDT_SWRST</code>, so display-path state survived and Linux got no frames after the logo.</p>
+<table><thead><tr><th>Change</th><th>Detail</th></tr></thead><tbody><tr><td>Restart</td><td><code>mtk_wdt_restart</code> on MT6582 uses the stock sequence (patch 0037). The suspend backstop watchdog is unchanged.</td></tr><tr><td>Updates</td><td>Restart instead of power-off only with the owner switch <code>/data/updates/restart.json</code> <code>{&quot;mode&quot;: &quot;reboot&quot;}</code> (apply and recovery), until a restart is proven on the device.</td></tr><tr><td>Snapshot</td><td>37&#x27;s read-only display snapshot stays for a cold/warm diff if a restart still fails.</td></tr><tr><td>Install speed</td><td>37 took 136 s in recovery (SHA-256 of the 512 MiB root about five times). 38 authenticates the encoded payloads by their signed SHA-256 only, checks backups by their compressed-file hash, reads back by CRC-32, skips unchanged root chunks (<code>root_bytes_written</code>) and logs each step&#x27;s time. Backups from before 38 still restore.</td></tr><tr><td>Recovery screen</td><td>&quot;Step n of 4&quot;, a bar that moves within each step, a shimmer in the unfilled part, the time left from the rate so far, &quot;This takes 1-2 minutes.&quot;</td></tr></tbody></table>
+<h2 id="device-results">Device results</h2>
+<ul><li><strong>First release-key over-the-air update PASSED, 37 → 38</strong> (2026-10-15; package staged locally, owner: Turn Off<p>and Install, Power, Power). 38&#x27;s recovery ran the install (written by <code>prepare</code> before entry) in <strong>52 s</strong> (37: 136 s): verify 1.9 s, backup 31.1 s, system 13.0 s (19 046 063 of 536 870 912 bytes written), check 4.9 s, kernel 0.7 s. New system: kernel <code>…-power-final-38</code>, taint 0, health acknowledged at 47 s uptime, <code>accepted.json</code> 3800, package removed. Automatic restart not yet switched on (restart test pending).</p></li><li><strong>Software restart on 38: panel still dark</strong> (archive <code>20261015/135</code>); the stock reset sequence alone is not the<p>fix. Cause and fix: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-PLATFORM-V1-POWER-FINAL-39.md">POWER-FINAL-39</a>.</p></li></ul>
+<h2 id="owner-steps">Owner steps</h2>
+<ol><li>Install 38 (SP Flash Tool BOOTIMG + ANDROID, or over the air from 37 with the signed package — this also measures the new install time).</li><li>With the owner&#x27;s OK: one <code>y2-platform shutdown reboot</code>. Panel lit → restart fixed; then<p><code>restart.json</code> on, and an install test without pressing Power. Panel dark → hold Power 10 s; the agent diffs the snapshots (cold: archive 133).</p></li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

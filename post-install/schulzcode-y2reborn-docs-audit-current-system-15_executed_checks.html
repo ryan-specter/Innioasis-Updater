@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Executed checks and provenance limits - Innioasis Updater</title>
+  <meta name="description" content="Executed checks and provenance limits <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims, next steps">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-audit-current-system-15_executed_checks.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Executed checks and provenance limits - Innioasis Updater">
+  <meta property="og:description" content="Executed checks and provenance limits <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims, next steps">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-audit-current-system-15_executed_checks.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Executed checks and provenance limits - Innioasis Updater">
+  <meta name="twitter:description" content="Executed checks and provenance limits <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims, next steps">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>Executed checks and provenance limits</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="executed-checks-and-provenance-limits">Executed checks and provenance limits</h1>
+<!-- knowledge-base-scope: historical-audit/review -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_REBORN_STATE.md) for the latest physically observed result.
+<p>Date: 2026-09-22. Repository HEADs are in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Faudit%2Fcurrent-system%2F00_SCOPE_AND_EVIDENCE.md">scope</a>. All tests were host-side; no SSH, USB-device command, flashing or power/radio operation was issued. No Cargo/kernel/Buildroot build was run. Test scripts used their own temporary directories; production source/configuration was not edited. Only this audit directory was added.</p>
+<h2 id="commands-actually-executed">Commands actually executed</h2>
+<p>Working directory: <code>/home/luca/Dokumente/Code/Y2Reborn</code> unless stated otherwise.</p>
+<pre><code class="language-sh">target/debug/deps/reborn-569a8d6f5e5b2b9d --list
+target/debug/deps/reborn_media-11cd456330717a75 --list
+timeout 35s target/debug/deps/reborn-569a8d6f5e5b2b9d --test-threads=1 --nocapture
+timeout 35s target/debug/deps/reborn_media-11cd456330717a75 --test-threads=1
+timeout 35s target/debug/deps/reborn-569a8d6f5e5b2b9d --nocapture
+PYTHONDONTWRITEBYTECODE=1 python3 tests/tooling.py
+PYTHONDONTWRITEBYTECODE=1 timeout 60s python3 tests/host-daemon.py</code></pre>
+<p>The following cached library binaries were each invoked with <code>timeout 40s target/debug/deps/&lt;binary&gt; --test-threads=1</code> in a shell loop:</p>
+<table><thead><tr><th>Binary</th><th>Passed</th><th>Failed</th></tr></thead><tbody><tr><td><code>reborn_core-7dcfc2228b127774</code></td><td>5</td><td>0</td></tr><tr><td><code>reborn_library-c5234af8506b1a3f</code></td><td>7</td><td>0</td></tr><tr><td><code>reborn_ui-27d92cb4394b7256</code></td><td>10</td><td>0</td></tr><tr><td><code>reborn_observability-65a42a3921a27cc5</code></td><td>13</td><td>0</td></tr><tr><td><code>reborn_control-894d4af5df4fb32d</code></td><td>5</td><td>0</td></tr><tr><td><code>reborn_audio-610cef8b7603caee</code></td><td>2</td><td>0</td></tr><tr><td><code>reborn_platform-a0dab0805802cc10</code></td><td>21</td><td>0</td></tr></tbody></table>
+<p>Playback binary: 6/6 passed serially, then 6/6 passed in default parallel mode. Media binary: 14/14 passed. Thus 83 distinct cached Rust tests passed, with six playback tests repeated. Expected malformed-media/unknown-ALSA-device diagnostic output was not a test failure. Python tooling: 4/4. Host daemon output:</p>
+<pre><code class="language-json">{&quot;passed&quot;:true,&quot;checks&quot;:20,&quot;scanner_tracks&quot;:6,&quot;incremental_reused&quot;:6,&quot;malformed_files_skipped&quot;:1,&quot;no_hardware_claim&quot;:true}</code></pre>
+<p><strong>Provenance limitation:</strong> these binaries pre-existed the audit. Observed dates range across earlier implementation steps; the main host executable was dated September 19 and the playback/UI test binaries September 20. They were not rebuilt or proven to correspond byte-for-byte to HEAD. Native host tests resolve host FFmpeg 9 libraries, whose enabled component set is broader than the pruned target build (<code>ldd</code> confirmed host <code>/usr/lib/libav*.so</code>). Passing host tests therefore cannot prove target packaging/minimal-component sufficiency. Current source was inspected independently and generated target configuration checked separately.</p>
+<p>Working directory: <code>/home/luca/Dokumente/Code/Y2Linux</code>:</p>
+<pre><code class="language-sh">PYTHONDONTWRITEBYTECODE=1 python3 tools/production/verify-ffmpeg.py \
+  --buildroot-output out/y2linux-reborn-audio-final/buildroot</code></pre>
+<p>Result: PASS generated FFmpeg configuration/library/ELF boundary. A subsequent exploratory <code>readelf</code> lookup in the newer reuse-only staging tree failed because that tree does not contain a full installed player. That is recorded as an inspection-path miss, not a target image validation failure. The retained full tree above was the appropriate input for this check.</p>
+<p>Read-only image checks used <code>debugfs -R</code> without <code>-w</code> against <code>out/y2linux-reborn-ui-polish-02/Y2ROOT.img</code>: <code>cat /etc/y2linux/audio-qualified.json</code>, <code>cat /usr/share/reborn/dependencies.json</code>, <code>ls -l /usr/share/reborn</code>, and <code>ls -l /usr/lib/reborn</code>. Results: S16/44100 qualification profile, dependency inventory including stale font8x8 entry, top-level MIT LICENSE plus fixtures but no installed DejaVu notices in that directory, and a 25,824-byte media membrane present. No image was mounted writable or modified.</p>
+<p>Read-only inspection also used Git status/log/show, rg, sed, stat, source/config reads and local ELF dependency inspection. Some exploratory paths did not exist (for example a <code>series</code> file where the repository uses <code>manifest.json</code>); those misses were resolved by file discovery and are not product defects. No unchanged ROM/recovery hash series was repeated.</p>
+<h2 id="final-documentation-verification">Final documentation verification</h2>
+<p>A local Node check validated all 16 Markdown documents, 296 local links, balanced code fences, table column consistency and 42 unique master finding IDs (32 corrective/uncertain/legacy findings plus 10 positive preservation findings). No link or table error remained. Both repositories&#x27; tracked and staged diffs were empty; the only worktree addition was <code>Y2Reborn/docs/audit/</code>. No commit was made. This documentation check does not add hardware or fresh-build evidence.</p>
+<h2 id="additional-native-diagnostic-probes">Additional native diagnostic probes</h2>
+<p>These probes call the existing <strong>cached host</strong> C membrane with the inspected ABI through ctypes. They do not compile/edit production code or access ALSA/hardware. They are diagnostic experiments, not new production tests.</p>
+<h3 id="repeated-decodeclose">Repeated decode/close</h3>
+<p>Library: <code>target/debug/build/reborn-media-86921348aad87dc5/out/libreborn_media.so</code>. Decode <code>assets/fixtures/tone.flac</code> to S16 stereo/44100, volume 100, RG/EQ off; close decoder and cancel context each iteration. Four phases of 250 iterations:</p>
+<table><thead><tr><th>Closed decoders</th><th>Output frames in this phase</th><th>Process maximum RSS, KiB</th></tr></thead><tbody><tr><td>250</td><td>11,025,000</td><td>60,744</td></tr><tr><td>500</td><td>11,025,000</td><td>67,272</td></tr><tr><td>750</td><td>11,025,000</td><td>73,904</td></tr><tr><td>1000</td><td>11,025,000</td><td>80,256</td></tr></tbody></table>
+<p>Interpretation: persistent growth supports F01&#x27;s independently identified frame ownership defect. <code>ru_maxrss</code> is a high-water mark, not a live-allocation profiler; this is not proof that every byte is attributable to that one leak and not an ARM memory budget. No sanitizer/profiler was run.</p>
+<h3 id="seek-versus-output-samples">Seek versus output samples</h3>
+<p>Same membrane/fixture, volume 100, no RG/EQ. Compare unseeked and <code>rb_media_seek(...,500)</code> before reading:</p>
+<table><thead><tr><th>Output rate</th><th>Unseeked frames</th><th>Frames after 500-ms seek</th><th>Expected remaining duration in frames</th><th>First reported time</th></tr></thead><tbody><tr><td>48,000</td><td>48,000</td><td>24,448</td><td>24,000</td><td>500 ms</td></tr><tr><td>44,100</td><td>44,100</td><td>22,461</td><td>22,050</td><td>500 ms</td></tr></tbody></table>
+<p>The matching-rate result avoids attributing the whole discrepancy to a resampler. The first post-seek S16 sample was -73, versus 0 at the beginning of the unseeked 48-kHz decode. This is not a waveform characterization; the significant result is extra frames despite a correct-looking label. It matches source inspection: decoded pre-target samples are not explicitly trimmed.</p>
+<p>A preliminary 40-ms seek on the 4096-frame <code>gapless-a.flac</code> specimen returned an error and failed the probe&#x27;s assertion. That preliminary probe is <strong>not</strong> included among passed tests. The one-second fixture was then used for the successful measurement above. No production change was made to make any check pass.</p>
+<p>The exact inline probe commands used follow, so these observations can be repeated with the same cached membrane or adapted in a separately authorized validation turn.</p>
+<h2 id="filter-negotiation-probe">Filter-negotiation probe</h2>
+<p>The same cached membrane was run with FFmpeg debug logging enabled. The initial unity/no-EQ run and the volume-35/+3-dB EQ run both showed these negotiated boundaries:</p>
+<pre><code class="language-text">16/44100 FLAC: decoder s16 -&gt; canonical fltp @44100
+24/96000 FLAC: decoder s32 -&gt; canonical fltp @96000
+configured graph: aformat -&gt; volume -&gt; equalizer (fltp)
+  -&gt; auto_aresample: fltp -&gt; dbl -&gt; alimiter
+  -&gt; auto_aresample: dbl -&gt; fltp -&gt; graph sink
+final packed output requested: s16 @44100</code></pre>
+<p>The initial metadata printer retained NUL padding in its JSON strings; the second command below strips that padding. This was diagnostic formatting only. Negotiation logs came from the actual graph; no production code changed. Both probes completed successfully. The exact second command follows:</p>
+<pre><code class="language-sh">PYTHONDONTWRITEBYTECODE=1 python3 - &lt;&lt;&#x27;PY&#x27;
+import ctypes as C, resource, json
+p=&#x27;target/debug/build/reborn-media-86921348aad87dc5/out/libreborn_media.so&#x27;
+l=C.CDLL(p)
+class Eq(C.Structure):
+    _fields_=[(&#x27;frequency&#x27;,C.c_double),(&#x27;gain&#x27;,C.c_double),(&#x27;q&#x27;,C.c_double)]
+class Dsp(C.Structure):
+    _fields_=[(&#x27;replay_gain&#x27;,C.c_int),(&#x27;volume&#x27;,C.c_uint32),(&#x27;count&#x27;,C.c_uint32),(&#x27;eq&#x27;,Eq*8),(&#x27;crossfade&#x27;,C.c_uint32)]
+l.rb_cancel_new.restype=C.c_void_p
+l.rb_cancel_free.argtypes=[C.c_void_p]
+l.rb_media_open.argtypes=[C.c_char_p,C.c_int,C.c_int,C.POINTER(Dsp),C.c_void_p,C.POINTER(C.c_void_p),C.c_void_p]
+l.rb_media_read.argtypes=[C.c_void_p,C.c_void_p,C.c_int,C.POINTER(C.c_uint64),C.POINTER(C.c_uint64),C.POINTER(C.c_int64)]
+l.rb_media_close.argtypes=[C.c_void_p]
+d=Dsp(); d.volume=35; d.count=1; d.eq[0]=Eq(1000,3,1)
+pcm=C.create_string_buffer(16384); meta=C.create_string_buffer(16384)
+packets=C.c_uint64(); frames=C.c_uint64(); position=C.c_int64()
+logs=[]
+CB=C.CFUNCTYPE(None,C.c_int,C.c_char_p)
+EN=C.CFUNCTYPE(C.c_int,C.c_int)
+def log(level,line):
+    s=line.decode(errors=&#x27;replace&#x27;).strip()
+    if &#x27;fmt:&#x27; in s or &#x27;sample_fmt:&#x27; in s or &#x27;auto-inserting filter&#x27; in s:
+        logs.append(s)
+callback=CB(log); enabled=EN(lambda level: 1)
+l.rb_media_logging.argtypes=[CB,EN]
+l.rb_media_logging(callback,enabled)
+results=[]
+for name in (&#x27;flac-16-44100.flac&#x27;,&#x27;flac-24-96000.flac&#x27;):
+    logs.clear(); cancel=l.rb_cancel_new(); media=C.c_void_p()
+    r=l.rb_media_open((&#x27;assets/fixtures/&#x27;+name).encode(),44100,1,C.byref(d),cancel,C.byref(media),meta)
+    assert r==0,r
+    formats={key:meta.raw[offset:offset+32].split(bytes([0]))[0].decode() for key,offset in [(&#x27;source&#x27;,2112),(&#x27;decoder&#x27;,2144),(&#x27;canonical&#x27;,2176),(&#x27;final&#x27;,2208)]}
+    while True:
+        r=l.rb_media_read(media,pcm,2048,C.byref(packets),C.byref(frames),C.byref(position))
+        assert r&gt;=0,r
+        if not r: break
+    l.rb_media_close(media); l.rb_cancel_free(cancel)
+    results.append({&#x27;fixture&#x27;:name,&#x27;formats&#x27;:formats,&#x27;negotiation&#x27;:logs.copy()})
+print(json.dumps(results,indent=2))
+PY</code></pre>
+<h2 id="repeated-decode--close-command">Repeated decode / close command</h2>
+<pre><code class="language-sh">PYTHONDONTWRITEBYTECODE=1 python3 - &lt;&lt;&#x27;PY&#x27;
+import ctypes as C, resource, json
+p=&#x27;target/debug/build/reborn-media-86921348aad87dc5/out/libreborn_media.so&#x27;
+l=C.CDLL(p)
+class Eq(C.Structure):
+    _fields_=[(&#x27;frequency&#x27;,C.c_double),(&#x27;gain&#x27;,C.c_double),(&#x27;q&#x27;,C.c_double)]
+class Dsp(C.Structure):
+    _fields_=[(&#x27;replay_gain&#x27;,C.c_int),(&#x27;volume&#x27;,C.c_uint32),(&#x27;count&#x27;,C.c_uint32),(&#x27;eq&#x27;,Eq*8),(&#x27;crossfade&#x27;,C.c_uint32)]
+l.rb_cancel_new.restype=C.c_void_p
+l.rb_cancel_free.argtypes=[C.c_void_p]
+l.rb_media_open.argtypes=[C.c_char_p,C.c_int,C.c_int,C.POINTER(Dsp),C.c_void_p,C.POINTER(C.c_void_p),C.c_void_p]
+l.rb_media_read.argtypes=[C.c_void_p,C.c_void_p,C.c_int,C.POINTER(C.c_uint64),C.POINTER(C.c_uint64),C.POINTER(C.c_int64)]
+l.rb_media_close.argtypes=[C.c_void_p]
+d=Dsp(); d.volume=100
+pcm=C.create_string_buffer(16384); meta=C.create_string_buffer(16384)
+packets=C.c_uint64(); frames=C.c_uint64(); position=C.c_int64()
+results=[]
+for phase in range(4):
+    total=0
+    for i in range(250):
+        cancel=l.rb_cancel_new(); media=C.c_void_p()
+        r=l.rb_media_open(b&#x27;assets/fixtures/tone.flac&#x27;,44100,1,C.byref(d),cancel,C.byref(media),meta)
+        assert r==0,r
+        while True:
+            r=l.rb_media_read(media,pcm,2048,C.byref(packets),C.byref(frames),C.byref(position))
+            assert r&gt;=0,r
+            if not r: break
+            total+=r
+        l.rb_media_close(media); l.rb_cancel_free(cancel)
+    results.append({&#x27;closed_decoders&#x27;:250*(phase+1),&#x27;phase_output_frames&#x27;:total,&#x27;max_rss_kib&#x27;:resource.getrusage(resource.RUSAGE_SELF).ru_maxrss})
+print(json.dumps({&#x27;probe&#x27;:&#x27;cached host C membrane; same one-second fixture; every context closed&#x27;,&#x27;library&#x27;:p,&#x27;results&#x27;:results},indent=2))
+PY</code></pre>
+<h2 id="matching-rate-seek-command">Matching-rate seek command</h2>
+<pre><code class="language-sh">PYTHONDONTWRITEBYTECODE=1 python3 - &lt;&lt;&#x27;PY&#x27;
+import ctypes as C, resource, json
+p=&#x27;target/debug/build/reborn-media-86921348aad87dc5/out/libreborn_media.so&#x27;
+l=C.CDLL(p)
+class Eq(C.Structure):
+    _fields_=[(&#x27;frequency&#x27;,C.c_double),(&#x27;gain&#x27;,C.c_double),(&#x27;q&#x27;,C.c_double)]
+class Dsp(C.Structure):
+    _fields_=[(&#x27;replay_gain&#x27;,C.c_int),(&#x27;volume&#x27;,C.c_uint32),(&#x27;count&#x27;,C.c_uint32),(&#x27;eq&#x27;,Eq*8),(&#x27;crossfade&#x27;,C.c_uint32)]
+l.rb_cancel_new.restype=C.c_void_p
+l.rb_cancel_free.argtypes=[C.c_void_p]
+l.rb_media_open.argtypes=[C.c_char_p,C.c_int,C.c_int,C.POINTER(Dsp),C.c_void_p,C.POINTER(C.c_void_p),C.c_void_p]
+l.rb_media_read.argtypes=[C.c_void_p,C.c_void_p,C.c_int,C.POINTER(C.c_uint64),C.POINTER(C.c_uint64),C.POINTER(C.c_int64)]
+l.rb_media_close.argtypes=[C.c_void_p]
+d=Dsp(); d.volume=100
+pcm=C.create_string_buffer(16384); meta=C.create_string_buffer(16384)
+packets=C.c_uint64(); frames=C.c_uint64(); position=C.c_int64()
+l.rb_media_seek.argtypes=[C.c_void_p,C.c_int64]
+results=[]
+for seek_ms in (0,500):
+    cancel=l.rb_cancel_new(); media=C.c_void_p()
+    r=l.rb_media_open(b&#x27;assets/fixtures/tone.flac&#x27;,48000,1,C.byref(d),cancel,C.byref(media),meta)
+    assert r==0,r
+    if seek_ms: assert l.rb_media_seek(media,seek_ms)==0
+    total=0; first=None
+    while True:
+        r=l.rb_media_read(media,pcm,2048,C.byref(packets),C.byref(frames),C.byref(position))
+        assert r&gt;=0,r
+        if not r: break
+        if first is None:
+            first={&#x27;sample_left&#x27;:int.from_bytes(pcm.raw[:2],&#x27;little&#x27;,signed=True),&#x27;reported_position_ms&#x27;:position.value}
+        total+=r
+    l.rb_media_close(media); l.rb_cancel_free(cancel)
+    results.append({&#x27;seek_ms&#x27;:seek_ms,&#x27;total_frames&#x27;:total,&#x27;first&#x27;:first})
+print(json.dumps({&#x27;probe&#x27;:&#x27;cached host membrane; one-second 48kHz FLAC -&gt; 48kHz; 500ms target&#x27;,&#x27;results&#x27;:results},indent=2))
+PY</code></pre>
+<h2 id="resampled-seek-command">Resampled seek command</h2>
+<pre><code class="language-sh">PYTHONDONTWRITEBYTECODE=1 python3 - &lt;&lt;&#x27;PY&#x27;
+import ctypes as C, resource, json
+p=&#x27;target/debug/build/reborn-media-86921348aad87dc5/out/libreborn_media.so&#x27;
+l=C.CDLL(p)
+class Eq(C.Structure):
+    _fields_=[(&#x27;frequency&#x27;,C.c_double),(&#x27;gain&#x27;,C.c_double),(&#x27;q&#x27;,C.c_double)]
+class Dsp(C.Structure):
+    _fields_=[(&#x27;replay_gain&#x27;,C.c_int),(&#x27;volume&#x27;,C.c_uint32),(&#x27;count&#x27;,C.c_uint32),(&#x27;eq&#x27;,Eq*8),(&#x27;crossfade&#x27;,C.c_uint32)]
+l.rb_cancel_new.restype=C.c_void_p
+l.rb_cancel_free.argtypes=[C.c_void_p]
+l.rb_media_open.argtypes=[C.c_char_p,C.c_int,C.c_int,C.POINTER(Dsp),C.c_void_p,C.POINTER(C.c_void_p),C.c_void_p]
+l.rb_media_read.argtypes=[C.c_void_p,C.c_void_p,C.c_int,C.POINTER(C.c_uint64),C.POINTER(C.c_uint64),C.POINTER(C.c_int64)]
+l.rb_media_close.argtypes=[C.c_void_p]
+d=Dsp(); d.volume=100
+pcm=C.create_string_buffer(16384); meta=C.create_string_buffer(16384)
+packets=C.c_uint64(); frames=C.c_uint64(); position=C.c_int64()
+l.rb_media_seek.argtypes=[C.c_void_p,C.c_int64]
+results=[]
+for seek_ms in (0,500):
+    cancel=l.rb_cancel_new(); media=C.c_void_p()
+    r=l.rb_media_open(b&#x27;assets/fixtures/tone.flac&#x27;,44100,1,C.byref(d),cancel,C.byref(media),meta)
+    assert r==0,r
+    if seek_ms: assert l.rb_media_seek(media,seek_ms)==0
+    total=0; first=None
+    while True:
+        r=l.rb_media_read(media,pcm,2048,C.byref(packets),C.byref(frames),C.byref(position))
+        assert r&gt;=0,r
+        if not r: break
+        if first is None:
+            first={&#x27;sample_left&#x27;:int.from_bytes(pcm.raw[:2],&#x27;little&#x27;,signed=True),&#x27;reported_position_ms&#x27;:position.value}
+        total+=r
+    l.rb_media_close(media); l.rb_cancel_free(cancel)
+    results.append({&#x27;seek_ms&#x27;:seek_ms,&#x27;total_frames&#x27;:total,&#x27;first&#x27;:first})
+print(json.dumps({&#x27;probe&#x27;:&#x27;cached host membrane; one-second 48kHz FLAC -&gt; 44.1kHz; 500ms target&#x27;,&#x27;results&#x27;:results},indent=2))
+PY</code></pre></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UI engineering, input and UX audit - Innioasis Updater</title>
+  <meta name="description" content="UI engineering, input and UX audit <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims, next steps an">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-audit-current-system-08_ui_ux_audit.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="UI engineering, input and UX audit - Innioasis Updater">
+  <meta property="og:description" content="UI engineering, input and UX audit <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims, next steps an">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-audit-current-system-08_ui_ux_audit.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="UI engineering, input and UX audit - Innioasis Updater">
+  <meta name="twitter:description" content="UI engineering, input and UX audit <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims, next steps an">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>UI engineering, input and UX audit</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="ui-engineering-input-and-ux-audit">UI engineering, input and UX audit</h1>
+<!-- knowledge-base-scope: historical-audit/review -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_REBORN_STATE.md) for the latest physically observed result.
+<p>No visual redesign was performed or proposed as a prerequisite for correctness. Engineering, interaction semantics and aesthetic preference are separate below.</p>
+<h2 id="ui-engineering-g04g08f21f22f23">UI engineering: G04/G08/F21/F22/F23</h2>
+<p><strong>Good boundary — IMPLEMENTED / HIGH.</strong> <a href="https://github.com/SchulzCode/Y2Reborn/blob/main/crates/reborn-ui/src/lib.rs" target="_blank" rel="noopener noreferrer">Ui::draw</a> consumes state and produces drawing quads. <a href="https://github.com/SchulzCode/Y2Reborn/blob/main/crates/reborn-ui/src/screens.rs" target="_blank" rel="noopener noreferrer">Screens</a>, <a href="https://github.com/SchulzCode/Y2Reborn/blob/main/crates/reborn-ui/src/components.rs" target="_blank" rel="noopener noreferrer">components</a> and <a href="https://github.com/SchulzCode/Y2Reborn/blob/main/crates/reborn-ui/src/theme.rs" target="_blank" rel="noopener noreferrer">theme</a> own presentation. <a href="https://github.com/SchulzCode/Y2Reborn/blob/main/app/reborn/src/main.rs" target="_blank" rel="noopener noreferrer">Runtime</a> owns service effects; the UI does not open ALSA, SQLite or radio hardware. The renderer receives shapes/textures, not playback policy. A visual redesign can mostly stay inside UI/theme/assets without touching decoder, DB or driver architecture. Preserve that separation.</p>
+<p>That does not mean every model dependency is clean: screen-specific navigation is in AppModel, Ui::action mutates it, and Effects sometimes carry only a global list index when collection identity is needed. Fix that semantic interface (F08), not the whole reducer pattern. A pure reducer rewrite would not automatically repair it.</p>
+<p>The production <a href="https://github.com/SchulzCode/Y2Reborn/blob/main/crates/reborn-graphics/native/graphics.c" target="_blank" rel="noopener noreferrer">native renderer</a> really uses GBM/EGL/GLES2/KMS. It requires a renderer containing Mali400; it does not silently claim hardware acceleration while accepting llvmpipe. Linear GBM buffers are registered as DRM FBs, page flips wait for completion, and the previous buffer is then released. Fonts/icons are static atlases; art is a reusable texture. No full-frame CPU readback/copy is on the ordinary presentation path. The splash uses an explicit KMS handoff. Historical GPU01 measurements and an older running Reborn radio inspection support real hardware acceleration, while the current polish image remains physically unqualified.</p>
+<p><strong>F22 — PARTIAL / MEDIUM confidence in full recovery.</strong> Native pageflip waits have a three-second deadline; failure can stall UI/input during that interval. Runtime drops/recreates the renderer once and waits for explicit wake for further recovery. This is reasonable containment, but correct old-CRTC/buffer ownership across splash handoff, pageflip timeout, screen-off, renderer recreation and system suspend needs physical stress tests. No new confirmed GPU use-after-free is claimed. Do not replace GBM/KMS to avoid performing those tests.</p>
+<p>Dirty rendering and a ~34-ms render limit avoid a decorative continuous animation loop. Main still wakes every 15 ms; status/progress changes can request frames. Static-screen CPU/GPU-idle and screen-off playback need measurements of the <em>app</em>, not only the platform GPU checker. Glyphs/rounded rectangles generate many small draws and uniform lookups; this may be acceptable at 480×360. Batch only if target navigation measurements identify it as material.</p>
+<p><strong>F23 — WEAK / HIGH:</strong> visible list windows limit drawing, not data work. The UI constructs whole collection rows and main clones all loaded Track records per input action. A 20k library can make wheel input expensive. Four rendered rows do not prove virtualization. Use bounded views/IDs after measuring, not a generic virtual-DOM framework.</p>
+<p><strong>F21 — PARTIAL / HIGH:</strong> font atlases are 256×128 with a 16×8 cell layout (128 glyph slots). <code>glyph_index</code> accepts byte codepoints up to 255 while native texture coordinates use the 128-slot layout; higher Unicode becomes <code>?</code>. Accented/non-Latin metadata therefore lacks a correct complete glyph path; 128–255 can sample outside the intended atlas rows. This is an implementation limitation, not visual taste. The checked-in current DejaVu atlases are not the old font8x8 dependency still named in baseline docs/dependency metadata.</p>
+<p>Layout tests check useful focus/label invariants, but do not cover the whole real glyph repertoire, long localized metadata or physical panel legibility. Preview rasterization is useful for layout and is not proof of native GLES clipping, timing or focus behavior under live events.</p>
+<h2 id="input-architecture-g07f20">Input architecture: G07/F20</h2>
+<pre><code class="language-text">kernel input device + evdev event
+ -&gt; device-specific map (no hardcoded eventN)
+ -&gt; InputManager: press/release/long/repeat/wheel acceleration
+ -&gt; ActionRouter: screen policy and semantic actions
+ -&gt; Ui/AppModel -&gt; Effect -&gt; runtime/service</code></pre>
+<p><a href="https://github.com/SchulzCode/Y2Reborn/blob/main/crates/reborn-platform/src/input.rs" target="_blank" rel="noopener noreferrer">input.rs</a> owns Linux types and physical timing. Wheel direction cannot accidentally become Select solely because a navigation keycode overlaps: device identity is part of the mapping. Long-press suppression and global volume/playback policy have specific tests. This is appropriately sized, not gratuitously overengineered.</p>
+<p>Current intended mapping:</p>
+<table><thead><tr><th>Physical input</th><th>Short/normal</th><th>Long/repeat</th><th>Screen off</th></tr></thead><tbody><tr><td>Select</td><td>Select</td><td>Context menu</td><td>Ignored</td></tr><tr><td>Back</td><td>Back</td><td>Home</td><td>Ignored</td></tr><tr><td>Previous/Next</td><td>Track step</td><td>Seek</td><td>Track short presses retained; long-repeat behavior has inconsistency below</td></tr><tr><td>Play/Pause</td><td>Global toggle</td><td>Show Now Playing</td><td>Short toggle retained</td></tr><tr><td>Power</td><td>Sleep/wake</td><td>Power menu when screen on</td><td>Short Power is the wake action</td></tr><tr><td>Volume +/-</td><td>Global volume</td><td>Repeat</td><td>Retained without wake</td></tr><tr><td>Wheel</td><td>Navigation; volume on Now Playing</td><td>Central bounded acceleration</td><td>Ignored</td></tr></tbody></table>
+<p>Long press is 650 ms; repeat begins at 400 ms then every 90 ms; wheel acceleration caps at six. These are policy choices, not inherently bugs. Qualification must verify feel, not just constants.</p>
+<p><strong>F20 concrete weaknesses:</strong></p>
+<ul><li><code>poll_at</code> calls <code>tick_at(now)</code> before reading queued releases and discards kernel event timestamps. If the UI loop stalls, a physically short press can be aged into a long press before its already-queued release is consumed. The three-second pageflip timeout and synchronous state/ALSA work make this a realistic integration scenario. Tests mostly drive <code>ingest</code>/<code>tick</code> directly and do not reproduce a delayed evdev backlog.</li><li>No SYN_DROPPED reconciliation or device-reopen strategy was found. Read errors are ignored; a lost release can leave stale pressed/router state until later heuristics or reset.</li><li>LongPress inserts into <code>long_pressed</code> before the screen-off early return. Subsequent Previous/Next Repeat checks that set but not <code>screen_on</code>, allowing seek repeats even though the initial screen-off long action was suppressed. This is inconsistent policy, not an accidental wheel/select mapping.</li></ul>
+<p>Targeted correction should preserve the semantic vocabulary and central timing ownership. Do not add a second key mapper in individual screens.</p>
+<h2 id="uxaction-correctness-separate-from-appearance">UX/action correctness, separate from appearance</h2>
+<p><strong>High-impact:</strong> album/artist/folder play actions can enqueue the whole library, collection add/play-next only one track, queue edits do not update the worker, and repeat-one is bypassed by automatic chaining. These are application semantics F03/F08, not a designer&#x27;s preference. Ordinary volume and seek may reopen/fail the sink (F02), so a correct-looking input map does not establish reliable controls.</p>
+<p>Other concrete F21 issues:</p>
+<ul><li>Back history stores Screen only; returning clears filter/focus/scroll. Navigating from a filtered album/artist into another screen and back loses the contextual route. Store enough route state to restore the user&#x27;s place; no new navigation framework is needed.</li><li>Album identity is album title only, merging different artists&#x27; same-title albums; “Unknown” labels are not stable underlying identities.</li><li><code>screens.rs</code> displays <strong>“Internal 128 GB”</strong> as a literal, despite this Y2&#x27;s ~8-GB eMMC layout. This is leftover reference/mock content in a production screen, not merely optimistic styling.</li><li>The Settings SD availability check compares <code>source.id == &quot;sd&quot;</code>, whereas the real adapter uses <code>uuid:&lt;...&gt;</code>. A mounted SD can be described as absent in that setting.</li><li>Equalizer has an enable toggle but no ordinary way to configure its default-empty bands. The displayed On state can have no audible effect (F12).</li><li>Preopened next-track artwork can replace current artwork early (F24).</li></ul>
+<p>Positive UX engineering: destructive actions use confirmation/context actions; password entry hides content; disabled items are excluded from focus; focus metadata distinguishes currently playing from selected; actual display sleep is not an animated lock screen. Existing host tests cover these contracts. Keep those tests through any redesign.</p>
+<p>Connectivity actions must distinguish Off, Starting, scanning, link-connected, IP-ready and failed states. Current scan progression is better than the older deployed error-footer behavior; association and actual audio still need qualification. Hiding all errors would not solve this.</p>
+<h2 id="visualdesign-concerns">Visual/design concerns</h2>
+<p>No judgment that a different theme is required for release. Typography, density and artwork treatment are owner/design choices. Engineering prerequisites for later redesign are truthful state binding, durable collection/queue identities, tested focus/navigation, correct glyph support and bounded data work. The current theme/component/renderer boundary is already suitable for redesign once those interfaces are stable. Do not spend the next cycle changing colors while the normal play/volume/queue path remains incorrect.</p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

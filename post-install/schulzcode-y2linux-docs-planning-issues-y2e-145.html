@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2E-145 — Assess authentication, recovery and bounded handoff launch gates - Innioasis Updater</title>
+  <meta name="description" content="Y2E-145 — Assess authentication, recovery and bounded handoff launch gates <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, cand">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-145.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2E-145 — Assess authentication, recovery and bounded handoff launch gates - Innioasis Updater">
+  <meta property="og:description" content="Y2E-145 — Assess authentication, recovery and bounded handoff launch gates <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, cand">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-145.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2E-145 — Assess authentication, recovery and bounded handoff launch gates - Innioasis Updater">
+  <meta name="twitter:description" content="Y2E-145 — Assess authentication, recovery and bounded handoff launch gates <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, cand">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2E-145 — Assess authentication, recovery and bounded handoff launch gates</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2e-145--assess-authentication-recovery-and-bounded-handoff-launch-gates">Y2E-145 — Assess authentication, recovery and bounded handoff launch gates</h1>
+<!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Depends on Y2E-125/130, D08/D10 and the validated M1 artifact; observation remains Y2E-140 (#16). Research only with offline artifacts and safe read-only stock ADB. No security-state change, bypass, DA execution, flash, experimental boot or feature expansion.</p>
+<p>Acceptance:</p>
+<ul><li><input type="checkbox" disabled checked> Trace package unsigned-image policy to its actual inputs; distinguish package configuration from installed policy.</li><li><input type="checkbox" disabled checked> Check current-device acquisition access, identify exact BOOTIMG range, and prepare a BOOTIMG-only backup/restore runbook using the owner-proven SPFT setup.</li><li><input type="checkbox" disabled checked> Bound watchdog, storage DMA and final handoff findings to the requested CPU0/initramfs experiment; record adverse evidence.</li><li><input type="checkbox" disabled checked> Record a supported GO / NO-GO decision and preserve artifact hashes.</li><li><input type="checkbox" disabled> Obtain installed-loader/security evidence sufficient to accept the unsigned image without altering security.</li><li><input type="checkbox" disabled> Retain verified current-device BOOTIMG and required personalized/recovery backups independently; establish exact DA/entry and restore semantics.</li><li><input type="checkbox" disabled> Resolve the normal-path inherited watchdog and remaining DMA/secure-state launch risks.</li></ul>
+<p>Current decision: <strong>NO-GO</strong>. This issue stays open for the outstanding proofs; completion of bounded research is not closure of a hardware gate. No first-boot execution issue is created while the decision is NO-GO.</p>
+<p>Findings: package ROM_INFO m_sec_boot=0x22 consults the hardware security bit; installed policy remains unobserved. Ordinary USB/ADB cannot provide early UART output, and the preloader USB/UART route requires electrical accessory detection. Current BOOTIMG is EMMC_USER [0x01d80000,0x02d80000), but present shell permissions deny acquisition. Tool/DA rehashed; exact historical operation logs absent. Normal LK arms a nominal 10-second watchdog interval with IRQ/dual mode; identified disable calls are Download/Fastboot, not normal handoff. No-watchdog candidate cannot be approved for 60 seconds. All 28 retained artifact members remain unchanged.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Flaunch-readiness.md">Evidence/decision</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fbootimg-recovery-runbook.md">prepared BOOTIMG-only runbook</a>. No firmware/security change, DA operation, flash, boot or Linux feature added.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

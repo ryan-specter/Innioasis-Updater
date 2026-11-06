@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2LINUX-M4-CHARGE-01: manual BOOTIMG handoff - Innioasis Updater</title>
+  <meta name="description" content="Y2LINUX-M4-CHARGE-01: manual BOOTIMG handoff <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current"">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m4-charge-01-deployment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2LINUX-M4-CHARGE-01: manual BOOTIMG handoff - Innioasis Updater">
+  <meta property="og:description" content="Y2LINUX-M4-CHARGE-01: manual BOOTIMG handoff <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current"">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m4-charge-01-deployment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2LINUX-M4-CHARGE-01: manual BOOTIMG handoff - Innioasis Updater">
+  <meta name="twitter:description" content="Y2LINUX-M4-CHARGE-01: manual BOOTIMG handoff <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current"">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2LINUX-M4-CHARGE-01: manual BOOTIMG handoff</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-m4-charge-01-manual-bootimg-handoff">Y2LINUX-M4-CHARGE-01: manual BOOTIMG handoff</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p><strong>Candidate, not physical charging acceptance.</strong> The installed M4-ADC-01 was inspected read-only. Owner manual flashing is the next boundary. No root/data image changes or Buildroot update: retain Storage06 Y2ROOT/p5 and Y2DATA/p7, SSH credentials, production/rescue architecture and M3/M4 components.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm4-charging.md">Charger implementation and reconstructed stock contract</a>. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fevidence%2Fy2linux-m4-charge-01%2FREADME.md">Final build identity, size and SHA256</a>.</p>
+<h2 id="artifact-and-fallback">Artifact and fallback</h2>
+<p>Candidate: <code>/home/luca/Dokumente/Code/Y2Linux/out/y2linux-m4-charge-01/BOOTIMG.img</code>. The package&#x27;s <code>manifest.json</code> and <code>SHA256SUMS</code> record the final bytes and source commit. They include the exact preserved root/data reference identities.</p>
+<p>Fallback: <code>out/y2linux-m4-charge-01/fallback/BOOTIMG-previous.img</code>, the installed M4-ADC-01, 5355520 bytes, SHA256 <code>c3c9778e396413fced69364190eb892456dd71c66a0c23fa650be2dcd30e7461</code>. It restores the inhibited acquisition kernel; it does not provide charging. The original copy remains <code>out/y2linux-m4-adc-01/BOOTIMG.img</code>.</p>
+<h2 id="owner-spft-procedure">Owner SPFT procedure</h2>
+<ol><li>Keep the first test attended at normal room temperature. Use the existing<p>working computer USB connection; an unclassified wall adapter cannot charge under this first input policy. A reading below 3.4 V will inhibit; deeply depleted recovery is not yet qualified. Do not leave the old uncharged kernel running while preparing the host.</p></li><li>In the existing SP Flash Tool, load this package&#x27;s<p><code>MT6582_BOOTIMG_only_scatter.txt</code>. Select <strong>Download Only</strong>.</p></li><li>Select <strong>BOOTIMG only</strong>, pointing at this package&#x27;s <code>BOOTIMG.img</code>.<p>Every other row must be unchecked, including PRELOADER, LK/UBOOT, MBR, EBR, ANDROID, USRDATA, recovery and NVRAM. Do not use Format or Firmware Upgrade.</p></li><li>With Y2 normally off/disconnected, click Download; connect it using the<p>already proven owner flashing connection procedure. Wait for success, disconnect, then boot normally with the existing internal root/data.</p></li><li>Connect the computer USB cable and tell the agent that M4-CHARGE-01 is running.<p>Charging starts automatically only after host configuration and driver checks. Observe the player during this first start. If the case becomes unexpectedly warm, there is a smell/swelling, or the session becomes unobservable, unplug USB.</p></li></ol>
+<p>Fallback uses the same scatter/Download Only/BOOTIMG-only selection, replacing only BOOTIMG with the fallback path above. No root/data restore is required.</p>
+<h2 id="agent-ssh-qualification-after-owner-deployment">Agent SSH qualification after owner deployment</h2>
+<p>The agent runs these commands; the owner does not need to paste a long sequence. Use the existing owner key and verified host key, never disable host checking. The current verified temporary known-host file is <code>/tmp/y2-m4-battery-known-hosts</code>; if unavailable, re-establish host trust through the existing owner ACM procedure. Expected host fingerprint: <code>SHA256:pzFq5XLjtTuhCFeK66aocsEBoAmBKVo6ZlBqdQWSxEU</code>.</p>
+<p>Initial SSH inspection and immediate standard-policy inhibit:</p>
+<pre><code class="language-sh">ssh -T -o StrictHostKeyChecking=yes -o UserKnownHostsFile=/tmp/y2-m4-battery-known-hosts -i ~/.ssh/y2linux_ed25519 root@10.42.0.1 &#x27;
+  uname -r
+  echo inhibit-charge &gt; /sys/class/power_supply/BAT0/charge_behaviour
+  cat /sys/devices/system/cpu/online /proc/meminfo /proc/mounts
+  cat /sys/class/power_supply/BAT0/uevent
+  cat /sys/class/power_supply/BAT0/charging_state
+  cat /sys/class/power_supply/y2-usb-input/uevent
+  cat /sys/class/power_supply/y2-usb-presence/uevent
+  dmesg | tail -100
+&#x27;</code></pre>
+<p>Expected release <code>6.18.0-y2linux-m4-charge-01</code>, CPUs 0–3, ~954044 KiB RAM, internal p5/p7 ext4, present battery, 3.4–4.175 V for starting, <code>current_max=500000</code>, fixed current/CV 70000/4175000. Raw BATON should remain non-saturated near its prior 10388 counts; PMIC/CPU die temperatures are separate. After inhibit, <code>active=0</code>, <code>stop_error=0</code>, and charge-engine bits3/4 are clear in the diagnostic <code>chr_con0</code>. A fault requires diagnosis; do not repeatedly unplug/replug to defeat it. Pack <code>temp</code>, <code>current_now</code> and <code>capacity</code> stay absent.</p>
+<p>Run the checked-in bounded observer through SSH, retaining its output on the host. It validates admission, uses normal <code>charge_behaviour=auto</code>, samples every 5 seconds for <strong>120 seconds</strong>, and inhibits on exit/error. It does not service watchdogs or write raw hardware. If SSH fails, the owner unplugs USB.</p>
+<pre><code class="language-sh">ssh -T -o StrictHostKeyChecking=yes -o UserKnownHostsFile=/tmp/y2-m4-battery-known-hosts -i ~/.ssh/y2linux_ed25519 root@10.42.0.1 &#x27;sh -s&#x27; \
+  &lt; tools/development/monitor-charging.sh</code></pre>
+<p>During each observation require Status=Charging, <code>active=1</code>, no fault/ADC/stop error, fixed limits, plausible voltages, and an increasing watchdog-pet count. Observe temperature trends and the closed case; no heating, chilling, stress load or unattended charging. Compare medians from the early and late samples; a single voltage rebound when charging starts is not proof of stored charge. Repeat a bounded window only if the initial evidence is healthy and a longer trend is needed. Lack of net gain at 70 mA is a result, not permission to raise it.</p>
+<p>Then perform this one coherent sequence, retaining <code>/tmp</code> observations through ACM if USB reconnect prevents SSH:</p>
+<ol><li>Repeat a bounded observation with display off using the already qualified<p>standard backlight <code>brightness=0</code>; save/restore its original value. Verify the framebuffer restores and audio playback/stop/playback remain usable. Do not introduce a display-driver bypass to get a current result.</p></li><li>Select <code>charge_behaviour=auto</code> after reviewing the bounded logs. Owner unplugs<p>USB once; observe through ACM <code>online=0</code>, <code>active=0</code>, Status=Discharging, cleared charge-engine bits. Owner reconnects once; wait for host enumeration, <code>y2-usb-input/current_max=500000</code>, then verify charging restarts with increasing WDT count. A reconnect transport failure is distinct from PMIC charging state.</p></li><li>With charging active, <code>echo mem &gt; /sys/power/state</code> should return EBUSY while<p>watchdog servicing continues. With <code>inhibit-charge</code>, run the established M4 s2idle/wake check and inspect root/data, display and audio after resume. Manual inhibit remains selected; <code>auto</code> restores eligibility. Deep sleep is not added.</p></li><li>Only after healthy charging logs, test one normal reboot and inspect the same<p>fixed policy after boot. Test orderly PMIC poweroff and owner-observed USB insertion from off. Record whether the retained boot chain starts Y2Linux; do not claim low/dead-battery recovery or deliberately deep-discharge for it.</p></li><li>Leave <code>inhibit-charge</code> selected while any abnormal result is unresolved.<p>Once the attended tests pass, normal production <code>auto</code> policy can remain selected. Physical charging success still requires credible net battery gain.</p></li></ol>
+<p>Immediate inhibit command at any point:</p>
+<pre><code class="language-sh">ssh -T -o StrictHostKeyChecking=yes -o UserKnownHostsFile=/tmp/y2-m4-battery-known-hosts -i ~/.ssh/y2linux_ed25519 root@10.42.0.1 \
+  &#x27;echo inhibit-charge &gt; /sys/class/power_supply/BAT0/charge_behaviour&#x27;</code></pre>
+<p>There is no calibrated battery-temperature window, net battery current, SOC or verified full indication. PMIC die thermal shutdown is preserved; it does not establish hot/cold pack coverage. Charging through screen-off/WFI is intended; active charging excludes s2idle to keep the 4-second watchdog serviced. The first profile&#x27;s 3.4 V floor and configured-host requirement bound low-battery recovery. These limitations and the physical test results determine whether the broader owner goal of permanent Android-free charging has actually been reached.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

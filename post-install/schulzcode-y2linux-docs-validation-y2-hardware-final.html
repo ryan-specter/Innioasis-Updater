@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2 Hardware Final implementation candidate - Innioasis Updater</title>
+  <meta name="description" content="Y2 Hardware Final implementation candidate <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claims, next">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-hardware-final.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2 Hardware Final implementation candidate - Innioasis Updater">
+  <meta property="og:description" content="Y2 Hardware Final implementation candidate <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claims, next">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-hardware-final.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2 Hardware Final implementation candidate - Innioasis Updater">
+  <meta name="twitter:description" content="Y2 Hardware Final implementation candidate <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claims, next">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2 Hardware Final implementation candidate</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2-hardware-final-implementation-candidate">Y2 Hardware Final implementation candidate</h1>
+<!-- knowledge-base-scope: scoped-validation-record -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Implementation-first continuation of Astra&#x27;s <code>022e6ee</code> handoff, 2026-09-27. Software implementation, runtime enablement and physical qualification are independent. This pass does not contact, reboot or flash the Y2. The device remains on restored original Hardware02. Existing volume, pairing, checksum, timer and DMA fixes are retained. No repeated campaign audit was performed.</p>
+<p>One consolidated candidate is software validated at <code>out/y2linux-hardware-final-candidate/</code>. Exact built source identities and final validation results belong to its manifest and <code>validation/summary.json</code>. Current source implementation is complete up to the documented technical and electrical boundaries; this is not a claim that every desired native hardware mode is implemented. See <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-HARDWARE-FINAL-CAPABILITIES.md">capabilities</a>.</p>
+<h2 id="implemented-in-this-continuation">Implemented in this continuation</h2>
+<ul><li>Automatic standard SDR storage negotiation up to 50 MHz with asynchronous<p>50 -&gt; 25 -&gt; 13 MHz transport-fault containment; no implicit replay of writes. UUID-less SD uses CID, partition geometry and filesystem identity while keeping mount generation/inode replacement protection. FAT, exFAT and ext4 remain.</p></li><li>Dual-role MUSB host core, USB audio/storage/HID classes and NCM modules compile.<p>The role interface refuses host activation before session/VBUS writes. ECM remains the built-in recovery gadget; NCM is packaged but cannot replace that built-in gadget at runtime. DMA and <code>y2.usb_dma=off</code> PIO fallback are retained.</p></li><li>schedutil, existing source-backed DVFS and stock-bin high OPP gates; failed<p>voltage decrease now checks actual readback and attempts restoration, then contains unknown/unsafe readback at the lowest known clock. Reborn publishes bounded per-client workload and 250 ms interaction leases, never per-core MHz.</p></li><li>Stock SLIDLE bus DCM/WFI wrapper with shared clock ownership, eligible single<p>CPU and peripheral gate preflight, readback/rollback, abort/failure counters and WFI fallback. It is compiled and disabled by default. Runtime CPU power-down idle is a separate unresolved context/CIRQ/deadline integration.</p></li><li>Configurable source-backed charging ceiling (70/450/650 mA supported selectors;<p>per-source limits still apply), stock precharge/CV/termination/recharge/watchdog protections retained. Voltage is not raised beyond the 4.175 V source default.</p></li><li>Battery SOC chooses hardware capacity, calibrated hybrid or filtered voltage<p>estimation. An estimated, provisional profile is separate from code. Filtering, rest/sag handling, charge/discharge hysteresis, bounded monotonic smoothing, full/empty corrections and missing-sensor fallback are implemented. Real BAT0 current/counter/temperature are consumed only if exposed; no fake pack sensors.</p></li><li>Reborn battery percentage and source/confidence diagnostics. Schema-2 low<p>battery warning/critical/shutdown support preserves schema-1 owner policies. Provisional SOC warns; only measured/calibrated SOC can independently shut down. Conservative voltage floor remains independent, with bounded countdown.</p></li><li>Standard Wi-Fi off/standard/automatic power save with actual readback; automatic<p>defaults off. Coexistence traffic/CPU/link observations expose future policy hooks without guessing final bitrate rules. Existing DHCP/DNS/reconnect and single-owner Bluetooth reconnect/AVRCP remain.</p></li><li>Pinned optional AAC, aptX, aptX HD and LDAC encoder builds are integrated into<p>the full root. Explicit owner Experimental policy enables optional endpoints; production Auto still consumes qualification/distribution flags. Peer support, request, negotiation and active PCM remain distinct. SBC/XQ, LDAC standard/ mobile/high and ABR policy are implemented; SBC is the fallback. This is an owner-private package, not certification or public distribution approval.</p></li><li>Native S16 44.1/48 admission and application rate switches, 88.2 -&gt; 44.1 and<p>96 -&gt; 48 family conversion, then S16/44.1 fallback if opening fails. Inspected exact MT6582 sources do not define native wide DL1 fetch or &gt;48 kHz clocks; no guessed register layout or false S32/native-high-rate claim was added.</p></li><li>Source-backed NTP -&gt; RTC synchronization with durable trusted-time floor and<p>owner disable precedence; bounded alarm replacement/cancel/readback API.</p></li><li>Versioned capability, battery/power/audio/codec configuration receipts tied to<p>update compatibility and checked against both root tar and ext4 image. Runtime per-CPU highres/NO_HZ and storage error/fallback telemetry are added.</p></li></ul>
+<p>Existing Linux suspend/pm_test, Power/RTC wake routing, USB/radio restoration, GPU/runtime display PM, codec controls, memory diagnostics, signed root OTA, recovery and endurance tooling are retained. Deep suspend remains gated because Astra did not obtain a successful same-boot resume or a discriminating first failure snapshot. This pass does not invent a fix for that unresolved failure.</p>
+<h2 id="validation-and-package-boundary">Validation and package boundary</h2>
+<p>Kernel/config/DT, platform host tests, Buildroot and Reborn ARM, Reborn host tests, fmt/strict Clippy, QEMU/installed ARM, FFmpeg/ALSA, package/ELF/dependency, source/license, preserving-data and exact Hardware02 fallback checks are required before the candidate handoff. Results are recorded as they complete; physical qualification is not a prerequisite for producing the package.</p>
+<p>No Y2DATA image, partition migration, firmware download on-device, reserved RAM reclaim, NVRAM/calibration write, automatic BOOTIMG OTA or flash is included. Both repositories retain local <code>hardware-final</code> commits and configured identity. User documentation/assets remain outside the candidate source checkout.</p>
+<p>The next activity is one <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-HARDWARE-FINAL-QUALIFICATION.md">physical qualification campaign</a> on this assembled platform. Failed or absent evidence never promotes a flag.</p>
+<h2 id="completed-software-validation-2026-09-27">Completed software validation, 2026-09-27</h2>
+<p>Built pair: Linux <code>067003f8988042a832181e935128ea93e26070a7</code> / Reborn <code>5b5d23b89952d88faf3155cf680ccce918f1b099</code>. Kernel/config/DT and BOOTIMG memory/partition limits pass without extending any reservation. Buildroot ARM and Reborn ARM, 202 production tests, 189 Reborn workspace tests, fmt/strict Clippy, QEMU application/FFmpeg/ABI checks, installed ARM platform/SQLite/ALSA checks, and 382 ELF files / 1396 dependency edges pass. Signed update/preserving package and exact Hardware02 BOOTIMG/Y2ROOT fallback validation pass. Source inventory covers 105 selected packages and their pinned hashes.</p>
+<p>Package includes source bundles, locked kernel/Buildroot archives, Buildroot source/license collection and qualification tools. Legal collection warnings for external-toolchain/local-package recipe metadata are retained, with local source and GPL text supplied separately. Optional codec certification/public distribution remains unapproved; this is a local owner package. Byte-identical rebuilds are not claimed. No device access, flash, push or physical/endurance qualification occurred.</p>
+<p>The source pair above is the actual built pair. A later documentation-only commit records these results and is archived separately; it does not change firmware provenance. The engineering campaign remains open for the structured later phase.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hardware 02 — coherent hardware ceiling candidate - Innioasis Updater</title>
+  <meta name="description" content="Hardware 02 — coherent hardware ceiling candidate <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claim">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-platform-v1-hardware-02.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Hardware 02 — coherent hardware ceiling candidate - Innioasis Updater">
+  <meta property="og:description" content="Hardware 02 — coherent hardware ceiling candidate <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claim">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-platform-v1-hardware-02.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Hardware 02 — coherent hardware ceiling candidate - Innioasis Updater">
+  <meta name="twitter:description" content="Hardware 02 — coherent hardware ceiling candidate <!-- knowledge-base-scope: scoped-validation-record -- Historical record. The dates, candidate identity, "current" claim">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Hardware 02 — coherent hardware ceiling candidate</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="hardware-02--coherent-hardware-ceiling-candidate">Hardware 02 — coherent hardware ceiling candidate</h1>
+<!-- knowledge-base-scope: scoped-validation-record -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>IMAGE_VALIDATED_PHYSICAL_PENDING, 2026-09-26. The installed unit still runs Physical 01. This is a single preserving BOOTIMG + root update, not a frozen hardware platform or a qualified performance ceiling.</p>
+<p>Local package: <code>out/y2linux-hardware-02-candidate/</code>. Read its <code>install.md</code>, <code>qualification.md</code>, <code>manifest.json</code> and <code>validation/summary.json</code>. Exact fallback is the currently installed Physical 01 pair; no Y2DATA payload, formatting, repartitioning or protected-region write.</p>
+<h2 id="identity-and-images">Identity and images</h2>
+<ul><li>Linux <code>76bc8229580ec8d101008c5bad47419f2c110eae</code></li><li>Reborn <code>95747e0a36c7b27beb44b8cdd54feda1813f2f3a</code></li><li>Build <code>Y2LINUX-HARDWARE-02</code>, release <code>1.0.0-candidate.4</code></li><li>Kernel <code>6.18.0-y2linux-hardware-02</code>, root <code>2025.02.18-platform-v1.4</code></li></ul>
+<table><thead><tr><th>Image</th><th style="text-align:right">Bytes</th><th>SHA-256</th></tr></thead><tbody><tr><td>BOOTIMG.img</td><td style="text-align:right">6782976</td><td><code>b2a2c3bcb7cc7783828882e447e8b867453cb5b65846ce63577076b1ca4afeea</code></td></tr><tr><td>Y2ROOT.img</td><td style="text-align:right">536870912</td><td><code>63dbd0a198cd86e847c10ed163fd14b2cbe269595fa1988c99ac8393160bb547</code></td></tr><tr><td>fallback/BOOTIMG.img</td><td style="text-align:right">6768640</td><td><code>f3309fd98e204da9013636c67a3cff9ab359cf92eae6f320d8c536853115a151</code></td></tr><tr><td>fallback/Y2ROOT.img</td><td style="text-align:right">536870912</td><td><code>e21ee81570a1beef7ea007bb992abcebfb78992686c66124aa3b0f357fcb2840</code></td></tr></tbody></table>
+<h2 id="included-scope">Included scope</h2>
+<ul><li>eMMC/SD retain 8/4-bit wiring and 3.3 V, adding source-backed SDR high-speed<p>negotiation with a 25 MHz initial cap and bounded 13/25/50 MHz qualification controls. Failed clock changes restore the previous state; unrecoverable clock restoration rejects requests before command/DMA. Boot parameter <code>y2.mmc_safe=1</code> retains the crystal/legacy path. No DDR/UHS/HS200 mode.</p></li><li>MUSB uses upstream Inventra DMA, 32-bit addressing, exact stock interrupt<p>ownership, DMA bus-fault teardown and overflow observations. Boot parameter <code>y2.usb_dma=off</code> and allocation failure retain PIO. No host VBUS activation.</p></li><li>GPT6 is initialized through its existing owner and checked against GPT2<p>before registering the physical architectural timer on PPI29. This provides the implementation for local high-resolution/NO_HZ timers. Initialization failure or <code>y2.local_timer=off</code> retains GPT/dummy behavior. Integrated physical continuity, interrupt delivery and hotplug remain acceptance gates.</p></li><li>Reborn includes the physically tested native PCM device-name contract repair.<p>The suspend helper now reports radio restoration failure instead of rc=0. USB overflow snapshots improve diagnosis; the suspend fault is not fixed.</p></li></ul>
+<h2 id="validation-and-limits">Validation and limits</h2>
+<p>170 locked production tests pass; three additional tests are explicitly skipped for absent native dependencies and covered by passing packaging-host runs (18 filesystem/preservation tests and nine GIO/ALSA tests). Reborn&#x27;s workspace passes 180 tests. Eight Reborn ARM/QEMU checks, target ABI/shell checks, 20 target Python module imports, SQLite WAL/checkpoint, ALSA null queries, a 1k target library scan, and three actual ARM SFTP protocol/failure cases pass.</p>
+<p>Kernel/config/DT, zero-fuzz overlay identities, D08/LK read extent, BOOTIMG, rescue/module release, regulatory database equality, root contents/clean ext4, protected-storage policies, preserving scatter and exact fallback validate. Inventory covers 102 packages. Source bundles, source pins, license collection results and failed-attempt explanations accompany the package. Byte-identical userspace rebuilds and firmware redistribution permission are not established.</p>
+<p>The real unit recovered after the suspend incident with a fresh boot, exact Physical 01 identity, taint 0 and zero ext4 error counters. Its persistent log proves CPU3/2/1 restart but exposes USB overflow and radio restore timeout; core/SPM entry and deep wake remain open. Checked DNS passes; a transient supplicant observer timeout remains. RTC standard UTC write/read/ticking pass, while retention/alarm wake remain pending.</p>
+<h2 id="first-physical-acceptance">First physical acceptance</h2>
+<p>After the owner flashes once, verify the exact new source pair and boot ID, root/data recovery, pinned USB SSH, taint, MMC errors/IOS and conservative cap, checked DNS/TCP, menu, wired/BT audio and thermal/memory telemetry. Inspect actual DMA counters and per-CPU clockevents before interpreting performance.</p>
+<p>Then measure 25 MHz storage repeatedly with readback/fsync/metadata/SQLite, qualify the SD&#x27;s negotiated mode, and only raise the host cap to an evidenced 50 MHz after clean results. Repeat RAM/storage-separated USB tests, timer continuity/NO_HZ and core cycles with safe fallbacks. Record failures rather than promoting modes merely because they boot. Further suspend uses one detached, persistently recorded stage and verified subsystem/host recovery before the next stage. No unattended multi-stage suspend loop.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FPLATFORM-V1-HARDWARE-CEILING.md">Campaign measurements</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FPLATFORM-V1-PHYSICAL-ISSUES.md">issue evidence</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2Froadmap-gap-audit.md%23hardware-02-candidate-handoff--2026-09-26&amp;anchor=hardware-02-candidate-handoff--2026-09-26">admission audit</a>.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

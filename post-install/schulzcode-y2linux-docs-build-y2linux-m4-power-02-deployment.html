@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M4-POWER-02 integrated physical qualification - Innioasis Updater</title>
+  <meta name="description" content="M4-POWER-02 integrated physical qualification <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m4-power-02-deployment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M4-POWER-02 integrated physical qualification - Innioasis Updater">
+  <meta property="og:description" content="M4-POWER-02 integrated physical qualification <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m4-power-02-deployment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M4-POWER-02 integrated physical qualification - Innioasis Updater">
+  <meta name="twitter:description" content="M4-POWER-02 integrated physical qualification <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M4-POWER-02 integrated physical qualification</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m4-power-02-integrated-physical-qualification">M4-POWER-02 integrated physical qualification</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Source <code>83d475ef71a3dd84f6e3cc483a7637b13520e4f7</code> builds one integrated production hardware candidate. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fevidence%2Fy2linux-m4-power-02%2FREADME.md">Exact build receipt and hashes</a>. <strong>M4 remains ACTIVE/PARTIAL. No new hardware pass is implied by compilation.</strong></p>
+<p><strong>Latest result, 2026-09-15:</strong> [fresh authenticated inspection and full image-length readback](../hardware-evidence/2026-09-15-m5-entry/README.md) match this BOOTIMG. PC charging subsequently stops at 4.200073 V with latched voltage fault <code>0x8</code> and remains off after the reading falls. This is separate from the earlier OVP failure. SPM entries/resumes remain zero on the inspected boot; M4 is not ready to close or serve as a qualified M5 entry. No new deployment is requested.</p>
+<p><strong>Subsequent owner result, 2026-09-14:</strong> wall charging showed animation without recovery, requiring stock recharge. After Linux reinstall, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fhardware-evidence%2F2026-09-14-m4-power02-charge-fault%2FREADME.md">read-only SSH evidence</a> confirms POWER-02 starts 450-mA charging from a recognized PC source, then stops after about one second with latched OVP fault 0x10. Charging qualification has failed; the exact detector and earlier wall-session cause remain unresolved. The sequence below is the original candidate handoff, not a successful result or a new request to repeat flashing. The prior 70-mA gain baseline also failed.</p>
+<p><strong>2026-09-15 runtime workaround:</strong> <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fhardware-evidence%2F2026-09-15-usb-reconnect%2FREADME.md">two physical USB reconnects now pass</a> with the MUSB child&#x27;s runtime-PM policy held at <code>on</code>. The matching change is installed in <code>/etc/init.d/S20y2-usb</code> and scoped to POWER-02; it does not require flashing. This is a workaround, not a kernel fix. Added idle consumption is unmeasured. The short DCP wall test had no fault, but the prior charging failure and full M4 acceptance remain unresolved. A bounded persistent recorder now preserves diagnostics when a restart is necessary.</p>
+<h2 id="deploy-only-bootimg">Deploy only BOOTIMG</h2>
+<p>Package: <code>/home/luca/Dokumente/Code/Y2Linux/out/y2linux-m4-power-02/</code>. Use its <code>MT6582_BOOTIMG_only_scatter.txt</code> in the established SP Flash Tool. Select Download Only, BOOTIMG only, and the package&#x27;s <code>BOOTIMG.img</code>. Keep PRELOADER, LK/UBOOT, all partition tables, recovery, root/data and NVRAM unchecked. Never select Format or Firmware Upgrade. The user&#x27;s authorization covers this integrated M4 pass; no bootloader modification is needed.</p>
+<p>After a successful flash, disconnect USB and leave the Y2 off. Connect a normal wall charger without pressing Power. Record the actual screen text and whether the screen blanks automatically. Expected: a charging activity display for eight seconds, then darkness; a brief Power press shows status again. A fresh two-second Power hold <strong>and release</strong> requests normal boot only once voltage has been at least 3.4 V for three samples. Do not hold for the hardware emergency reset interval. Charging may continue offline indefinitely through normal termination/hold/recharge, without automatically starting Buildroot.</p>
+<p>At low battery, remain in offline charging. No SSH/ECM is expected there. Minute-spaced kernel records preserve voltage, source, programmed limit, watchdog service, PMIC temperature, raw BATON/ISENSE and charge state for later retrieval after deliberate normal boot. No development process controls charging.</p>
+<p>The prior kernel is preserved at <code>fallback/BOOTIMG-previous.img</code>. It restores M4-CHARGE-01 and its known limitations, including inhibition below 3.4 V. It must not be represented as an empty-battery recovery path.</p>
+<h2 id="one-coherent-physical-session">One coherent physical session</h2>
+<p>The agent uses <code>tools/development/qualify-m4-power.sh</code> for explicit normal-API inventory, root/data sentinels, bounded OPP testing, audio, suspend and power phases. Both host shell and the actual production ARM BusyBox syntax check pass. It is a qualification helper, never a charger/watchdog or production PM owner.</p>
+<ol><li>Demonstrate wall-source offline entry, timed blanking and brief status input.<p>Then perform deliberate normal Power-on with the source still connected. Retrieve boot metadata and the retained offline charge history. Establish sustained gain before heavy load or repeated power-transition tests.</p></li><li>Test PC and power-bank source classification/charging, including off-state<p>insertion without normal userspace. Check the PC offline ACM-only descriptor and absence of ECM/SSH. Wall/bank charging must not require enumeration.</p></li><li>In normal userspace retain boot ID, RTC, root/data sentinels, complete power,<p>thermal, clock, regulator and device inventory. Use normal interfaces only. Check fresh thermal acquisition against actual response before any load test.</p></li><li>Qualify each 598/747.5/1040-MHz OPP repeatedly at the retained 1.15 V, bounded<p>load and cooling constraints; verify WFI usage. Do not call fixed-voltage frequency scaling voltage DVFS.</p></li><li>Verify charger-active suspend inhibition while screen-off charging continues.<p>After charging is safely inhibited or disconnected, test s2idle fallback, then SPM deep suspend with Power and RTC wake. Require an unchanged boot ID, actual <code>cpu_resume</code> counter advancement and no PCM debug fault. Record real duration and voltage behavior; no calibrated standby current is available.</p></li><li>After resume test display/backlight, Power, volume, navigation/wheel, optional<p>external SD, root/data sentinels, ALSA/CS43131 and the proven 44.1-kHz playback. No mounted-filesystem fsck, raw storage changes or emergency reset cycles. Wider M3 48-kHz/channel/repeat tests and #27 remain separate unless blocking.</p></li><li>Set RTC through its standard API using the recorded host UTC time, preserving<p>any unrelated alarm and all RTC spare/boot words. Check reboot persistence, suspend alarm, deep wake, and hardware-off persistence where supported.</p></li><li>Qualify ordinary reboot and actual BBPU hardware poweroff with the cable<p>removed, subsequent ordinary Power boot, then poweroff while connected returning to offline charging. Offline unplug must turn off; reinsertion must return offline. A black screen alone is not proof of power removal.</p></li><li>Retain the final-current termination and recharge evidence, including the<p>unattended-by-userspace offline path. Low-voltage source entry must show actual recovery; crossing 3.4 V must never automatically boot the full OS.</p></li></ol>
+<p>Every physical result goes into the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm4-end-user-power.md">current M4 acceptance matrix</a>. Unrun, failed or unobservable cases remain open. Neither simulated charger completion nor a host suspend-sequence test closes a hardware gate. M5 is not started during this session.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

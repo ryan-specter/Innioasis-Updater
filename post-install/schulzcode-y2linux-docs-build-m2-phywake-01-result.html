@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M2-PHYWAKE-01 — build and owner test handoff - Innioasis Updater</title>
+  <meta name="description" content="M2-PHYWAKE-01 — build and owner test handoff <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current"">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-phywake-01-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M2-PHYWAKE-01 — build and owner test handoff - Innioasis Updater">
+  <meta property="og:description" content="M2-PHYWAKE-01 — build and owner test handoff <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current"">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-phywake-01-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M2-PHYWAKE-01 — build and owner test handoff - Innioasis Updater">
+  <meta name="twitter:description" content="M2-PHYWAKE-01 — build and owner test handoff <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current"">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M2-PHYWAKE-01 — build and owner test handoff</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m2-phywake-01--build-and-owner-test-handoff">M2-PHYWAKE-01 — build and owner test handoff</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>2026-09-09, active M2 #28, USB prerequisite #27/#23. <strong>Superseded test status:</strong> the owner has now supplied a successful <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-phy-wake-hardware-result.md">same-boot physical result</a>. The original pre-test handoff below is retained as history. Previous <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usb-state-hardware-result.md">USB-state photos</a> confirm reads and BEAT 50 without errors; they identify PHY suspendm forced low.</p>
+<h2 id="candidate">Candidate</h2>
+<p><code>/home/luca/Dokumente/Code/Y2Linux/out/m2-phywake-01/BOOTIMG.img</code></p>
+<p><strong>1,097,728 bytes</strong>; SHA-256: <code>d68c8fbc56721c7aa1fda5b3e321a9aff5876661aac857505864e28d8924793a</code>.</p>
+<p>Screen/build <strong>M2-PHYWAKE-01</strong>, Linux <strong>6.18.0-y2-m2-phywake1</strong>. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-phy-wake-probe.md">Exact contract</a>.</p>
+<p>This candidate adds one conditional volatile PHY write: <strong>0x1121086a, 04→00</strong> to release force_suspendm. It first requires the known supply/clock state, disconnected B-device MAC, observed HWVERS, zero DMA controls and reviewed PHY mode controls. A fresh 6a check precedes the write. It then waits 800 us and records PHY state, calibration-related bytes and MAC POWER/DEVCTL.</p>
+<p>No analog trim/calibration, PMIC/clock, VBUS-force, MAC-connection, interrupt or DMA-control write is added. It does not run the full vendor PHY recovery sequence. USB enumeration/ttyACM is not expected. A successful force-bit release alone does not establish a ready PHY, physical VBUS or complete controller contract.</p>
+<h2 id="validation">Validation</h2>
+<ul><li>One clean pinned Linux 6.18 / Clang 20.1.8 build, no compiler warnings/errors.<p>All 21 top-level test methods and four host-PTY observation methods pass. Included production scenarios: 48 PHY wake, 37 USB state, 20 PWRAP, 10 clock, plus 20 QEMU ARM PID1 cases. Refusal, read failures, stale force state, changed trims, unexpected connection/host state and continued heartbeat are covered; fixture outcomes are not physical evidence.</p></li><li>Emitted cached snapshot is PID1-only and 256 bytes. Release/settle are inlined:<p>fresh read c0015b40, comparison with 04 c0015b4c, sole new MMIO byte write c0015b64, followed by the correct 800-us const_udelay argument. Seven mode reads precede the write; twelve bounded readbacks follow. No retry/rollback.</p></li><li>Resolved config differs only in LOCALVERSION; DT source is unchanged. D08,<p>CPU0, watchdog instructions, framebuffer guard and linked time32 syscall pass. No memory/DMA/packaging policy change; no duplicate build or unchanged full source/ROM/recovery re-audit.</p></li><li><a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-phywake-01-layout.json" target="_blank" rel="noopener noreferrer">Layout</a> and<p><a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-phywake-01-iteration.json" target="_blank" rel="noopener noreferrer">iteration</a> retain dimensions/identity. Gzip is 5901 bytes, resident kernel [0x80008000,0x8029f5b0), initramfs ends 0x8400170d, decompressor workspace ends 0x80390790. Complete BOOTIMG wrappers, LK read tail, D08 and 16 MiB partition bounds pass.</p></li></ul>
+<p>Output retains source snapshot, lock, ELFs, config, logs, disassembly and hashes. No physical Y2 command or flash was executed. Stock preloader/LK, partition tables and persistent calibration remain protected.</p>
+<h2 id="owner-test-and-exact-evidence">Owner test and exact evidence</h2>
+<p>Use the established <strong>BOOTIMG-only procedure, maximum 60 seconds from power-on</strong>. Expected: first heartbeat, briefly <code>CHECK PHY / RELEASE SUSPEND</code>, then continuing progress to BEAT 50 / <code>STOP: RESTORE ANDROID</code>. A bus hang may freeze at the pre-probe stage; use the existing bounded manual recovery procedure.</p>
+<p>Successful release shows:</p>
+<ul><li><code>USB RC:0 VALID:001FFFFF</code>, <code>PW:0 /3 CLK:0/15</code>.</li><li><code>WAKE:0 W:1 V:7F/FFF</code>, followed by post-read MAC <code>P:</code> and <code>D:</code> values.</li><li><code>6A:04&gt;00</code> and seven post-read PHY68..6e bytes, packed as two hex digits each.</li><li><code>CTL:</code> pre-read PHY1a/1d/22/63 values.</li><li><code>TRIM:</code> pre/post pairs for PHY00/05/15; each pair should match.</li><li>Increasing heartbeat/timer counts and <code>LAST ERR: NONE</code>.</li></ul>
+<p>A refusal can show <code>WAKE:-19 W:0</code>; this is useful evidence of an unmet guard, not permission to force a value. -16 is a stale-force/resource refusal, -12 a mapping failure, -5 a readback/trim/mode mismatch. W states whether the sole write occurred. V is before/after validity: 7F means all seven control reads; FFF means PHY68..6e, trims00/05/15 and POWER/DEVCTL all read back. Zero fields without validity are not evidence. All observations are cached once per boot.</p>
+<p>Return readable full-screen photos near <strong>BEAT 10 and BEAT 50/STOP</strong>, or the exact last stage on failure. Include all bottom four rows, USB/PW/CLK status, timer/uptime/MemTotal, mount/sleep status and LAST ERR. Also report selected image hash (flashed/readback identity if available), host elapsed time, whether the USB data cable stayed attached to the Linux PC, any reset/freeze and the usual BOOTIMG-only restoration outcome if performed.</p>
+<p>Retained previous candidate: <code>out/m2-usbstate-01/BOOTIMG.img</code>, SHA-256 <code>8c1f701b61a1adb70b1377071e6cb885cda989a422fd75d626cd5c7da5bdb5e7</code>. Owner-proven stock/FM restoration and M1 fallback boundaries are unchanged. Stop here for the physical test. #23/#27/#28 stay open; M3 remains deferred.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

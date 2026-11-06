@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="author" content="Innioasis and Ryan Specter">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Restore Original Software on Innioasis PR1 - step-by-step</title>
+<meta name="description" content="How to restore official Original Software on an Innioasis PR1 with Innioasis Updater CE or SP Flash Tool, using the verified rom_pr1.zip package.">
+<link rel="canonical" href="https://innioasis.app/guides/restore-original-pr1.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Restore Original Software on Innioasis PR1 - step-by-step">
+<meta property="og:description" content="How to restore official Original Software on an Innioasis PR1 with Innioasis Updater CE or SP Flash Tool, using the verified rom_pr1.zip package.">
+<meta property="og:url" content="https://innioasis.app/guides/restore-original-pr1.html">
+<meta property="og:image" content="https://innioasis.app/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../y1_illustration.png">
+<link rel="stylesheet" href="../site-theme.css?v=20260803">
+<link rel="stylesheet" href="../lumen.css?v=20261105hero">
+<link rel="stylesheet" href="../site-pages.css?v=20260818">
+<link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+<script src="../site-init.js?v=20260803" defer></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "HowTo", "name": "Restore Original Software on Innioasis PR1", "description": "How to restore official Original Software on an Innioasis PR1 with Innioasis Updater CE or SP Flash Tool, using the verified rom_pr1.zip package.", "totalTime": "PT20M", "step": [{"@type": "HowToStep", "name": "Back up and charge", "text": "Copy files to a computer and charge the player."}, {"@type": "HowToStep", "name": "Choose the model", "text": "Open Updater CE and set Device Model to PR1."}, {"@type": "HowToStep", "name": "Choose Original Software", "text": "Select Original Software and the rom_pr1.zip release."}, {"@type": "HowToStep", "name": "Install at the prompt", "text": "Press Install / Restore, power the player off, and connect USB only when asked."}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://innioasis.app/"}, {"@type": "ListItem", "position": 2, "name": "Player manuals", "item": "https://innioasis.app/manuals/index.html"}, {"@type": "ListItem", "position": 3, "name": "Innioasis PR1 manual", "item": "https://innioasis.app/manuals/pr1.html"}, {"@type": "ListItem", "position": 4, "name": "Restore Innioasis PR1", "item": "https://innioasis.app/guides/restore-original-pr1.html"}]}</script>
+<meta property="og:site_name" content="Innioasis Software Updates"><link rel="stylesheet" href="../install.css?v=20261106"></head>
+<body class="site-themes-app"><a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide">
+
+<header>
+  <p class="lumen-kicker">Restore guide · Innioasis PR1</p>
+  <h1>Restore Original Software on Innioasis PR1</h1>
+  <p class="lead">A clean return to the software the player shipped with. Use it
+  after a failed update, before selling the player, or whenever a custom system
+  is not for you.</p>
+  <div class="lumen-actions">
+    <a class="lumen-button lumen-button--primary" href="../guide.html#platform">Get Updater CE</a>
+    <a class="lumen-button" href="../firmware.html?model=PR1">PR1 downloads</a>
+    <a class="lumen-button" href="../manuals/pr1.html">PR1 manual</a>
+  </div>
+</header>
+<section class="lumen-guide-section install-os-strip" data-os-install-strip><p class="lumen-kicker">Install guide for your computer</p><h2>Restore Original Software on your PR1 with your computer</h2><p>Pick the guide for the computer you are using. <span data-os-strip-note>Every version has the platform setup, Updater CE steps and the way back to stock.</span></p><div class="lumen-actions install-os-actions"><a class="lumen-button" data-os-guide="windows" href="../install/original-pr1-windows.html">Windows guide</a><a class="lumen-button" data-os-guide="macos" href="../install/original-pr1-mac.html">macOS guide</a><a class="lumen-button" data-os-guide="linux" href="../install/original-pr1-linux.html">Linux guide</a></div><p class="lumen-meta"><a href="../install/pr1.html">All Innioasis PR1 guides</a> · <a href="../install/original-software.html">All Original Software guides</a></p></section>
+
+<section class="lumen-guide-section"><h2>What you need</h2>
+<ul>
+  <li>A Windows, macOS or Linux computer. Updater CE runs on all three.</li>
+  <li>The USB data cable that came with the player. Charge-only cables will not
+  work.</li>
+  <li>The official <code>rom_pr1.zip</code> package, which Updater downloads for
+  you, or a copy from the <a href="../firmware.html?model=PR1">PR1
+  archive</a> if you prefer to flash by hand.</li>
+  <li>Charge in the player. A restore that loses power is the only common way to
+  make a bad situation worse.</li>
+</ul>
+<p><strong>This replaces the system and erases internal storage.</strong> Copy
+music, recordings and photos to a computer first.</p></section>
+
+<section class="lumen-guide-section"><h2>Route A: Updater CE (recommended)</h2>
+<ol class="lumen-steps">
+  <li>Install <a href="../guide.html#platform">Innioasis Updater CE</a> and open
+  it.</li>
+  <li>Set <strong>Device Model</strong> to <strong>PR1</strong>. The model
+  must match the player exactly.</li>
+  <li>Choose <strong>Original Software</strong> in the Software list.</li>
+  <li>Pick a release. The newest stable build is the safe default.</li>
+  <li>Press <strong>Install / Restore</strong> and wait while the package
+  downloads and extracts.</li>
+  <li>Power the player fully off, then connect the USB cable only when Updater
+  asks.</li>
+  <li>Do not touch the player or the cable until the success message. Disconnect
+  and start the player.</li>
+</ol>
+<div class="lumen-warning"><strong>Never choose a different model to
+"make it work".</strong> A PR1 needs a PR1 package. Mixing
+models is how players end up needing a manual recovery.</div></section>
+
+<section class="lumen-guide-section"><h2>Route B: SP Flash Tool (manual)</h2>
+<p>Use this when a computer cannot run Updater CE, or when you already have the
+package and prefer the classic tool.</p>
+<ol class="lumen-steps">
+  <li>Download <code>rom_pr1.zip</code> from the
+  <a href="../firmware.html?model=PR1">PR1 archive</a> and unzip it.</li>
+  <li>Keep the scatter file next to the images. Do not rename or move the
+  images.</li>
+  <li>Open SP Flash Tool, choose <strong>Download Only</strong>, and load the
+  scatter file.</li>
+  <li>Power the player off, press <strong>Download</strong>, then connect the
+  cable.</li>
+  <li>Wait for the green success mark before disconnecting.</li>
+</ol>
+<p>The <a href="../sp-flash-tool.html">SP Flash Tool guide</a> covers drivers and
+the Windows prompts in more detail. On Linux and macOS, Updater CE is the easier
+route because it brings its own USB handling.</p></section>
+
+<section class="lumen-guide-section"><h2>After the restore</h2>
+<ol class="lumen-steps">
+  <li>Disconnect the player and let it start on its own.</li>
+  <li>Choose your language and set the clock.</li>
+  <li>Reconnect to Wi-Fi or Bluetooth if you use them.</li>
+  <li>Copy your music back. The <a href="../manuals/transfer-music.html">transfer
+  guide</a> has the folder names.</li>
+</ol>
+<p>If the player starts but the screen, wheel or buttons still misbehave, the
+restore worked; that is a hardware or setup question, not a software one. The
+<a href="../troubleshooting.html">troubleshooting guide</a> is the next stop.</p>
+</section>
+
+<section class="lumen-guide-section"><h2>If it does not work</h2>
+<div class="lumen-grid">
+  <article class="lumen-card"><h3>Updater never sees the player</h3><p>Change the
+  cable, then the USB port. Avoid hubs. On Windows, install the MediaTek driver
+  from the <a href="../drivers.html">driver page</a>.</p></article>
+  <article class="lumen-card"><h3>The flash stops early</h3><p>Reconnect, charge
+  the player, and start again. Do not switch to a different model's package.</p></article>
+  <article class="lumen-card"><h3>The player stays black</h3><p>Charge for an
+  hour, then hold power for ten seconds. If it is still dead, read the
+  <a href="../guides/recovery.html">recovery guide</a> before trying again.</p></article>
+</div></section>
+
+<section class="lumen-guide-section"><h2>Questions people ask</h2>
+<h3>Will this delete my music?</h3>
+<p>Yes, internal storage is erased. Files on a microSD card usually survive, but
+copy them somewhere safe first.</p>
+<h3>Can I go back to Rockbox afterwards?</h3>
+<p>Yes. Restoring Original Software is not a one-way door; the custom software
+page for your model can install it again.</p>
+<h3>Do I need the Type A / Type B setting?</h3>
+<p>Only the Y1 has that choice, and only for Original Software. Every other model
+uses a single package.</p>
+</section>
+
+</main>
+<div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../nav.js?v=20261105copyleft" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+<script src="../site-platform.js?v=20261106" defer></script></body></html>

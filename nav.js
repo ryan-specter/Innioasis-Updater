@@ -46,6 +46,11 @@
   }
 
   window.isY1DonationsDisabled = isY1DonationsDisabled;
+  /* Whether this browser has actually stored a donation choice. The privacy
+     panel only offers the switch to visitors who already opted out, so the
+     first-visit copy cannot talk someone out of donating before they have
+     seen the site. */
+  window.hasY1DonationsPreference = donationsStored;
   window.setY1DonationsDisabled = function (disabled) {
     try {
       if (disabled) window.localStorage.setItem(DONATIONS_KEY, "1");
@@ -1024,7 +1029,10 @@
     if (noticesLoaded || !noticesBody) return;
     /* One feed only: /notice.xml. The plural spelling used to sit in this
        list as a fallback, so a stray plural feed could silently win. */
+    /* The repository copy is read first and the site's own copy only as a
+       fallback, so a page view does not count against this domain. */
     var candidates = [
+      "https://raw.githubusercontent.com/y1-community/Innioasis-Updater/main/notice.xml",
       "/notice.xml",
       "notice.xml",
       "https://innioasis.app/notice.xml"
@@ -1317,6 +1325,7 @@
       '<div class="footer-col">' +
       '<h4>Software &amp; Guides</h4>' +
       '<a href="' + escapeHtml(decorateMainSiteHref("/guide.html")) + '">Installation Guide</a>' +
+      '<a href="' + escapeHtml(decorateMainSiteHref("/manuals/index.html")) + '">Player manuals</a>' +
       (isThemesSite
         ? '<a href="' + escapeHtml(decorateMainSiteHref("/firmware.html")) + '">Player Updates and Firmware</a>'
         : '<a href="' + escapeHtml(decorateMainSiteHref("/firmware.html?view=software")) + '">Software Updates</a>' +

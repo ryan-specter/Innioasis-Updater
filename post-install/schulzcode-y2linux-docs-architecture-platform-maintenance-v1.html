@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Owner reset and state export - Innioasis Updater</title>
+  <meta name="description" content="Owner reset and state export <!-- knowledge-base-scope: source-contract -- Source-contract scope. This page describes software ownership and interface behavior. See curre">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-architecture-platform-maintenance-v1.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Owner reset and state export - Innioasis Updater">
+  <meta property="og:description" content="Owner reset and state export <!-- knowledge-base-scope: source-contract -- Source-contract scope. This page describes software ownership and interface behavior. See curre">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-architecture-platform-maintenance-v1.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Owner reset and state export - Innioasis Updater">
+  <meta name="twitter:description" content="Owner reset and state export <!-- knowledge-base-scope: source-contract -- Source-contract scope. This page describes software ownership and interface behavior. See curre">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Owner reset and state export</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="owner-reset-and-state-export">Owner reset and state export</h1>
+<!-- knowledge-base-scope: source-contract -->
+> **Source-contract scope.** This page describes software ownership and
+> interface behavior. See [current state](../CURRENT_PLATFORM_STATE.md) for the exact latest image
+> and physical limits; implemented or enabled does not mean qualified.
+<p>Software contract; target filesystem/flush/reboot qualification remains PHYSICAL_GATE. No maintenance command has been run on Y2 during this pass. Commands operate only on identity-checked Y2DATA. They never format it or touch protected partitions, NVRAM, firmware calibration or factory records.</p>
+<p><code>y2-platform export-state</code> creates a private mode-0600 archive under <code>/data/exports</code>. It includes the atomic Reborn session (settings/queue/position) and Bluetooth preferred peer, excluding bonds and all private keys. Add <code>--include-database</code> for a consistent SQLite online backup/quick_check; the source is opened read-only and checked against replacement. Add <code>--include-network</code> only when deliberately exporting private WPA credentials. The manifest records that privacy choice, source identity, sizes and hashes. Each file and the SQLite snapshot is coherent; no cross-file transaction is claimed. Download the archive over authenticated USB SFTP and verify its reported SHA256. Incomplete archives have a <code>.partial</code> name, never a successful export receipt. No automatic import or untrusted archive extraction is provided.</p>
+<p>Reset scopes are separate:</p>
+<table><thead><tr><th>Scope</th><th>Exact behavior</th></tr></thead><tbody><tr><td><code>settings</code></td><td>Use defaults emitted by the installed Reborn binary; replace only <code>model.settings</code> in session schema 2. Preserve queue, position, library and music. Backup original session first.</td></tr><tr><td><code>network</code></td><td>Quarantine saved network directory; boot creates disabled/default network configuration.</td></tr><tr><td><code>bluetooth-bonds</code></td><td>Quarantine BlueZ adapter state and preferred peer. Bind-mount root remains intact; no copied-back bond material.</td></tr><tr><td><code>library</code></td><td>Quarantine database + WAL/SHM/journal as one recoverable operation; Reborn rebuilds its database. Music stays.</td></tr><tr><td><code>caches</code></td><td>Quarantine known platform/Reborn cache directories.</td></tr><tr><td><code>full-user</code></td><td>Explicit logical reset of known Reborn/music/network/settings/apps/legacy-player/cache/log and Bluetooth user state. Requires a second <code>--erase-user-music</code> flag.</td></tr></tbody></table>
+<p>Full logical reset preserves owner SSH access, entropy, platform boot/update/ rollback records, existing exports and reset quarantine, factory/calibration, and unknown data directories. It is <strong>not secure erasure of every old byte</strong> or an indiscriminate Y2DATA wipe. Existing exports can preserve sensitive owner state and must be handled separately before handing the device to another owner.</p>
+<p><code>y2-platform reset plan --scope settings</code> first reports consumers that must be stopped. It never stops hardware or deletes files automatically. Stop the listed init services with a bounded owner command (for example `timeout 10 /etc/init.d/S90reborn stop`) and run plan again. If a process remains in kernel I/O, execution refuses rather than proceeding. The plan returns exact paths, identities, preserved state and a five-minute confirmation digest.</p>
+<pre><code>y2-platform reset plan --scope settings
+y2-platform reset execute --confirm DIGEST
+# Full user reset requires both the matching full-user plan and:
+y2-platform reset execute --confirm DIGEST --erase-user-music</code></pre>
+<p>Execution rechecks process owners, update state, boot/mount generation and every target inode before mutation. A durable maintenance marker prevents Reborn, connectivity, BlueZ and readiness startup while an operation is incomplete. Each rename into <code>/data/reset-quarantine/ID</code> is fsynced and recorded. After interruption, stop any listed consumers and use <code>reset resume --confirm DIGEST</code> (and the full reset flag if applicable). Resume across a new boot requires the same validated data UUID, original inode identities and private journal. Conflicting new files are never overwritten. Keep the marker and inspect the exact source/quarantine paths if conflicts prevent resume; do not force a reset through uncertainty. On success the marker is removed; the owner reboots through the platform command so ordinary initialization recreates missing defaults and service bind mounts.</p>
+<p>Quarantine makes reset recoverable but does not free its occupied space. Explicit <code>reset purge --id ID --confirm DIGEST</code> deletes only that completed reset&#x27;s numeric payload entries, at most 256 entries/eight seconds per call. Repeat while it says <code>MoreRemaining</code>. It pins directories, rejects submounts, and unlinks symlinks without following them. The small manifest is retained. No cache cleaner ever purges this user-state recovery area or removes music automatically.</p>
+<p>Tests exercise live WAL backup, credential exclusion, exact settings-only reset, process/mount/confirmation gates, interrupted multi-file reset across boot, full-reset preservation and symlink-safe bounded purge. Host tests are separate from physical eMMC power-loss behavior. All current services still run with owner/root privilege; this utility narrows paths and state transitions, not the trusted owner&#x27;s administrative authority.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

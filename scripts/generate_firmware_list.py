@@ -49,13 +49,15 @@ DEVICE_NAMES = {
     "G1": "Innioasis G1",
     "G3": "Innioasis G3",
     "G5": "Innioasis G5",
-    "Q8": "Innioasis Q8",
     "R1": "Innioasis R1",
     "PR1": "Innioasis PR1",
     "D1": "Innioasis D1",
+    "SR1": "Timmkoo SR1",
     "A5": "Timmkoo A5",
     "Q5": "Timmkoo Q5",
     "Q3": "Timmkoo Q3",
+    "Q3E": "Timmkoo Q3E",
+    "Q8": "Timmkoo Q8",
 }
 
 PLATFORM_LABELS = {
@@ -89,6 +91,32 @@ def human_size(size) -> str:
     if value >= 1024 ** 3:
         return "%.2f GB" % (value / 1024 ** 3)
     return "%.0f MB" % max(1, round(value / 1024 ** 2))
+
+
+TAG_DATE_RE = re.compile(
+    r"(^|[^0-9])((?:19|20)\d{2})([-_.]?)(0[1-9]|1[0-2])\3(0[1-9]|[12]\d|3[01])(?!\d)"
+)
+TAG_VERSION_RE = re.compile(
+    r"(?:^|[^0-9A-Za-z])v?(\d+(?:\.\d+)+)(?![0-9A-Za-z])", re.IGNORECASE
+)
+
+
+def tag_version_and_date(tag: str) -> tuple[str, str] | None:
+    """The version and ISO date in a tag that carries both, else ``None``."""
+    text = str(tag or "")
+    match = TAG_DATE_RE.search(text)
+    if not match:
+        return None
+    year, month, day = int(match.group(2)), int(match.group(4)), int(match.group(5))
+    try:
+        date_value = dt.date(year, month, day)
+    except ValueError:
+        return None
+    without_date = text[:match.start(2)] + " " + text[match.end(5):]
+    version = TAG_VERSION_RE.search(without_date)
+    if not version:
+        return None
+    return version.group(1), date_value.isoformat()
 
 
 # ---------------------------------------------------------------- data
@@ -150,6 +178,33 @@ def mirrors_for(feed: dict, repo: str) -> list[dict]:
             entry["mirror_repo"] = str(value.get("mirror_repo") or key)
             found.append(entry)
     return found
+
+
+_MANIFEST_MIRRORS: dict[str, set[str]] | None = None
+
+
+def manifest_mirrors() -> dict[str, set[str]]:
+    """Source repository -> the portable mirrors its manifest entry names.
+
+    A project with no entry in ``slidia_manifest.xml``, or one whose entry names
+    no mirror, gets no portable package here: its download links stay on the
+    rom.zip (or other package) the project itself publishes. That keeps the
+    static list from offering a repackaged mirror build that Updater CE cannot
+    reach anyway.
+    """
+    global _MANIFEST_MIRRORS
+    if _MANIFEST_MIRRORS is None:
+        mapping: dict[str, set[str]] = {}
+        for pkg in gdp.load_manifest():
+            repo = str(pkg.get("repo") or "").strip().lower()
+            if not repo:
+                continue
+            names = {part.strip().strip("/").lower()
+                     for part in re.split(r"[\s,]+", str(pkg.get("portable_zips") or ""))
+                     if part.strip()}
+            mapping.setdefault(repo, set()).update(names)
+        _MANIFEST_MIRRORS = mapping
+    return _MANIFEST_MIRRORS
 
 
 def package_asset(release: dict, package_name: str) -> dict:
@@ -275,6 +330,10 @@ def software_section(item: dict, releases: list[dict], mirrors: list[dict], feed
     device = device_name(model)
     repo = str(item.get("repo") or "")
     package_name = str(item.get("packageName") or "")
+    listed_repo = repo.strip().lower() in manifest_mirrors()
+    declared_mirrors = manifest_mirrors().get(repo.strip().lower(), set())
+    mirrors = [mirror for mirror in mirrors
+               if str(mirror.get("mirror_repo") or "").strip().lower() in declared_mirrors]
     author = repo_author(feed, repo)
     guide = SITE + "/" + str(item.get("guide") or "").lstrip("./") if item.get("guide") else (
         "%s/guide.html?model=%s&software=%s" % (SITE, model, item.get("slug")))
@@ -300,6 +359,10 @@ def software_section(item: dict, releases: list[dict], mirrors: list[dict], feed
                     portable = packages
                     break
         title = str(release.get("name") or "").strip() or ("%s %s" % (label, tag))
+        version, version_date = tag_version_and_date(tag) or (tag, "")
+        version_html = "<strong>%s</strong>" % esc(version)
+        if version_date:
+            version_html += ' <em>(%s)</em>' % esc(version_date)
         anchor = release_anchor(item, tag)
         notes = notes_url(item, tag)
         live_notes = parsed_notes_url(item, tag)
@@ -330,19 +393,26 @@ def software_section(item: dict, releases: list[dict], mirrors: list[dict], feed
             download_cell.append(
                 '<div class="lumen-meta" style="margin-top:6px">Portable packages:</div>'
                 '<div class="lumen-actions lumen-portable-downloads">%s</div>' % buttons)
+        elif asset_url and not listed_repo:
+            # Standalone-only cohort: the project is in the feeds but not in the
+            # manifest, so there is no Updater CE install route and no portable
+            # package. Say what does open the ZIP instead.
+            download_cell.append(
+                '<div class="lumen-meta">Works with Updater CE, Innioasis Universal Flash Tool, '
+                'SP Flash Tool and MTKClient (Updater CE Recommended).</div>')
 
         meta = [published] if published else []
         if release.get("prerelease"):
             meta.append("preview build")
         rows.append(
             '<tr id="%s"><td><a class="lumen-version-link" href="%s" title="Release notes for %s">'
-            '<strong>%s</strong></a>'
+            '%s</a>'
             '<a class="lumen-readme-info" href="%s" title="Release notes for %s" aria-label="Release notes for %s">&#9432;</a>'
             '<div class="lumen-meta">%s</div></td>'
             '<td><a href="%s">%s</a></td>'
             '<td>%s</td>'
             '<td><a href="%s">Release notes</a></td></tr>'
-            % (esc(anchor), esc(live_notes), esc(tag), esc(tag),
+            % (esc(anchor), esc(live_notes), esc(tag), version_html,
                esc(info_notes), esc(tag), esc(tag),
                esc(" · ".join(meta)),
                esc(str(release.get("html_url") or project_page)), esc(title),
@@ -465,7 +535,7 @@ def render_page(feed: dict, software: list[dict]) -> tuple[str, list[dict]]:
                 "name": "Firmware list - every Innioasis and Timmkoo release",
                 "url": SITE + "/firmware-list.html",
                 "description": "A static, searchable list of every firmware and software release "
-                               "for Innioasis Y1, Y2, G1, G3, G5, Q8, R1, PR1, D1 and Timmkoo A5, Q5, Q3.",
+                               "for Innioasis Y1, Y2, G1, G3, G5, R1, PR1 and Timmkoo A5, Q5, Q3.",
                 "dateModified": generated_at,
                 "author": AUTHOR_ORG,
                 "isPartOf": {"@type": "WebSite", "name": "Innioasis Updater", "url": SITE + "/"},

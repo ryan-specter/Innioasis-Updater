@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:innioasis="https://innioasis.app/ns/feeds/1.0">
+  <id>https://innioasis.app/feeds/y1-community/pr1-stock-rom/releases.atom</id>
+  <title>Release notes from y1-community/pr1-stock-rom</title>
+  <link rel="alternate" type="text/html" href="https://innioasis.app/firmware.html"/>
+  <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/y1-community/pr1-stock-rom/releases.atom"/>
+  <updated>2026-11-05T05:58:34Z</updated>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/pr1-stock-rom/R2-V1.34-20260208</id>
+    <updated>2026-11-05T05:58:34Z</updated>
+    <published>2026-11-05T05:58:34Z</published>
+    <title>R2-V1.34-20260208</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/pr1-stock-rom/releases/tag/R2-V1.34-20260208"/>
+    <innioasis:tag_name>R2-V1.34-20260208</innioasis:tag_name>
+    <innioasis:prerelease>false</innioasis:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/rom_pr1.zip" title="rom_pr1.zip" length="754108851" type="application/octet-stream" innioasis:download_count="2" innioasis:asset_id="712334003"/>
+    <link rel="enclosure" href="https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/rom_pr1.zip.001" title="rom_pr1.zip.001" length="1992294400" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712353469"/>
+    <link rel="enclosure" href="https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/rom_pr1.zip.002" title="rom_pr1.zip.002" length="1992294400" type="application/octet-stream" innioasis:download_count="0" innioasis:asset_id="712361350"/>
+    <link rel="enclosure" href="https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/rom_pr1.zip.003" title="rom_pr1.zip.003" length="659716186" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712368918"/>
+    <link rel="enclosure" href="https://github.com/y1-community/pr1-stock-rom/releases/download/R2-V1.34-20260208/SHA256SUMS.R2-V1.34-20260208" title="SHA256SUMS.R2-V1.34-20260208" length="79" type="application/octet-stream" innioasis:download_count="1" innioasis:asset_id="712336817"/>
+    <content type="text">Original Innioasis PR1 software **R2-V1.34-20260208**.
+
+- Model: **PR1** (Innioasis)
+- Package: `rom_pr1.zip`
+- Build tag: `R2-V1.34-20260208`
+- Build date: 2026-02-08
+
+## Install
+
+1. Download `rom_pr1.zip` (every numbered volume if the release has more than one, then `cat rom_pr1.zip.* &gt; rom_pr1.zip`).
+2. Unzip it. Keep the scatter file next to the images.
+3. Open SP Flash Tool, choose **Download Only**, load the scatter file from the archive and flash.
+4. Or use Innioasis Updater CE: &lt;https://innioasis.app/guide.html&gt;
+
+This wipes the player. Back up music and recordings first.
+
+## Files
+
+| File | Size |
+| --- | --- |
+| `rom_pr1.zip.001` | 1900.0 MB |
+| `rom_pr1.zip.002` | 1900.0 MB |
+| `rom_pr1.zip.003` | 629.2 MB |
+| `SHA256SUMS` | 0.0 MB |
+
+Full archive: &lt;https://innioasis.app/firmware.html?model=PR1&gt;</content>
+  </entry>
+</feed>

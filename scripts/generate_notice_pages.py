@@ -112,7 +112,7 @@ HEAD = """<!doctype html>
 FOOT = """<div id="footer-root"></div><div id="support-toolbar-slot"></div>
 <script src="{up}firmware-catalog.js?v=20261106mirror" defer></script>
 <script src="{up}nav.js?v=20261105copyleft" defer></script>
-<script src="{up}lumen-site.js?v=20260817" defer></script>
+<script src="{up}lumen-site.js?v=20261105savename" defer></script>
 <script src="{up}site-i18n.js?v=20260830" defer></script>
 </body></html>
 """

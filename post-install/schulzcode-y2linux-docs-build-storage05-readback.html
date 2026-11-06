@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Storage05: corrected SPFT readback coordinates - Innioasis Updater</title>
+  <meta name="description" content="Storage05: corrected SPFT readback coordinates <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "curren">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-storage05-readback.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Storage05: corrected SPFT readback coordinates - Innioasis Updater">
+  <meta property="og:description" content="Storage05: corrected SPFT readback coordinates <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "curren">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-storage05-readback.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Storage05: corrected SPFT readback coordinates - Innioasis Updater">
+  <meta name="twitter:description" content="Storage05: corrected SPFT readback coordinates <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "curren">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Storage05: corrected SPFT readback coordinates</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="storage05-corrected-spft-readback-coordinates">Storage05: corrected SPFT readback coordinates</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p><strong>2026-09-13 update:</strong> The owner completed the corrected table below at21:10:43 CEST. All six samples match; no further readback is requested. <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/hardware-evidence/2026-09-13-storage05-owner/readback-corrected-analysis.json" target="_blank" rel="noopener noreferrer">Result</a>. The stock logical/native coordinate distinction is established in the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fstorage06-addressing-correction.md">production correction</a>.</p>
+<h2 id="completed-batch-address-mode-mismatch">Completed batch: address mode mismatch</h2>
+<p>The owner completed all six reads at 21:00:03 CEST on 2026-09-13. SPFT returned <code>S_DONE(0x0)</code> and all 13824 bytes, but its actual MT6582 path used <code>NUTL_ADDR_LOGICAL</code> and <code>EMMC_PART_UNKNOWN (0x00)</code>: legacy global DA addresses. The earlier instructions supplied user-area physical offsets without accounting for this mode. That was an instruction error, not evidence of erased partitions.</p>
+<p>The file named <code>MBR.bin</code> begins with <code>EMMC_BOOT</code>. The file named <code>Y2ROOT-prefix.bin</code> exactly matches all 4096 bytes of the stock SEC_RO prefix, whose scatter/global address is <code>0x05180000</code>. The BOOTIMG control is all zero, so the intended-location identity gate fails. These samples establish the readback address mismatch; they cannot establish the intended table or ext4 contents. <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/hardware-evidence/2026-09-13-storage05-owner/readback-analysis.json" target="_blank" rel="noopener noreferrer">Analysis</a> and <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/hardware-evidence/2026-09-13-storage05-owner/readback-log-excerpt.txt" target="_blank" rel="noopener noreferrer">selected SPFT log lines</a>. Original samples and complete logs are retained under <code>evidence-private/20260913-storage05-readback-210003/</code>; they are not public raw partition evidence. No firmware was built, device write initiated or GUI changed by the assistant during this analysis.</p>
+<h2 id="correct-the-existing-six-rows">Correct the existing six rows</h2>
+<p>In the <strong>same SPFT Readback mode that just completed</strong>, change only each row&#x27;s hexadecimal Start Address to the value below. Keep filenames and lengths. The existing sample files may be replaced because this completed batch has been retained separately. Save to <code>out/storage05-readback/samples/</code> again.</p>
+<table><thead><tr><th>Output file</th><th>Start address in current legacy mode</th><th>Length</th></tr></thead><tbody><tr><td>BOOTIMG-prefix.bin</td><td><code>0x03180000</code></td><td><code>0x1000</code></td></tr><tr><td>MBR.bin</td><td><code>0x01400000</code></td><td><code>0x200</code></td></tr><tr><td>EBR1.bin</td><td><code>0x01480000</code></td><td><code>0x200</code></td></tr><tr><td>EBR2.bin</td><td><code>0x05b00000</code></td><td><code>0x200</code></td></tr><tr><td>Y2ROOT-prefix.bin</td><td><code>0x06580000</code></td><td><code>0x1000</code></td></tr><tr><td>Y2DATA-prefix.bin</td><td><code>0x41780000</code></td><td><code>0x1000</code></td></tr></tbody></table>
+<p>These values match the stock scatter&#x27;s <strong>linear</strong> addresses and the tool&#x27;s retained PMT location report. The active mode is already corroborated by the exact SEC_RO prefix match. This is a correction to host acquisition coordinates, not a Linux LBA offset or a change to the partition layout. Do not use these global addresses with a different backend explicitly selecting <code>EMMC_USER</code>.</p>
+<p>Enable only these six Readback rows and repeat the same manual powered-off preloader connection procedure. Use <strong>Read Back</strong> only. There is no Download, Format, Firmware Upgrade or Write Memory operation. The corrected batch still samples only 13824 bytes at the intended BOOTIMG, table and ext4 locations. No new kernel or filesystem image is needed for it.</p>
+<p>The prepared <code>out/storage05-readback/corrected-plan.json</code> and its <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/hardware-evidence/2026-09-13-storage05-owner/corrected-readback-plan.json" target="_blank" rel="noopener noreferrer">retained copy</a> record this exact mode and coordinates. <code>expected-prefix.sha256</code> is unchanged: the expected contents did not change. Check the next run&#x27;s logged addresses and mode and require the known Storage05 BOOTIMG prefix to match before interpreting MBR/EBR differences. Ext4 prefixes establish superblock identity only, not full filesystem integrity. No table or root/data rewrite follows from this batch.</p>
+<h2 id="historical-preparation">Historical preparation</h2>
+<p>The <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/hardware-evidence/2026-09-13-storage05-owner/proposed-readback-plan.json" target="_blank" rel="noopener noreferrer">original physical-offset plan</a> and <code>out/storage05-readback/plan.json</code> remain unchanged as provenance for the completed batch. They are superseded for this observed SPFT mode. The Linux partition geometry and existing firmware manifests are not changed by this host-tool coordinate correction.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

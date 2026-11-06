@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2B-245 — Real screen result and sleep failure - Innioasis Updater</title>
+  <meta name="description" content="Y2B-245 — Real screen result and sleep failure <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "curren">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-y2b245-hardware-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2B-245 — Real screen result and sleep failure - Innioasis Updater">
+  <meta property="og:description" content="Y2B-245 — Real screen result and sleep failure <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "curren">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-knowledge-y2b245-hardware-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2B-245 — Real screen result and sleep failure - Innioasis Updater">
+  <meta name="twitter:description" content="Y2B-245 — Real screen result and sleep failure <!-- knowledge-base-scope: retained-research-/-scoped-evidence -- Historical record. The dates, candidate identity, "curren">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2B-245 — Real screen result and sleep failure</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2b-245--real-screen-result-and-sleep-failure">Y2B-245 — Real screen result and sleep failure</h1>
+<!-- knowledge-base-scope: retained-research-/-scoped-evidence -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<blockquote><p>Historical failed iteration. The owner subsequently reports <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm1-runtime-hardware-result.md">successful periodic PID1 execution</a>; retain the -38 screen below as the evidence that led to the time32 fix.</p></blockquote>
+<p>Owner-reported hardware evidence, recorded 2026-09-08 in <a href="https://github.com/SchulzCode/Y2Linux/issues/20#issuecomment-5592238984" target="_blank" rel="noopener noreferrer">#20</a>:</p>
+<pre><code class="language-text">WDT: STOPPED
+FB: GUARD OK
+PID1: 1
+BEAT: 0
+STAGE: STOP: SLEEP ERROR
+PROC MOUNT RC: 0
+SYSFS MOUNT RC: 0
+LAST ERR: SLEEP -38
+SLEEP RC: -38</code></pre>
+<p>This is a real device report, not the synthetic screen preview. It confirms Linux 6.18 reaches initramfs PID1, the guarded inherited framebuffer text renderer works, and proc/sysfs mounts return success. The displayed watchdog/guard status records checks at the successful frame write. No completed sleep, increasing heartbeat/frame sequence, timer accuracy or additional runtime fields are claimed. M1&#x27;s Linux-plus-PID1 objective remains achieved; periodic execution is unproven. No new flash/restore chronology or stock verification is inferred from this report.</p>
+<h2 id="focused-cause-missing-time32-abi-not-posix-timers">Focused cause: missing time32 ABI, not POSIX timers</h2>
+<p>Audited local upstream v6.18 (<code>7d0a66e4bb9081d75c82ec4957c50034cb0ea449</code>):</p>
+<ul><li><code>arch/arm/tools/syscall.tbl:179</code>: syscall 162 uses <code>sys_nanosleep_time32</code>.</li><li><code>kernel/time/hrtimer.c:2204</code>: that implementation is gated by<p><code>CONFIG_COMPAT_32BIT_TIME</code> and calls <code>hrtimer_nanosleep</code> with CLOCK_MONOTONIC.</p></li><li><code>kernel/sys_ni.c:337</code>: <code>COND_SYSCALL(nanosleep_time32)</code> provides the weak fallback.</li><li><code>arch/Kconfig:1466</code>: time32 is a visible bool; allnoconfig disables it despite<p>its normal 32-bit default. It is independent of <code>CONFIG_POSIX_TIMERS</code>.</p></li></ul>
+<p>The tested <code>out/m1-y2b245-diagnostics/kernel.config</code> disables both options. Actual ELF <code>sys_call_table[162] = 0xc00309a8</code>, identical to <code>sys_ni_syscall</code> and weak <code>sys_nanosleep_time32</code>. This explains the immediate -38 / ENOSYS without requiring a timer, UART or framebuffer redesign. Existing mocked syscall tests validated error handling but could not detect a missing kernel implementation.</p>
+<p><a href="https://github.com/SchulzCode/Y2Linux/issues/21" target="_blank" rel="noopener noreferrer">Y2B-250 #21</a> adds only <code>CONFIG_COMPAT_32BIT_TIME=y</code> to the kernel fragment. POSIX_TIMERS stays disabled. The new validator inspects the real linked table and rejects an ENOSYS target or weak fallback, including when config text incorrectly claims support. D08, CPU0, watchdog, framebuffer, PID1 source and loader packaging are unchanged.</p>
+<p>The fix still needs a device test: real syscall presence does not independently prove timer interrupts/wakeup. The current task prepares a new offline candidate; it does not authorize flashing it or beginning M2.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

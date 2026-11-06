@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2E-110 — Reconcile stock scatter and runtime partition metadata - Innioasis Updater</title>
+  <meta name="description" content="Y2E-110 — Reconcile stock scatter and runtime partition metadata <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate iden">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-110.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2E-110 — Reconcile stock scatter and runtime partition metadata - Innioasis Updater">
+  <meta property="og:description" content="Y2E-110 — Reconcile stock scatter and runtime partition metadata <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate iden">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-planning-issues-y2e-110.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2E-110 — Reconcile stock scatter and runtime partition metadata - Innioasis Updater">
+  <meta name="twitter:description" content="Y2E-110 — Reconcile stock scatter and runtime partition metadata <!-- knowledge-base-scope: historical-issue-specification -- Historical record. The dates, candidate iden">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2E-110 — Reconcile stock scatter and runtime partition metadata</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2e-110--reconcile-stock-scatter-and-runtime-partition-metadata">Y2E-110 — Reconcile stock scatter and runtime partition metadata</h1>
+<!-- knowledge-base-scope: historical-issue-specification -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<blockquote><p>Canonical platform research task. Transferred from SchulzCode/Y2PlayerNative#3; the original URL redirects here and preserves history. This task belongs to the research/architecture workstream, not an implementation handoff. The research owner performs and reviews the evidence, then advances only satisfied prerequisites. No <code>state:luna-ready</code> label applies.</p></blockquote>
+<h2 id="goal">Goal</h2>
+<p>Produce a partition map that explicitly reconciles package address conventions with the current device&#x27;s readable metadata.</p>
+<h2 id="why">Why</h2>
+<p>The stock scatter distinguishes linear and physical addresses and eMMC regions. Guessing a block node or offset would invalidate backups and risk later writes.</p>
+<h2 id="dependencies">Dependencies</h2>
+<ul><li>Y2E-101: <a href="https://github.com/SchulzCode/Y2Linux/issues/1" target="_blank" rel="noopener noreferrer">https://github.com/SchulzCode/Y2Linux/issues/1</a> (evidence review required)</li><li>Y2E-105: <a href="https://github.com/SchulzCode/Y2Linux/issues/2" target="_blank" rel="noopener noreferrer">https://github.com/SchulzCode/Y2Linux/issues/2</a> (evidence review required)</li></ul>
+<p>Y2E-101 and Y2E-105 reviewed; authorized non-root target unchanged. Unavailable runtime metadata must remain a blocker, not be replaced by package guesses.</p>
+<h2 id="evidence--assumptions">Evidence / Assumptions</h2>
+<p><code>OriginalFirmware/MT6582_Android_scatter.txt</code> SHA-256: <code>e5fe03e9f3219cc9b5ead27892f2ddb722acc16adce3306d27feb87893cd977e</code>. In this package BOOTIMG is linear <code>0x3180000</code>, physical <code>0x1d80000</code>, size <code>0x1000000</code>; PRELOADER is EMMC_BOOT_1. These values are reference observations, not approved read/write coordinates. <code>reverse/ramdisk/fstab</code> uses vendor /emmc@ aliases and protect partitions.</p>
+<h2 id="scope">Scope</h2>
+<p>Map metadata only, including calibration candidates and unresolved address translation.</p>
+<h2 id="out-of-scope">Out of Scope</h2>
+<p>No dd/cat of block-device contents, block ioctls, mounting, unmounting, filesystem repair, scatter editing, PMT repair, readback or flashing.</p>
+<h2 id="expected-files--components">Expected Files / Components</h2>
+<p><code>docs/knowledge/partition-map.md</code>, <code>docs/knowledge/partition-map.tsv</code>; private raw metadata capture.</p>
+<h2 id="instructions">Instructions</h2>
+<ol><li>Read the exact cataloged scatter as text and reference ramdisk fstab/init mount lines. Include every scatter entry, even non-download, zero-size or sentinel entries.</li><li>With Y2E-105 capture rules, run separately: <code>cat /proc/partitions</code>, <code>cat /proc/dumchar_info</code>, <code>cat /proc/emmc</code>, <code>cat /proc/mounts</code>, <code>ls -l /dev/block</code>, <code>ls -l /dev/block/platform</code>, <code>ls -l /sys/class/block</code>, <code>ls -l /emmc@*</code>. Failure is valid evidence. Follow only the observed platform directories to inspect their by-name symlink listings; no recursive device opens.</li><li>For each observed mmc block/partition name, read only corresponding <code>/sys/class/block/&lt;name&gt;/dev</code>, <code>start</code>, <code>size</code>, and <code>uevent</code> if present. Record permissions and missing files. Treat sysfs block counts as 512-byte sectors; retain raw counts and annotate converted bytes, independently cross-checking another source. Do not equate these with physical-block-size values.</li><li>Table columns: region, scatter name, runtime alias/node and major:minor, linear offset, region-relative physical offset, runtime start/count with units, normalized byte range, package file/hash/type, download flag, mount/use, possible personalized data, confidence/evidence.</li><li>Explicitly discuss MBR/EBR layout versus runtime numbering, eMMC boot hardware regions versus EMMC_USER and SD, the scatter linear/physical offset difference, and FAT/BMTPOOL variable/sentinel semantics. Check normal fixed ranges for overlap and region bounds. Leave unresolved entries UNKNOWN.</li><li>List NVRAM, PRO_INFO, PROTECT_F, PROTECT_S, SECCFG, MISC and any newly observed calibration partitions as candidates for later assessment. Do not assume all contain calibration or that a package&#x27;s SEC_RO replaces device-specific data.</li></ol>
+<h2 id="acceptance-criteria">Acceptance Criteria</h2>
+<ul><li><input type="checkbox" disabled> Every scatter entry is accounted for; address domains and units remain distinct.</li><li><input type="checkbox" disabled> Runtime mappings have direct evidence or explicit missing/conflicting evidence.</li><li><input type="checkbox" disabled> Normal ranges are independently cross-checked; unresolved/sentinel entries are not assigned guessed readback ranges.</li><li><input type="checkbox" disabled> Packaged images are distinguished from full partition lengths and personalized partitions with no supplied image.</li><li><input type="checkbox" disabled> Report concludes whether precise backup coordinates can yet be approved; it contains no executable readback/flash recipe.</li></ul>
+<h2 id="validation">Validation</h2>
+<p>Verify scatter checksum before/after. Cross-check at least BOOTIMG and RECOVERY against two independent available metadata sources; if impossible, record that validation as blocked. Show hex/decimal/sector arithmetic in the report. Verify raw capture checksums, <code>git diff --check</code>, and staged paths.</p>
+<h2 id="expected-artifact">Expected Artifact</h2>
+<p>A reconciled-or-explicitly-blocked partition table and a short list of mapping questions requiring review.</p>
+<h2 id="execution-contract">Execution contract</h2>
+<p>Y2Linux is the canonical home for all platform research, evidence, recovery and Linux bring-up. Y2PlayerNative is reserved for the later Rust/C application. Preserve stable Y2E IDs. Do one task only; no application/kernel implementation, DTS changes, builds, flashing, reboot, boot-mode transitions, installs, adb root/su, remount, property/settings writes, radio toggles, log clearing, register access, guessed ioctls, bus probes, raw partition reads or writes. Read-only shell inspection is allowed only where explicitly listed.</p>
+<p>Use the existing Git author/committer configuration and authenticated GitHub user. Verify with <code>git var GIT_AUTHOR_IDENT</code> and <code>git var GIT_COMMITTER_IDENT</code> before committing; stop if identity is missing or wrong. Never change identity or add model attribution.</p>
+<p>Store raw files under ignored <code>evidence-private/&lt;capture-id&gt;/</code>; commit only reviewed/redacted reports and manifests. Use host UTC time; record device clock separately if available. For every observation record exact command/tool version, capture ID, source/build lineage, local exit status, remote exit status where obtainable, stdout/stderr, size, SHA-256, and outcome COLLECTED/EMPTY/DENIED/UNAVAILABLE/FAILED. Facts use CONFIRMED/INFERRED/UNKNOWN/DISPROVEN with evidence locator, date and task ID. Inspect error text: archived ADB commands returned host exit 0 with remote denial. Do not publish firmware, calibration, serial/MAC identifiers, credentials, pairing data or personal media.</p>
+<h2 id="stop-conditions">Stop Conditions</h2>
+<p>Stop the affected activity and report if identity is missing/wrong, inputs fail integrity checks, device identity differs unexpectedly, the target is ambiguous/offline/unauthorized, a command would mutate device state, or scope requires new tooling/privileges/architectural decisions. Record a bounded denial/missing resource and continue only other explicitly independent observations; never bypass it.</p>
+<h2 id="risk">Risk</h2>
+<p>Low: host documentation/offline analysis and explicitly bounded non-root observations only.</p>
+<h2 id="recovery">Recovery</h2>
+<p>No device mutation is allowed. Missing access is evidence; it does not authorize a privilege or boot change.</p>
+<h2 id="completion-report">Completion Report</h2>
+<p>Report files changed, exact commands and tool versions, validation results, artifact manifest/hashes, provenance/limitations, unexpected findings, unresolved blockers and one suggested next step. Do not implement the suggestion. The research owner must review the evidence before advancing a dependent research task; closing this issue does not pass M0.</p>
+<h2 id="unlocks">Unlocks</h2>
+<p>Evidence review may unlock Y2E-115 research.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

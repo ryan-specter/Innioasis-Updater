@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Executive assessment - Innioasis Updater</title>
+  <meta name="description" content="Executive assessment <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims, next steps and permissions">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2reborn-docs-audit-current-system-01_executive_summary.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Executive assessment - Innioasis Updater">
+  <meta property="og:description" content="Executive assessment <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims, next steps and permissions">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2reborn-docs-audit-current-system-01_executive_summary.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Executive assessment - Innioasis Updater">
+  <meta name="twitter:description" content="Executive assessment <!-- knowledge-base-scope: historical-audit/review -- Historical record. The dates, candidate identity, "current" claims, next steps and permissions">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../post-install/index.html">← All documentation</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Y2Reborn</p><h1>Executive assessment</h1><p class="lumen-lead">Documentation published by SchulzCode/Y2Reborn.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../post-install/index.html">All documentation →</a><a class="lumen-button" href="../post-install/index.html">All documentation</a></div></header><article class="lumen-doc-body"><h1 id="executive-assessment">Executive assessment</h1>
+<!-- knowledge-base-scope: historical-audit/review -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../../CURRENT_REBORN_STATE.md) for the latest physically observed result.
+<p><strong>Keep the architecture; stabilize its integration contracts.</strong> This is a substantial working embedded-platform foundation with a credible application skeleton, not a production-ready music player. The largest problems are specific lifecycle/state/data-integrity defects and unclosed physical qualification—not a need for another framework, another UI rewrite, or more abstraction layers.</p>
+<p>Assessment: platform layering is generally sound; application layering is promising but incompletely enforced; release engineering and validation are behind implementation. Overall <strong>PARTIAL / HIGH confidence</strong>. Public beta or stable claims would be premature. A tightly scoped owner/developer alpha becomes credible after the P0 correctness work and P1 installation, power, persistence and audio evidence gates.</p>
+<h2 id="what-is-genuinely-good">What is genuinely good</h2>
+<p>The boot path fails closed on unexpected storage identity, preserves a rescue environment, distinguishes data initialization from preserving updates, and limits production image targets. Native Linux subsystem use is real: DRM/KMS/Lima, ASoC/ALSA, evdev, cfg80211, HCI/BlueZ, power_supply/regulator/thermal interfaces. These are valuable foundations to retain.</p>
+<p>Reborn has a shared FFmpeg processing path for wired and Bluetooth output, bounded channels, cancellation generations, a single SQLite worker, explicit semantic input, a largely hardware-free presentation layer, atomic session-file replacement, and bounded diagnostic infrastructure. These are inspected implementations, not merely architecture diagrams. See GOOD findings G01–G10 in the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Faudit%2Fcurrent-system%2F13_MASTER_FINDINGS.md">master table</a>.</p>
+<h2 id="the-small-set-of-decisive-problems">The small set of decisive problems</h2>
+<ol><li><strong>Playback lifecycle is not coherent.</strong> <code>Runtime::load</code> probes an exclusive ALSA device before stopping the existing sink; volume, seek and other normal controls call this path. Controls can fail with the old stream still alive, and successful changes rebuild playback. F02.</li><li><strong>The visible queue is not the playing queue.</strong> A worker receives a copied queue, while subsequent UI edits mutate only the model. Repeat-one, duplicates and album selection also have concrete semantic defects. F03/F08.</li><li><strong>The media boundary leaks an AVFrame allocation per decoded source frame.</strong> The caller never frees the moved-from frame shell. A cached-host repeated-decode probe supports the source finding; target growth is unmeasured. F01.</li><li><strong>Every normal nonzero UI crossfade duration can exceed the real ALSA sink&#x27;s block bound.</strong> The UI offers 5/10/15 seconds; overlap is emitted as one block, whereas a 44.1-kHz S16 block is limited to about 2.97 seconds. The 50-ms fake-sink test misses this. F04.</li><li><strong>Persistence success is overstated.</strong> Scanner writes are not acknowledged before successful completion/pruning, corrupt DB recovery is absent, and the entire session/queue is synchronously rewritten every 15 seconds even when unchanged. F05/F06/F07.</li></ol>
+<p>These are fixable integration defects, not grounds for discarding Rust, FFmpeg, SQLite or the current UI boundary.</p>
+<h2 id="claims-that-must-be-narrowed-now">Claims that must be narrowed now</h2>
+<ul><li>Wired production output is <strong>S16_LE stereo at 44.1 kHz</strong>. The AFE exposes S16 at 44.1/48 kHz, and the release profile admits only 44.1 kHz. A 24/96 FLAC is decoded, processed and reduced to the qualified output. S32 hardware output and preserved 24-bit output are <strong>MISSING</strong>, not awaiting only a listening test. F10.</li><li>FFmpeg really is <strong>9.0.1</strong> in the inspected build; its selected codec set is sensible. But the scanner excludes AIFF, APE and WavPack, despite decoder fixtures. F09.</li><li>Gapless has meaningful sample-count/boundary evidence for two synthetic same-rate FLAC files. Universal sample-accurate lossy/mixed-rate/real-device gapless is <strong>UNKNOWN</strong>. F11.</li><li>Bluetooth audio codecs enabled in the inspected image build: <strong>SBC</strong>. AAC, aptX, aptX HD and LDAC are not enabled. Wi-Fi scanning and concurrent adapter power are physically evidenced; association/DHCP/DNS, pairing/A2DP and sustained coexistence are not. F18/F19.</li><li>Older owner power acceptance does not qualify current charger changes, cell-temperature behavior, unattended charging or same-boot deep suspend. GPU01 recorded a genuine CPU3 suspend blocker; a subsequent correction is not equivalent to successful physical resume. F16/F17.</li></ul>
+<h2 id="biggest-entirely-missing-pieces">Biggest entirely missing pieces</h2>
+<p>There is no meaningful wired S32/high-rate AFE implementation, usable EQ band/preset configuration despite the toggle, Reborn AVRCP player/control integration, application-level low-battery shutdown policy, corrupt-library recovery workflow, or public redistribution/compliance bundle. exFAT is absent from the supported SD mounting path. Some are stable-release requirements; some can be explicitly excluded from a truthful alpha. See the missing-functionality matrix in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Faudit%2Fcurrent-system%2F10_RELEASE_GAPS.md">release gaps</a>; do not treat every absent feature as P0.</p>
+<h2 id="release-decision">Release decision</h2>
+<table><thead><tr><th>Dimension</th><th>Current judgment</th></tr></thead><tbody><tr><td>Installation/recovery</td><td>Strong owner tooling; public install/update instructions and artifact contract still weak.</td></tr><tr><td>Core audio/controls</td><td>Blocking lifecycle, queue, crossfade and memory defects.</td></tr><tr><td>Library/persistence</td><td>Useful baseline; failure handling and large-library behavior insufficient.</td></tr><tr><td>UI</td><td>Redesignable without replacing services, but several displayed/action semantics are wrong.</td></tr><tr><td>Connectivity</td><td>Native stack exists; peer/network qualification open.</td></tr><tr><td>Power</td><td>Conservative mechanisms exist; safety and current regression evidence incomplete.</td></tr><tr><td>Diagnostics</td><td>Useful and appropriately bounded; some counters/status claims need correction.</td></tr><tr><td>Licensing/reproducibility</td><td>Private owner build path is much stronger than public redistribution path.</td></tr></tbody></table>
+<h2 id="top-10-things-already-goodkeep-stable">Top 10 things already good—keep stable</h2>
+<ol><li>Fail-closed root/data identity and rescue selection (G01).</li><li>Protected partition policy and preserve-data package concept (G02).</li><li>Standard Linux hardware subsystem ownership (G03).</li><li>Real Lima/GBM/EGL/GLES2/KMS rendering path (G04).</li><li>One FFmpeg decode/processing authority across outputs (G05).</li><li>Single SQLite writer with transactional batches and stable source/path IDs (G06).</li><li>Semantic physical-input boundary and power-only screen wake policy (G07).</li><li>Presentation/service separation and typed actions/effects (G08).</li><li>Atomic state-file replacement primitive (G09).</li><li>Bounded logs/control/diagnostics and private calibration handling (G10).</li></ol>
+<h2 id="top-10-problems-deserving-the-next-development-effort">Top 10 problems deserving the next development effort</h2>
+<ol><li>Audio sink ownership and live control transitions (F02).</li><li>Queue identity, live mutation, repeat and collection playback (F03/F08).</li><li>Native media allocation lifetime (F01).</li><li>Crossfade delivery bounds and transition fault behavior (F04).</li><li>DB write acknowledgement, safe scan completion and corruption recovery (F05/F07).</li><li>Session checkpoint cadence, size and restore diagnostics (F06).</li><li>End-to-end audio correctness tests, seek/gapless/RG and physical baseline (F11/F12).</li><li>Current power/suspend safety and regression evidence (F16/F17).</li><li>Reproducible paired artifacts, truthful manifests and public install/legal package (F13/F14/F15).</li><li>Real Wi-Fi/Bluetooth use and reconnect/control integration (F18/F19).</li></ol>
+<p>This ordering is decision support, not approval to perform it. The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Reborn%2Fblob%2Fmain%2Fdocs%2Faudit%2Fcurrent-system%2F12_PRIORITY_ROADMAP.md">priority roadmap</a> gives exit criteria and explicit scope gates.</p></article><p class="lumen-doc-footer-note">These are Y2Reborn's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn">SchulzCode/Y2Reborn</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=SchulzCode%2FY2Reborn&amp;software=schulzcode-y2reborn" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3ASchulzCode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

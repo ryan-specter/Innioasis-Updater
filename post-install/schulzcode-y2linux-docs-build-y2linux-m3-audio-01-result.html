@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M3-AUDIO-01 integrated candidate — offline result - Innioasis Updater</title>
+  <meta name="description" content="M3-AUDIO-01 integrated candidate — offline result <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "cur">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m3-audio-01-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M3-AUDIO-01 integrated candidate — offline result - Innioasis Updater">
+  <meta property="og:description" content="M3-AUDIO-01 integrated candidate — offline result <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "cur">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m3-audio-01-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M3-AUDIO-01 integrated candidate — offline result - Innioasis Updater">
+  <meta name="twitter:description" content="M3-AUDIO-01 integrated candidate — offline result <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "cur">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M3-AUDIO-01 integrated candidate — offline result</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m3-audio-01-integrated-candidate--offline-result">M3-AUDIO-01 integrated candidate — offline result</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p><strong>Historical build result.</strong> AUDIO-01 was deployed and exposed a PCM notification bug. AUDIO-02 fixes it and now has clean44.1kHz physical playback. See the <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm3-audio-01-live-result.md">current audio result</a>. The original artifact hashes and offline status below describe packaging time only.</p>
+<p>2026-09-10. <strong>PASS offline; physical M3 audio remains untested.</strong> Owner manual BOOTIMG-only deployment is the next boundary. No device flash, reboot, raw codec or PMIC write, reconnect experiment or Y2PlayerNative implementation occurred.</p>
+<p>Qualified DEV-02 baseline <code>d76e57f</code>; current source commit is the Git revision containing this result and the implementation. Final output <code>result.json</code> records that exact Git HEAD after commit; <code>source-manifest.json</code> hashes only the changed source delta against DEV-02. No complete donor/kernel/ROM hash pass was repeated.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm3-audio-architecture.md">Architecture/source review</a> · <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fy2linux-m3-audio-01-deployment.md">Exact deployment and first commands</a> · <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/evidence/y2linux-m3-audio-01/" target="_blank" rel="noopener noreferrer">Retained validation</a> · <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/hardware-evidence/2026-09-10-m3-entry/" target="_blank" rel="noopener noreferrer">Physical entry evidence</a>.</p>
+<p>Output: <code>/home/luca/Dokumente/Code/Y2Linux/out/y2linux-m3-audio-01/</code>. Kernel <code>6.18.0-y2linux-m3audio01</code>, Buildroot2025.02.17, ALSA utilities1.2.13.</p>
+<table><thead><tr><th>Artifact</th><th style="text-align:right">Bytes</th><th>SHA256</th></tr></thead><tbody><tr><td>BOOTIMG.img</td><td style="text-align:right">4816896</td><td><code>126243845ef3ecdc5ac81f654e8ef0d09d2782dbce48117a4c5b65a8b0d5f92e</code></td></tr><tr><td>rootfs.ext4</td><td style="text-align:right">536870912</td><td><code>742bf915ec74cd2f5bc8c5a8f5be40eff8d2c5d5b1b12fb881c84c59e9bd4610</code></td></tr><tr><td>rootfs.tar</td><td style="text-align:right">23296000</td><td><code>732c10ad77f58867c434bc53dd870a39f089c4eb836d7cf1f540498b3adad3c3</code></td></tr></tbody></table>
+<p>ALSA card <strong>Y2Audio</strong>, PCM0 <strong>Y2 Headphone Playback</strong>, endpoint <code>hw:CARD=Y2Audio,DEV=0</code>; initially stereo S16_LE at44100/48000Hz. DL1-&gt;O00/O01-&gt; CON3-&gt;upstream CS43131, VGP2 regulator1.8V, ordered GPIO20/18/15. SpeakerGPIO8 held low; headphone disabled until manually enabled. Master207=-24dB, generated three-second WAV=-30dBFS with fades. No speaker/jack/high-resolution acceptance.</p>
+<h2 id="validation-actually-performed">Validation actually performed</h2>
+<p>One clean kernel tree and one fresh Buildroot tree; in-place fixes for Linux6.18 API differences and reviewed allocation/shutdown behavior. Final kernel compile has no warnings/errors. Historical failed compilation diagnostics remain in the complete compressed log. Buildroot completed, including ALSA/libdrm test utilities. A harmless missing documentation formatter in a host dependency was ignored by that upstream build; it did not affect installed artifacts.</p>
+<p>All <strong>13 targeted tests passed</strong>, covering production trigger/IRQ fault injection, 32-bit DMA/ring boundaries, both rate codes, CCF preservation of adjacent SD fields, actual PWRAP masks/failures, resolved audio DT mutations, preserved RAM and eMMC protections, rescue isolation, I2C combined transfers and ARM ABI. Cortex-A7 QEMU runs pass the ABI check and aplay/amixer version execution. Shell scripts pass target-BusyBox syntax checking. No software test claims real DMA timing, I2S pads or analog sound.</p>
+<p>Emitted ELF/Image/zImage/module/DT/rescue and BOOTIMG checks pass. Linux bank and all reservations match DEV-02. Before kernel reservations, allocator-described RAM remains997179392bytes (951MiB minus16KiB). Resident kernel span grows from 10626240 to10910080bytes, about277KiB; next-boot actual MemTotal must be recorded, not forced to equal DEV-02&#x27;s954660KiB. Four CPUs/HIGHMEM/core config stay enabled. BOOTIMG is below the16MiB partition limit, including validated LK read padding.</p>
+<p>Both rootfs tar and512MiB ext4 contents pass checks; read-only e2fsck passes. ELF ABI, key permissions/policy, matching module, aplay/amixer/speaker-test/evtest, fixture formats/duration/peaks and no mixer auto-restore are checked. SSH host keys are not generated into the image; the owner&#x27;s authorized public key is retained. <strong>Existing removable SD content needs an offline update</strong> from rootfs.tar, preserving its persistent SSH keys. No partitioning/formatting is required.</p>
+<h2 id="boundary-audit-and-actual-physical-status">Boundary audit and actual physical status</h2>
+<p>Rechecked current coverage against DEV-02 physical evidence and explicit owner M3 authorization. Core SD/SSH/initial USB, four CPUs/expanded RAM, visible display, wheel/buttons and PMIC/core buses retain their narrow physical acceptance. M3 source/build readiness advances, <strong>physical audio does not</strong>. #29 stays open and active. #27 reconnect remains explicitly deferred under #28 for later whole- platform qualification. #30 full power, #31 connectivity and #32 GPU/final platform work precede Y2PlayerNative. No older research task reopens qualified core acceptance. After owner deployment, classify A–G failures by layer and require clean audible output plus stable DMA/IRQ/CON3/power and repeated start/stop/rates.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M2-USBACM-01 — ready for owner enumeration test - Innioasis Updater</title>
+  <meta name="description" content="M2-USBACM-01 — ready for owner enumeration test <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "curre">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-usbacm-01-result.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="M2-USBACM-01 — ready for owner enumeration test - Innioasis Updater">
+  <meta property="og:description" content="M2-USBACM-01 — ready for owner enumeration test <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "curre">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-m2-usbacm-01-result.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="M2-USBACM-01 — ready for owner enumeration test - Innioasis Updater">
+  <meta name="twitter:description" content="M2-USBACM-01 — ready for owner enumeration test <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "curre">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>M2-USBACM-01 — ready for owner enumeration test</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="m2-usbacm-01--ready-for-owner-enumeration-test">M2-USBACM-01 — ready for owner enumeration test</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<blockquote><p>Subsequent <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usbacm-hardware-result.md">owner photograph</a> shows successful unplugged-start PHY wake, then US:2 RC:-16 from a live PWRAP poll. No enumeration result. The original handoff below is retained as history; M2-USBACM-02 adds the missing failed-poll evidence.</p></blockquote>
+<p>2026-09-09, baseline <code>d9c2c98</code>, #23/#27 under active M2 #28. <strong>Offline validated; no physical device operation or enumeration result.</strong></p>
+<p><code>/home/luca/Dokumente/Code/Y2Linux/out/m2-usbacm-01/BOOTIMG.img</code></p>
+<p><strong>1,159,168 bytes</strong>; SHA-256: <code>d2d1f8cbbaa23ffcbdeddb317db7a8e62bc21deca9ebebc564c9b55a5590aedd</code>.</p>
+<p>Screen/build <strong>M2-USBACM-01</strong>, Linux <strong>6.18.0-y2-m2-usbacm1</strong>. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usb-enumeration.md">Hardware/software contract</a>, <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fusb-log-capture.md">host capture procedure</a>.</p>
+<h2 id="combined-attempt">Combined attempt</h2>
+<p>This replaces the proposed extra USBGUARD-only test with one guarded attempt at controller/session ownership → upstream MUSB peripheral PIO → one g_serial CDC ACM → retained kernel/PID1 and live heartbeat logs. The CHRDET result already answered the immediate presence question. It did not establish that the PHY&#x27;s connected-start state can be recovered; the candidate therefore starts unplugged.</p>
+<p>The initial wake guard remains unchanged. Once it passes, the screen asks for attachment. Fresh supply/clock/PHY/DMA checks gate the exact LK/FM digital device-session sequence. FIFO readback gates connection. The original screen snapshot and signed failure stage remain available if any step refuses/fails. No PMIC writes, host VBUS sourcing, analog calibration writes or DMA transfer. This is an enumeration <strong>attempt</strong>, not a promise of hardware success.</p>
+<h2 id="validation">Validation</h2>
+<ul><li>One clean pinned Linux 6.18/Clang 20.1.8 candidate build; no compiler warnings<p>or errors. <strong>23 full-suite methods</strong>, **one additional linked-syscall mutation method<strong>, and </strong>eight observation methods** pass. This includes 30 QEMU ARM PID1 paths, production session/takeover guards, 49 existing wake scenarios, and host/ARM relay fault, partial-write, overflow and replay cases.</p></li><li>The complete real-artifact corruption suite rejects changed USB IRQ polarity,<p>host mode and PIO configuration as well as the existing D08/package faults. Linked MUSB/EP0/ACM/serial implementations and ARM mknod14/lseek19/ioctl54 are present, not ENOSYS; sleep162 still resolves to nanosleep_time32. No linked USB DMA engine, host setup or sibling MediaTek adapter. Resolved USB/selected dependency configuration and exact experimental DT node pass validation.</p></li><li>Linked access review retains the PHY6c/6d-only byte-store callback, DEVCTL<p>SESSION/HR suppression, error-dependent SOFTCONN gate, MAC interrupt widths/ W1C path, second eight-channel inactive-DMA sample, bounded worker and IRQ cutoff. Source hashes match the built diagnostic/relay sources. This is an offline software/access check; FIFO/IRQ/USB electrical behavior awaits hardware.</p></li><li>D08 still describes 24MiB+512KiB, CPU0 only. Kernel resident span, decompressor<p>workspace and initramfs remain within its unchanged limits; no RAM expansion. Initramfs gzip 9175 bytes. Complete LK read-tail and 16MiB BOOTIMG bounds pass. See <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-usbacm-01-layout.json" target="_blank" rel="noopener noreferrer">layout</a> and <a href="https://github.com/schulzcode/y2linux/blob/HEAD/docs/build/results/m2-usbacm-01-iteration.json" target="_blank" rel="noopener noreferrer">iteration record</a>.</p></li><li>Output retains config/ELFs/build/test logs, focused disassembly, source snapshot,<p>input lock, hashes and host capture tooling. No duplicate successful build or repeated unchanged Linux/ROM/recovery provenance audit.</p></li></ul>
+<h2 id="owner-test--stop-here">Owner test — stop here</h2>
+<ol><li>Use the established <strong>BOOTIMG-only</strong> procedure for this exact image. Start the<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fusb-log-capture.md">host capture tool</a> before the test boot.</p></li><li>Power on <strong>with USB unplugged</strong>. At <code>ATTACH USB CABLE NOW</code>, attach the data<p>cable to this Linux PC promptly and leave it connected.</p></li><li>Expected success: <code>US:6 RC:0</code>, increasing USB IRQs, <code>USB CONFIGURED</code>, a host<p>ttyACM port and a capture beginning <code>Y2LOG1 M2-USBACM-01</code>, followed by retained kernel/PID1 messages and increasing beats. A stage5/ready stage alone is not proof.</p></li><li>Keep the original <strong>60 seconds from power-on</strong> limit and manual BOOTIMG<p>restoration boundary. USB disconnects at the 50s active-window deadline or first detach/error; do not reconnect during this initial experiment.</p></li><li>Return <code>out/m2-usbacm-01/capture-01/</code> and same-boot screen photos if practical,<p>near BEAT 10 and late in the window. If USB fails, photograph the complete screen including US/RC/IRQ/D, CHR/PW/CLK, LAST ERR and bottom raw/wake rows. Note cable timing and any freeze/reset; do not extend the test window.</p></li></ol>
+<p>Retained untested diagnostic fallback: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fm2-usbguard-01-result.md">M2-USBGUARD-01</a>. Its connected-start test is optional follow-up evidence, not required before this unplugged-start attempt. The hardware-tested CHRDET image remains retained; its connected-start refusal is documented, not a successful connected wake.</p>
+<p>#23/#27/#28 remain open. Physical enumeration, log continuity, late-open/no-reader and controller reconnect qualification are still outstanding. M1 stays complete; M2 exit criteria are unchanged, and M3/audio/Y2PlayerNative remain deferred.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

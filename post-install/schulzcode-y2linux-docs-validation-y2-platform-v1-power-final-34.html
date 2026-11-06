@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>POWER-FINAL-34 — all skins shipped, battery level fixed - Innioasis Updater</title>
+  <meta name="description" content="POWER-FINAL-34 — all skins shipped, battery level fixed Status: SEALED, BASELINE 34 2026-10-14; git tag baseline-34 ; awaiting the owner flash. Package out/y2linux-platfo">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-34.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="POWER-FINAL-34 — all skins shipped, battery level fixed - Innioasis Updater">
+  <meta property="og:description" content="POWER-FINAL-34 — all skins shipped, battery level fixed Status: SEALED, BASELINE 34 2026-10-14; git tag baseline-34 ; awaiting the owner flash. Package out/y2linux-platfo">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-platform-v1-power-final-34.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="POWER-FINAL-34 — all skins shipped, battery level fixed - Innioasis Updater">
+  <meta name="twitter:description" content="POWER-FINAL-34 — all skins shipped, battery level fixed Status: SEALED, BASELINE 34 2026-10-14; git tag baseline-34 ; awaiting the owner flash. Package out/y2linux-platfo">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>POWER-FINAL-34 — all skins shipped, battery level fixed</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="power-final-34--all-skins-shipped-battery-level-fixed">POWER-FINAL-34 — all skins shipped, battery level fixed</h1>
+<p>Status: <strong>SEALED, BASELINE 34</strong> (2026-10-14; git tag <code>baseline-34</code>; awaiting the owner flash). Package <code>out/y2linux-platform-v1-power-final-candidate-34/</code> (fallback = 33), receipts <code>out/deep-sleep-final/build34-receipts/</code>. BOOTIMG <code>ee80a82cbc71afbdd80aceaa178bb76b22c757c85ebd7b90daef0b17fb84c30c</code>, Y2ROOT <code>9d3e93c13fe400834fbf098109b6c4c76383bcad184fc71fa4196600d3e9ff6c</code>. Identity: build <code>Y2LINUX-PLATFORM-V1-POWER-FINAL-34</code>, kernel <code>6.18.56-y2linux-platform-v1-power-final-34</code>, root <code>2026.08-platform-v1.64</code>, release <code>1.0.0-platform-v1-power-final-candidate.34</code>; Linux <code>de62fa9</code>, Reborn <code>5b69ef5</code>. Contains 27–33; kernel and platform unchanged from 33 apart from the identity.</p>
+<h2 id="what-34-changes">What 34 changes</h2>
+<table><thead><tr><th>Area</th><th>Change</th></tr></thead><tbody><tr><td>Battery level</td><td>Reborn shows the level again for the platform&#x27;s <code>stock_oam</code> source (hidden since 29: empty battery in Classic, no number in Reborn&#x27;s look). Reborn <code>116f942</code>.</td></tr><tr><td>Skins</td><td>15 shipped in <code>/usr/share/reborn/skins</code>: Classic, Nano Glass, Walkman, Terminal, Winamp, Paper, Big Type, Cassette, Neon Night, Zune, Mini Silver/Pink/Blue/Green/Gold (3.1 MB, OFL fonts, licence texts in legal-info).</td></tr><tr><td>Skin engine</td><td>Font <code>charset: ascii</code>, text <code>case: lower</code> (Zune).</td></tr></tbody></table>
+<h2 id="tests">Tests</h2>
+<p>Reborn 398 tests, clippy clean. On 33, 13 of the skins (as trial copies in <code>Themes</code>) loaded on the device in 87–119 ms each; Zune needs the 34 engine (host preview only). Platform: <code>validate.py</code> PASS, ELF closure 354 PASS, installed ARM PASS (40 modules), privacy clean, inventory 108 packages, container suite <strong>715 OK</strong>.</p>
+<h2 id="owner-checks-after-the-flash">Owner checks after the flash</h2>
+<ol><li>The battery shows a number in Reborn&#x27;s look and a filled battery in Classic.</li><li>Settings → Display → Theme lists 15 skins (the trial copies in Internal Storage <code>Themes/</code> are hidden by the shipped<p>ones and can be deleted); try Zune.</p></li></ol></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

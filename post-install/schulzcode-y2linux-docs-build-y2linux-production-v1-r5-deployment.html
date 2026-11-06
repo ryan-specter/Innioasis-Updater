@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Storage05 production BOOTIMG-only correction - Innioasis Updater</title>
+  <meta name="description" content="Storage05 production BOOTIMG-only correction <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current"">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-production-v1-r5-deployment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Storage05 production BOOTIMG-only correction - Innioasis Updater">
+  <meta property="og:description" content="Storage05 production BOOTIMG-only correction <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current"">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-production-v1-r5-deployment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Storage05 production BOOTIMG-only correction - Innioasis Updater">
+  <meta name="twitter:description" content="Storage05 production BOOTIMG-only correction <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current"">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Storage05 production BOOTIMG-only correction</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="storage05-production-bootimg-only-correction">Storage05 production BOOTIMG-only correction</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p><strong>Physical result: FAILED internal boot.</strong> The owner&#x27;s <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fhardware-evidence%2F2026-09-13-storage05-owner%2FREADME.md">Storage05 photograph</a> shows sector-zero signature0000 and missing root/data after the manual flash. The intended boot result below did not occur. Do not repeat this flash as a fix. No successor image was built; preserve the running device for read-only evidence. The frozen package predates this photo; this report supersedes its pending status.</p>
+<p>One candidate was built. Source commit <code>5401007791dc2d915c95baac31e91fd062c8edc0</code>, Linux <code>6.18.0-y2linux-storage05</code>, release <code>0.1.0-storage.5</code>. Later evidence/test-runner commits do not change its kernel, DT, rescue or image bytes.</p>
+<h2 id="findings-and-correction">Findings and correction</h2>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fhardware-evidence%2F2026-09-13-storage04-live%2FREADME.md">Storage04 ACM</a> proves expected capacity and a successful-looking sector-zero read with signature0000, followed by no partitions and rescue. Physical metadata corruption is unproved. Source execution reproduces one-block CMD25 encoded as a single-block protocol, DMA faults reported with success/4096 transferred bytes, and fatal BusyBox <code>set -i</code> before switch_root. None by itself establishes the physical zero-signature cause. The vendor driver supports AutoCMD23; do not call that silicon facility broken.</p>
+<p>The production host now explicitly sends and checks software SBC/CMD23, preserves count/FUA/tag semantics, uses the correct CMD18/CMD25 protocol for one or many blocks, propagates DMA/command errors, and invalidates failed partition-selection context. Rescue uses a supported exec-failure trap and normal switch_root. Reads keep Linux LBAs without a vendor/scatter offset. Normal writes remain allowed wholly within ANDROID/USRDATA; protected regions and table writes remain refused. The actual Linux 6.18 parser needs no compatibility change for retained stock MBR/EBR metadata. <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fstorage05-mmc-correction.md">Full comparison and limits</a>.</p>
+<h2 id="immutable-artifacts">Immutable artifacts</h2>
+<p>Paths are relative to /home/luca/Dokumente/Code/Y2Linux.</p>
+<table><thead><tr><th>Role</th><th>Path</th><th style="text-align:right">Bytes</th><th>SHA256</th></tr></thead><tbody><tr><td>New BOOTIMG</td><td>out/y2linux-production-v1-r5/BOOTIMG.img</td><td style="text-align:right">5193728</td><td>2af64e0fe0831a038ea681e82b93209bb21360995772a54699b7f0ef6be22efa</td></tr><tr><td>Fallback</td><td>out/y2linux-production-v1-r5/fallback/BOOTIMG-storage04.img</td><td style="text-align:right">5193728</td><td>2f9d27a9d306ef5d49a1378f5063a7178edc18dec777340bf78330a23ac3a4f6</td></tr><tr><td>Existing Y2ROOT, unchanged</td><td>out/y2linux-production-v1-r4/Y2ROOT.img</td><td style="text-align:right">536870912</td><td>814a5b2543931e01cee2eb6f641c3b6e02317bd6308d2d663aea78f618bd554f</td></tr><tr><td>Existing Y2DATA, unchanged</td><td>out/y2linux-production-v1-r4/Y2DATA.img</td><td style="text-align:right">838860800</td><td>01bcf65da1716081707202af074969e21fc1196540cb1de6ca76ef9098d44079</td></tr></tbody></table>
+<p>The sole new payload is BOOTIMG. Both ext4 images pass read-only integrity, label/UUID and content-contract checks. Rootfs stays 2025.02.17-storage.4 and data schema stays 1; matching module remains owned by BOOTIMG. No ext4 rebuild or edit. This validates local flashed-source images, not a fresh on-device readback.</p>
+<p>Stock geometry is unchanged: ANDROID/Y2ROOT starts at sector166912 with1679360 sectors; USRDATA/Y2DATA starts at2104320 with1638400 sectors. MBR/EBR are not rewritten. BOOTIMG remains inside its16777216-byte stock allocation, including LK&#x27;s complete read tail. All 71 hardware DT nodes and reservations match Storage04 except calculated initrd-end; kernel configuration changes only LOCALVERSION.</p>
+<h2 id="spft-selection-prescribed-by-this-package">SPFT selection prescribed by this package</h2>
+<p>Use the already established DA and <strong>Download Only</strong> with out/y2linux-production-v1-r5/MT6582_BOOTIMG_only_scatter.txt. Select <strong>BOOTIMG → out/y2linux-production-v1-r5/BOOTIMG.img only</strong>. Every other row is unchecked and has filename NONE, including PRELOADER, MBR, EBR1, EBR2, UBOOT, ANDROID and USRDATA. No Format or Firmware Upgrade. BOOTIMG physical address is0x1d80000; the stock scatter linear address0x3180000 remains distinct. Do not manually translate addresses or substitute another partition table. The scatter already supplies exact stock values.</p>
+<p>Fallback uses the same scatter and BOOTIMG-only selection with fallback/BOOTIMG-storage04.img. It restores the observed Linux rescue/ACM state; it is not a working internal-root fallback or a full Android restore.</p>
+<h2 id="intended-physical-test--internal-boot-failed">Intended physical test — internal boot failed</h2>
+<p>The requested test was one boot with external SD removed. Intended sequence: sector-zero55aa, mmcblk0p5/p7, verified internal ext4 Y2ROOT/Y2DATA, writable mounts, <code>switching to Buildroot</code>, then <code>Internal system started.</code> on screen. ACM logs can observe this same platform. The existing SSH authorization is preserved; no matching local private client key was present at entry.</p>
+<p><a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fevidence%2Fy2linux-production-v1-r5%2FREADME.md">Offline evidence</a> contains 52 passing regression tests, actual ARM checks, preserved userspace receipt, kernel/artifact validation and eight package rejection cases. Software fixtures and source tests do not prove device contents or physical write preservation. Internal boot acceptance failed in the subsequent owner result; storage #33 stays ACTIVE. No physical assistant write, SPFT execution, new diagnostic firmware or unrelated subsystem work occurred.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

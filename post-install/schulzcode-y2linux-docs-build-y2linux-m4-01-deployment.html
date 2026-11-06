@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2LINUX-M4-01 — integrated power candidate, manual deployment pending - Innioasis Updater</title>
+  <meta name="description" content="Y2LINUX-M4-01 — integrated power candidate, manual deployment pending <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, cand">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m4-01-deployment.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2LINUX-M4-01 — integrated power candidate, manual deployment pending - Innioasis Updater">
+  <meta property="og:description" content="Y2LINUX-M4-01 — integrated power candidate, manual deployment pending <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, cand">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-y2linux-m4-01-deployment.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2LINUX-M4-01 — integrated power candidate, manual deployment pending - Innioasis Updater">
+  <meta name="twitter:description" content="Y2LINUX-M4-01 — integrated power candidate, manual deployment pending <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, cand">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2LINUX-M4-01 — integrated power candidate, manual deployment pending</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-m4-01--integrated-power-candidate-manual-deployment-pending">Y2LINUX-M4-01 — integrated power candidate, manual deployment pending</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>This BOOTIMG retains the physically accepted Storage06 internal boot layout: Y2ROOT on eMMC p5, Y2DATA on p7, existing SSH identity and Buildroot userspace. No rootfs/data update is required. An SD card is optional. This is an M4 test candidate, not completed hardware qualification.</p>
+<p>The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm4-power-platform.md">architecture and source reconciliation</a> records the live baseline, exact register/units/calibration assumptions, vendor references and limitations. The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fplanning%2Froadmap-gap-audit.md">activation audit</a> keeps every physical acceptance gate open. M3&#x27;s period-notification startup correction, commit 137b3f2, is retained.</p>
+<h2 id="implemented-interfaces">Implemented interfaces</h2>
+<table><thead><tr><th>Area</th><th>Candidate behavior</th></tr></thead><tbody><tr><td>PMIC</td><td>One serialized MT6582 PWRAP → regmap → MT6323 MFD; regulator/key/RTC/poweroff plus ADC/charger/backlight children</td></tr><tr><td>Battery</td><td><code>/sys/class/power_supply/BAT0/</code>: present, status, health, voltage_now; configured constant_charge_current/voltage are read-only limits, not measured current</td></tr><tr><td>USB</td><td><code>/sys/class/power_supply/y2-usb-presence/online</code>, CHRDET event and polling</td></tr><tr><td>Charging</td><td>Inhibited. No validated pack thermometry/profile/input policy. Inherited current/CV retained; live baseline 70 mA/4.175 V. No capacity, current_now, battery temp or claimed full-charge detection</td></tr><tr><td>Thermal</td><td><code>thermal_zone*/type</code> = cpu-thermal and pmic-thermal; calibrated temperatures in m°C only with valid own efuses; otherwise unavailable. CPU passive110°C/critical120°C, PMIC critical150°C from BSP</td></tr><tr><td>CPU frequency</td><td>One policy0 for CPUs 0–3:598000/747500/1040000kHz, all 1.15 V; default powersave; no VPROC write or overclock</td></tr><tr><td>Idle / suspend</td><td>Architectural WFI only; <code>mem</code> selects s2idle, <code>freeze</code> also available. No SPM/deep/DRAM power-down; retained eMMC controller/card state</td></tr><tr><td>Wake</td><td>Brief Power key; RTC alarm if valid and armed. USB, wheel and volume are not selected wake sources</td></tr><tr><td>Display / audio</td><td>DRM/panel/backlight PM, ordered ASoC/codec/AFE PM. VGP2 retained1.8 V. Physical repeat playback and resume tests still required</td></tr><tr><td>RTC</td><td><code>/dev/rtc0</code>, standard read/set/alarm APIs; no automatic system/RTC time writes and no RTC spare/boot-state writes</td></tr><tr><td>Reboot / off</td><td>Upstream MediaTek AP watchdog software reset for reboot; MT6323 RTC BBPU/WRTGR power controller for actual poweroff. Charger watchdog is separate and untouched</td></tr></tbody></table>
+<p>Battery voltage uses the MT6323 15-bit1.8 V ADC with hardware4:1 divider and inherited factory trim. There is no claim of independently measured absolute accuracy or external power consumption. PMIC die temperature is not pack temperature. The charger watchdog needs servicing for a future active charging policy; an inhibited charge engine requires no pet/re-enable loop.</p>
+<h2 id="build-and-package">Build and package</h2>
+<p>The <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fevidence%2Fy2linux-m4-01%2FREADME.md">final build receipt</a> records the exact checks and retained logs. Kernel source commit: <code>f2d2ac641ee67cd94cd2c57c9f5201b6e78841fc</code>.</p>
+<p>BOOTIMG: <code>out/y2linux-m4-01/BOOTIMG.img</code>, <strong>5355520 bytes</strong>, SHA256 <code>5b2bdfa784aa790a81cd4c4f495ffcb1bd2dbfd2e26ffa33c0881c67967cb883</code>.</p>
+<p>Rootfs update: <strong>NO</strong>. The unchanged reference image is <code>out/y2linux-production-v1-r4/Y2ROOT.img</code>, SHA256 <code>814a5b2543931e01cee2eb6f641c3b6e02317bd6308d2d663aea78f618bd554f</code>. The running Y2DATA, including its corrected owner SSH authorization, is preserved. Manifest root/data identities describe historical build inputs, not a hash claim about the subsequently mounted live filesystems.</p>
+<p>The reproducible commands, run from the repository root with reviewed clean Git:</p>
+<pre><code class="language-sh">python3 tools/production/build.py --output out/y2linux-m4-01-build --reuse-userspace out/y2linux-production-v1-r4
+python3 tools/production/boot_update.py --build out/y2linux-m4-01-build --base out/y2linux-production-v1-r4 --fallback-package out/y2linux-production-v1-r6 --output out/y2linux-m4-01</code></pre>
+<p>The package contains <code>BOOTIMG.img</code>, <code>MT6582_BOOTIMG_only_scatter.txt</code>, manifest, hashes, and <code>fallback/BOOTIMG-previous.img</code>. The fallback is the working Storage06 BOOTIMG, SHA256 <code>3ba809e44bd9c945c994209d1d93f41fe0da9259a303487dd6ecf49724bf49a8</code>, 5193728bytes. The prior Storage04 rescue image is not the selected fallback.</p>
+<h2 id="owners-exact-manual-deployment">Owner&#x27;s exact manual deployment</h2>
+<ol><li>In <code>out/y2linux-m4-01</code>, verify <code>sha256sum -c SHA256SUMS</code>.</li><li>Use the established SPFT/DA procedure, <strong>Download Only</strong>. Load<p><code>MT6582_BOOTIMG_only_scatter.txt</code> from that directory.</p></li><li>Select <strong>BOOTIMG → BOOTIMG.img only</strong>. All other rows remain unchecked,<p>including PRELOADER, LK/UBOOT, MBR/EBR, ANDROID, USRDATA and NVRAM. Do not select Format or Firmware Upgrade.</p></li><li>Perform the manual BOOTIMG flash and boot normally. Preserve existing<p>Y2ROOT/Y2DATA; no SD image and no rootfs installation are involved.</p></li><li>Keep USB connected for the main qualification. If the candidate cannot boot,<p>use the same BOOTIMG-only selection with <code>fallback/BOOTIMG-previous.img</code>.</p></li></ol>
+<p>The agent stops before deployment. The commands below are for the one physical qualification after the owner reports deployment; they have not been run on the current Storage06 kernel.</p>
+<h2 id="exact-ssh-qualification-sequence">Exact SSH qualification sequence</h2>
+<p>Host terminal, from the repository root:</p>
+<pre><code class="language-sh">y2ssh() { ssh -T -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=yes -i &quot;$HOME/.ssh/y2linux_ed25519&quot; root@10.42.0.1 &quot;$@&quot;; }
+y2ssh &#x27;cat &gt; /tmp/qualify-m4.sh&#x27; &lt; tools/development/qualify-m4.sh
+y2ssh &#x27;sh /tmp/qualify-m4.sh begin&#x27;
+y2ssh &#x27;sh /tmp/qualify-m4.sh audio&#x27;
+y2ssh &#x27;sh /tmp/qualify-m4.sh rtc&#x27;
+y2ssh &#x27;sh /tmp/qualify-m4.sh dvfs&#x27;
+y2ssh &#x27;sh /tmp/qualify-m4.sh idle&#x27;
+y2ssh &#x27;sh /tmp/qualify-m4.sh display&#x27;</code></pre>
+<p><code>begin</code> records boot ID, four CPUs/RAM, exact internal mounts, power/thermal/ clock/regulator state, IRQs and logs in <code>/data/y2linux-m4-01/</code>. It writes a 256 KiB ordinary-file integrity sentinel in Y2DATA; no raw storage or mounted-fs fsck. <code>audio</code> repeats the proven 44.1 kHz stereo fixture at the existing -24 dB mixer setting, with output disabled between plays. Observe clean audible output twice. <code>dvfs</code> refuses load unless both calibrated die zones work and remain below 60°C and battery voltage is at least 3.4 V. These are conservative test-stop thresholds, not asserted battery/SoC protection limits. Each transition runs at most 5 seconds of four CPU loops, checks temperature each second, and restores powersave on exit. Failure is an acceptance result, not permission to bypass a guard.</p>
+<p>Inspect <code>/proc/bus/input/devices</code> from the record. Test each identified event node with <code>y2ssh &#x27;timeout 15 evtest /dev/input/eventN&#x27;</code>, replacing N with the actual Power/navigation/volume/wheel node. Press briefly; do not test emergency long-press shutdown. Observe display/backlight off/on and restored framebuffer without a black-screen or DRM warning.</p>
+<p>Keep USB connected. First suspend uses the Power key alone:</p>
+<pre><code class="language-sh">y2ssh &#x27;sh /tmp/qualify-m4.sh suspend&#x27;
+# Wait about 10 seconds with the display dark, then briefly press Power.
+y2ssh &#x27;sh /tmp/qualify-m4.sh post-resume&#x27;
+y2ssh &#x27;sh /tmp/qualify-m4.sh audio&#x27;</code></pre>
+<p>The original SSH command should return after wake. Boot ID must stay identical; sentinel hash and both ext4 mounts must survive. Inspect PM wake IRQ, dmesg, USB, input and display. An early wake without the intended Power event is a failure to investigate. A USB session failure alone is not proof of reboot; CDC ACM diagnostics and the persistent logs can distinguish it. Do not repeatedly hard-reset a mounted rootfs. No alarm is silently installed as a rescue for the Power test because that would obscure its wake-source result.</p>
+<p>RTC is read-first. If time is valid and no alarm was already configured:</p>
+<pre><code class="language-sh">y2ssh &#x27;sh /tmp/qualify-m4.sh rtc-alarm&#x27;</code></pre>
+<p>It programs only a 15 second alarm through the RTC API and tests a second s2idle entry. Do not press Power during this test. If the RTC was uninitialized, first record its original state, then deliberately set time using the host&#x27;s UTC epoch and the normal API (no raw RTC/PMIC write):</p>
+<pre><code class="language-sh">y2_epoch=$(date -u +%s)
+y2ssh &quot;date -u -s @$y2_epoch; hwclock -w -u; hwclock -r -u&quot;</code></pre>
+<p>Retain an existing alarm; do not clear it just to run the test. Record RTC again after the following reboot to assess persistence. No automatic boot-time write is installed.</p>
+<p>Test a single cable cycle at the end, since the separately deferred USB reconnect issue can lose SSH. This explicitly schedules an orderly reboot after 40 seconds so the recorded observations can be recovered:</p>
+<pre><code class="language-sh">y2ssh &#x27;nohup sh /tmp/qualify-m4.sh cable-reboot &gt; /data/y2linux-m4-01/cable.log 2&gt;&amp;1 &lt; /dev/null &amp;&#x27;
+# Disconnect after about 5 seconds, leave disconnected 10 seconds, reconnect.
+# Wait for the scheduled reboot and normal USB enumeration.
+y2ssh &#x27;cat &gt; /tmp/qualify-m4.sh&#x27; &lt; tools/development/qualify-m4.sh
+y2ssh &#x27;sh /tmp/qualify-m4.sh post-reboot&#x27;
+y2ssh &#x27;cat /data/y2linux-m4-01/cable.log; sh /tmp/qualify-m4.sh rtc&#x27;
+y2ssh &#x27;sh /tmp/qualify-m4.sh audio&#x27;</code></pre>
+<p>The log should show USB ONLINE1→0→1 with STATUS Not charging→Discharging→Not charging. No battery charge-current measurement or charge completion is claimed. If skipping the cable test, use <code>y2ssh &#x27;sh /tmp/qualify-m4.sh reboot&#x27;</code> instead, then reload the <code>/tmp</code> script and run <code>post-reboot</code>. Verify the new boot ID, internal root/data, retained file hash, RTC, display, input and audio.</p>
+<p>Finally test real hardware-off with USB disconnected to distinguish charger insertion/auto-boot behavior from failure to remove power:</p>
+<pre><code class="language-sh">y2ssh &#x27;nohup sh /tmp/qualify-m4.sh poweroff &gt; /data/y2linux-m4-01/poweroff.log 2&gt;&amp;1 &lt; /dev/null &amp;&#x27;
+# Disconnect USB during the 15-second delay. Observe actual hardware-off.
+# Briefly press Power for normal power-on, reconnect USB, then:
+y2ssh &#x27;cat &gt; /tmp/qualify-m4.sh&#x27; &lt; tools/development/qualify-m4.sh
+y2ssh &#x27;sh /tmp/qualify-m4.sh post-reboot&#x27;</code></pre>
+<p>A halted kernel or dark display alone does not prove hardware-off. Record the physical outcome and subsequent normal power-on. No external current draw is invented. Retrieve the software records with:</p>
+<pre><code class="language-sh">y2ssh &#x27;tar -C /data -czf - y2linux-m4-01&#x27; &gt; out/y2linux-m4-01-physical.tgz</code></pre>
+<p>The owner must observe: normal visible boot, clean audio before/after idle and resume, working controls, backlight/panel off/on, sustained suspend followed by the intended wake, safe cable behavior, normal reboot, actual poweroff and subsequent power-on. Missing calibration, charging inhibit, shallow retention and any failed hardware test remain explicit M4 limitations; driver probe alone does not close the milestone.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

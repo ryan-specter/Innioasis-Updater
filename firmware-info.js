@@ -21,6 +21,19 @@
   var repo = "";
   var params = new URLSearchParams(window.location.search);
 
+  /* Updater CE installs only what slidia_manifest.xml lists. A project that is
+     present in the feeds but has no manifest entry keeps its README, its guide
+     and its own rom.zip, but it must not offer an Updater CE route: the app
+     would have no package to install. */
+  var MANIFEST_SOURCES = [
+    "https://raw.githubusercontent.com/y1-community/Innioasis-Updater/main/slidia_manifest.xml",
+    "slidia_manifest.xml",
+    "../slidia_manifest.xml",
+    "/slidia_manifest.xml",
+    "https://innioasis.app/slidia_manifest.xml"
+  ];
+  var listedReposPromise = null;
+
   function docs() {
     if (!D && window.InnioasisDocs) D = window.InnioasisDocs;
     return D;
@@ -140,7 +153,7 @@
         buttons.push('<a class="lumen-button lumen-button--primary" href="' + escapeHtml(relative(primary.guide)) + '">Open the ' + escapeHtml(name) + " guide</a>");
       }
       var directory = "firmware.html" + (primary.slug ? "?model=" + encodeURIComponent(primary.model || "") + "&software=" + encodeURIComponent(primary.slug) : "");
-      buttons.push('<a class="lumen-button" href="' + escapeHtml(relative(directory)) + '">Install with Updater CE</a>');
+      buttons.push('<a class="lumen-button" href="' + escapeHtml(relative(directory)) + '" data-updater-ce>Install with Updater CE</a>');
       if (primary.benefits) {
         buttons.push('<a class="lumen-button" href="' + escapeHtml(relative(primary.benefits)) + '">Why ' + escapeHtml(name) + "?</a>");
       }
@@ -150,6 +163,59 @@
       }
       actions.innerHTML = buttons.join("");
     }
+  }
+
+  /* The repositories an active <package> in the manifest names, lowercased.
+     Resolves null when no copy of the manifest could be read, so a blocked
+     network never hides a button that a listed project should have. */
+  function fetchManifestText() {
+    var index = 0;
+    function attempt() {
+      if (index >= MANIFEST_SOURCES.length) return Promise.resolve("");
+      var url = MANIFEST_SOURCES[index++];
+      return fetch(url, { cache: "no-cache" })
+        .then(function (response) {
+          if (!response.ok) throw new Error("HTTP " + response.status);
+          return response.text();
+        })
+        .catch(function () { return attempt(); });
+    }
+    return attempt();
+  }
+
+  function listedRepos() {
+    if (listedReposPromise) return listedReposPromise;
+    listedReposPromise = fetchManifestText().then(function (text) {
+      if (!text || typeof DOMParser === "undefined") return null;
+      var doc = new DOMParser().parseFromString(text, "application/xml");
+      if (doc.querySelector("parsererror")) return null;
+      var listed = {};
+      Array.prototype.forEach.call(doc.querySelectorAll("package"), function (pkg) {
+        var name = String(pkg.getAttribute("name") || "").trim();
+        var handler = pkg.getAttribute("handler") || "";
+        if (!name || /please update/i.test(name)) return;
+        if (handler && handler !== "Custom Firmware") return;
+        var key = String(pkg.getAttribute("repo") || "").trim().toLowerCase();
+        if (key) listed[key] = true;
+      });
+      return listed;
+    }).catch(function () { return null; });
+    return listedReposPromise;
+  }
+
+  /* Called after the action buttons are painted: a project with no manifest
+     entry loses the Updater CE route, whatever the feeds still publish. */
+  function applyManifestListing() {
+    listedRepos().then(function (listed) {
+      if (!listed) return;
+      if (listed[String(repo || "").toLowerCase()]) return;
+      Array.prototype.forEach.call(
+        document.querySelectorAll("[data-updater-ce]"),
+        function (button) {
+          if (button.parentNode) button.parentNode.removeChild(button);
+        }
+      );
+    });
   }
 
   /* Static pages sit one folder down, so their links take one ../ step. */
@@ -337,6 +403,7 @@
     var entries = itemsForRepo(repo);
     if (!entries.length && item) entries = [item];
     paintIdentity(entries);
+    applyManifestListing();
     loadStats();
     loadReadme();
   }

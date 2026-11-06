@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Capture Y2 CDC ACM logs - Innioasis Updater</title>
+  <meta name="description" content="Capture Y2 CDC ACM logs <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, next steps a">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-usb-log-capture.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Capture Y2 CDC ACM logs - Innioasis Updater">
+  <meta property="og:description" content="Capture Y2 CDC ACM logs <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, next steps a">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-build-usb-log-capture.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Capture Y2 CDC ACM logs - Innioasis Updater">
+  <meta name="twitter:description" content="Capture Y2 CDC ACM logs <!-- knowledge-base-scope: historical-build/deployment-receipt -- Historical record. The dates, candidate identity, "current" claims, next steps a">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Capture Y2 CDC ACM logs</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="capture-y2-cdc-acm-logs">Capture Y2 CDC ACM logs</h1>
+<!-- knowledge-base-scope: historical-build/deployment-receipt -->
+> **Historical record.** The dates, candidate identity, "current" claims,
+> next steps and permissions below belong to this recorded boundary. See
+> [current state](../CURRENT_PLATFORM_STATE.md) for the latest physically observed result.
+<p>Current integrated candidate: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fm2-baseline-03-result.md">M2-BASELINE-03 handoff</a>. Baseline captures default to 180 seconds; the owner power-on limit is 300 seconds. The older USBACM-04 procedure below retains its historical 60-second boundary. Use its single combined host capture for delayed open, paused reads and one physical cable cycle. It identifies the actual USB tty on each enumeration; never infer the Y2 from ttyACM numbering alone. Run on the real host, outside any private-device sandbox, with permission to open both enumerations.</p>
+<p>For ordinary USBACM-04 logging use <code>usb_log_capture.py --output NEW_DIRECTORY</code>. For a still-running USBACM-03 image add <code>--build M2-USBACM-03</code>; the default header now identifies USBACM-04. All older commands below require that explicit option when using the current tool. Keep each capture in a new directory.</p>
+<p>The USBACM-03 success is already recorded and pushed: 11754 bytes, kernel sequence 0–77, BEAT 1–43 and normal 45-second exit 0. Current session host metadata identifies port 5-2, ttyACM0, 0525:a4a7 and the USBACM-03 manufacturer; host visibility succeeds, but <code>luca</code> lacks tty access (root:uucp 0660, no ACL, no passwordless sudo). Host permission is a separate prerequisite from visibility.</p>
+<h2 id="historical-usbacm-03-capture-procedure">Historical USBACM-03 capture procedure</h2>
+<p>For <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fbuild%2Fm2-usbacm-03-result.md">M2-USBACM-03</a>, Linux host, standard Python 3 only. Run from the repository <strong>before powering on the test image</strong>:</p>
+<pre><code class="language-sh">python3 tools/observation/usb_log_capture.py --output out/m2-usbacm-03/capture-01</code></pre>
+<p>Run on the real host with its <code>/dev</code> and <code>/sys</code>. A sandbox with private device nodes can report no matching device even when the host enumerates the Y2. USBACM-03 has now <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm2-usbacm-hardware-result.md%23usbacm-03-host-enumeration-confirmed&amp;anchor=usbacm-03-host-enumeration-confirmed">enumerated successfully</a>; capture-01 failed on sandbox visibility and capture-02 failed on tty permissions. On this host the port is root:uucp 0660 and luca lacks access. For the next trial, the owner can run this one capture in their terminal, supplying the local sudo password there (not in chat):</p>
+<pre><code class="language-sh">sudo python3 tools/observation/usb_log_capture.py --output out/m2-usbacm-03/capture-03</code></pre>
+<p>This does not change groups, udev rules or global device permissions. It will create root-owned capture files. Keep prior capture directories intact.</p>
+<p>The new output directory must not already exist. The tool waits up to 90s for one USB-backed ttyACM device with g_serial 0525:a4a7 and CDC ACM class/subclass. This host wait does not extend the Y2&#x27;s 60s-from-power-on observation limit. It refuses multiple matches; optionally specify <code>--device /dev/ttyACM0</code> after identifying the correct port. Selection still validates USB identity. No device is flashed, reset, mounted or exported by this tool.</p>
+<p>Boot the Y2 <strong>without the USB cable</strong>. Wait for <code>ATTACH USB CABLE NOW</code>, then attach the data cable to this PC promptly. Leave it attached during this first trial. If the prompt never appears, return a readable full-screen photo, including POLL/PW/V, WACS and G rows if displayed. A failed live PMIC poll can replace the prompt before it is noticed. Do not try connected-start recovery. The old connected-start PHY6a=BE guard remains.</p>
+<p>If enumeration works, the tool opens raw 115200/8N1 without flow control, asserts ACM DTR, sends only <code>LOG1\n</code>, and collects for at most 45s/1MiB. The baud setting is ACM line coding, not a UART wiring requirement. It accepts no shell commands. Capture may end on the candidate&#x27;s 50s active-window disconnect; preserve the usual manual BOOTIMG restoration by 60s from power-on. Do not reconnect during this first trial: controller reconnect is not implemented or qualified yet.</p>
+<p>The host user must already have permission to open the tty. If it fails, retain <code>failure.json</code>; no host group, service or udev rule is changed automatically. Do not substitute an unrelated tty or change permissions globally.</p>
+<p>Return the whole capture directory:</p>
+<ul><li><code>capture.json</code>: USB parent/path, descriptors, identity, start time, byte count,<p>SHA-256, stop reason, LOG1 header check and exit code.</p></li><li><code>raw.bin</code>: exact returned bytes, including native <code>/dev/kmsg</code> records and<p>PID1 startup/heartbeat status. The first line should identify M2-USBACM-03.</p></li><li><code>chunks.jsonl</code>: monotonic receive timing and byte offsets.</li><li><code>failure.json</code>, if enumeration/identity/open failed.</li></ul>
+<p>A valid header and bytes are transport evidence, not automatic M2 qualification. The report always leaves <code>hardware_qualified=false</code>; an evidence review must establish early real kernel messages, increasing PID1 beats, timing, stability and any GAP/ERR markers. If enumeration fails, the stage/error/IRQ/DEVCTL screen and USB host diagnostics locate the failed part of the same combined attempt. Keep one readable full-screen photo near BEAT 10 and another late in that same boot, within 60s, if practical; note power-on and cable-attachment timing.</p>
+<p>The host tool opens only a verified CDC ACM port and writes one log request plus standard line-control operations. It provides log inspection, not ADB or an interactive device shell. Its automated tests use PTYs/fake sysfs exclusively.</p></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+
