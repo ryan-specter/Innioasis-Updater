@@ -1843,7 +1843,6 @@
     now = now || new Date();
     var daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
     var dayOfMonth = now.getDate();
-    var monthSummary = dayOfMonth <= 3 || dayOfMonth > daysInMonth - 3;
     var starts = {
       monthly: new Date(now.getFullYear(), now.getMonth(), 1),
       weekly: new Date(now.getFullYear(), now.getMonth(), now.getDate() - ((now.getDay() + 6) % 7)),
@@ -1872,13 +1871,27 @@
     };
     var scope = null;
     var metScope = null;
-    if (shownBy.monthly >= targets.monthly) {
-      metScope = "monthly";
-    } else if (monthSummary) {
-      scope = "monthly";
-    } else if (shownBy.daily < targets.daily) {
+    var dailyMet = shownBy.daily >= targets.daily;
+    var weeklyMet = shownBy.weekly >= targets.weekly;
+    /* The month's own figure is forced on the first day, when the month has
+       just started, and on the last three days when something came in today.
+       A closing day with no donations falls back to the daily rung, which is
+       measured against today alone. Every other day starts at the daily rung,
+       however much the month has already raised. */
+    var monthSummary = dayOfMonth === 1 ||
+      (dayOfMonth > daysInMonth - 3 && raisedBy.daily > 0);
+    /* A quiet day leads with the daily rung even when the month is already
+       covered, because it is measured against today's donations alone. The
+       month summary only wins on the first day and on closing days that
+       brought something in today. */
+    if (monthSummary) {
+      if (shownBy.monthly >= targets.monthly) metScope = "monthly";
+      else scope = "monthly";
+    } else if (!dailyMet) {
       scope = "daily";
-    } else if (shownBy.weekly < targets.weekly) {
+    } else if (shownBy.monthly >= targets.monthly) {
+      metScope = "monthly";
+    } else if (!weeklyMet) {
       scope = "weekly";
     } else {
       scope = "monthly";
