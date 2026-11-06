@@ -101,15 +101,15 @@
         "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/706122215"
       },
       {
-        "id": 714894051,
+        "id": 715524620,
         "name": "stats.txt",
         "browser_download_url": "https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/stats.txt",
         "size": 2345,
         "download_count": 0,
         "content_type": "text/plain; charset=utf-8",
-        "created_at": "2026-11-05T21:33:34Z",
-        "updated_at": "2026-11-05T21:33:34Z",
-        "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/714894051"
+        "created_at": "2026-11-06T01:47:30Z",
+        "updated_at": "2026-11-06T01:47:31Z",
+        "url": "https://api.github.com/repos/y1-community/y1-ata-rom-mirror/releases/assets/715524620"
       }
     ]
   }

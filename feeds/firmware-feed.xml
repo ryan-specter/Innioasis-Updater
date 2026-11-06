@@ -4,7 +4,7 @@
   <title>Innioasis and Timmkoo firmware releases</title>
   <link rel="alternate" type="text/html" href="https://innioasis.app/firmware-list.html"/>
   <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/firmware-feed.xml"/>
-  <updated>2026-11-06T01:40:01Z</updated>
+  <updated>2026-11-06T08:30:47Z</updated>
   <inni:schema_version>2</inni:schema_version>
   <inni:manifest_url>https://innioasis.app/slidia_manifest.xml</inni:manifest_url>
   <inni:firmware_list_url>https://innioasis.app/firmware-list.html</inni:firmware_list_url>
@@ -61,7 +61,21 @@
         </inni:mirror_asset>
       </inni:release>
     </inni:mirror>
-    <inni:mirror repo="y1-community/rockbox-mirror" source_repo="rockbox-y1/rockbox" updated_at="2026-11-05T13:01:23Z">
+    <inni:mirror repo="y1-community/rockbox-mirror" source_repo="rockbox-y1/rockbox" updated_at="2026-11-06T01:53:54Z">
+      <inni:release tag="stable-v0.6" original_tag="stable-v0.6" mirror_tag="stable-v0.6" release_name="Portable Flashing Package: Rockbox-Y1 v0.6" published_at="2026-10-29T00:51:15Z">
+        <inni:mirror_asset name="rom.zip" tag="stable-v0.6" original_url="" original_size="588795445" mirror_original_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom.zip">
+          <inni:package platform="linux" name="rom-linux.zip" url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom-linux.zip" size="917527419"/>
+          <inni:package platform="macos" name="rom-macos.zip" url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom-macos.zip" size="684116268"/>
+          <inni:package platform="windows" name="rom-windows.zip" url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom-windows.zip" size="768754386"/>
+        </inni:mirror_asset>
+        <inni:mirror_asset name="rom_type_b.zip" tag="stable-v0.6" original_url="" original_size="502333716" mirror_original_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom_type_b.zip">
+          <inni:package platform="linux" name="rom_type_b-linux.zip" url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom_type_b-linux.zip" size="831051835"/>
+          <inni:package platform="macos" name="rom_type_b-macos.zip" url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom_type_b-macos.zip" size="597640691"/>
+          <inni:package platform="windows" name="rom_type_b-windows.zip" url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom_type_b-windows.zip" size="682278802"/>
+        </inni:mirror_asset>
+        <inni:mirror_asset name="update.zip" tag="stable-v0.6" original_url="" original_size="99371269" mirror_original_url="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/update.zip">
+        </inni:mirror_asset>
+      </inni:release>
       <inni:release tag="type-b-base" original_tag="type-b-base" mirror_tag="type-b-base" release_name="Portable Flashing Package: Rockbox-Y1 Base ROM - Type B" published_at="2025-10-09T17:20:14Z">
         <inni:mirror_asset name="rom.zip" tag="type-b-base" original_url="" original_size="399460715" mirror_original_url="https://github.com/y1-community/rockbox-mirror/releases/download/type-b-base/rom.zip">
           <inni:package platform="linux" name="rom-linux.zip" url="https://github.com/y1-community/rockbox-mirror/releases/download/type-b-base/rom-linux.zip" size="786944783"/>
@@ -2647,7 +2661,7 @@
         </inni:mirror_asset>
       </inni:release>
     </inni:mirror>
-    <inni:mirror repo="y1-community/y2player-mirror" source_repo="schulzcode/y2player" updated_at="2026-11-06T01:40:01Z">
+    <inni:mirror repo="y1-community/y2player-mirror" source_repo="schulzcode/y2player" updated_at="2026-11-06T08:30:47Z">
       <inni:release tag="ReleaseV2.3" original_tag="ReleaseV2.3" mirror_tag="ReleaseV2.3" release_name="Portable Flashing Package: Y2Player V2.3" published_at="2026-11-03T16:10:44Z">
         <inni:mirror_asset name="rom_y2-linux.zip" tag="ReleaseV2.3" original_url="" original_size="624788284" mirror_original_url="https://github.com/y1-community/y2player-mirror/releases/download/ReleaseV2.3/rom_y2-linux.zip">
         </inni:mirror_asset>
@@ -16408,7 +16422,7 @@ Adds Spanish language support.
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/recovery.img.gz" title="recovery.img.gz" length="7539047" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/rootfs.ext4.gz" title="rootfs.ext4.gz" length="51358772" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/SHA256SUMS" title="SHA256SUMS" length="945" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/stats.txt" title="stats.txt" length="2254" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/stats.txt" title="stats.txt" length="2926" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/Y2Linux-1.0.0-beta.9.3.15-first-install-linux.zip" title="Y2Linux-1.0.0-beta.9.3.15-first-install-linux.zip" length="454927298" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/Y2Linux-1.0.0-beta.9.3.15-first-install-macos.zip" title="Y2Linux-1.0.0-beta.9.3.15-first-install-macos.zip" length="221516318" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/Y2Linux-1.0.0-beta.9.3.15-first-install-windows.zip" title="Y2Linux-1.0.0-beta.9.3.15-first-install-windows.zip" length="306154218" type="application/zip"/>
@@ -16504,7 +16518,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, Aw
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/recovery.img.gz" title="recovery.img.gz" length="7539312" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/rootfs.ext4.gz" title="rootfs.ext4.gz" length="51333471" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/SHA256SUMS" title="SHA256SUMS" length="945" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/stats.txt" title="stats.txt" length="2253" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/stats.txt" title="stats.txt" length="2924" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/Y2Linux-1.0.0-beta.9.3.13-first-install-linux.zip" title="Y2Linux-1.0.0-beta.9.3.13-first-install-linux.zip" length="454916180" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/Y2Linux-1.0.0-beta.9.3.13-first-install-macos.zip" title="Y2Linux-1.0.0-beta.9.3.13-first-install-macos.zip" length="221505201" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/Y2Linux-1.0.0-beta.9.3.13-first-install-windows.zip" title="Y2Linux-1.0.0-beta.9.3.13-first-install-windows.zip" length="306143100" type="application/zip"/>
@@ -16879,7 +16893,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, Aw
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-95/recovery.img.gz" title="recovery.img.gz" length="7521339" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-95/rootfs.ext4.gz" title="rootfs.ext4.gz" length="42008981" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-95/SHA256SUMS" title="SHA256SUMS" length="939" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-95/stats.txt" title="stats.txt" length="2909" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-95/stats.txt" title="stats.txt" length="2910" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-95/Y2Linux-1.0.0-beta.8.7-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.7-first-install-linux.zip" length="445533788" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-95/Y2Linux-1.0.0-beta.8.7-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.7-first-install-macos.zip" length="212122809" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-95/Y2Linux-1.0.0-beta.8.7-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.7-first-install-windows.zip" length="296760708" type="application/zip"/>
@@ -17154,7 +17168,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-90/recovery.img.gz" title="recovery.img.gz" length="7522486" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-90/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41839924" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-90/SHA256SUMS" title="SHA256SUMS" length="939" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-90/stats.txt" title="stats.txt" length="2909" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-90/stats.txt" title="stats.txt" length="2910" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-90/Y2Linux-1.0.0-beta.8.4-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.4-first-install-linux.zip" length="445346519" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-90/Y2Linux-1.0.0-beta.8.4-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.4-first-install-macos.zip" length="211935540" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-90/Y2Linux-1.0.0-beta.8.4-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.4-first-install-windows.zip" length="296573439" type="application/zip"/>
@@ -17243,7 +17257,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek or 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-89/recovery.img.gz" title="recovery.img.gz" length="7522133" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-89/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41844042" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-89/SHA256SUMS" title="SHA256SUMS" length="939" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-89/stats.txt" title="stats.txt" length="2909" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-89/stats.txt" title="stats.txt" length="2910" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-89/Y2Linux-1.0.0-beta.8.3-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.3-first-install-linux.zip" length="445345997" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-89/Y2Linux-1.0.0-beta.8.3-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.3-first-install-macos.zip" length="211935018" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-89/Y2Linux-1.0.0-beta.8.3-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.3-first-install-windows.zip" length="296572917" type="application/zip"/>
@@ -17333,7 +17347,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek or 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-88/recovery.img.gz" title="recovery.img.gz" length="7519130" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-88/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41826989" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-88/SHA256SUMS" title="SHA256SUMS" length="939" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-88/stats.txt" title="stats.txt" length="2909" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-88/stats.txt" title="stats.txt" length="2910" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-88/Y2Linux-1.0.0-beta.8.2-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.2-first-install-linux.zip" length="445338569" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-88/Y2Linux-1.0.0-beta.8.2-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.2-first-install-macos.zip" length="211927591" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-88/Y2Linux-1.0.0-beta.8.2-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.2-first-install-windows.zip" length="296565489" type="application/zip"/>
@@ -17423,7 +17437,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek or 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-86/recovery.img.gz" title="recovery.img.gz" length="7513218" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-86/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41624239" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-86/SHA256SUMS" title="SHA256SUMS" length="939" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-86/stats.txt" title="stats.txt" length="2909" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-86/stats.txt" title="stats.txt" length="2910" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-86/Y2Linux-1.0.0-beta.8.1-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.1-first-install-linux.zip" length="445322070" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-86/Y2Linux-1.0.0-beta.8.1-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.1-first-install-macos.zip" length="211911092" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-86/Y2Linux-1.0.0-beta.8.1-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.1-first-install-windows.zip" length="296548990" type="application/zip"/>
@@ -17514,7 +17528,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek or 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-75/recovery.img.gz" title="recovery.img.gz" length="7509168" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-75/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41624008" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-75/SHA256SUMS" title="SHA256SUMS" length="939" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-75/stats.txt" title="stats.txt" length="3031" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-75/stats.txt" title="stats.txt" length="3032" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-75/Y2Linux-1.0.0-beta.8.0-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.0-first-install-linux.zip" length="445312839" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-75/Y2Linux-1.0.0-beta.8.0-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.0-first-install-macos.zip" length="211901860" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-75/Y2Linux-1.0.0-beta.8.0-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.0-first-install-windows.zip" length="296539759" type="application/zip"/>
@@ -17605,7 +17619,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek or 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-74/recovery.img.gz" title="recovery.img.gz" length="7509174" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-74/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41597396" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-74/SHA256SUMS" title="SHA256SUMS" length="832" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-74/stats.txt" title="stats.txt" length="2915" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-74/stats.txt" title="stats.txt" length="2916" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-74/Y2Linux-1.0.0-beta.7.11-first-install-linux.zip" title="Y2Linux-1.0.0-beta.7.11-first-install-linux.zip" length="445285584" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-74/Y2Linux-1.0.0-beta.7.11-first-install-macos.zip" title="Y2Linux-1.0.0-beta.7.11-first-install-macos.zip" length="211874604" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-74/Y2Linux-1.0.0-beta.7.11-first-install-windows.zip" title="Y2Linux-1.0.0-beta.7.11-first-install-windows.zip" length="296512504" type="application/zip"/>
@@ -18320,7 +18334,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis or MediaTek. 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-64/recovery.img.gz" title="recovery.img.gz" length="7505973" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-64/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41515281" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-64/SHA256SUMS" title="SHA256SUMS" length="830" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-64/stats.txt" title="stats.txt" length="2909" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-64/stats.txt" title="stats.txt" length="2910" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-64/Y2Linux-1.0.0-beta.7.3-first-install-linux.zip" title="Y2Linux-1.0.0-beta.7.3-first-install-linux.zip" length="445194969" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-64/Y2Linux-1.0.0-beta.7.3-first-install-macos.zip" title="Y2Linux-1.0.0-beta.7.3-first-install-macos.zip" length="211783990" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-64/Y2Linux-1.0.0-beta.7.3-first-install-windows.zip" title="Y2Linux-1.0.0-beta.7.3-first-install-windows.zip" length="296421889" type="application/zip"/>
@@ -18405,7 +18419,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis or MediaTek. 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-63/recovery.img.gz" title="recovery.img.gz" length="7505649" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-63/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41512543" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-63/SHA256SUMS" title="SHA256SUMS" length="830" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-63/stats.txt" title="stats.txt" length="2909" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-63/stats.txt" title="stats.txt" length="2910" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-63/Y2Linux-1.0.0-beta.7.2-first-install-linux.zip" title="Y2Linux-1.0.0-beta.7.2-first-install-linux.zip" length="445197987" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-63/Y2Linux-1.0.0-beta.7.2-first-install-macos.zip" title="Y2Linux-1.0.0-beta.7.2-first-install-macos.zip" length="211787009" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-63/Y2Linux-1.0.0-beta.7.2-first-install-windows.zip" title="Y2Linux-1.0.0-beta.7.2-first-install-windows.zip" length="296424907" type="application/zip"/>
@@ -18495,7 +18509,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis or MediaTek. 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-62/recovery.img.gz" title="recovery.img.gz" length="7506007" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-62/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41489971" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-62/SHA256SUMS" title="SHA256SUMS" length="830" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-62/stats.txt" title="stats.txt" length="2909" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-62/stats.txt" title="stats.txt" length="2910" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-62/Y2Linux-1.0.0-beta.7.1-first-install-linux.zip" title="Y2Linux-1.0.0-beta.7.1-first-install-linux.zip" length="445174959" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-62/Y2Linux-1.0.0-beta.7.1-first-install-macos.zip" title="Y2Linux-1.0.0-beta.7.1-first-install-macos.zip" length="211763981" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-62/Y2Linux-1.0.0-beta.7.1-first-install-windows.zip" title="Y2Linux-1.0.0-beta.7.1-first-install-windows.zip" length="296401879" type="application/zip"/>
@@ -18582,7 +18596,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis or MediaTek. 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-61/recovery.img.gz" title="recovery.img.gz" length="7505799" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-61/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41447699" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-61/SHA256SUMS" title="SHA256SUMS" length="826" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-61/stats.txt" title="stats.txt" length="2903" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-61/stats.txt" title="stats.txt" length="2904" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-61/Y2Linux-1.0.0-beta.7-first-install-linux.zip" title="Y2Linux-1.0.0-beta.7-first-install-linux.zip" length="445135578" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-61/Y2Linux-1.0.0-beta.7-first-install-macos.zip" title="Y2Linux-1.0.0-beta.7-first-install-macos.zip" length="211724597" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-61/Y2Linux-1.0.0-beta.7-first-install-windows.zip" title="Y2Linux-1.0.0-beta.7-first-install-windows.zip" length="296362498" type="application/zip"/>
@@ -18672,7 +18686,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis or MediaTek. 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-60/recovery.img.gz" title="recovery.img.gz" length="7505023" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-60/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41444718" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-60/SHA256SUMS" title="SHA256SUMS" length="830" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-60/stats.txt" title="stats.txt" length="2909" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-60/stats.txt" title="stats.txt" length="2910" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-60/Y2Linux-1.0.0-beta.6.3-first-install-linux.zip" title="Y2Linux-1.0.0-beta.6.3-first-install-linux.zip" length="445123650" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-60/Y2Linux-1.0.0-beta.6.3-first-install-macos.zip" title="Y2Linux-1.0.0-beta.6.3-first-install-macos.zip" length="211712672" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-60/Y2Linux-1.0.0-beta.6.3-first-install-windows.zip" title="Y2Linux-1.0.0-beta.6.3-first-install-windows.zip" length="296350570" type="application/zip"/>
@@ -18757,7 +18771,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis or MediaTek. 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-59/recovery.img.gz" title="recovery.img.gz" length="7505170" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-59/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41442052" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-59/SHA256SUMS" title="SHA256SUMS" length="830" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-59/stats.txt" title="stats.txt" length="2909" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-59/stats.txt" title="stats.txt" length="2910" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-59/Y2Linux-1.0.0-beta.6.2-first-install-linux.zip" title="Y2Linux-1.0.0-beta.6.2-first-install-linux.zip" length="445121727" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-59/Y2Linux-1.0.0-beta.6.2-first-install-macos.zip" title="Y2Linux-1.0.0-beta.6.2-first-install-macos.zip" length="211710749" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-59/Y2Linux-1.0.0-beta.6.2-first-install-windows.zip" title="Y2Linux-1.0.0-beta.6.2-first-install-windows.zip" length="296348647" type="application/zip"/>
@@ -18847,7 +18861,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis or MediaTek. 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-58/recovery.img.gz" title="recovery.img.gz" length="7505079" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-58/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41309976" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-58/SHA256SUMS" title="SHA256SUMS" length="830" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-58/stats.txt" title="stats.txt" length="2909" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-58/stats.txt" title="stats.txt" length="2910" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-58/Y2Linux-1.0.0-beta.6.1-first-install-linux.zip" title="Y2Linux-1.0.0-beta.6.1-first-install-linux.zip" length="444995432" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-58/Y2Linux-1.0.0-beta.6.1-first-install-macos.zip" title="Y2Linux-1.0.0-beta.6.1-first-install-macos.zip" length="211584454" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-58/Y2Linux-1.0.0-beta.6.1-first-install-windows.zip" title="Y2Linux-1.0.0-beta.6.1-first-install-windows.zip" length="296222352" type="application/zip"/>
@@ -18933,7 +18947,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis or MediaTek. 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-57/recovery.img.gz" title="recovery.img.gz" length="7505000" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-57/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41310413" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-57/SHA256SUMS" title="SHA256SUMS" length="826" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-57/stats.txt" title="stats.txt" length="2903" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-57/stats.txt" title="stats.txt" length="2904" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-57/Y2Linux-1.0.0-beta.6-first-install-linux.zip" title="Y2Linux-1.0.0-beta.6-first-install-linux.zip" length="444986310" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-57/Y2Linux-1.0.0-beta.6-first-install-macos.zip" title="Y2Linux-1.0.0-beta.6-first-install-macos.zip" length="211575329" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-57/Y2Linux-1.0.0-beta.6-first-install-windows.zip" title="Y2Linux-1.0.0-beta.6-first-install-windows.zip" length="296213230" type="application/zip"/>
@@ -19204,7 +19218,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis or MediaTek. 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-54/recovery.img.gz" title="recovery.img.gz" length="7505330" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-54/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41080074" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-54/SHA256SUMS" title="SHA256SUMS" length="830" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-54/stats.txt" title="stats.txt" length="2909" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-54/stats.txt" title="stats.txt" length="2910" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-54/Y2Linux-1.0.0-beta.4.1-first-install-linux.zip" title="Y2Linux-1.0.0-beta.4.1-first-install-linux.zip" length="444762195" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-54/Y2Linux-1.0.0-beta.4.1-first-install-macos.zip" title="Y2Linux-1.0.0-beta.4.1-first-install-macos.zip" length="211351216" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-54/Y2Linux-1.0.0-beta.4.1-first-install-windows.zip" title="Y2Linux-1.0.0-beta.4.1-first-install-windows.zip" length="295989115" type="application/zip"/>
@@ -19292,7 +19306,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis or MediaTek. 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-53/recovery.img.gz" title="recovery.img.gz" length="7505093" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-53/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41080075" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-53/SHA256SUMS" title="SHA256SUMS" length="826" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-53/stats.txt" title="stats.txt" length="2903" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-53/stats.txt" title="stats.txt" length="2904" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-53/Y2Linux-1.0.0-beta.4-first-install-linux.zip" title="Y2Linux-1.0.0-beta.4-first-install-linux.zip" length="444762501" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-53/Y2Linux-1.0.0-beta.4-first-install-macos.zip" title="Y2Linux-1.0.0-beta.4-first-install-macos.zip" length="211351519" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-53/Y2Linux-1.0.0-beta.4-first-install-windows.zip" title="Y2Linux-1.0.0-beta.4-first-install-windows.zip" length="295989421" type="application/zip"/>
@@ -19381,7 +19395,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis or MediaTek. 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-52/recovery.img.gz" title="recovery.img.gz" length="7505034" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-52/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41012484" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-52/SHA256SUMS" title="SHA256SUMS" length="826" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-52/stats.txt" title="stats.txt" length="3147" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-52/stats.txt" title="stats.txt" length="3148" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-52/Y2Linux-1.0.0-beta.3-first-install-linux.zip" title="Y2Linux-1.0.0-beta.3-first-install-linux.zip" length="444689165" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-52/Y2Linux-1.0.0-beta.3-first-install-macos.zip" title="Y2Linux-1.0.0-beta.3-first-install-macos.zip" length="211278185" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-52/Y2Linux-1.0.0-beta.3-first-install-windows.zip" title="Y2Linux-1.0.0-beta.3-first-install-windows.zip" length="295916085" type="application/zip"/>
@@ -19464,7 +19478,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis or MediaTek. 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-51/recovery.img.gz" title="recovery.img.gz" length="7505246" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-51/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41029511" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-51/SHA256SUMS" title="SHA256SUMS" length="744" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-51/stats.txt" title="stats.txt" length="3031" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-51/stats.txt" title="stats.txt" length="3032" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-51/Y2Linux-1.0.0-beta.2-first-install-linux.zip" title="Y2Linux-1.0.0-beta.2-first-install-linux.zip" length="444711597" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-51/Y2Linux-1.0.0-beta.2-first-install-macos.zip" title="Y2Linux-1.0.0-beta.2-first-install-macos.zip" length="211300616" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-51/Y2Linux-1.0.0-beta.2-first-install-windows.zip" title="Y2Linux-1.0.0-beta.2-first-install-windows.zip" length="295938517" type="application/zip"/>
@@ -19549,7 +19563,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis or MediaTek. 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-50/recovery.img.gz" title="recovery.img.gz" length="7505214" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-50/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41026452" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-50/SHA256SUMS" title="SHA256SUMS" length="744" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-50/stats.txt" title="stats.txt" length="3032" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-50/stats.txt" title="stats.txt" length="3033" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-50/Y2Linux-1.0.0-beta.1-first-install-linux.zip" title="Y2Linux-1.0.0-beta.1-first-install-linux.zip" length="444711272" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-50/Y2Linux-1.0.0-beta.1-first-install-macos.zip" title="Y2Linux-1.0.0-beta.1-first-install-macos.zip" length="211300290" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-50/Y2Linux-1.0.0-beta.1-first-install-windows.zip" title="Y2Linux-1.0.0-beta.1-first-install-windows.zip" length="295938192" type="application/zip"/>
@@ -19633,7 +19647,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis or MediaTek. 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-49/recovery.img.gz" title="recovery.img.gz" length="7505294" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-49/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41025287" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-49/SHA256SUMS" title="SHA256SUMS" length="714" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-49/stats.txt" title="stats.txt" length="3011" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-49/stats.txt" title="stats.txt" length="3012" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-49/Y2Linux-49-first-install-linux.zip" title="Y2Linux-49-first-install-linux.zip" length="444711001" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-49/Y2Linux-49-first-install-macos.zip" title="Y2Linux-49-first-install-macos.zip" length="211300015" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-49/Y2Linux-49-first-install-windows.zip" title="Y2Linux-49-first-install-windows.zip" length="295937921" type="application/zip"/>
@@ -19708,7 +19722,7 @@ Kernel `6.18.56-y2linux-platform-v1-power-final-49`. Developer preview; use at y
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-207/recovery.img.gz" title="recovery.img.gz" length="7539258" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-207/rootfs.ext4.gz" title="rootfs.ext4.gz" length="50776843" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-207/SHA256SUMS" title="SHA256SUMS" length="945" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-207/stats.txt" title="stats.txt" length="3052" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-207/stats.txt" title="stats.txt" length="3054" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-207/Y2Linux-1.0.0-beta.9.2.16-first-install-linux.zip" title="Y2Linux-1.0.0-beta.9.2.16-first-install-linux.zip" length="454348331" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-207/Y2Linux-1.0.0-beta.9.2.16-first-install-macos.zip" title="Y2Linux-1.0.0-beta.9.2.16-first-install-macos.zip" length="220937352" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-207/Y2Linux-1.0.0-beta.9.2.16-first-install-windows.zip" title="Y2Linux-1.0.0-beta.9.2.16-first-install-windows.zip" length="305575251" type="application/zip"/>
@@ -19799,7 +19813,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, Aw
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-206/recovery.img.gz" title="recovery.img.gz" length="7539337" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-206/rootfs.ext4.gz" title="rootfs.ext4.gz" length="50759038" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-206/SHA256SUMS" title="SHA256SUMS" length="945" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-206/stats.txt" title="stats.txt" length="2927" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-206/stats.txt" title="stats.txt" length="2928" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-206/Y2Linux-1.0.0-beta.9.2.15-first-install-linux.zip" title="Y2Linux-1.0.0-beta.9.2.15-first-install-linux.zip" length="454348976" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-206/Y2Linux-1.0.0-beta.9.2.15-first-install-macos.zip" title="Y2Linux-1.0.0-beta.9.2.15-first-install-macos.zip" length="220937996" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-206/Y2Linux-1.0.0-beta.9.2.15-first-install-windows.zip" title="Y2Linux-1.0.0-beta.9.2.15-first-install-windows.zip" length="305575896" type="application/zip"/>
@@ -19887,7 +19901,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, Aw
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-205/recovery.img.gz" title="recovery.img.gz" length="7539381" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-205/rootfs.ext4.gz" title="rootfs.ext4.gz" length="50769612" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-205/SHA256SUMS" title="SHA256SUMS" length="945" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-205/stats.txt" title="stats.txt" length="2927" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-205/stats.txt" title="stats.txt" length="2928" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-205/Y2Linux-1.0.0-beta.9.2.14-first-install-linux.zip" title="Y2Linux-1.0.0-beta.9.2.14-first-install-linux.zip" length="454349861" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-205/Y2Linux-1.0.0-beta.9.2.14-first-install-macos.zip" title="Y2Linux-1.0.0-beta.9.2.14-first-install-macos.zip" length="220938881" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-205/Y2Linux-1.0.0-beta.9.2.14-first-install-windows.zip" title="Y2Linux-1.0.0-beta.9.2.14-first-install-windows.zip" length="305576781" type="application/zip"/>
@@ -19976,7 +19990,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, Aw
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-204/recovery.img.gz" title="recovery.img.gz" length="7539182" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-204/rootfs.ext4.gz" title="rootfs.ext4.gz" length="50763744" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-204/SHA256SUMS" title="SHA256SUMS" length="945" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-204/stats.txt" title="stats.txt" length="2928" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-204/stats.txt" title="stats.txt" length="2929" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-204/Y2Linux-1.0.0-beta.9.2.13-first-install-linux.zip" title="Y2Linux-1.0.0-beta.9.2.13-first-install-linux.zip" length="454349659" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-204/Y2Linux-1.0.0-beta.9.2.13-first-install-macos.zip" title="Y2Linux-1.0.0-beta.9.2.13-first-install-macos.zip" length="220938679" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-204/Y2Linux-1.0.0-beta.9.2.13-first-install-windows.zip" title="Y2Linux-1.0.0-beta.9.2.13-first-install-windows.zip" length="305576579" type="application/zip"/>
@@ -20876,7 +20890,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, Aw
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-191/recovery.img.gz" title="recovery.img.gz" length="7538908" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-191/rootfs.ext4.gz" title="rootfs.ext4.gz" length="50714430" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-191/SHA256SUMS" title="SHA256SUMS" length="939" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-191/stats.txt" title="stats.txt" length="2912" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-191/stats.txt" title="stats.txt" length="2913" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-191/Y2Linux-1.0.0-beta.9.2-first-install-linux.zip" title="Y2Linux-1.0.0-beta.9.2-first-install-linux.zip" length="454290021" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-191/Y2Linux-1.0.0-beta.9.2-first-install-macos.zip" title="Y2Linux-1.0.0-beta.9.2-first-install-macos.zip" length="220879043" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-191/Y2Linux-1.0.0-beta.9.2-first-install-windows.zip" title="Y2Linux-1.0.0-beta.9.2-first-install-windows.zip" length="305516941" type="application/zip"/>
@@ -22309,7 +22323,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-130/recovery.img.gz" title="recovery.img.gz" length="7529502" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-130/rootfs.ext4.gz" title="rootfs.ext4.gz" length="56053953" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-130/SHA256SUMS" title="SHA256SUMS" length="941" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-130/stats.txt" title="stats.txt" length="2916" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-130/stats.txt" title="stats.txt" length="2917" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-130/Y2Linux-1.0.0-beta.8.31-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.31-first-install-linux.zip" length="459622592" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-130/Y2Linux-1.0.0-beta.8.31-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.31-first-install-macos.zip" length="226211613" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-130/Y2Linux-1.0.0-beta.8.31-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.31-first-install-windows.zip" length="310849512" type="application/zip"/>
@@ -22772,7 +22786,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-125/recovery.img.gz" title="recovery.img.gz" length="7529591" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-125/rootfs.ext4.gz" title="rootfs.ext4.gz" length="56009819" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-125/SHA256SUMS" title="SHA256SUMS" length="941" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-125/stats.txt" title="stats.txt" length="2916" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-125/stats.txt" title="stats.txt" length="2917" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-125/Y2Linux-1.0.0-beta.8.26-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.26-first-install-linux.zip" length="459585996" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-125/Y2Linux-1.0.0-beta.8.26-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.26-first-install-macos.zip" length="226175017" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-125/Y2Linux-1.0.0-beta.8.26-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.26-first-install-windows.zip" length="310812916" type="application/zip"/>
@@ -22868,7 +22882,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-124/recovery.img.gz" title="recovery.img.gz" length="7529404" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-124/rootfs.ext4.gz" title="rootfs.ext4.gz" length="56013639" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-124/SHA256SUMS" title="SHA256SUMS" length="941" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-124/stats.txt" title="stats.txt" length="2917" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-124/stats.txt" title="stats.txt" length="2918" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-124/Y2Linux-1.0.0-beta.8.25-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.25-first-install-linux.zip" length="459585416" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-124/Y2Linux-1.0.0-beta.8.25-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.25-first-install-macos.zip" length="226174437" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-124/Y2Linux-1.0.0-beta.8.25-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.25-first-install-windows.zip" length="310812336" type="application/zip"/>
@@ -23049,7 +23063,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-122/recovery.img.gz" title="recovery.img.gz" length="7527796" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-122/rootfs.ext4.gz" title="rootfs.ext4.gz" length="56011595" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-122/SHA256SUMS" title="SHA256SUMS" length="941" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-122/stats.txt" title="stats.txt" length="2915" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-122/stats.txt" title="stats.txt" length="2916" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-122/Y2Linux-1.0.0-beta.8.23-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.23-first-install-linux.zip" length="459587891" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-122/Y2Linux-1.0.0-beta.8.23-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.23-first-install-macos.zip" length="226176912" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-122/Y2Linux-1.0.0-beta.8.23-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.23-first-install-windows.zip" length="310814811" type="application/zip"/>
@@ -23141,7 +23155,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-121/recovery.img.gz" title="recovery.img.gz" length="7526784" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-121/rootfs.ext4.gz" title="rootfs.ext4.gz" length="56014268" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-121/SHA256SUMS" title="SHA256SUMS" length="941" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-121/stats.txt" title="stats.txt" length="2917" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-121/stats.txt" title="stats.txt" length="2918" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-121/Y2Linux-1.0.0-beta.8.22-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.22-first-install-linux.zip" length="459565783" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-121/Y2Linux-1.0.0-beta.8.22-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.22-first-install-macos.zip" length="226154804" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-121/Y2Linux-1.0.0-beta.8.22-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.22-first-install-windows.zip" length="310792703" type="application/zip"/>
@@ -23242,7 +23256,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-120/recovery.img.gz" title="recovery.img.gz" length="7525571" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-120/rootfs.ext4.gz" title="rootfs.ext4.gz" length="56013134" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-120/SHA256SUMS" title="SHA256SUMS" length="941" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-120/stats.txt" title="stats.txt" length="3283" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-120/stats.txt" title="stats.txt" length="3284" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-120/Y2Linux-1.0.0-beta.8.21-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.21-first-install-linux.zip" length="459541196" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-120/Y2Linux-1.0.0-beta.8.21-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.21-first-install-macos.zip" length="226130216" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-120/Y2Linux-1.0.0-beta.8.21-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.21-first-install-windows.zip" length="310768116" type="application/zip"/>
@@ -23334,7 +23348,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-119/recovery.img.gz" title="recovery.img.gz" length="7525656" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-119/rootfs.ext4.gz" title="rootfs.ext4.gz" length="56009482" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-119/SHA256SUMS" title="SHA256SUMS" length="941" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-119/stats.txt" title="stats.txt" length="2917" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-119/stats.txt" title="stats.txt" length="2918" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-119/Y2Linux-1.0.0-beta.8.20-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.20-first-install-linux.zip" length="459540743" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-119/Y2Linux-1.0.0-beta.8.20-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.20-first-install-macos.zip" length="226129763" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-119/Y2Linux-1.0.0-beta.8.20-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.20-first-install-windows.zip" length="310767663" type="application/zip"/>
@@ -23426,7 +23440,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-118/recovery.img.gz" title="recovery.img.gz" length="7525362" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-118/rootfs.ext4.gz" title="rootfs.ext4.gz" length="56010699" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-118/SHA256SUMS" title="SHA256SUMS" length="941" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-118/stats.txt" title="stats.txt" length="2916" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-118/stats.txt" title="stats.txt" length="2917" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-118/Y2Linux-1.0.0-beta.8.19-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.19-first-install-linux.zip" length="459540645" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-118/Y2Linux-1.0.0-beta.8.19-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.19-first-install-macos.zip" length="226129666" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-118/Y2Linux-1.0.0-beta.8.19-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.19-first-install-windows.zip" length="310767565" type="application/zip"/>
@@ -23528,7 +23542,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-114/recovery.img.gz" title="recovery.img.gz" length="7525490" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-114/rootfs.ext4.gz" title="rootfs.ext4.gz" length="55778759" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-114/SHA256SUMS" title="SHA256SUMS" length="941" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-114/stats.txt" title="stats.txt" length="3039" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-114/stats.txt" title="stats.txt" length="3040" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-114/Y2Linux-1.0.0-beta.8.17-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.17-first-install-linux.zip" length="459330670" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-114/Y2Linux-1.0.0-beta.8.17-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.17-first-install-macos.zip" length="225919691" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-114/Y2Linux-1.0.0-beta.8.17-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.17-first-install-windows.zip" length="310557590" type="application/zip"/>
@@ -23626,7 +23640,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-113/recovery.img.gz" title="recovery.img.gz" length="7521670" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-113/rootfs.ext4.gz" title="rootfs.ext4.gz" length="55769421" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-113/SHA256SUMS" title="SHA256SUMS" length="941" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-113/stats.txt" title="stats.txt" length="2917" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-113/stats.txt" title="stats.txt" length="2918" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-113/Y2Linux-1.0.0-beta.8.16-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.16-first-install-linux.zip" length="459311942" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-113/Y2Linux-1.0.0-beta.8.16-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.16-first-install-macos.zip" length="225900963" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-113/Y2Linux-1.0.0-beta.8.16-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.16-first-install-windows.zip" length="310538862" type="application/zip"/>
@@ -23813,7 +23827,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-111/recovery.img.gz" title="recovery.img.gz" length="7521552" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-111/rootfs.ext4.gz" title="rootfs.ext4.gz" length="42059539" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-111/SHA256SUMS" title="SHA256SUMS" length="941" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-111/stats.txt" title="stats.txt" length="2915" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-111/stats.txt" title="stats.txt" length="2916" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-111/Y2Linux-1.0.0-beta.8.14-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.14-first-install-linux.zip" length="445585468" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-111/Y2Linux-1.0.0-beta.8.14-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.14-first-install-macos.zip" length="212174489" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-111/Y2Linux-1.0.0-beta.8.14-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.14-first-install-windows.zip" length="296812388" type="application/zip"/>
@@ -24102,7 +24116,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-106/recovery.img.gz" title="recovery.img.gz" length="7521354" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-106/rootfs.ext4.gz" title="rootfs.ext4.gz" length="42053572" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-106/SHA256SUMS" title="SHA256SUMS" length="941" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-106/stats.txt" title="stats.txt" length="2917" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-106/stats.txt" title="stats.txt" length="2918" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-106/Y2Linux-1.0.0-beta.8.11-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.11-first-install-linux.zip" length="445568729" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-106/Y2Linux-1.0.0-beta.8.11-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.11-first-install-macos.zip" length="212157749" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-106/Y2Linux-1.0.0-beta.8.11-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.11-first-install-windows.zip" length="296795649" type="application/zip"/>
@@ -24193,7 +24207,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-105/recovery.img.gz" title="recovery.img.gz" length="7520790" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-105/rootfs.ext4.gz" title="rootfs.ext4.gz" length="42048725" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-105/SHA256SUMS" title="SHA256SUMS" length="941" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-105/stats.txt" title="stats.txt" length="2918" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-105/stats.txt" title="stats.txt" length="2919" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-105/Y2Linux-1.0.0-beta.8.10-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.10-first-install-linux.zip" length="445570999" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-105/Y2Linux-1.0.0-beta.8.10-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.10-first-install-macos.zip" length="212160019" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-105/Y2Linux-1.0.0-beta.8.10-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.10-first-install-windows.zip" length="296797919" type="application/zip"/>
@@ -24286,7 +24300,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-101/recovery.img.gz" title="recovery.img.gz" length="7521474" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-101/rootfs.ext4.gz" title="rootfs.ext4.gz" length="42041520" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-101/SHA256SUMS" title="SHA256SUMS" length="939" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-101/stats.txt" title="stats.txt" length="2910" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-101/stats.txt" title="stats.txt" length="2911" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-101/Y2Linux-1.0.0-beta.8.8-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.8-first-install-linux.zip" length="445557226" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-101/Y2Linux-1.0.0-beta.8.8-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.8-first-install-macos.zip" length="212146247" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-101/Y2Linux-1.0.0-beta.8.8-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.8-first-install-windows.zip" length="296784146" type="application/zip"/>
@@ -24360,6 +24374,73 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, La
 - [`linux-6.18.56.tar.xz`](https://github.com/SchulzCode/Y2Linux/releases/download/baseline-52/linux-6.18.56.tar.xz) (attached to `baseline-52`), SHA-256 `4633bbda2ab95eaf2a7af4041236451d6759c72e6946265531af4b3aacefbf89`
 
 &lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;Y2Linux-1.0.0-beta.8.8-first-install-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;0aa164383944665947e35c15996b87d1ff1a49c34c02b3597fb8a453ca7c1260&quot;,&quot;size&quot;:445557226,&quot;source_asset&quot;:&quot;Y2Linux-1.0.0-beta.8.8-first-install.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;Y2Linux-1.0.0-beta.8.8-first-install-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;727c913d451f09dffc560ce00f0ead94708b58b1748fca506fffbe221b2dd5af&quot;,&quot;size&quot;:212146247,&quot;source_asset&quot;:&quot;Y2Linux-1.0.0-beta.8.8-first-install.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;Y2Linux-1.0.0-beta.8.8-first-install-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;8692fe527c30f99748bfcade3a44b69efe6edebbd1b0d6a8bb566020b1ead032&quot;,&quot;size&quot;:296784146,&quot;source_asset&quot;:&quot;Y2Linux-1.0.0-beta.8.8-first-install.zip&quot;,&quot;type&quot;:&quot;Stock&quot;}],&quot;built_at&quot;:&quot;2026-11-05T12:08:02Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;ba99b729d8b252fed0b1f8d57fe05db8cb26d142414b3aea009c74ab88530b76&quot;,&quot;original_assets&quot;:[&quot;bootimg.img.gz&quot;,&quot;manifest.json&quot;,&quot;manifest.sig&quot;,&quot;recovery.img.gz&quot;,&quot;rootfs.ext4.gz&quot;,&quot;SHA256SUMS&quot;,&quot;Y2Linux-1.0.0-beta.8.8-first-install.zip&quot;,&quot;Y2Linux-1.0.0-beta.8.8-sources-buildroot-legal-info.tar&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{&quot;SHA256SUMS&quot;:4,&quot;Y2Linux-1.0.0-beta.8.8-first-install-linux.zip&quot;:3,&quot;Y2Linux-1.0.0-beta.8.8-first-install-macos.zip&quot;:3,&quot;Y2Linux-1.0.0-beta.8.8-first-install-windows.zip&quot;:3,&quot;Y2Linux-1.0.0-beta.8.8-first-install.zip&quot;:4,&quot;Y2Linux-1.0.0-beta.8.8-sources-buildroot-legal-info.tar&quot;:4,&quot;bootimg.img.gz&quot;:4,&quot;manifest.json&quot;:4,&quot;manifest.sig&quot;:4,&quot;recovery.img.gz&quot;:4,&quot;rootfs.ext4.gz&quot;:4},&quot;generated_at&quot;:&quot;2026-11-05T12:08:02Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:238499367,&quot;tag&quot;:&quot;2.5.2&quot;}},&quot;v&quot;:11} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/rockbox-mirror/stable-v0.6</id>
+    <updated>2026-11-06T01:52:54Z</updated>
+    <published>2026-11-06T01:52:54Z</published>
+    <title>Portable Flashing Package: Rockbox-Y1 v0.6</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/rockbox-mirror/releases/tag/stable-v0.6"/>
+    <inni:repo>y1-community/rockbox-mirror</inni:repo>
+    <inni:tag_name>stable-v0.6</inni:tag_name>
+    <inni:name>Portable Flashing Package: Rockbox-Y1 v0.6</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rockbox.apk" title="rockbox.apk" length="16537976" type="application/vnd.android.package-archive"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom-linux.zip" title="rom-linux.zip" length="917527419" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom-macos.zip" title="rom-macos.zip" length="684116268" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom-windows.zip" title="rom-windows.zip" length="768754386" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom.zip" title="rom.zip" length="588795445" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom_type_b-linux.zip" title="rom_type_b-linux.zip" length="831051835" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="597640691" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="682278802" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom_type_b.zip" title="rom_type_b.zip" length="502333716" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/stats.txt" title="stats.txt" length="1998" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/update.zip" title="update.zip" length="99371269" type="application/zip"/>
+    <content type="text">&lt;p align=&quot;center&quot;&gt;
+  &lt;a href=&quot;https://innioasis.app/guide.html?repo=rockbox-y1%2Frockbox&amp;amp;tag=stable-v0.6#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rockbox-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+### Downloads
+
+#### Y1 · Type A
+
+&lt;p align=&quot;center&quot;&gt;
+  &lt;a href=&quot;https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom-windows.zip&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rockbox-mirror/main/.mirror-assets/release-button-windows.svg&quot; width=&quot;400&quot; alt=&quot;Download .zip for Windows for Y1 · Type A - x86-64 · portable package&quot;&gt;&lt;/a&gt;
+  &lt;a href=&quot;https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom-linux.zip&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rockbox-mirror/main/.mirror-assets/release-button-linux.svg&quot; width=&quot;400&quot; alt=&quot;Download .zip for Linux for Y1 · Type A - x86-64 · portable package&quot;&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+  &lt;a href=&quot;https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom-macos.zip&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rockbox-mirror/main/.mirror-assets/release-button-macos.svg&quot; width=&quot;400&quot; alt=&quot;Download .zip for macOS 12+ for Y1 · Type A - Intel + Apple silicon&quot;&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+#### Y1 · Type B
+
+&lt;p align=&quot;center&quot;&gt;
+  &lt;a href=&quot;https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom_type_b-windows.zip&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rockbox-mirror/main/.mirror-assets/release-button-windows.svg&quot; width=&quot;400&quot; alt=&quot;Download .zip for Windows for Y1 · Type B - x86-64 · portable package&quot;&gt;&lt;/a&gt;
+  &lt;a href=&quot;https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom_type_b-linux.zip&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rockbox-mirror/main/.mirror-assets/release-button-linux.svg&quot; width=&quot;400&quot; alt=&quot;Download .zip for Linux for Y1 · Type B - x86-64 · portable package&quot;&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+  &lt;a href=&quot;https://github.com/y1-community/rockbox-mirror/releases/download/stable-v0.6/rom_type_b-macos.zip&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rockbox-mirror/main/.mirror-assets/release-button-macos.svg&quot; width=&quot;400&quot; alt=&quot;Download .zip for macOS 12+ for Y1 · Type B - Intel + Apple silicon&quot;&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+---
+
+Since v0.5 most work went into stability updates and merging upstream updates into this fork to keep it up-to-date.
+
+Fork specific changes:
+- Various plugin bug fixes
+- Plugin to turn off the internal speaker (by @Ferrhat)
+- Better support for AirPods (by @Semy0nBu)
+- Switching between Rockbox and Stock (well, a modified better-Y by @Leska1337) without reboot
+- Many new themes! Check them out here: https://github.com/rockbox-y1/themes/releases/tag/for_the_gays_and_the_theys
+
+My work will now fully focus on bringing this fork closer to upstream Rockbox by removing most custom features from the Rockbox code and moving them into a dedicated settings menu. This also means the external apps launcher will come back (and many new things).
+
+If you want to support this project financially, please send your kindness to Partners in Health to fight child mortality in impoverished communities: https://www.pih.org/maternal-center-excellence
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;ee48be1c2fcbb6d4e76dc4b15ba53c09218fa0f8a10e572b9181eebe5cad2c26&quot;,&quot;size&quot;:917527419,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;d2ee1451d9b9898d346646349423d7ca91d5b8c12497a8c10bde8d26abe4334d&quot;,&quot;size&quot;:684116268,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;087f960341c6232ea2636f3c2b848dff47a71126a38c8d28c401f28de5ee5a3d&quot;,&quot;size&quot;:768754386,&quot;source_asset&quot;:&quot;rom.zip&quot;,&quot;type&quot;:&quot;Type A&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;ab85814352152354435dbac82abf68d376421d4af987c630308f40a94ac4bd79&quot;,&quot;size&quot;:831051835,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;e650372b49c17075b58a5895663affe66c5557d684644dff4d9fc94cd2454638&quot;,&quot;size&quot;:597640691,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;},{&quot;model&quot;:&quot;Y1&quot;,&quot;name&quot;:&quot;rom_type_b-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;fd98a53e99ec9bc17e80fbd22bad9a3e0303b30aff5c8712cd41bc44cea1b37e&quot;,&quot;size&quot;:682278802,&quot;source_asset&quot;:&quot;rom_type_b.zip&quot;,&quot;type&quot;:&quot;Type B&quot;}],&quot;built_at&quot;:&quot;2026-11-06T01:52:53Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;d81991cacaf592965d79be8132840d6db80e7ebd8769a350498c17264f9bf600&quot;,&quot;original_assets&quot;:[&quot;rockbox.apk&quot;,&quot;rom.zip&quot;,&quot;rom_type_b.zip&quot;,&quot;update.zip&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{},&quot;generated_at&quot;:&quot;2026-11-06T01:52:53Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:238499367,&quot;tag&quot;:&quot;2.5.2&quot;}},&quot;v&quot;:11} --&gt;
 </content>
   </entry>
   <entry>
@@ -26002,7 +26083,7 @@ The release includes the complete corresponding source, GPL license, and project
     <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.2/rom-windows.zip" title="rom-windows.zip" length="696076886" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.2/rom.zip" title="rom.zip" length="528028371" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.2/rondo-1.0.2.apk" title="rondo-1.0.2.apk" length="6423022" type="application/vnd.android.package-archive"/>
-    <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.2/stats.txt" title="stats.txt" length="2271" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.2/stats.txt" title="stats.txt" length="2272" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.2/updater.png" title="updater.png" length="12952" type="image/png"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=jarvissax%2Frondo&amp;amp;tag=v1.0.2#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rondo-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -31469,7 +31550,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1125/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="560291844" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1125/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="644929971" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1125/rom_type_b.zip" title="rom_type_b.zip" length="406236815" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1125/stats.txt" title="stats.txt" length="2465" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1125/stats.txt" title="stats.txt" length="2466" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260630-1125#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -31551,7 +31632,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1120/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="560299094" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1120/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="644937221" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1120/rom_type_b.zip" title="rom_type_b.zip" length="406224357" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1120/stats.txt" title="stats.txt" length="2465" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1120/stats.txt" title="stats.txt" length="2466" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260630-1120#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -31633,7 +31714,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1110/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="560620543" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1110/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="645258670" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1110/rom_type_b.zip" title="rom_type_b.zip" length="406555908" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1110/stats.txt" title="stats.txt" length="2464" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1110/stats.txt" title="stats.txt" length="2465" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260630-1110#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -31715,7 +31796,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1102/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="565241823" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1102/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="649879949" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1102/rom_type_b.zip" title="rom_type_b.zip" length="411180005" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1102/stats.txt" title="stats.txt" length="2464" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1102/stats.txt" title="stats.txt" length="2465" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260630-1102#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -31797,7 +31878,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1023/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="560306305" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1023/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="644944431" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1023/rom_type_b.zip" title="rom_type_b.zip" length="406239262" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1023/stats.txt" title="stats.txt" length="2463" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1023/stats.txt" title="stats.txt" length="2464" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260630-1023#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -31880,7 +31961,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1005/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="564408397" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1005/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="649046524" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1005/rom_type_b.zip" title="rom_type_b.zip" length="410355530" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1005/stats.txt" title="stats.txt" length="2464" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1005/stats.txt" title="stats.txt" length="2465" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260630-1005#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -31963,7 +32044,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0956/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="561555898" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0956/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="646194026" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0956/rom_type_b.zip" title="rom_type_b.zip" length="407483884" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0956/stats.txt" title="stats.txt" length="2463" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0956/stats.txt" title="stats.txt" length="2464" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260630-0956#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -32046,7 +32127,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0636/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="564384602" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0636/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="649022729" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0636/rom_type_b.zip" title="rom_type_b.zip" length="410330989" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0636/stats.txt" title="stats.txt" length="2464" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0636/stats.txt" title="stats.txt" length="2465" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260630-0636#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -32130,7 +32211,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0550/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="561572175" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0550/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="646210301" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0550/rom_type_b.zip" title="rom_type_b.zip" length="407516967" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0550/stats.txt" title="stats.txt" length="2464" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0550/stats.txt" title="stats.txt" length="2465" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260630-0550#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -32640,7 +32721,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260628-1014/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="561645710" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260628-1014/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="646283838" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260628-1014/rom_type_b.zip" title="rom_type_b.zip" length="407576004" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260628-1014/stats.txt" title="stats.txt" length="2467" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260628-1014/stats.txt" title="stats.txt" length="2470" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260628-1014#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;

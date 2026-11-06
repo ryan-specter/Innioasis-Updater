@@ -68,15 +68,15 @@
         "url": "https://api.github.com/repos/y1-community/koensayr-auto-mirror/releases/assets/706112376"
       },
       {
-        "id": 714896778,
+        "id": 715525805,
         "name": "stats.txt",
         "browser_download_url": "https://github.com/y1-community/koensayr-auto-mirror/releases/download/2.4.0-koensayr-3.0.7/stats.txt",
         "size": 2184,
         "download_count": 0,
         "content_type": "text/plain; charset=utf-8",
-        "created_at": "2026-11-05T21:34:34Z",
-        "updated_at": "2026-11-05T21:34:34Z",
-        "url": "https://api.github.com/repos/y1-community/koensayr-auto-mirror/releases/assets/714896778"
+        "created_at": "2026-11-06T01:48:03Z",
+        "updated_at": "2026-11-06T01:48:03Z",
+        "url": "https://api.github.com/repos/y1-community/koensayr-auto-mirror/releases/assets/715525805"
       }
     ]
   },
@@ -149,15 +149,15 @@
         "url": "https://api.github.com/repos/y1-community/koensayr-auto-mirror/releases/assets/706206861"
       },
       {
-        "id": 714896640,
+        "id": 715525728,
         "name": "stats.txt",
         "browser_download_url": "https://github.com/y1-community/koensayr-auto-mirror/releases/download/2.4.0-koensayr-3.0.2/stats.txt",
         "size": 2184,
         "download_count": 0,
         "content_type": "text/plain; charset=utf-8",
-        "created_at": "2026-11-05T21:34:31Z",
-        "updated_at": "2026-11-05T21:34:32Z",
-        "url": "https://api.github.com/repos/y1-community/koensayr-auto-mirror/releases/assets/714896640"
+        "created_at": "2026-11-06T01:48:01Z",
+        "updated_at": "2026-11-06T01:48:01Z",
+        "url": "https://api.github.com/repos/y1-community/koensayr-auto-mirror/releases/assets/715525728"
       }
     ]
   }
