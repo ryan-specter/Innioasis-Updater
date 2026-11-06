@@ -1297,34 +1297,34 @@
     var MONTHLY_TARGET = 200.0;
     var WEEKLY_TARGET = MONTHLY_TARGET / 4;
     var DAILY_TARGET = MONTHLY_TARGET / 20;
-    // The slow weekdays (Tuesday, Wednesday, Saturday) are the days the $10
-    // rung is meant to carry; a day still short of $9.99 names today on every
-    // weekday, and a paid day climbs to the week/month choice.
-    var DAILY_REACHED = 9.99;
-    var WEEK_MONTH_SHARE = 0.5;
-    var MONTHLY_BOOST_USD = 60.0;
-    var MONTHLY_BOOST_SHARE = 0.8;
+    /* The ladder is written in the currency the reader sees: a £50 weekly goal
+       is reached at £50, however many dollars that is today. Currencies whose
+       unit sits close to the dollar (euro, pound, franc, Canadian and
+       Australian dollars, the dollar pegs) use those same round rungs. An
+       inflated, non-decimal or far-pegged currency keeps the dollar ladder
+       converted at the live rate, because "10 of them" would be a few pence. */
+    var LADDER_COMPACT_MIN_RATE = 0.5;
+    var LADDER_COMPACT_MAX_RATE = 1.6;
 
-    // One roll per calendar day, kept for the page's lifetime: the bar
-    // re-renders after each donation fetch, and the week/month choice must not
-    // flip under the reader every few seconds.
-    var fundingGoalRolls = window.__innioasisFundingGoalRolls ||
-      (window.__innioasisFundingGoalRolls = {});
-
-    function fundingGoalRoll(now) {
-      var key = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate();
-      if (!Object.prototype.hasOwnProperty.call(fundingGoalRolls, key)) {
-        fundingGoalRolls[key] = Math.random();
+    function fundingTargets(code) {
+      code = String(code || "USD").toUpperCase();
+      var rate = fxRate(code);
+      if (!FX_ZERO[code] && rate >= LADDER_COMPACT_MIN_RATE && rate <= LADDER_COMPACT_MAX_RATE) {
+        return { daily: DAILY_TARGET, weekly: WEEKLY_TARGET, monthly: MONTHLY_TARGET, compact: true };
       }
-      return fundingGoalRolls[key];
+      return {
+        daily: fxGoal(DAILY_TARGET, code),
+        weekly: fxGoal(WEEKLY_TARGET, code),
+        monthly: fxGoal(MONTHLY_TARGET, code),
+        compact: false
+      };
     }
 
-    function fundingGoalView(donations, monthTotal, now, monthlyRoll) {
+    function fundingGoalView(donations, monthTotal, now) {
       now = now || new Date();
       var daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
       var dayOfMonth = now.getDate();
       var monthSummary = dayOfMonth <= 3 || dayOfMonth > daysInMonth - 3;
-      var targets = { monthly: MONTHLY_TARGET, weekly: WEEKLY_TARGET, daily: DAILY_TARGET };
       var starts = {
         monthly: new Date(now.getFullYear(), now.getMonth(), 1),
         weekly: new Date(now.getFullYear(), now.getMonth(), now.getDate() - ((now.getDay() + 6) % 7)),
@@ -1341,23 +1341,29 @@
       }
       var monthRaised = Math.max(monthTotal || 0, raisedSince(starts.monthly));
       var raisedBy = { monthly: monthRaised, weekly: raisedSince(starts.weekly), daily: raisedSince(starts.daily) };
-      var rollingRaised = raisedSince(starts.rolling);
+      var code = detectCurrencyCode();
+      var targets = fundingTargets(code);
+      /* Compare the figures the reader can see. Converting the rungs to
+         dollars instead let a £37.27 week count as "target met" while the
+         page promised a £50 one, so UK and euro readers lost it early. */
+      var shownBy = {
+        monthly: fxLocal(raisedBy.monthly, code),
+        weekly: fxLocal(raisedBy.weekly, code),
+        daily: fxLocal(raisedBy.daily, code)
+      };
       var scope = null;
       var metScope = null;
-      if (monthRaised >= MONTHLY_TARGET) {
+      if (shownBy.monthly >= targets.monthly) {
         metScope = "monthly";
       } else if (monthSummary) {
         scope = "monthly";
-      } else if (raisedBy.daily < DAILY_REACHED) {
+      } else if (shownBy.daily < targets.daily) {
         scope = "daily";
-      } else if (raisedBy.weekly >= WEEKLY_TARGET) {
-        scope = "monthly";
+      } else if (shownBy.weekly < targets.weekly) {
+        scope = "weekly";
       } else {
-        var roll = (typeof monthlyRoll === "number") ? monthlyRoll : fundingGoalRoll(now);
-        var monthlyShare = rollingRaised >= MONTHLY_BOOST_USD ? MONTHLY_BOOST_SHARE : WEEK_MONTH_SHARE;
-        scope = roll < monthlyShare ? "monthly" : "weekly";
+        scope = "monthly";
       }
-      var code = detectCurrencyCode();
       var symbol = fxSymbol(code);
       if (!scope) {
         return {
@@ -1366,9 +1372,9 @@
         };
       }
       var usdRaised = raisedBy[scope];
-      var usdTarget = targets[scope];
-      var shownRaised = fxLocal(usdRaised, code);
-      var shownTarget = fxGoal(usdTarget, code);
+      var shownRaised = shownBy[scope];
+      var shownTarget = targets[scope];
+      var usdTarget = fxRate(code) > 0 ? shownTarget / fxRate(code) : 0;
       var words = { monthly: "month", weekly: "week", daily: "day" };
       var adjectives = { monthly: "monthly", weekly: "weekly", daily: "daily" };
       var phrases = { monthly: "this month", weekly: "this week", daily: "today" };
@@ -1498,7 +1504,7 @@
             donorItems.push(sH + ' contributed ' + aH + ' for free by sharing 100MB on <a href="' + METHOD_URLS["honeygain"] + '" target="_blank" rel="noopener noreferrer">Honeygain</a>' + tP);
           } else if (cKind) {
             var coffees = Math.max(1, Math.round(absVal));
-            var cWord = (coffees === 1 ? "a coffee" : coffees + " coffees");
+            var cWord = (coffees === 1 ? "a coffee" : coffees + " coffees") + (cKind === "kofi" ? " on Ko-Fi" : "");
             var cHTML = '<a href="' + tUrl + '" target="_blank" rel="noopener noreferrer"><strong>' + cWord + '</strong></a>';
             donorItems.push(sH + " bought us " + cHTML + tP);
           } else {
