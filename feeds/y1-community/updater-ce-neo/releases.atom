@@ -13,7 +13,7 @@
     <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/updater-ce-neo/releases/tag/2.5.2"/>
     <innioasis:tag_name>2.5.2</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.2/UpdaterCE-Windows-Portable.zip" title="UpdaterCE-Windows-Portable.zip" length="238499367" type="application/x-zip-compressed" innioasis:download_count="177" innioasis:asset_id="712510139"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/updater-ce-neo/releases/download/2.5.2/UpdaterCE-Windows-Portable.zip" title="UpdaterCE-Windows-Portable.zip" length="238499367" type="application/x-zip-compressed" innioasis:download_count="180" innioasis:asset_id="712510139"/>
     <content type="text">In this release changes include:
 
 Keep Settings and Media - Retains your player&#x27;s settings and personal files/media where the firmware you&#x27;re installing is compatible with your existing firmware*
