@@ -13,9 +13,9 @@
     <link rel="alternate" type="text/html" href="https://github.com/ryan-specter/Innioasis-Updater/releases/tag/2.0.7"/>
     <innioasis:tag_name>2.0.7</innioasis:tag_name>
     <innioasis:prerelease>false</innioasis:prerelease>
-    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="154209498" type="application/x-diskcopy" innioasis:download_count="245" innioasis:asset_id="689639023"/>
-    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/installer.exe" title="installer.exe" length="173282764" type="application/x-msdownload" innioasis:download_count="651" innioasis:asset_id="688792855"/>
-    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/UpdaterCE.AppImage" title="UpdaterCE.AppImage" length="300337656" type="application/octet-stream" innioasis:download_count="169" innioasis:asset_id="688949138"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="154209498" type="application/x-diskcopy" innioasis:download_count="258" innioasis:asset_id="689639023"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/installer.exe" title="installer.exe" length="173282764" type="application/x-msdownload" innioasis:download_count="678" innioasis:asset_id="688792855"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.7/UpdaterCE.AppImage" title="UpdaterCE.AppImage" length="300337656" type="application/octet-stream" innioasis:download_count="180" innioasis:asset_id="688949138"/>
     <content type="text">New rewritten Updater with features including:
 
 
@@ -36,7 +36,7 @@
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.6/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="665" innioasis:asset_id="608063290"/>
     <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.6/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="34" innioasis:asset_id="666644030"/>
-    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.6/run_linux.sh" title="run_linux.sh" length="87903" type="text/x-shellscript" innioasis:download_count="454" innioasis:asset_id="608063931"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.6/run_linux.sh" title="run_linux.sh" length="87903" type="text/x-shellscript" innioasis:download_count="455" innioasis:asset_id="608063931"/>
     <content type="text">This release of Innioasis Updater CE (Community Edition) improves reliability of SP Flash Tool and MTKclient installs, especially on Linux and Mac systems.
 
 If after installing this update you still have issues installing on one of those platforms, please power off and restart your computer, and if that doesn&#x27;t get things going, please file at issue at github.com/y1-community/innioasis-updater/issues.
@@ -55,7 +55,7 @@ Ryan - Maintainer of Updater CE.</content>
     <innioasis:prerelease>false</innioasis:prerelease>
     <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.5/Innioasis.Updater.for.Mac.dmg" title="Innioasis.Updater.for.Mac.dmg" length="1389069" type="application/octet-stream" innioasis:download_count="351" innioasis:asset_id="584600767"/>
     <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.5/installer.exe" title="installer.exe" length="264870688" type="application/x-msdownload" innioasis:download_count="933" innioasis:asset_id="584600685"/>
-    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.5/run_linux.sh" title="run_linux.sh" length="88880" type="text/x-shellscript" innioasis:download_count="225" innioasis:asset_id="584601397"/>
+    <link rel="enclosure" href="https://github.com/ryan-specter/Innioasis-Updater/releases/download/2.0.5/run_linux.sh" title="run_linux.sh" length="88880" type="text/x-shellscript" innioasis:download_count="226" innioasis:asset_id="584601397"/>
     <content type="text">This release of Innioasis Updater CE (Community Edition) improves reliability of SP Flash Tool and MTKclient installs, especially on Linux and Mac systems. 
 
 If after installing this update you still have issues installing on one of those platforms, please power off and restart your computer, and if that doesn&#x27;t get things going, please file at issue at github.com/y1-community/innioasis-updater/issues.

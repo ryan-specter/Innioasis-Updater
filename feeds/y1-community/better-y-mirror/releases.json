@@ -68,15 +68,15 @@
         "url": "https://api.github.com/repos/y1-community/better-y-mirror/releases/assets/706111766"
       },
       {
-        "id": 713179288,
+        "id": 714894982,
         "name": "stats.txt",
         "browser_download_url": "https://github.com/y1-community/better-y-mirror/releases/download/v1.1.0/stats.txt",
-        "size": 2157,
+        "size": 2158,
         "download_count": 0,
         "content_type": "text/plain; charset=utf-8",
-        "created_at": "2026-11-05T11:30:53Z",
-        "updated_at": "2026-11-05T11:30:53Z",
-        "url": "https://api.github.com/repos/y1-community/better-y-mirror/releases/assets/713179288"
+        "created_at": "2026-11-05T21:33:55Z",
+        "updated_at": "2026-11-05T21:33:56Z",
+        "url": "https://api.github.com/repos/y1-community/better-y-mirror/releases/assets/714894982"
       }
     ]
   },
@@ -138,15 +138,15 @@
         "url": "https://api.github.com/repos/y1-community/better-y-mirror/releases/assets/706208031"
       },
       {
-        "id": 713175831,
+        "id": 714894870,
         "name": "stats.txt",
         "browser_download_url": "https://github.com/y1-community/better-y-mirror/releases/download/v1.0.0/stats.txt",
         "size": 2033,
         "download_count": 0,
         "content_type": "text/plain; charset=utf-8",
-        "created_at": "2026-11-05T11:29:31Z",
-        "updated_at": "2026-11-05T11:29:32Z",
-        "url": "https://api.github.com/repos/y1-community/better-y-mirror/releases/assets/713175831"
+        "created_at": "2026-11-05T21:33:53Z",
+        "updated_at": "2026-11-05T21:33:53Z",
+        "url": "https://api.github.com/repos/y1-community/better-y-mirror/releases/assets/714894870"
       }
     ]
   }

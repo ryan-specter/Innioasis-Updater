@@ -4,7 +4,7 @@
   <title>Innioasis and Timmkoo firmware releases</title>
   <link rel="alternate" type="text/html" href="https://innioasis.app/firmware-list.html"/>
   <link rel="self" type="application/atom+xml" href="https://innioasis.app/feeds/firmware-feed.xml"/>
-  <updated>2026-11-05T20:43:54Z</updated>
+  <updated>2026-11-06T01:40:01Z</updated>
   <inni:schema_version>2</inni:schema_version>
   <inni:manifest_url>https://innioasis.app/slidia_manifest.xml</inni:manifest_url>
   <inni:firmware_list_url>https://innioasis.app/firmware-list.html</inni:firmware_list_url>
@@ -1337,7 +1337,37 @@
         </inni:mirror_asset>
       </inni:release>
     </inni:mirror>
-    <inni:mirror repo="y1-community/y2linux-mirror" source_repo="schulzcode/y2linux" updated_at="2026-11-05T13:14:02Z">
+    <inni:mirror repo="y1-community/y2linux-mirror" source_repo="schulzcode/y2linux" updated_at="2026-11-05T21:39:46Z">
+      <inni:release tag="baseline-223" original_tag="baseline-223" mirror_tag="baseline-223" release_name="Portable Flashing Package: Y2Linux 1.0 Beta 9.3.15" published_at="2026-11-05T16:45:52Z">
+        <inni:mirror_asset name="Y2Linux-1.0.0-beta.9.3.15-first-install.zip" tag="baseline-223" original_url="" original_size="67428062" mirror_original_url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/Y2Linux-1.0.0-beta.9.3.15-first-install.zip">
+          <inni:package platform="linux" name="Y2Linux-1.0.0-beta.9.3.15-first-install-linux.zip" url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/Y2Linux-1.0.0-beta.9.3.15-first-install-linux.zip" size="454927298"/>
+          <inni:package platform="macos" name="Y2Linux-1.0.0-beta.9.3.15-first-install-macos.zip" url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/Y2Linux-1.0.0-beta.9.3.15-first-install-macos.zip" size="221516318"/>
+          <inni:package platform="windows" name="Y2Linux-1.0.0-beta.9.3.15-first-install-windows.zip" url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/Y2Linux-1.0.0-beta.9.3.15-first-install-windows.zip" size="306154218"/>
+        </inni:mirror_asset>
+        <inni:mirror_asset name="bootimg.img.gz" tag="baseline-223" original_url="" original_size="7539026" mirror_original_url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/bootimg.img.gz">
+        </inni:mirror_asset>
+        <inni:mirror_asset name="recovery.img.gz" tag="baseline-223" original_url="" original_size="7539047" mirror_original_url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/recovery.img.gz">
+        </inni:mirror_asset>
+        <inni:mirror_asset name="rootfs.ext4.gz" tag="baseline-223" original_url="" original_size="51358772" mirror_original_url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/rootfs.ext4.gz">
+        </inni:mirror_asset>
+        <inni:mirror_asset name="Y2Linux-1.0.0-beta.9.3.15-sources-buildroot-legal-info.tar" tag="baseline-223" original_url="" original_size="19292160" mirror_original_url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/Y2Linux-1.0.0-beta.9.3.15-sources-buildroot-legal-info.tar">
+        </inni:mirror_asset>
+      </inni:release>
+      <inni:release tag="baseline-221" original_tag="baseline-221" mirror_tag="baseline-221" release_name="Portable Flashing Package: Y2Linux 1.0 Beta 9.3.13" published_at="2026-11-05T14:56:35Z">
+        <inni:mirror_asset name="Y2Linux-1.0.0-beta.9.3.13-first-install.zip" tag="baseline-221" original_url="" original_size="67418385" mirror_original_url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/Y2Linux-1.0.0-beta.9.3.13-first-install.zip">
+          <inni:package platform="linux" name="Y2Linux-1.0.0-beta.9.3.13-first-install-linux.zip" url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/Y2Linux-1.0.0-beta.9.3.13-first-install-linux.zip" size="454916180"/>
+          <inni:package platform="macos" name="Y2Linux-1.0.0-beta.9.3.13-first-install-macos.zip" url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/Y2Linux-1.0.0-beta.9.3.13-first-install-macos.zip" size="221505201"/>
+          <inni:package platform="windows" name="Y2Linux-1.0.0-beta.9.3.13-first-install-windows.zip" url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/Y2Linux-1.0.0-beta.9.3.13-first-install-windows.zip" size="306143100"/>
+        </inni:mirror_asset>
+        <inni:mirror_asset name="bootimg.img.gz" tag="baseline-221" original_url="" original_size="7539304" mirror_original_url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/bootimg.img.gz">
+        </inni:mirror_asset>
+        <inni:mirror_asset name="recovery.img.gz" tag="baseline-221" original_url="" original_size="7539312" mirror_original_url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/recovery.img.gz">
+        </inni:mirror_asset>
+        <inni:mirror_asset name="rootfs.ext4.gz" tag="baseline-221" original_url="" original_size="51333471" mirror_original_url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/rootfs.ext4.gz">
+        </inni:mirror_asset>
+        <inni:mirror_asset name="Y2Linux-1.0.0-beta.9.3.13-sources-buildroot-legal-info.tar" tag="baseline-221" original_url="" original_size="19292160" mirror_original_url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/Y2Linux-1.0.0-beta.9.3.13-sources-buildroot-legal-info.tar">
+        </inni:mirror_asset>
+      </inni:release>
       <inni:release tag="baseline-220" original_tag="baseline-220" mirror_tag="baseline-220" release_name="Portable Flashing Package: Y2Linux 1.0 Beta 9.3.12" published_at="2026-11-04T22:09:54Z">
         <inni:mirror_asset name="Y2Linux-1.0.0-beta.9.3.12-first-install.zip" tag="baseline-220" original_url="" original_size="67418534" mirror_original_url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-220/Y2Linux-1.0.0-beta.9.3.12-first-install.zip">
           <inni:package platform="linux" name="Y2Linux-1.0.0-beta.9.3.12-first-install-linux.zip" url="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-220/Y2Linux-1.0.0-beta.9.3.12-first-install-linux.zip" size="454915671"/>
@@ -2617,7 +2647,7 @@
         </inni:mirror_asset>
       </inni:release>
     </inni:mirror>
-    <inni:mirror repo="y1-community/y2player-mirror" source_repo="schulzcode/y2player" updated_at="2026-11-05T20:43:54Z">
+    <inni:mirror repo="y1-community/y2player-mirror" source_repo="schulzcode/y2player" updated_at="2026-11-06T01:40:01Z">
       <inni:release tag="ReleaseV2.3" original_tag="ReleaseV2.3" mirror_tag="ReleaseV2.3" release_name="Portable Flashing Package: Y2Player V2.3" published_at="2026-11-03T16:10:44Z">
         <inni:mirror_asset name="rom_y2-linux.zip" tag="ReleaseV2.3" original_url="" original_size="624788284" mirror_original_url="https://github.com/y1-community/y2player-mirror/releases/download/ReleaseV2.3/rom_y2-linux.zip">
         </inni:mirror_asset>
@@ -9836,21 +9866,32 @@ Later versions install over this one in a minute, without flashing again, keepin
 The firmware is built with [`firmware/build.sh`](https://github.com/jarvissax/rondo/blob/main/firmware/build.sh) from the y1-community&#x27;s [Android 4.2 base ROM](https://github.com/y1-community/y1-ata-rom) (0.1, Type A). Its scatter file, preloader and flashing files are the base ROM&#x27;s, unchanged.</content>
   </entry>
   <entry>
-    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-0936ff79cff7ee5e47c6278b648d478824e709fa</id>
+    <id>tag:innioasis.app,2026:rockbox-y1/rockbox/stable-v0.6</id>
     <updated>2026-10-29T00:51:15Z</updated>
     <published>2026-10-29T00:51:15Z</published>
-    <title>Rockbox-Y1 Nightly-29-10-2026</title>
-    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/nightly-0936ff79cff7ee5e47c6278b648d478824e709fa"/>
+    <title>Rockbox-Y1 v0.6</title>
+    <link rel="alternate" type="text/html" href="https://github.com/rockbox-y1/rockbox/releases/tag/stable-v0.6"/>
     <inni:repo>rockbox-y1/rockbox</inni:repo>
-    <inni:tag_name>nightly-0936ff79cff7ee5e47c6278b648d478824e709fa</inni:tag_name>
-    <inni:name>Rockbox-Y1 Nightly-29-10-2026</inni:name>
-    <inni:prerelease>true</inni:prerelease>
+    <inni:tag_name>stable-v0.6</inni:tag_name>
+    <inni:name>Rockbox-Y1 v0.6</inni:name>
+    <inni:prerelease>false</inni:prerelease>
     <inni:icon_url>https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png</inni:icon_url>
-    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-0936ff79cff7ee5e47c6278b648d478824e709fa/rockbox.apk" title="rockbox.apk" length="16537976" type="application/vnd.android.package-archive"/>
-    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-0936ff79cff7ee5e47c6278b648d478824e709fa/rom.zip" title="rom.zip" length="588795445" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-0936ff79cff7ee5e47c6278b648d478824e709fa/rom_type_b.zip" title="rom_type_b.zip" length="502333716" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/nightly-0936ff79cff7ee5e47c6278b648d478824e709fa/update.zip" title="update.zip" length="99371269" type="application/zip"/>
-    <content type="text"></content>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.6/rockbox.apk" title="rockbox.apk" length="16537976" type="application/vnd.android.package-archive"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.6/rom.zip" title="rom.zip" length="588795445" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.6/rom_type_b.zip" title="rom_type_b.zip" length="502333716" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/rockbox-y1/rockbox/releases/download/stable-v0.6/update.zip" title="update.zip" length="99371269" type="application/zip"/>
+    <content type="text">Since v0.5 most work went into stability updates and merging upstream updates into this fork to keep it up-to-date.
+
+Fork specific changes:
+- Various plugin bug fixes
+- Plugin to turn off the internal speaker (by @Ferrhat)
+- Better support for AirPods (by @Semy0nBu)
+- Switching between Rockbox and Stock (well, a modified better-Y by @Leska1337) without reboot
+- Many new themes! Check them out here: https://github.com/rockbox-y1/themes/releases/tag/for_the_gays_and_the_theys
+
+My work will now fully focus on bringing this fork closer to upstream Rockbox by removing most custom features from the Rockbox code and moving them into a dedicated settings menu. This also means the external apps launcher will come back (and many new things).
+
+If you want to support this project financially, please send your kindness to Partners in Health to fight child mortality in impoverished communities: https://www.pih.org/maternal-center-excellence</content>
   </entry>
   <entry>
     <id>tag:innioasis.app,2026:rockbox-y1/rockbox/nightly-9c92b93a5d582b3819a119162a14ad0b4178d2cd</id>
@@ -15951,7 +15992,7 @@ Credit to @palutenfan123 for building this.</content>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/rom_y2-macos.zip" title="rom_y2-macos.zip" length="497643708" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/rom_y2-windows.zip" title="rom_y2-windows.zip" length="582281849" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/rom_y2.zip" title="rom_y2.zip" length="355560849" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/stats.txt" title="stats.txt" length="2170" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/stats.txt" title="stats.txt" length="2171" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.1/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=y1-community%2Fy1-stock-rom&amp;amp;tag=3.2.1#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y1-stock-rom-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -15992,7 +16033,7 @@ General performance and stability improvements
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.0-fm/rom_y2-macos.zip" title="rom_y2-macos.zip" length="497644120" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.0-fm/rom_y2-windows.zip" title="rom_y2-windows.zip" length="582282273" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.0-fm/rom_y2.zip" title="rom_y2.zip" length="355558382" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.0-fm/stats.txt" title="stats.txt" length="2292" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.0-fm/stats.txt" title="stats.txt" length="2293" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.0-fm/system.img" title="system.img" length="859826928" type="application/vnd.efi.img"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/3.2.0-fm/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
@@ -16194,7 +16235,7 @@ ADB is currently not enabled on builds newer than 2.1.9. This means that screens
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/2.8.2/rom-macos.zip" title="rom-macos.zip" length="344516331" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/2.8.2/rom-windows.zip" title="rom-windows.zip" length="427353858" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/2.8.2/rom.zip" title="rom.zip" length="234564048" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/2.8.2/stats.txt" title="stats.txt" length="2168" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/2.8.2/stats.txt" title="stats.txt" length="2169" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/2.8.2/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=y1-community%2Fy1-stock-rom&amp;amp;tag=2.8.2#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y1-stock-rom-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -16283,7 +16324,7 @@ Theme Installation: Default themes are now copied in the background to prevent c
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/type-b-1.7.6/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="320917495" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/type-b-1.7.6/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="405555630" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/type-b-1.7.6/rom_type_b.zip" title="rom_type_b.zip" length="176318503" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/type-b-1.7.6/stats.txt" title="stats.txt" length="2175" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/type-b-1.7.6/stats.txt" title="stats.txt" length="2176" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/type-b-1.7.6/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=y1-community%2Fy1-stock-rom&amp;amp;tag=type-b-1.7.6#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y1-stock-rom-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -16325,7 +16366,7 @@ If you installed a firmware update 2.0.0 or newer on your Y1 device and the scro
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/ADB-2.1.9/rom-macos.zip" title="rom-macos.zip" length="325850519" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/ADB-2.1.9/rom-windows.zip" title="rom-windows.zip" length="408688046" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/ADB-2.1.9/rom.zip" title="rom.zip" length="241163025" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/ADB-2.1.9/stats.txt" title="stats.txt" length="2295" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/ADB-2.1.9/stats.txt" title="stats.txt" length="2296" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-stock-rom-mirror/releases/download/ADB-2.1.9/updater.jpg" title="updater.jpg" length="30612" type="image/jpeg"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=y1-community%2Fy1-stock-rom&amp;amp;tag=ADB-2.1.9#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y1-stock-rom-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -16352,6 +16393,196 @@ Adds Spanish language support.
 </content>
   </entry>
   <entry>
+    <id>tag:innioasis.app,2026:y1-community/y2linux-mirror/baseline-223</id>
+    <updated>2026-11-05T21:39:23Z</updated>
+    <published>2026-11-05T21:39:23Z</published>
+    <title>Portable Flashing Package: Y2Linux 1.0 Beta 9.3.15</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y2linux-mirror/releases/tag/baseline-223"/>
+    <inni:repo>y1-community/y2linux-mirror</inni:repo>
+    <inni:tag_name>baseline-223</inni:tag_name>
+    <inni:name>Portable Flashing Package: Y2Linux 1.0 Beta 9.3.15</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/bootimg.img.gz" title="bootimg.img.gz" length="7539026" type="application/gzip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/manifest.json" title="manifest.json" length="4239" type="application/json"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/manifest.sig" title="manifest.sig" length="64" type="application/pgp-signature"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/recovery.img.gz" title="recovery.img.gz" length="7539047" type="application/gzip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/rootfs.ext4.gz" title="rootfs.ext4.gz" length="51358772" type="application/gzip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/SHA256SUMS" title="SHA256SUMS" length="945" type="application/octet-stream"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/stats.txt" title="stats.txt" length="2254" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/Y2Linux-1.0.0-beta.9.3.15-first-install-linux.zip" title="Y2Linux-1.0.0-beta.9.3.15-first-install-linux.zip" length="454927298" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/Y2Linux-1.0.0-beta.9.3.15-first-install-macos.zip" title="Y2Linux-1.0.0-beta.9.3.15-first-install-macos.zip" length="221516318" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/Y2Linux-1.0.0-beta.9.3.15-first-install-windows.zip" title="Y2Linux-1.0.0-beta.9.3.15-first-install-windows.zip" length="306154218" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/Y2Linux-1.0.0-beta.9.3.15-first-install.zip" title="Y2Linux-1.0.0-beta.9.3.15-first-install.zip" length="67428062" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/Y2Linux-1.0.0-beta.9.3.15-sources-buildroot-legal-info.tar" title="Y2Linux-1.0.0-beta.9.3.15-sources-buildroot-legal-info.tar" length="19292160" type="application/x-tar"/>
+    <content type="text">&lt;p align=&quot;center&quot;&gt;
+  &lt;a href=&quot;https://innioasis.app/guide.html?repo=schulzcode%2Fy2linux&amp;amp;tag=baseline-223#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y2linux-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+### Downloads
+
+**Y2 · Stock**
+
+&lt;p align=&quot;center&quot;&gt;
+  &lt;a href=&quot;https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/Y2Linux-1.0.0-beta.9.3.15-first-install-windows.zip&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y2linux-mirror/main/.mirror-assets/release-button-windows.svg&quot; width=&quot;400&quot; alt=&quot;Download .zip for Windows for Y2 · Stock - x86-64 · portable package&quot;&gt;&lt;/a&gt;
+  &lt;a href=&quot;https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/Y2Linux-1.0.0-beta.9.3.15-first-install-linux.zip&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y2linux-mirror/main/.mirror-assets/release-button-linux.svg&quot; width=&quot;400&quot; alt=&quot;Download .zip for Linux for Y2 · Stock - x86-64 · portable package&quot;&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+  &lt;a href=&quot;https://github.com/y1-community/y2linux-mirror/releases/download/baseline-223/Y2Linux-1.0.0-beta.9.3.15-first-install-macos.zip&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y2linux-mirror/main/.mirror-assets/release-button-macos.svg&quot; width=&quot;400&quot; alt=&quot;Download .zip for macOS 12+ for Y2 · Stock - Intel + Apple silicon&quot;&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+---
+
+**Y2Linux 1.0 Beta 9.3.15: the Quick Menu.** Linux 6.18 and the native Reborn music player for the Innioasis Y2.
+
+![The Quick Menu on the player](https://raw.githubusercontent.com/SchulzCode/Y2Linux/main/docs/images/reborn-quick-menu.png)
+
+## Already running Y2Linux
+Settings → System → Software Update → **Update Now** (on Beta 9.2.8 and older: Settings → About &amp; Updates → Check for Updates → **Update Now**).
+
+## What changed
+**Hold Power on any screen and the Quick Menu opens** (#85): Wi-Fi and Bluetooth on or off, the screen&#x27;s brightness, the sleep timer, Restart and Power Off, without going into Settings.
+
+- A panel of tiles in the middle of the screen; it grows in over the dimmed screen and the focus glides from tile to tile as you turn the wheel. Let go of Power and it stays; Back or a short press of Power closes it.
+- **Brightness:** Select, turn the wheel, Select. **Wi-Fi / Bluetooth:** Select switches them; the tile is coloured while on. **Restart / Power Off** act at once.
+- **Still turns off when held:** keep holding Power and a ring fills around Power Off; the player turns off after about 4 s (it was 2 s).
+- Every skin shows the panel in its own colours.
+
+Before release: the platform&#x27;s full check, Reborn&#x27;s workspace tests (new ones for the menu) and the 552 tests of the release images; the panel checked on host renders in four looks and on the developer&#x27;s player. Version 9.3.14 was an unpublished test build; everything from Beta 9.3.13 is included.
+
+What changed and why, in plain words: **[Beta 9.3.15 report](https://github.com/SchulzCode/Y2Linux/blob/main/docs/validation/Y2-LINUX-1.0-BETA-9.3.15.md)**.
+
+## Install (from stock)
+You need SP Flash Tool v5.2032, a USB cable, **`Y2Linux-1.0.0-beta.9.3.15-first-install.zip`** below and the **Innioasis Y2 firmware package v3.2.0** from Innioasis (only this version works; it is also your way back to stock).
+
+1. Unpack both.
+2. SP Flash Tool → **Download Only** → load `MT6582_Android_scatter.txt` **from the Y2Linux zip**. Exactly BOOTIMG, RECOVERY, ANDROID and USRDATA are ticked.
+3. Click Download and connect the switched-off Y2; wait for the green tick.
+4. Unplug and press Power: the player sets up its Internal Storage (a few seconds), then Y2Linux and Reborn start, music works.
+5. Connect the Y2 to the computer and **copy** (don&#x27;t move) `system.img` from the Innioasis package into the **Firmware** folder on **Internal Storage**. The player takes the Wi-Fi/Bluetooth firmware from it and turns the radios on.
+
+Full guide: [INSTALL](https://github.com/SchulzCode/Y2Linux/blob/main/docs/INSTALL.md) · How updates work: [Recovery and updates](https://github.com/SchulzCode/Y2Linux/blob/main/docs/RECOVERY-AND-UPDATES.md) · Storage: [Storage](https://github.com/SchulzCode/Y2Linux/blob/main/docs/STORAGE.md) · [Audiobooks](https://github.com/SchulzCode/Y2Linux/blob/main/docs/AUDIOBOOKS.md) · Headphone settings: [Headphone output](https://github.com/SchulzCode/Y2Linux/blob/main/docs/HEADPHONE-OUTPUT.md) · [Error reports](https://github.com/SchulzCode/Y2Linux/blob/main/docs/ERROR-REPORTS.md) · Skins: [skin guide](https://github.com/SchulzCode/Y2Reborn/blob/main/docs/skins.md)
+
+## Known issues (beta)
+- After a sleep (a pause longer than 15 minutes, or the Power button) the Bluetooth link ends; the player reconnects within a few seconds of waking. Buds that have gone back to a phone meanwhile must be picked again in Settings → Bluetooth.
+- WPA3-only and Enhanced Open Wi-Fi networks can&#x27;t be joined (hardware); ask for &quot;WPA2/WPA3 mixed&quot; where you can. A router that keeps refusing the player (#83) is still being worked on.
+- Everything listed for Beta 9.0 still applies. If anything behaves differently from 9.3.13, send an error report (Settings → System → Error Reports); **Restore Previous System** (Settings → System → About, tap Version seven times, then Diagnostics) goes back to the version you had, with your data kept.
+- Battery life in sleep: about 2 mA overnight on the developer&#x27;s player (estimated from the battery voltage); stock is about 1.3 mA.
+- Some players turned off by themselves during playback; the cause is not found yet. If yours does, start it again and send a report.
+- The speaker uses the same volume as the headphones; its loudest step is the stock speaker&#x27;s. Start low the first time.
+- BBC radio stations stream only in HLS, which the player does not play yet. FM radio is in the works for a later beta.
+
+## Files
+- `Y2Linux-1.0.0-beta.9.3.15-first-install.zip`: images, scatter files and checksums for SP Flash Tool. The data image has no SSH key (developers: `tools/production/first_owner.py`).
+- `manifest.json`, `manifest.sig`, `rootfs.ext4.gz`, `bootimg.img.gz`, `recovery.img.gz`: the signed over-the-air update (Ed25519 key `platform-v1-release-20261015`, sequence 14800).
+- `Y2Linux-1.0.0-beta.9.3.15-sources-buildroot-legal-info.tar` (licences, manifests, this project&#x27;s packages) and the third-party, toolchain and Linux sources linked below: corresponding sources. Our own code: Y2Linux and Y2Reborn at tag `baseline-223`. The speaker amplifier driver is Chris Hendrickson&#x27;s GPL-2.0 AW87559 driver. The headphone profiles are AutoEq results (MIT, Jaakko Pasanen); their licence ships with them.
+- `SHA256SUMS` for the attached files.
+
+Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, Awinic, Last.fm, AutoEq, Strawberry or Google. Noto Sans CJK is licensed under the SIL Open Font License 1.1. Details: [Beta 9.3.15 report](https://github.com/SchulzCode/Y2Linux/blob/main/docs/validation/Y2-LINUX-1.0-BETA-9.3.15.md).
+
+## Sources unchanged since an earlier release
+- [`Y2Linux-sources-third-party-d665a5f06500.tar`](https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/Y2Linux-sources-third-party-d665a5f06500.tar) (attached to `baseline-220`), SHA-256 `d665a5f065004ae5d56bd8ed75f2ad0af8f9a040db9f171ffc6044cb348cf8f3`
+- [`Y2Linux-sources-toolchain-f7cda4c7d213.tar`](https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/Y2Linux-sources-toolchain-f7cda4c7d213.tar) (attached to `baseline-120`), SHA-256 `f7cda4c7d2134bed15dacc7afd7e1687621a57412d60e49c725efc3880bf1bc6`
+- [`linux-6.18.56.tar.xz`](https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/linux-6.18.56.tar.xz) (attached to `baseline-120`), SHA-256 `4633bbda2ab95eaf2a7af4041236451d6759c72e6946265531af4b3aacefbf89`
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;Y2Linux-1.0.0-beta.9.3.15-first-install-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;58fb3591f37fa09fde9c08c4566ae816b18518fa131a0a1f8b84eb956e4f92f7&quot;,&quot;size&quot;:454927298,&quot;source_asset&quot;:&quot;Y2Linux-1.0.0-beta.9.3.15-first-install.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;Y2Linux-1.0.0-beta.9.3.15-first-install-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;14836cc816ace553657cd7c48600418cee201a64a11b99a5abc2af86e62270ca&quot;,&quot;size&quot;:221516318,&quot;source_asset&quot;:&quot;Y2Linux-1.0.0-beta.9.3.15-first-install.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;Y2Linux-1.0.0-beta.9.3.15-first-install-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;c0d76c68ab4b67ede049e4b2bde5276acdf23c11cb483f5ecbd3347fd8a30c21&quot;,&quot;size&quot;:306154218,&quot;source_asset&quot;:&quot;Y2Linux-1.0.0-beta.9.3.15-first-install.zip&quot;,&quot;type&quot;:&quot;Stock&quot;}],&quot;built_at&quot;:&quot;2026-11-05T21:39:22Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;4605ed4412e88fa4f2d52c68bc3bce5ee212e08b56888521ccd6cf31409a972f&quot;,&quot;original_assets&quot;:[&quot;bootimg.img.gz&quot;,&quot;manifest.json&quot;,&quot;manifest.sig&quot;,&quot;recovery.img.gz&quot;,&quot;rootfs.ext4.gz&quot;,&quot;SHA256SUMS&quot;,&quot;Y2Linux-1.0.0-beta.9.3.15-first-install.zip&quot;,&quot;Y2Linux-1.0.0-beta.9.3.15-sources-buildroot-legal-info.tar&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{},&quot;generated_at&quot;:&quot;2026-11-05T21:39:22Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:238499367,&quot;tag&quot;:&quot;2.5.2&quot;}},&quot;v&quot;:11} --&gt;
+</content>
+  </entry>
+  <entry>
+    <id>tag:innioasis.app,2026:y1-community/y2linux-mirror/baseline-221</id>
+    <updated>2026-11-05T21:38:12Z</updated>
+    <published>2026-11-05T21:38:12Z</published>
+    <title>Portable Flashing Package: Y2Linux 1.0 Beta 9.3.13</title>
+    <link rel="alternate" type="text/html" href="https://github.com/y1-community/y2linux-mirror/releases/tag/baseline-221"/>
+    <inni:repo>y1-community/y2linux-mirror</inni:repo>
+    <inni:tag_name>baseline-221</inni:tag_name>
+    <inni:name>Portable Flashing Package: Y2Linux 1.0 Beta 9.3.13</inni:name>
+    <inni:prerelease>false</inni:prerelease>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/bootimg.img.gz" title="bootimg.img.gz" length="7539304" type="application/gzip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/manifest.json" title="manifest.json" length="4238" type="application/json"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/manifest.sig" title="manifest.sig" length="64" type="application/pgp-signature"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/recovery.img.gz" title="recovery.img.gz" length="7539312" type="application/gzip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/rootfs.ext4.gz" title="rootfs.ext4.gz" length="51333471" type="application/gzip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/SHA256SUMS" title="SHA256SUMS" length="945" type="application/octet-stream"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/stats.txt" title="stats.txt" length="2253" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/Y2Linux-1.0.0-beta.9.3.13-first-install-linux.zip" title="Y2Linux-1.0.0-beta.9.3.13-first-install-linux.zip" length="454916180" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/Y2Linux-1.0.0-beta.9.3.13-first-install-macos.zip" title="Y2Linux-1.0.0-beta.9.3.13-first-install-macos.zip" length="221505201" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/Y2Linux-1.0.0-beta.9.3.13-first-install-windows.zip" title="Y2Linux-1.0.0-beta.9.3.13-first-install-windows.zip" length="306143100" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/Y2Linux-1.0.0-beta.9.3.13-first-install.zip" title="Y2Linux-1.0.0-beta.9.3.13-first-install.zip" length="67418385" type="application/zip"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/Y2Linux-1.0.0-beta.9.3.13-sources-buildroot-legal-info.tar" title="Y2Linux-1.0.0-beta.9.3.13-sources-buildroot-legal-info.tar" length="19292160" type="application/x-tar"/>
+    <content type="text">&lt;p align=&quot;center&quot;&gt;
+  &lt;a href=&quot;https://innioasis.app/guide.html?repo=schulzcode%2Fy2linux&amp;amp;tag=baseline-221#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y2linux-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+### Downloads
+
+**Y2 · Stock**
+
+&lt;p align=&quot;center&quot;&gt;
+  &lt;a href=&quot;https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/Y2Linux-1.0.0-beta.9.3.13-first-install-windows.zip&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y2linux-mirror/main/.mirror-assets/release-button-windows.svg&quot; width=&quot;400&quot; alt=&quot;Download .zip for Windows for Y2 · Stock - x86-64 · portable package&quot;&gt;&lt;/a&gt;
+  &lt;a href=&quot;https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/Y2Linux-1.0.0-beta.9.3.13-first-install-linux.zip&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y2linux-mirror/main/.mirror-assets/release-button-linux.svg&quot; width=&quot;400&quot; alt=&quot;Download .zip for Linux for Y2 · Stock - x86-64 · portable package&quot;&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+  &lt;a href=&quot;https://github.com/y1-community/y2linux-mirror/releases/download/baseline-221/Y2Linux-1.0.0-beta.9.3.13-first-install-macos.zip&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y2linux-mirror/main/.mirror-assets/release-button-macos.svg&quot; width=&quot;400&quot; alt=&quot;Download .zip for macOS 12+ for Y2 · Stock - Intel + Apple silicon&quot;&gt;&lt;/a&gt;
+&lt;/p&gt;
+
+---
+
+**Y2Linux 1.0 Beta 9.3.13: Wi-Fi that tries harder, square covers in skins.** Linux 6.18 and the native Reborn music player for the Innioasis Y2.
+
+## Already running Y2Linux
+Settings → System → Software Update → **Update Now** (on Beta 9.2.8 and older: Settings → About &amp; Updates → Check for Updates → **Update Now**).
+
+## What changed
+A small release of fixes from your reports.
+
+- **Joining a Wi-Fi network that &quot;isn&#x27;t found&quot; tries once more after a Wi-Fi restart** (#83). A report showed the player scanning for 34 s after Wi-Fi came on without seeing a network that was right there; switching Wi-Fi off and on found it in 3 s. The player now does that switch itself the first time a join finds nothing. Routers that keep refusing the player (also #83) are a different problem and still open.
+- **A network the player can&#x27;t join says why** (#91): **WPA3 only**, **Needs a login** (work or school networks) or **WEP**, instead of only &quot;Unsupported security&quot;. The Y2&#x27;s Wi-Fi chip can&#x27;t join WPA3 networks at all (its firmware only knows open, WEP, WPA and WPA2), and no update can change that; networks that offer WPA2 and WPA3 together work, with WPA2.
+- **Letter scrolling puts the letter&#x27;s first entry at the top**, forwards as backwards (Y2Reborn #91).
+- **Covers fit their frames in skins** (Y2Reborn #81): no more cut corners in Terminal, Winamp and Paper, Winamp&#x27;s cover is centred. **Cassette&#x27;s stripe no longer runs through the title** (Y2Reborn #82).
+
+Before release: the platform&#x27;s full check, Reborn&#x27;s workspace tests (new ones for the Wi-Fi retry, the reasons a network can&#x27;t be joined and letter scrolling) and the 552 tests of the release images; skins and the Wi-Fi page checked on host renders. This build was not run on a player before release: if anything behaves worse than in 9.3.12, please send an error report.
+
+What changed and why, in plain words: **[Beta 9.3.13 report](https://github.com/SchulzCode/Y2Linux/blob/main/docs/validation/Y2-LINUX-1.0-BETA-9.3.13.md)**.
+
+## Install (from stock)
+You need SP Flash Tool v5.2032, a USB cable, **`Y2Linux-1.0.0-beta.9.3.13-first-install.zip`** below and the **Innioasis Y2 firmware package v3.2.0** from Innioasis (only this version works; it is also your way back to stock).
+
+1. Unpack both.
+2. SP Flash Tool → **Download Only** → load `MT6582_Android_scatter.txt` **from the Y2Linux zip**. Exactly BOOTIMG, RECOVERY, ANDROID and USRDATA are ticked.
+3. Click Download and connect the switched-off Y2; wait for the green tick.
+4. Unplug and press Power: the player sets up its Internal Storage (a few seconds), then Y2Linux and Reborn start, music works.
+5. Connect the Y2 to the computer and **copy** (don&#x27;t move) `system.img` from the Innioasis package into the **Firmware** folder on **Internal Storage**. The player takes the Wi-Fi/Bluetooth firmware from it and turns the radios on.
+
+Full guide: [INSTALL](https://github.com/SchulzCode/Y2Linux/blob/main/docs/INSTALL.md) · How updates work: [Recovery and updates](https://github.com/SchulzCode/Y2Linux/blob/main/docs/RECOVERY-AND-UPDATES.md) · Storage: [Storage](https://github.com/SchulzCode/Y2Linux/blob/main/docs/STORAGE.md) · [Audiobooks](https://github.com/SchulzCode/Y2Linux/blob/main/docs/AUDIOBOOKS.md) · Headphone settings: [Headphone output](https://github.com/SchulzCode/Y2Linux/blob/main/docs/HEADPHONE-OUTPUT.md) · [Error reports](https://github.com/SchulzCode/Y2Linux/blob/main/docs/ERROR-REPORTS.md) · Skins: [skin guide](https://github.com/SchulzCode/Y2Reborn/blob/main/docs/skins.md)
+
+## Known issues (beta)
+- After a sleep (a pause longer than 15 minutes, or the Power button) the Bluetooth link ends; the player reconnects within a few seconds of waking. Buds that have gone back to a phone meanwhile must be picked again in Settings → Bluetooth.
+- WPA3-only and Enhanced Open Wi-Fi networks can&#x27;t be joined (hardware); ask for &quot;WPA2/WPA3 mixed&quot; where you can. A router that keeps refusing the player (#83) is still being worked on.
+- Everything listed for Beta 9.0 still applies. If anything behaves differently from 9.3.12, send an error report (Settings → System → Error Reports); **Restore Previous System** (Settings → System → About, tap Version seven times, then Diagnostics) goes back to the version you had, with your data kept.
+- Battery life in sleep: about 2 mA overnight on the developer&#x27;s player (estimated from the battery voltage); stock is about 1.3 mA.
+- Some players turned off by themselves during playback; the cause is not found yet. If yours does, start it again and send a report.
+- The speaker uses the same volume as the headphones; its loudest step is the stock speaker&#x27;s. Start low the first time.
+- BBC radio stations stream only in HLS, which the player does not play yet. FM radio is in the works for a later beta.
+
+## Files
+- `Y2Linux-1.0.0-beta.9.3.13-first-install.zip`: images, scatter files and checksums for SP Flash Tool. The data image has no SSH key (developers: `tools/production/first_owner.py`).
+- `manifest.json`, `manifest.sig`, `rootfs.ext4.gz`, `bootimg.img.gz`, `recovery.img.gz`: the signed over-the-air update (Ed25519 key `platform-v1-release-20261015`, sequence 14600).
+- `Y2Linux-1.0.0-beta.9.3.13-sources-buildroot-legal-info.tar` (licences, manifests, this project&#x27;s packages) and the third-party, toolchain and Linux sources linked below: corresponding sources. Our own code: Y2Linux and Y2Reborn at tag `baseline-221`. The speaker amplifier driver is Chris Hendrickson&#x27;s GPL-2.0 AW87559 driver. The headphone profiles are AutoEq results (MIT, Jaakko Pasanen); their licence ships with them.
+- `SHA256SUMS` for the attached files.
+
+Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, Awinic, Last.fm, AutoEq, Strawberry or Google. Noto Sans CJK is licensed under the SIL Open Font License 1.1. Details: [Beta 9.3.13 report](https://github.com/SchulzCode/Y2Linux/blob/main/docs/validation/Y2-LINUX-1.0-BETA-9.3.13.md).
+
+## Sources unchanged since an earlier release
+- [`Y2Linux-sources-third-party-d665a5f06500.tar`](https://github.com/SchulzCode/Y2Linux/releases/download/baseline-220/Y2Linux-sources-third-party-d665a5f06500.tar) (attached to `baseline-220`), SHA-256 `d665a5f065004ae5d56bd8ed75f2ad0af8f9a040db9f171ffc6044cb348cf8f3`
+- [`Y2Linux-sources-toolchain-f7cda4c7d213.tar`](https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/Y2Linux-sources-toolchain-f7cda4c7d213.tar) (attached to `baseline-120`), SHA-256 `f7cda4c7d2134bed15dacc7afd7e1687621a57412d60e49c725efc3880bf1bc6`
+- [`linux-6.18.56.tar.xz`](https://github.com/SchulzCode/Y2Linux/releases/download/baseline-120/linux-6.18.56.tar.xz) (attached to `baseline-120`), SHA-256 `4633bbda2ab95eaf2a7af4041236451d6759c72e6946265531af4b3aacefbf89`
+
+&lt;!-- portable-mirror:{&quot;assets&quot;:[{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;Y2Linux-1.0.0-beta.9.3.13-first-install-linux.zip&quot;,&quot;platform&quot;:&quot;linux&quot;,&quot;sha256&quot;:&quot;de8ab06e0cad8e6570cf8e193101c35f8f01092aad719dfddc83db1a5c0cb87c&quot;,&quot;size&quot;:454916180,&quot;source_asset&quot;:&quot;Y2Linux-1.0.0-beta.9.3.13-first-install.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;Y2Linux-1.0.0-beta.9.3.13-first-install-macos.zip&quot;,&quot;platform&quot;:&quot;macos&quot;,&quot;sha256&quot;:&quot;a1fb7fa4c295cfcf1225fc0a28c1e5133cecef033a76fe779aaa53abeb498661&quot;,&quot;size&quot;:221505201,&quot;source_asset&quot;:&quot;Y2Linux-1.0.0-beta.9.3.13-first-install.zip&quot;,&quot;type&quot;:&quot;Stock&quot;},{&quot;model&quot;:&quot;Y2&quot;,&quot;name&quot;:&quot;Y2Linux-1.0.0-beta.9.3.13-first-install-windows.zip&quot;,&quot;platform&quot;:&quot;windows&quot;,&quot;sha256&quot;:&quot;64509ccba73bdf3ceaf0109df70eccb53b38ed91623de3e92597c29d74f13db0&quot;,&quot;size&quot;:306143100,&quot;source_asset&quot;:&quot;Y2Linux-1.0.0-beta.9.3.13-first-install.zip&quot;,&quot;type&quot;:&quot;Stock&quot;}],&quot;built_at&quot;:&quot;2026-11-05T21:38:11Z&quot;,&quot;button_assets&quot;:[{&quot;name&quot;:&quot;release-button-updater.svg&quot;,&quot;size&quot;:1540},{&quot;name&quot;:&quot;release-button-windows.svg&quot;,&quot;size&quot;:1522},{&quot;name&quot;:&quot;release-button-linux.svg&quot;,&quot;size&quot;:1518},{&quot;name&quot;:&quot;release-button-macos.svg&quot;,&quot;size&quot;:1516}],&quot;failures&quot;:[],&quot;fingerprint&quot;:&quot;62c7b245872fc5b43fdbaf65f9a3fdaba26bbda1c6e52651ee01371e11df1d15&quot;,&quot;original_assets&quot;:[&quot;bootimg.img.gz&quot;,&quot;manifest.json&quot;,&quot;manifest.sig&quot;,&quot;recovery.img.gz&quot;,&quot;rootfs.ext4.gz&quot;,&quot;SHA256SUMS&quot;,&quot;Y2Linux-1.0.0-beta.9.3.13-first-install.zip&quot;,&quot;Y2Linux-1.0.0-beta.9.3.13-sources-buildroot-legal-info.tar&quot;],&quot;skipped&quot;:[],&quot;stats&quot;:{&quot;baseline&quot;:{},&quot;generated_at&quot;:&quot;2026-11-05T21:38:11Z&quot;,&quot;retired&quot;:{}},&quot;updater&quot;:{&quot;linux&quot;:{&quot;name&quot;:&quot;UpdaterCE-Linux-Portable.zip&quot;,&quot;size&quot;:387920108,&quot;tag&quot;:&quot;2.5.1&quot;},&quot;macos&quot;:{&quot;name&quot;:&quot;Innioasis.Updater.for.Mac.dmg&quot;,&quot;size&quot;:154209498,&quot;tag&quot;:&quot;2.0.7&quot;},&quot;windows&quot;:{&quot;name&quot;:&quot;UpdaterCE-Windows-Portable.zip&quot;,&quot;size&quot;:238499367,&quot;tag&quot;:&quot;2.5.2&quot;}},&quot;v&quot;:11} --&gt;
+</content>
+  </entry>
+  <entry>
     <id>tag:innioasis.app,2026:y1-community/y2linux-mirror/baseline-220</id>
     <updated>2026-11-05T01:52:12Z</updated>
     <published>2026-11-05T01:52:12Z</published>
@@ -16367,7 +16598,7 @@ Adds Spanish language support.
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-220/recovery.img.gz" title="recovery.img.gz" length="7539285" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-220/rootfs.ext4.gz" title="rootfs.ext4.gz" length="51334920" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-220/SHA256SUMS" title="SHA256SUMS" length="945" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-220/stats.txt" title="stats.txt" length="3048" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-220/stats.txt" title="stats.txt" length="3049" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-220/Y2Linux-1.0.0-beta.9.3.12-first-install-linux.zip" title="Y2Linux-1.0.0-beta.9.3.12-first-install-linux.zip" length="454915671" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-220/Y2Linux-1.0.0-beta.9.3.12-first-install-macos.zip" title="Y2Linux-1.0.0-beta.9.3.12-first-install-macos.zip" length="221504692" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-220/Y2Linux-1.0.0-beta.9.3.12-first-install-windows.zip" title="Y2Linux-1.0.0-beta.9.3.12-first-install-windows.zip" length="306142591" type="application/zip"/>
@@ -16461,7 +16692,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, Aw
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-215/recovery.img.gz" title="recovery.img.gz" length="7539271" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-215/rootfs.ext4.gz" title="rootfs.ext4.gz" length="51326456" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-215/SHA256SUMS" title="SHA256SUMS" length="943" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-215/stats.txt" title="stats.txt" length="3045" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-215/stats.txt" title="stats.txt" length="3046" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-215/Y2Linux-1.0.0-beta.9.3.7-first-install-linux.zip" title="Y2Linux-1.0.0-beta.9.3.7-first-install-linux.zip" length="454912117" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-215/Y2Linux-1.0.0-beta.9.3.7-first-install-macos.zip" title="Y2Linux-1.0.0-beta.9.3.7-first-install-macos.zip" length="221501137" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-215/Y2Linux-1.0.0-beta.9.3.7-first-install-windows.zip" title="Y2Linux-1.0.0-beta.9.3.7-first-install-windows.zip" length="306139037" type="application/zip"/>
@@ -17374,7 +17605,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek or 
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-74/recovery.img.gz" title="recovery.img.gz" length="7509174" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-74/rootfs.ext4.gz" title="rootfs.ext4.gz" length="41597396" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-74/SHA256SUMS" title="SHA256SUMS" length="832" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-74/stats.txt" title="stats.txt" length="2914" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-74/stats.txt" title="stats.txt" length="2915" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-74/Y2Linux-1.0.0-beta.7.11-first-install-linux.zip" title="Y2Linux-1.0.0-beta.7.11-first-install-linux.zip" length="445285584" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-74/Y2Linux-1.0.0-beta.7.11-first-install-macos.zip" title="Y2Linux-1.0.0-beta.7.11-first-install-macos.zip" length="211874604" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-74/Y2Linux-1.0.0-beta.7.11-first-install-windows.zip" title="Y2Linux-1.0.0-beta.7.11-first-install-windows.zip" length="296512504" type="application/zip"/>
@@ -19656,7 +19887,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, Aw
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-205/recovery.img.gz" title="recovery.img.gz" length="7539381" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-205/rootfs.ext4.gz" title="rootfs.ext4.gz" length="50769612" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-205/SHA256SUMS" title="SHA256SUMS" length="945" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-205/stats.txt" title="stats.txt" length="2925" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-205/stats.txt" title="stats.txt" length="2927" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-205/Y2Linux-1.0.0-beta.9.2.14-first-install-linux.zip" title="Y2Linux-1.0.0-beta.9.2.14-first-install-linux.zip" length="454349861" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-205/Y2Linux-1.0.0-beta.9.2.14-first-install-macos.zip" title="Y2Linux-1.0.0-beta.9.2.14-first-install-macos.zip" length="220938881" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-205/Y2Linux-1.0.0-beta.9.2.14-first-install-windows.zip" title="Y2Linux-1.0.0-beta.9.2.14-first-install-windows.zip" length="305576781" type="application/zip"/>
@@ -19745,7 +19976,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, Aw
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-204/recovery.img.gz" title="recovery.img.gz" length="7539182" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-204/rootfs.ext4.gz" title="rootfs.ext4.gz" length="50763744" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-204/SHA256SUMS" title="SHA256SUMS" length="945" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-204/stats.txt" title="stats.txt" length="2927" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-204/stats.txt" title="stats.txt" length="2928" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-204/Y2Linux-1.0.0-beta.9.2.13-first-install-linux.zip" title="Y2Linux-1.0.0-beta.9.2.13-first-install-linux.zip" length="454349659" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-204/Y2Linux-1.0.0-beta.9.2.13-first-install-macos.zip" title="Y2Linux-1.0.0-beta.9.2.13-first-install-macos.zip" length="220938679" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-204/Y2Linux-1.0.0-beta.9.2.13-first-install-windows.zip" title="Y2Linux-1.0.0-beta.9.2.13-first-install-windows.zip" length="305576579" type="application/zip"/>
@@ -20551,7 +20782,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, Aw
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-193/recovery.img.gz" title="recovery.img.gz" length="7539269" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-193/rootfs.ext4.gz" title="rootfs.ext4.gz" length="50706795" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-193/SHA256SUMS" title="SHA256SUMS" length="943" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-193/stats.txt" title="stats.txt" length="2921" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-193/stats.txt" title="stats.txt" length="2922" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-193/Y2Linux-1.0.0-beta.9.2.2-first-install-linux.zip" title="Y2Linux-1.0.0-beta.9.2.2-first-install-linux.zip" length="454294377" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-193/Y2Linux-1.0.0-beta.9.2.2-first-install-macos.zip" title="Y2Linux-1.0.0-beta.9.2.2-first-install-macos.zip" length="220883398" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-193/Y2Linux-1.0.0-beta.9.2.2-first-install-windows.zip" title="Y2Linux-1.0.0-beta.9.2.2-first-install-windows.zip" length="305521297" type="application/zip"/>
@@ -21310,7 +21541,7 @@ Beta software: use at your own risk. Not affiliated with Innioasis, MediaTek, Aw
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-154/recovery.img.gz" title="recovery.img.gz" length="7529912" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-154/rootfs.ext4.gz" title="rootfs.ext4.gz" length="56288100" type="application/gzip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-154/SHA256SUMS" title="SHA256SUMS" length="941" type="application/octet-stream"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-154/stats.txt" title="stats.txt" length="2916" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-154/stats.txt" title="stats.txt" length="2917" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-154/Y2Linux-1.0.0-beta.8.40-first-install-linux.zip" title="Y2Linux-1.0.0-beta.8.40-first-install-linux.zip" length="459844028" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-154/Y2Linux-1.0.0-beta.8.40-first-install-macos.zip" title="Y2Linux-1.0.0-beta.8.40-first-install-macos.zip" length="226433049" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2linux-mirror/releases/download/baseline-154/Y2Linux-1.0.0-beta.8.40-first-install-windows.zip" title="Y2Linux-1.0.0-beta.8.40-first-install-windows.zip" length="311070948" type="application/zip"/>
@@ -24184,7 +24415,7 @@ Used for building ROM releases
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/type-a-base/rom-macos.zip" title="rom-macos.zip" length="610663836" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/type-a-base/rom-windows.zip" title="rom-windows.zip" length="695301961" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/type-a-base/rom.zip" title="rom.zip" length="456613744" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/type-a-base/stats.txt" title="stats.txt" length="2040" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/type-a-base/stats.txt" title="stats.txt" length="2042" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=rockbox-y1%2Frockbox&amp;amp;tag=type-a-base#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rockbox-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -24602,7 +24833,7 @@ And many bug fixes and general UI/UX improvements. A big thanks to all the contr
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="605154998" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="689793117" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/rom_type_b.zip" title="rom_type_b.zip" length="451220956" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/stats.txt" title="stats.txt" length="2624" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/stats.txt" title="stats.txt" length="2626" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b/update.zip" title="update.zip" length="98277218" type="application/zip"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=rockbox-y1%2Frockbox&amp;amp;tag=nightly-e8b9dbab0ab4ab93c28dcb325fbcc032d07cf87b#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rockbox-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -24656,7 +24887,7 @@ And many bug fixes and general UI/UX improvements. A big thanks to all the contr
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e879e4813d025c07d66dd89e17065fdedd3ba5c5/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="603495254" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e879e4813d025c07d66dd89e17065fdedd3ba5c5/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="688133372" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e879e4813d025c07d66dd89e17065fdedd3ba5c5/rom_type_b.zip" title="rom_type_b.zip" length="449565981" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e879e4813d025c07d66dd89e17065fdedd3ba5c5/stats.txt" title="stats.txt" length="2624" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e879e4813d025c07d66dd89e17065fdedd3ba5c5/stats.txt" title="stats.txt" length="2626" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-e879e4813d025c07d66dd89e17065fdedd3ba5c5/update.zip" title="update.zip" length="98300851" type="application/zip"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=rockbox-y1%2Frockbox&amp;amp;tag=nightly-e879e4813d025c07d66dd89e17065fdedd3ba5c5#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rockbox-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -24835,7 +25066,7 @@ Other changes:
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-9c92b93a5d582b3819a119162a14ad0b4178d2cd/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="594547686" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-9c92b93a5d582b3819a119162a14ad0b4178d2cd/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="679185804" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-9c92b93a5d582b3819a119162a14ad0b4178d2cd/rom_type_b.zip" title="rom_type_b.zip" length="499243368" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-9c92b93a5d582b3819a119162a14ad0b4178d2cd/stats.txt" title="stats.txt" length="2621" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-9c92b93a5d582b3819a119162a14ad0b4178d2cd/stats.txt" title="stats.txt" length="2623" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-9c92b93a5d582b3819a119162a14ad0b4178d2cd/update.zip" title="update.zip" length="99241893" type="application/zip"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=rockbox-y1%2Frockbox&amp;amp;tag=nightly-9c92b93a5d582b3819a119162a14ad0b4178d2cd#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rockbox-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -24891,7 +25122,7 @@ Adds seamless switching between Rockbox and better-Y without reboot
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-9733397325a7c3239cac067d86ca7682b11136b2/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="599402227" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-9733397325a7c3239cac067d86ca7682b11136b2/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="684040342" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-9733397325a7c3239cac067d86ca7682b11136b2/rom_type_b.zip" title="rom_type_b.zip" length="445484013" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-9733397325a7c3239cac067d86ca7682b11136b2/stats.txt" title="stats.txt" length="2621" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-9733397325a7c3239cac067d86ca7682b11136b2/stats.txt" title="stats.txt" length="2623" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-9733397325a7c3239cac067d86ca7682b11136b2/update.zip" title="update.zip" length="98336154" type="application/zip"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=rockbox-y1%2Frockbox&amp;amp;tag=nightly-9733397325a7c3239cac067d86ca7682b11136b2#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rockbox-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -25088,7 +25319,7 @@ Also:
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-1a8c1fcd2e7a3e7eae0673030c9e173805d4636f/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="597120127" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-1a8c1fcd2e7a3e7eae0673030c9e173805d4636f/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="681758245" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-1a8c1fcd2e7a3e7eae0673030c9e173805d4636f/rom_type_b.zip" title="rom_type_b.zip" length="443191253" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-1a8c1fcd2e7a3e7eae0673030c9e173805d4636f/stats.txt" title="stats.txt" length="2623" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-1a8c1fcd2e7a3e7eae0673030c9e173805d4636f/stats.txt" title="stats.txt" length="2625" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-1a8c1fcd2e7a3e7eae0673030c9e173805d4636f/update.zip" title="update.zip" length="98175799" type="application/zip"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=rockbox-y1%2Frockbox&amp;amp;tag=nightly-1a8c1fcd2e7a3e7eae0673030c9e173805d4636f#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rockbox-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -25196,7 +25427,7 @@ Also:
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-11d9072b8ae950dfe76b8d867f67ff1a048a8c24/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="596277807" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-11d9072b8ae950dfe76b8d867f67ff1a048a8c24/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="680915923" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-11d9072b8ae950dfe76b8d867f67ff1a048a8c24/rom_type_b.zip" title="rom_type_b.zip" length="442359999" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-11d9072b8ae950dfe76b8d867f67ff1a048a8c24/stats.txt" title="stats.txt" length="2621" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-11d9072b8ae950dfe76b8d867f67ff1a048a8c24/stats.txt" title="stats.txt" length="2623" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-11d9072b8ae950dfe76b8d867f67ff1a048a8c24/update.zip" title="update.zip" length="98341687" type="application/zip"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=rockbox-y1%2Frockbox&amp;amp;tag=nightly-11d9072b8ae950dfe76b8d867f67ff1a048a8c24#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rockbox-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -25250,7 +25481,7 @@ Also:
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-107480ccb359ec26a8f9d161d4e86efd3d6b1144/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="596579890" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-107480ccb359ec26a8f9d161d4e86efd3d6b1144/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="681218008" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-107480ccb359ec26a8f9d161d4e86efd3d6b1144/rom_type_b.zip" title="rom_type_b.zip" length="442648964" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-107480ccb359ec26a8f9d161d4e86efd3d6b1144/stats.txt" title="stats.txt" length="2621" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-107480ccb359ec26a8f9d161d4e86efd3d6b1144/stats.txt" title="stats.txt" length="2625" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/rockbox-mirror/releases/download/nightly-107480ccb359ec26a8f9d161d4e86efd3d6b1144/update.zip" title="update.zip" length="98277748" type="application/zip"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=rockbox-y1%2Frockbox&amp;amp;tag=nightly-107480ccb359ec26a8f9d161d4e86efd3d6b1144#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rockbox-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -25844,7 +26075,7 @@ If your Y1 runs Rondo 1.0.1, **Settings › Software update**, **Install** in th
     <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.1/rom-windows.zip" title="rom-windows.zip" length="696077224" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.1/rom.zip" title="rom.zip" length="528031354" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.1/rondo-1.0.1.apk" title="rondo-1.0.1.apk" length="6423015" type="application/vnd.android.package-archive"/>
-    <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.1/stats.txt" title="stats.txt" length="2267" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.1/stats.txt" title="stats.txt" length="2268" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.1/updater.png" title="updater.png" length="12952" type="image/png"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=jarvissax%2Frondo&amp;amp;tag=v1.0.1#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rondo-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -25918,7 +26149,7 @@ Only for the **Y1 Type A** (players that shipped with software 2.0.0 or later), 
     <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.0/rom-windows.zip" title="rom-windows.zip" length="696077440" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.0/rom.zip" title="rom.zip" length="528038771" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.0/rondo-1.0.0.apk" title="rondo-1.0.0.apk" length="6421197" type="application/vnd.android.package-archive"/>
-    <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.0/stats.txt" title="stats.txt" length="2268" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.0/stats.txt" title="stats.txt" length="2269" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/rondo-mirror/releases/download/v1.0.0/updater.png" title="updater.png" length="12952" type="image/png"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=jarvissax%2Frondo&amp;amp;tag=v1.0.0#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/rondo-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -26000,7 +26231,7 @@ The firmware is built with [`firmware/build.sh`](https://github.com/jarvissax/ro
     <link rel="enclosure" href="https://github.com/y1-community/koensayr-auto-mirror/releases/download/2.4.0-koensayr-3.0.7/rom-macos.zip" title="rom-macos.zip" length="394054071" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/koensayr-auto-mirror/releases/download/2.4.0-koensayr-3.0.7/rom-windows.zip" title="rom-windows.zip" length="476891590" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/koensayr-auto-mirror/releases/download/2.4.0-koensayr-3.0.7/rom.zip" title="rom.zip" length="309074505" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/koensayr-auto-mirror/releases/download/2.4.0-koensayr-3.0.7/stats.txt" title="stats.txt" length="2183" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/koensayr-auto-mirror/releases/download/2.4.0-koensayr-3.0.7/stats.txt" title="stats.txt" length="2184" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=ryan-specter%2Fkoensayr-auto&amp;amp;tag=2.4.0-koensayr-3.0.7#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/koensayr-auto-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -26088,7 +26319,7 @@ adb shell rm -rf /data/data/com.innioasis.y1/code_cache/secondary-dexes/
     <link rel="enclosure" href="https://github.com/y1-community/koensayr-auto-mirror/releases/download/2.4.0-koensayr-3.0.2/rom-macos.zip" title="rom-macos.zip" length="413997303" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/koensayr-auto-mirror/releases/download/2.4.0-koensayr-3.0.2/rom-windows.zip" title="rom-windows.zip" length="496834822" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/koensayr-auto-mirror/releases/download/2.4.0-koensayr-3.0.2/rom.zip" title="rom.zip" length="329013283" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/koensayr-auto-mirror/releases/download/2.4.0-koensayr-3.0.2/stats.txt" title="stats.txt" length="2183" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/koensayr-auto-mirror/releases/download/2.4.0-koensayr-3.0.2/stats.txt" title="stats.txt" length="2184" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=ryan-specter%2Fkoensayr-auto&amp;amp;tag=2.4.0-koensayr-3.0.2#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/koensayr-auto-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -26179,7 +26410,7 @@ adb shell rm -rf /data/data/com.innioasis.y1/code_cache/secondary-dexes/
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.9/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="553582908" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.9/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="638221023" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.9/rom_type_b.zip" title="rom_type_b.zip" length="399539309" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.9/stats.txt" title="stats.txt" length="2349" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.9/stats.txt" title="stats.txt" length="2352" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=ismileblue%2Fy1_launcher&amp;amp;tag=launcher-v0.9#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y1_launcher-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -26250,7 +26481,7 @@ adb shell rm -rf /data/data/com.innioasis.y1/code_cache/secondary-dexes/
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.8/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="553599490" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.8/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="638237605" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.8/rom_type_b.zip" title="rom_type_b.zip" length="399538066" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.8/stats.txt" title="stats.txt" length="2349" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.8/stats.txt" title="stats.txt" length="2352" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=ismileblue%2Fy1_launcher&amp;amp;tag=launcher-v0.8#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y1_launcher-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -26329,7 +26560,7 @@ adb shell rm -rf /data/data/com.innioasis.y1/code_cache/secondary-dexes/
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.6/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="553741431" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.6/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="638379546" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.6/rom_type_b.zip" title="rom_type_b.zip" length="399667887" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.6/stats.txt" title="stats.txt" length="2351" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.6/stats.txt" title="stats.txt" length="2352" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=ismileblue%2Fy1_launcher&amp;amp;tag=launcher-v0.6#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y1_launcher-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -26418,7 +26649,7 @@ adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.5/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="553729202" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.5/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="638367317" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.5/rom_type_b.zip" title="rom_type_b.zip" length="399658877" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.5/stats.txt" title="stats.txt" length="2350" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.5/stats.txt" title="stats.txt" length="2353" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=ismileblue%2Fy1_launcher&amp;amp;tag=launcher-v0.5#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y1_launcher-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -26489,7 +26720,7 @@ adb shell pm grant com.themoon.y1 android.permission.WRITE_SECURE_SETTINGS
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.3/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="553727300" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.3/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="638365415" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.3/rom_type_b.zip" title="rom_type_b.zip" length="399645569" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.3/stats.txt" title="stats.txt" length="2352" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.3/stats.txt" title="stats.txt" length="2353" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=ismileblue%2Fy1_launcher&amp;amp;tag=launcher-v0.3#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y1_launcher-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -26882,7 +27113,7 @@ Here is what’s new in this release:
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.1/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="558606249" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.1/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="643244363" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.1/rom_type_b.zip" title="rom_type_b.zip" length="404526855" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.1/stats.txt" title="stats.txt" length="2355" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11.1/stats.txt" title="stats.txt" length="2356" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=ismileblue%2Fy1_launcher&amp;amp;tag=launcher-v0.11.1#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y1_launcher-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -26936,7 +27167,7 @@ This is a new test version that adds full support for firmware 3.1.2 and introdu
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="558600722" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="643238835" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11/rom_type_b.zip" title="rom_type_b.zip" length="404522629" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11/stats.txt" title="stats.txt" length="2353" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.11/stats.txt" title="stats.txt" length="2354" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=ismileblue%2Fy1_launcher&amp;amp;tag=launcher-v0.11#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y1_launcher-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -27018,7 +27249,7 @@ Thank you so much for your continued interest and support! Enjoy v0.11! 🙏🚀
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10.1/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="553555967" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10.1/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="638194080" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10.1/rom_type_b.zip" title="rom_type_b.zip" length="399512608" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10.1/stats.txt" title="stats.txt" length="2355" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10.1/stats.txt" title="stats.txt" length="2356" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=ismileblue%2Fy1_launcher&amp;amp;tag=launcher-v0.10.1#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y1_launcher-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -27072,7 +27303,7 @@ This patch fixes the error that could occur during the update process. Please up
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="553564583" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="638202698" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10/rom_type_b.zip" title="rom_type_b.zip" length="399499884" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10/stats.txt" title="stats.txt" length="2353" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.10/stats.txt" title="stats.txt" length="2354" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=ismileblue%2Fy1_launcher&amp;amp;tag=launcher-v0.10#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y1_launcher-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -27162,7 +27393,7 @@ Please continue to show your interest and support. Thank you! :D
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.1/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="553708696" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.1/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="638346810" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.1/rom_type_b.zip" title="rom_type_b.zip" length="399646396" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.1/stats.txt" title="stats.txt" length="2352" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1_launcher-mirror/releases/download/launcher-v0.1/stats.txt" title="stats.txt" length="2353" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=ismileblue%2Fy1_launcher&amp;amp;tag=launcher-v0.1#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y1_launcher-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -27644,7 +27875,7 @@ See [CHANGELOG.md](https://github.com/FabianZettl/jj-launcher-classic/blob/maste
     <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/ReleaseV2.3/rom_y2-macos.zip" title="rom_y2-macos.zip" length="393177736" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/ReleaseV2.3/rom_y2-windows.zip" title="rom_y2-windows.zip" length="476015251" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/ReleaseV2.3/rom_y2.zip" title="rom_y2.zip" length="296556198" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/ReleaseV2.3/stats.txt" title="stats.txt" length="2162" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/ReleaseV2.3/stats.txt" title="stats.txt" length="2163" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/ReleaseV2.3/system.img" title="system.img" length="369211292" type="application/vnd.efi.img"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=schulzcode%2FY2Player&amp;amp;tag=ReleaseV2.3#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y2player-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -27819,7 +28050,7 @@ Thank you to everyone who reported the queue, metadata, audiobook, browsing, and
     <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/ReleaseV2.2.1/rom_y2-macos.zip" title="rom_y2-macos.zip" length="393131209" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/ReleaseV2.2.1/rom_y2-windows.zip" title="rom_y2-windows.zip" length="475968724" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/ReleaseV2.2.1/rom_y2.zip" title="rom_y2.zip" length="296506638" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/ReleaseV2.2.1/stats.txt" title="stats.txt" length="2162" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/ReleaseV2.2.1/stats.txt" title="stats.txt" length="2164" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/ReleaseV2.2.1/system.img.zip" title="system.img.zip" length="225498405" type="application/zip"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=schulzcode%2FY2Player&amp;amp;tag=ReleaseV2.2.1#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y2player-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -28006,7 +28237,7 @@ Thank you to everyone who reported the queue, metadata, audiobook, browsing, and
     <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/Release2.5/rom_y2-macos.zip" title="rom_y2-macos.zip" length="393203916" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/Release2.5/rom_y2-windows.zip" title="rom_y2-windows.zip" length="476041431" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/Release2.5/rom_y2.zip" title="rom_y2.zip" length="296365314" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/Release2.5/stats.txt" title="stats.txt" length="2162" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/Release2.5/stats.txt" title="stats.txt" length="2164" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/Release2.5/system.img" title="system.img" length="369235868" type="application/vnd.efi.img"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=schulzcode%2FY2Player&amp;amp;tag=Release2.5#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y2player-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -28357,7 +28588,7 @@ Thank you to everyone who submitted issues, tested builds, provided diagnostics,
     <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/RealeaseV2.2.2/rom_y2-macos.zip" title="rom_y2-macos.zip" length="393165337" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/RealeaseV2.2.2/rom_y2-windows.zip" title="rom_y2-windows.zip" length="476002852" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/RealeaseV2.2.2/rom_y2.zip" title="rom_y2.zip" length="296538727" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/RealeaseV2.2.2/stats.txt" title="stats.txt" length="2162" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/RealeaseV2.2.2/stats.txt" title="stats.txt" length="2164" type="text/plain; charset=utf-8"/>
     <link rel="enclosure" href="https://github.com/y1-community/y2player-mirror/releases/download/RealeaseV2.2.2/system.zip" title="system.zip" length="225531225" type="application/zip"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=schulzcode%2FY2Player&amp;amp;tag=RealeaseV2.2.2#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y2player-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
@@ -28410,7 +28641,7 @@ Thank you to everyone who submitted issues, tested builds, provided diagnostics,
     <link rel="enclosure" href="https://github.com/y1-community/better-y-mirror/releases/download/v1.1.0/rom-macos.zip" title="rom-macos.zip" length="335711991" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/better-y-mirror/releases/download/v1.1.0/rom-windows.zip" title="rom-windows.zip" length="420350104" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/better-y-mirror/releases/download/v1.1.0/rom.zip" title="rom.zip" length="181243963" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/better-y-mirror/releases/download/v1.1.0/stats.txt" title="stats.txt" length="2157" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/better-y-mirror/releases/download/v1.1.0/stats.txt" title="stats.txt" length="2158" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=Leska1337%2Fbetter-Y&amp;amp;tag=v1.1.0#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/better-y-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -28677,7 +28908,7 @@ it re-reads every MP3 whose tag is over the limit, even if the file has not chan
     <link rel="enclosure" href="https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="553533635" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="636371157" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/rom_type_b.zip" title="rom_type_b.zip" length="475393744" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/stats.txt" title="stats.txt" length="2344" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/y1-ata-rom-mirror/releases/download/0.1/stats.txt" title="stats.txt" length="2345" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=y1-community%2Fy1-ata-rom&amp;amp;tag=0.1#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/y1-ata-rom-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -28796,7 +29027,7 @@ Credit to @palutenfan123 for building this.
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/y2-release/rom_y2-macos.zip" title="rom_y2-macos.zip" length="525907855" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/y2-release/rom_y2-windows.zip" title="rom_y2-windows.zip" length="608745382" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/y2-release/rom_y2.zip" title="rom_y2.zip" length="443599332" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/y2-release/stats.txt" title="stats.txt" length="2035" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/y2-release/stats.txt" title="stats.txt" length="2036" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=y2-release#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -28914,7 +29145,7 @@ Solar Y2 ROM for Innioasis Y2 (MT6582 ATA). Built from 944d14b.
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260702-1512/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="560328430" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260702-1512/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="644966552" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260702-1512/rom_type_b.zip" title="rom_type_b.zip" length="406268804" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260702-1512/stats.txt" title="stats.txt" length="2473" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260702-1512/stats.txt" title="stats.txt" length="2474" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260702-1512#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -28999,7 +29230,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260701-1454/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="561497100" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260701-1454/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="646135233" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260701-1454/rom_type_b.zip" title="rom_type_b.zip" length="407429266" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260701-1454/stats.txt" title="stats.txt" length="2473" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260701-1454/stats.txt" title="stats.txt" length="2474" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260701-1454#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -29082,7 +29313,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1236/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="561585954" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1236/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="646224087" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1236/rom_type_b.zip" title="rom_type_b.zip" length="407522307" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1236/stats.txt" title="stats.txt" length="2473" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1236/stats.txt" title="stats.txt" length="2474" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260630-1236#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -29164,7 +29395,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1125/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="561554628" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1125/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="646192764" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1125/rom_type_b.zip" title="rom_type_b.zip" length="407497685" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1125/stats.txt" title="stats.txt" length="2471" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1125/stats.txt" title="stats.txt" length="2473" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260630-1125#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -29246,7 +29477,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1120/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="561545311" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1120/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="646183445" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1120/rom_type_b.zip" title="rom_type_b.zip" length="407470325" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1120/stats.txt" title="stats.txt" length="2471" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1120/stats.txt" title="stats.txt" length="2472" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260630-1120#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -29328,7 +29559,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1110/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="561668395" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1110/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="646306529" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1110/rom_type_b.zip" title="rom_type_b.zip" length="407593003" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1110/stats.txt" title="stats.txt" length="2471" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1110/stats.txt" title="stats.txt" length="2472" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260630-1110#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -29410,7 +29641,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1102/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="560610926" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1102/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="645249061" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1102/rom_type_b.zip" title="rom_type_b.zip" length="406537124" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1102/stats.txt" title="stats.txt" length="2471" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1102/stats.txt" title="stats.txt" length="2472" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260630-1102#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -29492,7 +29723,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1035/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="565267785" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1035/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="649905918" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1035/rom_type_b.zip" title="rom_type_b.zip" length="411187212" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1035/stats.txt" title="stats.txt" length="2471" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1035/stats.txt" title="stats.txt" length="2472" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260630-1035#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -29574,7 +29805,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1024/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="561603699" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1024/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="646241832" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1024/rom_type_b.zip" title="rom_type_b.zip" length="407541607" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1024/stats.txt" title="stats.txt" length="2471" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1024/stats.txt" title="stats.txt" length="2473" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260630-1024#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -29657,7 +29888,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="560263014" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="644901149" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/rom_type_b.zip" title="rom_type_b.zip" length="406194763" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/stats.txt" title="stats.txt" length="2472" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-1005/stats.txt" title="stats.txt" length="2474" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260630-1005#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -29740,7 +29971,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="554058823" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="638696958" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/rom_type_b.zip" title="rom_type_b.zip" length="399998206" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/stats.txt" title="stats.txt" length="2472" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0957/stats.txt" title="stats.txt" length="2474" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260630-0957#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -29823,7 +30054,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="560380311" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="645018444" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/rom_type_b.zip" title="rom_type_b.zip" length="406305936" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/stats.txt" title="stats.txt" length="2473" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0636/stats.txt" title="stats.txt" length="2474" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260630-0636#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -29907,7 +30138,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="560559385" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="645197521" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/rom_type_b.zip" title="rom_type_b.zip" length="406484375" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/stats.txt" title="stats.txt" length="2472" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260630-0549/stats.txt" title="stats.txt" length="2474" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260630-0549#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -30159,7 +30390,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-1444/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="561551548" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-1444/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="646189683" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-1444/rom_type_b.zip" title="rom_type_b.zip" length="407471648" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-1444/stats.txt" title="stats.txt" length="2474" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-1444/stats.txt" title="stats.txt" length="2475" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260629-1444#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -30243,7 +30474,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-0955/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="561601524" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-0955/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="646239659" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-0955/rom_type_b.zip" title="rom_type_b.zip" length="407526348" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-0955/stats.txt" title="stats.txt" length="2474" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-0955/stats.txt" title="stats.txt" length="2475" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260629-0955#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -30327,7 +30558,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-0926/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="564364252" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-0926/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="649002386" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-0926/rom_type_b.zip" title="rom_type_b.zip" length="410283882" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-0926/stats.txt" title="stats.txt" length="2474" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-0926/stats.txt" title="stats.txt" length="2475" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260629-0926#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -30411,7 +30642,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-0057/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="561567064" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-0057/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="646205199" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-0057/rom_type_b.zip" title="rom_type_b.zip" length="407490265" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-0057/stats.txt" title="stats.txt" length="2474" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260629-0057/stats.txt" title="stats.txt" length="2475" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260629-0057#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -30579,7 +30810,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260628-1014/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="563885797" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260628-1014/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="648523931" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260628-1014/rom_type_b.zip" title="rom_type_b.zip" length="409809472" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260628-1014/stats.txt" title="stats.txt" length="2474" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260628-1014/stats.txt" title="stats.txt" length="2475" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260628-1014#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -30747,7 +30978,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260627-0209/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="563579469" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260627-0209/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="648217603" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260627-0209/rom_type_b.zip" title="rom_type_b.zip" length="409500889" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260627-0209/stats.txt" title="stats.txt" length="2474" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/nightly-20260627-0209/stats.txt" title="stats.txt" length="2475" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=nightly-20260627-0209#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -30825,7 +31056,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260819-0956/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="572876375" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260819-0956/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="655713888" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260819-0956/rom_type_b.zip" title="rom_type_b.zip" length="488296019" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260819-0956/stats.txt" title="stats.txt" length="2774" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260819-0956/stats.txt" title="stats.txt" length="2776" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260819-0956#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -30912,7 +31143,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260716-0131/rom_y2-macos.zip" title="rom_y2-macos.zip" length="719152375" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260716-0131/rom_y2-windows.zip" title="rom_y2-windows.zip" length="801989903" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260716-0131/rom_y2.zip" title="rom_y2.zip" length="635849224" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260716-0131/stats.txt" title="stats.txt" length="2654" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260716-0131/stats.txt" title="stats.txt" length="2655" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260716-0131#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -30986,7 +31217,7 @@ After installing for the first time please wait 10-15 minutes for your device to
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260702-1521/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="561666228" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260702-1521/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="646304343" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260702-1521/rom_type_b.zip" title="rom_type_b.zip" length="407592425" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260702-1521/stats.txt" title="stats.txt" length="2468" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260702-1521/stats.txt" title="stats.txt" length="2469" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260702-1521#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -31072,7 +31303,7 @@ Solar is not yet stable for everyday use - we recommend using this only if you&#
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260701-1453/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="560333461" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260701-1453/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="644971588" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260701-1453/rom_type_b.zip" title="rom_type_b.zip" length="406261233" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260701-1453/stats.txt" title="stats.txt" length="2468" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260701-1453/stats.txt" title="stats.txt" length="2469" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260701-1453#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -31156,7 +31387,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1236/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="560558234" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1236/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="645196360" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1236/rom_type_b.zip" title="rom_type_b.zip" length="406503923" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1236/stats.txt" title="stats.txt" length="2468" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1236/stats.txt" title="stats.txt" length="2469" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260630-1236#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -31320,7 +31551,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1120/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="560299094" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1120/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="644937221" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1120/rom_type_b.zip" title="rom_type_b.zip" length="406224357" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1120/stats.txt" title="stats.txt" length="2464" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1120/stats.txt" title="stats.txt" length="2465" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260630-1120#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -31402,7 +31633,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1110/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="560620543" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1110/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="645258670" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1110/rom_type_b.zip" title="rom_type_b.zip" length="406555908" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1110/stats.txt" title="stats.txt" length="2463" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1110/stats.txt" title="stats.txt" length="2464" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260630-1110#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -31484,7 +31715,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1102/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="565241823" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1102/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="649879949" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1102/rom_type_b.zip" title="rom_type_b.zip" length="411180005" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1102/stats.txt" title="stats.txt" length="2463" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1102/stats.txt" title="stats.txt" length="2464" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260630-1102#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -31649,7 +31880,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1005/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="564408397" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1005/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="649046524" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1005/rom_type_b.zip" title="rom_type_b.zip" length="410355530" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1005/stats.txt" title="stats.txt" length="2463" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-1005/stats.txt" title="stats.txt" length="2464" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260630-1005#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -31815,7 +32046,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0636/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="564384602" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0636/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="649022729" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0636/rom_type_b.zip" title="rom_type_b.zip" length="410330989" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0636/stats.txt" title="stats.txt" length="2463" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0636/stats.txt" title="stats.txt" length="2464" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260630-0636#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -31899,7 +32130,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0550/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="561572175" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0550/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="646210301" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0550/rom_type_b.zip" title="rom_type_b.zip" length="407516967" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0550/stats.txt" title="stats.txt" length="2463" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260630-0550/stats.txt" title="stats.txt" length="2464" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260630-0550#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -31983,7 +32214,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-1615/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="564360370" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-1615/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="648998498" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-1615/rom_type_b.zip" title="rom_type_b.zip" length="410292538" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-1615/stats.txt" title="stats.txt" length="2466" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-1615/stats.txt" title="stats.txt" length="2467" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260629-1615#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -32067,7 +32298,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-1610/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="561530046" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-1610/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="646168173" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-1610/rom_type_b.zip" title="rom_type_b.zip" length="407467592" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-1610/stats.txt" title="stats.txt" length="2465" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-1610/stats.txt" title="stats.txt" length="2467" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260629-1610#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -32151,7 +32382,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-1444/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="560366586" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-1444/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="645004714" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-1444/rom_type_b.zip" title="rom_type_b.zip" length="406299468" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-1444/stats.txt" title="stats.txt" length="2466" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-1444/stats.txt" title="stats.txt" length="2467" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260629-1444#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -32237,7 +32468,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-0955/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="561543961" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-0955/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="646182088" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-0955/rom_type_b.zip" title="rom_type_b.zip" length="407476085" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-0955/stats.txt" title="stats.txt" length="2466" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-0955/stats.txt" title="stats.txt" length="2467" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260629-0955#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
@@ -32323,7 +32554,7 @@ Features
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-0057/rom_type_b-macos.zip" title="rom_type_b-macos.zip" length="560595031" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-0057/rom_type_b-windows.zip" title="rom_type_b-windows.zip" length="645233158" type="application/zip"/>
     <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-0057/rom_type_b.zip" title="rom_type_b.zip" length="406532147" type="application/zip"/>
-    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-0057/stats.txt" title="stats.txt" length="2466" type="text/plain; charset=utf-8"/>
+    <link rel="enclosure" href="https://github.com/y1-community/solar-mirror/releases/download/20260629-0057/stats.txt" title="stats.txt" length="2467" type="text/plain; charset=utf-8"/>
     <content type="text">&lt;p align=&quot;center&quot;&gt;
   &lt;a href=&quot;https://innioasis.app/guide.html?repo=thesolarproject%2Fsolar&amp;amp;tag=20260629-0057#download-updater&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/y1-community/solar-mirror/main/.mirror-assets/release-button-updater.svg&quot; width=&quot;400&quot; alt=&quot;Get it on Updater CE - with guided install&quot;&gt;&lt;/a&gt;
 &lt;/p&gt;
