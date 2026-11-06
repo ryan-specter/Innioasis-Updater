@@ -160,11 +160,11 @@
        project only has nightlies to hide. Type B is the recovery branch for
        early Y1 units: its stock branch ends at 1.7.6 and its Rockbox builds
        start before 0.5, so neither legacy floor applies to it. */
-    function legacyFilterFor(item) {
+    function legacyFilterFor(item, type) {
         if (!item) return null;
         var y1 = String(item.model || "").toUpperCase() === "Y1";
         if (!y1) return null;
-        if (typeForItem(item) === "B") return null;
+        if (String(type || "").toUpperCase() === "B") return null;
         if (isRockboxY1Item(item)) return LEGACY_FILTERS.rockboxY1;
         if (isOriginalItem(item)) return LEGACY_FILTERS.stockY1;
         return null;
@@ -1486,7 +1486,7 @@
             help: "Show preview and nightly builds alongside stable releases."
         };
         function syncNightlyCopy() {
-            var copy = legacyFilterFor(matchingItems()[0] || null) || GENERIC_FILTER_COPY;
+            var copy = (function (first) { return legacyFilterFor(first, typeForItem(first)); })(matchingItems()[0] || null) || GENERIC_FILTER_COPY;
             if (nightlyCopy && nightlyCopy.textContent !== copy.label) nightlyCopy.textContent = copy.label;
             if (nightlyHelp && nightlyHelp.textContent !== copy.help) nightlyHelp.textContent = copy.help;
         }
@@ -1766,7 +1766,7 @@
             var type = typeForItem(item);
             all = all.filter(function (release) { return !isBlockedRelease(blocklistRules, item, release, type); });
             if (!all.length) return null;
-            var floor = legacyFilterFor(item);
+            var floor = legacyFilterFor(item, type);
             if (!showNightly) {
                 all = all.filter(function (release) {
                     if (isNightly(release)) return false;
@@ -1926,7 +1926,7 @@
             /* The empty state names the same option the filterbar does, and
                a blocklisted project says so instead of claiming there is no
                package. */
-            var filteredHint = (legacyFilterFor(item) || {}).hint || 'Tick the nightly-builds option to see previews';
+            var filteredHint = (legacyFilterFor(item, typeForItem(item)) || {}).hint || 'Tick the nightly-builds option to see previews';
             var hint = release ? ''
                 : state === "filtered-stable" ? '<span class="lumen-muted-inline">' + filteredHint + '</span>'
                 : state === "blocked" ? '<span class="lumen-muted-inline">Held back from this list.</span>'
