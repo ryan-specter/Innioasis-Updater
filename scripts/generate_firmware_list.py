@@ -180,6 +180,33 @@ def mirrors_for(feed: dict, repo: str) -> list[dict]:
     return found
 
 
+_MANIFEST_MIRRORS: dict[str, set[str]] | None = None
+
+
+def manifest_mirrors() -> dict[str, set[str]]:
+    """Source repository -> the portable mirrors its manifest entry names.
+
+    A project with no entry in ``slidia_manifest.xml``, or one whose entry names
+    no mirror, gets no portable package here: its download links stay on the
+    rom.zip (or other package) the project itself publishes. That keeps the
+    static list from offering a repackaged mirror build that Updater CE cannot
+    reach anyway.
+    """
+    global _MANIFEST_MIRRORS
+    if _MANIFEST_MIRRORS is None:
+        mapping: dict[str, set[str]] = {}
+        for pkg in gdp.load_manifest():
+            repo = str(pkg.get("repo") or "").strip().lower()
+            if not repo:
+                continue
+            names = {part.strip().strip("/").lower()
+                     for part in re.split(r"[\s,]+", str(pkg.get("portable_zips") or ""))
+                     if part.strip()}
+            mapping.setdefault(repo, set()).update(names)
+        _MANIFEST_MIRRORS = mapping
+    return _MANIFEST_MIRRORS
+
+
 def package_asset(release: dict, package_name: str) -> dict:
     """The release file Updater CE installs: the named package, else a ROM zip."""
     assets = [a for a in (release.get("assets") or []) if isinstance(a, dict)]
@@ -303,6 +330,10 @@ def software_section(item: dict, releases: list[dict], mirrors: list[dict], feed
     device = device_name(model)
     repo = str(item.get("repo") or "")
     package_name = str(item.get("packageName") or "")
+    listed_repo = repo.strip().lower() in manifest_mirrors()
+    declared_mirrors = manifest_mirrors().get(repo.strip().lower(), set())
+    mirrors = [mirror for mirror in mirrors
+               if str(mirror.get("mirror_repo") or "").strip().lower() in declared_mirrors]
     author = repo_author(feed, repo)
     guide = SITE + "/" + str(item.get("guide") or "").lstrip("./") if item.get("guide") else (
         "%s/guide.html?model=%s&software=%s" % (SITE, model, item.get("slug")))
@@ -344,6 +375,13 @@ def software_section(item: dict, releases: list[dict], mirrors: list[dict], feed
                 '<a href="%s" rel="nofollow">%s</a>' % (esc(p["url"]), esc(p["label"]))
                 for p in portable)
             download_cell.append('<div class="lumen-meta">Portable: %s</div>' % links)
+        elif asset_url and not listed_repo:
+            # Standalone-only cohort: the project is in the feeds but not in the
+            # manifest, so there is no Updater CE install route and no portable
+            # package. Say what does open the ZIP instead.
+            download_cell.append(
+                '<div class="lumen-meta">Works with Updater CE, Innioasis Universal Flash Tool, '
+                'SP Flash Tool and MTKClient (Updater CE Recommended).</div>')
 
         meta = [published] if published else []
         if release.get("prerelease"):

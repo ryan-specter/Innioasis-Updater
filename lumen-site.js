@@ -508,6 +508,24 @@
         return String(repo || "").trim().toLowerCase();
     }
 
+    /* Repositories an active <package> in slidia_manifest.xml names. Null until
+       the manifest answers: a blocked or missing manifest then keeps today's
+       behaviour instead of stripping every Updater CE button from the page. */
+    var manifestListedRepos = null;
+
+    /* Updater CE only installs a project the manifest lists. A firmware that
+       lives in the feeds alone has releases worth reading, but no install route
+       and no portable package, so its rows download the project's own rom.zip. */
+    function manifestRepoListed(item) {
+        if (manifestListedRepos === null) return true;
+        var key = repoKey(item && item.repo);
+        return Boolean(key && manifestListedRepos[key]);
+    }
+
+    function manifestPortableZips(item) {
+        return manifestRepoListed(item) ? String((item && item.portable_zips) || "") : "";
+    }
+
     /* One identity per release, so the cached catalogue, the per-repo feed
        and the GitHub answer can be merged without showing the same build
        twice. GitHub's tag is the identity; a release without one falls back
@@ -1873,7 +1891,10 @@
                 : state === "blocked" ? '<span class="lumen-muted-inline">Held back from this list.</span>'
                 : '';
             var guideUrl = 'guide.html?model=' + encodeURIComponent(item.model) + '&software=' + encodeURIComponent(item.slug);
-            var updater = '<a class="lumen-updater-button lumen-updater-button--table" href="' + guideUrl + '" aria-label="Get ' + escapeHtml(item.name) + ' for ' + escapeHtml(item.model) + ' on Innioasis Updater"><img src="assets/icon.ico" width="28" height="28" alt=""><span><strong>Get it on Updater</strong><small>with guided install</small></span></a>';
+            var listedInManifest = manifestRepoListed(item);
+            var updater = listedInManifest
+                ? '<a class="lumen-updater-button lumen-updater-button--table" href="' + guideUrl + '" aria-label="Get ' + escapeHtml(item.name) + ' for ' + escapeHtml(item.model) + ' on Innioasis Updater"><img src="assets/icon.ico" width="28" height="28" alt=""><span><strong>Get it on Updater</strong><small>with guided install</small></span></a>'
+                : '';
 
             var zipBtn = '';
             if (release) {
@@ -1898,12 +1919,18 @@
                     }) || (rowType ? null : assets[0]);
                 }
                 if (primaryAsset) {
-                    zipBtn = ' <button type="button" class="lumen-zip-download-button lumen-zip-download-button--table" data-zip-url="' + escapeHtml(primaryAsset.browser_download_url) + '" data-zip-name="' + escapeHtml(primaryAsset.name) + '" data-release-tag="' + escapeHtml(release.tag_name || release.name || "release") + '" data-item-name="' + escapeHtml(item.name) + '" data-item-model="' + escapeHtml(item.model) + '" data-portable-zips="' + escapeHtml(item.portable_zips || "") + '" aria-label="Download standalone ' + escapeHtml(primaryAsset.name) + ' ZIP package">' +
+                    zipBtn = ' <button type="button" class="lumen-zip-download-button lumen-zip-download-button--table" data-zip-url="' + escapeHtml(primaryAsset.browser_download_url) + '" data-zip-name="' + escapeHtml(primaryAsset.name) + '" data-release-tag="' + escapeHtml(release.tag_name || release.name || "release") + '" data-item-name="' + escapeHtml(item.name) + '" data-item-model="' + escapeHtml(item.model) + '" data-portable-zips="' + escapeHtml(manifestPortableZips(item)) + '" aria-label="Download standalone ' + escapeHtml(primaryAsset.name) + ' ZIP package">' +
                         '<svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16h12M10 3v9m0 0l-3.5-3.5M10 12l3.5-3.5"/></svg>' +
                         '<span><strong>Download ZIP</strong><small>standalone package</small></span>' +
                         '</button>';
                 }
             }
+
+            /* A project the manifest does not list ships as a standalone ZIP
+               only. Say what opens that ZIP, so a reader does not have to guess
+               whether the file is useful without Updater CE. */
+            var standaloneNote = listedInManifest ? ''
+                : '<span class="lumen-meta lumen-standalone-note" style="flex-basis:100%;display:block;">Works with Updater CE, Innioasis Universal Flash Tool, SP Flash Tool and MTKClient (Updater CE Recommended).</span>';
 
             /* The Software name is not shown here: the software filter above
                already sets the project, so every row belongs to it. */
@@ -1913,7 +1940,7 @@
                 '<td><div style="display:flex;align-items:center;gap:10px;">' + iconHtml + '<div>' + versionHtml + (release && release.published_at ? '<br><span class="lumen-meta">' + escapeHtml(release.published_at.slice(0, 10)) + '</span>' : '') + '</div></div></td>' +
                 /* The package is not shown: the Release details expander lists
                    the rom zips this release is packaged in. */
-                '<td><div class="lumen-actions">' + updater + zipBtn + hint + '</div>' + releaseDetails(release, item, typeForItem(item)) + '</td>' +
+                '<td><div class="lumen-actions">' + updater + zipBtn + standaloneNote + hint + '</div>' + releaseDetails(release, item, typeForItem(item)) + '</td>' +
                 '<td><a class="lumen-release-notes-link" href="' + releaseNotesUrl + '" aria-label="Read the release notes for ' + escapeHtml(release && release.tag_name ? release.tag_name : item.name) + '">' +                '<svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h6l3 3v11H6z"/><path d="M12 3v3h3"/><path d="M8.5 10h5M8.5 13h5"/></svg></a></td>' +
                 '</tr>';
         }
@@ -2763,7 +2790,21 @@ syncTypeField(); fillSoftwareFilter(); render(); refreshLive(); refreshAvailabil
                 var doc = parser.parseFromString(xmlText, "application/xml");
                 if (doc.querySelector("parsererror")) return;
                 var packages = doc.querySelectorAll("package");
-                if (!packages.length || !Array.isArray(window.INNIOASIS_FIRMWARE_CATALOG)) return;
+                if (!packages.length) return;
+                /* Record what the manifest actually lists, before any merging:
+                   a commented-out or absent entry leaves the project in the
+                   feeds without an Updater CE route. */
+                var listed = {};
+                Array.prototype.forEach.call(packages, function (pkg) {
+                    var listedName = (pkg.getAttribute("name") || "").trim();
+                    var listedHandler = pkg.getAttribute("handler") || "";
+                    if (!listedName || /please update/i.test(listedName)) return;
+                    if (listedHandler && listedHandler !== "Custom Firmware") return;
+                    var listedRepo = repoKey(pkg.getAttribute("repo"));
+                    if (listedRepo) listed[listedRepo] = true;
+                });
+                manifestListedRepos = listed;
+                if (!Array.isArray(window.INNIOASIS_FIRMWARE_CATALOG)) return;
                 var catalog = window.INNIOASIS_FIRMWARE_CATALOG;
                 packages.forEach(function (pkg) {
                     var name = (pkg.getAttribute("name") || "").trim();
