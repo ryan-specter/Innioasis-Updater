@@ -183,7 +183,9 @@ def build_software(catalog: list[dict], manifest: list[dict]) -> list[dict]:
                 "name": pkg.get("name", ""),
                 "model": device,
                 "repo": pkg.get("repo", ""),
-                "packageName": "rom_y2.zip" if device == "Y2" else "rom.zip",
+                "packageName": pkg.get("package_name") or (
+                    "rom_y2.zip" if device == "Y2"
+                    else ("rom_%s.zip" % device.lower() if device and device != "Y1" else "rom.zip")),
                 "description": "Community firmware package for the " + device + ".",
                 "guide": "",
                 "seoPage": "",
@@ -195,6 +197,8 @@ def build_software(catalog: list[dict], manifest: list[dict]) -> list[dict]:
             match["post_install2"] = pkg["post_install2"]
         if pkg.get("icon") and not match.get("icon"):
             match["icon"] = pkg["icon"]
+        if pkg.get("portable_zips"):
+            match["portable_zips"] = pkg["portable_zips"]
         # The manifest is what Updater CE reads, so its repository is the one
         # whose releases belong on these pages.
         if pkg.get("repo"):
@@ -1165,6 +1169,7 @@ HEAD = """<!doctype html>
   <link rel="stylesheet" href="{up}site-pages.css?v=20260818">
   <link rel="stylesheet" href="{up}site-toolbar.css?v=20261105dockclose">
   <link rel="stylesheet" href="{up}docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
   <script src="{up}site-init.js?v=20260803" defer></script>
 </head>
 <body class="site-themes-app">
@@ -1173,9 +1178,9 @@ HEAD = """<!doctype html>
 """
 
 FOOT = """<div id="footer-root"></div><div id="support-toolbar-slot"></div>
-<script src="{up}firmware-catalog.js?v=20261104cite" defer></script>
+<script src="{up}firmware-catalog.js?v=20261106mirror" defer></script>
 <script src="{up}docs-viewer.js?v=20261104cite" defer></script>
-<script src="{up}portable-zip-links.js?v=20261103direct" defer></script>
+<script src="{up}portable-zip-links.js?v=20261106mirror" defer></script>
 <script src="{up}nav.js?v=20261103brand" defer></script>
 <script src="{up}site-i18n.js?v=20260830" defer></script>
 </body></html>
@@ -1281,7 +1286,128 @@ def source_citations(item: dict, tag: str = "") -> str:
     return "".join(parts)
 
 
-def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list[dict]) -> str:
+PLATFORM_LABELS = {
+    "macos": "macOS",
+    "windows": "Windows",
+    "windows-arm64": "Windows on ARM",
+    "linux": "Linux",
+    "linux-arm64": "Linux on ARM",
+}
+PLATFORM_ORDER = list(PLATFORM_LABELS)
+
+
+def size_label(size) -> str:
+    try:
+        value = int(size)
+    except (TypeError, ValueError):
+        return ""
+    if value <= 0:
+        return ""
+    if value >= 1024 ** 3:
+        return "%.2f GB" % (value / 1024 ** 3)
+    return "%.0f MB" % max(1, round(value / 1024 ** 2))
+
+
+def release_portable_packages(item: dict, release: dict, refresh: bool = False) -> list[tuple[dict, list[dict]]]:
+    """The release's install zips, each with the mirror's per-OS builds."""
+    assets = [
+        asset for asset in (release.get("assets") or [])
+        if re.search(r"\.zip$", str(asset.get("name") or ""), re.I)
+        and not re.search(r"sources?|legal-info", str(asset.get("name") or ""), re.I)
+    ]
+    if not assets:
+        return []
+    repos = [
+        repo.strip().strip("/") for repo in re.split(r"[\s,]+", str(item.get("portable_zips") or ""))
+        if "/" in repo
+    ]
+    indexes: list[dict] = []
+    for repo in repos:
+        for branch in ("main", "master"):
+            data = cached_json(
+                "https://raw.githubusercontent.com/%s/%s/index.json" % (repo, branch),
+                refresh=refresh,
+            )
+            if isinstance(data, dict):
+                indexes.append(data)
+                break
+    tag = str(release.get("tag_name") or "")
+    result: list[tuple[dict, list[dict]]] = []
+    for asset in assets:
+        name = str(asset.get("name") or "")
+        packages: list[dict] = []
+        seen: set[str] = set()
+        for index in indexes:
+            for entry in index.get("releases") or []:
+                if str(entry.get("tag") or "").lower() != tag.lower():
+                    continue
+                for package in entry.get("assets") or []:
+                    if str(package.get("source_asset") or "").lower() != name.lower():
+                        continue
+                    platform = str(package.get("platform") or "")
+                    if not platform or platform in seen or not package.get("url"):
+                        continue
+                    seen.add(platform)
+                    packages.append({
+                        "platform": platform,
+                        "label": PLATFORM_LABELS.get(platform, platform),
+                        "url": str(package.get("url") or ""),
+                        "name": str(package.get("name") or ""),
+                        "size": int(package.get("size") or 0),
+                    })
+        packages.sort(key=lambda p: PLATFORM_ORDER.index(p["platform"])
+                      if p["platform"] in PLATFORM_ORDER else 99)
+        result.append((asset, packages))
+    return result
+
+
+def release_downloads_html(item: dict, release: dict, portable: list[tuple[dict, list[dict]]]) -> str:
+    """Static downloads: the original zip plus one link per portable OS build."""
+    assets = [
+        asset for asset in (release.get("assets") or [])
+        if re.search(r"\.zip$", str(asset.get("name") or ""), re.I)
+        and not re.search(r"sources?|legal-info", str(asset.get("name") or ""), re.I)
+    ]
+    if not assets:
+        return ""
+    tag = str(release.get("tag_name") or "")
+    mirrors = str(item.get("portable_zips") or "")
+    rows = []
+    for asset in assets:
+        name = str(asset.get("name") or "rom.zip")
+        url = str(asset.get("browser_download_url") or "")
+        packages = next(
+            (pkgs for candidate, pkgs in portable if str(candidate.get("name")) == name), []
+        )
+        buttons = []
+        if url:
+            buttons.append(
+                '<a class="lumen-button" href="%s" download="%s" rel="nofollow">%s '
+                '<span class="lumen-meta">%s</span></a>'
+                % (esc(url), esc(name), esc(name), esc(size_label(asset.get("size")) or "original"))
+            )
+        for package in packages:
+            buttons.append(
+                '<a class="lumen-button" href="%s" download="%s" rel="nofollow" '
+                'data-zip-url="%s" data-zip-name="%s" data-release-tag="%s" '
+                'data-portable-zips="%s" data-platform="%s">%s '
+                '<span class="lumen-meta">portable · %s</span></a>'
+                % (esc(package["url"]), esc(name), esc(url), esc(name), esc(tag),
+                   esc(mirrors), esc(package["platform"]), esc(package["label"]),
+                   esc(size_label(package.get("size")) or "package"))
+            )
+        rows.append(
+            '<div class="lumen-download-row"><p class="lumen-meta">%s</p>'
+            '<div class="lumen-actions">%s</div></div>' % (esc(name), "".join(buttons))
+        )
+    return (
+        '<section class="lumen-doc-downloads"><h2>Download this release</h2>'
+        '<p class="lumen-meta">Portable packages include the flashing tool for your computer; '
+        'the file is saved under the release\'s own name.</p>%s</section>' % "".join(rows)
+    )
+
+
+def release_page(item: dict, release: dict, siblings: list[dict], portable: list[tuple[dict, list[dict]]]) -> str:
     up = "../../"
     name = software_label(item)
     model = item.get("model") or ""
@@ -1372,6 +1498,7 @@ def release_page(item: dict, release: dict, siblings: list[dict], mirrored: list
         '<a class="lumen-button" href="%sfirmware.html?model=%s&amp;software=%s">Firmware Downloads</a>'
         % (up, esc(model), esc(item["slug"])),
         "</div></header>",
+        release_downloads_html(item, release, portable),
         '<article class="lumen-doc-body lumen-release-body">%s</article>' % notes,
     ]
     if related:
@@ -1711,10 +1838,9 @@ def build(refresh: bool = False) -> None:
                 tag = str(release.get("tag_name") or "")
                 if not tag:
                     continue
-                repo_slug = repo.replace("/", "-").lower()
-                mirrored = mirror.get((repo_slug, tag.lower())) or mirror.get((repo_slug, tag_slug(tag)))
+                portable = release_portable_packages(item, release, refresh=refresh)
                 (folder / (tag_slug(tag) + ".html")).write_text(
-                    release_page(item, release, releases, mirrored or []), encoding="utf-8"
+                    release_page(item, release, releases, portable), encoding="utf-8"
                 )
                 sitemap_urls.append("%s/release-notes/%s/%s.html" % (SITE, slug, tag_slug(tag)))
             (folder / "index.html").write_text(software_index_page(item, releases), encoding="utf-8")

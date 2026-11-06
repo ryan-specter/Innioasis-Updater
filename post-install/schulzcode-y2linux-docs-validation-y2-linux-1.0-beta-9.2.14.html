@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="../site-pages.css?v=20260818">
   <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
   <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
   <script src="../site-init.js?v=20260803" defer></script>
 </head>
 <body class="site-themes-app">
@@ -43,9 +44,9 @@
 <p>Everything listed for <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.0.md%23known-issues-and-what-still-needs-your-help&amp;anchor=known-issues-and-what-still-needs-your-help">Beta 9.0</a> still applies.</p>
 <h2 id="technical-appendix">Technical appendix</h2>
 <ul><li>Evidence (report <code>c0fe2638</code>, install <code>d833b3da</code>, 9.2.13): <code>radio.station_started</code> at 17:41:50, :42:01, :07, :12,<p>:20 UTC, each preceded by <code>alsa.closed</code> and an <code>enabled_format</code> probe; <code>alsa.prepared</code> up to 6 s after the probe; bluetoothd <code>avdtp.c:cancel_request() Start: Connection timed out (110)</code> at 17:42:26 with <code>alsa.open_failed</code> -5, then <code>peer_disconnected</code> reason <code>local</code> (&quot;Connection terminated by local host&quot;) at 17:42:29. Same on 10-31 21:24:48 (9.2.10) and 21:36:43 (a 44.1 → 48 kHz local change). No other saved report has an AVDTP Start timeout. Ledger F61.</p></li><li>bluez-alsa 5.0 releases the transport only when the PCM FIFO closes (<code>transport_threads_cancel_if_no_clients</code>);<p><code>snd_pcm_drop</code> sends &quot;Drop&quot; and keeps it.</p></li><li>Reborn <code>3435238</code>: <code>keep_sink</code> keeps any output; <code>sink_change</code> compares the wired epoch only for the jack;<p><code>keeps_bluetooth_sink</code> (main.rs) takes the kept spec while <code>SinkSpec::validate_bluetooth_observation</code> accepts the live <code>BluetoothPcm</code> (the plan&#x27;s probe opens the PCM and cannot run while it is kept); idle wheel clicks play only in a wired kept sink; <code>Runtime::pause</code> on Bluetooth still sends <code>Stop</code> (F43).</p></li><li>Y2Linux <code>7176cb97</code>, Y2Reborn <code>c3277e2</code>: <code>.github/ISSUE_TEMPLATE/</code> (eight forms, <code>blank_issues_enabled: false</code>);<p>labels <code>performance</code>, <code>power</code>, <code>sound</code>, <code>wifi</code>, <code>update</code> created in both repositories.</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
-<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
 <script src="../docs-viewer.js?v=20261104cite" defer></script>
-<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../portable-zip-links.js?v=20261106mirror" defer></script>
 <script src="../nav.js?v=20261103brand" defer></script>
 <script src="../site-i18n.js?v=20260830" defer></script>
 

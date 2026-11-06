@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="../site-pages.css?v=20260818">
   <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
   <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
   <script src="../site-init.js?v=20260803" defer></script>
 </head>
 <body class="site-themes-app">
@@ -45,9 +46,9 @@
 <p>Everything listed for <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.0.md%23known-issues-and-what-still-needs-your-help&amp;anchor=known-issues-and-what-still-needs-your-help">Beta 9.0</a> still applies. How loud the click should be is a first guess; tell us if it is too loud or too soft.</p>
 <h2 id="technical-appendix">Technical appendix</h2>
 <ul><li><strong>Order:</strong> settings <code>home_order</code> and <code>playlist_order</code> (place keys and playlist paths; empty: the standard order;<p>items not listed follow in the standard order, names no longer there are skipped). reborn-core <code>home.rs</code> (<code>HOME_PLACES</code>, <code>ordered</code>, <code>moved</code>), reborn-ui <code>reorder.rs</code> (<code>Carry</code>; <code>mode_input</code> takes the wheel for the Brightness card and both moves), <code>Effect::SetHomeOrder</code>, <code>Effect::SetPlaylistOrder</code>.</p></li><li><strong>Wheel click:</strong> <code>WheelClick</code> Off/WhenPaused/Always, <code>Playback::click</code>. The sink thread mixes a 4 ms, 3 kHz tick<p>(0.3 of full scale times the volume&#x27;s gain) into the wired sink only. Playing: <code>AudioSink::rewind</code> (<code>rb_sink_rewind</code>, <code>snd_pcm_rewind</code> leaving 256 frames for the DMA; the AFE reads its pointer from <code>AFE_DL1_CUR</code>) takes back the unplayed frames, which <code>playback/click.rs</code> <code>Tail</code> (the last 8192 written frames with positions) writes again with the tick at their start. Held: the unplayed music goes back to the pending block, the stream plays the tick over silence and pauses again 1 s after the last tick; the resume rewinds the silence.</p></li><li><strong>Cover Flow:</strong> <code>flow::centre_x</code> places the text under the travelling cover, faded by its distance.</li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
-<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
 <script src="../docs-viewer.js?v=20261104cite" defer></script>
-<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../portable-zip-links.js?v=20261106mirror" defer></script>
 <script src="../nav.js?v=20261103brand" defer></script>
 <script src="../site-i18n.js?v=20260830" defer></script>
 

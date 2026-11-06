@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="../site-pages.css?v=20260818">
   <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
   <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
   <script src="../site-init.js?v=20260803" defer></script>
 </head>
 <body class="site-themes-app">
@@ -41,9 +42,9 @@
 <table><thead><tr><th>Step</th><th>Result</th></tr></thead><tbody><tr><td>Power Off (<code>y2-platform shutdown poweroff --reason user</code>) while Charging</td><td>Host USB: the gadget left, 5.6 s later the MediaTek preloader (<code>0e8d:2000</code>) enumerated for 2.8 s (a restart; before the fix nothing appeared). The owner saw the charging screen</td></tr><tr><td>Hold Power on that screen</td><td><code>Y2BOOT: loader metadata valid=1 mode=8 reason=3 offline=1</code>, <code>Y2CHARGE: offline mode=8 reason=3 battery=4117016uV</code>, <code>deliberate Power release; normal boot</code>; the previous boot&#x27;s log ends with <code>charger attached: restart into charging mode</code></td></tr><tr><td>Power Off on the charger again, unplug on the charging screen, plug in again</td><td>The next start was <code>mode=8 reason=1</code>: a fresh power-on from the plug-in, so the player had really switched off after the unplug</td></tr></tbody></table>
 <h2 id="open">Open</h2>
 <ul><li>The reporter (02f46e9f) also sees a Rockbox boot picture before Y2Linux. Y2Linux never writes LOGO or UBOOT, and<p>that player&#x27;s LK is not the stock v3.2.0 one (prefix SHA-256 <code>bd001af2…</code>). Advice: flash the stock <code>logo.bin</code> to LOGO only.</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
-<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
 <script src="../docs-viewer.js?v=20261104cite" defer></script>
-<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../portable-zip-links.js?v=20261106mirror" defer></script>
 <script src="../nav.js?v=20261103brand" defer></script>
 <script src="../site-i18n.js?v=20260830" defer></script>
 

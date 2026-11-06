@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="../site-pages.css?v=20260818">
   <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
   <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
   <script src="../site-init.js?v=20260803" defer></script>
 </head>
 <body class="site-themes-app">
@@ -40,9 +41,9 @@
 <table><thead><tr><th>Check</th><th>Result</th></tr></thead><tbody><tr><td>OTA 8.11 → 8.12 (stage + apply) with two crash-trigger playlists (<code>’</code> at bytes 6..9, <code>º</code> at 7..9, <code>é</code> at 6..8, <code>%’</code>; UTF-8 and Windows-1252) on the SD card</td><td>Acknowledged; no panic, no supervisor exit; scans with both sources ran twice</td></tr><tr><td>Playlists screen</td><td>Both lists shown (6 songs each); the 1252 file decodes; the real song resolves, the others say <em>Not on the player</em>; same Reborn process</td></tr><tr><td>Loader display hold</td><td>&quot;holding SMI common/larb0 for the loader display&quot; at 0.37 s</td></tr><tr><td>25 stream reopens (next/previous every 1.2 s)</td><td>No XTAL error, no open retry needed, stream RUNNING, <code>SYS_CLK_CTL_1</code> = 0x04 (crystal, 22.5792 MHz)</td></tr><tr><td>Error report (Save Report, 8.7 s, 392 KB)</td><td><code>/proc/*</code>, <code>clk_summary</code>, <code>regulator_summary</code>, <code>wakeup_sources</code>, <code>suspend_stats</code> present; leak check 0 of 44 private values; codec registers missing (path <code>0-0030</code> vs <code>1-0030</code> on this player → fixed in 108)</td></tr></tbody></table>
 <h2 id="known-gaps">Known gaps</h2>
 <ul><li>Build 108 itself was not installed on a player (the auto-mode classifier refused the install); its only difference<p>from 107 is the codec-register glob in <code>report.py</code> (host tests) and the sequence.</p></li><li>Owed on a player: a slow crystal (not reproducible here), sleep with a parked CPU (the player was on USB, which<p>refuses sleep), the <em>Couldn&#x27;t Start</em> screen, restarts from the recovery on a GC9503V player.</p></li><li>The <em>Couldn&#x27;t Start</em> screen keeps its old text (no SD card hint); that needs new splash artwork.</li><li>EQ changes still reopen the stream (a live filter change is a larger Reborn change).</li><li>Unchanged from 8.11: #47 confirmation, WAF rule and billing alert, sleep drain (#42), GC9503V confirmation (#45).</li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
-<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
 <script src="../docs-viewer.js?v=20261104cite" defer></script>
-<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../portable-zip-links.js?v=20261106mirror" defer></script>
 <script src="../nav.js?v=20261103brand" defer></script>
 <script src="../site-i18n.js?v=20260830" defer></script>
 

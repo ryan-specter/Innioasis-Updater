@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="../site-pages.css?v=20260818">
   <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
   <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
   <script src="../site-init.js?v=20260803" defer></script>
 </head>
 <body class="site-themes-app">
@@ -62,7 +63,7 @@ docker logs rondo | grep &quot;Rondo setup&quot;</code></pre>
 <ol><li><strong>Admin page:</strong> open <code>&lt;your server&#x27;s address&gt;/admin</code> in a browser. Enter the setup code from<p>the log and choose an admin password.</p></li><li><strong>Connect the Y1:</strong> on the admin page, go to <strong>Device</strong> and press <strong>Connect a Rondo</strong>. It shows<p>a 6-digit code, good for 10 minutes.</p></li><li>On the Y1, open <strong>Settings › Server › Connect to a server</strong>. Type your server&#x27;s address and,<p>on the next screen, the code from step 2. (Typing is quicker in the dashboard: open **Settings › Dashboard<strong> on the Y1, the address it shows on your phone or computer, then its </strong>Server** page.)</p></li></ol>
 <p><strong>Settings › Server</strong> on the Y1 now says it&#x27;s connected; <strong>Connection test</strong> checks it. YouTube Music and YouTube are ready.</p>
 <h2 id="the-admin-page">The admin page</h2>
-<p align="center"><img src="https://raw.githubusercontent.com/jarvissax/rondo/HEAD/docs/images/admin.png" width="720" alt="The server's admin page"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/jarvissax/rondo/main/docs/images/admin.png" width="720" alt="The server's admin page"></p>
 <p>Open <code>&lt;your server&#x27;s address&gt;/admin</code> any time to see how things are going. A sign-in lasts 12 hours.</p>
 <ul><li><strong>Overview:</strong> whether everything works, from the Y1 through the server to YouTube, and what<p>to do when something doesn&#x27;t.</p></li><li><strong>YouTube account:</strong> sign in with a code, add or replace cookies.txt, or sign out.</li><li><strong>Device:</strong> the connected Y1, when it was last seen, and buttons to connect a different one or<p>disconnect it.</p></li><li><strong>Resolver:</strong> the yt-dlp version, <strong>Update now</strong>, and <strong>Test playback</strong>, which checks that a<p>video can be found the way the Y1 would ask for it.</p></li><li><strong>Updates:</strong> the Overview says when a newer Rondo or yt-dlp is out. The server checks every 6<p>hours: Rondo&#x27;s update page for Rondo, GitHub for yt-dlp. <code>UPDATE_CHECK=0</code> in its environment turns that off.</p></li><li><strong>Activity:</strong> the last 100 warnings and errors, newest first.</li><li><strong>Admin account:</strong> change the password or sign out.</li></ul>
 <h2 id="your-youtube-account-optional">Your YouTube account (optional)</h2>
@@ -84,10 +85,10 @@ docker logs rondo | grep &quot;Rondo setup&quot;</code></pre>
   docker logs rondo | grep &quot;Rondo setup&quot;</code></pre>
 <h2 id="privacy">Privacy</h2>
 <p>The server doesn&#x27;t store audio or video; it passes streams through as they play. Your cookies and the code sign-in stay on the server&#x27;s Docker volume, readable only by the server, and are never shown or written to the logs. The Y1 talks only to your server, never to Google.</p>
-<p>How the server works, and its API, are described in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2FHEAD%2Fdocs%2Fdev%2Fserver-api.md">docs/dev/server-api.md</a>.</p></article><p class="lumen-doc-footer-note">These are Rondo's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y1&amp;software=rondo-y1">jarvissax/rondo</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=jarvissax%2Frondo&amp;software=rondo-y1" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Ajarvissax" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
-<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<p>How the server works, and its API, are described in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fjarvissax%2Frondo%2Fblob%2Fmain%2Fdocs%2Fdev%2Fserver-api.md">docs/dev/server-api.md</a>.</p></article><p class="lumen-doc-footer-note">These are Rondo's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y1&amp;software=rondo-y1">jarvissax/rondo</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=jarvissax%2Frondo&amp;software=rondo-y1" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Ajarvissax" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
 <script src="../docs-viewer.js?v=20261104cite" defer></script>
-<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../portable-zip-links.js?v=20261106mirror" defer></script>
 <script src="../nav.js?v=20261103brand" defer></script>
 <script src="../site-i18n.js?v=20260830" defer></script>
 

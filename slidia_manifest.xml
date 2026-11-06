@@ -1,44 +1,82 @@
 <?xml version="1.0"?>
 <slidia>
+  <!--
+    Community firmware catalogue read by Updater CE and innioasis.app.
+    One <package/> entry per model. Use the generator at
+    https://innioasis.app/developers.html to build entries.
+
+    Attributes: name, brand, repo, device, url, type="img",
+    handler="Custom Firmware", package_name, asset_pattern, type_a_asset,
+    type_b_asset, icon, icon_dark, image, image_dark, post_install,
+    post_install2, portable_zips, derivative, info_repo, apk_repo,
+    min_version, do_not_keep_data, slug, description.
+
+    package_name defaults to rom.zip on Y1 and rom_MODEL.zip on other models.
+    do_not_keep_data accepts true, 1 or yes. Legacy aliases still read:
+    model, package, portable_zip, post_install_2, min_app_version, image_dark.
+  -->
+
   <!-- App Market: APKs -->
  <!-- <package name="Stock Menu 2.1.9 Update for Type B Y1's" repo="rockbox-y1/rockbox" url="https://github.com/y1-community/com.innioasis.y1/releases/latest" android_package="org.rockbox" device="y1" type="apk" handler="App" /> -->
   <!-- Custom Firmware: Project Gallagher -->
 
-<package name="Original Software" repo="y1-community/y1-stock-rom" portable_zips="y1-community/y1-stock-rom-mirror" device="Y1" url="https://github.com/y1-community/y1-stock-rom" type="img" handler="Custom Firmware" />
+<package name="Original Software" brand="Innioasis" repo="y1-community/y1-stock-rom" portable_zips="y1-community/y1-stock-rom-mirror" device="Y1" url="https://github.com/y1-community/y1-stock-rom" type="img" handler="Custom Firmware" />
 
-<package name="Original Software" repo="y1-community/y1-stock-rom" portable_zips="y1-community/y1-stock-rom-mirror" device="Y2" url="https://github.com/y1-community/y1-stock-rom" type="img" handler="Custom Firmware" />
+<package name="Original Software" brand="Innioasis" repo="y1-community/y1-stock-rom" portable_zips="y1-community/y1-stock-rom-mirror" device="Y2" url="https://github.com/y1-community/y1-stock-rom" type="img" handler="Custom Firmware" />
 
-<package name="Reborn (Y2Linux)" repo="schulzcode/y2linux" portable_zips="y1-community/y2linux-mirror" device="Y2" url="https://github.com/schulzcode/y2linux" type="img" post_install="https://innioasis.app/y2reborn_wifibt.html" handler="Custom Firmware" />
+<!-- Stock firmware archived per model: one repository each, package named rom_<model>.zip,
+       release tag = the build folder name. No portable_zips until portable packages are built,
+       and no icon attribute so they use the same stock firmware icon as Y1 and Y2. -->
 
-<package name="Rockbox" repo="rockbox-y1/rockbox" portable_zips="y1-community/rockbox-mirror" device="Y1" url="https://github.com/rockbox-y1/rockbox" type="img" icon="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" handler="Custom Firmware" />
+<package name="Original Software" brand="Innioasis" repo="y1-community/g1-stock-rom" device="G1" url="https://github.com/y1-community/g1-stock-rom" type="img" handler="Custom Firmware" package_name="rom_g1.zip" portable_zips="y1-community/g1-stock-rom-mirror" />
 
-<package name="Rockbox" repo="spycemagic/y2-rockbox" portable_zips="y1-community/y2-rockbox-mirror" device="Y2" url="https://github.com/spycemagic/y2-rockbox" icon="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" type="img" handler="Custom Firmware" />
+<package name="Original Software" brand="Innioasis" repo="y1-community/g3-stock-rom" device="G3" url="https://github.com/y1-community/g3-stock-rom" type="img" handler="Custom Firmware" package_name="rom_g3.zip" portable_zips="y1-community/g3-stock-rom-mirror" />
 
-<package name="Rondo" repo="jarvissax/rondo" portable_zips="y1-community/rondo-mirror" device="Y1" url="https://github.com/jarvissax/rondo" post_install="https://github.com/jarvissax/rondo/blob/main/docs/install.md#first-start" icon="https://innioasis.app/assets/rondo_icon.jpg" type="img" handler="Custom Firmware" />
+<package name="Original Software" brand="Innioasis" repo="y1-community/g5-stock-rom" device="G5" url="https://github.com/y1-community/g5-stock-rom" type="img" handler="Custom Firmware" package_name="rom_g5.zip" portable_zips="y1-community/g5-stock-rom-mirror" />
 
-<package name="Koensayr" repo="ryan-specter/koensayr-auto" portable_zips="y1-community/koensayr-auto-mirror" derivative="y1-community/y1-stock-rom" device="Y1" url="https://github.com/ryan-specter/koensayr-auto" type="img" handler="Custom Firmware" />
+<!-- <package name="Original Software" brand="Innioasis" repo="y1-community/r1-stock-rom" device="R1" url="https://github.com/y1-community/r1-stock-rom" type="img" handler="Custom Firmware" package_name="rom_r1.zip" portable_zips="y1-community/r1-stock-rom-mirror" /> -->
 
-<package name="JJ Launcher" repo="ismileblue/y1_launcher" portable_zips="y1-community/y1_launcher-mirror" device="Y1" url="https://github.com/ismileblue/y1_launcher" type="img" handler="Custom Firmware" />
+<!-- <package name="Original Software" brand="Innioasis" repo="y1-community/pr1-stock-rom" device="PR1" url="https://github.com/y1-community/pr1-stock-rom" type="img" handler="Custom Firmware" package_name="rom_pr1.zip" portable_zips="y1-community/pr1-stock-rom-mirror" /> -->
 
-<package name="JJ Launcher" repo="ismileblue/y1_launcher" portable_zips="y1-community/y1_launcher-mirror" device="Y2" url="https://github.com/ismileblue/y1_launcher" type="img" handler="Custom Firmware" />
+<!-- <package name="Original Software" brand="Timmkoo" repo="y1-community/sr1-stock-rom" device="SR1" url="https://github.com/y1-community/sr1-stock-rom" type="img" handler="Custom Firmware" package_name="rom_sr1.zip" portable_zips="y1-community/sr1-stock-rom-mirror" /> -->
+
+<package name="Original Software" brand="Timmkoo" repo="y1-community/q3-stock-rom" device="Q3" url="https://github.com/y1-community/q3-stock-rom" type="img" handler="Custom Firmware" package_name="rom_q3.zip" portable_zips="y1-community/q3-stock-rom-mirror" />
+
+<package name="Original Software" brand="Timmkoo" repo="y1-community/q5-stock-rom" device="Q5" url="https://github.com/y1-community/q5-stock-rom" type="img" handler="Custom Firmware" package_name="rom_q5.zip" portable_zips="y1-community/q5-stock-rom-mirror" />
+
+<!-- <package name="Original Software" brand="Timmkoo" repo="y1-community/q5-stock-rom" device="Q3e" url="https://github.com/y1-community/q5-stock-rom" type="img" handler="Custom Firmware" package_name="rom_q5.zip" portable_zips="y1-community/q5-stock-rom-mirror" /> -->
+
+<package name="Reborn (Y2Linux)" brand="Innioasis" repo="schulzcode/y2linux" portable_zips="y1-community/y2linux-mirror" device="Y2" url="https://github.com/schulzcode/y2linux" type="img" post_install="https://innioasis.app/y2reborn_wifibt.html" handler="Custom Firmware" />
+
+<package name="Rockbox" brand="Innioasis" repo="rockbox-y1/rockbox" portable_zips="y1-community/rockbox-mirror" device="Y1" url="https://github.com/rockbox-y1/rockbox" type="img" icon="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" handler="Custom Firmware" />
+
+<package name="Rockbox" brand="Innioasis" repo="spycemagic/y2-rockbox" portable_zips="y1-community/y2-rockbox-mirror" device="Y2" url="https://github.com/spycemagic/y2-rockbox" icon="https://sc.filehippo.net/images/t_app-icon-l/p/c9b4d9fa-9b65-11e6-a6e7-00163ec9f5fa/2907264561/rockbox-icon.png" type="img" handler="Custom Firmware" />
+
+<package name="Rondo" brand="Innioasis" repo="jarvissax/rondo" portable_zips="y1-community/rondo-mirror" device="Y1" url="https://github.com/jarvissax/rondo" post_install="https://github.com/jarvissax/rondo/blob/main/docs/install.md#first-start" icon="https://innioasis.app/assets/rondo_icon.jpg" type="img" handler="Custom Firmware" />
+
+<package name="Koensayr" brand="Innioasis" repo="ryan-specter/koensayr-auto" portable_zips="y1-community/koensayr-auto-mirror" derivative="y1-community/y1-stock-rom" device="Y1" url="https://github.com/ryan-specter/koensayr-auto" type="img" handler="Custom Firmware" />
+
+<package name="JJ Launcher" brand="Innioasis" repo="ismileblue/y1_launcher" portable_zips="y1-community/y1_launcher-mirror" device="Y1" url="https://github.com/ismileblue/y1_launcher" type="img" handler="Custom Firmware" />
+
+<package name="JJ Launcher" brand="Innioasis" repo="ismileblue/y1_launcher" portable_zips="y1-community/y1_launcher-mirror" device="Y2" url="https://github.com/ismileblue/y1_launcher" type="img" handler="Custom Firmware" />
 
 <package name="Please Update App To Continue" device_type="0" repo="Please-Click/Updates-Available" device="Y1" url="https://github.com/Please-Click/Updates-Available/releases/latest" type="img" handler="Custom Firmware" />
 
-<package name="inniclassic" repo="FabianZettl/inniclassic" portable_zips="y1-community/inniclassic-mirror" device="Y1" url="https://github.com/FabianZettl/inniclassic" type="img" handler="Custom Firmware" />
+<package name="inniclassic" brand="Innioasis" repo="FabianZettl/inniclassic" device="Y1" url="https://github.com/FabianZettl/inniclassic" type="img" handler="Custom Firmware"  />
 
-<package name="inniclassic" repo="JonaszPotoniec/inniclassic-y2" portable_zips="y1-community/inniclassic-y2-mirror" device="Y2" url="https://github.com/JonaszPotoniec/inniclassic-y2" type="img"  icon="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" handler="Custom Firmware" />
+<package name="inniclassic" brand="Innioasis" repo="JonaszPotoniec/inniclassic-y2" PMT_format_needed="true" device="Y2" url="https://github.com/JonaszPotoniec/inniclassic-y2" type="img" icon="https://github.com/JonaszPotoniec/inniclassic-y2/raw/main/docs/icons/icon.png" handler="Custom Firmware" />
 
-<package name="Y2Player" repo="schulzcode/Y2Player" portable_zips="y1-community/y2player-mirror" device="Y2" url="https://github.com/schulzcode/Y2Player" type="img" handler="Custom Firmware" />
+<package name="Y2Player" brand="Innioasis" repo="schulzcode/Y2Player" portable_zips="y1-community/y2player-mirror" device="Y2" url="https://github.com/schulzcode/Y2Player" type="img" handler="Custom Firmware" />
 
-<package name="Better-Y" repo="Leska1337/better-Y" portable_zips="y1-community/better-y-mirror" derivative="y1-community/y1-stock-rom" device="Y1" url="https://github.com/Leska1337/better-Y" type="img" icon="https://github.com/Leska1337/better-Y/raw/main/screenshots/plus_logo.png" handler="Custom Firmware" />
+<package name="Better-Y" brand="Innioasis" repo="Leska1337/better-Y" portable_zips="y1-community/better-y-mirror" derivative="y1-community/y1-stock-rom" device="Y1" url="https://github.com/Leska1337/better-Y" type="img" icon="https://github.com/Leska1337/better-Y/raw/main/screenshots/plus_logo.png" handler="Custom Firmware" />
 
-<package name="Android 4.2 (Dev)" repo="y1-community/y1-ata-rom" portable_zips="y1-community/y1-ata-rom-mirror" device="Y1" url="https://github.com/y1-community/y1-ata-rom" type="img" handler="Custom Firmware" />
+<package name="Android 4.2 (Dev)" brand="Innioasis" repo="y1-community/y1-ata-rom" portable_zips="y1-community/y1-ata-rom-mirror" device="Y1" url="https://github.com/y1-community/y1-ata-rom" type="img" handler="Custom Firmware" />
 
-<package name="Android 4.4 (Dev)" repo="y1-community/y2-ata-rom" portable_zips="y1-community/y2-ata-rom-mirror" device="Y2" url="https://github.com/y1-community/y2-ata-rom" type="img" handler="Custom Firmware" />
+<package name="Android 4.4 (Dev)" brand="Innioasis" repo="y1-community/y2-ata-rom" portable_zips="y1-community/y2-ata-rom-mirror" device="Y2" url="https://github.com/y1-community/y2-ata-rom" type="img" handler="Custom Firmware" />
 
-<package name="Linux for Y1 (Dev)" repo="y1-community/y1-linux-rom" portable_zips="y1-community/y1-linux-rom-mirror" device="Y1" url="https://github.com/y1-community/y1-linux-rom" type="img" handler="Custom Firmware" />
+<package name="Linux for Y1 (Dev)" brand="Innioasis" repo="y1-community/y1-linux-rom" portable_zips="y1-community/y1-linux-rom-mirror" device="Y1" url="https://github.com/y1-community/y1-linux-rom" type="img" handler="Custom Firmware" />
 
-<package name="Solar" repo="thesolarproject/solar" portable_zips="y1-community/solar-mirror" device="Y1" url="https://github.com/thesolarproject/solar" type="img" icon="https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png" handler="Custom Firmware" />
+<package name="Solar" brand="Innioasis" repo="thesolarproject/solar" portable_zips="y1-community/solar-mirror" device="Y1" url="https://github.com/thesolarproject/solar" type="img" icon="https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png" handler="Custom Firmware" />
 
-<package name="Solar" repo="thesolarproject/solar" portable_zips="y1-community/solar-mirror" device="Y2" url="https://github.com/thesolarproject/solar" type="img" icon="https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png" handler="Custom Firmware" />
+<package name="Solar" brand="Innioasis" repo="thesolarproject/solar" portable_zips="y1-community/solar-mirror" device="Y2" url="https://github.com/thesolarproject/solar" type="img" icon="https://github.com/thesolarproject/solar/raw/main/app/src/main/assets/logo/square_full_logo_colour.png" handler="Custom Firmware" />
 </slidia>

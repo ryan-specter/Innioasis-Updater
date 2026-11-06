@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="../site-pages.css?v=20260818">
   <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
   <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
   <script src="../site-init.js?v=20260803" defer></script>
 </head>
 <body class="site-themes-app">
@@ -39,9 +40,9 @@
 <table><thead><tr><th>Check</th><th>Result</th></tr></thead><tbody><tr><td>OTA 9000 → 9100</td><td>Acknowledged on health boot 1, taint 0</td></tr><tr><td>Protected card, computer connected</td><td>claim <code>read_only: protected</code>, card <code>rw</code> while the host has the player enumerated (<code>usb</code> window renewed every 10 s); status <code>Ready</code>, <code>writable: true</code>, space <code>Normal</code></td></tr><tr><td>Windows</td><td>a <code>reborn</code> window opens next to <code>usb</code> and ends again without closing the card; an unknown holder is refused; Save Report → SD Card wrote its file inside a <code>report</code> window</td></tr><tr><td>Cable pulled (17:12:09)</td><td>card <code>ro</code> at 17:12:13; <code>fsck.exfat -n</code> on the read-only card: <code>clean</code> (dirty mark cleared by the remount)</td></tr><tr><td>Unplugged</td><td>two songs started from the read-only card; product sleep 17:13:02–17:15:55 with the card read-only, woke normally</td></tr><tr><td>Cable back (17:15:57)</td><td>card <code>rw</code> at once; a cable bounce went read-only and back within 4 s</td></tr><tr><td><code>fsck.fat</code> on the player</td><td>three damaged images from the host reproduction: the same lines as on the host, <code>fsck.fat -a -w</code> cleans each (check afterwards exit 0)</td></tr></tbody></table>
 <h2 id="open">Open</h2>
 <ul><li>Read-only fallback and Repair on a really damaged card were run on the host (fixtures with real <code>fsck.fat</code><p>output, and <code>fsck.fat -a</code> on damaged images) but not on a damaged card in a player.</p></li><li>The reporter&#x27;s <code>other</code> line itself is still unknown (8.26 records its shape).</li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
-<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
 <script src="../docs-viewer.js?v=20261104cite" defer></script>
-<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../portable-zip-links.js?v=20261106mirror" defer></script>
 <script src="../nav.js?v=20261103brand" defer></script>
 <script src="../site-i18n.js?v=20260830" defer></script>
 

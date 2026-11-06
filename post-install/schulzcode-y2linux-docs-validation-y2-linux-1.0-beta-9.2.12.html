@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="../site-pages.css?v=20260818">
   <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
   <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
   <script src="../site-init.js?v=20260803" defer></script>
 </head>
 <body class="site-themes-app">
@@ -43,9 +44,9 @@
 <p>Everything listed for <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.0.md%23known-issues-and-what-still-needs-your-help&amp;anchor=known-issues-and-what-still-needs-your-help">Beta 9.0</a> still applies.</p>
 <h2 id="technical-appendix">Technical appendix</h2>
 <ul><li>Linux <code>3a839b94</code>: <code>y2-bt-reconnect</code> pages an absent device for ~20 s holding <code>bt-operation.lock</code>; the<p><code>power_pending</code> Disconnect abort does not end the page on the MT6582 controller, so <code>bluetooth-power off</code> answered busy until the page timed out and Reborn retried (up to 45 s). Power off now writes <code>power_off</code> and runs <code>bluetoothctl power off</code> without the lock; on still waits. The sleep helper&#x27;s radio quiesce gains the same.</p></li><li>Reborn <code>34e3d26</code>: <code>skin::remap</code>&#x27;s table had the pre-9.2.3 <code>#A0A4AE</code> / <code>#848894</code>; it now takes <code>color::MUTED</code> and<p><code>color::DIM</code> from the theme.</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
-<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
 <script src="../docs-viewer.js?v=20261104cite" defer></script>
-<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../portable-zip-links.js?v=20261106mirror" defer></script>
 <script src="../nav.js?v=20261103brand" defer></script>
 <script src="../site-i18n.js?v=20260830" defer></script>
 

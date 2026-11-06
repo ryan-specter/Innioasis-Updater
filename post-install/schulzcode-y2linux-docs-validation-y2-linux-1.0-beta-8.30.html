@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="../site-pages.css?v=20260818">
   <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
   <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
   <script src="../site-init.js?v=20260803" defer></script>
 </head>
 <body class="site-themes-app">
@@ -41,9 +42,9 @@
 <table><thead><tr><th>Check</th><th>Result</th></tr></thead><tbody><tr><td>Install by OTA staging (owner&#x27;s player, ST7701S)</td><td>sequence 9400 Acknowledged; the rebuilt 9401 (seek fix) installed, see the next row, then Acknowledged</td></tr><tr><td>Hung start after the 9401 update restart</td><td>The first boot after recovery (<code>b0d8ac40</code>, boot reason 4) showed the splash&#x27;s <em>Couldn&#x27;t Start</em>; USB never came up and no Reborn log exists. It wrote its health trail at 4.9 s but never reached the <code>boot.json</code> record (the next boot&#x27;s <code>previous_boot_id</code> is the 9400 boot), so it hung in early system start after the initramfs. The owner&#x27;s hard restart cleared the pmsg trail. Same family as ledger F39 / #56 (hung update restart); not in code 8.30 changed. The next boot was healthy and acknowledged</td></tr><tr><td>Previous 22 s into a song (<code>rebornctl seek 20000; previous; previous</code>)</td><td>build 9400: first press kept playing (23.3 s), cause above; build 9401: 3 of 3 runs restart (0.8 s) then go back a song (queue position 3 → 2)</td></tr><tr><td>Panel switch</td><td>ST7701S <code>power_down=Y</code>, unchanged</td></tr><tr><td>Bluetooth absolute volume</td><td>not run: no headphones connected (the owner chose to publish; the #22 reporter is asked to confirm)</td></tr></tbody></table>
 <h2 id="open">Open</h2>
 <ul><li>Bluetooth absolute volume has not run with real headphones.</li><li>F39: the cause of the hung start after an update restart (twice now: #56 on 8.21, the owner&#x27;s player on 8.30); the<p>pmsg trail does not survive the long-press reset.</p></li><li>#40 (split multi-artist tags), #41 (Album Artists), #50.3/#50.6 (genre to playlist, genre-filtered album) stay open.</li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
-<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
 <script src="../docs-viewer.js?v=20261104cite" defer></script>
-<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../portable-zip-links.js?v=20261106mirror" defer></script>
 <script src="../nav.js?v=20261103brand" defer></script>
 <script src="../site-i18n.js?v=20260830" defer></script>
 

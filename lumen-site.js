@@ -902,12 +902,18 @@
 
     function fetchPortableIndex(repo) {
         if (!portableIndexCache[repo]) {
-            portableIndexCache[repo] = fetch("https://raw.githubusercontent.com/" + repo + "/main/index.json", { cache: "no-store" })
-                .then(function (res) {
-                    if (!res.ok) throw new Error("HTTP " + res.status);
-                    return res.json();
-                })
-                .catch(function () { return null; });
+            portableIndexCache[repo] = (async function () {
+                /* Mirrors publish their manifest on main, but a few older
+                   repositories still use master. Try both before giving up. */
+                var branches = ["main", "master"];
+                for (var i = 0; i < branches.length; i++) {
+                    try {
+                        var res = await fetch("https://raw.githubusercontent.com/" + repo + "/" + branches[i] + "/index.json", { cache: "no-store" });
+                        if (res.ok) return await res.json();
+                    } catch (_) {}
+                }
+                return null;
+            })();
         }
         return portableIndexCache[repo];
     }
@@ -946,11 +952,19 @@
         return mirrorReleaseCache[key];
     }
 
-    async function verifiedMirrorAssetUrl(assetUrl) {
+    async function verifiedMirrorAssetUrl(assetUrl, declaredSize) {
         var parts = githubReleaseAssetParts(assetUrl);
         if (!parts) return null;
         var release = await fetchMirrorRelease(parts.repo, parts.tag);
-        if (!release || !Array.isArray(release.assets)) return null;
+        if (!release || !Array.isArray(release.assets)) {
+            /* api.github.com allows 60 requests an hour per visitor and can be
+               blocked outright. The mirror's own index.json already names the
+               file and its byte size, so keep the portable package instead of
+               dropping back to the original repository on a rate limit. */
+            return Number(declaredSize) > 0
+                ? { url: assetUrl, size: Number(declaredSize) || 0 }
+                : null;
+        }
         var published = release.assets.find(function (asset) {
             return asset && String(asset.name) === parts.name;
         });
@@ -965,7 +979,7 @@
     function findPortableAsset(index, tag, sourceAsset, platformKey) {
         if (!index || Number(index.schema) !== 1 || !Array.isArray(index.releases)) return null;
         var release = index.releases.find(function (candidate) {
-            return candidate && String(candidate.tag || "") === String(tag);
+            return candidate && String(candidate.tag || "").toLowerCase() === String(tag).toLowerCase();
         });
         if (!release || !Array.isArray(release.assets)) return null;
         var base = String(sourceAsset).replace(/\.zip$/i, "");
@@ -999,7 +1013,7 @@
             var candidate = /^https:\/\/github\.com\//i.test(String(asset.url || ""))
                 ? String(asset.url)
                 : portableDownloadUrl(repos[i], releaseTag, asset.name);
-            var verified = await verifiedMirrorAssetUrl(candidate);
+            var verified = await verifiedMirrorAssetUrl(candidate, asset.size);
             if (!verified) continue;
             var proxiedHref = await proxyHrefIfUsable(verified.url, sourceAsset);
             return {
@@ -1093,97 +1107,49 @@
 
         if (wrap) wrap.hidden = false;
         if (dismissBtn) dismissBtn.hidden = true;
-        if (label) label.textContent = "Finding the best server location…";
+        if (label) label.textContent = "Preparing your download…";
         if (metrics) metrics.textContent = "";
-        if (bar) bar.style.width = "1%";
+        if (bar) bar.style.width = "2%";
 
         var startTime = Date.now();
         var totalBytesLoaded = 0;
+        var totalBytesExpected = 0;
         var lastMetricsUpdate = 0;
-
-        var introDone = false;
-        var introTimers = [];
-
-        function clearIntroTimers() {
-            introTimers.forEach(function (t) { clearTimeout(t); });
-            introTimers = [];
-        }
-
-        var introPromise = new Promise(function (resolve) {
-            var step = 1;
-            function nextStep() {
-                step += 1;
-                if (step <= 10) {
-                    if (bar) bar.style.width = step + "%";
-                    if (label) {
-                        if (step <= 5) label.textContent = "Finding the best server location…";
-                        else label.textContent = "Building your zip…";
-                    }
-                    if (metrics) metrics.textContent = "";
-                    var t = setTimeout(nextStep, 1000);
-                    introTimers.push(t);
-                } else {
-                    introDone = true;
-                    resolve();
-                }
-            }
-            var t0 = setTimeout(nextStep, 1000);
-            introTimers.push(t0);
-        });
-
-        var latestStreamPercent = 0;
-        function updateProgress(percent) {
-            latestStreamPercent = percent;
-            if (!introDone) return;
-            var now = Date.now();
-            if (now - lastMetricsUpdate < 80 && percent < 100) return;
-            lastMetricsUpdate = now;
-            var elapsedSec = (now - startTime) / 1000;
-            var speedMBs = elapsedSec > 0 ? (totalBytesLoaded / 1024 / 1024 / elapsedSec).toFixed(1) : "0.0";
-            var overallPct = Math.min(98, Math.max(10, 10 + Math.round((percent / 100) * 88)));
-            if (bar) bar.style.width = overallPct + "%";
-            if (label) label.textContent = "Downloading…";
-            if (metrics) metrics.textContent = overallPct + "% (" + speedMBs + " MB/s)";
-        }
-
-        introPromise.then(function () {
-            if (latestStreamPercent > 0) {
-                updateProgress(latestStreamPercent);
-            }
-        });
-
         var isPackagingDone = false;
-        var finishTimers = [];
 
-        function clearFinishTimers() {
-            finishTimers.forEach(function (t) { clearTimeout(t); });
-            finishTimers = [];
+        function updateProgress(loaded, total) {
+            totalBytesLoaded = loaded;
+            if (total) totalBytesExpected = total;
+            var now = Date.now();
+            if (now - lastMetricsUpdate < 80) return;
+            lastMetricsUpdate = now;
+            var elapsedSec = Math.max(0.2, (now - startTime) / 1000);
+            var speedMBs = (loaded / 1024 / 1024 / elapsedSec).toFixed(1);
+            var pct = totalBytesExpected > 0
+                ? Math.min(99, Math.round((loaded / totalBytesExpected) * 100))
+                : 0;
+            if (bar) bar.style.width = pct + "%";
+            if (label) label.textContent = "Downloading…";
+            if (metrics) {
+                metrics.textContent = totalBytesExpected > 0
+                    ? pct + "% (" + speedMBs + " MB/s)"
+                    : (loaded / 1024 / 1024).toFixed(1) + " MB (" + speedMBs + " MB/s)";
+            }
         }
 
-        function startFinishingStage() {
-            if (bar) bar.style.width = "99%";
-            if (label) label.textContent = "Downloading (Finishing up)";
-            if (metrics) metrics.textContent = "";
-
-            var t1 = setTimeout(function () {
-                if (isPackagingDone) return;
-                if (bar) bar.style.width = "100%";
-                var t2 = setTimeout(function () {
-                    if (isPackagingDone) return;
-                    if (label) label.textContent = "Saving to Downloads";
-                }, 1000);
-                finishTimers.push(t2);
-            }, 10000);
-            finishTimers.push(t1);
-        }
-
-        function markCompleted() {
+        function markCompleted(saveName, osLabel, streamed) {
             isPackagingDone = true;
-            clearFinishTimers();
-            clearIntroTimers();
             if (bar) bar.style.width = "100%";
-            if (label) label.textContent = "Saved to downloads";
-            if (metrics) metrics.textContent = "";
+            if (label) {
+                label.textContent = streamed
+                    ? "Saved to Downloads as " + saveName
+                    : "Download started";
+            }
+            if (metrics) {
+                metrics.textContent = streamed
+                    ? (osLabel ? "Portable package for " + osLabel : "")
+                    : (osLabel ? "Portable package for " + osLabel : "Check your Downloads folder");
+            }
             if (dismissBtn) {
                 dismissBtn.hidden = false;
                 dismissBtn.onclick = function () {
@@ -1194,61 +1160,88 @@
             }
         }
 
+        function osLabelFor(key) {
+            return key === "macos" ? "macOS" :
+                key === "windows" ? "Windows" :
+                key === "windows-arm64" ? "Windows on ARM" :
+                key === "linux" ? "Linux" :
+                key === "linux-arm64" ? "Linux on ARM" : "";
+        }
+
+        function startDirectDownload(href, saveName, osLabel) {
+            var link = document.createElement("a");
+            link.href = href;
+            if (saveName) link.download = saveName;
+            link.rel = "noopener";
+            document.body.appendChild(link);
+            link.click();
+            setTimeout(function () {
+                if (link.parentNode) link.parentNode.removeChild(link);
+            }, 1000);
+            markCompleted(saveName, osLabel, false);
+        }
+
+        /* The mirror names its file rom_y2-windows.zip, but a reader should
+           keep the release's own name (rom_y2.zip) in Downloads. A download
+           attribute cannot rename a cross-origin response, so when the
+           same-origin proxy is available the bytes are streamed with real
+           progress, then written to Downloads under the release's name. */
+        async function streamDownload(href, saveName, osLabel) {
+            var res = await fetch(href, { cache: "no-store" });
+            if (!res.ok || !res.body) throw new Error("HTTP " + res.status);
+            var total = Number(res.headers.get("Content-Length") || 0);
+            var reader = res.body.getReader();
+            var chunks = [];
+            var loaded = 0;
+            for (;;) {
+                var step = await reader.read();
+                if (step.done) break;
+                chunks.push(step.value);
+                loaded += step.value.length;
+                updateProgress(loaded, total);
+            }
+            updateProgress(loaded, total || loaded);
+            if (label) label.textContent = "Saving to Downloads…";
+            var blob = new Blob(chunks, { type: "application/octet-stream" });
+            var objectUrl = URL.createObjectURL(blob);
+            var link = document.createElement("a");
+            link.href = objectUrl;
+            link.download = saveName || "rom.zip";
+            document.body.appendChild(link);
+            link.click();
+            setTimeout(function () {
+                if (link.parentNode) link.parentNode.removeChild(link);
+                URL.revokeObjectURL(objectUrl);
+            }, 2000);
+            markCompleted(saveName || "rom.zip", osLabel, true);
+        }
+
         try {
             var portableZip = await resolvePortableZip(portableZips, releaseTag, zipName);
+            var chosenUrl = portableZip ? portableZip.url : zipUrl;
+            var chosenPlatform = portableZip ? portableZip.platform : "";
+            var href = chosenUrl;
             if (portableZip) {
-                clearIntroTimers();
-                if (bar) bar.style.width = "100%";
-                if (label) label.textContent = "Starting portable package download…";
-                if (metrics) metrics.textContent = "";
-                var portableLink = document.createElement("a");
-                portableLink.href = portableZip.proxied ? downloadHref(portableZip.url, zipName) : portableZip.url;
-                portableLink.download = zipName;
-                portableLink.rel = "noopener";
-                document.body.appendChild(portableLink);
-                portableLink.click();
-                setTimeout(function () {
-                    if (portableLink.parentNode) portableLink.parentNode.removeChild(portableLink);
-                    markCompleted();
-                }, 1000);
-                return;
+                href = portableZip.proxied ? downloadHref(chosenUrl, zipName) : chosenUrl;
+            } else {
+                /* No portable build for this system, so the release's own
+                   asset is the download. The proxy still lets it save under
+                   the release's name when it is deployed. */
+                href = await proxyHrefIfUsable(zipUrl, zipName);
             }
-            /* No mirror package exists for this firmware on this system, so
-               the reader gets the project's own release asset exactly as the
-               project published it. Nothing is assembled in the browser: a
-               bundle built here is saved under the firmware's own name, and
-               whenever one of its fetches was blocked the file arrived with
-               no firmware inside. A direct download can never do that. */
-            clearIntroTimers();
-            var directHref = await proxyHrefIfUsable(zipUrl, zipName);
-            if (bar) bar.style.width = "100%";
-            if (label) label.textContent = "Starting direct download\u2026";
-            if (metrics) metrics.textContent = "";
-            var directLink = document.createElement("a");
-            directLink.href = directHref;
-            directLink.download = zipName;
-            directLink.rel = "noopener";
-            document.body.appendChild(directLink);
-            directLink.click();
-            setTimeout(function () {
-                if (directLink.parentNode) directLink.parentNode.removeChild(directLink);
-                markCompleted();
-            }, 1000);
+            if (href !== chosenUrl) {
+                try {
+                    await streamDownload(href, zipName, osLabelFor(chosenPlatform));
+                    return;
+                } catch (streamError) {
+                    console.warn("Streaming download failed, using the browser download instead:", streamError);
+                }
+            }
+            if (portableZip && label) label.textContent = "Starting portable package download…";
+            startDirectDownload(href, zipName, osLabelFor(chosenPlatform));
         } catch (err) {
-            clearFinishTimers();
-            console.warn("Stream download encountered an issue, falling back to direct browser download:", err);
-            if (label) label.textContent = "Starting direct download in browser…";
-            if (bar) bar.style.width = "100%";
-            if (metrics) metrics.textContent = "";
-            var fallbackLink = document.createElement("a");
-            fallbackLink.href = zipUrl;
-            fallbackLink.download = zipName;
-            document.body.appendChild(fallbackLink);
-            fallbackLink.click();
-            setTimeout(function () {
-                document.body.removeChild(fallbackLink);
-                markCompleted();
-            }, 1000);
+            console.warn("Download preparation failed, using the original release:", err);
+            startDirectDownload(zipUrl, zipName, "");
         }
     }
 
@@ -1514,7 +1507,7 @@
                     var entry = MODEL_ZIPS.find(function (candidate) { return candidate.name === aName; });
                     var label = entry ? entry.label : (assetType ? item.model + " · Type " + assetType : item.model + " package");
                     var title = entry ? entry.title : ("For " + item.model + " players" + (assetType ? " · Type " + assetType : ""));
-                    links.push('<li><a class="lumen-download-link" href="' + escapeHtml(asset.browser_download_url) + '" download="' + escapeHtml(asset.name) + '" title="' + escapeHtml(title) + '">' + escapeHtml(asset.name) + ' <span class="lumen-meta">' + escapeHtml(label) + '</span></a></li>');
+                    links.push('<li><a class="lumen-download-link lumen-zip-text-link" href="' + escapeHtml(asset.browser_download_url) + '" download="' + escapeHtml(asset.name) + '" data-zip-url="' + escapeHtml(asset.browser_download_url) + '" data-zip-name="' + escapeHtml(asset.name) + '" data-release-tag="' + escapeHtml(release.tag_name || release.name || "") + '" data-portable-zips="' + escapeHtml(item.portable_zips || "") + '" title="' + escapeHtml(title) + '">' + escapeHtml(asset.name) + ' <span class="lumen-meta">' + escapeHtml(label) + '</span></a></li>');
                 }
             });
             var assetLinks = links.length ? links.join("") : '<li>No ZIP asset was found in this release.</li>';
@@ -1848,7 +1841,7 @@
         }
 
         table.addEventListener("click", function (event) {
-            var btn = event.target.closest(".lumen-zip-download-button");
+            var btn = event.target.closest(".lumen-zip-download-button, .lumen-zip-text-link, a[data-zip-url]");
             if (!btn) return;
             event.preventDefault();
             var zipUrl = btn.getAttribute("data-zip-url");
@@ -2392,7 +2385,10 @@
                     var icon = (pkg.getAttribute("icon") || "").trim();
                     var postInstall = (pkg.getAttribute("post_install") || "").trim();
                     var postInstall2 = (pkg.getAttribute("post_install2") || "").trim();
-                    var portableZips = (pkg.getAttribute("portable_zips") || "").trim();                    var handler = pkg.getAttribute("handler") || "";
+                    var portableZips = (pkg.getAttribute("portable_zips") || "").trim();
+                    var packageName = (pkg.getAttribute("package_name") || "").trim();
+                    var fallbackPackage = packageName || (device === "Y2" ? "rom_y2.zip" : (device === "Y1" || !device ? "rom.zip" : "rom_" + device.toLowerCase() + ".zip"));
+                    var handler = pkg.getAttribute("handler") || "";
                     if (!name || /please update/i.test(name)) return;
                     if (handler && handler !== "Custom Firmware") return;
 
@@ -2408,7 +2404,9 @@
                         if (repo) match.repo = repo;
                         if (postInstall) match.post_install = postInstall;
                         if (postInstall2) match.post_install2 = postInstall2;
-                        if (portableZips) match.portable_zips = portableZips;                    } else if (name && device) {
+                        if (portableZips) match.portable_zips = portableZips;
+                        if (packageName) match.packageName = packageName;
+                    } else if (name && device) {
                         var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
                         catalog.push({
                             name: name,
@@ -2418,7 +2416,8 @@
                             icon: icon,
                             post_install: postInstall,
                             post_install2: postInstall2,
-                            portable_zips: portableZips,                            packageName: "rom.zip",
+                            portable_zips: portableZips,
+                            packageName: fallbackPackage,
                             description: "Community firmware package for the " + device + "."
                         });
                     }

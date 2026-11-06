@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 9.3.12: Bluetooth pauses and skips like a phone - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 9.3.12: Bluetooth pauses and skips like a phone Release 1.0.0-beta.9.3.12 , Y2Reborn 1.0.0-beta.9.3.12 , kernel 6.18.56-y2linux-1.0.0-beta.9.3.12 , updat">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-9.3.12.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 9.3.12: Bluetooth pauses and skips like a phone - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 9.3.12: Bluetooth pauses and skips like a phone Release 1.0.0-beta.9.3.12 , Y2Reborn 1.0.0-beta.9.3.12 , kernel 6.18.56-y2linux-1.0.0-beta.9.3.12 , updat">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-9.3.12.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 9.3.12: Bluetooth pauses and skips like a phone - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 9.3.12: Bluetooth pauses and skips like a phone Release 1.0.0-beta.9.3.12 , Y2Reborn 1.0.0-beta.9.3.12 , kernel 6.18.56-y2linux-1.0.0-beta.9.3.12 , updat">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 9.3.12: Bluetooth pauses and skips like a phone</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-9312-bluetooth-pauses-and-skips-like-a-phone">Y2Linux 1.0 Beta 9.3.12: Bluetooth pauses and skips like a phone</h1>
+<p>Release <code>1.0.0-beta.9.3.12</code>, Y2Reborn <code>1.0.0-beta.9.3.12</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.9.3.12</code>, update sequence 14500, root <code>2026.08-platform-v1.243</code>. Published as GitHub release <code>baseline-220</code> (test build 220). Previous release: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.3.7.md">Beta 9.3.7</a>. Versions 9.3.8 to 9.3.11 were test builds on the developer&#x27;s player and were never published; everything in them is part of this release.</p>
+<p>This report is written for people who use the player. A short technical appendix is at the end.</p>
+<h2 id="in-one-paragraph">In one paragraph</h2>
+<p>Beta 9.3.7 made the player keep a Bluetooth stream open while you paused, so that no headphones would be asked to stop and start again. That is a state phones never put headphones in, and it turned out to be the cause of three complaints: silence after a pause or after the second or third song (AirPods, Y2Linux #89), a dropped connection about 20 s into every pause (AirPods Pro), and Samsung Buds that &quot;disconnected&quot; a minute into a pause (Y2Linux #90, where the player had in fact gone to sleep). This release goes back to what phones and Beta 9.2.16 do: a pause stops the stream at once and Play starts a fresh one. On top of that a track change no longer interrupts the stream at all, and a paused player with Bluetooth headphones stays awake the 15 minutes it was always meant to.</p>
+<h2 id="what-changed">What changed</h2>
+<ul><li><strong>Pause stops the stream, Play starts a new one</strong> (as a phone does and as 9.2.16 did). Headphones that went silent<p>after a pause or a skip, and the connection drop about 20 s into a pause, both came from a stream kept open without sound: the headphones play what is in their buffer, run dry, and some (AirPods) never recover until a new stream starts. Measured on the developer&#x27;s player: the packets to the headphones ran on without a single gap at the skips; the silence followed every pause/resume gap inside the kept stream.</p></li><li><strong>A track change no longer interrupts the stream.</strong> Before, the player threw away the last tenth of a second of the<p>old song and the stream stopped for about 60 ms per skip. Now the old song&#x27;s last fraction plays out and the next song follows it without a gap. (Y2Linux #89: &quot;the second song is laggy, the third plays without sound&quot;.)</p></li><li><strong>A paused player with Bluetooth headphones stays awake 15 minutes</strong> before it sleeps, so their play button keeps<p>working (Y2Linux #90). The 15 minutes were there since Beta 8.18 but counted from the first pause after boot rather than from each pause, so after a resume the next pause slept after 60 s, and sleep ends the Bluetooth link. On the reporter&#x27;s log every &quot;disconnect&quot; was such a sleep, and the Buds reconnected within 5 s of every wake.</p></li><li><strong>Headphones that connect with a different codec than the one you chose no longer drop and reconnect in a loop</strong><p>(Y2Reborn #94: Bose SoundLink Flex 2, Sony WF-C710N). The codec change is now sent once the link is set up, and a change that ends the link is not sent to that headset again until you pick a codec again.</p></li><li>Two BlueALSA improvements for skips with a kept stream: the RTP timestamp follows real time across a gap, and the<p>sender refills the headphones&#x27; buffer after one.</p></li></ul>
+<h2 id="how-it-was-tested">How it was tested</h2>
+<ul><li><strong>Before release:</strong> the platform&#x27;s full check (host tests, recorded outputs, contract, code-quality ratchet),<p>Reborn&#x27;s workspace tests (new tests for the paused-headset hold and the kept Bluetooth sink) and the 552 tests of the release images.</p></li><li><strong>On a player:</strong> the developer&#x27;s player with AirPods Pro: skips in a row, pauses of a few seconds and longer, all<p>with sound afterwards (test build 220, 2026-11-04). Test build 219, which still kept the stream open, was captured with btmon during the same actions: 47 packets per second without a gap at the skips, silence only after the pause/resume gaps, which is what settled the cause. AirPods Pro are the only headphones the developer has; the reports of #89, #90 and #94 were read against this build but not re-tested by their reporters yet.</p></li></ul>
+<h2 id="updating">Updating</h2>
+<p>Settings → System → Software Update → <strong>Update Now</strong>. Your music, playlists, settings, Wi-Fi networks and Bluetooth pairings stay. <strong>Restore Previous System</strong> (Settings → System → About, tap Version seven times, then Diagnostics) goes back to Beta 9.3.7.</p>
+<h2 id="known-issues">Known issues</h2>
+<p>Everything listed for <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2FSchulzCode%2FY2Linux%2Fblob%2Fmain%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.0.md%23known-issues-and-what-still-needs-your-help&amp;anchor=known-issues-and-what-still-needs-your-help">Beta 9.0</a> still applies.</p>
+<ul><li>After a sleep (a pause longer than 15 minutes, or the Power button) the Bluetooth link ends; the player reconnects<p>within a few seconds of waking. Buds that have meanwhile gone back to a phone must be picked again (Settings → Bluetooth, tap them).</p></li><li>The Hisense soundbar of Y2Reborn #94 (SBC only, connected but silent) is not resolved; try SBC quality High in<p>Settings → Bluetooth → Codec.</p></li><li>Only AirPods Pro were tested here. If your headphones behave worse than in 9.3.7, send an error report (Settings →<p>System → Error Reports): it contains the Bluetooth journal.</p></li></ul>
+<h2 id="technical-appendix">Technical appendix</h2>
+<ul><li><code>y2-radiod</code> starts <code>bluealsad --keep-alive=0</code> again (<code>bt/supervise.rs</code>). 9.3.7–9.3.11 used 900 s because a Suspend<p>sent 10 s into an idle stream had gone unanswered one time in three (2026-11-03); the stream kept started without packets is what muted the AirPods (F43 in Beta 6 was the same effect) and made them stop answering the baseband 2 s into a pause (supervision timeout 0x08 20 s later).</p></li><li>Reborn: <code>platform::headset_hold_since</code> (hold from <code>paused_at</code>, cleared while playing; F68 in the report ledger);<p><code>playback/sink.rs keep_sink</code> keeps a Bluetooth sink&#x27;s queued audio and <code>reuse_kept</code> prepares it again on reuse; <code>output.rs hold()</code> does no device pause on a Bluetooth sink (that was a drain, a gap). F66: <code>bt/settle.rs</code> <code>SWITCH_QUIET</code> 3 s after the link came up, <code>Codecs::kept</code> across reconnects, <code>Record::unset_since</code> for the half-connected rule.</p></li><li>BlueALSA patches 0007 (RTP timestamp on real time across a gap) and 0008 (refill up to 200 ms after a gap).<p>0008 can only send what the ALSA plugin&#x27;s io thread has delivered, which it paces per period; it is not what fixed the skips.</p></li><li>Linux <code>31d3987e</code> (built), Reborn <code>d52589a</code> (built); work commits <code>75b6fad2</code>, <code>756c5e53</code>, <code>b13c1fbb</code>, <code>7bd63437</code><p>(Linux) and <code>33ee726</code>, <code>8136838</code>, <code>5fa7e23</code> (Reborn).</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261106mirror" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+

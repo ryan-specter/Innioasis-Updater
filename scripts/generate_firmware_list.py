@@ -292,6 +292,13 @@ def software_section(item: dict, releases: list[dict], mirrors: list[dict], feed
         asset_size = int(asset.get("size") or 0)
         published = str(release.get("published_at") or release.get("created_at") or "")[:10]
         portable = portable_packages(mirrors, tag, str(asset.get("name") or ""))
+        if not portable:
+            # A model that is newer than the committed feed still gets its
+            # per-OS buttons straight from the mirror's index.json.
+            for portable_asset, packages in gdp.release_portable_packages(item, release):
+                if str(portable_asset.get("name") or "").lower() == str(asset.get("name") or "").lower():
+                    portable = packages
+                    break
         title = str(release.get("name") or "").strip() or ("%s %s" % (label, tag))
         anchor = release_anchor(item, tag)
         notes = notes_url(item, tag)
@@ -308,10 +315,21 @@ def software_section(item: dict, releases: list[dict], mirrors: list[dict], feed
         else:
             download_cell.append('<span class="lumen-meta">No package file</span>')
         if portable:
-            links = ", ".join(
-                '<a href="%s" rel="nofollow">%s</a>' % (esc(p["url"]), esc(p["label"]))
+            mirror_repos = str(item.get("portable_zips") or ",".join(
+                str(m.get("mirror_repo") or "") for m in mirrors if m.get("mirror_repo")))
+            buttons = "".join(
+                '<a class="lumen-zip-download-button lumen-zip-download-button--table" href="%s" download="%s"'
+                ' data-zip-url="%s" data-zip-name="%s" data-release-tag="%s"'
+                ' data-portable-zips="%s" data-platform="%s" rel="nofollow">'
+                '<strong>%s</strong><small>%s</small></a>'
+                % (esc(p["url"]), esc(str(asset.get("name") or "rom.zip")),
+                   esc(asset_url), esc(str(asset.get("name") or "")), esc(tag),
+                   esc(mirror_repos), esc(p["platform"]),
+                   esc(p["label"]), esc(human_size(p["size"]) or "portable"))
                 for p in portable)
-            download_cell.append('<div class="lumen-meta">Portable: %s</div>' % links)
+            download_cell.append(
+                '<div class="lumen-meta" style="margin-top:6px">Portable packages:</div>'
+                '<div class="lumen-actions lumen-portable-downloads">%s</div>' % buttons)
 
         meta = [published] if published else []
         if release.get("prerelease"):
@@ -401,6 +419,11 @@ def render_page(feed: dict, software: list[dict]) -> tuple[str, list[dict]]:
     total = 0
     for item in software:
         releases = releases_for(feed, str(item.get("repo") or ""))
+        if not releases:
+            # A model added to the manifest after the feed was built still
+            # gets its static rows (and mirror buttons) from GitHub directly.
+            releases = [entry for entry in gdp.fetch_releases(str(item.get("repo") or ""))
+                        if isinstance(entry, dict) and not entry.get("draft")]
         releases.sort(key=lambda entry: str(entry.get("published_at") or ""), reverse=True)
         total += len(releases)
         block, ld = software_section(item, releases, mirrors_for(feed, str(item.get("repo") or "")), feed)

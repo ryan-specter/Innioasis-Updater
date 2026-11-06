@@ -368,9 +368,9 @@ return v0                       # first press: let the framework continue dispat
 <p><strong>No supply chain beyond GCC + this source.</strong> No SuperSU/Magisk/phh-style binary imported; no manager APK; no whitelist. Trade-off: any process that can exec <code>/system/xbin/su</code> becomes root, which is acceptable for a single-user research device but not for a consumer ROM.</p>
 <p><strong>Build:</strong> <code>cd src/su &amp;&amp; make</code> produces <code>src/su/build/su</code>. The bash references this prebuilt path; if missing, <code>--root</code> exits with a clear error pointing at <code>make</code>.</p>
 <p><strong>Deploy:</strong> the bash&#x27;s <code>--root</code> flag does <code>install -m 06755 -o root -g root src/su/build/su /system/xbin/su</code> against the mounted system.img. Post-flash: <code>adb shell /system/xbin/su -c &quot;id&quot;</code> → <code>uid=0(root)</code>.</p></article><p class="lumen-doc-footer-note">These are Koensayr's own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y1&amp;software=koensayr-y1">ryan-specter/koensayr-auto</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=ryan-specter%2Fkoensayr-auto&amp;software=koensayr-y1" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aryan-specter" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
-<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
 <script src="../docs-viewer.js?v=20261104cite" defer></script>
-<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../portable-zip-links.js?v=20261106mirror" defer></script>
 <script src="../nav.js?v=20261103brand" defer></script>
 <script src="../site-i18n.js?v=20260830" defer></script>
 

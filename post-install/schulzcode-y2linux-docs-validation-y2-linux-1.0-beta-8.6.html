@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="../site-pages.css?v=20260818">
   <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
   <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
   <script src="../site-init.js?v=20260803" defer></script>
 </head>
 <body class="site-themes-app">
@@ -39,9 +40,9 @@
 <table><thead><tr><th>Check</th><th>Result</th></tr></thead><tbody><tr><td>Install</td><td>Stage + apply over SSH, ≈16 s, Acknowledged 6800; SMI hold at boot as in 8.4/8.5</td></tr><tr><td>Profile list</td><td>K → M without &quot;LICENSE-AutoEq&quot;</td></tr><tr><td>Profile off / on while playing</td><td>Off: <code>dsp_rise_fade</code> 2000 ms; on: no fade, preamp −6.1 dB (AirPods Pro)</td></tr><tr><td>EQ change in a held pause</td><td><code>pause_released</code>, position kept</td></tr><tr><td>Checked level pressed again</td><td>No restart</td></tr><tr><td>High while playing, Next after 0.7 s</td><td><code>level_raise_fade</code>, then <code>fade_continued</code> with 907 ms left</td></tr><tr><td>Registers</td><td>Playing Low 0xA6 / 0x10 / 0x1C, High 0x30 / 0x1E, Live matches, Master −19.5 dB, 0 xruns</td></tr><tr><td><code>hpload_measure</code> during playback</td><td><code>EBUSY</code></td></tr><tr><td>AirPods Pro profile, 60 s, same song</td><td>8.5: CPU floor 747.5 MHz throughout, Reborn 17.9 % of one core (playback 12.0 %), 68 248 idle entries/min. 8.6: floor 598 MHz (average 608), playback thread ≈75 MHz (≥16 % fewer cycles), 30 443 idle entries/min. Profile off: playback ≈29 MHz</td></tr></tbody></table>
 <h2 id="known-gaps">Known gaps</h2>
 <ul><li>Battery current with a profile not measured (USB stayed connected); deep idle is blocked during any playback either<p>way (audio keeps INFRA up), so the gain is the lower CPU floor and fewer wake-ups.</p></li><li>A 10-filter profile still costs ≈46 MHz of the decode thread on the device.</li><li>Not run on the player: volume up during a fade (host test), a DAC Filter change by ear, sleep with a level set.</li><li>Files below 44.1 kHz rely on the limiter (FFmpeg skips filters above Nyquist).</li><li>Unchanged from 8.5: no output measurement yet, maximum output ≈0.18 Vrms, the sleep drain (#42), GC9503V (#45).</li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
-<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
 <script src="../docs-viewer.js?v=20261104cite" defer></script>
-<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../portable-zip-links.js?v=20261106mirror" defer></script>
 <script src="../nav.js?v=20261103brand" defer></script>
 <script src="../site-i18n.js?v=20260830" defer></script>
 

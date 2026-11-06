@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="../site-pages.css?v=20260818">
   <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
   <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <meta name="innioasis-download-proxy" content="/download-proxy">
   <script src="../site-init.js?v=20260803" defer></script>
 </head>
 <body class="site-themes-app">
@@ -45,9 +46,9 @@
 <p>So the cause was the clocks-only start (<code>PWDN_CTL=0xF0</code>): the retries and the first-stream cold start were not needed on either unit, and neither switch comparison was run. Stays open only as a cosmetic item below.</p>
 <h2 id="open">Open</h2>
 <ul><li>#52/#54: none. The switches <code>y2_xtal_full_power</code>, <code>y2_xtal_start_hp</code>, <code>y2_xtal_quiet_start</code> stay as diagnostics; the<p>trim plan of the 8.24 handoff entry (remove non-stock crystal code) may now proceed.</p></li><li>Cosmetic: a manual <code>cycle</code> logs &quot;codec power-cycled after a crystal error&quot; and counts in <code>cycles=</code>; read <code>cycles=</code><p>together with the reporter&#x27;s test runs.</p></li><li>The amplifier-off start (<code>0x10</code>) was sufficient for both reporters; <code>y2_xtal_start_hp=1</code> (exact stock <code>0x00</code>) is not<p>needed and is not click-free.</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
-<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../firmware-catalog.js?v=20261106mirror" defer></script>
 <script src="../docs-viewer.js?v=20261104cite" defer></script>
-<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../portable-zip-links.js?v=20261106mirror" defer></script>
 <script src="../nav.js?v=20261103brand" defer></script>
 <script src="../site-i18n.js?v=20260830" defer></script>
 
