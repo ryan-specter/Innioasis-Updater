@@ -21,7 +21,7 @@ back every claim.
 | [stock-android-roms](stock-android-roms/SKILL.md) | Stock Android 4.2 (Y1) and 4.4 (Y2), image editing, root, patching |
 | [rockbox-y1](rockbox-y1/SKILL.md) | Rockbox Y1 port, dual boot, controls, build, themes, Wi-Fi plugins |
 | [rockbox-y2](rockbox-y2/SKILL.md) | Rockbox Y2 hosted port, Class A updates, cold-boot routes, recovery |
-| [theme-authoring](theme-authoring/SKILL.md) | Themes and skins for stock, JJ/Inniclassic, Solar, Reborn and Y2Player |
+| [theme-authoring](theme-authoring/SKILL.md) | Themes and skins for Original Software/Better-Y/Solar/Koensayr, Rockbox, Reborn and Y2Player |
 | [y2linux](y2linux/SKILL.md) | Y2Linux kernel, Buildroot rootfs, Rust platform services, OTA and recovery |
 | [android-apps](android-apps/SKILL.md) | Writing and packaging Android apps for API 17 / API 19 players |
 | [launchers](launchers/SKILL.md) | JJ Launcher, Inniclassic, Solar, Better-Y, Koensayr and Rondo internals |

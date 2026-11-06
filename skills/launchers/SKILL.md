@@ -15,7 +15,11 @@ The base launcher for the Y1 (and a Y2 build). Java, classic Android views,
 package **`com.themoon.y1`**.
 
 - Own theme engine: `/storage/sdcard0/Y1_Themes/<Name>/config.json` plus PNGs,
-  and an optional `sample_player_theme.json` widget layout.
+  and an optional `sample_player_theme.json` widget layout (`player_ui` list of
+  `text`, `button`, `icon`, `progress`, `box`, `widget_focus_image` elements;
+  standard buttons are ordered by `focus_index` from 0). Both files are
+  documented in the repo's `README.md` and sample, not in the stock-family
+  reference.
 - Wheel drives a focus index (`focus_index` on buttons, starting at 0);
   Centre/Enter activates; Back/DPAD_UP is the "top button".
 - Actions are named targets (`Now Playing`, `Music Library`, `Root Folder`,
@@ -26,7 +30,8 @@ package **`com.themoon.y1`**.
 - Ships as a flashable ROM and as an APK. The ROM is the safer route on a
   non-rooted player.
 
-Theme details: `skills/theme-authoring/reference/y1-stock-themes.md`.
+Theme details: `README.md` and `sample_player_theme.json` in the repo. The
+stock-family reference does not cover this engine.
 
 ## Inniclassic (`FabianZettl/inniclassic`, `JonaszPotoniec/inniclassic-y2`)
 
@@ -141,7 +146,7 @@ Details: `skills/stock-android-roms/SKILL.md`,
 | Goal | Use |
 | --- | --- |
 | New Home UI on Y1, minimal risk | JJ/Inniclassic APK, or a ROM if it needs system permissions |
-| Theme only | Y1 `config.json` theme (all four launchers) |
+| Theme only | Y1 `config.json` theme (Original Software, Better-Y, Solar, Koensayr) |
 | Patch stock behaviour without replacing Home | Koensayr-style image patch |
 | Full custom Y1 firmware | Rondo's `firmware/build.sh` pattern |
 | Streaming/server features | Solar or Rondo (both have network features) |

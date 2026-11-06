@@ -1,6 +1,6 @@
 ---
 name: theme-authoring
-description: Authoring themes and skins for every Innioasis target — stock Y1/Solar/JJ/Inniclassic config.json themes, Rockbox WPS/SBS themes, Reborn skin.json skins and Y2Player skin format v2. Use when creating, porting, debugging or documenting a player theme.
+description: Authoring themes and skins for every Innioasis target — Y1 config.json themes for Original Software, Better-Y, Solar and Koensayr, Rockbox WPS/SBS themes, Reborn skin.json skins and Y2Player skin format v2. Use when creating, porting, debugging or documenting a player theme.
 ---
 
 # Theme and skin authoring
@@ -10,7 +10,7 @@ writing a line of JSON or a single `%` tag.
 
 | Target | Format | Install location | Reference |
 | --- | --- | --- | --- |
-| Stock Y1, JJ Launcher, Inniclassic, Solar | `config.json` + PNG assets | `/storage/sdcard0/Y1_Themes/<Name>/` | [y1-stock-themes](reference/y1-stock-themes.md) |
+| Original Software, Better-Y, Solar, Koensayr | `config.json` + PNG assets | `/storage/sdcard0/Y1_Themes/<Name>/` | [y1-stock-themes](reference/y1-stock-themes.md) |
 | Rockbox Y1/Y2 | `.wps`, `.sbs`, `.cfg` inside a `.rockbox` tree | merge into `.rockbox/` | [rockbox-themes](reference/rockbox-themes.md) |
 | Reborn (Y2Linux) | `skin.json` format 1 + images/fonts | `Skins/<Name>/` on internal storage or SD | [reborn-skins](reference/reborn-skins.md) |
 | Y2Player (Android) | `skin.json` format 2 | `Y2Player/Skins/<Name>/` | [y2player-skins](reference/y2player-skins.md) |
@@ -18,9 +18,11 @@ writing a line of JSON or a single `%` tag.
 
 ## Decision tree
 
-1. **Is the player running Android with the stock/JJ-style launcher?**
-   Use the `config.json` format. Solar and Inniclassic read the same Y1 keys;
-   Solar adds a `solarConfig` block for its extra shortcuts and preferences.
+1. **Is the player on Original Software, Better-Y, Solar or Koensayr?**
+   Use the `config.json` format. Better-Y keeps 100% stock theme compatibility,
+   Koensayr patches the stock firmware in place, and Solar adds a `solarConfig`
+   block for its extra shortcuts and preferences. JJ Launcher and Inniclassic
+   have their own theme engine; see `launchers/SKILL.md`.
 2. **Is it Rockbox?** Use `.wps` for Now Playing, `.sbs` for the status bar and
    `.cfg` to bind them. The screen is 480 × 360 on both Y1 360p and Y2.
 3. **Is it Y2Linux/Reborn?** Use the Reborn `skin.json` format 1. It has its own
@@ -42,7 +44,7 @@ writing a line of JSON or a single `%` tag.
   redistribution. Reborn's requirements say to include them in the skin folder.
 - **Test on the device or the project's renderer.** Reborn has
   `reborn-preview`; Y2Player has Theme Studio and a preview service; Rockbox has
-  the simulator; Y1 config themes need a real player or the launcher's editor.
+  the simulator; Y1 config themes need a real player.
 - **Do not rename an installed theme folder to "upgrade" it.** Settings store
   the folder name as the id. Add a new folder or keep the name stable.
 - **Unknown fields are errors in Reborn and Y2Player v2.** A typo fails the
@@ -58,9 +60,10 @@ There is no automatic converter. A practical port:
 3. Re-map assets to the destination's expected names or paths. Y1 expects
    `main_music.png`, `icon_setting_*.png`, and so on; Reborn uses `images/…`
    paths declared in `skin.json`; Y2Player uses its own asset paths.
-4. Rebuild interaction-specific pieces separately. Y1 has a focus index and
-   named actions; Reborn has `navigation` groups only where a screen opts in;
-   Y2Player v2 has `focus` ids and `navigation`.
+4. Rebuild interaction-specific pieces separately. A Y1 `config.json` theme has
+   no interaction model — the launcher's wheel order and actions are fixed, so a
+   port only changes artwork and colours; Reborn has `navigation` groups only
+   where a screen opts in; Y2Player v2 has `focus` ids and `navigation`.
 5. Re-test the wheel on hardware. A layout that looks right can put focus on an
    invisible or clipped control.
 
@@ -81,8 +84,9 @@ There is no automatic converter. A practical port:
 | Target | Canonical files |
 | --- | --- |
 | Y1 stock keys | `thesolarproject-solar/app/src/main/assets/themes/Classic/config.json` |
-| JJ player widgets | `ismileblue-y1_launcher/sample_player_theme.json`, `README.md` |
+| Better-Y theme support | `Leska1337-better-Y/README.md` |
 | Solar extensions | `thesolarproject-solar/docs/theming.md` |
+| Koensayr patches | `ryan-specter-koensayr-auto/apply.bash`, `docs/PATCHES.md` |
 | Rockbox themes | `rockbox-y1-rockbox/THEMES.md`, `manual/configure_rockbox/theme_settings.tex` |
 | Reborn skins | `SchulzCode-Y2Reborn/docs/skins.md`, `skins/` examples |
 | Y2Player skins | `schulzcode-Y2Player/docs/skins/FORMAT_V2.md`, `skin-v2.schema.json`, `theme-studio/` |

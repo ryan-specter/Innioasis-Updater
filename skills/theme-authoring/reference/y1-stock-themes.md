@@ -1,8 +1,19 @@
-# Y1 stock, JJ, Inniclassic and Solar themes
+# Y1 stock-family themes: Original Software, Better-Y, Solar, Koensayr
 
-All four read a folder of PNG assets plus a `config.json`. The format began with
-the stock Y1 launcher, was adopted by JJ Launcher and Inniclassic, and is
-extended by Solar.
+The Original Software (the stock Y1 launcher) defines this format: a folder of
+PNG assets plus a `config.json`. Three other targets read the same file, so one
+theme can be authored once and shipped to all four.
+
+| Target | What it does with the format |
+| --- | --- |
+| Original Software | Defines it. Stock launcher on 3.1.x firmware; screens it hardcodes ignore theme artwork. |
+| Better-Y | Patched stock 3.1.2 ROM for the Y1 Type A. Themes load unchanged, and screens that were hardcoded now draw with the theme designs. |
+| Solar | Reads every stock key, then overlays its own `solarConfig` block on top. |
+| Koensayr | A firmware patcher, not a launcher. It edits stock images in place, so the stock launcher and its theme handling are untouched. |
+
+JJ Launcher and Inniclassic are different software with their own (related but
+separately documented) theme engine; see `skills/launchers/SKILL.md`. Do not
+assume a JJ-only construct such as `sample_player_theme.json` exists here.
 
 ## Folder and install
 
@@ -16,11 +27,13 @@ extended by Solar.
 ```
 
 - The folder name is the theme id. Avoid spaces.
-- The launcher lists folders in `Y1_Themes` (SD card root). Inniclassic keeps
-  themes on the SD card, so uninstalling the app does not remove them.
+- The launcher lists folders in `Y1_Themes` at the SD card root. Themes live on
+  the SD card, so installing a ROM or updating the app does not remove them.
 - A theme ZIP normally contains the folder; extract it into `Y1_Themes`, not
   into a nested `Y1_Themes/<Theme>/<Theme>`.
-- JJ Launcher's editor can import a `config.json` and export a ZIP.
+- Solar adds a Theme Browser and downloader (`app/src/main/java/com/solar/launcher/theme/`)
+  that imports a ZIP into the same folder. It rejects asset paths that point
+  outside the theme folder (`..`), so keep every reference a plain filename.
 
 ## `config.json` structure
 
@@ -78,11 +91,17 @@ uses (`thesolarproject-solar/app/src/main/assets/themes/Classic/config.json`):
     "timedShutdown_off": "icon_setting_time_off_0.png",
     "timedShutdown_10": "icon_setting_time_off_10.png",
     "shuffleOn": "icon_setting_shuffle_on.png",
+    "shuffleOff": "icon_setting_shuffle_off.png",
     "repeatOff": "icon_setting_repeat_off.png",
+    "repeatAll": "icon_setting_repeat_all.png",
+    "repeatOne": "icon_setting_repeat_one.png",
     "equalizer_normal": "icon_setting_eq_1.png",
     "keyLockOn": "icon_key_lock_on.png",
+    "keyLockOff": "icon_key_lock_off.png",
     "keyToneOn": "icon_setting_ringtone_on.png",
+    "keyToneOff": "icon_setting_ringtone_off.png",
     "keyVibrationOn": "icon_setting_vibrate_on.png",
+    "keyVibrationOff": "icon_setting_vibrate_off.png",
     "wallpaper": "icon_setting_wallpaper.png",
     "backlight_10": "icon_setting_sleep_10.png",
     "brightness": "icon_setting_brightness.png",
@@ -99,15 +118,53 @@ uses (`thesolarproject-solar/app/src/main/assets/themes/Classic/config.json`):
     "blConnected": "icon_bluetooth_2.png",
     "headsetWithMic": "icon_headset_2.png",
     "statusBarColor": "",
-    "battery": ["icon_statusbar_battery_0.png", "1.png", "2.png", "3.png", "4.png"],
-    "batteryCharging": ["icon_statusbar_battery_0_c.png", "1_c.png", "2_c.png", "3_c.png", "4_c.png"]
+    "battery": ["icon_statusbar_battery_0.png", "icon_statusbar_battery_1.png", "icon_statusbar_battery_2.png", "icon_statusbar_battery_3.png", "icon_statusbar_battery_4.png"],
+    "batteryCharging": ["icon_statusbar_battery_0_c.png", "icon_statusbar_battery_1_c.png", "icon_statusbar_battery_2_c.png", "icon_statusbar_battery_3_c.png", "icon_statusbar_battery_4_c.png"]
   }
 }
 ```
 
 The Classic file is the authoritative list of keys the engine reads; the
-excerpt above omits repeated timer/EQ/battery variants for brevity. Copy the
-real file when starting a theme.
+excerpt above shortens the repeated timer/EQ/battery variants for brevity. Copy
+the real file when starting a theme.
+
+### Classic keys the excerpt shortens
+
+These are in Classic and in the stock schema; a missing slot falls back to the
+engine default, so set the ones your theme actually paints.
+
+- `settingConfig`: `backlight_15`, `backlight_30`, `backlight_45`,
+  `backlight_60`, `backlight_120`, `backlight_300`, `backlight_always`,
+  `timedShutdown_20`, `timedShutdown_30`, `timedShutdown_60`,
+  `timedShutdown_90`, `timedShutdown_120`, `equalizer_flat`, `equalizer_rock`,
+  `equalizer_pop`, `equalizer_jazz`, `equalizer_classical`, `equalizer_dance`,
+  `equalizer_folk`, `equalizer_heavymetal`, `equalizer_hiphop`, `shuffleOff`,
+  `repeatAll`, `repeatOne`, `keyLockOff`, `keyToneOff`, `keyVibrationOff`,
+  `fileExtensionOn`, `fileExtensionOff`, `displayBatteryOn`,
+  `displayBatteryOff`.
+- `statusConfig`: `stop`, `blConnecting`, `blDisconnected`,
+  `headsetWithoutMic`, `fmPlaying`, `audiobookPlaying`.
+
+### Keys outside the stock schema
+
+These do not appear in Classic. Solar reads them; do not expect the stock or
+Better-Y software to draw them.
+
+| Key | Use |
+| --- | --- |
+| `dialogConfig.dialogTextColor` | Dialog body text |
+| `settingConfig.settingMask` | Settings dual-pane frame |
+| `desktopMask` | Mask over the desktop wallpaper |
+| `playerConfig.progressColor`, `playerConfig.progressBackgroundColor` | Now Playing progress bar |
+| `solarConfig.statusBarTextColor`, `homePageConfig.statusBarTextColor` | Status-bar text and icons |
+| `fontFamily` | Font file inside the theme folder |
+
+`fontFamily` is loaded by `theme/SystemFontBridge.java` and
+`theme/ThemeManager.java`. `theme_info` is metadata, not drawing: `title`,
+`author`, `authorUrl`, `description`, `externalDownloadUrl`. Solar's Theme
+Browser and downloader read it for the gallery listing
+(`theme/ThemeBrowser.java`, `theme/ThemeDownloader.java`); the stock software
+ignores the block.
 
 ### Values
 
@@ -117,47 +174,34 @@ real file when starting a theme.
 - `.9.png` assets are nine-patch images; set
   `itemSelectedBackgroundIs9Patch` when the selected-row background is one.
 - Asset paths are filenames inside the theme folder, not subdirectories, in the
-  stock schema.
+  stock schema. Keep paths relative and free of `..`.
 
-## JJ Launcher player themes
+## Per-target notes
 
-JJ Launcher adds a separate player layout file, `sample_player_theme.json`:
+### Original Software
 
-```json
-{
-  "name": "Custom Player Pro Theme Example",
-  "bg_image": "background.png",
-  "textPrimary": "#FFFFFF",
-  "textSecondary": "#B0B0B0",
-  "btnNormal": "#15FFFFFF",
-  "btnFocused": "#FF9800",
-  "btnFocusedText": "#000000",
-  "button_radius": 15,
-  "player_ui": [
-    {"id": "album_art", "type": "widget_focus_image", "x": 65, "y": 25,
-     "width": 190, "height": 190, "gravity": "top|left"},
-    {"id": "title", "type": "text", "x": 0, "y": 225, "width": 320, "height": 30,
-     "text_size": 22, "text_align": "center", "bg_color": "#FFFFFF",
-     "gravity": "top|center"},
-    {"id": "progress_bar", "type": "progress", "x": 20, "y": 315,
-     "width": 280, "height": 24, "radius": 12, "bg_color": "#FF9800",
-     "progress_bg_color": "#55000000", "gravity": "top|left"}
-  ]
-}
-```
+- Stock 3.1.x launcher. The named slots above cover the Home grid, lists,
+  menus, dialogs, file manager and status bar; anything the launcher draws with
+  its own hardcoded layout stays unthemed.
+- Test a theme here first: it is the baseline the other three keep compatible.
 
-Element types seen in the example and README: `text`, `button`, `icon`,
-`progress`, `box`, `widget_focus_image`. Standard buttons also carry a
-`focus_index` that defines wheel order, starting at 0. Actions are named
-targets such as `Now Playing`, `Music Library`, `Root Folder`, `Bluetooth`,
-`Wi-Fi Settings`, `Settings Menu`, `Web Server`, `Display Brightness`,
-`Storage Info`, `Date & Time Settings`.
+### Better-Y
 
-The sample's coordinates fit a narrower test layout than the Y1's 480 × 360
-panel. Check a layout on the device before shipping; the launcher scales or
-clips out-of-range widgets.
+- A patched stock 3.1.2 ROM (Y1 Type A only), distributed through the updater.
+  It keeps 100% compatibility with existing stock themes, so an Original
+  Software theme needs no porting.
+- Extended theme support: screens that stock draws with hardcoded colours — the
+  queue among them — now use the theme's item/menu designs.
+- The Now Playing icons, text and lyrics can be set to Light, Dark or Theme
+  colour. That is a launcher setting, not a `config.json` key, so do not try to
+  encode it in the theme.
+- Better-Y's fixed main-menu and Settings margins suit most themes. Turn the fix
+  off for themes whose backgrounds are drawn for the stock margins — the bundled
+  Melody Munchkin, for example.
+- The in-app data backup keeps the selected theme along with stock settings,
+  playlists and audiobook progress.
 
-## Solar extensions
+### Solar extensions
 
 Solar reads every stock key, then overlays `solarConfig` from the active theme.
 Precedence for an icon/colour: **solarConfig → stock block in the same theme →
@@ -192,13 +236,21 @@ Examples: `enableMatch_Now_Playing_To_Theme`, `enableLCD_album_art`,
 `setStatus_Bar_Text` (`Clock` or `Title`), `setArtwork_Perspective` (`Flat` or
 `3D`). Parenthetical hints in a row label are ignored.
 
-## Inniclassic
+A stock theme with no `solarConfig` still applies; Solar just uses the stock
+blocks as written and leaves its own shortcuts at the defaults.
 
-Inniclassic uses the JJ theme engine under package `com.themoon.y1` and ships an
-iPod Classic light/dark theme. Custom themes still live in
-`/storage/sdcard0/Y1_Themes`. Because Inniclassic and JJ share a package name,
-only one can be installed at a time, and Inniclassic's debug-signed APKs require
-uninstalling JJ first (`adb uninstall com.themoon.y1`).
+### Koensayr
+
+- A stock Y1 firmware patcher (MT6572 / Android 4.2.2), not a launcher
+  replacement. `apply.bash` extracts `system.img` from `rom.zip`, loop-mounts
+  it, applies byte/smali patches and flashes the result.
+- Its patches change `mtkbt`/AVRCP libraries, the stock music APK and the app
+  set; the Home launcher and its theme engine are left alone. It rewrites the
+  system image only, so `/storage/sdcard0/Y1_Themes` on the SD card is not
+  touched by a re-patch.
+- Author exactly as for Original Software, then verify on the patched build:
+  `--music-apk` replaces the stock player, so re-check the Now Playing screen
+  against the theme after patching.
 
 ## Testing checklist
 
@@ -211,12 +263,18 @@ uninstalling JJ first (`adb uninstall com.themoon.y1`).
 5. Text contrast is readable on the panel at arm's length.
 6. Battery and charging variants both appear; headphones/Bluetooth states swap.
 7. Theme survives a reboot and an app update; settings still point at the folder.
+8. Load the same folder on each target you claim: Original Software, Better-Y,
+   Solar (with and without `solarConfig`) and Koensayr.
 
 ## Source map
 
 - `thesolarproject-solar/app/src/main/assets/themes/Classic/config.json` — full
-  working schema.
+  working stock schema.
 - `thesolarproject-solar/docs/theming.md` — Solar key rules and preference map.
-- `ismileblue-y1_launcher/README.md` — editor workflow and config template.
-- `ismileblue-y1_launcher/sample_player_theme.json` — player widget layout.
-- `FabianZettl-inniclassic/README.md` — Inniclassic install/signing caveats.
+- `thesolarproject-solar/app/src/main/java/com/solar/launcher/theme/` —
+  `ThemeManager`, `ThemeBrowser`, `ThemeDownloader`, `SystemFontBridge`.
+- `Leska1337-better-Y/README.md` — extended theme support, colour and margin
+  settings, data backup.
+- `ryan-specter-koensayr-auto/apply.bash`, `docs/PATCHES.md` — patches that
+  leave the launcher and its themes alone.
+- `y1-community/y1-stock-rom` — Original Software packages and the restore path.
