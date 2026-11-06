@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-11-05T12:34:06Z",
+  "generated_at": "2026-11-06T01:40:01Z",
   "manifest_url": "https://innioasis.app/slidia_manifest.xml",
   "firmware_list_url": "https://innioasis.app/firmware-list.html",
   "feeds": {
@@ -254,7 +254,7 @@
     },
     "y1-community/rockbox-mirror": {
       "source_repo": "rockbox-y1/rockbox",
-      "updated_at": "2026-11-04T23:33:56Z"
+      "updated_at": "2026-11-05T13:01:23Z"
     },
     "y1-community/rondo-mirror": {
       "source_repo": "jarvissax/rondo",
@@ -262,7 +262,7 @@
     },
     "y1-community/solar-mirror": {
       "source_repo": "thesolarproject/solar",
-      "updated_at": "2026-11-05T01:56:56Z"
+      "updated_at": "2026-11-05T14:22:27Z"
     },
     "y1-community/y1-ata-rom-mirror": {
       "source_repo": "y1-community/y1-ata-rom",
@@ -290,11 +290,11 @@
     },
     "y1-community/y2linux-mirror": {
       "source_repo": "schulzcode/y2linux",
-      "updated_at": "2026-11-05T01:52:47Z"
+      "updated_at": "2026-11-05T21:39:46Z"
     },
     "y1-community/y2player-mirror": {
       "source_repo": "schulzcode/y2player",
-      "updated_at": "2026-11-05T12:34:06Z"
+      "updated_at": "2026-11-06T01:40:01Z"
     }
   }
 }

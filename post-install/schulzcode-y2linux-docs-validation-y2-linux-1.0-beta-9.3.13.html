@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="creator" content="Ryan Specter &amp; Innioasis Community">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Y2Linux 1.0 Beta 9.3.13: Wi-Fi that tries harder, square covers in skins - Innioasis Updater</title>
+  <meta name="description" content="Y2Linux 1.0 Beta 9.3.13: Wi-Fi that tries harder, square covers in skins Release 1.0.0-beta.9.3.13 , Y2Reborn 1.0.0-beta.9.3.13 , kernel 6.18.56-y2linux-1.0.0-beta.9.3.13">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-9.3.13.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Innioasis Updater">
+  <meta property="og:title" content="Y2Linux 1.0 Beta 9.3.13: Wi-Fi that tries harder, square covers in skins - Innioasis Updater">
+  <meta property="og:description" content="Y2Linux 1.0 Beta 9.3.13: Wi-Fi that tries harder, square covers in skins Release 1.0.0-beta.9.3.13 , Y2Reborn 1.0.0-beta.9.3.13 , kernel 6.18.56-y2linux-1.0.0-beta.9.3.13">
+  <meta property="og:url" content="https://innioasis.app/post-install/schulzcode-y2linux-docs-validation-y2-linux-1.0-beta-9.3.13.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Y2Linux 1.0 Beta 9.3.13: Wi-Fi that tries harder, square covers in skins - Innioasis Updater">
+  <meta name="twitter:description" content="Y2Linux 1.0 Beta 9.3.13: Wi-Fi that tries harder, square covers in skins Release 1.0.0-beta.9.3.13 , Y2Reborn 1.0.0-beta.9.3.13 , kernel 6.18.56-y2linux-1.0.0-beta.9.3.13">
+  <link rel="icon" href="../y1_illustration.png">
+  <link rel="stylesheet" href="../site-theme.css?v=20260803">
+  <link rel="stylesheet" href="../lumen.css?v=20261105hero">
+  <link rel="stylesheet" href="../site-pages.css?v=20260818">
+  <link rel="stylesheet" href="../site-toolbar.css?v=20261105dockclose">
+  <link rel="stylesheet" href="../docs-viewer.css?v=20261112cites">
+  <script src="../site-init.js?v=20260803" defer></script>
+</head>
+<body class="site-themes-app">
+<a class="lumen-skip-link" href="#main">Skip to content</a>
+<div id="nav-root"></div>
+<main id="main" class="lumen-guide lumen-doc-page"><p class="lumen-doc-back"><a href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">← Firmware Downloads</a></p><header class="lumen-doc-head"><p class="lumen-kicker">Post-install setup · Reborn (Y2Linux) · Y2</p><h1>Y2Linux 1.0 Beta 9.3.13: Wi-Fi that tries harder, square covers in skins</h1><p class="lumen-lead">Debian-based Linux with a fast clickwheel interface for the Innioasis Y2.</p><p class="lumen-doc-source">Instructions published by the project, shown here word for word.</p><div class="lumen-doc-actions"><a class="lumen-button lumen-button--primary" href="../firmware.html?model=Y2&amp;software=reborn-y2linux-y2">Firmware Downloads →</a><a class="lumen-button" href="../guide.html?model=Y2&amp;software=reborn-y2linux-y2">Install guide</a></div></header><article class="lumen-doc-body"><h1 id="y2linux-10-beta-9313-wi-fi-that-tries-harder-square-covers-in-skins">Y2Linux 1.0 Beta 9.3.13: Wi-Fi that tries harder, square covers in skins</h1>
+<p>Release <code>1.0.0-beta.9.3.13</code>, Y2Reborn <code>1.0.0-beta.9.3.13</code>, kernel <code>6.18.56-y2linux-1.0.0-beta.9.3.13</code>, update sequence 14600, root <code>2026.08-platform-v1.244</code>. Published as GitHub release <code>baseline-221</code> (test build 221). Previous release: <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.3.12.md">Beta 9.3.12</a>.</p>
+<p>This report is written for people who use the player. A short technical appendix is at the end.</p>
+<h2 id="in-one-paragraph">In one paragraph</h2>
+<p>A small release of fixes from your reports. When you pick a Wi-Fi network and the player can&#x27;t find it, it now does what helped every time by hand: it switches Wi-Fi off and on once and tries again (Y2Linux #83). A network the player can&#x27;t join now says why (&quot;WPA3 only&quot;, &quot;Needs a login&quot;, &quot;WEP&quot;) instead of only &quot;Unsupported security&quot; (Y2Linux #91). Letter scrolling puts the letter&#x27;s first entry at the top of the screen in both directions (Y2Reborn #91), and three skin glitches are gone: covers with cut corners in square frames, Winamp&#x27;s off-centre cover and the line through the title in Cassette (Y2Reborn #81, #82).</p>
+<h2 id="what-changed">What changed</h2>
+<ul><li><strong>Joining a Wi-Fi network that &quot;isn&#x27;t found&quot; tries once more after a Wi-Fi restart</strong> (Y2Linux #83). A report showed<p>the player scanning for 34 s after Wi-Fi came on without seeing a network that was right there; Join answered &quot;not found&quot;, and switching Wi-Fi off and on found it in 3 s. Now the player does that switch itself the first time a join finds nothing, and the screen keeps saying &quot;Connecting…&quot; meanwhile. The case where a router refuses the player again and again (also #83) is a different problem and still open.</p></li><li><strong>A network the player can&#x27;t join says why</strong> (Y2Linux #91). The Y2&#x27;s Wi-Fi chip can&#x27;t join WPA3 networks, and no<p>update can change that: its firmware makes the whole connection itself and only knows open, WEP, WPA and WPA2 networks. Networks that offer WPA2 and WPA3 together (often called &quot;WPA2/WPA3 mixed&quot;) work, with WPA2. The row of a network it can&#x27;t join now reads <strong>WPA3 only · Not supported</strong>, <strong>Needs a login · Not supported</strong> (work or school networks) or <strong>WEP · Not supported</strong>.</p></li><li><strong>Letter scrolling lands at the top</strong> (Y2Reborn #91). Turning the wheel forward in letter mode put the letter&#x27;s first<p>entry at the bottom of the screen, backward at the top; now it is at the top both ways.</p></li><li><strong>Covers fit their frames in skins</strong> (Y2Reborn #81). Now Playing&#x27;s cover always had Reborn&#x27;s rounded corners, so<p>Terminal, Winamp and Paper showed cut corners inside their square frames. In a skin the cover is now square, and a skin that wants round corners rounds it itself (Bunny Bow). Winamp&#x27;s cover is centred in its panel.</p></li><li><strong>Cassette&#x27;s stripe no longer runs through the song title</strong> (Y2Reborn #82): it sits along the top of the label and<p>the lines moved down.</p></li></ul>
+<h2 id="how-it-was-tested">How it was tested</h2>
+<ul><li><strong>Before release:</strong> the platform&#x27;s full check (host tests, recorded outputs, contract, code-quality ratchet),<p>Reborn&#x27;s workspace tests (new tests for the Wi-Fi restart before a second try, the reasons a network can&#x27;t be joined, and letter scrolling at the top) and the 552 tests of the release images.</p></li><li><strong>Skins and the Wi-Fi page</strong> were checked on host renders of the player&#x27;s screen (Terminal, Winamp, Paper, Bunny<p>Bow, Cassette; the Wi-Fi list with WPA3, login and WEP networks).</p></li><li><strong>Not yet on a player:</strong> this build was not run on the developer&#x27;s player before release. If anything behaves worse<p>than in 9.3.12, send an error report.</p></li></ul>
+<h2 id="updating">Updating</h2>
+<p>Settings → System → Software Update → <strong>Update Now</strong>. Your music, playlists, settings, Wi-Fi networks and Bluetooth pairings stay. <strong>Restore Previous System</strong> (Settings → System → About, tap Version seven times, then Diagnostics) goes back to Beta 9.3.12.</p>
+<h2 id="known-issues">Known issues</h2>
+<p>Everything listed for <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.0.md%23known-issues-and-what-still-needs-your-help&amp;anchor=known-issues-and-what-still-needs-your-help">Beta 9.0</a> and <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fvalidation%2FY2-LINUX-1.0-BETA-9.3.12.md%23known-issues&amp;anchor=known-issues">Beta 9.3.12</a> still applies.</p>
+<ul><li>WPA3-only and Enhanced Open networks can&#x27;t be joined (hardware). Ask for &quot;WPA2/WPA3 mixed&quot; where you can.</li><li>A router that keeps refusing the player (Y2Linux #83, busy 2.4 GHz areas, band steering) is still being worked on.</li><li>Small cover pictures in skins&#x27; lists keep Reborn&#x27;s rounded corners.</li></ul>
+<h2 id="technical-appendix">Technical appendix</h2>
+<ul><li>Reborn <code>crates/reborn-platform/src/wifi.rs</code> <code>PendingJoin</code>: on the first <code>NotFound</code> it cleans up its block<p>(<code>finish</code>), asks <code>y2-radiod</code> for <code>WifiRestart</code> (the platform&#x27;s F60 recovery waits 60 s for the same thing; without the daemon: rfkill off, wait for <code>wlan0</code> to go, on), waits up to 20 s for the supplicant and starts the same join once (<code>rejoin</code>; a saved network is found again by name). Evidence: report <code>1da7496c</code> (9.3.7).</p></li><li>WPA3: the gen2 driver offers only <code>connect</code> (firmware SME, auth modes open/shared/WPA/WPA2 in <code>wlan_oid.h</code>), no<p>external authentication, and <code>CFG_SUPPORT_802_11W</code> is 0; recorded in <a href="https://innioasis.app/post_install.html?url=https%3A%2F%2Fgithub.com%2Fschulzcode%2Fy2linux%2Fblob%2FHEAD%2Fdocs%2Fknowledge%2Fm5-connectivity-implementation.md">m5-connectivity-implementation</a>. wpa_supplicant is built without WPA3, so a WPA3-only network prints <code>[WPA2--CCMP]</code> (often with <code>[SAE-H2E]</code>). Reborn&#x27;s <code>NetworkView::security</code> (<code>reborn_core::platform::NetworkSecurity</code>) carries the reason.</p></li><li>Skins: <code>Runtime::show_art</code> keeps the square cover and uploads it rounded only in Reborn&#x27;s own look, again on a skin<p>change; <code>tools/assets/build_skins.py</code> (Winamp art y 192, Cassette stripe and rows); <code>render_previews.py</code> draws the cover square under a skin.</p></li><li>Letter jumps: <code>actions.rs</code> sets the scroll to the jump&#x27;s target (clamped to the last page).</li><li>Linux <code>24d50299</code> (built), Reborn <code>94f417c</code> (built); work commits Reborn <code>5305f2e</code>, <code>23655e2</code>, <code>fcdf91d</code>, <code>1351b70</code>, Linux <code>f0ef28aa</code>,<p><code>5344e69c</code>.</p></li></ul></article><p class="lumen-doc-footer-note">These are Reborn (Y2Linux)'s own instructions, shown here word for word.</p><p class="lumen-doc-sources">Published by the <a href="https://innioasis.app/firmware.html?model=Y2&amp;software=reborn-y2linux-y2">schulzcode/y2linux</a> project <a class="lumen-cite" href="https://innioasis.app/firmware_info.html?repo=schulzcode%2Fy2linux&amp;software=reborn-y2linux-y2" title="Project README">[1]</a> <a class="lumen-cite" href="https://github.com/y1-community/Innioasis-Updater/pulls?q=is%3Apr%20author%3Aschulzcode" rel="noopener" title="Catalogue pull requests">[3]</a></p></main><div id="footer-root"></div><div id="support-toolbar-slot"></div>
+<script src="../firmware-catalog.js?v=20261104cite" defer></script>
+<script src="../docs-viewer.js?v=20261104cite" defer></script>
+<script src="../portable-zip-links.js?v=20261103direct" defer></script>
+<script src="../nav.js?v=20261103brand" defer></script>
+<script src="../site-i18n.js?v=20260830" defer></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.InnioasisDocs;
+  if (D && D.applyPostInstall2Links) D.applyPostInstall2Links(document);
+});
+</script>
+</body></html>
+
